@@ -14,7 +14,11 @@ describe('plugin', () => {
      * Builder
      */
     const builder: any = {
-      addFieldNamePicker: jest.fn().mockImplementation(() => builder),
+      addCustomEditor: jest.fn().mockImplementation(() => builder),
+      addTextInput: jest.fn().mockImplementation(() => builder),
+      addColorPicker: jest.fn().mockImplementation(() => builder),
+      addRadio: jest.fn().mockImplementation(() => builder),
+      addSelect: jest.fn().mockImplementation(() => builder),
     };
 
     /**
@@ -25,6 +29,10 @@ describe('plugin', () => {
     /**
      * Inputs
      */
-    expect(builder.addFieldNamePicker).toHaveBeenCalled();
+    expect(builder.addCustomEditor).toHaveBeenCalled();
+    expect(builder.addTextInput).toHaveBeenCalled();
+    expect(builder.addColorPicker).toHaveBeenCalled();
+    expect(builder.addRadio).toHaveBeenCalled();
+    expect(builder.addSelect).toHaveBeenCalled();
   });
 });

@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -43,7 +42,33 @@
       "options": {
         "height": 0,
         "heightMode": "auto",
+        "initial": {
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://api.example.com/"
+        },
         "name": "data",
+        "parameters": [
+          {
+            "id": "name",
+            "type": "string"
+          },
+          {
+            "id": "amount",
+            "type": "number"
+          }
+        ],
+        "submit": {
+          "icon": "cog",
+          "orientation": "center",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://api.example.com/"
+        },
         "width": 0,
         "widthMode": "auto"
       },
@@ -83,6 +108,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }
