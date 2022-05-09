@@ -1,0 +1,97 @@
+{
+  "__inputs": [],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.3.2"
+    },
+    {
+      "type": "panel",
+      "id": "volkovlabs-abc-panel",
+      "name": "Abc",
+      "version": "1.2.0"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 14,
+        "w": 10,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "height": 0,
+        "heightMode": "auto",
+        "name": "data",
+        "width": 0,
+        "widthMode": "auto"
+      },
+      "targets": [
+        {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "data",
+                "type": "string",
+                "values": ["Hello World!"]
+              }
+            ],
+            "meta": {},
+            "name": "data"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Test",
+      "type": "volkovlabs-abc-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 33,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Panels",
+  "uid": "O4tc_E6Gz",
+  "version": 1,
+  "weekStart": ""
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "dependencies": {
+    "grafanaDependency": ">=8.0.0",
+    "plugins": []
+  },
+  "id": "volkovlabs-abc-panel",
+  "info": {
+    "author": {
+      "name": "Volkov Labs",
+      "url": "https://volkovlabs.io"
+    },
+    "description": "Template to create a new Grafana panel plugin",
+    "keywords": ["template"],
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://volkovlabs.io"
+      }
+    ],
+    "logos": {
+      "large": "img/logo.svg",
+      "small": "img/logo.svg"
+    },
+    "screenshots": [],
+    "updated": "%TODAY%",
+    "version": "%VERSION%"
+  },
+  "name": "Abc",
+  "type": "panel"
+}

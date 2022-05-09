@@ -1,0 +1,30 @@
+{
+  "author": "Volkov Labs",
+  "description": "Template for a new Grafana panel plugin",
+  "devDependencies": {
+    "@grafana/data": "8.5.1",
+    "@grafana/runtime": "8.5.1",
+    "@grafana/toolkit": "8.5.1",
+    "@grafana/ui": "8.5.1",
+    "@types/enzyme": "^3.10.12",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "name": "volkovlabs-abc-panel",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build --coverage",
+    "dev": "grafana-toolkit plugin:dev",
+    "format": "prettier --write \"**\"",
+    "sign": "grafana-toolkit plugin:sign --rootUrls http://localhost:3000/",
+    "start": "docker-compose pull && docker-compose up",
+    "stop": "docker-compose down",
+    "test": "grafana-toolkit plugin:test",
+    "upgrade": "yarn upgrade --latest",
+    "watch": "grafana-toolkit plugin:dev --watch"
+  },
+  "version": "1.5.0"
+}
