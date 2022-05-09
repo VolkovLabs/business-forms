@@ -1,11 +1,11 @@
 import { PanelPlugin } from '@grafana/data';
-import { AbcPanel } from './components';
+import { FormPanel } from './components';
 import { PanelOptions } from './types';
 
 /**
  * Panel Plugin
  */
-export const plugin = new PanelPlugin<PanelOptions>(AbcPanel).setPanelOptions((builder) => {
+export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((builder) => {
   return builder.addFieldNamePicker({
     path: 'name',
     name: 'Field name',

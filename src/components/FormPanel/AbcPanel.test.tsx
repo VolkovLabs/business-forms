@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import { toDataFrame } from '@grafana/data';
-import { AbcPanel } from './AbcPanel';
+import { FormPanel } from './FormPanel';
 
 /**
  * Panel
@@ -17,7 +17,7 @@ describe('Panel', () => {
           }),
         ],
       };
-      return <AbcPanel data={data} {...restProps} options={options} />;
+      return <FormPanel data={data} {...restProps} options={options} />;
     };
 
     const wrapper = shallow(getComponent({}));
@@ -42,7 +42,7 @@ describe('Panel', () => {
           }),
         ],
       };
-      return <AbcPanel data={data} {...restProps} options={options} />;
+      return <FormPanel data={data} {...restProps} options={options} />;
     };
 
     const wrapper = shallow(getComponent({}));

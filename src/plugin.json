@@ -4,14 +4,14 @@
     "grafanaDependency": ">=8.0.0",
     "plugins": []
   },
-  "id": "volkovlabs-abc-panel",
+  "id": "volkovlabs-form-panel",
   "info": {
     "author": {
       "name": "Volkov Labs",
       "url": "https://volkovlabs.io"
     },
-    "description": "Template to create a new Grafana panel plugin",
-    "keywords": ["template"],
+    "description": "Custom Form panel",
+    "keywords": ["form"],
     "links": [
       {
         "name": "Website",
@@ -26,6 +26,6 @@
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
-  "name": "Abc",
+  "name": "Custom Form",
   "type": "panel"
 }
