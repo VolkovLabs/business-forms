@@ -16,14 +16,6 @@ export const FormPanel: React.FC<Props> = ({ options, data, width, height }) => 
   const styles = getStyles();
 
   /**
-   * Get Field
-   */
-  const field = data.series
-    .map((series) => series.fields.find((field) => field.name === options.name))
-    .map((field) => field?.values.get(field.values.length - 1))
-    .toString();
-
-  /**
    * Return
    */
   return (
@@ -36,7 +28,7 @@ export const FormPanel: React.FC<Props> = ({ options, data, width, height }) => 
         `
       )}
     >
-      {field}
+      AAA
     </div>
   );
 };
