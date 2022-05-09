@@ -54,7 +54,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
   return (
     <div>
       {valueState.map((parameter) => (
-        <FieldSet>
+        <FieldSet key={parameter.id}>
           <InlineFieldRow>
             <InlineField label="Id" grow labelWidth={8} invalid={parameter.id === ''}>
               <Input placeholder="Id" onChange={(event: ChangeEvent<HTMLInputElement>) => {}} value={parameter.id} />
