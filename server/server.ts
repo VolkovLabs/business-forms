@@ -9,7 +9,7 @@ const port = 3001;
 /**
  * Parameters
  */
-const parameters = { name: 'Name', amount: 30, updated: false, step: 4 };
+let parameters = { name: 'Name', amount: 30, updated: false, step: 4 };
 
 /**
  * Create Server
@@ -44,7 +44,7 @@ const server = http.createServer(function (req, res) {
    * POST, PUT or PATCH
    */
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
-    var body = '';
+    let body = '';
     req.on('data', function (chunk) {
       body += chunk;
     });
@@ -54,7 +54,8 @@ const server = http.createServer(function (req, res) {
       res.write(`${req.method}: Success!`);
       res.end();
 
-      console.log('Updated', body);
+      parameters = JSON.parse(body);
+      console.log('Updated', parameters);
     });
 
     return;
