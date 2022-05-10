@@ -10,7 +10,7 @@ export const enum InputParameterType {
   BOOLEAN = 'boolean',
   RADIO = 'radio',
   SLIDER = 'slider',
-  DROPDOWN = 'dropdown',
+  SELECT = 'select',
 }
 
 /**
@@ -38,8 +38,8 @@ export const InputParameterTypeOptions: SelectableValue[] = [
     label: CapitalizeFirstLetter(InputParameterType.SLIDER),
   },
   {
-    value: InputParameterType.DROPDOWN,
-    label: CapitalizeFirstLetter(InputParameterType.DROPDOWN),
+    value: InputParameterType.SELECT,
+    label: CapitalizeFirstLetter(InputParameterType.SELECT),
   },
 ];
 
