@@ -67,7 +67,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
   return (
     <div>
       {parameters.map((parameter) => (
-        <FieldSet key={parameter.id}>
+        <FieldSet key={parameter.id} label={`Parameter: ${parameter.id}`}>
           <InlineFieldRow>
             <InlineField label="Id" grow labelWidth={8} invalid={parameter.id === ''}>
               <Input
@@ -152,12 +152,10 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
               </InlineField>
             </InlineFieldRow>
           )}
-
-          <hr />
         </FieldSet>
       ))}
 
-      <FieldSet>
+      <FieldSet label="New Parameter">
         <InlineField label="Id" grow labelWidth={8} invalid={newParameter.id === ''}>
           <Input
             placeholder="Id"
@@ -191,7 +189,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
         <Button
           variant="secondary"
           onClick={(e) => onParameterAdd()}
-          disabled={!!!newParameter.id || !!!newParameter.type}
+          disabled={!!!newParameter.id || !!!newParameter.type || !!!newParameter.title}
           icon="plus"
         >
           Add Parameter

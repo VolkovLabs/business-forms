@@ -33,8 +33,8 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 9,
-        "w": 10,
+        "h": 6,
+        "w": 9,
         "x": 0,
         "y": 0
       },
@@ -69,10 +69,51 @@
         "uid": "grafana"
       },
       "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 9,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "initial": {
+          "contentType": "application/json",
+          "method": "GET"
+        },
+        "parameters": [
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string"
+          }
+        ],
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Submit",
+          "variant": "custom"
+        },
+        "update": {
+          "contentType": "application/json",
+          "method": "POST"
+        }
+      },
+      "title": "No Initial Request and Custom Button",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
         "h": 9,
-        "w": 10,
+        "w": 9,
         "x": 0,
-        "y": 9
+        "y": 6
       },
       "id": 6,
       "options": {
@@ -148,6 +189,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 20,
+  "version": 21,
   "weekStart": ""
 }
