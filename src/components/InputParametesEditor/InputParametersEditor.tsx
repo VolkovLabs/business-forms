@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, FieldSet, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
-import { InputParameterType, InputParameterTypeOptions } from '../../constants';
+import { InputParameterType, InputParameterTypeOptions, SliderDefault } from '../../constants';
 import { InputParameter } from '../../types';
 
 /**
@@ -13,7 +13,7 @@ interface Props extends StandardEditorProps<InputParameter[]> {}
  * Input Parameters Editor
  */
 export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
-  const defaultParameter = { id: '', title: '', type: InputParameterType.STRING };
+  const defaultParameter: InputParameter = { id: '', title: '', type: InputParameterType.STRING };
 
   /**
    * States
@@ -38,6 +38,15 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
    * Add Parameter
    */
   const onParameterAdd = () => {
+    /**
+     * Slider values
+     */
+    if (newParameter.type === InputParameterType.SLIDER) {
+      newParameter.min = SliderDefault.max;
+      newParameter.max = SliderDefault.min;
+      newParameter.step = SliderDefault.step;
+    }
+
     const updated = [...parameters, newParameter];
 
     /**
@@ -99,6 +108,50 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
               value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
             />
           </InlineField>
+
+          {parameter.type === InputParameterType.SLIDER && (
+            <InlineFieldRow>
+              <InlineField label="Min" labelWidth={8}>
+                <Input
+                  placeholder="Min"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.min = Number(event.target.value);
+                    setParameters(parameters);
+                    onChange(parameters);
+                  }}
+                  type="number"
+                  width={10}
+                  value={parameter.min}
+                />
+              </InlineField>
+              <InlineField label="Max" labelWidth={8}>
+                <Input
+                  placeholder="Max"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.max = Number(event.target.value);
+                    setParameters(parameters);
+                    onChange(parameters);
+                  }}
+                  type="number"
+                  width={10}
+                  value={parameter.max}
+                />
+              </InlineField>
+              <InlineField label="Step" labelWidth={8}>
+                <Input
+                  placeholder="Step"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.step = Number(event.target.value);
+                    setParameters(parameters);
+                    onChange(parameters);
+                  }}
+                  type="number"
+                  width={10}
+                  value={parameter.step}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
 
           <hr />
         </FieldSet>

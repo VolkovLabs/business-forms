@@ -56,3 +56,12 @@ export const BooleanParameterOptions: SelectableValue[] = [
     label: 'False',
   },
 ];
+
+/**
+ * Slider Defaults
+ */
+export const SliderDefault = {
+  min: 0,
+  max: 10,
+  step: 1,
+};

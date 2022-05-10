@@ -160,4 +160,25 @@ export interface InputParameter {
    * @type {SelectableValue[]}
    */
   options?: SelectableValue[];
+
+  /**
+   * Maximum Value
+   *
+   * @type {number}
+   */
+  max?: number;
+
+  /**
+   * Minimum Value
+   *
+   * @type {number}
+   */
+  min?: number;
+
+  /**
+   * Step
+   *
+   * @type {number}
+   */
+  step?: number;
 }

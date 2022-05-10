@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
-import { Alert, Button, FieldSet, InlineField, InlineFieldRow, Input, RadioButtonGroup } from '@grafana/ui';
+import { Alert, Button, FieldSet, InlineField, InlineFieldRow, Input, RadioButtonGroup, Slider } from '@grafana/ui';
 import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
@@ -191,7 +191,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
             )}
 
             {parameter.type === InputParameterType.BOOLEAN && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
+              <InlineField label={parameter.title} grow labelWidth={10}>
                 <RadioButtonGroup
                   value={parameter.value}
                   onChange={(value: Boolean) => {
@@ -199,6 +199,21 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                     setParameters([...parameters]);
                   }}
                   options={BooleanParameterOptions}
+                />
+              </InlineField>
+            )}
+
+            {parameter.type === InputParameterType.SLIDER && (
+              <InlineField label={parameter.title} grow labelWidth={10}>
+                <Slider
+                  value={parameter.value}
+                  onChange={(value: number) => {
+                    parameter.value = value;
+                    setParameters([...parameters]);
+                  }}
+                  min={parameter.min || 0}
+                  max={parameter.max || 0}
+                  step={parameter.step || 0}
                 />
               </InlineField>
             )}
