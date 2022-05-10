@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
+import { getTemplateSrv, locationService } from '@grafana/runtime';
 import { Alert, Button, FieldSet, InlineField, InlineFieldRow, Input, RadioButtonGroup, Slider } from '@grafana/ui';
 import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
@@ -22,10 +23,28 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
   const [title, setTitle] = useState('');
 
   /**
+   * Template Service
+   */
+  const templateSrv: any = getTemplateSrv();
+
+  /**
+   * Execute Custom Code
+   */
+  const executeCustomCode = (code: string, response: any) => {
+    const f = new Function('options', 'response', 'parameters', 'locationService', 'templateService', code);
+    f(options, response, parameters, locationService, templateSrv);
+  };
+
+  /**
    * Update Request
    */
   const updateRequest = async () => {
     const body: any = {};
+
+    /**
+     * Loading
+     */
+    setLoading(true);
 
     /**
      * Set Headers
@@ -60,6 +79,12 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
     if (response?.ok) {
       setTitle(response.toString());
     }
+
+    /**
+     * Execute Custom Code and reset Loading
+     */
+    executeCustomCode(options.update.code, response);
+    setLoading(false);
   };
 
   /**
@@ -124,6 +149,10 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
         setTitle('Values updated.');
       }
 
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      executeCustomCode(options.initial.code, response);
       setLoading(false);
     };
 

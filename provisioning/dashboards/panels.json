@@ -41,6 +41,7 @@
       "id": 8,
       "options": {
         "initial": {
+          "code": "console.log(response)",
           "contentType": "application/json",
           "method": "GET",
           "url": "http://api.example.com/"
@@ -55,6 +56,7 @@
           "variant": "primary"
         },
         "update": {
+          "code": "console.log(response)",
           "contentType": "application/json",
           "method": "POST",
           "url": "http://api.example.com/"
@@ -77,6 +79,7 @@
       "id": 10,
       "options": {
         "initial": {
+          "code": "console.log(response)",
           "contentType": "application/json",
           "method": "GET"
         },
@@ -97,6 +100,7 @@
           "variant": "custom"
         },
         "update": {
+          "code": "console.log(response)",
           "contentType": "application/json",
           "method": "POST"
         }
@@ -120,6 +124,7 @@
         "height": 0,
         "heightMode": "auto",
         "initial": {
+          "code": "console.log(response)",
           "contentType": "application/json",
           "method": "GET",
           "url": "http://localhost:3001"
@@ -163,6 +168,7 @@
           "variant": "primary"
         },
         "update": {
+          "code": "console.log(response);\nlocation.reload();",
           "contentType": "application/json",
           "method": "POST",
           "url": "http://localhost:3001/"
@@ -189,6 +195,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 21,
+  "version": 1,
   "weekStart": ""
 }

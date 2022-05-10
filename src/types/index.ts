@@ -1,4 +1,4 @@
 export * from './button';
-export * from './default';
+export * from './panel';
 export * from './parameter';
 export * from './request';

@@ -1,6 +1,6 @@
 import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
-import { FormPanel, InputParametersEditor } from './components';
+import { CustomCodeEditor, FormPanel, InputParametersEditor } from './components';
 import {
   ButtonOrientation,
   ButtonOrientationOptions,
@@ -8,11 +8,17 @@ import {
   ButtonSizeOptions,
   ButtonVariant,
   ButtonVariantOptions,
+  CodeEditorDefault,
+  CodeLanguageDefault,
   ContentType,
   ContentTypeOptions,
   RequestMethod,
   RequestMethodGetOptions,
   RequestMethodPostOptions,
+  SubmitBackgroundColorDefault,
+  SubmitForegroundColorDefault,
+  SubmitIconDefault,
+  SubmitTextDefault,
 } from './constants';
 import { PanelOptions } from './types';
 
@@ -65,6 +71,18 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         options: ContentTypeOptions,
       },
       showIf: (config) => config.initial.method === RequestMethod.POST,
+    })
+    .addCustomEditor({
+      id: 'initial.code',
+      path: 'initial.code',
+      name: 'Custom Code',
+      description: 'Custom code to execute after initial request',
+      editor: CustomCodeEditor,
+      category: ['Initial Request'],
+      settings: {
+        language: CodeLanguageDefault,
+      },
+      defaultValue: CodeEditorDefault,
     });
 
   /**
@@ -100,6 +118,18 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         options: ContentTypeOptions,
       },
       showIf: (config) => config.update.method === RequestMethod.POST && !!config.update.url,
+    })
+    .addCustomEditor({
+      id: 'update.code',
+      path: 'update.code',
+      name: 'Custom Code',
+      description: 'Custom code to execute after update request',
+      editor: CustomCodeEditor,
+      category: ['Update Request'],
+      settings: {
+        language: CodeLanguageDefault,
+      },
+      defaultValue: CodeEditorDefault,
     });
 
   /**
@@ -121,7 +151,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Foreground Color',
       category: ['Submit Button'],
       description: 'Foreground color of the button',
-      defaultValue: 'yellow',
+      defaultValue: SubmitForegroundColorDefault,
       settings: {
         disableNamedColors: true,
       },
@@ -132,7 +162,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Background Color',
       category: ['Submit Button'],
       description: 'Background color of the button',
-      defaultValue: 'purple',
+      defaultValue: SubmitBackgroundColorDefault,
       settings: {
         disableNamedColors: true,
       },
@@ -170,14 +200,14 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
           };
         }),
       },
-      defaultValue: 'cloud-upload',
+      defaultValue: SubmitIconDefault,
     })
     .addTextInput({
       path: 'submit.text',
       name: 'Text',
       category: ['Submit Button'],
       description: 'The text on the button',
-      defaultValue: 'Submit',
+      defaultValue: SubmitTextDefault,
     });
 
   return builder;
