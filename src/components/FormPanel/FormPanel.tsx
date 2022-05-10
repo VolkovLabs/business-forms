@@ -50,13 +50,17 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
      * Set Headers
      */
     const headers: HeadersInit = new Headers();
-    if (options.update.method in [RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH]) {
+    if (
+      options.update.method === RequestMethod.POST ||
+      options.update.method === RequestMethod.PUT ||
+      options.update.method === RequestMethod.PATCH
+    ) {
       headers.set('Content-Type', options.update.contentType);
 
       /**
        * Set Parameters
        */
-      parameters?.forEach((parameter) => {
+      parameters.forEach((parameter) => {
         body[parameter.id] = parameter.value;
       });
     }

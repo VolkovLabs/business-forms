@@ -9,7 +9,7 @@ const port = 3001;
 /**
  * Parameters
  */
-const parameters = { name: 'Name', amount: 30, updated: false };
+const parameters = { name: 'Name', amount: 30, updated: false, step: 4 };
 
 /**
  * Create Server
@@ -18,7 +18,7 @@ const server = http.createServer(function (req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH');
   res.setHeader('Access-Control-Allow-Headers', '*');
   if (req.method === 'OPTIONS') {
     res.writeHead(200);
@@ -41,9 +41,9 @@ const server = http.createServer(function (req, res) {
   }
 
   /**
-   * POST
+   * POST, PUT or PATCH
    */
-  if (req.method === 'POST') {
+  if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
     var body = '';
     req.on('data', function (chunk) {
       body += chunk;
@@ -51,7 +51,7 @@ const server = http.createServer(function (req, res) {
 
     req.on('end', function () {
       res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.write('Success!');
+      res.write(`${req.method}: Success!`);
       res.end();
 
       console.log('Updated', body);
