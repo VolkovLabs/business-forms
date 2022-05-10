@@ -1,3 +1,4 @@
+import { SelectableValue } from '@grafana/data';
 import { CapitalizeFirstLetter } from '../utils';
 
 /**
@@ -15,7 +16,7 @@ export const enum InputParameterType {
 /**
  * Input Parameter Type Options
  */
-export const InputParameterTypeOptions = [
+export const InputParameterTypeOptions: SelectableValue[] = [
   {
     value: InputParameterType.STRING,
     label: CapitalizeFirstLetter(InputParameterType.STRING),
@@ -45,7 +46,7 @@ export const InputParameterTypeOptions = [
 /**
  * Boolean Parameter Options
  */
-export const BooleanParameterOptions = [
+export const BooleanParameterOptions: SelectableValue[] = [
   {
     value: true,
     label: 'True',

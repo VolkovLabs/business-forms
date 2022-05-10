@@ -1,3 +1,4 @@
+import { SelectableValue } from '@grafana/data';
 import { IconName } from '@grafana/ui';
 import {
   ButtonOrientation,
@@ -152,4 +153,11 @@ export interface InputParameter {
    * @type {any}
    */
   value?: any;
+
+  /**
+   * Options
+   *
+   * @type {SelectableValue[]}
+   */
+  options?: SelectableValue[];
 }
