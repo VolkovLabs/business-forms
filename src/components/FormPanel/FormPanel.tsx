@@ -69,7 +69,8 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
     /**
      * Check Parameters
      */
-    if (!parameters || !parameters.length) {
+    if (!parameters || !parameters.length || !options.initial.url) {
+      setLoading(false);
       return;
     }
 
@@ -236,7 +237,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                 }
               : {}
           }
-          disabled={loading}
+          disabled={loading || !options.update.url}
           onClick={updateRequest}
           size={options.submit.size}
         >

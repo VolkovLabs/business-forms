@@ -50,7 +50,9 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'URL',
       category: ['Initial Request'],
       description: 'The URL to call',
-      defaultValue: 'http://api.example.com/',
+      settings: {
+        placeholder: 'http://',
+      },
     })
     .addSelect({
       path: 'initial.contentType',
@@ -83,7 +85,9 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'URL',
       category: ['Update Request'],
       description: 'The URL to call',
-      defaultValue: 'http://api.example.com/',
+      settings: {
+        placeholder: 'http://',
+      },
     })
     .addSelect({
       path: 'update.contentType',

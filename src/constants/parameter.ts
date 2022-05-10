@@ -30,12 +30,12 @@ export const InputParameterTypeOptions: SelectableValue[] = [
     label: CapitalizeFirstLetter(InputParameterType.BOOLEAN),
   },
   {
-    value: InputParameterType.RADIO,
-    label: CapitalizeFirstLetter(InputParameterType.RADIO),
-  },
-  {
     value: InputParameterType.SLIDER,
     label: CapitalizeFirstLetter(InputParameterType.SLIDER),
+  },
+  {
+    value: InputParameterType.RADIO,
+    label: CapitalizeFirstLetter(InputParameterType.RADIO),
   },
   {
     value: InputParameterType.SELECT,
