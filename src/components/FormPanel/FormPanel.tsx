@@ -242,7 +242,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
               </InlineField>
             )}
 
-            {parameter.type === InputParameterType.SLIDER && (
+            {parameter.type === InputParameterType.SLIDER && parameter.value != null && (
               <InlineField label={parameter.title} grow labelWidth={10}>
                 <Slider
                   value={parameter.value}
