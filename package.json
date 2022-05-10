@@ -19,6 +19,7 @@
     "build": "grafana-toolkit plugin:build --coverage",
     "dev": "grafana-toolkit plugin:dev",
     "format": "prettier --write \"**\"",
+    "server": "node server/server.ts",
     "sign": "grafana-toolkit plugin:sign --rootUrls http://localhost:3000/",
     "start": "docker-compose pull && docker-compose up",
     "stop": "docker-compose down",
