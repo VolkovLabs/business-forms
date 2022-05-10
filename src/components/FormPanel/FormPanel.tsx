@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
-import { Alert, Button, FieldSet, InlineField, InlineFieldRow, Input } from '@grafana/ui';
-import { ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
+import { Alert, Button, FieldSet, InlineField, InlineFieldRow, Input, RadioButtonGroup } from '@grafana/ui';
+import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
 
@@ -16,43 +16,143 @@ interface Props extends PanelProps<PanelOptions> {}
  */
 export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
   const styles = getStyles();
-  const [values, setValues] = useState({ name: 'Name', amount: 30 } as any);
+  const [parameters, setParameters] = useState(options.parameters);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [title, setTitle] = useState('');
 
   /**
-   * Update
+   * Update Request
    */
-  const update = async () => {
+  const updateRequest = async () => {
+    const body: any = {};
+
     /**
      * Set Headers
      */
-    const requestHeaders: HeadersInit = new Headers();
-    if (options.update.method == RequestMethod.POST) {
-      requestHeaders.set('Content-Type', options.update.contentType);
+    const headers: HeadersInit = new Headers();
+    if (options.update.method === RequestMethod.POST) {
+      headers.set('Content-Type', options.update.contentType);
+
+      /**
+       * Set Parameters
+       */
+      parameters?.forEach((parameter) => {
+        body[parameter.id] = parameter.value;
+      });
     }
 
     /**
      * Fetch
      */
-    const response = await fetch(options.update.url, { method: options.update.method, headers: requestHeaders }).catch(
-      (error) => {
-        setError(error.message);
-      }
-    );
+    const response = await fetch(options.update.url, {
+      method: options.update.method,
+      headers,
+      body: JSON.stringify(body),
+    }).catch((error: Error) => {
+      console.error(error);
+      setError(error.toString());
+    });
 
     /**
      * Check Response
      */
-    if (!response || !response.ok) {
-      setError(`Update Error: ${response?.statusText}`);
+    if (response?.ok) {
+      setTitle(response.toString());
     }
   };
+
+  /**
+   * Execute Initial Request
+   */
+  useEffect(() => {
+    /**
+     * Check Parameters
+     */
+    if (!parameters || !parameters.length) {
+      return;
+    }
+
+    /**
+     * Initial Request
+     */
+    const initialRequest = async () => {
+      /**
+       * Set Headers
+       */
+      const headers: HeadersInit = new Headers();
+      if (options.initial.method === RequestMethod.POST) {
+        headers.set('Content-Type', options.initial.contentType);
+      }
+
+      /**
+       * Fetch
+       */
+      const response = await fetch(options.initial.url, {
+        method: options.initial.method,
+        headers,
+      }).catch((error: Error) => {
+        console.error(error);
+        setError(error.toString());
+      });
+
+      /**
+       * CORS
+       */
+      if (response?.type === 'opaque') {
+        setError('CORS prevents access to the response for Initial values.');
+      }
+
+      /**
+       * OK
+       */
+      if (response?.ok) {
+        const body = await response.json();
+
+        /**
+         * Set Parameter values
+         */
+        parameters.forEach((parameter) => {
+          parameter.value = body[parameter.id];
+        });
+
+        /**
+         * Set Parameters
+         */
+        setParameters(parameters);
+        setTitle('Values updated.');
+      }
+
+      setLoading(false);
+    };
+
+    initialRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**
+   * Update Parameters from Panel Options
+   */
+  useEffect(() => {
+    setParameters(options.parameters);
+  }, [options.parameters]);
+
+  /**
+   * Check Parameters
+   */
+  if (!parameters || !parameters.length) {
+    return (
+      <Alert severity="info" title="Input Parameters">
+        Please add parameters in Panel Options.
+      </Alert>
+    );
+  }
 
   /**
    * Return
    */
   return (
-    <div
+    <FieldSet
       className={cx(
         styles.wrapper,
         css`
@@ -61,42 +161,56 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
         `
       )}
     >
-      <FieldSet>
-        {options.parameters.map((parameter) => {
-          return (
-            <InlineFieldRow>
-              {parameter.type === InputParameterType.NUMBER && (
-                <InlineField label={parameter.id} grow labelWidth={8}>
-                  <Input
-                    value={values[parameter.id]}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      setValues({ ...values, [parameter.id]: event.target.value });
-                    }}
-                    type="number"
-                  />
-                </InlineField>
-              )}
+      {parameters.map((parameter) => {
+        return (
+          <InlineFieldRow key={parameter.id}>
+            {parameter.type === InputParameterType.NUMBER && (
+              <InlineField label={parameter.title} grow labelWidth={10}>
+                <Input
+                  value={parameter.value}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.value = event.target.value;
+                    setParameters([...parameters]);
+                  }}
+                  type="number"
+                />
+              </InlineField>
+            )}
 
-              {parameter.type === InputParameterType.STRING && (
-                <InlineField label={parameter.id} grow labelWidth={8} invalid={parameter.value === ''}>
-                  <Input
-                    value={values[parameter.id]}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      setValues({ ...values, [parameter.id]: event.target.value });
-                    }}
-                    type="text"
-                  />
-                </InlineField>
-              )}
-            </InlineFieldRow>
-          );
-        })}
-      </FieldSet>
+            {parameter.type === InputParameterType.STRING && (
+              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
+                <Input
+                  value={parameter.value}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.value = event.target.value;
+                    setParameters([...parameters]);
+                  }}
+                  type="text"
+                />
+              </InlineField>
+            )}
+
+            {parameter.type === InputParameterType.BOOLEAN && (
+              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
+                <RadioButtonGroup
+                  value={parameter.value}
+                  onChange={(value: Boolean) => {
+                    parameter.value = value;
+                    setParameters([...parameters]);
+                  }}
+                  options={BooleanParameterOptions}
+                />
+              </InlineField>
+            )}
+          </InlineFieldRow>
+        );
+      })}
 
       <div className={cx(styles.button[options.submit.orientation])}>
         <Button
           variant={options.submit.variant as any}
           icon={options.submit.icon}
+          title={title}
           style={
             options.submit.variant === ButtonVariant.CUSTOM
               ? {
@@ -107,17 +221,19 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                 }
               : {}
           }
-          onClick={update}
+          disabled={loading}
+          onClick={updateRequest}
+          size={options.submit.size}
         >
           {options.submit.text}
         </Button>
       </div>
 
       {error && (
-        <Alert severity="error" title="Update">
+        <Alert severity="error" title="Request">
           {error}
         </Alert>
       )}
-    </div>
+    </FieldSet>
   );
 };
