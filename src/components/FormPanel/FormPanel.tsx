@@ -30,7 +30,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = (code: string, response: any) => {
+  const executeCustomCode = (code: string, response: Response | void) => {
     const f = new Function('options', 'response', 'parameters', 'locationService', 'templateService', code);
     f(options, response, parameters, locationService, templateSrv);
   };
@@ -50,7 +50,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
      * Set Headers
      */
     const headers: HeadersInit = new Headers();
-    if (options.update.method === RequestMethod.POST) {
+    if (options.update.method in [RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH]) {
       headers.set('Content-Type', options.update.contentType);
 
       /**
@@ -95,7 +95,12 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
      * Check Parameters
      */
     if (!parameters || !parameters.length || !options.initial.url) {
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      executeCustomCode(options.initial.code);
       setLoading(false);
+
       return;
     }
 

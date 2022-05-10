@@ -42,9 +42,11 @@ yarn run start
 
 ## Features
 
-- Allows to create customizable forms.
-- Allows to specify GET request to get initial values.
-- Allows to specify POST request to send values updated in the form.
+- Provides functionality to create customizable forms.
+- Supports String, Number, Boolean, Radio, Slider and Select elements.
+- Allows to specify GET request to get initial values and POST, PUT, PATCH request to send values updated in the form.
+- Supports the Custom Code after Initial and Update requests.
+- Allows to fully customize Submit button.
 
 ## Feedback
 
