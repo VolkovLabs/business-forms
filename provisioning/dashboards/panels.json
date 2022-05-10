@@ -33,10 +33,46 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 14,
+        "h": 9,
         "w": 10,
         "x": 0,
         "y": 0
+      },
+      "id": 8,
+      "options": {
+        "initial": {
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://api.example.com/"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://api.example.com/"
+        }
+      },
+      "title": "No Parameters",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 10,
+        "x": 0,
+        "y": 9
       },
       "id": 6,
       "options": {
@@ -104,6 +140,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 17,
+  "version": 19,
   "weekStart": ""
 }
