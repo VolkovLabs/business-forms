@@ -114,6 +114,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Foreground Color',
       category: ['Submit Button'],
       description: 'Foreground color of the button',
+      defaultValue: 'yellow',
       settings: {
         disableNamedColors: true,
       },
@@ -124,6 +125,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Background Color',
       category: ['Submit Button'],
       description: 'Background color of the button',
+      defaultValue: 'purple',
       settings: {
         disableNamedColors: true,
       },
@@ -151,7 +153,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
           };
         }),
       },
-      defaultValue: 'cog',
+      defaultValue: 'cloud-upload',
     })
     .addTextInput({
       path: 'submit.text',

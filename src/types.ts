@@ -124,4 +124,11 @@ export interface InputParameter {
    * @type {InputParameterType}
    */
   type: InputParameterType;
+
+  /**
+   * Value
+   *
+   * @type {any}
+   */
+  value?: any;
 }

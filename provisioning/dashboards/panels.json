@@ -59,7 +59,7 @@
           }
         ],
         "submit": {
-          "icon": "cog",
+          "icon": "cloud-upload",
           "orientation": "center",
           "text": "Submit",
           "variant": "primary"
