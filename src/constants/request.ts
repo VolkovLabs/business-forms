@@ -7,6 +7,8 @@ import { CapitalizeFirstLetter } from '../utils';
 export const enum RequestMethod {
   GET = 'GET',
   POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
 }
 
 /**
@@ -26,6 +28,14 @@ export const RequestMethodPostOptions: SelectableValue[] = [
   {
     value: RequestMethod.POST,
     label: RequestMethod.POST,
+  },
+  {
+    value: RequestMethod.PUT,
+    label: RequestMethod.PUT,
+  },
+  {
+    value: RequestMethod.PATCH,
+    label: RequestMethod.PATCH,
   },
 ];
 

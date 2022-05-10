@@ -168,7 +168,7 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response);\nlocation.reload();",
+          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
           "contentType": "application/json",
           "method": "POST",
           "url": "http://localhost:3001/"
@@ -195,6 +195,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 6,
   "weekStart": ""
 }

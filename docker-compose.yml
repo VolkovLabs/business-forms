@@ -1,6 +1,13 @@
 version: '3.4'
 
 services:
+  server:
+    container_name: server
+    build:
+      context: ./server
+    ports:
+      - 3001:3001/tcp
+
   grafana:
     container_name: grafana
     image: grafana/grafana:latest

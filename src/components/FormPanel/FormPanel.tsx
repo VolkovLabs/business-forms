@@ -30,7 +30,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = (code: string, response: any) => {
+  const executeCustomCode = (code: string, response: Response | void) => {
     const f = new Function('options', 'response', 'parameters', 'locationService', 'templateService', code);
     f(options, response, parameters, locationService, templateSrv);
   };
@@ -50,13 +50,17 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
      * Set Headers
      */
     const headers: HeadersInit = new Headers();
-    if (options.update.method === RequestMethod.POST) {
+    if (
+      options.update.method === RequestMethod.POST ||
+      options.update.method === RequestMethod.PUT ||
+      options.update.method === RequestMethod.PATCH
+    ) {
       headers.set('Content-Type', options.update.contentType);
 
       /**
        * Set Parameters
        */
-      parameters?.forEach((parameter) => {
+      parameters.forEach((parameter) => {
         body[parameter.id] = parameter.value;
       });
     }
@@ -95,7 +99,12 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
      * Check Parameters
      */
     if (!parameters || !parameters.length || !options.initial.url) {
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      executeCustomCode(options.initial.code);
       setLoading(false);
+
       return;
     }
 
@@ -233,7 +242,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
               </InlineField>
             )}
 
-            {parameter.type === InputParameterType.SLIDER && (
+            {parameter.type === InputParameterType.SLIDER && parameter.value != null && (
               <InlineField label={parameter.title} grow labelWidth={10}>
                 <Slider
                   value={parameter.value}

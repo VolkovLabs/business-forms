@@ -117,7 +117,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         allowCustomValue: true,
         options: ContentTypeOptions,
       },
-      showIf: (config) => config.update.method === RequestMethod.POST && !!config.update.url,
+      showIf: (config) => !!config.update.url,
     })
     .addCustomEditor({
       id: 'update.code',
