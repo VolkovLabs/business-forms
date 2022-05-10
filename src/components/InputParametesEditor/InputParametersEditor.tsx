@@ -100,7 +100,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
           <InlineField label="Type" grow labelWidth={8}>
             <Select
               options={InputParameterTypeOptions}
-              onChange={(event?: SelectableValue) => {
+              onChange={(event: SelectableValue) => {
                 parameter.type = event?.value;
                 setParameters(parameters);
                 onChange(parameters);
@@ -151,6 +151,63 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                 />
               </InlineField>
             </InlineFieldRow>
+          )}
+
+          {(parameter.type === InputParameterType.RADIO || parameter.type === InputParameterType.SELECT) && (
+            <div>
+              {Array.from(parameter.options || []).map((option) => (
+                <InlineFieldRow>
+                  <InlineField label="Value" labelWidth={8}>
+                    <Input
+                      placeholder="value"
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        option.value = event.target.value;
+                        setParameters(parameters);
+                        onChange(parameters);
+                      }}
+                      value={option.value}
+                    />
+                  </InlineField>
+                  <InlineField label="Label" labelWidth={8} grow>
+                    <Input
+                      placeholder="label"
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        option.label = event.target.value;
+                        setParameters(parameters);
+                        onChange(parameters);
+                      }}
+                      value={option.label}
+                    />
+                  </InlineField>
+                  <Button
+                    variant="secondary"
+                    onClick={(e) => {
+                      parameter.options = parameter.options?.filter((o) => o.value !== option.value);
+                      setParameters([...parameters]);
+                      onChange(parameters);
+                    }}
+                    icon="minus"
+                  ></Button>
+                </InlineFieldRow>
+              ))}
+
+              <Button
+                variant="secondary"
+                onClick={(e) => {
+                  if (parameter.options) {
+                    parameter.options.push({ value: '', label: '' });
+                  } else {
+                    parameter.options = [{ value: '', label: '' }];
+                  }
+
+                  setParameters([...parameters]);
+                  onChange(parameters);
+                }}
+                icon="plus"
+              >
+                Add Option
+              </Button>
+            </div>
           )}
         </FieldSet>
       ))}

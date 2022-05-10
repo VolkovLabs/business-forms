@@ -1,8 +1,18 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { PanelProps } from '@grafana/data';
+import { PanelProps, SelectableValue } from '@grafana/data';
 import { getTemplateSrv, locationService } from '@grafana/runtime';
-import { Alert, Button, FieldSet, InlineField, InlineFieldRow, Input, RadioButtonGroup, Slider } from '@grafana/ui';
+import {
+  Alert,
+  Button,
+  FieldSet,
+  InlineField,
+  InlineFieldRow,
+  Input,
+  RadioButtonGroup,
+  Select,
+  Slider,
+} from '@grafana/ui';
 import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
@@ -154,7 +164,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
         /**
          * Set Parameters
          */
-        setParameters(parameters);
+        setParameters([...parameters]);
         setTitle('Values updated.');
       }
 
@@ -253,6 +263,32 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                   min={parameter.min || 0}
                   max={parameter.max || 0}
                   step={parameter.step || 0}
+                />
+              </InlineField>
+            )}
+
+            {parameter.type === InputParameterType.RADIO && (
+              <InlineField label={parameter.title} grow labelWidth={10}>
+                <RadioButtonGroup
+                  value={parameter.value}
+                  onChange={(value: any) => {
+                    parameter.value = value;
+                    setParameters([...parameters]);
+                  }}
+                  options={parameter.options || []}
+                />
+              </InlineField>
+            )}
+
+            {parameter.type === InputParameterType.SELECT && (
+              <InlineField label={parameter.title} grow labelWidth={10}>
+                <Select
+                  value={parameter.value}
+                  onChange={(event: SelectableValue) => {
+                    parameter.value = event?.value;
+                    setParameters([...parameters]);
+                  }}
+                  options={parameter.options || []}
                 />
               </InlineField>
             )}
