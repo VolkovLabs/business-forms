@@ -1,3 +1,4 @@
+import { SelectableValue } from '@grafana/data';
 import { CapitalizeFirstLetter } from '../utils';
 
 /**
@@ -11,7 +12,7 @@ export const enum RequestMethod {
 /**
  * Request Method GET
  */
-export const RequestMethodGetOptions = [
+export const RequestMethodGetOptions: SelectableValue[] = [
   {
     value: RequestMethod.GET,
     label: RequestMethod.GET,
@@ -21,7 +22,7 @@ export const RequestMethodGetOptions = [
 /**
  * Request Method POST
  */
-export const RequestMethodPostOptions = [
+export const RequestMethodPostOptions: SelectableValue[] = [
   {
     value: RequestMethod.POST,
     label: RequestMethod.POST,
@@ -31,7 +32,7 @@ export const RequestMethodPostOptions = [
 /**
  * Request Method Options
  */
-export const RequestMethodOptions = [...RequestMethodGetOptions, ...RequestMethodPostOptions];
+export const RequestMethodOptions: SelectableValue[] = [...RequestMethodGetOptions, ...RequestMethodPostOptions];
 
 /**
  * Content Types
@@ -44,7 +45,7 @@ export const enum ContentType {
 /**
  * Content Type Options
  */
-export const ContentTypeOptions = [
+export const ContentTypeOptions: SelectableValue[] = [
   { label: CapitalizeFirstLetter(ContentType.JSON), value: ContentType.JSON },
   { label: CapitalizeFirstLetter(ContentType.PLAIN), value: ContentType.PLAIN },
 ];

@@ -1,3 +1,4 @@
+import { SelectableValue } from '@grafana/data';
 import { CapitalizeFirstLetter } from '../utils';
 
 /**
@@ -9,13 +10,13 @@ export const enum InputParameterType {
   BOOLEAN = 'boolean',
   RADIO = 'radio',
   SLIDER = 'slider',
-  DROPDOWN = 'dropdown',
+  SELECT = 'select',
 }
 
 /**
  * Input Parameter Type Options
  */
-export const InputParameterTypeOptions = [
+export const InputParameterTypeOptions: SelectableValue[] = [
   {
     value: InputParameterType.STRING,
     label: CapitalizeFirstLetter(InputParameterType.STRING),
@@ -37,15 +38,15 @@ export const InputParameterTypeOptions = [
     label: CapitalizeFirstLetter(InputParameterType.SLIDER),
   },
   {
-    value: InputParameterType.DROPDOWN,
-    label: CapitalizeFirstLetter(InputParameterType.DROPDOWN),
+    value: InputParameterType.SELECT,
+    label: CapitalizeFirstLetter(InputParameterType.SELECT),
   },
 ];
 
 /**
  * Boolean Parameter Options
  */
-export const BooleanParameterOptions = [
+export const BooleanParameterOptions: SelectableValue[] = [
   {
     value: true,
     label: 'True',
@@ -55,3 +56,12 @@ export const BooleanParameterOptions = [
     label: 'False',
   },
 ];
+
+/**
+ * Slider Defaults
+ */
+export const SliderDefault = {
+  min: 0,
+  max: 10,
+  step: 1,
+};

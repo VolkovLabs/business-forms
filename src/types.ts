@@ -1,3 +1,4 @@
+import { SelectableValue } from '@grafana/data';
 import { IconName } from '@grafana/ui';
 import {
   ButtonOrientation,
@@ -152,4 +153,32 @@ export interface InputParameter {
    * @type {any}
    */
   value?: any;
+
+  /**
+   * Options
+   *
+   * @type {SelectableValue[]}
+   */
+  options?: SelectableValue[];
+
+  /**
+   * Maximum Value
+   *
+   * @type {number}
+   */
+  max?: number;
+
+  /**
+   * Minimum Value
+   *
+   * @type {number}
+   */
+  min?: number;
+
+  /**
+   * Step
+   *
+   * @type {number}
+   */
+  step?: number;
 }

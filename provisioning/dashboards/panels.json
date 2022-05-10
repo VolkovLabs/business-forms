@@ -102,6 +102,14 @@
             "title": "Updated",
             "type": "boolean",
             "value": false
+          },
+          {
+            "id": "step",
+            "max": 6,
+            "min": 0,
+            "step": 1,
+            "title": "Step",
+            "type": "slider"
           }
         ],
         "submit": {
@@ -140,6 +148,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 19,
+  "version": 20,
   "weekStart": ""
 }
