@@ -4,12 +4,15 @@ import { FormPanel, InputParametersEditor } from './components';
 import {
   ButtonOrientation,
   ButtonOrientationOptions,
+  ButtonSize,
+  ButtonSizeOptions,
   ButtonVariant,
   ButtonVariantOptions,
   ContentType,
   ContentTypeOptions,
   RequestMethod,
-  RequestMethodOptions,
+  RequestMethodGetOptions,
+  RequestMethodPostOptions,
 } from './constants';
 import { PanelOptions } from './types';
 
@@ -38,7 +41,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Initial Request',
       category: ['Initial Request'],
       settings: {
-        options: RequestMethodOptions,
+        options: RequestMethodGetOptions,
       },
       defaultValue: RequestMethod.GET,
     })
@@ -71,7 +74,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Update Request',
       category: ['Update Request'],
       settings: {
-        options: RequestMethodOptions,
+        options: RequestMethodPostOptions,
       },
       defaultValue: RequestMethod.POST,
     })
@@ -140,6 +143,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         options: ButtonOrientationOptions,
       },
       defaultValue: ButtonOrientation.CENTER,
+    })
+    .addRadio({
+      path: 'submit.size',
+      name: 'Size',
+      category: ['Submit Button'],
+      description: 'Button size used to render',
+      settings: {
+        options: ButtonSizeOptions,
+      },
+      defaultValue: ButtonSize.MEDIUM,
     })
     .addSelect({
       path: 'submit.icon',
