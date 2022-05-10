@@ -33,10 +33,46 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 14,
+        "h": 9,
         "w": 10,
         "x": 0,
         "y": 0
+      },
+      "id": 8,
+      "options": {
+        "initial": {
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://api.example.com/"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://api.example.com/"
+        }
+      },
+      "title": "No Parameters",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 10,
+        "x": 0,
+        "y": 9
       },
       "id": 6,
       "options": {
@@ -45,51 +81,47 @@
         "initial": {
           "contentType": "application/json",
           "method": "GET",
-          "url": "http://api.example.com/"
+          "url": "http://localhost:3001"
         },
         "name": "data",
         "parameters": [
           {
             "id": "name",
-            "type": "string"
+            "title": "Name",
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "amount",
-            "type": "number"
+            "title": "Amount",
+            "type": "number",
+            "value": 30
+          },
+          {
+            "id": "updated",
+            "title": "Updated",
+            "type": "boolean",
+            "value": false
           }
         ],
         "submit": {
-          "icon": "cog",
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
           "orientation": "center",
-          "text": "Submit",
+          "size": "md",
+          "text": "Update",
           "variant": "primary"
         },
         "update": {
           "contentType": "application/json",
           "method": "POST",
-          "url": "http://api.example.com/"
+          "url": "http://localhost:3001/"
         },
         "width": 0,
         "widthMode": "auto"
       },
-      "targets": [
-        {
-          "frame": {
-            "fields": [
-              {
-                "config": {},
-                "name": "data",
-                "type": "string",
-                "values": ["Hello World!"]
-              }
-            ],
-            "meta": {},
-            "name": "data"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "Test",
+      "title": "Custom Form",
       "type": "volkovlabs-form-panel"
     }
   ],
@@ -108,6 +140,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 3,
+  "version": 19,
   "weekStart": ""
 }

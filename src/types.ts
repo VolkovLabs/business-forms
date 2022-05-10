@@ -1,5 +1,12 @@
 import { IconName } from '@grafana/ui';
-import { ButtonOrientation, ButtonVariant, ContentType, InputParameterType, RequestMethod } from './constants';
+import {
+  ButtonOrientation,
+  ButtonSize,
+  ButtonVariant,
+  ContentType,
+  InputParameterType,
+  RequestMethod,
+} from './constants';
 
 /**
  * Options
@@ -86,6 +93,13 @@ export interface ButtonOptions {
   orientation: ButtonOrientation;
 
   /**
+   * Size
+   *
+   * @type {ButtonSize}
+   */
+  size: ButtonSize;
+
+  /**
    * Icon
    *
    * @type {IconName}
@@ -119,9 +133,23 @@ export interface InputParameter {
   id: string;
 
   /**
+   * Title
+   *
+   * @type {string}
+   */
+  title: string;
+
+  /**
    * Type
    *
    * @type {InputParameterType}
    */
   type: InputParameterType;
+
+  /**
+   * Value
+   *
+   * @type {any}
+   */
+  value?: any;
 }

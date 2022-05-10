@@ -13,34 +13,38 @@ interface Props extends StandardEditorProps<InputParameter[]> {}
  * Input Parameters Editor
  */
 export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
-  const defaultParameter = { id: '', type: InputParameterType.STRING };
-  const [newParameter, setNewParameter] = useState(defaultParameter);
-  const [valueState, setValueState] = useState(value || []);
+  const defaultParameter = { id: '', title: '', type: InputParameterType.STRING };
 
   /**
-   * On Parameter Remove
+   * States
+   */
+  const [newParameter, setNewParameter] = useState(defaultParameter);
+  const [parameters, setParameters] = useState(value || []);
+
+  /**
+   * Remove Parameter
    */
   const onParameterRemove = (id: string) => {
-    const values = valueState.filter((e) => e.id !== id);
+    const updated = parameters.filter((e) => e.id !== id);
 
     /**
      * Update Parameters
      */
-    setValueState(values);
-    onChange(values);
+    setParameters(updated);
+    onChange(updated);
   };
 
   /**
-   * On Parameter Add
+   * Add Parameter
    */
   const onParameterAdd = () => {
-    const values = [...valueState, newParameter];
+    const updated = [...parameters, newParameter];
 
     /**
      * Update Parameters
      */
-    setValueState(values);
-    onChange(values);
+    setParameters(updated);
+    onChange(updated);
 
     /**
      * Reset input values
@@ -53,21 +57,45 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
    */
   return (
     <div>
-      {valueState.map((parameter) => (
+      {parameters.map((parameter) => (
         <FieldSet key={parameter.id}>
           <InlineFieldRow>
             <InlineField label="Id" grow labelWidth={8} invalid={parameter.id === ''}>
-              <Input placeholder="Id" onChange={(event: ChangeEvent<HTMLInputElement>) => {}} value={parameter.id} />
+              <Input
+                placeholder="Id"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  parameter.id = event.target.value;
+                  setParameters(parameters);
+                  onChange(parameters);
+                }}
+                value={parameter.id}
+              />
             </InlineField>
             <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt">
               Remove
             </Button>
           </InlineFieldRow>
 
+          <InlineField label="Title" grow labelWidth={8} invalid={parameter.title === ''}>
+            <Input
+              placeholder="Title"
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                parameter.title = event.target.value;
+                setParameters(parameters);
+                onChange(parameters);
+              }}
+              value={parameter.title}
+            />
+          </InlineField>
+
           <InlineField label="Type" grow labelWidth={8}>
             <Select
               options={InputParameterTypeOptions}
-              onChange={(event?: SelectableValue) => {}}
+              onChange={(event?: SelectableValue) => {
+                parameter.type = event?.value;
+                setParameters(parameters);
+                onChange(parameters);
+              }}
               value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
             />
           </InlineField>
@@ -84,6 +112,16 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
               setNewParameter({ ...newParameter, id: event.target.value });
             }}
             value={newParameter.id}
+          />
+        </InlineField>
+
+        <InlineField label="Title" grow labelWidth={8} invalid={newParameter.title === ''}>
+          <Input
+            placeholder="Title"
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+              setNewParameter({ ...newParameter, title: event.target.value });
+            }}
+            value={newParameter.title}
           />
         </InlineField>
 
