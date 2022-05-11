@@ -68,7 +68,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
       {parameters.map((parameter) => (
         <FieldSet key={parameter.id} label={`Parameter: ${parameter.id}`}>
           <InlineFieldRow>
-            <InlineField label="Id" grow labelWidth={8} invalid={parameter.id === ''}>
+            <InlineField label="Id" labelWidth={8} invalid={parameter.id === ''}>
               <Input
                 placeholder="Id"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -78,21 +78,20 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
                 value={parameter.id}
               />
             </InlineField>
-            <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt">
-              Remove
-            </Button>
-          </InlineFieldRow>
 
-          <InlineField label="Title" grow labelWidth={8} invalid={parameter.title === ''}>
-            <Input
-              placeholder="Title"
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                parameter.title = event.target.value;
-                onChange(parameters);
-              }}
-              value={parameter.title}
-            />
-          </InlineField>
+            <InlineField label="Title" grow labelWidth={8} invalid={parameter.title === ''}>
+              <Input
+                placeholder="Title"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  parameter.title = event.target.value;
+                  onChange(parameters);
+                }}
+                value={parameter.title}
+              />
+            </InlineField>
+
+            <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt"></Button>
+          </InlineFieldRow>
 
           <InlineField label="Type" grow labelWidth={8}>
             <Select
