@@ -1,24 +1,12 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { DateTime, PanelProps, SelectableValue } from '@grafana/data';
+import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService } from '@grafana/runtime';
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  DateTimePicker,
-  FieldSet,
-  InlineField,
-  InlineFieldRow,
-  Input,
-  RadioButtonGroup,
-  Select,
-  Slider,
-  TextArea,
-} from '@grafana/ui';
-import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
+import { Alert, Button, ButtonGroup, FieldSet } from '@grafana/ui';
+import { ButtonVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
+import { InputParameters } from '../InputParameters';
 
 /**
  * Properties
@@ -209,122 +197,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
         `
       )}
     >
-      {options.parameters.map((parameter) => {
-        return (
-          <InlineFieldRow key={parameter.id}>
-            {parameter.type === InputParameterType.NUMBER && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <Input
-                  value={parameter.value}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.value = event.target.value;
-                    onOptionsChange(options);
-                  }}
-                  type="number"
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.STRING && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
-                <Input
-                  value={parameter.value}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.value = event.target.value;
-                    onOptionsChange(options);
-                  }}
-                  type="text"
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.DISABLED && (
-              <InlineField label={parameter.title} grow labelWidth={10} disabled>
-                <Input value={parameter.value} type="text" />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.TEXTAREA && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
-                <TextArea
-                  value={parameter.value}
-                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                    parameter.value = event.target.value;
-                    onOptionsChange(options);
-                  }}
-                  rows={parameter.rows}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.BOOLEAN && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <RadioButtonGroup
-                  value={parameter.value}
-                  onChange={(value: Boolean) => {
-                    parameter.value = value;
-                    onOptionsChange(options);
-                  }}
-                  options={BooleanParameterOptions}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.DATETIME && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <DateTimePicker
-                  date={parameter.value}
-                  onChange={(dateTime: DateTime) => {
-                    parameter.value = dateTime;
-                    onOptionsChange(options);
-                  }}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.SLIDER && parameter.value != null && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <Slider
-                  value={parameter.value || 0}
-                  onChange={(value: number) => {
-                    parameter.value = value;
-                    onOptionsChange(options);
-                  }}
-                  min={parameter.min || 0}
-                  max={parameter.max || 0}
-                  step={parameter.step || 0}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.RADIO && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <RadioButtonGroup
-                  value={parameter.value}
-                  onChange={(value: any) => {
-                    parameter.value = value;
-                    onOptionsChange(options);
-                  }}
-                  options={parameter.options || []}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.SELECT && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <Select
-                  value={parameter.value}
-                  onChange={(event: SelectableValue) => {
-                    parameter.value = event?.value;
-                    onOptionsChange(options);
-                  }}
-                  options={parameter.options || []}
-                />
-              </InlineField>
-            )}
-          </InlineFieldRow>
-        );
-      })}
+      <InputParameters options={options} onOptionsChange={onOptionsChange}></InputParameters>
 
       <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
         <Button
