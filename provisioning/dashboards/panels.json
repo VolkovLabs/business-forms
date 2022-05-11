@@ -50,6 +50,9 @@
           "method": "GET",
           "url": "http://api.example.com/"
         },
+        "layout": {
+          "variant": "single"
+        },
         "reset": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -83,7 +86,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 9,
+        "w": 7,
         "x": 9,
         "y": 0
       },
@@ -97,6 +100,9 @@
           "code": "console.log(response)",
           "contentType": "application/json",
           "method": "GET"
+        },
+        "layout": {
+          "variant": "single"
         },
         "parameters": [
           {
@@ -136,144 +142,10 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 13,
-        "w": 9,
-        "x": 0,
-        "y": 6
-      },
-      "id": 6,
-      "options": {
-        "buttonGroup": {
-          "orientation": "center",
-          "size": "md"
-        },
-        "height": 0,
-        "heightMode": "auto",
-        "initial": {
-          "code": "console.log(response)",
-          "contentType": "application/json",
-          "method": "GET",
-          "url": "http://localhost:3001"
-        },
-        "name": "data",
-        "parameters": [
-          {
-            "id": "amount",
-            "title": "Amount",
-            "type": "number",
-            "value": 30
-          },
-          {
-            "id": "updated",
-            "title": "Updated",
-            "type": "boolean",
-            "value": false
-          },
-          {
-            "id": "name",
-            "title": "Name",
-            "type": "string",
-            "value": "Name"
-          },
-          {
-            "id": "step",
-            "max": 6,
-            "min": 0,
-            "step": 1,
-            "title": "Step",
-            "type": "slider",
-            "value": 4
-          },
-          {
-            "id": "select",
-            "options": [
-              {
-                "label": "Max",
-                "value": "max"
-              },
-              {
-                "label": "Min",
-                "value": "min"
-              },
-              {
-                "label": "Average",
-                "value": "avg"
-              }
-            ],
-            "title": "Select",
-            "type": "select"
-          },
-          {
-            "id": "dateTime",
-            "title": "DateTime",
-            "type": "datetime"
-          },
-          {
-            "id": "radio",
-            "options": [
-              {
-                "label": "Plus",
-                "value": "plus"
-              },
-              {
-                "label": "Minus",
-                "value": "minus"
-              }
-            ],
-            "title": "Radio",
-            "type": "radio"
-          },
-          {
-            "id": "disabled",
-            "title": "Disabled",
-            "type": "disabled",
-            "value": "34343"
-          },
-          {
-            "id": "text",
-            "rows": 4,
-            "title": "Text",
-            "type": "textarea"
-          }
-        ],
-        "reset": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "process",
-          "text": "Reset",
-          "variant": "secondary"
-        },
-        "submit": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "cloud-upload",
-          "orientation": "center",
-          "size": "md",
-          "text": "Update",
-          "variant": "primary"
-        },
-        "update": {
-          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
-          "contentType": "application/json",
-          "method": "POST",
-          "url": "http://localhost:3001/"
-        },
-        "width": 0,
-        "widthMode": "auto"
-      },
-      "title": "Custom Form",
-      "type": "volkovlabs-form-panel"
-    },
-    {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 9,
-        "x": 9,
-        "y": 6
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 0
       },
       "id": 12,
       "options": {
@@ -286,6 +158,9 @@
           "contentType": "application/json",
           "method": "GET",
           "url": "http://localhost:3001"
+        },
+        "layout": {
+          "variant": "single"
         },
         "parameters": [
           {
@@ -327,6 +202,288 @@
       },
       "title": "Custom Form",
       "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 9,
+        "x": 0,
+        "y": 6
+      },
+      "id": 6,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "height": 0,
+        "heightMode": "auto",
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "name": "data",
+        "parameters": [
+          {
+            "id": "amount",
+            "title": "Amount",
+            "type": "number",
+            "value": "302"
+          },
+          {
+            "id": "updated",
+            "title": "Updated",
+            "type": "boolean",
+            "value": true
+          },
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string",
+            "value": "Name3"
+          },
+          {
+            "id": "step",
+            "max": 6,
+            "min": 0,
+            "step": 1,
+            "title": "Step",
+            "type": "slider",
+            "value": 2
+          },
+          {
+            "id": "select",
+            "options": [
+              {
+                "label": "Max",
+                "value": "max"
+              },
+              {
+                "label": "Min",
+                "value": "min"
+              },
+              {
+                "label": "Average",
+                "value": "avg"
+              }
+            ],
+            "title": "Select",
+            "type": "select",
+            "value": "max"
+          },
+          {
+            "id": "dateTime",
+            "title": "DateTime",
+            "type": "datetime"
+          },
+          {
+            "id": "radio",
+            "options": [
+              {
+                "label": "Plus",
+                "value": "plus"
+              },
+              {
+                "label": "Minus",
+                "value": "minus"
+              }
+            ],
+            "title": "Radio",
+            "type": "radio",
+            "value": "plus"
+          },
+          {
+            "id": "disabled",
+            "title": "Disabled",
+            "type": "disabled",
+            "value": "34343"
+          },
+          {
+            "id": "text",
+            "rows": 4,
+            "title": "Text",
+            "type": "textarea",
+            "value": "This is great!"
+          }
+        ],
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "secondary"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Update",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://localhost:3001/"
+        },
+        "width": 0,
+        "widthMode": "auto"
+      },
+      "title": "Single Form",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 15,
+        "x": 9,
+        "y": 6
+      },
+      "id": 13,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "height": 0,
+        "heightMode": "auto",
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "textLeft": "Input",
+          "textRight": "Output",
+          "variant": "split"
+        },
+        "name": "data",
+        "parameters": [
+          {
+            "id": "amount",
+            "title": "Amount",
+            "type": "number",
+            "value": "302"
+          },
+          {
+            "id": "updated",
+            "title": "Updated",
+            "type": "boolean",
+            "value": true
+          },
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string",
+            "value": "Name3"
+          },
+          {
+            "id": "step",
+            "max": 6,
+            "min": 0,
+            "step": 1,
+            "title": "Step",
+            "type": "slider",
+            "value": 2
+          },
+          {
+            "id": "select",
+            "options": [
+              {
+                "label": "Max",
+                "value": "max"
+              },
+              {
+                "label": "Min",
+                "value": "min"
+              },
+              {
+                "label": "Average",
+                "value": "avg"
+              }
+            ],
+            "title": "Select",
+            "type": "select",
+            "value": "max"
+          },
+          {
+            "id": "dateTime",
+            "title": "DateTime",
+            "type": "datetime"
+          },
+          {
+            "id": "radio",
+            "options": [
+              {
+                "label": "Plus",
+                "value": "plus"
+              },
+              {
+                "label": "Minus",
+                "value": "minus"
+              }
+            ],
+            "title": "Radio",
+            "type": "radio",
+            "value": "plus"
+          },
+          {
+            "id": "disabled",
+            "title": "Disabled",
+            "type": "disabled",
+            "value": "34343"
+          },
+          {
+            "id": "text",
+            "rows": 4,
+            "title": "Text",
+            "type": "textarea",
+            "value": "This is great!"
+          }
+        ],
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "secondary"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Update",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://localhost:3001/"
+        },
+        "width": 0,
+        "widthMode": "auto"
+      },
+      "title": "Split Form",
+      "type": "volkovlabs-form-panel"
     }
   ],
   "refresh": "",
@@ -344,6 +501,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }
