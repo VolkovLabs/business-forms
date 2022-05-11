@@ -105,6 +105,17 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               options={InputParameterTypeOptions}
               onChange={(event: SelectableValue) => {
                 parameter.type = event?.value;
+
+                /**
+                 * Slider values
+                 */
+                if (parameter.type === InputParameterType.SLIDER) {
+                  parameter.min = SliderDefault.min;
+                  parameter.max = SliderDefault.max;
+                  parameter.step = SliderDefault.step;
+                  parameter.value = SliderDefault.value;
+                }
+
                 onChange(parameters);
               }}
               value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
