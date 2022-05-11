@@ -136,7 +136,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 12,
+        "h": 13,
         "w": 9,
         "x": 0,
         "y": 6
@@ -158,22 +158,22 @@
         "name": "data",
         "parameters": [
           {
-            "id": "name",
-            "title": "Name",
-            "type": "string",
-            "value": "Test"
-          },
-          {
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "value": "1234"
+            "value": 30
           },
           {
             "id": "updated",
             "title": "Updated",
             "type": "boolean",
-            "value": true
+            "value": false
+          },
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "step",
@@ -182,7 +182,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "value": 2
+            "value": 4
           },
           {
             "id": "select",
@@ -201,8 +201,12 @@
               }
             ],
             "title": "Select",
-            "type": "select",
-            "value": "min"
+            "type": "select"
+          },
+          {
+            "id": "dateTime",
+            "title": "DateTime",
+            "type": "datetime"
           },
           {
             "id": "radio",
@@ -217,25 +221,19 @@
               }
             ],
             "title": "Radio",
-            "type": "radio",
-            "value": "plus"
+            "type": "radio"
+          },
+          {
+            "id": "disabled",
+            "title": "Disabled",
+            "type": "disabled",
+            "value": "34343"
           },
           {
             "id": "text",
             "rows": 4,
             "title": "Text",
-            "type": "textarea",
-            "value": "The Custom Form Panel is a plugin for Grafana that allow to create customizable forms."
-          },
-          {
-            "id": "dateTime",
-            "title": "DateTime",
-            "type": "datetime"
-          },
-          {
-            "id": "disabled",
-            "title": "Disabled",
-            "type": "disabled"
+            "type": "textarea"
           }
         ],
         "reset": {
@@ -272,7 +270,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 12,
+        "h": 7,
         "w": 9,
         "x": 9,
         "y": 6
@@ -346,6 +344,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 19,
+  "version": 1,
   "weekStart": ""
 }
