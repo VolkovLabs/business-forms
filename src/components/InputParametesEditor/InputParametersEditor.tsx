@@ -157,6 +157,24 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
             </InlineFieldRow>
           )}
 
+          {parameter.type === InputParameterType.TEXTAREA && (
+            <InlineFieldRow>
+              <InlineField label="Rows" labelWidth={8}>
+                <Input
+                  placeholder="Rows"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.rows = Number(event.target.value);
+                    onChange(parameters);
+                  }}
+                  type="number"
+                  width={10}
+                  value={parameter.rows}
+                  min={2}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
+
           {(parameter.type === InputParameterType.RADIO || parameter.type === InputParameterType.SELECT) && (
             <div>
               {parameter.options?.map((option) => (
