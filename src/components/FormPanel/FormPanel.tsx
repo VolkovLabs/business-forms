@@ -5,6 +5,7 @@ import { getTemplateSrv, locationService } from '@grafana/runtime';
 import {
   Alert,
   Button,
+  ButtonGroup,
   FieldSet,
   InlineField,
   InlineFieldRow,
@@ -101,6 +102,63 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
   };
 
   /**
+   * Initial Request
+   */
+  const initialRequest = async () => {
+    /**
+     * Set Headers
+     */
+    const headers: HeadersInit = new Headers();
+    if (options.initial.method === RequestMethod.POST) {
+      headers.set('Content-Type', options.initial.contentType);
+    }
+
+    /**
+     * Fetch
+     */
+    const response = await fetch(options.initial.url, {
+      method: options.initial.method,
+      headers,
+    }).catch((error: Error) => {
+      console.error(error);
+      setError(error.toString());
+    });
+
+    /**
+     * CORS
+     */
+    if (response?.type === 'opaque') {
+      setError('CORS prevents access to the response for Initial values.');
+    }
+
+    /**
+     * OK
+     */
+    if (response?.ok) {
+      const body = await response.json();
+
+      /**
+       * Set Parameter values
+       */
+      options.parameters.forEach((parameter) => {
+        parameter.value = body[parameter.id];
+      });
+
+      /**
+       * Set Parameters
+       */
+      onOptionsChange(options);
+      setTitle('Values updated.');
+    }
+
+    /**
+     * Execute Custom Code and reset Loading
+     */
+    executeCustomCode(options.initial.code, response);
+    setLoading(false);
+  };
+
+  /**
    * Execute Initial Request
    */
   useEffect(() => {
@@ -116,63 +174,6 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
 
       return;
     }
-
-    /**
-     * Initial Request
-     */
-    const initialRequest = async () => {
-      /**
-       * Set Headers
-       */
-      const headers: HeadersInit = new Headers();
-      if (options.initial.method === RequestMethod.POST) {
-        headers.set('Content-Type', options.initial.contentType);
-      }
-
-      /**
-       * Fetch
-       */
-      const response = await fetch(options.initial.url, {
-        method: options.initial.method,
-        headers,
-      }).catch((error: Error) => {
-        console.error(error);
-        setError(error.toString());
-      });
-
-      /**
-       * CORS
-       */
-      if (response?.type === 'opaque') {
-        setError('CORS prevents access to the response for Initial values.');
-      }
-
-      /**
-       * OK
-       */
-      if (response?.ok) {
-        const body = await response.json();
-
-        /**
-         * Set Parameter values
-         */
-        options.parameters.forEach((parameter) => {
-          parameter.value = body[parameter.id];
-        });
-
-        /**
-         * Set Parameters
-         */
-        onOptionsChange(options);
-        setTitle('Values updated.');
-      }
-
-      /**
-       * Execute Custom Code and reset Loading
-       */
-      executeCustomCode(options.initial.code, response);
-      setLoading(false);
-    };
 
     initialRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -288,8 +289,9 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
         );
       })}
 
-      <div className={cx(styles.button[options.submit.orientation])}>
+      <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
         <Button
+          className={cx(styles.margin)}
           variant={options.submit.variant as any}
           icon={options.submit.icon}
           title={title}
@@ -305,11 +307,34 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
           }
           disabled={loading || !options.update.url}
           onClick={updateRequest}
-          size={options.submit.size}
+          size={options.buttonGroup.size}
         >
           {options.submit.text}
         </Button>
-      </div>
+
+        {options.reset.variant !== ButtonVariant.HIDDEN && (
+          <Button
+            className={cx(styles.margin)}
+            variant={options.reset.variant as any}
+            icon={options.reset.icon}
+            style={
+              options.reset.variant === ButtonVariant.CUSTOM
+                ? {
+                    background: 'none',
+                    border: 'none',
+                    backgroundColor: options.reset.backgroundColor,
+                    color: options.reset.foregroundColor,
+                  }
+                : {}
+            }
+            disabled={loading || !options.initial.url}
+            onClick={initialRequest}
+            size={options.buttonGroup.size}
+          >
+            {options.reset.text}
+          </Button>
+        )}
+      </ButtonGroup>
 
       {error && (
         <Alert severity="error" title="Request">

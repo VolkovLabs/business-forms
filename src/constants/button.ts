@@ -9,7 +9,18 @@ export const enum ButtonVariant {
   SECONDARY = 'secondary',
   DESTRUCTIVE = 'destructive',
   CUSTOM = 'custom',
+  HIDDEN = 'hidden',
 }
+
+/**
+ * Button Variant Hidden
+ */
+export const ButtonVariantHiddenOption: SelectableValue[] = [
+  {
+    value: ButtonVariant.HIDDEN,
+    label: CapitalizeFirstLetter(ButtonVariant.HIDDEN),
+  },
+];
 
 /**
  * Button Variant
@@ -64,7 +75,6 @@ export const ButtonOrientationOptions: SelectableValue[] = [
  * Button Size
  */
 export const enum ButtonSize {
-  EXTRA_SMALL = 'xs',
   SMALL = 'sm',
   MEDIUM = 'md',
   LARGE = 'lg',
@@ -75,19 +85,15 @@ export const enum ButtonSize {
  */
 export const ButtonSizeOptions: SelectableValue[] = [
   {
-    value: ButtonSize.EXTRA_SMALL,
-    label: ButtonSize.EXTRA_SMALL.toUpperCase(),
-  },
-  {
     value: ButtonSize.SMALL,
-    label: ButtonSize.SMALL.toUpperCase(),
+    label: 'Small',
   },
   {
     value: ButtonSize.MEDIUM,
-    label: ButtonSize.MEDIUM.toUpperCase(),
+    label: 'Medium',
   },
   {
     value: ButtonSize.LARGE,
-    label: ButtonSize.LARGE.toUpperCase(),
+    label: 'Large',
   },
 ];

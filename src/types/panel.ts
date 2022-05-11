@@ -1,4 +1,4 @@
-import { ButtonOptions } from './button';
+import { ButtonGroupOptions, ButtonOptions } from './button';
 import { InputParameter } from './parameter';
 import { RequestOptions } from './request';
 
@@ -21,11 +21,25 @@ export interface PanelOptions {
   update: RequestOptions;
 
   /**
+   * Button Group
+   *
+   * @type {ButtonGroupOptions}
+   */
+  buttonGroup: ButtonGroupOptions;
+
+  /**
    * Submit Button
    *
    * @type {ButtonOptions}
    */
   submit: ButtonOptions;
+
+  /**
+   * Reset Button
+   *
+   * @type {ButtonOptions}
+   */
+  reset: ButtonOptions;
 
   /**
    * Input Parameters

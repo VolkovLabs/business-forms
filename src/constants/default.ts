@@ -3,39 +3,27 @@ import { InputParameter } from '../types';
 import { InputParameterType } from './parameter';
 
 /**
- * Default Language to Code Editor
+ * Code Editor
  */
+export const CodeEditorHeight = '100px';
+export const CodeEditorDefault = 'console.log(response)';
 export const CodeLanguageDefault = 'javascript';
 
 /**
- * Code Editor Height
- */
-export const CodeEditorHeight = '100px';
-
-/**
- * Code Editor Default
- */
-export const CodeEditorDefault = 'console.log(response)';
-
-/**
- * Default Icon for Submit Button
+ * Submit Button
  */
 export const SubmitIconDefault = 'cloud-upload';
-
-/**
- * Default Background Color for Submit Button
- */
 export const SubmitBackgroundColorDefault = 'purple';
-
-/**
- * Default Foreground Color for Submit Button
- */
 export const SubmitForegroundColorDefault = 'yellow';
+export const SubmitTextDefault = 'Submit';
 
 /**
- * Default Text for Submit Button
+ * Reset Button
  */
-export const SubmitTextDefault = 'Submit';
+export const ResetIconDefault = 'process';
+export const ResetBackgroundColorDefault = 'purple';
+export const ResetForegroundColorDefault = 'yellow';
+export const ResetTextDefault = 'Reset';
 
 /**
  * Slider Defaults
@@ -48,11 +36,7 @@ export const SliderDefault = {
 };
 
 /**
- * Default for Input Parameter
+ * Input Parameter
  */
 export const InputParameterDefault: InputParameter = { id: '', title: '', type: InputParameterType.STRING };
-
-/**
- * Default for Input Parameter Option
- */
 export const InputParameterOptionDefault: SelectableValue = { value: '', label: '' };
