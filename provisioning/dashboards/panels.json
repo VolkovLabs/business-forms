@@ -173,7 +173,7 @@
             "id": "updated",
             "title": "Updated",
             "type": "boolean",
-            "value": false
+            "value": true
           },
           {
             "id": "step",
@@ -182,7 +182,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "value": 5
+            "value": 2
           },
           {
             "id": "select",
@@ -202,7 +202,7 @@
             ],
             "title": "Select",
             "type": "select",
-            "value": "max"
+            "value": "min"
           },
           {
             "id": "radio",
@@ -230,8 +230,12 @@
           {
             "id": "dateTime",
             "title": "DateTime",
-            "type": "datetime",
-            "value": "2022-03-31T04:17:49.000Z"
+            "type": "datetime"
+          },
+          {
+            "id": "disabled",
+            "title": "Disabled",
+            "type": "disabled"
           }
         ],
         "reset": {
@@ -342,6 +346,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 18,
+  "version": 19,
   "weekStart": ""
 }

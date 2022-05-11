@@ -234,6 +234,12 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
               </InlineField>
             )}
 
+            {parameter.type === InputParameterType.DISABLED && (
+              <InlineField label={parameter.title} grow labelWidth={10} disabled>
+                <Input value={parameter.value} type="text" />
+              </InlineField>
+            )}
+
             {parameter.type === InputParameterType.TEXTAREA && (
               <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
                 <TextArea

@@ -13,6 +13,7 @@ export const enum InputParameterType {
   TEXTAREA = 'textarea',
   SECRET = 'secret',
   DATETIME = 'datetime',
+  DISABLED = 'disabled',
 }
 
 /**
@@ -22,6 +23,10 @@ export const InputParameterTypeOptions: SelectableValue[] = [
   {
     value: InputParameterType.DATETIME,
     label: 'Date and Time Input',
+  },
+  {
+    value: InputParameterType.DISABLED,
+    label: 'Disabled Input',
   },
   {
     value: InputParameterType.NUMBER,
