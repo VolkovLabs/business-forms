@@ -68,6 +68,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
     <div>
       {parameters.map((parameter, id) => (
         <CollapsableSection
+          key={parameter.id}
           label={
             <>
               {id > 0 && (
