@@ -1,11 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { PanelProps, SelectableValue } from '@grafana/data';
+import { DateTime, PanelProps, SelectableValue } from '@grafana/data';
 import { getTemplateSrv, locationService } from '@grafana/runtime';
 import {
   Alert,
   Button,
   ButtonGroup,
+  DateTimePicker,
   FieldSet,
   InlineField,
   InlineFieldRow,
@@ -255,6 +256,18 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
                     onOptionsChange(options);
                   }}
                   options={BooleanParameterOptions}
+                />
+              </InlineField>
+            )}
+
+            {parameter.type === InputParameterType.DATETIME && (
+              <InlineField label={parameter.title} grow labelWidth={10}>
+                <DateTimePicker
+                  date={parameter.value}
+                  onChange={(dateTime: DateTime) => {
+                    parameter.value = dateTime;
+                    onOptionsChange(options);
+                  }}
                 />
               </InlineField>
             )}
