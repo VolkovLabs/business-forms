@@ -218,14 +218,14 @@
             ],
             "title": "Radio",
             "type": "radio",
-            "value": "minus"
+            "value": "plus"
           },
           {
             "id": "text",
             "rows": 4,
             "title": "Text",
             "type": "textarea",
-            "value": "Text"
+            "value": "The Custom Form Panel is a plugin for Grafana that allow to create customizable forms."
           },
           {
             "id": "dateTime",
@@ -261,6 +261,70 @@
       },
       "title": "Custom Form",
       "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 9,
+        "x": 9,
+        "y": 6
+      },
+      "id": 12,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "lg"
+        },
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "parameters": [
+          {
+            "id": "first",
+            "title": "First",
+            "type": "datetime"
+          },
+          {
+            "id": "second",
+            "title": "Second",
+            "type": "textarea"
+          },
+          {
+            "id": "third",
+            "title": "Third",
+            "type": "boolean"
+          }
+        ],
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "destructive"
+        },
+        "update": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://localhost:3001"
+        }
+      },
+      "title": "Custom Form",
+      "type": "volkovlabs-form-panel"
     }
   ],
   "refresh": "",
@@ -278,6 +342,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 16,
+  "version": 18,
   "weekStart": ""
 }
