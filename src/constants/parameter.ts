@@ -1,5 +1,4 @@
 import { SelectableValue } from '@grafana/data';
-import { CapitalizeFirstLetter } from '../utils';
 
 /**
  * Input Parameter Type
@@ -12,6 +11,8 @@ export const enum InputParameterType {
   SLIDER = 'slider',
   SELECT = 'select',
   TEXTAREA = 'textarea',
+  SECRET = 'secret',
+  DATETIME = 'datetime',
 }
 
 /**
@@ -19,32 +20,36 @@ export const enum InputParameterType {
  */
 export const InputParameterTypeOptions: SelectableValue[] = [
   {
-    value: InputParameterType.BOOLEAN,
-    label: CapitalizeFirstLetter(InputParameterType.BOOLEAN),
+    value: InputParameterType.DATETIME,
+    label: 'Date and Time Input',
   },
   {
     value: InputParameterType.NUMBER,
-    label: CapitalizeFirstLetter(InputParameterType.NUMBER),
-  },
-  {
-    value: InputParameterType.RADIO,
-    label: CapitalizeFirstLetter(InputParameterType.RADIO),
-  },
-  {
-    value: InputParameterType.SELECT,
-    label: CapitalizeFirstLetter(InputParameterType.SELECT),
+    label: 'Number Input',
   },
   {
     value: InputParameterType.SLIDER,
-    label: CapitalizeFirstLetter(InputParameterType.SLIDER),
+    label: 'Number Slider',
+  },
+  {
+    value: InputParameterType.BOOLEAN,
+    label: 'Radio Group with Boolean options',
+  },
+  {
+    value: InputParameterType.RADIO,
+    label: 'Radio Group with Custom options',
+  },
+  {
+    value: InputParameterType.SELECT,
+    label: 'Select with Custom options',
   },
   {
     value: InputParameterType.STRING,
-    label: CapitalizeFirstLetter(InputParameterType.STRING),
+    label: 'String Input',
   },
   {
     value: InputParameterType.TEXTAREA,
-    label: CapitalizeFirstLetter(InputParameterType.TEXTAREA),
+    label: 'Text Area',
   },
 ];
 
