@@ -1,13 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, FieldSet, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
-import {
-  InputParameterDefault,
-  InputParameterOptionDefault,
-  InputParameterType,
-  InputParameterTypeOptions,
-  SliderDefault,
-} from '../../constants';
+import { InputParameterDefault, InputParameterType, InputParameterTypeOptions, SliderDefault } from '../../constants';
 import { InputParameter } from '../../types';
 
 /**
@@ -165,8 +159,8 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
 
           {(parameter.type === InputParameterType.RADIO || parameter.type === InputParameterType.SELECT) && (
             <div>
-              {Array.from(parameter.options || []).map((option) => (
-                <InlineFieldRow key={parameter.id}>
+              {parameter.options?.map((option) => (
+                <InlineFieldRow key={option.id}>
                   <InlineField label="Value" labelWidth={8}>
                     <Input
                       placeholder="value"
@@ -202,9 +196,9 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
                 variant="secondary"
                 onClick={(e) => {
                   if (parameter.options) {
-                    parameter.options.push(InputParameterOptionDefault);
+                    parameter.options.push({ value: '', label: '' });
                   } else {
-                    parameter.options = [InputParameterOptionDefault];
+                    parameter.options = [{ value: '', label: '' }];
                   }
 
                   onChange(parameters);
