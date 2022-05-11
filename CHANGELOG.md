@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Add Disabled parameter
+- Add Disabled Parameter (#24)
+- Add ability to move parameters up and down (#19)
 
 ## 1.0.0 (2022-05-11)
 
