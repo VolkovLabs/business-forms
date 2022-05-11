@@ -1,7 +1,13 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, FieldSet, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
-import { InputParameterType, InputParameterTypeOptions, SliderDefault } from '../../constants';
+import {
+  InputParameterDefault,
+  InputParameterOptionDefault,
+  InputParameterType,
+  InputParameterTypeOptions,
+  SliderDefault,
+} from '../../constants';
 import { InputParameter } from '../../types';
 
 /**
@@ -12,14 +18,15 @@ interface Props extends StandardEditorProps<InputParameter[]> {}
 /**
  * Input Parameters Editor
  */
-export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
-  const defaultParameter: InputParameter = { id: '', title: '', type: InputParameterType.STRING };
-
+export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onChange }) => {
   /**
    * States
    */
-  const [newParameter, setNewParameter] = useState(defaultParameter);
-  const [parameters, setParameters] = useState(value || []);
+  const [newParameter, setNewParameter] = useState(InputParameterDefault);
+
+  if (!parameters || !parameters.length) {
+    parameters = [];
+  }
 
   /**
    * Remove Parameter
@@ -30,7 +37,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
     /**
      * Update Parameters
      */
-    setParameters(updated);
     onChange(updated);
   };
 
@@ -52,13 +58,12 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
     /**
      * Update Parameters
      */
-    setParameters(updated);
     onChange(updated);
 
     /**
      * Reset input values
      */
-    setNewParameter(defaultParameter);
+    setNewParameter(InputParameterDefault);
   };
 
   /**
@@ -74,7 +79,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                 placeholder="Id"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   parameter.id = event.target.value;
-                  setParameters(parameters);
                   onChange(parameters);
                 }}
                 value={parameter.id}
@@ -90,7 +94,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
               placeholder="Title"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 parameter.title = event.target.value;
-                setParameters(parameters);
                 onChange(parameters);
               }}
               value={parameter.title}
@@ -102,7 +105,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
               options={InputParameterTypeOptions}
               onChange={(event: SelectableValue) => {
                 parameter.type = event?.value;
-                setParameters(parameters);
                 onChange(parameters);
               }}
               value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
@@ -116,7 +118,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                   placeholder="Min"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     parameter.min = Number(event.target.value);
-                    setParameters(parameters);
                     onChange(parameters);
                   }}
                   type="number"
@@ -129,7 +130,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                   placeholder="Max"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     parameter.max = Number(event.target.value);
-                    setParameters(parameters);
                     onChange(parameters);
                   }}
                   type="number"
@@ -142,7 +142,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                   placeholder="Step"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     parameter.step = Number(event.target.value);
-                    setParameters(parameters);
                     onChange(parameters);
                   }}
                   type="number"
@@ -156,13 +155,12 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
           {(parameter.type === InputParameterType.RADIO || parameter.type === InputParameterType.SELECT) && (
             <div>
               {Array.from(parameter.options || []).map((option) => (
-                <InlineFieldRow>
+                <InlineFieldRow key={parameter.id}>
                   <InlineField label="Value" labelWidth={8}>
                     <Input
                       placeholder="value"
                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         option.value = event.target.value;
-                        setParameters(parameters);
                         onChange(parameters);
                       }}
                       value={option.value}
@@ -173,7 +171,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                       placeholder="label"
                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         option.label = event.target.value;
-                        setParameters(parameters);
                         onChange(parameters);
                       }}
                       value={option.label}
@@ -183,7 +180,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                     variant="secondary"
                     onClick={(e) => {
                       parameter.options = parameter.options?.filter((o) => o.value !== option.value);
-                      setParameters([...parameters]);
                       onChange(parameters);
                     }}
                     icon="minus"
@@ -195,12 +191,11 @@ export const InputParametersEditor: React.FC<Props> = ({ value, onChange }) => {
                 variant="secondary"
                 onClick={(e) => {
                   if (parameter.options) {
-                    parameter.options.push({ value: '', label: '' });
+                    parameter.options.push(InputParameterOptionDefault);
                   } else {
-                    parameter.options = [{ value: '', label: '' }];
+                    parameter.options = [InputParameterOptionDefault];
                   }
 
-                  setParameters([...parameters]);
                   onChange(parameters);
                 }}
                 icon="plus"
