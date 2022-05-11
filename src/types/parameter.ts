@@ -60,4 +60,11 @@ export interface InputParameter {
    * @type {number}
    */
   step?: number;
+
+  /**
+   * Rows
+   *
+   * @type {number}
+   */
+  rows?: number;
 }

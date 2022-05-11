@@ -136,7 +136,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 9,
+        "h": 12,
         "w": 9,
         "x": 0,
         "y": 6
@@ -161,13 +161,13 @@
             "id": "name",
             "title": "Name",
             "type": "string",
-            "value": "Hello"
+            "value": "Test"
           },
           {
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "value": "123"
+            "value": "1234"
           },
           {
             "id": "updated",
@@ -182,7 +182,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "value": 3
+            "value": 1
           },
           {
             "id": "select",
@@ -202,7 +202,7 @@
             ],
             "title": "Select",
             "type": "select",
-            "value": "avg"
+            "value": "max"
           },
           {
             "id": "radio",
@@ -218,7 +218,13 @@
             ],
             "title": "Radio",
             "type": "radio",
-            "value": "plus"
+            "value": "minus"
+          },
+          {
+            "id": "text",
+            "rows": 4,
+            "title": "Text",
+            "type": "textarea"
           }
         ],
         "reset": {
@@ -265,6 +271,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 12,
+  "version": 13,
   "weekStart": ""
 }

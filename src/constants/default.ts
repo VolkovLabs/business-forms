@@ -1,4 +1,3 @@
-import { SelectableValue } from '@grafana/data';
 import { InputParameter } from '../types';
 import { InputParameterType } from './parameter';
 
@@ -39,4 +38,3 @@ export const SliderDefault = {
  * Input Parameter
  */
 export const InputParameterDefault: InputParameter = { id: '', title: '', type: InputParameterType.STRING };
-export const InputParameterOptionDefault: SelectableValue = { value: '', label: '' };

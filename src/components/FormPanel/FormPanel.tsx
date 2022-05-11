@@ -13,6 +13,7 @@ import {
   RadioButtonGroup,
   Select,
   Slider,
+  TextArea,
 } from '@grafana/ui';
 import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
@@ -228,6 +229,19 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
                     onOptionsChange(options);
                   }}
                   type="text"
+                />
+              </InlineField>
+            )}
+
+            {parameter.type === InputParameterType.TEXTAREA && (
+              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
+                <TextArea
+                  value={parameter.value}
+                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+                    parameter.value = event.target.value;
+                    onOptionsChange(options);
+                  }}
+                  rows={parameter.rows}
                 />
               </InlineField>
             )}
