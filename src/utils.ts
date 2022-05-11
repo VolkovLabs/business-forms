@@ -10,8 +10,8 @@ export const CapitalizeFirstLetter = (str: string) => {
 /**
  * Move Input Parameters
  */
-export const MoveInputParameters = (array: InputParameter[], from: number, to: number) => {
-  const element = array[from];
-  array.splice(from, 1);
-  array.splice(to, 0, element);
+export const MoveInputParameters = (parameters: InputParameter[], from: number, to: number) => {
+  const element = parameters[from];
+  parameters.splice(from, 1);
+  parameters.splice(to, 0, element);
 };
