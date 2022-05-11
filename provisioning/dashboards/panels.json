@@ -182,7 +182,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "value": 1
+            "value": 5
           },
           {
             "id": "select",
@@ -224,7 +224,14 @@
             "id": "text",
             "rows": 4,
             "title": "Text",
-            "type": "textarea"
+            "type": "textarea",
+            "value": "Text"
+          },
+          {
+            "id": "dateTime",
+            "title": "DateTime",
+            "type": "datetime",
+            "value": "2022-03-31T04:17:49.000Z"
           }
         ],
         "reset": {
@@ -232,7 +239,7 @@
           "foregroundColor": "yellow",
           "icon": "process",
           "text": "Reset",
-          "variant": "hidden"
+          "variant": "secondary"
         },
         "submit": {
           "backgroundColor": "purple",
@@ -271,6 +278,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 13,
+  "version": 16,
   "weekStart": ""
 }
