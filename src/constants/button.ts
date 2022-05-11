@@ -9,7 +9,18 @@ export const enum ButtonVariant {
   SECONDARY = 'secondary',
   DESTRUCTIVE = 'destructive',
   CUSTOM = 'custom',
+  HIDDEN = 'hidden',
 }
+
+/**
+ * Button Variant Hidden
+ */
+export const ButtonVariantHiddenOption: SelectableValue[] = [
+  {
+    value: ButtonVariant.HIDDEN,
+    label: CapitalizeFirstLetter(ButtonVariant.HIDDEN),
+  },
+];
 
 /**
  * Button Variant

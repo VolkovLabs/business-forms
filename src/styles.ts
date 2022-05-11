@@ -8,6 +8,9 @@ export const getStyles = () => {
     wrapper: css`
       position: relative;
     `,
+    margin: css`
+      margin: 5px;
+    `,
     button: {
       center: css`
         display: flex;
