@@ -134,20 +134,17 @@
           {
             "id": "name",
             "title": "Name",
-            "type": "string",
-            "value": "Name"
+            "type": "string"
           },
           {
             "id": "amount",
             "title": "Amount",
-            "type": "number",
-            "value": 30
+            "type": "number"
           },
           {
             "id": "updated",
             "title": "Updated",
-            "type": "boolean",
-            "value": false
+            "type": "boolean"
           },
           {
             "id": "step",
@@ -156,6 +153,40 @@
             "step": 1,
             "title": "Step",
             "type": "slider"
+          },
+          {
+            "id": "select",
+            "options": [
+              {
+                "label": "Max",
+                "value": "max"
+              },
+              {
+                "label": "Min",
+                "value": "min"
+              },
+              {
+                "label": "Average",
+                "value": "avg"
+              }
+            ],
+            "title": "Select",
+            "type": "select"
+          },
+          {
+            "id": "radio",
+            "options": [
+              {
+                "label": "Plus",
+                "value": "plus"
+              },
+              {
+                "label": "Minus",
+                "value": "minus"
+              }
+            ],
+            "title": "Radio",
+            "type": "radio"
           }
         ],
         "submit": {
@@ -195,6 +226,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 6,
+  "version": 9,
   "weekStart": ""
 }
