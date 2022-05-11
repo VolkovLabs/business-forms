@@ -11,6 +11,7 @@ export const enum InputParameterType {
   RADIO = 'radio',
   SLIDER = 'slider',
   SELECT = 'select',
+  TEXTAREA = 'textarea',
 }
 
 /**
@@ -18,20 +19,12 @@ export const enum InputParameterType {
  */
 export const InputParameterTypeOptions: SelectableValue[] = [
   {
-    value: InputParameterType.STRING,
-    label: CapitalizeFirstLetter(InputParameterType.STRING),
-  },
-  {
-    value: InputParameterType.NUMBER,
-    label: CapitalizeFirstLetter(InputParameterType.NUMBER),
-  },
-  {
     value: InputParameterType.BOOLEAN,
     label: CapitalizeFirstLetter(InputParameterType.BOOLEAN),
   },
   {
-    value: InputParameterType.SLIDER,
-    label: CapitalizeFirstLetter(InputParameterType.SLIDER),
+    value: InputParameterType.NUMBER,
+    label: CapitalizeFirstLetter(InputParameterType.NUMBER),
   },
   {
     value: InputParameterType.RADIO,
@@ -40,6 +33,18 @@ export const InputParameterTypeOptions: SelectableValue[] = [
   {
     value: InputParameterType.SELECT,
     label: CapitalizeFirstLetter(InputParameterType.SELECT),
+  },
+  {
+    value: InputParameterType.SLIDER,
+    label: CapitalizeFirstLetter(InputParameterType.SLIDER),
+  },
+  {
+    value: InputParameterType.STRING,
+    label: CapitalizeFirstLetter(InputParameterType.STRING),
+  },
+  {
+    value: InputParameterType.TEXTAREA,
+    label: CapitalizeFirstLetter(InputParameterType.TEXTAREA),
   },
 ];
 
