@@ -7,6 +7,7 @@ import {
   ButtonSize,
   ButtonSizeOptions,
   ButtonVariant,
+  ButtonVariantHiddenOption,
   ButtonVariantOptions,
   CodeEditorDefault,
   CodeLanguageDefault,
@@ -15,6 +16,10 @@ import {
   RequestMethod,
   RequestMethodGetOptions,
   RequestMethodPostOptions,
+  ResetBackgroundColorDefault,
+  ResetForegroundColorDefault,
+  ResetIconDefault,
+  ResetTextDefault,
   SubmitBackgroundColorDefault,
   SubmitForegroundColorDefault,
   SubmitIconDefault,
@@ -133,6 +138,31 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
     });
 
   /**
+   * Buttons
+   */
+  builder
+    .addRadio({
+      path: 'buttonGroup.orientation',
+      name: 'Orientation',
+      category: ['Buttons'],
+      description: 'Buttons orientation on the form',
+      settings: {
+        options: ButtonOrientationOptions,
+      },
+      defaultValue: ButtonOrientation.CENTER,
+    })
+    .addRadio({
+      path: 'buttonGroup.size',
+      name: 'Size',
+      category: ['Buttons'],
+      description: 'Buttons size on the form',
+      settings: {
+        options: ButtonSizeOptions,
+      },
+      defaultValue: ButtonSize.MEDIUM,
+    });
+
+  /**
    * Submit Button
    */
   builder
@@ -140,7 +170,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       path: 'submit.variant',
       name: 'Submit Button',
       category: ['Submit Button'],
-      description: 'Button variant used to render',
+      description: 'Button variant',
       settings: {
         options: ButtonVariantOptions,
       },
@@ -168,26 +198,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       },
       showIf: (config: any) => config.submit.variant === ButtonVariant.CUSTOM,
     })
-    .addRadio({
-      path: 'submit.orientation',
-      name: 'Orientation',
-      category: ['Submit Button'],
-      description: 'Button orientation used to render',
-      settings: {
-        options: ButtonOrientationOptions,
-      },
-      defaultValue: ButtonOrientation.CENTER,
-    })
-    .addRadio({
-      path: 'submit.size',
-      name: 'Size',
-      category: ['Submit Button'],
-      description: 'Button size used to render',
-      settings: {
-        options: ButtonSizeOptions,
-      },
-      defaultValue: ButtonSize.MEDIUM,
-    })
     .addSelect({
       path: 'submit.icon',
       name: 'Icon',
@@ -208,6 +218,67 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       category: ['Submit Button'],
       description: 'The text on the button',
       defaultValue: SubmitTextDefault,
+    });
+
+  /**
+   * Reset Button
+   */
+  builder
+    .addRadio({
+      path: 'reset.variant',
+      name: 'Reset Button',
+      category: ['Reset Button'],
+      description: 'Button variant',
+      settings: {
+        options: [...ButtonVariantHiddenOption, ...ButtonVariantOptions],
+      },
+      defaultValue: ButtonVariant.HIDDEN,
+      showIf: (config: any) => !!config.initial.url,
+    })
+    .addColorPicker({
+      path: 'reset.foregroundColor',
+      name: 'Foreground Color',
+      category: ['Reset Button'],
+      description: 'Foreground color of the button',
+      defaultValue: ResetForegroundColorDefault,
+      settings: {
+        disableNamedColors: true,
+      },
+      showIf: (config: any) => config.reset.variant === ButtonVariant.CUSTOM,
+    })
+    .addColorPicker({
+      path: 'reset.backgroundColor',
+      name: 'Background Color',
+      category: ['Reset Button'],
+      description: 'Background color of the button',
+      defaultValue: ResetBackgroundColorDefault,
+      settings: {
+        disableNamedColors: true,
+      },
+      showIf: (config: any) => config.reset.variant === ButtonVariant.CUSTOM,
+    })
+    .addSelect({
+      path: 'reset.icon',
+      name: 'Icon',
+      category: ['Reset Button'],
+      settings: {
+        options: getAvailableIcons().map((icon): SelectableValue => {
+          return {
+            value: icon,
+            label: icon,
+          };
+        }),
+      },
+      defaultValue: ResetIconDefault,
+      showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
+    })
+    .addTextInput({
+      path: 'reset.text',
+      name: 'Text',
+      category: ['Reset Button'],
+      description: 'The text on the button',
+      defaultValue: ResetTextDefault,
+      showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
     });
 
   return builder;

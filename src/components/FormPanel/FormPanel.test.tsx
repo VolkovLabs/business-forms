@@ -1,12 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { InputParameterType } from '../../constants';
+import { ButtonOrientation, InputParameterDefault } from '../../constants';
 import { FormPanel } from './FormPanel';
-
-/**
- * Initial Parameters
- */
-const parameters = [{ id: 'name', title: 'Name', type: InputParameterType.STRING }];
 
 /**
  * Panel
@@ -18,7 +13,9 @@ describe('Panel', () => {
         submit: {},
         initial: {},
         update: {},
-        parameters,
+        reset: {},
+        buttonGroup: { orientation: ButtonOrientation.CENTER },
+        parameters: [InputParameterDefault],
       },
       ...restProps
     }: any) => {
@@ -26,12 +23,21 @@ describe('Panel', () => {
     };
 
     const wrapper = shallow(getComponent({}));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    const fieldSet = wrapper.find('FieldSet');
+    expect(fieldSet.exists()).toBeTruthy();
   });
 
   it('Should find component with Alert message', async () => {
-    const getComponent = ({ options = { submit: {}, initial: {}, update: {} }, ...restProps }: any) => {
+    const getComponent = ({
+      options = {
+        submit: {},
+        initial: {},
+        update: {},
+        reset: {},
+        buttonGroup: { orientation: ButtonOrientation.CENTER },
+      },
+      ...restProps
+    }: any) => {
       return <FormPanel {...restProps} options={options} />;
     };
 
