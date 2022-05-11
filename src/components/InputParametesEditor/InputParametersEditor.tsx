@@ -48,16 +48,16 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
      * Slider values
      */
     if (newParameter.type === InputParameterType.SLIDER) {
-      newParameter.min = SliderDefault.max;
-      newParameter.max = SliderDefault.min;
+      newParameter.min = SliderDefault.min;
+      newParameter.max = SliderDefault.max;
       newParameter.step = SliderDefault.step;
+      newParameter.value = SliderDefault.value;
     }
-
-    const updated = [...parameters, newParameter];
 
     /**
      * Update Parameters
      */
+    const updated = [...parameters, newParameter];
     onChange(updated);
 
     /**

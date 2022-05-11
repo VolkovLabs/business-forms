@@ -25,9 +25,8 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Panel
  */
-export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
+export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsChange }) => {
   const styles = getStyles();
-  const [parameters, setParameters] = useState(options.parameters);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
@@ -42,7 +41,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
    */
   const executeCustomCode = (code: string, response: Response | void) => {
     const f = new Function('options', 'response', 'parameters', 'locationService', 'templateService', code);
-    f(options, response, parameters, locationService, templateSrv);
+    f(options, response, options.parameters, locationService, templateSrv);
   };
 
   /**
@@ -70,7 +69,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
       /**
        * Set Parameters
        */
-      parameters.forEach((parameter) => {
+      options.parameters.forEach((parameter) => {
         body[parameter.id] = parameter.value;
       });
     }
@@ -108,7 +107,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
     /**
      * Check Parameters
      */
-    if (!parameters || !parameters.length || !options.initial.url) {
+    if (!options.parameters || !options.parameters.length || !options.initial.url) {
       /**
        * Execute Custom Code and reset Loading
        */
@@ -157,14 +156,14 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
         /**
          * Set Parameter values
          */
-        parameters.forEach((parameter) => {
+        options.parameters.forEach((parameter) => {
           parameter.value = body[parameter.id];
         });
 
         /**
          * Set Parameters
          */
-        setParameters([...parameters]);
+        onOptionsChange(options);
         setTitle('Values updated.');
       }
 
@@ -180,16 +179,9 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
   }, []);
 
   /**
-   * Update Parameters from Panel Options
-   */
-  useEffect(() => {
-    setParameters(options.parameters);
-  }, [options.parameters]);
-
-  /**
    * Check Parameters
    */
-  if (!parameters || !parameters.length) {
+  if (!options.parameters || !options.parameters.length) {
     return (
       <Alert severity="info" title="Input Parameters">
         Please add parameters in Panel Options.
@@ -210,7 +202,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
         `
       )}
     >
-      {parameters.map((parameter) => {
+      {options.parameters.map((parameter) => {
         return (
           <InlineFieldRow key={parameter.id}>
             {parameter.type === InputParameterType.NUMBER && (
@@ -219,7 +211,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     parameter.value = event.target.value;
-                    setParameters([...parameters]);
+                    onOptionsChange(options);
                   }}
                   type="number"
                 />
@@ -232,7 +224,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     parameter.value = event.target.value;
-                    setParameters([...parameters]);
+                    onOptionsChange(options);
                   }}
                   type="text"
                 />
@@ -245,7 +237,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                   value={parameter.value}
                   onChange={(value: Boolean) => {
                     parameter.value = value;
-                    setParameters([...parameters]);
+                    onOptionsChange(options);
                   }}
                   options={BooleanParameterOptions}
                 />
@@ -255,10 +247,10 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
             {parameter.type === InputParameterType.SLIDER && parameter.value != null && (
               <InlineField label={parameter.title} grow labelWidth={10}>
                 <Slider
-                  value={parameter.value}
+                  value={parameter.value || 0}
                   onChange={(value: number) => {
                     parameter.value = value;
-                    setParameters([...parameters]);
+                    onOptionsChange(options);
                   }}
                   min={parameter.min || 0}
                   max={parameter.max || 0}
@@ -273,7 +265,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                   value={parameter.value}
                   onChange={(value: any) => {
                     parameter.value = value;
-                    setParameters([...parameters]);
+                    onOptionsChange(options);
                   }}
                   options={parameter.options || []}
                 />
@@ -286,7 +278,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height }) => {
                   value={parameter.value}
                   onChange={(event: SelectableValue) => {
                     parameter.value = event?.value;
-                    setParameters([...parameters]);
+                    onOptionsChange(options);
                   }}
                   options={parameter.options || []}
                 />

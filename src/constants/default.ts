@@ -44,6 +44,7 @@ export const SliderDefault = {
   min: 0,
   max: 10,
   step: 1,
+  value: 0,
 };
 
 /**
