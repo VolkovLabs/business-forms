@@ -8,6 +8,13 @@ export const getStyles = () => {
     wrapper: css`
       position: relative;
     `,
+    table: css`
+      width: 100%;
+    `,
+    td: css`
+      padding: 10px;
+      vertical-align: top;
+    `,
     margin: css`
       margin: 5px;
     `,

@@ -13,6 +13,8 @@ import {
   CodeLanguageDefault,
   ContentType,
   ContentTypeOptions,
+  LayoutVariant,
+  LayoutVariantOptions,
   RequestMethod,
   RequestMethodGetOptions,
   RequestMethodPostOptions,
@@ -279,6 +281,34 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       description: 'The text on the button',
       defaultValue: ResetTextDefault,
       showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
+    });
+
+  /**
+   * Layout
+   */
+  builder
+    .addRadio({
+      path: 'layout.variant',
+      name: 'Layout',
+      category: ['Layout'],
+      settings: {
+        options: LayoutVariantOptions,
+      },
+      defaultValue: LayoutVariant.SINGLE,
+    })
+    .addTextInput({
+      path: 'layout.textLeft',
+      name: 'Text on Left',
+      category: ['Layout'],
+      description: 'The text for the Left side',
+      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
+    })
+    .addTextInput({
+      path: 'layout.textRight',
+      name: 'Text on Right',
+      category: ['Layout'],
+      description: 'The text for the Right side',
+      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
     });
 
   return builder;
