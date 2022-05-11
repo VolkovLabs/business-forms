@@ -3,7 +3,7 @@ import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, FieldSet } from '@grafana/ui';
-import { ButtonVariant, RequestMethod } from '../../constants';
+import { ButtonVariant, InputParameterType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
 import { InputParameters } from '../InputParameters';
@@ -188,7 +188,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    * Return
    */
   return (
-    <FieldSet
+    <div
       className={cx(
         styles.wrapper,
         css`
@@ -197,60 +197,96 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
         `
       )}
     >
-      <InputParameters options={options} onOptionsChange={onOptionsChange}></InputParameters>
-
-      <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
-        <Button
-          className={cx(styles.margin)}
-          variant={options.submit.variant as any}
-          icon={options.submit.icon}
-          title={title}
-          style={
-            options.submit.variant === ButtonVariant.CUSTOM
-              ? {
-                  background: 'none',
-                  border: 'none',
-                  backgroundColor: options.submit.backgroundColor,
-                  color: options.submit.foregroundColor,
-                }
-              : {}
-          }
-          disabled={loading || !options.update.url}
-          onClick={updateRequest}
-          size={options.buttonGroup.size}
-        >
-          {options.submit.text}
-        </Button>
-
-        {options.reset.variant !== ButtonVariant.HIDDEN && (
-          <Button
-            className={cx(styles.margin)}
-            variant={options.reset.variant as any}
-            icon={options.reset.icon}
-            style={
-              options.reset.variant === ButtonVariant.CUSTOM
-                ? {
-                    background: 'none',
-                    border: 'none',
-                    backgroundColor: options.reset.backgroundColor,
-                    color: options.reset.foregroundColor,
-                  }
-                : {}
-            }
-            disabled={loading || !options.initial.url}
-            onClick={initialRequest}
-            size={options.buttonGroup.size}
-          >
-            {options.reset.text}
-          </Button>
+      <table className={styles.table}>
+        {options.layout.variant === LayoutVariant.SINGLE && (
+          <tr>
+            <td>
+              <FieldSet label={options.layout.textRight}>
+                <InputParameters options={options} onOptionsChange={onOptionsChange}></InputParameters>
+              </FieldSet>
+            </td>
+          </tr>
         )}
-      </ButtonGroup>
+
+        {options.layout.variant === LayoutVariant.SPLIT && (
+          <tr>
+            <td className={styles.td}>
+              <FieldSet label={options.layout.textLeft}>
+                <InputParameters
+                  options={options}
+                  hide={[InputParameterType.DISABLED]}
+                  onOptionsChange={onOptionsChange}
+                ></InputParameters>
+              </FieldSet>
+            </td>
+            <td className={styles.td}>
+              <FieldSet label={options.layout.textRight}>
+                <InputParameters
+                  options={options}
+                  display={[InputParameterType.DISABLED]}
+                  onOptionsChange={onOptionsChange}
+                ></InputParameters>
+              </FieldSet>
+            </td>
+          </tr>
+        )}
+        <tr>
+          <td colSpan={2}>
+            <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
+              <Button
+                className={cx(styles.margin)}
+                variant={options.submit.variant as any}
+                icon={options.submit.icon}
+                title={title}
+                style={
+                  options.submit.variant === ButtonVariant.CUSTOM
+                    ? {
+                        background: 'none',
+                        border: 'none',
+                        backgroundColor: options.submit.backgroundColor,
+                        color: options.submit.foregroundColor,
+                      }
+                    : {}
+                }
+                disabled={loading || !options.update.url}
+                onClick={updateRequest}
+                size={options.buttonGroup.size}
+              >
+                {options.submit.text}
+              </Button>
+
+              {options.reset.variant !== ButtonVariant.HIDDEN && (
+                <Button
+                  className={cx(styles.margin)}
+                  variant={options.reset.variant as any}
+                  icon={options.reset.icon}
+                  style={
+                    options.reset.variant === ButtonVariant.CUSTOM
+                      ? {
+                          background: 'none',
+                          border: 'none',
+                          backgroundColor: options.reset.backgroundColor,
+                          color: options.reset.foregroundColor,
+                        }
+                      : {}
+                  }
+                  disabled={loading || !options.initial.url}
+                  onClick={initialRequest}
+                  size={options.buttonGroup.size}
+                >
+                  {options.reset.text}
+                </Button>
+              )}
+            </ButtonGroup>
+          </td>
+        </tr>
+      </table>
 
       {error && (
         <Alert severity="error" title="Request">
           {error}
         </Alert>
       )}
-    </FieldSet>
+    </div>
   );
 };

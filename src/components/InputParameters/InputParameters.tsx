@@ -28,15 +28,39 @@ interface Props {
    * On Options Change
    */
   onOptionsChange: any;
+
+  /**
+   * Display
+   */
+  display?: InputParameterType[];
+
+  /**
+   * Hide
+   */
+  hide?: InputParameterType[];
 }
 
 /**
  * Input Parameters
  */
-export const InputParameters: React.FC<Props> = ({ options, onOptionsChange }) => {
+export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, display, hide }) => {
   return (
     <div>
       {options.parameters.map((parameter) => {
+        /**
+         * Skip Hidden Parameters
+         */
+        if (hide?.length && hide.indexOf(parameter.type) > -1) {
+          return;
+        }
+
+        if (display?.length && display.indexOf(parameter.type) === -1) {
+          return;
+        }
+
+        /**
+         * Return
+         */
         return (
           <InlineFieldRow key={parameter.id}>
             {parameter.type === InputParameterType.NUMBER && (
