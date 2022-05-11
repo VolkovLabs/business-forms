@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
-import { Button, FieldSet, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
+import { Button, CollapsableSection, IconButton, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
 import { InputParameterDefault, InputParameterType, InputParameterTypeOptions, SliderDefault } from '../../constants';
 import { InputParameter } from '../../types';
+import { MoveInputParameters } from '../../utils';
 
 /**
  * Properties
@@ -65,8 +66,38 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
    */
   return (
     <div>
-      {parameters.map((parameter) => (
-        <FieldSet key={parameter.id} label={`Parameter: ${parameter.id}`}>
+      {parameters.map((parameter, id) => (
+        <CollapsableSection
+          key={parameter.id}
+          label={
+            <>
+              {id > 0 && (
+                <IconButton
+                  name="arrow-up"
+                  tooltip="Move Up"
+                  onClick={(event) => {
+                    MoveInputParameters(parameters, id, id - 1);
+                    onChange(parameters);
+                    event.stopPropagation();
+                  }}
+                />
+              )}
+              {id < parameters.length - 1 && (
+                <IconButton
+                  name="arrow-down"
+                  tooltip="Move Down"
+                  onClick={(event) => {
+                    MoveInputParameters(parameters, id, id + 1);
+                    onChange(parameters);
+                    event.stopPropagation();
+                  }}
+                />
+              )}
+              {parameter.title} [{parameter.id}]
+            </>
+          }
+          isOpen={false}
+        >
           <InlineFieldRow>
             <InlineField label="Id" labelWidth={8} invalid={parameter.id === ''}>
               <Input
@@ -226,10 +257,11 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               </Button>
             </div>
           )}
-        </FieldSet>
+        </CollapsableSection>
       ))}
 
-      <FieldSet label="New Parameter">
+      <hr />
+      <CollapsableSection label="Add Parameter" isOpen={true}>
         <InlineField label="Id" grow labelWidth={8} invalid={newParameter.id === ''}>
           <Input
             placeholder="Id"
@@ -268,7 +300,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
         >
           Add Parameter
         </Button>
-      </FieldSet>
+      </CollapsableSection>
     </div>
   );
 };

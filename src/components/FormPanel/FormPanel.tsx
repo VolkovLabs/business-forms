@@ -43,6 +43,10 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    * Execute Custom Code
    */
   const executeCustomCode = (code: string, response: Response | void) => {
+    if (!code) {
+      return;
+    }
+
     const f = new Function('options', 'response', 'parameters', 'locationService', 'templateService', code);
     f(options, response, options.parameters, locationService, templateSrv);
   };
