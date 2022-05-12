@@ -14,6 +14,7 @@ export const enum InputParameterType {
   SECRET = 'secret',
   DATETIME = 'datetime',
   DISABLED = 'disabled',
+  PASSWORD = 'password',
 }
 
 /**
@@ -35,6 +36,10 @@ export const InputParameterTypeOptions: SelectableValue[] = [
   {
     value: InputParameterType.SLIDER,
     label: 'Number Slider',
+  },
+  {
+    value: InputParameterType.PASSWORD,
+    label: 'Password Input',
   },
   {
     value: InputParameterType.BOOLEAN,
