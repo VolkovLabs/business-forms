@@ -62,7 +62,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       path: 'initial.url',
       name: 'URL',
       category: ['Initial Request'],
-      description: 'The URL to call',
+      description: 'The URL to call. Leave empty to skip Initial Request.',
       settings: {
         placeholder: 'http://',
       },

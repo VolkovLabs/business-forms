@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
-import { getTemplateSrv, locationService } from '@grafana/runtime';
+import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, FieldSet } from '@grafana/ui';
 import { ButtonVariant, InputParameterType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
@@ -16,7 +16,7 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Panel
  */
-export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsChange }) => {
+export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsChange, eventBus, replaceVariables }) => {
   const styles = getStyles();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -26,13 +26,6 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    * Template Service
    */
   const templateSrv: any = getTemplateSrv();
-
-  /**
-   * Interpolate Variables
-   */
-  const interpolateVariables = (text: string) => {
-    return templateSrv.replace(text);
-  };
 
   /**
    * Execute Custom Code
@@ -48,7 +41,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
       'parameters',
       'locationService',
       'templateService',
-      interpolateVariables(code)
+      replaceVariables(code)
     );
 
     try {
@@ -92,10 +85,10 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     /**
      * Fetch
      */
-    const response = await fetch(interpolateVariables(options.update.url), {
+    const response = await fetch(replaceVariables(options.update.url), {
       method: options.update.method,
       headers,
-      body: interpolateVariables(JSON.stringify(body)),
+      body: replaceVariables(JSON.stringify(body)),
     }).catch((error: Error) => {
       console.error(error);
       setError(error.toString());
@@ -130,7 +123,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     /**
      * Fetch
      */
-    const response = await fetch(interpolateVariables(options.initial.url), {
+    const response = await fetch(replaceVariables(options.initial.url), {
       method: options.initial.method,
       headers,
     }).catch((error: Error) => {
@@ -189,7 +182,21 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
       return;
     }
 
+    /**
+     * On Load
+     */
     initialRequest();
+
+    /**
+     * On Refresh
+     */
+    const subscriber = eventBus.getStream(RefreshEvent).subscribe((event) => {
+      initialRequest();
+    });
+
+    return () => {
+      subscriber.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
