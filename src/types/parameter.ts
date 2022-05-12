@@ -34,6 +34,13 @@ export interface InputParameter {
   value?: any;
 
   /**
+   * Unit
+   *
+   * @type {string}
+   */
+  unit?: string;
+
+  /**
    * Options
    *
    * @type {SelectableValue[]}

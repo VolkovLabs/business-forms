@@ -124,27 +124,40 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
             <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt"></Button>
           </InlineFieldRow>
 
-          <InlineField label="Type" grow labelWidth={8}>
-            <Select
-              options={InputParameterTypeOptions}
-              onChange={(event: SelectableValue) => {
-                parameter.type = event?.value;
+          <InlineFieldRow>
+            <InlineField label="Type" grow labelWidth={8}>
+              <Select
+                options={InputParameterTypeOptions}
+                onChange={(event: SelectableValue) => {
+                  parameter.type = event?.value;
 
-                /**
-                 * Slider values
-                 */
-                if (parameter.type === InputParameterType.SLIDER) {
-                  parameter.min = SliderDefault.min;
-                  parameter.max = SliderDefault.max;
-                  parameter.step = SliderDefault.step;
-                  parameter.value = SliderDefault.value;
-                }
+                  /**
+                   * Slider values
+                   */
+                  if (parameter.type === InputParameterType.SLIDER) {
+                    parameter.min = SliderDefault.min;
+                    parameter.max = SliderDefault.max;
+                    parameter.step = SliderDefault.step;
+                    parameter.value = SliderDefault.value;
+                  }
 
-                onChange(parameters);
-              }}
-              value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
-            />
-          </InlineField>
+                  onChange(parameters);
+                }}
+                value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
+              />
+            </InlineField>
+
+            <InlineField label="Unit" labelWidth={8}>
+              <Input
+                placeholder="Unit"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  parameter.unit = event.target.value;
+                  onChange(parameters);
+                }}
+                value={parameter.unit}
+              />
+            </InlineField>
+          </InlineFieldRow>
 
           {parameter.type === InputParameterType.SLIDER && (
             <InlineFieldRow>
