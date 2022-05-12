@@ -67,20 +67,21 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
      * Set Headers
      */
     const headers: HeadersInit = new Headers();
-    if (
-      options.update.method === RequestMethod.POST ||
-      options.update.method === RequestMethod.PUT ||
-      options.update.method === RequestMethod.PATCH
-    ) {
-      headers.set('Content-Type', options.update.contentType);
+    headers.set('Content-Type', options.update.contentType);
 
-      /**
-       * Set Parameters
-       */
-      options.parameters.forEach((parameter) => {
-        body[parameter.id] = parameter.value;
-      });
-    }
+    /**
+     * Set Parameters
+     */
+    options.parameters.forEach((parameter) => {
+      body[parameter.id] = parameter.value;
+    });
+
+    /**
+     * Set Header
+     */
+    options.update.header?.forEach((parameter) => {
+      headers.set(replaceVariables(parameter.name), replaceVariables(parameter.value));
+    });
 
     /**
      * Fetch
@@ -119,6 +120,13 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     if (options.initial.method === RequestMethod.POST) {
       headers.set('Content-Type', options.initial.contentType);
     }
+
+    /**
+     * Set Header
+     */
+    options.initial.header?.forEach((parameter) => {
+      headers.set(replaceVariables(parameter.name), replaceVariables(parameter.value));
+    });
 
     /**
      * Fetch
