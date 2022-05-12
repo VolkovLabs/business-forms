@@ -11,7 +11,7 @@
 - Added Min and Max for Numbers (#29)
 - Added Unit Label (#31)
 - Added Header Parameters (#32)
-- Added Password Input
+- Added Password Input (#33)
 - Subscribed to Refresh Events (#30)
 
 ## 1.0.0 (2022-05-11)
