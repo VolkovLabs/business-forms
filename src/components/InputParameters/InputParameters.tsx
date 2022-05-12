@@ -72,6 +72,8 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
                     onOptionsChange(options);
                   }}
                   type="number"
+                  min={parameter.min !== null ? parameter.min : ''}
+                  max={parameter.max !== null ? parameter.max : ''}
                 />
               </InlineField>
             )}

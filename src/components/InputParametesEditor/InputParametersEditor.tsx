@@ -187,6 +187,35 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
             </InlineFieldRow>
           )}
 
+          {parameter.type === InputParameterType.NUMBER && (
+            <InlineFieldRow>
+              <InlineField label="Min" labelWidth={8}>
+                <Input
+                  placeholder="Min"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.min = Number(event.target.value);
+                    onChange(parameters);
+                  }}
+                  type="number"
+                  width={10}
+                  value={parameter.min}
+                />
+              </InlineField>
+              <InlineField label="Max" labelWidth={8}>
+                <Input
+                  placeholder="Max"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.max = Number(event.target.value);
+                    onChange(parameters);
+                  }}
+                  type="number"
+                  width={10}
+                  value={parameter.max}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
+
           {parameter.type === InputParameterType.TEXTAREA && (
             <InlineFieldRow>
               <InlineField label="Rows" labelWidth={8}>
