@@ -1,4 +1,5 @@
 import { ContentType, RequestMethod } from '../constants';
+import { HeaderParameter } from './header-parameter';
 
 /**
  * Request Options
@@ -17,6 +18,13 @@ export interface RequestOptions {
    * @type {string}
    */
   url: string;
+
+  /**
+   * Header Parameters
+   *
+   * @type {HeaderParameter[]}
+   */
+  header: HeaderParameter[];
 
   /**
    * Content-Type

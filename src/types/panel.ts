@@ -1,6 +1,6 @@
 import { ButtonGroupOptions, ButtonOptions } from './button';
+import { InputParameter } from './input-parameter';
 import { LayoutOptions } from './layout';
-import { InputParameter } from './parameter';
 import { RequestOptions } from './request';
 
 /**
