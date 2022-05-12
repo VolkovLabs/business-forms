@@ -44,11 +44,12 @@ yarn run start
 
 ## Features
 
-- Provides functionality to create customizable forms.
-- Supported Parameters:
+- Provides functionality to create customizable forms with parameters:
   - Date and Time Input
+  - Disabled Input
   - Number Input
   - Number Slider
+  - Password Input
   - Radio Group with Boolean options
   - Radio Group with Custom options
   - Select with Custom options
@@ -56,7 +57,8 @@ yarn run start
   - Text Area
 - Supports the Custom Code after Initial and Update requests.
 - Allows to specify GET request to get initial values and POST, PUT, PATCH request to send values updated in the form.
-- Allows to customize Submit, Reset buttons.
+- Allows to add Header fields to Initial and Update requests.
+- Allows to customize Submit, Reset buttons and form layout.
 
 ## Feedback
 
