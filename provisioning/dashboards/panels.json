@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1652320221380,
+  "iteration": 1652322001213,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -226,6 +226,12 @@
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
           "method": "GET",
           "url": "http://localhost:3001/${var}"
         },
@@ -335,6 +341,12 @@
         "update": {
           "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
           "contentType": "application/json",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
           "method": "POST",
           "url": "http://localhost:3001/${var}"
         },
@@ -527,6 +539,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 11,
+  "version": 14,
   "weekStart": ""
 }
