@@ -12,7 +12,7 @@ export const getStyles = () => {
       width: 100%;
     `,
     td: css`
-      padding: 10px;
+      padding: 20px;
       vertical-align: top;
     `,
     margin: css`

@@ -4,6 +4,7 @@ import {
   DateTimePicker,
   InlineField,
   InlineFieldRow,
+  InlineLabel,
   Input,
   RadioButtonGroup,
   Select,
@@ -174,6 +175,12 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
                   options={parameter.options || []}
                 />
               </InlineField>
+            )}
+
+            {parameter.unit && (
+              <InlineLabel transparent width={4}>
+                {parameter.unit}
+              </InlineLabel>
             )}
           </InlineFieldRow>
         );
