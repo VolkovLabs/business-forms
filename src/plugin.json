@@ -22,7 +22,24 @@
       "large": "img/logo.svg",
       "small": "img/logo.svg"
     },
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "Panel",
+        "path": "img/panel.png"
+      },
+      {
+        "name": "Parameters",
+        "path": "img/parameters.png"
+      },
+      {
+        "name": "Request",
+        "path": "img/request.png"
+      },
+      {
+        "name": "Visual",
+        "path": "img/visual.png"
+      }
+    ],
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
