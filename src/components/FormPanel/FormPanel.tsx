@@ -28,6 +28,13 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
   const templateSrv: any = getTemplateSrv();
 
   /**
+   * Interpolate Variables
+   */
+  const interpolateVariables = (text: string) => {
+    return templateSrv.replace(text);
+  };
+
+  /**
    * Execute Custom Code
    */
   const executeCustomCode = (code: string, response: Response | void) => {
@@ -35,8 +42,21 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
       return;
     }
 
-    const f = new Function('options', 'response', 'parameters', 'locationService', 'templateService', code);
-    f(options, response, options.parameters, locationService, templateSrv);
+    const f = new Function(
+      'options',
+      'response',
+      'parameters',
+      'locationService',
+      'templateService',
+      interpolateVariables(code)
+    );
+
+    try {
+      f(options, response, options.parameters, locationService, templateSrv);
+    } catch (error: any) {
+      console.error(error);
+      setError(error.toString());
+    }
   };
 
   /**
@@ -72,10 +92,10 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     /**
      * Fetch
      */
-    const response = await fetch(options.update.url, {
+    const response = await fetch(interpolateVariables(options.update.url), {
       method: options.update.method,
       headers,
-      body: JSON.stringify(body),
+      body: interpolateVariables(JSON.stringify(body)),
     }).catch((error: Error) => {
       console.error(error);
       setError(error.toString());
@@ -110,7 +130,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     /**
      * Fetch
      */
-    const response = await fetch(options.initial.url, {
+    const response = await fetch(interpolateVariables(options.initial.url), {
       method: options.initial.method,
       headers,
     }).catch((error: Error) => {
