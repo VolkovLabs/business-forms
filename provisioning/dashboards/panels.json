@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1652322001213,
+  "iteration": 1652323340423,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -34,7 +34,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 9,
         "x": 0,
         "y": 0
@@ -86,7 +86,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 7,
         "x": 9,
         "y": 0
@@ -143,7 +143,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 8,
         "x": 16,
         "y": 0
@@ -213,7 +213,7 @@
         "h": 16,
         "w": 9,
         "x": 0,
-        "y": 6
+        "y": 7
       },
       "id": 6,
       "options": {
@@ -244,6 +244,7 @@
             "id": "amount",
             "title": "Amount",
             "type": "number",
+            "unit": "Ghz",
             "value": "112"
           },
           {
@@ -256,7 +257,7 @@
             "id": "name",
             "title": "Name",
             "type": "string",
-            "value": "test"
+            "value": "Custom Form"
           },
           {
             "id": "step",
@@ -285,6 +286,7 @@
             ],
             "title": "Select",
             "type": "select",
+            "unit": "C",
             "value": "max"
           },
           {
@@ -313,6 +315,12 @@
             "title": "Disabled",
             "type": "disabled",
             "value": "34343"
+          },
+          {
+            "id": "password",
+            "title": "Password",
+            "type": "password",
+            "value": "123"
           },
           {
             "id": "text",
@@ -365,7 +373,7 @@
         "h": 16,
         "w": 15,
         "x": 9,
-        "y": 6
+        "y": 7
       },
       "id": 13,
       "options": {
@@ -539,6 +547,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 14,
+  "version": 19,
   "weekStart": ""
 }

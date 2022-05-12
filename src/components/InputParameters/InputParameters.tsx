@@ -80,7 +80,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.STRING && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
+              <InlineField label={parameter.title} grow labelWidth={10}>
                 <Input
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +92,19 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
               </InlineField>
             )}
 
+            {parameter.type === InputParameterType.PASSWORD && (
+              <InlineField label={parameter.title} grow labelWidth={10}>
+                <Input
+                  value={parameter.value}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    parameter.value = event.target.value;
+                    onOptionsChange(options);
+                  }}
+                  type="password"
+                />
+              </InlineField>
+            )}
+
             {parameter.type === InputParameterType.DISABLED && (
               <InlineField label={parameter.title} grow labelWidth={10} disabled>
                 <Input value={parameter.value} type="text" />
@@ -99,7 +112,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.TEXTAREA && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
+              <InlineField label={parameter.title} grow labelWidth={10}>
                 <TextArea
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
