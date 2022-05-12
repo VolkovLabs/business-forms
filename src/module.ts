@@ -1,6 +1,6 @@
 import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
-import { CustomCodeEditor, FormPanel, InputParametersEditor } from './components';
+import { CustomCodeEditor, FormPanel, HeaderParametersEditor, InputParametersEditor } from './components';
 import {
   ButtonOrientation,
   ButtonOrientationOptions,
@@ -67,6 +67,13 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         placeholder: 'http://',
       },
     })
+    .addCustomEditor({
+      id: 'initial.header',
+      path: 'initial.header',
+      name: 'Header Parameters',
+      category: ['Initial Request'],
+      editor: HeaderParametersEditor,
+    })
     .addSelect({
       path: 'initial.contentType',
       name: 'Content-Type',
@@ -113,6 +120,13 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       settings: {
         placeholder: 'http://',
       },
+    })
+    .addCustomEditor({
+      id: 'update.header',
+      path: 'update.header',
+      name: 'Header Parameters',
+      category: ['Update Request'],
+      editor: HeaderParametersEditor,
     })
     .addSelect({
       path: 'update.contentType',
