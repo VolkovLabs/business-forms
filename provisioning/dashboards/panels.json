@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "iteration": 1652314195386,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -226,7 +227,7 @@
           "code": "console.log(response)",
           "contentType": "application/json",
           "method": "GET",
-          "url": "http://localhost:3001"
+          "url": "http://localhost:3001/${var}"
         },
         "layout": {
           "variant": "single"
@@ -335,7 +336,7 @@
           "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
           "contentType": "application/json",
           "method": "POST",
-          "url": "http://localhost:3001/"
+          "url": "http://localhost:3001/${var}"
         },
         "width": 0,
         "widthMode": "auto"
@@ -491,7 +492,28 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "test",
+          "value": "test"
+        },
+        "hide": 0,
+        "label": "Var",
+        "name": "var",
+        "options": [
+          {
+            "selected": true,
+            "text": "test",
+            "value": "test"
+          }
+        ],
+        "query": "test",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -501,6 +523,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 3,
+  "version": 8,
   "weekStart": ""
 }
