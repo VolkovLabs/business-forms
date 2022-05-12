@@ -1,24 +1,12 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { DateTime, PanelProps, SelectableValue } from '@grafana/data';
+import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService } from '@grafana/runtime';
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  DateTimePicker,
-  FieldSet,
-  InlineField,
-  InlineFieldRow,
-  Input,
-  RadioButtonGroup,
-  Select,
-  Slider,
-  TextArea,
-} from '@grafana/ui';
-import { BooleanParameterOptions, ButtonVariant, InputParameterType, RequestMethod } from '../../constants';
+import { Alert, Button, ButtonGroup, FieldSet } from '@grafana/ui';
+import { ButtonVariant, InputParameterType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
+import { InputParameters } from '../InputParameters';
 
 /**
  * Properties
@@ -200,7 +188,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    * Return
    */
   return (
-    <FieldSet
+    <div
       className={cx(
         styles.wrapper,
         css`
@@ -209,175 +197,96 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
         `
       )}
     >
-      {options.parameters.map((parameter) => {
-        return (
-          <InlineFieldRow key={parameter.id}>
-            {parameter.type === InputParameterType.NUMBER && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <Input
-                  value={parameter.value}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.value = event.target.value;
-                    onOptionsChange(options);
-                  }}
-                  type="number"
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.STRING && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
-                <Input
-                  value={parameter.value}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.value = event.target.value;
-                    onOptionsChange(options);
-                  }}
-                  type="text"
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.DISABLED && (
-              <InlineField label={parameter.title} grow labelWidth={10} disabled>
-                <Input value={parameter.value} type="text" />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.TEXTAREA && (
-              <InlineField label={parameter.title} grow labelWidth={10} invalid={parameter.value === ''}>
-                <TextArea
-                  value={parameter.value}
-                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                    parameter.value = event.target.value;
-                    onOptionsChange(options);
-                  }}
-                  rows={parameter.rows}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.BOOLEAN && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <RadioButtonGroup
-                  value={parameter.value}
-                  onChange={(value: Boolean) => {
-                    parameter.value = value;
-                    onOptionsChange(options);
-                  }}
-                  options={BooleanParameterOptions}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.DATETIME && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <DateTimePicker
-                  date={parameter.value}
-                  onChange={(dateTime: DateTime) => {
-                    parameter.value = dateTime;
-                    onOptionsChange(options);
-                  }}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.SLIDER && parameter.value != null && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <Slider
-                  value={parameter.value || 0}
-                  onChange={(value: number) => {
-                    parameter.value = value;
-                    onOptionsChange(options);
-                  }}
-                  min={parameter.min || 0}
-                  max={parameter.max || 0}
-                  step={parameter.step || 0}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.RADIO && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <RadioButtonGroup
-                  value={parameter.value}
-                  onChange={(value: any) => {
-                    parameter.value = value;
-                    onOptionsChange(options);
-                  }}
-                  options={parameter.options || []}
-                />
-              </InlineField>
-            )}
-
-            {parameter.type === InputParameterType.SELECT && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
-                <Select
-                  value={parameter.value}
-                  onChange={(event: SelectableValue) => {
-                    parameter.value = event?.value;
-                    onOptionsChange(options);
-                  }}
-                  options={parameter.options || []}
-                />
-              </InlineField>
-            )}
-          </InlineFieldRow>
-        );
-      })}
-
-      <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
-        <Button
-          className={cx(styles.margin)}
-          variant={options.submit.variant as any}
-          icon={options.submit.icon}
-          title={title}
-          style={
-            options.submit.variant === ButtonVariant.CUSTOM
-              ? {
-                  background: 'none',
-                  border: 'none',
-                  backgroundColor: options.submit.backgroundColor,
-                  color: options.submit.foregroundColor,
-                }
-              : {}
-          }
-          disabled={loading || !options.update.url}
-          onClick={updateRequest}
-          size={options.buttonGroup.size}
-        >
-          {options.submit.text}
-        </Button>
-
-        {options.reset.variant !== ButtonVariant.HIDDEN && (
-          <Button
-            className={cx(styles.margin)}
-            variant={options.reset.variant as any}
-            icon={options.reset.icon}
-            style={
-              options.reset.variant === ButtonVariant.CUSTOM
-                ? {
-                    background: 'none',
-                    border: 'none',
-                    backgroundColor: options.reset.backgroundColor,
-                    color: options.reset.foregroundColor,
-                  }
-                : {}
-            }
-            disabled={loading || !options.initial.url}
-            onClick={initialRequest}
-            size={options.buttonGroup.size}
-          >
-            {options.reset.text}
-          </Button>
+      <table className={styles.table}>
+        {options.layout.variant === LayoutVariant.SINGLE && (
+          <tr>
+            <td>
+              <FieldSet label={options.layout.textRight}>
+                <InputParameters options={options} onOptionsChange={onOptionsChange}></InputParameters>
+              </FieldSet>
+            </td>
+          </tr>
         )}
-      </ButtonGroup>
+
+        {options.layout.variant === LayoutVariant.SPLIT && (
+          <tr>
+            <td className={styles.td}>
+              <FieldSet label={options.layout.textLeft}>
+                <InputParameters
+                  options={options}
+                  hide={[InputParameterType.DISABLED]}
+                  onOptionsChange={onOptionsChange}
+                ></InputParameters>
+              </FieldSet>
+            </td>
+            <td className={styles.td}>
+              <FieldSet label={options.layout.textRight}>
+                <InputParameters
+                  options={options}
+                  display={[InputParameterType.DISABLED]}
+                  onOptionsChange={onOptionsChange}
+                ></InputParameters>
+              </FieldSet>
+            </td>
+          </tr>
+        )}
+        <tr>
+          <td colSpan={2}>
+            <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
+              <Button
+                className={cx(styles.margin)}
+                variant={options.submit.variant as any}
+                icon={options.submit.icon}
+                title={title}
+                style={
+                  options.submit.variant === ButtonVariant.CUSTOM
+                    ? {
+                        background: 'none',
+                        border: 'none',
+                        backgroundColor: options.submit.backgroundColor,
+                        color: options.submit.foregroundColor,
+                      }
+                    : {}
+                }
+                disabled={loading || !options.update.url}
+                onClick={updateRequest}
+                size={options.buttonGroup.size}
+              >
+                {options.submit.text}
+              </Button>
+
+              {options.reset.variant !== ButtonVariant.HIDDEN && (
+                <Button
+                  className={cx(styles.margin)}
+                  variant={options.reset.variant as any}
+                  icon={options.reset.icon}
+                  style={
+                    options.reset.variant === ButtonVariant.CUSTOM
+                      ? {
+                          background: 'none',
+                          border: 'none',
+                          backgroundColor: options.reset.backgroundColor,
+                          color: options.reset.foregroundColor,
+                        }
+                      : {}
+                  }
+                  disabled={loading || !options.initial.url}
+                  onClick={initialRequest}
+                  size={options.buttonGroup.size}
+                >
+                  {options.reset.text}
+                </Button>
+              )}
+            </ButtonGroup>
+          </td>
+        </tr>
+      </table>
 
       {error && (
         <Alert severity="error" title="Request">
           {error}
         </Alert>
       )}
-    </FieldSet>
+    </div>
   );
 };

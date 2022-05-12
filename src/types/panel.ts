@@ -1,4 +1,5 @@
 import { ButtonGroupOptions, ButtonOptions } from './button';
+import { LayoutOptions } from './layout';
 import { InputParameter } from './parameter';
 import { RequestOptions } from './request';
 
@@ -47,4 +48,11 @@ export interface PanelOptions {
    * @type {InputParameter[]}
    */
   parameters: InputParameter[];
+
+  /**
+   * Layout
+   *
+   * @type {LayoutOptions}
+   */
+  layout: LayoutOptions;
 }

@@ -14,6 +14,7 @@ describe('Panel', () => {
         initial: {},
         update: {},
         reset: {},
+        layout: {},
         buttonGroup: { orientation: ButtonOrientation.CENTER },
         parameters: [InputParameterDefault],
       },
@@ -23,8 +24,8 @@ describe('Panel', () => {
     };
 
     const wrapper = shallow(getComponent({}));
-    const fieldSet = wrapper.find('FieldSet');
-    expect(fieldSet.exists()).toBeTruthy();
+    const div = wrapper.find('div');
+    expect(div.exists()).toBeTruthy();
   });
 
   it('Should find component with Alert message', async () => {
