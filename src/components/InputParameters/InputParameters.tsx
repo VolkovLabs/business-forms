@@ -65,7 +65,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
         return (
           <InlineFieldRow key={parameter.id}>
             {parameter.type === InputParameterType.NUMBER && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <Input
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +80,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.STRING && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <Input
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +93,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.PASSWORD && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <Input
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -106,13 +106,19 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.DISABLED && (
-              <InlineField label={parameter.title} grow labelWidth={10} disabled>
+              <InlineField
+                label={parameter.title}
+                grow
+                labelWidth={parameter.labelWidth}
+                tooltip={parameter.tooltip}
+                disabled
+              >
                 <Input value={parameter.value} type="text" />
               </InlineField>
             )}
 
             {parameter.type === InputParameterType.TEXTAREA && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <TextArea
                   value={parameter.value}
                   onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -125,7 +131,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.BOOLEAN && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <RadioButtonGroup
                   value={parameter.value}
                   onChange={(value: Boolean) => {
@@ -138,7 +144,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.DATETIME && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <DateTimePicker
                   date={parameter.value}
                   onChange={(dateTime: DateTime) => {
@@ -150,7 +156,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.SLIDER && parameter.value != null && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <Slider
                   value={parameter.value || 0}
                   onChange={(value: number) => {
@@ -165,7 +171,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.RADIO && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <RadioButtonGroup
                   value={parameter.value}
                   onChange={(value: any) => {
@@ -178,7 +184,7 @@ export const InputParameters: React.FC<Props> = ({ options, onOptionsChange, dis
             )}
 
             {parameter.type === InputParameterType.SELECT && (
-              <InlineField label={parameter.title} grow labelWidth={10}>
+              <InlineField label={parameter.title} grow labelWidth={parameter.labelWidth} tooltip={parameter.tooltip}>
                 <Select
                   value={parameter.value}
                   onChange={(event: SelectableValue) => {

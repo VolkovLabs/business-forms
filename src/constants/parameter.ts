@@ -23,11 +23,11 @@ export const enum InputParameterType {
 export const InputParameterTypeOptions: SelectableValue[] = [
   {
     value: InputParameterType.DATETIME,
-    label: 'Date and Time Input',
+    label: 'Date and Time',
   },
   {
     value: InputParameterType.DISABLED,
-    label: 'Disabled Input',
+    label: 'Disabled',
   },
   {
     value: InputParameterType.NUMBER,
