@@ -9,7 +9,7 @@ const port = 3001;
 /**
   * Connect to Postgres
 */
-const client = new Client({ user: '', password: '' });
+const client = new Client({ host:'host.docker.internal', user: 'postgres', password: 'postgres' });
 client.connect();
  
 /**
@@ -40,8 +40,9 @@ const server = http.createServer(async function (req, res) {
     /**
      * Get values from database
      */
-    // const query = await client.query('Select count(1) from images');
-    // console.log('SELECT Result', res.rows);
+    const query = await client.query('select * from test_table where test_name=$1;', [req.url.replace('/','')]);
+    console.log('SELECT', query.rows[0]);
+    parameters = query.rows[0];
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify(parameters));
@@ -72,7 +73,7 @@ const server = http.createServer(async function (req, res) {
       /**
        * Update the database
        */
-      //await client.query('INSERT INTO images VALUES($1, $2)', ['image-panel', '123']);
+      await client.query('INSERT INTO test_table VALUES($1, $2)', [parameters['test_name'], parameters['test_age']]);
     });
 
     return;
@@ -83,4 +84,4 @@ const server = http.createServer(async function (req, res) {
  * Listen on port 3001
  */
 server.listen(port);
-console.log(`Server is running on port ${port}...`);
+console.log(`Server for Postgres is running on port ${port}...`);
