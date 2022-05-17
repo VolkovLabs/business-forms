@@ -40,7 +40,8 @@ const server = http.createServer(async function (req, res) {
     /**
      * Get values from database
      */
-    // await client.query('INSERT INTO images VALUES($1, $2)', ['image-panel', imgData]);
+    // const query = await client.query('Select count(1) from images');
+    // console.log('SELECT Result', res.rows);
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify(parameters));
@@ -65,14 +66,13 @@ const server = http.createServer(async function (req, res) {
       res.write(`${req.method}: Success!`);
       res.end();
 
+      parameters = JSON.parse(body);
+      console.log('Updated', parameters);
+
       /**
        * Update the database
        */
-      const query = await client.query('Select count(1) from images');
-      console.log('SELECT Result', res.rows);
-
-      parameters = JSON.parse(body);
-      console.log('Updated', parameters);
+      //await client.query('INSERT INTO images VALUES($1, $2)', ['image-panel', '123']);
     });
 
     return;
