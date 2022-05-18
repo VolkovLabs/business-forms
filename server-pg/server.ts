@@ -1,4 +1,5 @@
 const http = require('http');
+const { Client } = require('pg');
 
 /**
  * Server Port
@@ -6,14 +7,19 @@ const http = require('http');
 const port = 3001;
 
 /**
- * Parameters
+ * Connect to Postgres
  */
-let parameters = { name: 'Name', amount: 30, updated: false, step: 4 };
+const client = new Client({
+  host: process.env.POSTGRES_HOST,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+});
+client.connect();
 
 /**
  * Create Server
  */
-const server = http.createServer(function (req, res) {
+const server = http.createServer(async function (req, res) {
   /**
    * Set CORS headers
    */
@@ -32,6 +38,12 @@ const server = http.createServer(function (req, res) {
    * GET
    */
   if (req.method === 'GET') {
+    /**
+     * Get values from database
+     */
+    const query = await client.query('select * from feedbacks where name=$1;', [req.url.replace('/', '')]);
+    const parameters = query.rows[0];
+
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify(parameters));
     res.end();
@@ -50,13 +62,21 @@ const server = http.createServer(function (req, res) {
       body += chunk;
     });
 
-    req.on('end', function () {
+    req.on('end', async function () {
       res.writeHead(200, { 'Content-Type': 'text/plain' });
       res.write(`${req.method}: Success!`);
       res.end();
 
-      parameters = JSON.parse(body);
+      const parameters = JSON.parse(body);
       console.log('Updated', parameters);
+
+      /**
+       * Update the database
+       */
+      await client.query(
+        'INSERT INTO feedbacks(created, name, email, description, type) VALUES(NOW(), $1, $2, $3, $4)',
+        [parameters['name'], parameters['email'], parameters['description'], parameters['type']]
+      );
     });
 
     return;
@@ -67,4 +87,4 @@ const server = http.createServer(function (req, res) {
  * Listen on port 3001
  */
 server.listen(port);
-console.log(`Server is running on port ${port}...`);
+console.log(`Server for Postgres is running on port ${port}...`);

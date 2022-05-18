@@ -1,6 +1,13 @@
 # Change Log
 
-## 1.1.0 (IN PROGRESS)
+## 1.2.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add Label Width and Tooltip (#39)
+- Add Server API for Postgres
+
+## 1.1.0 (2022-05-12)
 
 ### Features / Enhancements
 
