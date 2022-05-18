@@ -110,21 +110,6 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               />
             </InlineField>
 
-            <InlineField label="Title" grow labelWidth={8} invalid={parameter.title === ''}>
-              <Input
-                placeholder="Title"
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  parameter.title = event.target.value;
-                  onChange(parameters);
-                }}
-                value={parameter.title}
-              />
-            </InlineField>
-
-            <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt"></Button>
-          </InlineFieldRow>
-
-          <InlineFieldRow>
             <InlineField label="Type" grow labelWidth={8}>
               <Select
                 options={InputParameterTypeOptions}
@@ -146,8 +131,48 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
                 value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
               />
             </InlineField>
+            <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt"></Button>
+          </InlineFieldRow>
 
-            <InlineField label="Unit" labelWidth={8}>
+          <InlineFieldRow>
+            <InlineField label="Title" grow labelWidth={8} invalid={parameter.title === ''}>
+              <Input
+                placeholder="Title"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  parameter.title = event.target.value;
+                  onChange(parameters);
+                }}
+                value={parameter.title}
+              />
+            </InlineField>
+
+            <InlineField label="Label Width" labelWidth={12}>
+              <Input
+                placeholder="10"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  parameter.labelWidth = Number(event.target.value);
+                  onChange(parameters);
+                }}
+                value={parameter.labelWidth}
+                defaultValue={InputParameterDefault.labelWidth}
+                type="number"
+              />
+            </InlineField>
+          </InlineFieldRow>
+
+          <InlineFieldRow>
+            <InlineField label="Tooltip" grow labelWidth={8}>
+              <Input
+                placeholder="Tooltip"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  parameter.tooltip = event.target.value;
+                  onChange(parameters);
+                }}
+                value={parameter.tooltip}
+              />
+            </InlineField>
+
+            <InlineField label="Unit" labelWidth={12}>
               <Input
                 placeholder="Unit"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {

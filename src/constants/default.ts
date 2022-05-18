@@ -37,4 +37,10 @@ export const SliderDefault = {
 /**
  * Input Parameter
  */
-export const InputParameterDefault: InputParameter = { id: '', title: '', type: InputParameterType.STRING };
+export const InputParameterDefault: InputParameter = {
+  id: '',
+  title: '',
+  type: InputParameterType.STRING,
+  labelWidth: 10,
+  tooltip: '',
+};

@@ -74,4 +74,18 @@ export interface InputParameter {
    * @type {number}
    */
   rows?: number;
+
+  /**
+   * Label Width
+   *
+   * @type {number}
+   */
+  labelWidth: number;
+
+  /**
+   * Tooltip
+   *
+   * @type {string}
+   */
+  tooltip: string;
 }
