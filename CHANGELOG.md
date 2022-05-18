@@ -4,6 +4,7 @@
 
 ### Features / Enhancements
 
+- Add Label Width and Tooltip (#39)
 - Add Server API for Postgres
 
 ## 1.1.0 (2022-05-12)
