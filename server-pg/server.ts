@@ -9,7 +9,11 @@ const port = 3001;
 /**
  * Connect to Postgres
  */
-const client = new Client({ host: 'postgres', user: 'postgres', password: 'postgres' });
+const client = new Client({
+  host: process.env.POSTGRES_HOST,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+});
 client.connect();
 
 /**

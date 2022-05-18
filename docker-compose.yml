@@ -47,3 +47,6 @@ services:
       - postgres
     environment:
       WAIT_HOSTS: postgres:5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
