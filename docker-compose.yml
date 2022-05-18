@@ -45,3 +45,5 @@ services:
       - 3002:3001/tcp
     depends_on:
       - postgres
+    environment:
+      WAIT_HOSTS: postgres:5432
