@@ -21,9 +21,7 @@
     "format": "prettier --write \"**\"",
     "sign": "grafana-toolkit plugin:sign --rootUrls http://localhost:3000/",
     "start": "docker-compose pull && docker-compose up",
-    "start:postgres": "docker-compose -f docker-compose-postgres.yml pull && docker-compose -f docker-compose-postgres.yml up",
     "stop": "docker-compose down ",
-    "stop:postgres": "docker-compose -f docker-compose-postgres.yml down",
     "test": "grafana-toolkit plugin:test",
     "upgrade": "yarn upgrade --latest",
     "watch": "grafana-toolkit plugin:dev --watch"
