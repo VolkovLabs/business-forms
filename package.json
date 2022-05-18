@@ -21,7 +21,7 @@
     "format": "prettier --write \"**\"",
     "sign": "grafana-toolkit plugin:sign --rootUrls http://localhost:3000/",
     "start": "docker-compose pull && docker-compose up",
-    "stop": "docker-compose down ",
+    "stop": "docker-compose down",
     "test": "grafana-toolkit plugin:test",
     "upgrade": "yarn upgrade --latest",
     "watch": "grafana-toolkit plugin:dev --watch"
