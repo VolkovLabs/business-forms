@@ -1,11 +1,12 @@
 # Change Log
 
-## 1.2.0 (IN PROGRESS)
+## 1.2.0 (2022-05-19)
 
 ### Features / Enhancements
 
 - Add Label Width and Tooltip (#39)
-- Add Server API for Postgres
+- Add Server API with Postgres for Feedback Dashboard (#36)
+- Update Input Parameters to Form Elements (#41)
 
 ## 1.1.0 (2022-05-12)
 
