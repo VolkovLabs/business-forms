@@ -17,36 +17,17 @@ Grafana 8.0 is required.
 
 ## Getting Started
 
-1. Install packages
+Data Manipulation Form panel is under development and not included in the Grafana Marketplace yet. It can be installed manually from our private repository or downloaded directly from the GitHub repository:
 
 ```bash
-yarn install
-```
-
-2. Build the plugin
-
-```bash
-yarn build
-```
-
-3. Sign the plugins if required
-
-```
-export GRAFANA_API_KEY=erXXXX==
-yarn sign
-```
-
-4. Start Docker container
-
-```bash
-yarn run start
+grafana-cli --repo https://volkovlabs.io/plugins plugins install volkovlabs-form-panel
 ```
 
 ## Features
 
 - Provides functionality to create customizable forms with elements:
-  - Date and Time Input
-  - Disabled Input
+  - Date and Time
+  - Disabled
   - Number Input
   - Number Slider
   - Password Input
