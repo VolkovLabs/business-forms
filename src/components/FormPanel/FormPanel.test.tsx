@@ -1,13 +1,13 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { ButtonOrientation, InputParameterDefault } from '../../constants';
+import { ButtonOrientation, FormElementDefault } from '../../constants';
 import { FormPanel } from './FormPanel';
 
 /**
  * Panel
  */
 describe('Panel', () => {
-  it('Should find component with Parameters', async () => {
+  it('Should find component with Elements', async () => {
     const getComponent = ({
       options = {
         submit: {},
@@ -16,7 +16,7 @@ describe('Panel', () => {
         reset: {},
         layout: {},
         buttonGroup: { orientation: ButtonOrientation.CENTER },
-        parameters: [InputParameterDefault],
+        elements: [FormElementDefault],
       },
       ...restProps
     }: any) => {

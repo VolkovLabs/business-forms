@@ -1,4 +1,4 @@
-import { InputParameter } from './types';
+import { FormElement } from './types';
 
 /**
  * Capitalize First Letter
@@ -8,10 +8,10 @@ export const CapitalizeFirstLetter = (str: string) => {
 };
 
 /**
- * Move Input Parameters
+ * Move Form Elements
  */
-export const MoveInputParameters = (parameters: InputParameter[], from: number, to: number) => {
-  const element = parameters[from];
-  parameters.splice(from, 1);
-  parameters.splice(to, 0, element);
+export const MoveFormElements = (elements: FormElement[], from: number, to: number) => {
+  const element = elements[from];
+  elements.splice(from, 1);
+  elements.splice(to, 0, element);
 };

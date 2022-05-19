@@ -3,10 +3,10 @@ import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, FieldSet } from '@grafana/ui';
-import { ButtonVariant, InputParameterType, LayoutVariant, RequestMethod } from '../../constants';
+import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
-import { InputParameters } from '../InputParameters';
+import { FormElements } from '../FormElements';
 
 /**
  * Properties
@@ -38,14 +38,14 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     const f = new Function(
       'options',
       'response',
-      'parameters',
+      'elements',
       'locationService',
       'templateService',
       replaceVariables(code)
     );
 
     try {
-      f(options, response, options.parameters, locationService, templateSrv);
+      f(options, response, options.elements, locationService, templateSrv);
     } catch (error: any) {
       console.error(error);
       setError(error.toString());
@@ -70,10 +70,10 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     headers.set('Content-Type', options.update.contentType);
 
     /**
-     * Set Parameters
+     * Set elements
      */
-    options.parameters.forEach((parameter) => {
-      body[parameter.id] = parameter.value;
+    options.elements.forEach((element) => {
+      body[element.id] = element.value;
     });
 
     /**
@@ -153,14 +153,14 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
       const body = await response.json();
 
       /**
-       * Set Parameter values
+       * Set Element values
        */
-      options.parameters.forEach((parameter) => {
-        parameter.value = body[parameter.id];
+      options.elements.forEach((element) => {
+        element.value = body[element.id];
       });
 
       /**
-       * Set Parameters
+       * Update values
        */
       onOptionsChange(options);
       setTitle('Values updated.');
@@ -178,9 +178,9 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    */
   useEffect(() => {
     /**
-     * Check Parameters
+     * Check Elements
      */
-    if (!options.parameters || !options.parameters.length || !options.initial.url) {
+    if (!options.elements || !options.elements.length || !options.initial.url) {
       /**
        * Execute Custom Code and reset Loading
        */
@@ -209,12 +209,12 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
   }, []);
 
   /**
-   * Check Parameters
+   * Check Form Elements
    */
-  if (!options.parameters || !options.parameters.length) {
+  if (!options.elements || !options.elements.length) {
     return (
-      <Alert severity="info" title="Input Parameters">
-        Please add parameters in Panel Options.
+      <Alert severity="info" title="Form Elements">
+        Please add elements in Panel Options.
       </Alert>
     );
   }
@@ -237,7 +237,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
           <tr>
             <td>
               <FieldSet label={options.layout.textRight}>
-                <InputParameters options={options} onOptionsChange={onOptionsChange}></InputParameters>
+                <FormElements options={options} onOptionsChange={onOptionsChange}></FormElements>
               </FieldSet>
             </td>
           </tr>
@@ -247,20 +247,20 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
           <tr>
             <td className={styles.td}>
               <FieldSet label={options.layout.textLeft}>
-                <InputParameters
+                <FormElements
                   options={options}
-                  hide={[InputParameterType.DISABLED]}
+                  hide={[FormElementType.DISABLED]}
                   onOptionsChange={onOptionsChange}
-                ></InputParameters>
+                ></FormElements>
               </FieldSet>
             </td>
             <td className={styles.td}>
               <FieldSet label={options.layout.textRight}>
-                <InputParameters
+                <FormElements
                   options={options}
-                  display={[InputParameterType.DISABLED]}
+                  display={[FormElementType.DISABLED]}
                   onOptionsChange={onOptionsChange}
-                ></InputParameters>
+                ></FormElements>
               </FieldSet>
             </td>
           </tr>

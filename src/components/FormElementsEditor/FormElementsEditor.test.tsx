@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { InputParametersEditor } from './InputParametersEditor';
+import { FormElementsEditor } from './FormElementsEditor';
 
 /**
  * Panel
@@ -8,7 +8,7 @@ import { InputParametersEditor } from './InputParametersEditor';
 describe('Panel', () => {
   it('Should find component', async () => {
     const getComponent = ({ value = [], ...restProps }: any) => {
-      return <InputParametersEditor {...restProps} value={value} />;
+      return <FormElementsEditor {...restProps} value={value} />;
     };
 
     const wrapper = shallow(getComponent({}));

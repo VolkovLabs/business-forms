@@ -1,6 +1,6 @@
 import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
-import { CustomCodeEditor, FormPanel, HeaderParametersEditor, InputParametersEditor } from './components';
+import { CustomCodeEditor, FormElementsEditor, FormPanel, HeaderParametersEditor } from './components';
 import {
   ButtonOrientation,
   ButtonOrientationOptions,
@@ -34,15 +34,15 @@ import { PanelOptions } from './types';
  */
 export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((builder) => {
   /**
-   * Parameters
+   * Elements
    */
   builder.addCustomEditor({
-    id: 'parameters',
-    path: 'parameters',
-    name: 'Form Parameters',
-    category: ['Form Parameters'],
-    description: 'Input parameters',
-    editor: InputParametersEditor,
+    id: 'elements',
+    path: 'elements',
+    name: 'Form Elements',
+    category: ['Form Elements'],
+    description: 'Form Elements',
+    editor: FormElementsEditor,
   });
 
   /**

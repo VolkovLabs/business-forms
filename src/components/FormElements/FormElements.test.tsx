@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { InputParameterDefault } from '../../constants';
-import { InputParameters } from './InputParameters';
+import { FormElementDefault } from '../../constants';
+import { FormElements } from './FormElements';
 
 /**
  * Panel
@@ -14,11 +14,11 @@ describe('Panel', () => {
         initial: {},
         update: {},
         reset: {},
-        parameters: [InputParameterDefault],
+        elements: [FormElementDefault],
       },
       ...restProps
     }: any) => {
-      return <InputParameters options={options} {...restProps} />;
+      return <FormElements options={options} {...restProps} />;
     };
 
     const wrapper = shallow(getComponent({}));

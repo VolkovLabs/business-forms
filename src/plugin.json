@@ -10,7 +10,7 @@
       "name": "Volkov Labs",
       "url": "https://volkovlabs.io"
     },
-    "description": "Custom Form panel",
+    "description": "Data Manipulation Form panel",
     "keywords": ["form"],
     "links": [
       {
@@ -28,8 +28,8 @@
         "path": "img/panel.png"
       },
       {
-        "name": "Parameters",
-        "path": "img/parameters.png"
+        "name": "Form Elements",
+        "path": "img/elements.png"
       },
       {
         "name": "Request",
@@ -43,6 +43,6 @@
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
-  "name": "Custom Form",
+  "name": "Data Manipulation Form",
   "type": "panel"
 }
