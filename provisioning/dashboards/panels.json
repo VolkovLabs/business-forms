@@ -77,7 +77,7 @@
           "url": "http://api.example.com/"
         }
       },
-      "title": "No Parameters",
+      "title": "No Elements",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -105,7 +105,7 @@
         "layout": {
           "variant": "single"
         },
-        "parameters": [
+        "elements": [
           {
             "id": "name",
             "title": "Name",
@@ -163,7 +163,7 @@
         "layout": {
           "variant": "single"
         },
-        "parameters": [
+        "elements": [
           {
             "id": "first",
             "title": "First",
@@ -201,7 +201,7 @@
           "url": "http://localhost:3001"
         }
       },
-      "title": "Custom Form",
+      "title": "Data Manipulation Form",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -239,7 +239,7 @@
           "variant": "single"
         },
         "name": "data",
-        "parameters": [
+        "elements": [
           {
             "id": "amount",
             "title": "Amount",
@@ -257,7 +257,7 @@
             "id": "name",
             "title": "Name",
             "type": "string",
-            "value": "Custom Form"
+            "value": "Data Manipulation Form"
           },
           {
             "id": "step",
@@ -395,7 +395,7 @@
           "variant": "split"
         },
         "name": "data",
-        "parameters": [
+        "elements": [
           {
             "id": "amount",
             "title": "Amount",

@@ -11,8 +11,8 @@
 
 ### Features / Enhancements
 
-- Added Disabled Parameter (#24)
-- Added ability to move parameters up and down (#19)
+- Added Disabled Element (#24)
+- Added ability to move elements up and down (#19)
 - Added Split Disabled layout for Input/Output (#27)
 - Added Interpolate Variables (#28)
 - Added Min and Max for Numbers (#29)

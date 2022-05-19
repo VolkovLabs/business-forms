@@ -42,13 +42,13 @@ const server = http.createServer(async function (req, res) {
      * Get values from database
      */
     const query = await client.query('select * from feedbacks where name=$1;', [req.url.replace('/', '')]);
-    const parameters = query.rows[0];
+    const values = query.rows[0];
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify(parameters));
+    res.write(JSON.stringify(values));
     res.end();
 
-    console.log('Requested', parameters);
+    console.log('Requested', values);
 
     return;
   }
@@ -67,15 +67,15 @@ const server = http.createServer(async function (req, res) {
       res.write(`${req.method}: Success!`);
       res.end();
 
-      const parameters = JSON.parse(body);
-      console.log('Updated', parameters);
+      const values = JSON.parse(body);
+      console.log('Updated', values);
 
       /**
        * Update the database
        */
       await client.query(
         'INSERT INTO feedbacks(created, name, email, description, type) VALUES(NOW(), $1, $2, $3, $4)',
-        [parameters['name'], parameters['email'], parameters['description'], parameters['type']]
+        [values['name'], values['email'], values['description'], values['type']]
       );
     });
 

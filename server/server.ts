@@ -6,9 +6,9 @@ const http = require('http');
 const port = 3001;
 
 /**
- * Parameters
+ * Values
  */
-let parameters = { name: 'Name', amount: 30, updated: false, step: 4 };
+let values = { name: 'Name', amount: 30, updated: false, step: 4 };
 
 /**
  * Create Server
@@ -33,10 +33,10 @@ const server = http.createServer(function (req, res) {
    */
   if (req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify(parameters));
+    res.write(JSON.stringify(values));
     res.end();
 
-    console.log('Requested', parameters);
+    console.log('Requested', values);
 
     return;
   }
@@ -55,8 +55,8 @@ const server = http.createServer(function (req, res) {
       res.write(`${req.method}: Success!`);
       res.end();
 
-      parameters = JSON.parse(body);
-      console.log('Updated', parameters);
+      values = JSON.parse(body);
+      console.log('Updated', values);
     });
 
     return;

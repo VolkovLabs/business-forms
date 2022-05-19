@@ -1,4 +1,4 @@
-# Custom form panel plugin for Grafana
+# Data Manipulation Form panel plugin for Grafana
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
@@ -9,7 +9,7 @@
 
 ## Introduction
 
-The Custom Form Panel is a plugin for Grafana that allow to create customizable forms.
+The Data Manipulation Form Panel is a plugin for Grafana that can be used to insert, update application data, and modify configuration directly from your Grafana dashboard.
 
 ### Requirements
 
@@ -44,7 +44,7 @@ yarn run start
 
 ## Features
 
-- Provides functionality to create customizable forms with parameters:
+- Provides functionality to create customizable forms with elements:
   - Date and Time Input
   - Disabled Input
   - Number Input
