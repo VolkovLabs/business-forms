@@ -1,5 +1,5 @@
 import { ButtonGroupOptions, ButtonOptions } from './button';
-import { InputParameter } from './input-parameter';
+import { FormElement } from './form-element';
 import { LayoutOptions } from './layout';
 import { RequestOptions } from './request';
 
@@ -43,11 +43,11 @@ export interface PanelOptions {
   reset: ButtonOptions;
 
   /**
-   * Input Parameters
+   * Form Elements
    *
-   * @type {InputParameter[]}
+   * @type {FormElement[]}
    */
-  parameters: InputParameter[];
+  elements: FormElement[];
 
   /**
    * Layout

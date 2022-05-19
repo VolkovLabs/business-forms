@@ -1,5 +1,5 @@
-import { InputParameter } from '../types';
-import { InputParameterType } from './parameter';
+import { FormElement } from '../types';
+import { FormElementType } from './form-element';
 
 /**
  * Code Editor
@@ -35,12 +35,12 @@ export const SliderDefault = {
 };
 
 /**
- * Input Parameter
+ * Form Element
  */
-export const InputParameterDefault: InputParameter = {
+export const FormElementDefault: FormElement = {
   id: '',
   title: '',
-  type: InputParameterType.STRING,
+  type: FormElementType.STRING,
   labelWidth: 10,
   tooltip: '',
 };

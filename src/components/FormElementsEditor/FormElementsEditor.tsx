@@ -1,64 +1,64 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, CollapsableSection, IconButton, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
-import { InputParameterDefault, InputParameterType, InputParameterTypeOptions, SliderDefault } from '../../constants';
-import { InputParameter } from '../../types';
-import { MoveInputParameters } from '../../utils';
+import { FormElementDefault, FormElementType, FormElementTypeOptions, SliderDefault } from '../../constants';
+import { FormElement } from '../../types';
+import { MoveFormElements } from '../../utils';
 
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<InputParameter[]> {}
+interface Props extends StandardEditorProps<FormElement[]> {}
 
 /**
- * Input Parameters Editor
+ * Form Elements Editor
  */
-export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onChange }) => {
+export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange }) => {
   /**
    * States
    */
-  const [newParameter, setNewParameter] = useState(InputParameterDefault);
+  const [newElement, setNewElement] = useState(FormElementDefault);
 
-  if (!parameters || !parameters.length) {
-    parameters = [];
+  if (!elements || !elements.length) {
+    elements = [];
   }
 
   /**
-   * Remove Parameter
+   * Remove Element
    */
-  const onParameterRemove = (id: string) => {
-    const updated = parameters.filter((e) => e.id !== id);
+  const onElementRemove = (id: string) => {
+    const updated = elements.filter((e) => e.id !== id);
 
     /**
-     * Update Parameters
+     * Update Elements
      */
     onChange(updated);
   };
 
   /**
-   * Add Parameter
+   * Add Elements
    */
-  const onParameterAdd = () => {
+  const onElementAdd = () => {
     /**
      * Slider values
      */
-    if (newParameter.type === InputParameterType.SLIDER) {
-      newParameter.min = SliderDefault.min;
-      newParameter.max = SliderDefault.max;
-      newParameter.step = SliderDefault.step;
-      newParameter.value = SliderDefault.value;
+    if (newElement.type === FormElementType.SLIDER) {
+      newElement.min = SliderDefault.min;
+      newElement.max = SliderDefault.max;
+      newElement.step = SliderDefault.step;
+      newElement.value = SliderDefault.value;
     }
 
     /**
-     * Update Parameters
+     * Update Elements
      */
-    const updated = [...parameters, newParameter];
+    const updated = [...elements, newElement];
     onChange(updated);
 
     /**
      * Reset input values
      */
-    setNewParameter(InputParameterDefault);
+    setNewElement(FormElementDefault);
   };
 
   /**
@@ -66,7 +66,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
    */
   return (
     <div>
-      {parameters.map((parameter, id) => (
+      {elements.map((element, id) => (
         <CollapsableSection
           key={id}
           label={
@@ -76,73 +76,73 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
                   name="arrow-up"
                   tooltip="Move Up"
                   onClick={(event) => {
-                    MoveInputParameters(parameters, id, id - 1);
-                    onChange(parameters);
+                    MoveFormElements(elements, id, id - 1);
+                    onChange(elements);
                     event.stopPropagation();
                   }}
                 />
               )}
-              {id < parameters.length - 1 && (
+              {id < elements.length - 1 && (
                 <IconButton
                   name="arrow-down"
                   tooltip="Move Down"
                   onClick={(event) => {
-                    MoveInputParameters(parameters, id, id + 1);
-                    onChange(parameters);
+                    MoveFormElements(elements, id, id + 1);
+                    onChange(elements);
                     event.stopPropagation();
                   }}
                 />
               )}
-              {parameter.title} [{parameter.id}]
+              {element.title} [{element.id}]
             </>
           }
           isOpen={false}
         >
           <InlineFieldRow>
-            <InlineField label="Id" labelWidth={8} invalid={parameter.id === ''}>
+            <InlineField label="Id" labelWidth={8} invalid={element.id === ''}>
               <Input
                 placeholder="Id"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  parameter.id = event.target.value;
-                  onChange(parameters);
+                  element.id = event.target.value;
+                  onChange(elements);
                 }}
-                value={parameter.id}
+                value={element.id}
               />
             </InlineField>
 
             <InlineField label="Type" grow labelWidth={8}>
               <Select
-                options={InputParameterTypeOptions}
+                options={FormElementTypeOptions}
                 onChange={(event: SelectableValue) => {
-                  parameter.type = event?.value;
+                  element.type = event?.value;
 
                   /**
                    * Slider values
                    */
-                  if (parameter.type === InputParameterType.SLIDER) {
-                    parameter.min = SliderDefault.min;
-                    parameter.max = SliderDefault.max;
-                    parameter.step = SliderDefault.step;
-                    parameter.value = SliderDefault.value;
+                  if (element.type === FormElementType.SLIDER) {
+                    element.min = SliderDefault.min;
+                    element.max = SliderDefault.max;
+                    element.step = SliderDefault.step;
+                    element.value = SliderDefault.value;
                   }
 
-                  onChange(parameters);
+                  onChange(elements);
                 }}
-                value={InputParameterTypeOptions.find((type) => type.value === parameter.type)}
+                value={FormElementTypeOptions.find((type) => type.value === element.type)}
               />
             </InlineField>
-            <Button variant="destructive" onClick={(e) => onParameterRemove(parameter.id)} icon="trash-alt"></Button>
+            <Button variant="destructive" onClick={(e) => onElementRemove(element.id)} icon="trash-alt"></Button>
           </InlineFieldRow>
 
           <InlineFieldRow>
-            <InlineField label="Title" grow labelWidth={8} invalid={parameter.title === ''}>
+            <InlineField label="Title" grow labelWidth={8} invalid={element.title === ''}>
               <Input
                 placeholder="Title"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  parameter.title = event.target.value;
-                  onChange(parameters);
+                  element.title = event.target.value;
+                  onChange(elements);
                 }}
-                value={parameter.title}
+                value={element.title}
               />
             </InlineField>
 
@@ -150,11 +150,11 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               <Input
                 placeholder="10"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  parameter.labelWidth = Number(event.target.value);
-                  onChange(parameters);
+                  element.labelWidth = Number(event.target.value);
+                  onChange(elements);
                 }}
-                value={parameter.labelWidth}
-                defaultValue={InputParameterDefault.labelWidth}
+                value={element.labelWidth}
+                defaultValue={FormElementDefault.labelWidth}
                 type="number"
               />
             </InlineField>
@@ -165,10 +165,10 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               <Input
                 placeholder="Tooltip"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  parameter.tooltip = event.target.value;
-                  onChange(parameters);
+                  element.tooltip = event.target.value;
+                  onChange(elements);
                 }}
-                value={parameter.tooltip}
+                value={element.tooltip}
               />
             </InlineField>
 
@@ -176,112 +176,112 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               <Input
                 placeholder="Unit"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  parameter.unit = event.target.value;
-                  onChange(parameters);
+                  element.unit = event.target.value;
+                  onChange(elements);
                 }}
-                value={parameter.unit}
+                value={element.unit}
               />
             </InlineField>
           </InlineFieldRow>
 
-          {parameter.type === InputParameterType.SLIDER && (
+          {element.type === FormElementType.SLIDER && (
             <InlineFieldRow>
               <InlineField label="Min" labelWidth={8}>
                 <Input
                   placeholder="Min"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.min = Number(event.target.value);
-                    onChange(parameters);
+                    element.min = Number(event.target.value);
+                    onChange(elements);
                   }}
                   type="number"
                   width={10}
-                  value={parameter.min}
+                  value={element.min}
                 />
               </InlineField>
               <InlineField label="Max" labelWidth={8}>
                 <Input
                   placeholder="Max"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.max = Number(event.target.value);
-                    onChange(parameters);
+                    element.max = Number(event.target.value);
+                    onChange(elements);
                   }}
                   type="number"
                   width={10}
-                  value={parameter.max}
+                  value={element.max}
                 />
               </InlineField>
               <InlineField label="Step" labelWidth={8}>
                 <Input
                   placeholder="Step"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.step = Number(event.target.value);
-                    onChange(parameters);
+                    element.step = Number(event.target.value);
+                    onChange(elements);
                   }}
                   type="number"
                   width={10}
-                  value={parameter.step}
+                  value={element.step}
                 />
               </InlineField>
             </InlineFieldRow>
           )}
 
-          {parameter.type === InputParameterType.NUMBER && (
+          {element.type === FormElementType.NUMBER && (
             <InlineFieldRow>
               <InlineField label="Min" labelWidth={8}>
                 <Input
                   placeholder="Min"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.min = Number(event.target.value);
-                    onChange(parameters);
+                    element.min = Number(event.target.value);
+                    onChange(elements);
                   }}
                   type="number"
                   width={10}
-                  value={parameter.min}
+                  value={element.min}
                 />
               </InlineField>
               <InlineField label="Max" labelWidth={8}>
                 <Input
                   placeholder="Max"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.max = Number(event.target.value);
-                    onChange(parameters);
+                    element.max = Number(event.target.value);
+                    onChange(elements);
                   }}
                   type="number"
                   width={10}
-                  value={parameter.max}
+                  value={element.max}
                 />
               </InlineField>
             </InlineFieldRow>
           )}
 
-          {parameter.type === InputParameterType.TEXTAREA && (
+          {element.type === FormElementType.TEXTAREA && (
             <InlineFieldRow>
               <InlineField label="Rows" labelWidth={8}>
                 <Input
                   placeholder="Rows"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    parameter.rows = Number(event.target.value);
-                    onChange(parameters);
+                    element.rows = Number(event.target.value);
+                    onChange(elements);
                   }}
                   type="number"
                   width={10}
-                  value={parameter.rows}
+                  value={element.rows}
                   min={2}
                 />
               </InlineField>
             </InlineFieldRow>
           )}
 
-          {(parameter.type === InputParameterType.RADIO || parameter.type === InputParameterType.SELECT) && (
+          {(element.type === FormElementType.RADIO || element.type === FormElementType.SELECT) && (
             <div>
-              {parameter.options?.map((option) => (
+              {element.options?.map((option) => (
                 <InlineFieldRow key={option.id}>
                   <InlineField label="Value" labelWidth={8}>
                     <Input
                       placeholder="value"
                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         option.value = event.target.value;
-                        onChange(parameters);
+                        onChange(elements);
                       }}
                       value={option.value}
                     />
@@ -291,7 +291,7 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
                       placeholder="label"
                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         option.label = event.target.value;
-                        onChange(parameters);
+                        onChange(elements);
                       }}
                       value={option.label}
                     />
@@ -299,8 +299,8 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
                   <Button
                     variant="secondary"
                     onClick={(e) => {
-                      parameter.options = parameter.options?.filter((o) => o.value !== option.value);
-                      onChange(parameters);
+                      element.options = element.options?.filter((o) => o.value !== option.value);
+                      onChange(elements);
                     }}
                     icon="minus"
                   ></Button>
@@ -310,13 +310,13 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
               <Button
                 variant="secondary"
                 onClick={(e) => {
-                  if (parameter.options) {
-                    parameter.options.push({ value: '', label: '' });
+                  if (element.options) {
+                    element.options.push({ value: '', label: '' });
                   } else {
-                    parameter.options = [{ value: '', label: '' }];
+                    element.options = [{ value: '', label: '' }];
                   }
 
-                  onChange(parameters);
+                  onChange(elements);
                 }}
                 icon="plus"
               >
@@ -328,44 +328,44 @@ export const InputParametersEditor: React.FC<Props> = ({ value: parameters, onCh
       ))}
 
       <hr />
-      <CollapsableSection label="Add Parameter" isOpen={true}>
-        <InlineField label="Id" grow labelWidth={8} invalid={newParameter.id === ''}>
+      <CollapsableSection label="New Element" isOpen={true}>
+        <InlineField label="Id" grow labelWidth={8} invalid={newElement.id === ''}>
           <Input
             placeholder="Id"
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setNewParameter({ ...newParameter, id: event.target.value });
+              setNewElement({ ...newElement, id: event.target.value });
             }}
-            value={newParameter.id}
+            value={newElement.id}
           />
         </InlineField>
 
-        <InlineField label="Title" grow labelWidth={8} invalid={newParameter.title === ''}>
+        <InlineField label="Title" grow labelWidth={8} invalid={newElement.title === ''}>
           <Input
             placeholder="Title"
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setNewParameter({ ...newParameter, title: event.target.value });
+              setNewElement({ ...newElement, title: event.target.value });
             }}
-            value={newParameter.title}
+            value={newElement.title}
           />
         </InlineField>
 
         <InlineField label="Type" grow labelWidth={8}>
           <Select
-            options={InputParameterTypeOptions}
+            options={FormElementTypeOptions}
             onChange={(event?: SelectableValue) => {
-              setNewParameter({ ...newParameter, type: event?.value });
+              setNewElement({ ...newElement, type: event?.value });
             }}
-            value={InputParameterTypeOptions.find((type) => type.value === newParameter.type)}
+            value={FormElementTypeOptions.find((type) => type.value === newElement.type)}
           />
         </InlineField>
 
         <Button
           variant="secondary"
-          onClick={(e) => onParameterAdd()}
-          disabled={!!!newParameter.id || !!!newParameter.type || !!!newParameter.title}
+          onClick={(e) => onElementAdd()}
+          disabled={!!!newElement.id || !!!newElement.type || !!!newElement.title}
           icon="plus"
         >
-          Add Parameter
+          Add Element
         </Button>
       </CollapsableSection>
     </div>

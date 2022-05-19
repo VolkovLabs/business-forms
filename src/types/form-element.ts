@@ -1,10 +1,10 @@
 import { SelectableValue } from '@grafana/data';
-import { InputParameterType } from '../constants';
+import { FormElementType } from '../constants';
 
 /**
- * Input Parameter
+ * Form Element
  */
-export interface InputParameter {
+export interface FormElement {
   /**
    * Id
    *
@@ -22,9 +22,9 @@ export interface InputParameter {
   /**
    * Type
    *
-   * @type {InputParameterType}
+   * @type {FormElementType}
    */
-  type: InputParameterType;
+  type: FormElementType;
 
   /**
    * Value

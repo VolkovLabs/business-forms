@@ -1,6 +1,6 @@
 {
   "author": "Volkov Labs",
-  "description": "Custom Form Panel",
+  "description": "Data Manipulation Form Panel",
   "devDependencies": {
     "@grafana/data": "8.5.2",
     "@grafana/runtime": "8.5.2",

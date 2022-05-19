@@ -1,9 +1,9 @@
 import { SelectableValue } from '@grafana/data';
 
 /**
- * Input Parameter Type
+ * Form Element Type
  */
-export const enum InputParameterType {
+export const enum FormElementType {
   NUMBER = 'number',
   STRING = 'string',
   BOOLEAN = 'boolean',
@@ -18,55 +18,55 @@ export const enum InputParameterType {
 }
 
 /**
- * Input Parameter Type Options
+ * Form Element Type Options
  */
-export const InputParameterTypeOptions: SelectableValue[] = [
+export const FormElementTypeOptions: SelectableValue[] = [
   {
-    value: InputParameterType.DATETIME,
+    value: FormElementType.DATETIME,
     label: 'Date and Time',
   },
   {
-    value: InputParameterType.DISABLED,
+    value: FormElementType.DISABLED,
     label: 'Disabled',
   },
   {
-    value: InputParameterType.NUMBER,
+    value: FormElementType.NUMBER,
     label: 'Number Input',
   },
   {
-    value: InputParameterType.SLIDER,
+    value: FormElementType.SLIDER,
     label: 'Number Slider',
   },
   {
-    value: InputParameterType.PASSWORD,
+    value: FormElementType.PASSWORD,
     label: 'Password Input',
   },
   {
-    value: InputParameterType.BOOLEAN,
+    value: FormElementType.BOOLEAN,
     label: 'Radio Group with Boolean options',
   },
   {
-    value: InputParameterType.RADIO,
+    value: FormElementType.RADIO,
     label: 'Radio Group with Custom options',
   },
   {
-    value: InputParameterType.SELECT,
+    value: FormElementType.SELECT,
     label: 'Select with Custom options',
   },
   {
-    value: InputParameterType.STRING,
+    value: FormElementType.STRING,
     label: 'String Input',
   },
   {
-    value: InputParameterType.TEXTAREA,
+    value: FormElementType.TEXTAREA,
     label: 'Text Area',
   },
 ];
 
 /**
- * Boolean Parameter Options
+ * Boolean Element Options
  */
-export const BooleanParameterOptions: SelectableValue[] = [
+export const BooleanElementOptions: SelectableValue[] = [
   {
     value: true,
     label: 'True',

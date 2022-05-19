@@ -345,7 +345,7 @@
         "layout": {
           "variant": "single"
         },
-        "parameters": [
+        "elements": [
           {
             "id": "name",
             "labelWidth": 10,
