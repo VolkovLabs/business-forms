@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Update Diagram
+- Update Architecture Diagram (#44)
+- Changing colors on Submit is not working properly (#43)
 
 ## 1.2.0 (2022-05-19)
 
