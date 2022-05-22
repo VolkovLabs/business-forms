@@ -10,7 +10,15 @@ import {
   Input,
   Select,
 } from '@grafana/ui';
-import { FormElementDefault, FormElementType, FormElementTypeOptions, SliderDefault } from '../../constants';
+import {
+  CodeEditorHeight,
+  CodeLanguage,
+  CodeLanguageOptions,
+  FormElementDefault,
+  FormElementType,
+  FormElementTypeOptions,
+  SliderDefault,
+} from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
 import { MoveFormElements } from '../../utils';
 
@@ -301,6 +309,35 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   width={10}
                   value={element.rows}
                   min={2}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
+
+          {element.type === FormElementType.CODE && (
+            <InlineFieldRow>
+              <InlineField label="Language" grow labelWidth={10}>
+                <Select
+                  options={CodeLanguageOptions}
+                  onChange={(event: SelectableValue) => {
+                    element.language = event?.value;
+                    onChange(elements);
+                  }}
+                  value={CodeLanguageOptions.find((language) => language.value === element.language)}
+                  defaultValue={CodeLanguage.JAVASCRIPT}
+                />
+              </InlineField>
+              <InlineField label="Height" labelWidth={12} tooltip="Code Editor height in px">
+                <Input
+                  placeholder="Height"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    element.height = Number(event.target.value);
+                    onChange(elements);
+                  }}
+                  type="number"
+                  value={element.height}
+                  defaultValue={CodeEditorHeight}
+                  min={0}
                 />
               </InlineField>
             </InlineFieldRow>
