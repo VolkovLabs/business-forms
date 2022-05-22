@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.3.0 (IN PROGRESS)
+## 1.3.0 (2022-05-22)
 
 ### Features / Enhancements
 
@@ -8,6 +8,7 @@
 - Changing colors on Submit is not working properly (#43)
 - Update layout to have sections for Form Fields (#47)
 - Add None Request for Initial and Update requests (#48)
+- Add Code Editor Element for Configuration Forms (#23)
 
 ## 1.2.0 (2022-05-19)
 
