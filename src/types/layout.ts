@@ -1,4 +1,5 @@
 import { LayoutVariant } from '../constants';
+import { LayoutSection } from './layout-section';
 
 /**
  * Layout Options
@@ -12,16 +13,9 @@ export interface LayoutOptions {
   variant: LayoutVariant;
 
   /**
-   * Text on Left
+   * Sections
    *
-   * @type {string}
+   * @type {LayoutSection}
    */
-  textLeft: string;
-
-  /**
-   * Text on Right
-   *
-   * @type {string}
-   */
-  textRight: string;
+  sections: LayoutSection[];
 }

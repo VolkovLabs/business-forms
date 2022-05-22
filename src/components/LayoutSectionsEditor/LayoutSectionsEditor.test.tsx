@@ -1,14 +1,14 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { FormElementsEditor } from './FormElementsEditor';
+import { LayoutSectionsEditor } from './LayoutSectionsEditor';
 
 /**
  * Panel
  */
 describe('Panel', () => {
   it('Should find component', async () => {
-    const getComponent = ({ value = [], context = { options: {} }, ...restProps }: any) => {
-      return <FormElementsEditor {...restProps} value={value} context={context} />;
+    const getComponent = ({ value = [], ...restProps }: any) => {
+      return <LayoutSectionsEditor {...restProps} value={value} />;
     };
 
     const wrapper = shallow(getComponent({}));

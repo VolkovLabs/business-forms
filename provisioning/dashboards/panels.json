@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1652323340423,
+  "iteration": 1653185845519,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -97,6 +97,13 @@
           "orientation": "center",
           "size": "md"
         },
+        "elements": [
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string"
+          }
+        ],
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
@@ -105,13 +112,6 @@
         "layout": {
           "variant": "single"
         },
-        "elements": [
-          {
-            "id": "name",
-            "title": "Name",
-            "type": "string"
-          }
-        ],
         "reset": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -154,15 +154,6 @@
           "orientation": "center",
           "size": "lg"
         },
-        "initial": {
-          "code": "console.log(response)",
-          "contentType": "application/json",
-          "method": "GET",
-          "url": "http://localhost:3001"
-        },
-        "layout": {
-          "variant": "single"
-        },
         "elements": [
           {
             "id": "first",
@@ -180,6 +171,15 @@
             "type": "boolean"
           }
         ],
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "variant": "single"
+        },
         "reset": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -221,43 +221,25 @@
           "orientation": "center",
           "size": "md"
         },
-        "height": 0,
-        "heightMode": "auto",
-        "initial": {
-          "code": "console.log(response)",
-          "contentType": "application/json",
-          "header": [
-            {
-              "name": "X-Key",
-              "value": "123"
-            }
-          ],
-          "method": "GET",
-          "url": "http://localhost:3001/${var}"
-        },
-        "layout": {
-          "variant": "single"
-        },
-        "name": "data",
         "elements": [
           {
             "id": "amount",
             "title": "Amount",
             "type": "number",
             "unit": "Ghz",
-            "value": "112"
+            "value": 30
           },
           {
             "id": "updated",
             "title": "Updated",
             "type": "boolean",
-            "value": true
+            "value": false
           },
           {
             "id": "name",
             "title": "Name",
             "type": "string",
-            "value": "Data Manipulation Form"
+            "value": "Name"
           },
           {
             "id": "step",
@@ -286,8 +268,7 @@
             ],
             "title": "Select",
             "type": "select",
-            "unit": "C",
-            "value": "max"
+            "unit": "C"
           },
           {
             "id": "dateTime",
@@ -307,29 +288,43 @@
               }
             ],
             "title": "Radio",
-            "type": "radio",
-            "value": "plus"
+            "type": "radio"
           },
           {
             "id": "disabled",
             "title": "Disabled",
-            "type": "disabled",
-            "value": "34343"
+            "type": "disabled"
           },
           {
             "id": "password",
             "title": "Password",
-            "type": "password",
-            "value": "123"
+            "type": "password"
           },
           {
             "id": "text",
             "rows": 4,
             "title": "Text",
-            "type": "textarea",
-            "value": "This is great!"
+            "type": "textarea"
           }
         ],
+        "height": 0,
+        "heightMode": "auto",
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
+          "method": "GET",
+          "url": "http://localhost:3001/${var}"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "name": "data",
         "reset": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -381,44 +376,34 @@
           "orientation": "center",
           "size": "md"
         },
-        "height": 0,
-        "heightMode": "auto",
-        "initial": {
-          "code": "console.log(response)",
-          "contentType": "application/json",
-          "method": "GET",
-          "url": "http://localhost:3001"
-        },
-        "layout": {
-          "textLeft": "Input",
-          "textRight": "Output",
-          "variant": "split"
-        },
-        "name": "data",
         "elements": [
           {
             "id": "amount",
+            "section": "Input",
             "title": "Amount",
             "type": "number",
             "unit": "Ghz",
-            "value": "112"
+            "value": 30
           },
           {
             "id": "updated",
+            "section": "Input",
             "title": "Updated",
             "type": "boolean",
-            "value": true
+            "value": false
           },
           {
             "id": "name",
+            "section": "Output",
             "title": "Name",
             "type": "string",
-            "value": "test"
+            "value": "Name"
           },
           {
             "id": "step",
             "max": 6,
             "min": 0,
+            "section": "Input",
             "step": 1,
             "title": "Step",
             "type": "slider",
@@ -441,13 +426,14 @@
                 "value": "avg"
               }
             ],
+            "section": "Output",
             "title": "Select",
             "type": "select",
-            "unit": "C",
-            "value": "max"
+            "unit": "C"
           },
           {
             "id": "dateTime",
+            "section": "Output",
             "title": "DateTime",
             "type": "datetime"
           },
@@ -463,25 +449,50 @@
                 "value": "minus"
               }
             ],
+            "section": "Input",
             "title": "Radio",
             "type": "radio",
-            "unit": "",
-            "value": "plus"
+            "unit": ""
           },
           {
             "id": "disabled",
+            "section": "Total",
             "title": "Disabled",
-            "type": "disabled",
-            "value": "34343"
+            "type": "disabled"
           },
           {
             "id": "text",
             "rows": 4,
-            "title": "Text",
-            "type": "textarea",
-            "value": "This is great!"
+            "section": "Total",
+            "title": "",
+            "type": "textarea"
           }
         ],
+        "height": 0,
+        "heightMode": "auto",
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "sections": [
+            {
+              "name": "Input"
+            },
+            {
+              "name": "Output"
+            },
+            {
+              "name": "Total"
+            }
+          ],
+          "textLeft": "Input",
+          "textRight": "Output",
+          "variant": "split"
+        },
+        "name": "data",
         "reset": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -547,6 +558,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 19,
+  "version": 2,
   "weekStart": ""
 }

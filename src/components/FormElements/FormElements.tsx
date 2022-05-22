@@ -12,7 +12,7 @@ import {
   TextArea,
 } from '@grafana/ui';
 import { BooleanElementOptions, FormElementType } from '../../constants';
-import { PanelOptions } from '../../types';
+import { LayoutSection, PanelOptions } from '../../types';
 
 /**
  * Properties
@@ -31,31 +31,22 @@ interface Props {
   onOptionsChange: any;
 
   /**
-   * Display
+   * Section
    */
-  display?: FormElementType[];
-
-  /**
-   * Hide
-   */
-  hide?: FormElementType[];
+  section: LayoutSection | null;
 }
 
 /**
  * Form Elements
  */
-export const FormElements: React.FC<Props> = ({ options, onOptionsChange, display, hide }) => {
+export const FormElements: React.FC<Props> = ({ options, onOptionsChange, section }) => {
   return (
     <div>
       {options.elements.map((element) => {
         /**
          * Skip Hidden Elements
          */
-        if (hide?.length && hide.indexOf(element.type) > -1) {
-          return;
-        }
-
-        if (display?.length && display.indexOf(element.type) === -1) {
+        if (section && element.section !== section.name) {
           return;
         }
 
@@ -65,7 +56,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
         return (
           <InlineFieldRow key={element.id}>
             {element.type === FormElementType.NUMBER && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <Input
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +77,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.STRING && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <Input
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +96,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.PASSWORD && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <Input
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -112,13 +121,20 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 disabled
+                transparent={!!!element.title}
               >
                 <Input value={element.value} type="text" />
               </InlineField>
             )}
 
             {element.type === FormElementType.TEXTAREA && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <TextArea
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -131,7 +147,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.BOOLEAN && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <RadioButtonGroup
                   value={element.value}
                   onChange={(value: Boolean) => {
@@ -144,7 +166,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.DATETIME && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <DateTimePicker
                   date={element.value}
                   onChange={(dateTime: DateTime) => {
@@ -156,7 +184,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.SLIDER && element.value != null && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <Slider
                   value={element.value || 0}
                   onChange={(value: number) => {
@@ -171,7 +205,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.RADIO && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <RadioButtonGroup
                   value={element.value}
                   onChange={(value: any) => {
@@ -184,7 +224,13 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, displa
             )}
 
             {element.type === FormElementType.SELECT && (
-              <InlineField label={element.title} grow labelWidth={element.labelWidth} tooltip={element.tooltip}>
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
                 <Select
                   value={element.value}
                   onChange={(event: SelectableValue) => {

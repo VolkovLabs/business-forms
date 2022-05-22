@@ -88,4 +88,11 @@ export interface FormElement {
    * @type {string}
    */
   tooltip: string;
+
+  /**
+   * Section's Name
+   *
+   * @type {string}
+   */
+  section: string;
 }

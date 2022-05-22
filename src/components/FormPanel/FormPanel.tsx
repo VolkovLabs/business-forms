@@ -3,7 +3,7 @@ import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, FieldSet, useTheme2 } from '@grafana/ui';
-import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
+import { ButtonVariant, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
@@ -241,37 +241,26 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
         {options.layout.variant === LayoutVariant.SINGLE && (
           <tr>
             <td>
-              <FieldSet label={options.layout.textRight}>
-                <FormElements options={options} onOptionsChange={onOptionsChange}></FormElements>
-              </FieldSet>
+              <FormElements options={options} onOptionsChange={onOptionsChange} section={null}></FormElements>
             </td>
           </tr>
         )}
 
         {options.layout.variant === LayoutVariant.SPLIT && (
           <tr>
-            <td className={styles.td}>
-              <FieldSet label={options.layout.textLeft}>
-                <FormElements
-                  options={options}
-                  hide={[FormElementType.DISABLED]}
-                  onOptionsChange={onOptionsChange}
-                ></FormElements>
-              </FieldSet>
-            </td>
-            <td className={styles.td}>
-              <FieldSet label={options.layout.textRight}>
-                <FormElements
-                  options={options}
-                  display={[FormElementType.DISABLED]}
-                  onOptionsChange={onOptionsChange}
-                ></FormElements>
-              </FieldSet>
-            </td>
+            {options.layout?.sections?.map((section, id) => {
+              return (
+                <td className={styles.td} key={id}>
+                  <FieldSet label={section.name}>
+                    <FormElements options={options} section={section} onOptionsChange={onOptionsChange}></FormElements>
+                  </FieldSet>
+                </td>
+              );
+            })}
           </tr>
         )}
         <tr>
-          <td colSpan={2}>
+          <td colSpan={options.layout?.sections?.length}>
             <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
               <Button
                 className={cx(styles.margin)}
