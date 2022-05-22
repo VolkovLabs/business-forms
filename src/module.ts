@@ -16,7 +16,7 @@ import {
   ButtonVariantHiddenOption,
   ButtonVariantOptions,
   CodeEditorDefault,
-  CodeLanguageDefault,
+  CodeLanguage,
   ContentType,
   ContentTypeOptions,
   LayoutVariant,
@@ -102,7 +102,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       editor: CustomCodeEditor,
       category: ['Initial Request'],
       settings: {
-        language: CodeLanguageDefault,
+        language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: CodeEditorDefault,
     });
@@ -158,7 +158,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       editor: CustomCodeEditor,
       category: ['Update Request'],
       settings: {
-        language: CodeLanguageDefault,
+        language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: CodeEditorDefault,
     });

@@ -2,13 +2,6 @@ import { FormElement } from '../types';
 import { FormElementType } from './form-element';
 
 /**
- * Code Editor
- */
-export const CodeEditorHeight = '100px';
-export const CodeEditorDefault = 'console.log(options, data, response, elements, locationService, templateService)';
-export const CodeLanguageDefault = 'javascript';
-
-/**
  * Submit Button
  */
 export const SubmitIconDefault = 'cloud-upload';

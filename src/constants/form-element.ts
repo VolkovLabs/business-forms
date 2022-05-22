@@ -15,6 +15,7 @@ export const enum FormElementType {
   DATETIME = 'datetime',
   DISABLED = 'disabled',
   PASSWORD = 'password',
+  CODE = 'code',
 }
 
 /**
@@ -22,12 +23,12 @@ export const enum FormElementType {
  */
 export const FormElementTypeOptions: SelectableValue[] = [
   {
-    value: FormElementType.DATETIME,
-    label: 'Date and Time',
+    value: FormElementType.CODE,
+    label: 'Code Editor',
   },
   {
-    value: FormElementType.DISABLED,
-    label: 'Read-only',
+    value: FormElementType.DATETIME,
+    label: 'Date and Time',
   },
   {
     value: FormElementType.NUMBER,
@@ -48,6 +49,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.RADIO,
     label: 'Radio Group with Custom options',
+  },
+  {
+    value: FormElementType.DISABLED,
+    label: 'Read-only',
   },
   {
     value: FormElementType.SELECT,

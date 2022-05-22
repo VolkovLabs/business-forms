@@ -76,6 +76,13 @@ export interface FormElement {
   rows?: number;
 
   /**
+   * Height
+   *
+   * @type {number}
+   */
+  height?: number;
+
+  /**
    * Label Width
    *
    * @type {number}
@@ -95,4 +102,11 @@ export interface FormElement {
    * @type {string}
    */
   section: string;
+
+  /**
+   * Language
+   *
+   * @type {string}
+   */
+  language?: string;
 }
