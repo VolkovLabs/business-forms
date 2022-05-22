@@ -14,7 +14,7 @@ export const enum LayoutVariant {
 export const LayoutVariantOptions: SelectableValue[] = [
   {
     value: LayoutVariant.SINGLE,
-    label: 'Single',
+    label: 'Basic',
   },
   {
     value: LayoutVariant.SPLIT,

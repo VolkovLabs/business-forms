@@ -27,7 +27,7 @@ export const FormElementTypeOptions: SelectableValue[] = [
   },
   {
     value: FormElementType.DISABLED,
-    label: 'Disabled',
+    label: 'Read-only',
   },
   {
     value: FormElementType.NUMBER,
