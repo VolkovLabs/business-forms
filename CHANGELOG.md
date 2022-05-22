@@ -7,6 +7,7 @@
 - Update Architecture Diagram (#44)
 - Changing colors on Submit is not working properly (#43)
 - Update layout to have sections for Form Fields (#47)
+- Add None Request for Initial and Update requests (#48)
 
 ## 1.2.0 (2022-05-19)
 
