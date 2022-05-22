@@ -5,6 +5,7 @@ import { CapitalizeFirstLetter } from '../utils';
  * Request Methods
  */
 export const enum RequestMethod {
+  NONE = '-',
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
@@ -12,9 +13,13 @@ export const enum RequestMethod {
 }
 
 /**
- * Request Method GET
+ * Initial Request Method
  */
-export const RequestMethodGetOptions: SelectableValue[] = [
+export const RequestMethodInitialOptions: SelectableValue[] = [
+  {
+    value: RequestMethod.NONE,
+    label: RequestMethod.NONE,
+  },
   {
     value: RequestMethod.GET,
     label: RequestMethod.GET,
@@ -22,9 +27,13 @@ export const RequestMethodGetOptions: SelectableValue[] = [
 ];
 
 /**
- * Request Method POST
+ * Update Request Method
  */
-export const RequestMethodPostOptions: SelectableValue[] = [
+export const RequestMethodUpdateOptions: SelectableValue[] = [
+  {
+    value: RequestMethod.NONE,
+    label: RequestMethod.NONE,
+  },
   {
     value: RequestMethod.POST,
     label: RequestMethod.POST,
@@ -38,11 +47,6 @@ export const RequestMethodPostOptions: SelectableValue[] = [
     label: RequestMethod.PATCH,
   },
 ];
-
-/**
- * Request Method Options
- */
-export const RequestMethodOptions: SelectableValue[] = [...RequestMethodGetOptions, ...RequestMethodPostOptions];
 
 /**
  * Content Types

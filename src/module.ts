@@ -22,8 +22,8 @@ import {
   LayoutVariant,
   LayoutVariantOptions,
   RequestMethod,
-  RequestMethodGetOptions,
-  RequestMethodPostOptions,
+  RequestMethodInitialOptions,
+  RequestMethodUpdateOptions,
   ResetBackgroundColorDefault,
   ResetForegroundColorDefault,
   ResetIconDefault,
@@ -60,9 +60,9 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Initial Request',
       category: ['Initial Request'],
       settings: {
-        options: RequestMethodGetOptions,
+        options: RequestMethodInitialOptions,
       },
-      defaultValue: RequestMethod.GET,
+      defaultValue: RequestMethod.NONE,
     })
     .addTextInput({
       path: 'initial.url',
@@ -72,6 +72,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       settings: {
         placeholder: 'http://',
       },
+      showIf: (config) => config.initial.method !== RequestMethod.NONE,
     })
     .addCustomEditor({
       id: 'initial.header',
@@ -79,6 +80,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Header Parameters',
       category: ['Initial Request'],
       editor: HeaderParametersEditor,
+      showIf: (config) => config.initial.method !== RequestMethod.NONE,
     })
     .addSelect({
       path: 'initial.contentType',
@@ -114,9 +116,9 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Update Request',
       category: ['Update Request'],
       settings: {
-        options: RequestMethodPostOptions,
+        options: RequestMethodUpdateOptions,
       },
-      defaultValue: RequestMethod.POST,
+      defaultValue: RequestMethod.NONE,
     })
     .addTextInput({
       path: 'update.url',
@@ -126,6 +128,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       settings: {
         placeholder: 'http://',
       },
+      showIf: (config) => config.update.method !== RequestMethod.NONE,
     })
     .addCustomEditor({
       id: 'update.header',
@@ -133,6 +136,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       name: 'Header Parameters',
       category: ['Update Request'],
       editor: HeaderParametersEditor,
+      showIf: (config) => config.update.method !== RequestMethod.NONE,
     })
     .addSelect({
       path: 'update.contentType',
@@ -144,7 +148,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         allowCustomValue: true,
         options: ContentTypeOptions,
       },
-      showIf: (config) => !!config.update.url,
+      showIf: (config) => !!config.update.url && config.update.method !== RequestMethod.NONE,
     })
     .addCustomEditor({
       id: 'update.code',
@@ -157,6 +161,28 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         language: CodeLanguageDefault,
       },
       defaultValue: CodeEditorDefault,
+    });
+
+  /**
+   * Layout
+   */
+  builder
+    .addRadio({
+      path: 'layout.variant',
+      name: 'Layout',
+      category: ['Layout'],
+      settings: {
+        options: LayoutVariantOptions,
+      },
+      defaultValue: LayoutVariant.SINGLE,
+    })
+    .addCustomEditor({
+      id: 'layout.sections',
+      path: 'layout.sections',
+      name: 'Sections',
+      category: ['Layout'],
+      editor: LayoutSectionsEditor,
+      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
     });
 
   /**
@@ -255,7 +281,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         options: [...ButtonVariantHiddenOption, ...ButtonVariantOptions],
       },
       defaultValue: ButtonVariant.HIDDEN,
-      showIf: (config: any) => !!config.initial.url,
     })
     .addColorPicker({
       path: 'reset.foregroundColor',
@@ -301,28 +326,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       description: 'The text on the button',
       defaultValue: ResetTextDefault,
       showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
-    });
-
-  /**
-   * Layout
-   */
-  builder
-    .addRadio({
-      path: 'layout.variant',
-      name: 'Layout',
-      category: ['Layout'],
-      settings: {
-        options: LayoutVariantOptions,
-      },
-      defaultValue: LayoutVariant.SINGLE,
-    })
-    .addCustomEditor({
-      id: 'layout.sections',
-      path: 'layout.sections',
-      name: 'Sections',
-      category: ['Layout'],
-      editor: LayoutSectionsEditor,
-      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
     });
 
   return builder;
