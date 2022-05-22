@@ -43,4 +43,5 @@ export const FormElementDefault: FormElement = {
   type: FormElementType.STRING,
   labelWidth: 10,
   tooltip: '',
+  section: '',
 };

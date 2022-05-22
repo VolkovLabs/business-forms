@@ -18,6 +18,6 @@ export const LayoutVariantOptions: SelectableValue[] = [
   },
   {
     value: LayoutVariant.SPLIT,
-    label: 'Split Disabled',
+    label: 'Sections',
   },
 ];
