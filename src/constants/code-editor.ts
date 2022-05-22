@@ -3,7 +3,7 @@ import { SelectableValue } from '@grafana/data';
 /**
  * Code Editor
  */
-export const CodeEditorHeight = '100';
+export const CodeEditorHeight = 100;
 export const CodeEditorDefault = 'console.log(options, data, response, elements, locationService, templateService)';
 
 /**
