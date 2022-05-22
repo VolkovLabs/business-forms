@@ -78,7 +78,7 @@ export const FormPanel: React.FC<Props> = ({
     setLoading(true);
 
     /**
-     * Execute Custom Code if NONE
+     * Execute Custom Code
      */
     if (options.update.method === RequestMethod.NONE) {
       executeCustomCode(options.update.code);
@@ -138,9 +138,12 @@ export const FormPanel: React.FC<Props> = ({
    */
   const initialRequest = async () => {
     /**
-     * Execute Custom Code if NONE
+     * Check Elements
      */
-    if (options.initial.method === RequestMethod.NONE) {
+    if (!options.elements || !options.elements.length || !options.initial.url) {
+      /**
+       * Execute Custom Code and reset Loading
+       */
       executeCustomCode(options.initial.code);
       setLoading(false);
 
