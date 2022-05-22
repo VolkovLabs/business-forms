@@ -27,7 +27,7 @@ grafana-cli --repo https://volkovlabs.io/plugins plugins install volkovlabs-form
 
 - Provides functionality to create customizable forms with elements:
   - Date and Time
-  - Disabled
+  - Read-only (Disabled)
   - Number Input
   - Number Slider
   - Password Input
