@@ -1,8 +1,17 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
-import { Button, CollapsableSection, IconButton, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
+import {
+  Button,
+  ButtonGroup,
+  CollapsableSection,
+  IconButton,
+  InlineField,
+  InlineFieldRow,
+  Input,
+  Select,
+} from '@grafana/ui';
 import { FormElementDefault, FormElementType, FormElementTypeOptions, SliderDefault } from '../../constants';
-import { FormElement } from '../../types';
+import { FormElement, LayoutSection } from '../../types';
 import { MoveFormElements } from '../../utils';
 
 /**
@@ -13,7 +22,7 @@ interface Props extends StandardEditorProps<FormElement[]> {}
 /**
  * Form Elements Editor
  */
-export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange }) => {
+export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange, context }) => {
   /**
    * States
    */
@@ -62,6 +71,16 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange 
   };
 
   /**
+   * Layout Sections
+   */
+  const layoutSectionOptions: SelectableValue[] = [];
+  if (context.options?.layout && context.options.layout.sections?.length) {
+    context.options.layout.sections.forEach((section: LayoutSection) => {
+      layoutSectionOptions.push({ value: section.name, label: section.name });
+    });
+  }
+
+  /**
    * Return
    */
   return (
@@ -70,7 +89,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange 
         <CollapsableSection
           key={id}
           label={
-            <>
+            <ButtonGroup>
               {id > 0 && (
                 <IconButton
                   name="arrow-up"
@@ -94,7 +113,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange 
                 />
               )}
               {element.title} [{element.id}]
-            </>
+            </ButtonGroup>
           }
           isOpen={false}
         >
@@ -183,6 +202,21 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange 
               />
             </InlineField>
           </InlineFieldRow>
+
+          {layoutSectionOptions.length > 0 && (
+            <InlineFieldRow>
+              <InlineField label="Section" grow labelWidth={8}>
+                <Select
+                  options={layoutSectionOptions}
+                  onChange={(event: SelectableValue) => {
+                    element.section = event?.value;
+                    onChange(elements);
+                  }}
+                  value={layoutSectionOptions.find((section) => section.value === element.section)}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
 
           {element.type === FormElementType.SLIDER && (
             <InlineFieldRow>
@@ -362,7 +396,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange 
         <Button
           variant="secondary"
           onClick={(e) => onElementAdd()}
-          disabled={!!!newElement.id || !!!newElement.type || !!!newElement.title}
+          disabled={!!!newElement.id || !!!newElement.type}
           icon="plus"
         >
           Add Element

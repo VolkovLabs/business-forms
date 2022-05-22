@@ -7,8 +7,8 @@ import { FormElementsEditor } from './FormElementsEditor';
  */
 describe('Panel', () => {
   it('Should find component', async () => {
-    const getComponent = ({ value = [], ...restProps }: any) => {
-      return <FormElementsEditor {...restProps} value={value} />;
+    const getComponent = ({ value = [], context = { options: {} }, ...restProps }: any) => {
+      return <FormElementsEditor {...restProps} value={value} context={context} />;
     };
 
     const wrapper = shallow(getComponent({}));

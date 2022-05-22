@@ -1,6 +1,12 @@
 import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
-import { CustomCodeEditor, FormElementsEditor, FormPanel, HeaderParametersEditor } from './components';
+import {
+  CustomCodeEditor,
+  FormElementsEditor,
+  FormPanel,
+  HeaderParametersEditor,
+  LayoutSectionsEditor,
+} from './components';
 import {
   ButtonOrientation,
   ButtonOrientationOptions,
@@ -310,18 +316,12 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       },
       defaultValue: LayoutVariant.SINGLE,
     })
-    .addTextInput({
-      path: 'layout.textLeft',
-      name: 'Text on Left',
+    .addCustomEditor({
+      id: 'layout.sections',
+      path: 'layout.sections',
+      name: 'Sections',
       category: ['Layout'],
-      description: 'The text for the Left side',
-      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
-    })
-    .addTextInput({
-      path: 'layout.textRight',
-      name: 'Text on Right',
-      category: ['Layout'],
-      description: 'The text for the Right side',
+      editor: LayoutSectionsEditor,
       showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
     });
 
