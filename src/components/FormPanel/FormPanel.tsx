@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, FieldSet } from '@grafana/ui';
+import { Alert, Button, ButtonGroup, FieldSet, useTheme2 } from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { PanelOptions } from '../../types';
@@ -17,10 +17,15 @@ interface Props extends PanelProps<PanelOptions> {}
  * Panel
  */
 export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsChange, eventBus, replaceVariables }) => {
-  const styles = getStyles();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
+
+  /**
+   * Theme and Styles
+   */
+  const theme = useTheme2();
+  const styles = getStyles();
 
   /**
    * Template Service
@@ -278,8 +283,8 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
                     ? {
                         background: 'none',
                         border: 'none',
-                        backgroundColor: options.submit.backgroundColor,
-                        color: options.submit.foregroundColor,
+                        backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
+                        color: theme.visualization.getColorByName(options.submit.foregroundColor),
                       }
                     : {}
                 }
@@ -300,8 +305,8 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
                       ? {
                           background: 'none',
                           border: 'none',
-                          backgroundColor: options.reset.backgroundColor,
-                          color: options.reset.foregroundColor,
+                          backgroundColor: theme.visualization.getColorByName(options.reset.backgroundColor),
+                          color: theme.visualization.getColorByName(options.reset.foregroundColor),
                         }
                       : {}
                   }
