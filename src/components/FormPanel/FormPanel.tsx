@@ -16,7 +16,15 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Panel
  */
-export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsChange, eventBus, replaceVariables }) => {
+export const FormPanel: React.FC<Props> = ({
+  options,
+  width,
+  height,
+  onOptionsChange,
+  eventBus,
+  replaceVariables,
+  data,
+}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
@@ -42,6 +50,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
 
     const f = new Function(
       'options',
+      'data',
       'response',
       'elements',
       'locationService',
@@ -50,7 +59,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
     );
 
     try {
-      f(options, response, options.elements, locationService, templateSrv);
+      f(options, data, response, options.elements, locationService, templateSrv);
     } catch (error: any) {
       console.error(error);
       setError(error.toString());
@@ -67,6 +76,16 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
      * Loading
      */
     setLoading(true);
+
+    /**
+     * Execute Custom Code
+     */
+    if (options.update.method === RequestMethod.NONE) {
+      executeCustomCode(options.update.code);
+      setLoading(false);
+
+      return;
+    }
 
     /**
      * Set Headers
@@ -118,6 +137,19 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    * Initial Request
    */
   const initialRequest = async () => {
+    /**
+     * Check Elements
+     */
+    if (!options.elements || !options.elements.length || !options.initial.url) {
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      executeCustomCode(options.initial.code);
+      setLoading(false);
+
+      return;
+    }
+
     /**
      * Set Headers
      */
@@ -182,19 +214,6 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
    * Execute Initial Request
    */
   useEffect(() => {
-    /**
-     * Check Elements
-     */
-    if (!options.elements || !options.elements.length || !options.initial.url) {
-      /**
-       * Execute Custom Code and reset Loading
-       */
-      executeCustomCode(options.initial.code);
-      setLoading(false);
-
-      return;
-    }
-
     /**
      * On Load
      */
@@ -277,7 +296,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
                       }
                     : {}
                 }
-                disabled={loading || !options.update.url}
+                disabled={loading}
                 onClick={updateRequest}
                 size={options.buttonGroup.size}
               >
@@ -299,7 +318,7 @@ export const FormPanel: React.FC<Props> = ({ options, width, height, onOptionsCh
                         }
                       : {}
                   }
-                  disabled={loading || !options.initial.url}
+                  disabled={loading}
                   onClick={initialRequest}
                   size={options.buttonGroup.size}
                 >

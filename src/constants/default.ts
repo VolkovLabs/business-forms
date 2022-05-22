@@ -5,7 +5,7 @@ import { FormElementType } from './form-element';
  * Code Editor
  */
 export const CodeEditorHeight = '100px';
-export const CodeEditorDefault = 'console.log(response)';
+export const CodeEditorDefault = 'console.log(options, data, response, elements, locationService, templateService)';
 export const CodeLanguageDefault = 'javascript';
 
 /**
