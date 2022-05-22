@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { DateTime, SelectableValue } from '@grafana/data';
 import {
+  CodeEditor,
   DateTimePicker,
   InlineField,
   InlineFieldRow,
@@ -11,7 +12,7 @@ import {
   Slider,
   TextArea,
 } from '@grafana/ui';
-import { BooleanElementOptions, FormElementType } from '../../constants';
+import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType } from '../../constants';
 import { LayoutSection, PanelOptions } from '../../types';
 
 /**
@@ -142,6 +143,28 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     onOptionsChange(options);
                   }}
                   rows={element.rows}
+                />
+              </InlineField>
+            )}
+
+            {element.type === FormElementType.CODE && (
+              <InlineField
+                label={element.title}
+                grow
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+              >
+                <CodeEditor
+                  language={element.language || CodeLanguage.JAVASCRIPT}
+                  showLineNumbers={true}
+                  showMiniMap={true}
+                  value={element.value}
+                  height={element.height || `${CodeEditorHeight}px`}
+                  onBlur={(code) => {
+                    element.value = code;
+                    onOptionsChange(options);
+                  }}
                 />
               </InlineField>
             )}
