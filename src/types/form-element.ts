@@ -90,6 +90,13 @@ export interface FormElement {
   labelWidth: number;
 
   /**
+   * Width
+   *
+   * @type {number}
+   */
+  width?: number;
+
+  /**
    * Tooltip
    *
    * @type {string}

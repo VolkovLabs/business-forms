@@ -59,7 +59,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.NUMBER && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -71,6 +71,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     onOptionsChange(options);
                   }}
                   type="number"
+                  width={element.width}
                   min={element.min !== null ? element.min : ''}
                   max={element.max !== null ? element.max : ''}
                 />
@@ -80,7 +81,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.STRING && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -91,6 +92,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event.target.value;
                     onOptionsChange(options);
                   }}
+                  width={element.width}
                   type="text"
                 />
               </InlineField>
@@ -99,7 +101,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.PASSWORD && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -110,6 +112,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event.target.value;
                     onOptionsChange(options);
                   }}
+                  width={element.width}
                   type="password"
                 />
               </InlineField>
@@ -118,20 +121,20 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.DISABLED && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 disabled
                 transparent={!!!element.title}
               >
-                <Input value={element.value} type="text" />
+                <Input value={element.value} type="text" width={element.width} />
               </InlineField>
             )}
 
             {element.type === FormElementType.TEXTAREA && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -142,6 +145,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event.target.value;
                     onOptionsChange(options);
                   }}
+                  cols={element.width}
                   rows={element.rows}
                 />
               </InlineField>
@@ -150,7 +154,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.CODE && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -161,6 +165,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   showMiniMap={true}
                   value={element.value}
                   height={element.height || `${CodeEditorHeight}px`}
+                  width={element.width}
                   onBlur={(code) => {
                     element.value = code;
                     onOptionsChange(options);
@@ -172,7 +177,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.BOOLEAN && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -183,6 +188,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = value;
                     onOptionsChange(options);
                   }}
+                  fullWidth={!!!element.width}
                   options={BooleanElementOptions}
                 />
               </InlineField>
@@ -191,7 +197,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.DATETIME && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -209,7 +215,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.SLIDER && element.value != null && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -230,7 +236,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.RADIO && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -241,6 +247,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = value;
                     onOptionsChange(options);
                   }}
+                  fullWidth={!!!element.width}
                   options={element.options || []}
                 />
               </InlineField>
@@ -249,7 +256,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             {element.type === FormElementType.SELECT && (
               <InlineField
                 label={element.title}
-                grow
+                grow={!!!element.width}
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
@@ -260,6 +267,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event?.value;
                     onOptionsChange(options);
                   }}
+                  width={element.width}
                   options={element.options || []}
                 />
               </InlineField>

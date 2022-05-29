@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Allow to update Element Width
+
 ## 1.3.0 (2022-05-22)
 
 ### Features / Enhancements
