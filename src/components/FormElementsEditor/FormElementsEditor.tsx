@@ -126,7 +126,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           isOpen={false}
         >
           <InlineFieldRow>
-            <InlineField label="Id" labelWidth={8} invalid={element.id === ''}>
+            <InlineField label="Id" grow labelWidth={8} invalid={element.id === ''}>
               <Input
                 placeholder="Id"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -137,6 +137,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               />
             </InlineField>
 
+            <Button variant="destructive" onClick={(e) => onElementRemove(element.id)} icon="trash-alt"></Button>
+          </InlineFieldRow>
+
+          <InlineFieldRow>
             <InlineField label="Type" grow labelWidth={8}>
               <Select
                 options={FormElementTypeOptions}
@@ -158,13 +162,29 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 value={FormElementTypeOptions.find((type) => type.value === element.type)}
               />
             </InlineField>
-            <Button variant="destructive" onClick={(e) => onElementRemove(element.id)} icon="trash-alt"></Button>
-          </InlineFieldRow>
 
-          <InlineFieldRow>
-            <InlineField label="Title" grow labelWidth={8} invalid={element.title === ''}>
+            <InlineField
+              label="Width"
+              labelWidth={12}
+              tooltip="Element will grow to max length if not specified. Some elements does not support adjusting width."
+            >
               <Input
-                placeholder="Title"
+                placeholder="auto"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  element.width = Number(event.target.value);
+                  onChange(elements);
+                }}
+                value={element.width}
+                defaultValue={FormElementDefault.width}
+                min={0}
+                type="number"
+              />
+            </InlineField>
+          </InlineFieldRow>
+          <InlineFieldRow>
+            <InlineField label="Label" grow labelWidth={8} invalid={element.title === ''}>
+              <Input
+                placeholder="Label"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   element.title = event.target.value;
                   onChange(elements);
