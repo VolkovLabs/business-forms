@@ -2,6 +2,11 @@ import { FormElement } from '../types';
 import { FormElementType } from './form-element';
 
 /**
+ * Initial Request
+ */
+export const InitialHighlightColorDefault = 'red';
+
+/**
  * Submit Button
  */
 export const SubmitIconDefault = 'cloud-upload';

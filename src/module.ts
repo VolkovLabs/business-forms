@@ -19,6 +19,7 @@ import {
   CodeLanguage,
   ContentType,
   ContentTypeOptions,
+  InitialHighlightColorDefault,
   LayoutVariant,
   LayoutVariantOptions,
   RequestMethod,
@@ -105,6 +106,35 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: CodeEditorDefault,
+    })
+    .addRadio({
+      path: 'initial.highlight',
+      name: 'Highlight changed values',
+      description: 'Some elements are not supporting highlighting.',
+      category: ['Initial Request'],
+      settings: {
+        options: [
+          {
+            value: false,
+            label: 'No',
+          },
+          {
+            value: true,
+            label: 'Highlight',
+          },
+        ],
+      },
+      defaultValue: false,
+    })
+    .addColorPicker({
+      path: 'initial.highlightColor',
+      name: 'Highlight Color',
+      category: ['Initial Request'],
+      defaultValue: InitialHighlightColorDefault,
+      settings: {
+        disableNamedColors: true,
+      },
+      showIf: (config: any) => config.initial.highlight,
     });
 
   /**

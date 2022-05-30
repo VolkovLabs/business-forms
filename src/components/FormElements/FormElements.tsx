@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { css } from '@emotion/css';
 import { DateTime, SelectableValue } from '@grafana/data';
 import {
   CodeEditor,
@@ -11,9 +12,16 @@ import {
   Select,
   Slider,
   TextArea,
+  useTheme2,
 } from '@grafana/ui';
-import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType } from '../../constants';
-import { LayoutSection, PanelOptions } from '../../types';
+import {
+  BooleanElementOptions,
+  CodeEditorHeight,
+  CodeLanguage,
+  FormElementType,
+  InitialHighlightColorDefault,
+} from '../../constants';
+import { FormElement, LayoutSection, PanelOptions } from '../../types';
 
 /**
  * Properties
@@ -32,6 +40,13 @@ interface Props {
   onOptionsChange: any;
 
   /**
+   * Initial values
+   *
+   * @type {[id: string]: any}
+   */
+  initial: { [id: string]: any };
+
+  /**
    * Section
    */
   section: LayoutSection | null;
@@ -40,7 +55,32 @@ interface Props {
 /**
  * Form Elements
  */
-export const FormElements: React.FC<Props> = ({ options, onOptionsChange, section }) => {
+export const FormElements: React.FC<Props> = ({ options, onOptionsChange, section, initial }) => {
+  /**
+   * Theme and Styles
+   */
+  const theme = useTheme2();
+
+  /**
+   * Highlight Color
+   */
+  const highlightColor = theme.visualization.getColorByName(
+    options.initial.highlightColor || InitialHighlightColorDefault
+  );
+
+  /**
+   * Highlight CSS
+   */
+  const highlightClass = (element: FormElement) => {
+    return options.initial.highlight && Object.keys(initial).length && initial[element.id] !== element.value
+      ? css`
+          -webkit-text-fill-color: ${highlightColor};
+        `
+      : css`
+          -webkit-text-fill-color: ${theme.colors.text.primary};
+        `;
+  };
+
   return (
     <div>
       {options.elements.map((element) => {
@@ -71,6 +111,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     onOptionsChange(options);
                   }}
                   type="number"
+                  className={highlightClass(element)}
                   width={element.width}
                   min={element.min !== null ? element.min : ''}
                   max={element.max !== null ? element.max : ''}
@@ -92,6 +133,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event.target.value;
                     onOptionsChange(options);
                   }}
+                  className={highlightClass(element)}
                   width={element.width}
                   type="text"
                 />
@@ -112,6 +154,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event.target.value;
                     onOptionsChange(options);
                   }}
+                  className={highlightClass(element)}
                   width={element.width}
                   type="password"
                 />
@@ -145,6 +188,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = event.target.value;
                     onOptionsChange(options);
                   }}
+                  className={highlightClass(element)}
                   cols={element.width}
                   rows={element.rows}
                 />
@@ -188,6 +232,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = value;
                     onOptionsChange(options);
                   }}
+                  className={highlightClass(element)}
                   fullWidth={!!!element.width}
                   options={BooleanElementOptions}
                 />
@@ -249,6 +294,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   }}
                   fullWidth={!!!element.width}
                   options={element.options || []}
+                  className={highlightClass(element)}
                 />
               </InlineField>
             )}
@@ -269,6 +315,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   }}
                   width={element.width}
                   options={element.options || []}
+                  className={highlightClass(element)}
                 />
               </InlineField>
             )}

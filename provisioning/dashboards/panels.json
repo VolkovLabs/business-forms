@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1653239526614,
+  "iteration": 1653933288635,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -48,6 +48,7 @@
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "highlight": false,
           "method": "GET",
           "url": "http://api.example.com/"
         },
@@ -107,6 +108,7 @@
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "highlight": false,
           "method": "GET"
         },
         "layout": {
@@ -163,14 +165,12 @@
           {
             "id": "second",
             "title": "Second",
-            "type": "textarea",
-            "value": "grgrgrg"
+            "type": "textarea"
           },
           {
             "id": "third",
             "title": "Third",
-            "type": "boolean",
-            "value": false
+            "type": "boolean"
           },
           {
             "id": "code",
@@ -179,13 +179,13 @@
             "section": "",
             "title": "Code",
             "tooltip": "",
-            "type": "code",
-            "value": "rgregreg"
+            "type": "code"
           }
         ],
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "highlight": false,
           "method": "GET",
           "url": "http://localhost:3001"
         },
@@ -238,17 +238,20 @@
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz"
+            "unit": "Ghz",
+            "value": 30
           },
           {
             "id": "updated",
             "title": "Updated",
-            "type": "boolean"
+            "type": "boolean",
+            "value": false
           },
           {
             "id": "name",
             "title": "Name",
-            "type": "string"
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "step",
@@ -326,6 +329,7 @@
               "value": "123"
             }
           ],
+          "highlight": true,
           "method": "GET",
           "url": "http://localhost:3001/${var}"
         },
@@ -390,19 +394,22 @@
             "section": "Input",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz"
+            "unit": "Ghz",
+            "value": 30
           },
           {
             "id": "updated",
             "section": "Input",
             "title": "Updated",
-            "type": "boolean"
+            "type": "boolean",
+            "value": false
           },
           {
             "id": "name",
             "section": "Output",
             "title": "Name",
-            "type": "string"
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "step",
@@ -412,7 +419,8 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "unit": ""
+            "unit": "",
+            "value": 6
           },
           {
             "id": "select",
@@ -477,6 +485,7 @@
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "highlight": false,
           "method": "GET",
           "url": "http://localhost:3001"
         },
@@ -562,6 +571,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 8,
+  "version": 2,
   "weekStart": ""
 }
