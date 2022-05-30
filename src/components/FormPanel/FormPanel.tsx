@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, FieldSet, useTheme2 } from '@grafana/ui';
+import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useTheme2 } from '@grafana/ui';
 import { ButtonVariant, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
-import { PanelOptions } from '../../types';
+import { FormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
 
 /**
@@ -28,7 +28,9 @@ export const FormPanel: React.FC<Props> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
-  const [initial, setInitial] = useState({});
+  const [initial, setInitial] = useState<{ [id: string]: any }>({});
+  const [updateConfirmation, setUpdateConfirmation] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   /**
    * Theme and Styles
@@ -235,6 +237,19 @@ export const FormPanel: React.FC<Props> = ({
   }, []);
 
   /**
+   * Check updated values
+   */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setUpdated(false);
+    options.elements?.map((element) => {
+      if (element.value !== initial[element.id]) {
+        setUpdated(true);
+      }
+    });
+  });
+
+  /**
    * Check Form Elements
    */
   if (!options.elements || !options.elements.length) {
@@ -308,8 +323,14 @@ export const FormPanel: React.FC<Props> = ({
                       }
                     : {}
                 }
-                disabled={loading}
-                onClick={updateRequest}
+                disabled={loading || !updated}
+                onClick={
+                  options.update.confirm
+                    ? () => {
+                        setUpdateConfirmation(true);
+                      }
+                    : updateRequest
+                }
                 size={options.buttonGroup.size}
               >
                 {options.submit.text}
@@ -347,6 +368,52 @@ export const FormPanel: React.FC<Props> = ({
           {error}
         </Alert>
       )}
+
+      <ConfirmModal
+        isOpen={!!updateConfirmation}
+        title="Confirm update request"
+        body={
+          <div>
+            <h4>Please confirm to update changed values?</h4>
+            <table className={styles.confirmTable}>
+              <thead>
+                <tr className={styles.confirmTable}>
+                  <td className={styles.confirmTableTd}>
+                    <b>Id</b>
+                  </td>
+                  <td className={styles.confirmTableTd}>
+                    <b>Old Value</b>
+                  </td>
+                  <td className={styles.confirmTableTd}>
+                    <b>New Value</b>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                {options.elements.map((element: FormElement) => {
+                  if (element.value === initial[element.id]) {
+                    return;
+                  }
+
+                  return (
+                    <tr className={styles.confirmTable} key={element.id}>
+                      <td className={styles.confirmTableTd}>{element.id}</td>
+                      <td className={styles.confirmTableTd}>{initial[element.id]}</td>
+                      <td className={styles.confirmTableTd}>{element.value}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        }
+        confirmText="Confirm"
+        onConfirm={() => {
+          updateRequest();
+          setUpdateConfirmation(false);
+        }}
+        onDismiss={() => setUpdateConfirmation(false)}
+      />
     </div>
   );
 };

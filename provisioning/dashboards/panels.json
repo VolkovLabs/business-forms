@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1653933288635,
+  "iteration": 1653939315408,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -49,6 +49,7 @@
           "code": "console.log(response)",
           "contentType": "application/json",
           "highlight": false,
+          "highlightColor": "red",
           "method": "GET",
           "url": "http://api.example.com/"
         },
@@ -73,6 +74,7 @@
         },
         "update": {
           "code": "console.log(response)",
+          "confirm": false,
           "contentType": "application/json",
           "method": "POST",
           "url": "http://api.example.com/"
@@ -109,6 +111,7 @@
           "code": "console.log(response)",
           "contentType": "application/json",
           "highlight": false,
+          "highlightColor": "red",
           "method": "GET"
         },
         "layout": {
@@ -132,6 +135,7 @@
         },
         "update": {
           "code": "console.log(response)",
+          "confirm": false,
           "contentType": "application/json",
           "method": "POST"
         }
@@ -186,6 +190,7 @@
           "code": "console.log(response)",
           "contentType": "application/json",
           "highlight": false,
+          "highlightColor": "red",
           "method": "GET",
           "url": "http://localhost:3001"
         },
@@ -208,6 +213,7 @@
         },
         "update": {
           "code": "console.log(response)",
+          "confirm": false,
           "contentType": "application/json",
           "method": "POST",
           "url": "http://localhost:3001"
@@ -239,7 +245,7 @@
             "title": "Amount",
             "type": "number",
             "unit": "Ghz",
-            "value": 30
+            "value": "32"
           },
           {
             "id": "updated",
@@ -259,7 +265,8 @@
             "min": 0,
             "step": 1,
             "title": "Step",
-            "type": "slider"
+            "type": "slider",
+            "value": 1
           },
           {
             "id": "select",
@@ -279,7 +286,8 @@
             ],
             "title": "Select",
             "type": "select",
-            "unit": "C"
+            "unit": "C",
+            "value": "min"
           },
           {
             "id": "dateTime",
@@ -299,7 +307,8 @@
               }
             ],
             "title": "Radio",
-            "type": "radio"
+            "type": "radio",
+            "value": "plus"
           },
           {
             "id": "disabled",
@@ -330,6 +339,7 @@
             }
           ],
           "highlight": true,
+          "highlightColor": "red",
           "method": "GET",
           "url": "http://localhost:3001/${var}"
         },
@@ -355,6 +365,7 @@
         },
         "update": {
           "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
+          "confirm": true,
           "contentType": "application/json",
           "header": [
             {
@@ -395,7 +406,7 @@
             "title": "Amount",
             "type": "number",
             "unit": "Ghz",
-            "value": 30
+            "value": "32"
           },
           {
             "id": "updated",
@@ -420,7 +431,7 @@
             "title": "Step",
             "type": "slider",
             "unit": "",
-            "value": 6
+            "value": 1
           },
           {
             "id": "select",
@@ -441,7 +452,8 @@
             "section": "Output",
             "title": "Select",
             "type": "select",
-            "unit": "C"
+            "unit": "C",
+            "value": "min"
           },
           {
             "id": "dateTime",
@@ -464,7 +476,8 @@
             "section": "Input",
             "title": "Radio",
             "type": "radio",
-            "unit": ""
+            "unit": "",
+            "value": "plus"
           },
           {
             "id": "disabled",
@@ -486,6 +499,7 @@
           "code": "console.log(response)",
           "contentType": "application/json",
           "highlight": false,
+          "highlightColor": "red",
           "method": "GET",
           "url": "http://localhost:3001"
         },
@@ -524,6 +538,7 @@
         },
         "update": {
           "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
+          "confirm": false,
           "contentType": "application/json",
           "method": "POST",
           "url": "http://localhost:3001/"
@@ -571,6 +586,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }

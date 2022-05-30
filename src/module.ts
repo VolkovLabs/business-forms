@@ -191,6 +191,25 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: CodeEditorDefault,
+    })
+    .addRadio({
+      path: 'update.confirm',
+      name: 'Require Confirmation',
+      description: 'Will ask to confirm updated values.',
+      category: ['Update Request'],
+      settings: {
+        options: [
+          {
+            value: false,
+            label: 'No',
+          },
+          {
+            value: true,
+            label: 'Require',
+          },
+        ],
+      },
+      defaultValue: false,
     });
 
   /**
