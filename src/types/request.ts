@@ -53,4 +53,11 @@ export interface RequestOptions {
    * @type {string}
    */
   highlightColor: string;
+
+  /**
+   * Ask for confirmation
+   *
+   * @type {boolean}
+   */
+  confirm: boolean;
 }

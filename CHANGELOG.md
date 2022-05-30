@@ -1,10 +1,12 @@
 # Change Log
 
-## 1.4.0 (IN PROGRESS)
+## 1.4.0 (2022-05-30)
 
 ### Features / Enhancements
 
-- Allow to update Element Width
+- Allow to update Element Width (#50)
+- Add Highlight for changed values (#51)
+- Add Confirmation before Submit (#52)
 
 ## 1.3.0 (2022-05-22)
 

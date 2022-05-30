@@ -31,5 +31,13 @@ export const getStyles = () => {
         float: right;
       `,
     },
+    confirmTable: css`
+      width: 100%;
+      border: 1px solid;
+      text-align: center;
+    `,
+    confirmTableTd: css`
+      border: 1px solid;
+    `,
   };
 };

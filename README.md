@@ -42,6 +42,7 @@ grafana-cli --repo https://volkovlabs.io/plugins plugins install volkovlabs-form
 - Allows to add Header fields to Initial and Update requests.
 - Allows to customize Submit, Reset buttons and form layout.
 - Allows to split form elements into sections.
+- Allows to request confirmation before update request.
 
 ![API](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/form-api.png)
 
