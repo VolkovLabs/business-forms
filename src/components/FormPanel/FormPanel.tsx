@@ -28,6 +28,7 @@ export const FormPanel: React.FC<Props> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
+  const [initial, setInitial] = useState({});
 
   /**
    * Theme and Styles
@@ -200,6 +201,7 @@ export const FormPanel: React.FC<Props> = ({
        * Update values
        */
       onOptionsChange(options);
+      setInitial(body);
       setTitle('Values updated.');
     }
 
@@ -260,7 +262,12 @@ export const FormPanel: React.FC<Props> = ({
         {options.layout.variant === LayoutVariant.SINGLE && (
           <tr>
             <td>
-              <FormElements options={options} onOptionsChange={onOptionsChange} section={null}></FormElements>
+              <FormElements
+                options={options}
+                onOptionsChange={onOptionsChange}
+                initial={initial}
+                section={null}
+              ></FormElements>
             </td>
           </tr>
         )}
@@ -271,7 +278,12 @@ export const FormPanel: React.FC<Props> = ({
               return (
                 <td className={styles.td} key={id}>
                   <FieldSet label={section.name}>
-                    <FormElements options={options} section={section} onOptionsChange={onOptionsChange}></FormElements>
+                    <FormElements
+                      options={options}
+                      onOptionsChange={onOptionsChange}
+                      initial={initial}
+                      section={section}
+                    ></FormElements>
                   </FieldSet>
                 </td>
               );

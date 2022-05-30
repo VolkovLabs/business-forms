@@ -34,9 +34,23 @@ export interface RequestOptions {
   contentType: ContentType;
 
   /**
-   * Custom COde
+   * Custom Code
    *
    * @type {string}
    */
   code: string;
+
+  /**
+   * Highlight updated values
+   *
+   * @type {boolean}
+   */
+  highlight: boolean;
+
+  /**
+   * Highlight Color
+   *
+   * @type {string}
+   */
+  highlightColor: string;
 }
