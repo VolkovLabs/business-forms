@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1653939315408,
+  "iteration": 1655488392438,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -245,7 +245,7 @@
             "title": "Amount",
             "type": "number",
             "unit": "Ghz",
-            "value": "32"
+            "value": 30
           },
           {
             "id": "updated",
@@ -266,7 +266,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "value": 1
+            "value": 4
           },
           {
             "id": "select",
@@ -286,8 +286,7 @@
             ],
             "title": "Select",
             "type": "select",
-            "unit": "C",
-            "value": "min"
+            "unit": "C"
           },
           {
             "id": "dateTime",
@@ -307,8 +306,7 @@
               }
             ],
             "title": "Radio",
-            "type": "radio",
-            "value": "plus"
+            "type": "radio"
           },
           {
             "id": "disabled",
@@ -406,7 +404,7 @@
             "title": "Amount",
             "type": "number",
             "unit": "Ghz",
-            "value": "32"
+            "value": 30
           },
           {
             "id": "updated",
@@ -431,7 +429,7 @@
             "title": "Step",
             "type": "slider",
             "unit": "",
-            "value": 1
+            "value": 4
           },
           {
             "id": "select",
@@ -452,8 +450,7 @@
             "section": "Output",
             "title": "Select",
             "type": "select",
-            "unit": "C",
-            "value": "min"
+            "unit": "C"
           },
           {
             "id": "dateTime",
@@ -476,8 +473,7 @@
             "section": "Input",
             "title": "Radio",
             "type": "radio",
-            "unit": "",
-            "value": "plus"
+            "unit": ""
           },
           {
             "id": "disabled",
@@ -586,6 +582,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }
