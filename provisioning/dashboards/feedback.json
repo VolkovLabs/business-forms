@@ -149,7 +149,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
@@ -261,7 +261,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
@@ -337,14 +337,6 @@
           "orientation": "center",
           "size": "md"
         },
-        "initial": {
-          "code": "console.log(response)",
-          "contentType": "application/json",
-          "method": "GET"
-        },
-        "layout": {
-          "variant": "single"
-        },
         "elements": [
           {
             "id": "name",
@@ -390,6 +382,16 @@
             "type": "textarea"
           }
         ],
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET"
+        },
+        "layout": {
+          "variant": "single"
+        },
         "reset": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -406,6 +408,7 @@
         },
         "update": {
           "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}",
+          "confirm": false,
           "contentType": "application/json",
           "method": "POST",
           "url": "http://localhost:3002"
@@ -429,6 +432,6 @@
   "timezone": "",
   "title": "Feedback Submissions",
   "uid": "bSNr62X7z",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
