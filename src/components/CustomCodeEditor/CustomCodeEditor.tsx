@@ -1,7 +1,12 @@
 import React from 'react';
 import { StandardEditorProps } from '@grafana/data';
-import { CodeEditor } from '@grafana/ui';
+import { CodeEditor, Monaco } from '@grafana/ui';
 import { CodeEditorHeight, CodeLanguage } from '../../constants';
+
+/**
+ * Monaco
+ */
+import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 
 /**
  * Properties
@@ -18,6 +23,15 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
   const language = item.settings?.language || CodeLanguage.JAVASCRIPT;
 
   /**
+   * Format On Mount
+   */
+  const onEditorMount = (editor: monacoType.editor.IStandaloneCodeEditor, monaco: Monaco) => {
+    setTimeout(() => {
+      editor.getAction('editor.action.formatDocument').run();
+    }, 100);
+  };
+
+  /**
    * Return
    */
   return (
@@ -31,6 +45,8 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
         onBlur={(code) => {
           onChange(code);
         }}
+        monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+        onEditorDidMount={onEditorMount}
       />
     </div>
   );
