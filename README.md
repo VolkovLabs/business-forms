@@ -11,6 +11,8 @@
 
 The Data Manipulation Form Panel is a plugin for Grafana that can be used to insert, update application data, and modify configuration directly from your Grafana dashboard.
 
+<iframe width="728" height="410" src="https://www.youtube.com/embed/DXALVG8GijM" title="Data Manipulation Plugin for Grafana | Manual data entering and User input into Dashboard" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+
 ### Requirements
 
 - **Grafana 8.3+**, **Grafana 9.0+** is required for version 3.X.
@@ -46,6 +48,36 @@ grafana-cli --repo https://volkovlabs.io/plugins plugins install volkovlabs-form
 - Allows to request confirmation before update request.
 
 ![API](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/form-api.png)
+
+## Custom Code
+
+The custom code has access to the Panel options, the response from the REST API call, form elements, various Grafana services and will be executed after the Initial and Update requests. Dashboard variables will be replaced automatically.
+
+Available Parameters:
+
+- `options` - Panels's options.
+- `data` - Result set of panel queries.
+- `response` - Request's response.
+- `elements` - Form Elements.
+- `locationService` - Grafana's `locationService` to work with browser location and history.
+- `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
+
+![Panel](https://github.com/VolkovLabs/form-echarts-panel/raw/main/src/img/request.png)
+
+To learn more about parameters you can log them in the Browser Console:
+
+```javascript
+console.log(options, data, response, elements, locationService, templateService);
+```
+
+To reload location after successfully update request do:
+
+```
+console.log(response);
+if (response && response.ok) {
+  location.reload();
+}
+```
 
 ## Feedback
 
