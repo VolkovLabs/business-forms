@@ -62,7 +62,7 @@ Available Parameters:
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
 
-![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/request.png)
+![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/request.png)
 
 To learn more about parameters you can log them in the Browser Console:
 
@@ -78,6 +78,14 @@ if (response && response.ok) {
   location.reload();
 }
 ```
+
+## NGINX
+
+We recommend running Grafana behind NGINX reverse proxy for an additional security layer. The reverse proxy also allows us to expose additional API endpoints and static files in the same domain, which makes it CORS-ready.
+
+![NGINX](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/form-nginx-api.png)
+
+Read more in [How to connect the Data Manipulation plugin for Grafana to API Server](https://volkovlabs.com/how-to-connect-the-data-manipulation-plugin-for-grafana-to-api-server-1abe5f60c904)
 
 ## Feedback
 
