@@ -62,7 +62,7 @@ Available Parameters:
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
 
-![Panel](https://github.com/VolkovLabs/form-echarts-panel/raw/main/src/img/request.png)
+![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/request.png)
 
 To learn more about parameters you can log them in the Browser Console:
 
