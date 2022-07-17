@@ -7,6 +7,7 @@
 - Rebuild based on 9.0.3 (#58)
 - Automatic Code Editor Formatting (#59)
 - Explain Custom code in Readme (#60)
+- Update YouTube link with tutorial in README #61
 
 ## 2.0.0 (2022-06-17)
 
