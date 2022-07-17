@@ -11,8 +11,6 @@
 
 The Data Manipulation Form Panel is a plugin for Grafana that can be used to insert, update application data, and modify configuration directly from your Grafana dashboard.
 
-Watch the video "Data Manipulation Plugin for Grafana | Manual data entering and User input into Dashboard" to learn more.
-
 [![Data Manipulation Plugin for Grafana | Manual data entering and User input into Dashboard](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/video.png)](https://youtu.be/DXALVG8GijM)
 
 ### Requirements
