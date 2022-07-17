@@ -1,11 +1,12 @@
 # Change Log
 
-## 2.1.0 (IN PROGRESS)
+## 2.1.0 (2022-07-17)
 
 ### Features / Enhancements
 
 - Rebuild based on 9.0.3 (#58)
 - Automatic Code Editor Formatting (#59)
+- Explain Custom code in Readme (#60)
 
 ## 2.0.0 (2022-06-17)
 
