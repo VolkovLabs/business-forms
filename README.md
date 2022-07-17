@@ -70,7 +70,7 @@ To learn more about parameters you can log them in the Browser Console:
 console.log(options, data, response, elements, locationService, templateService);
 ```
 
-To reload location after successfully update request do:
+For example, to reload location after update request do:
 
 ```
 console.log(response);
