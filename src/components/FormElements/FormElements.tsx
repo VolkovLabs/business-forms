@@ -214,6 +214,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = code;
                     onOptionsChange(options);
                   }}
+                  monacoOptions={{ formatOnPaste: true, formatOnType: true }}
                 />
               </InlineField>
             )}
