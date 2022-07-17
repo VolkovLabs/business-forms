@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Rebuild based on 9.0.3
+
 ## 2.0.0 (2022-06-17)
 
 ### Breaking changes
@@ -8,7 +14,7 @@
 
 ### Features / Enhancements
 
-- Rebuild based on 9.0.0
+- Rebuild based on 9.0.0 (#53)
 
 ## 1.4.0 (2022-05-30)
 
