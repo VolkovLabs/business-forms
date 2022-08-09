@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.2.0 (2022-08-09)
+
+### Features / Enhancements
+
+- Update to Grafana 9.0.6 (#63)
+
 ## 2.1.0 (2022-07-17)
 
 ### Features / Enhancements

@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1655488392438,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -89,7 +88,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 10,
+        "h": 12,
         "w": 7,
         "x": 9,
         "y": 0
@@ -149,7 +148,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 10,
+        "h": 12,
         "w": 8,
         "x": 16,
         "y": 0
@@ -228,7 +227,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 19,
+        "h": 21,
         "w": 9,
         "x": 0,
         "y": 7
@@ -306,7 +305,8 @@
               }
             ],
             "title": "Radio",
-            "type": "radio"
+            "type": "radio",
+            "value": "minus"
           },
           {
             "id": "disabled",
@@ -389,7 +389,7 @@
         "h": 16,
         "w": 15,
         "x": 9,
-        "y": 10
+        "y": 12
       },
       "id": 13,
       "options": {
@@ -473,7 +473,8 @@
             "section": "Input",
             "title": "Radio",
             "type": "radio",
-            "unit": ""
+            "unit": "",
+            "value": "minus"
           },
           {
             "id": "disabled",
