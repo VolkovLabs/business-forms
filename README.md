@@ -15,7 +15,7 @@ The Data Manipulation Form Panel is a plugin for Grafana that can be used to ins
 
 ### Requirements
 
-- **Grafana 8.3+**, **Grafana 9.0+** is required for version 2.X.
+- **Grafana 8.5+**, **Grafana 9.0+** is required for version 2.X.
 - **Grafana 8.0+** is required for version 1.X.
 
 ## Getting Started
