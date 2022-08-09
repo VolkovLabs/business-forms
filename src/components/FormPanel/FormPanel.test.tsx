@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { ButtonOrientation, FormElementDefault } from '../../constants';
+import { ButtonOrientation, FormElementDefault, LayoutVariant } from '../../constants';
 import { FormPanel } from './FormPanel';
 
 /**
@@ -14,7 +14,7 @@ describe('Panel', () => {
         initial: {},
         update: {},
         reset: {},
-        layout: {},
+        layout: { variant: LayoutVariant.SINGLE },
         buttonGroup: { orientation: ButtonOrientation.CENTER },
         elements: [FormElementDefault],
       },
@@ -35,7 +35,9 @@ describe('Panel', () => {
         initial: {},
         update: {},
         reset: {},
+        layout: { variant: LayoutVariant.SINGLE },
         buttonGroup: { orientation: ButtonOrientation.CENTER },
+        elements: [],
       },
       ...restProps
     }: any) => {
