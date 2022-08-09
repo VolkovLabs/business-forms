@@ -1,5 +1,6 @@
+import Slider from 'rc-slider';
 import React, { ChangeEvent } from 'react';
-import { css } from '@emotion/css';
+import { css, cx } from '@emotion/css';
 import { DateTime, SelectableValue } from '@grafana/data';
 import {
   CodeEditor,
@@ -10,7 +11,6 @@ import {
   Input,
   RadioButtonGroup,
   Select,
-  Slider,
   TextArea,
   useTheme2,
 } from '@grafana/ui';
@@ -21,6 +21,7 @@ import {
   FormElementType,
   InitialHighlightColorDefault,
 } from '../../constants';
+import { getStyles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
 
 /**
@@ -60,6 +61,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
    * Theme and Styles
    */
   const theme = useTheme2();
+  const styles = getStyles(theme);
 
   /**
    * Highlight Color
@@ -259,24 +261,40 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
             )}
 
             {element.type === FormElementType.SLIDER && element.value != null && (
-              <InlineField
-                label={element.title}
-                grow={!!!element.width}
-                labelWidth={element.labelWidth}
-                tooltip={element.tooltip}
-                transparent={!!!element.title}
-              >
-                <Slider
-                  value={element.value || 0}
-                  onChange={(value: number) => {
-                    element.value = value;
-                    onOptionsChange(options);
-                  }}
-                  min={element.min || 0}
-                  max={element.max || 0}
-                  step={element.step || 0}
-                />
-              </InlineField>
+              <>
+                <InlineField
+                  label={element.title}
+                  grow={!!!element.width}
+                  labelWidth={element.labelWidth}
+                  tooltip={element.tooltip}
+                  transparent={!!!element.title}
+                  className={cx(styles.slider)}
+                >
+                  <Slider
+                    value={element.value || 0}
+                    onChange={(value: number) => {
+                      element.value = value;
+                      onOptionsChange(options);
+                    }}
+                    min={element.min || 0}
+                    max={element.max || 0}
+                    step={element.step || 0}
+                  />
+                </InlineField>
+                <InlineField className={cx(styles.sliderInput)}>
+                  <Input
+                    type="number"
+                    width={8}
+                    min={element.min || 0}
+                    max={element.max || 0}
+                    value={element.value || 0}
+                    onChange={(e) => {
+                      element.value = e.currentTarget.value;
+                      onOptionsChange(options);
+                    }}
+                  ></Input>
+                </InlineField>
+              </>
             )}
 
             {element.type === FormElementType.RADIO && (

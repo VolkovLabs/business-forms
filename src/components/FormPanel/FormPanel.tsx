@@ -36,7 +36,7 @@ export const FormPanel: React.FC<Props> = ({
    * Theme and Styles
    */
   const theme = useTheme2();
-  const styles = getStyles();
+  const styles = getStyles(theme);
 
   /**
    * Template Service
