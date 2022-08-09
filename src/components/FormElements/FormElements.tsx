@@ -85,7 +85,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
 
   return (
     <div>
-      {options.elements.map((element) => {
+      {options.elements?.map((element) => {
         /**
          * Skip Hidden Elements
          */
