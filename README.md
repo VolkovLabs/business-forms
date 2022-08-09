@@ -61,6 +61,7 @@ Available Parameters:
 - `elements` - Form Elements.
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
+- `onOptionsChange` - Panel options Change handler.
 
 ![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/request.png)
 
