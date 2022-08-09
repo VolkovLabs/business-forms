@@ -5,6 +5,11 @@
 ### Features / Enhancements
 
 - Update to Grafana 9.0.6 (#63)
+- Allow to get Elements Initial Value and Configuration from Data Source (#22)
+
+### Bug fixes
+
+- Number Slider is not updated properly (#18)
 
 ## 2.1.0 (2022-07-17)
 
