@@ -55,12 +55,13 @@ The custom code has access to the Panel options, the response from the REST API 
 
 Available Parameters:
 
-- `options` - Panels's options.
+- `options` - Panels' options.
 - `data` - Result set of panel queries.
 - `response` - Request's response.
 - `elements` - Form Elements.
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
+- `onOptionsChange` - Panel options Change handler.
 
 ![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/request.png)
 
@@ -79,13 +80,80 @@ if (response && response.ok) {
 }
 ```
 
+Clear elements' values after Submit or on Reset button click:
+
+```
+elements.map((element) => {
+   if (element.id === 'name') {
+     element.value = '';
+   };
+})
+```
+
+## Dynamic form elements
+
+Using the custom code you can update elements or element's value and options from any data source.
+
+[![Static and dynamic interface elements of Data Manipulation plugin | DML using data source in Grafana](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/elements.png)](https://youtu.be/RSVH1bSBNl8)
+
+For example, to fill options of the `icon` Select element from series `icons` with `icon_id` and `title` columns.
+
+```
+const icons = data.series.find((serie) => serie.refId === 'icons');
+const iconSelect = elements.find((element) => element.id === 'icon');
+
+if (icons?.fields.length) {
+  const ids = icons.fields.find((f) => f.name === 'icon_id').values.buffer;
+  const titles = icons.fields.find((f) => f.name === 'title').values.buffer;
+
+  iconSelect.options = titles.map((value, index) => { return { label: value, value: ids[index] } });
+}
+```
+
+Another example is to update all form elements from data sources:
+
+```
+const feedback = data.series.find((serie) => serie.refId === 'Feedback');
+const typeOptions = data.series.find((serie) => serie.refId === 'Types');
+
+if (feedback?.fields.length) {
+  const ids = feedback.fields.find((f) => f.name === 'id').values.buffer;
+  const titles = feedback.fields.find((f) => f.name === 'title').values.buffer;
+  const types = feedback.fields.find((f) => f.name === 'type').values.buffer;
+
+  /**
+   * Set Elements
+   */
+  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });
+
+  /**
+   * Find Type element
+   */
+  const typeSelect = elements.find((element) => element.id === 'type');
+  if (typeSelect && typeOptions?.fields.length) {
+    const labels = typeOptions.fields.find((f) => f.name === 'label').values.buffer;
+    const values = typeOptions.fields.find((f) => f.name === 'value').values.buffer;
+
+    /**
+     * Update Types
+     */
+    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });
+  }
+
+  /**
+   * Update Panel Options
+   */
+  onOptionsChange({ ...options, elements });
+}
+```
+
 ## NGINX
 
 We recommend running Grafana behind NGINX reverse proxy for an additional security layer. The reverse proxy also allows us to expose additional API endpoints and static files in the same domain, which makes it CORS-ready.
 
 ![NGINX](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/form-nginx-api.png)
 
-Read more in [How to connect the Data Manipulation plugin for Grafana to API Server](https://volkovlabs.com/how-to-connect-the-data-manipulation-plugin-for-grafana-to-api-server-1abe5f60c904)
+Read more in [How to connect the Data Manipulation plugin for Grafana to API Server](https://volkovlabs.com/how-to-connect-the-data-manipulation-plugin-for-grafana-to-api-server-1abe5f60c904).
 
 ## Feedback
 

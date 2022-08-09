@@ -49,7 +49,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 6,
         "w": 5,
         "x": 0,
         "y": 0
@@ -131,7 +131,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 6,
         "w": 4,
         "x": 5,
         "y": 0
@@ -149,7 +149,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.0.6",
       "targets": [
         {
           "datasource": {
@@ -246,7 +246,7 @@
         ]
       },
       "gridPos": {
-        "h": 18,
+        "h": 24,
         "w": 15,
         "x": 9,
         "y": 0
@@ -261,7 +261,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.0.6",
       "targets": [
         {
           "datasource": {
@@ -322,14 +322,14 @@
     },
     {
       "datasource": {
-        "type": "datasource",
+        "type": "grafana",
         "uid": "grafana"
       },
       "gridPos": {
         "h": 9,
         "w": 9,
         "x": 0,
-        "y": 9
+        "y": 6
       },
       "id": 4,
       "options": {
@@ -383,7 +383,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(elements)",
           "contentType": "application/json",
           "highlight": false,
           "highlightColor": "red",
@@ -397,7 +397,7 @@
           "foregroundColor": "yellow",
           "icon": "process",
           "text": "Reset",
-          "variant": "hidden"
+          "variant": "primary"
         },
         "submit": {
           "backgroundColor": "purple",
@@ -414,7 +414,128 @@
           "url": "http://localhost:3002"
         }
       },
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Feedback",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 0,
+        "y": 15
+      },
+      "id": 8,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "elements": [],
+        "initial": {
+          "code": "const feedback = data.series.find((serie) => serie.refId === 'Feedback');\nconst typeOptions = data.series.find((serie) => serie.refId === 'Types');\n\nif (feedback?.fields.length) {\n  const ids = feedback.fields.find((f) => f.name === 'id').values.buffer;\n  const titles = feedback.fields.find((f) => f.name === 'title').values.buffer;\n  const types = feedback.fields.find((f) => f.name === 'type').values.buffer;\n\n  /**\n   * Set Elements\n   */\n  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });\n\n  /**\n   * Find Type element\n   */\n  const typeSelect = elements.find((element) => element.id === 'type');\n  if (typeSelect && typeOptions?.fields.length) {\n    const labels = typeOptions.fields.find((f) => f.name === 'label').values.buffer;\n    const values = typeOptions.fields.find((f) => f.name === 'value').values.buffer;\n\n    /**\n     * Update Types\n     */\n    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });\n  }\n\n  /**\n   * Update Panel Options\n   */\n  onOptionsChange({ ...options, elements });\n}",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "primary"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "method": "POST",
+          "url": "http://localhost:3002"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["name", "email", "type", "description"]
+              },
+              {
+                "config": {},
+                "name": "title",
+                "type": "string",
+                "values": ["Name", "Email", "Type", "Description"]
+              },
+              {
+                "config": {},
+                "name": "type",
+                "type": "string",
+                "values": ["string", "string", "radio", "textarea"]
+              }
+            ],
+            "meta": {},
+            "name": "Feedback"
+          },
+          "refId": "Feedback"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": ["Comment", "Issue", "Feature Request"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": ["comment", "issue", "feature"]
+              }
+            ],
+            "meta": {},
+            "name": "Types"
+          },
+          "hide": false,
+          "refId": "Types"
+        }
+      ],
+      "title": "Feedback - Dynamic",
       "type": "volkovlabs-form-panel"
     }
   ],
@@ -432,6 +553,6 @@
   "timezone": "",
   "title": "Feedback Submissions",
   "uid": "bSNr62X7z",
-  "version": 1,
+  "version": 20,
   "weekStart": ""
 }

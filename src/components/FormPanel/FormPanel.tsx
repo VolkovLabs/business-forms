@@ -58,11 +58,12 @@ export const FormPanel: React.FC<Props> = ({
       'elements',
       'locationService',
       'templateService',
+      'onOptionsChange',
       replaceVariables(code)
     );
 
     try {
-      f(options, data, response, options.elements, locationService, templateSrv);
+      f(options, data, response, options.elements, locationService, templateSrv, onOptionsChange);
     } catch (error: any) {
       console.error(error);
       setError(error.toString());
@@ -252,7 +253,7 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Check Form Elements
    */
-  if (!options.elements || !options.elements.length) {
+  if ((!options.elements || !options.elements.length) && !options.initial.code) {
     return (
       <Alert severity="info" title="Form Elements">
         Please add elements in Panel Options.
