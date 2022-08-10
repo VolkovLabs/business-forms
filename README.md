@@ -71,7 +71,7 @@ To learn more about parameters you can log them in the Browser Console:
 console.log(options, data, response, elements, locationService, templateService);
 ```
 
-For example, to reload location after update request do:
+### Reload page after update request
 
 ```
 console.log(response);
@@ -80,7 +80,7 @@ if (response && response.ok) {
 }
 ```
 
-Clear elements' values after Submit or on Reset button click:
+### Clear elements' values after Submit or on Reset button click
 
 ```
 elements.map((element) => {
@@ -96,7 +96,7 @@ Using the custom code you can update elements or element's value and options fro
 
 [![Static and dynamic interface elements of Data Manipulation plugin | DML using data source in Grafana](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/elements.png)](https://youtu.be/RSVH1bSBNl8)
 
-For example, to fill options of the `icon` Select element from series `icons` with `icon_id` and `title` columns.
+### Fill options of the `icon` element from series `icons` with `icon_id` and `title` columns
 
 ```
 const icons = data.series.find((serie) => serie.refId === 'icons');
@@ -110,7 +110,7 @@ if (icons?.fields.length) {
 }
 ```
 
-Another example is to update all form elements from data sources:
+### Update all form elements from data sources
 
 ```
 const feedback = data.series.find((serie) => serie.refId === 'Feedback');
