@@ -20,7 +20,13 @@ The Data Manipulation Form Panel is a plugin for Grafana that can be used to ins
 
 ## Getting Started
 
-Data Manipulation panel is not included in the Grafana Marketplace. It can be installed manually from our Private Repository or downloaded directly from the GitHub repository:
+Data Manipulation panel is under review to include in the Grafana Marketplace. When approved it can be installed from the Grafana Marketplace or use the `grafana-cli` tool to install from the command line:
+
+```bash
+grafana-cli plugins install volkovlabs-form-panel
+```
+
+It can be installed manually from our Private Repository or downloaded directly from the GitHub repository:
 
 ```bash
 grafana-cli --repo https://volkovlabs.io/plugins plugins install volkovlabs-form-panel
@@ -73,7 +79,7 @@ console.log(options, data, response, elements, locationService, templateService)
 
 ### Reload page after update request
 
-```
+```javascript
 console.log(response);
 if (response && response.ok) {
   location.reload();
@@ -82,12 +88,12 @@ if (response && response.ok) {
 
 ### Clear elements' values after Submit or on Reset button click
 
-```
+```javascript
 elements.map((element) => {
-   if (element.id === 'name') {
-     element.value = '';
-   };
-})
+  if (element.id === 'name') {
+    element.value = '';
+  }
+});
 ```
 
 ## Dynamic form elements
@@ -98,7 +104,7 @@ Using the custom code you can update elements or element's value and options fro
 
 ### Fill options of the `icon` element from series `icons` with `icon_id` and `title` columns
 
-```
+```javascript
 const icons = data.series.find((serie) => serie.refId === 'icons');
 const iconSelect = elements.find((element) => element.id === 'icon');
 
@@ -106,13 +112,15 @@ if (icons?.fields.length) {
   const ids = icons.fields.find((f) => f.name === 'icon_id').values.buffer;
   const titles = icons.fields.find((f) => f.name === 'title').values.buffer;
 
-  iconSelect.options = titles.map((value, index) => { return { label: value, value: ids[index] } });
+  iconSelect.options = titles.map((value, index) => {
+    return { label: value, value: ids[index] };
+  });
 }
 ```
 
 ### Update all form elements from data sources
 
-```
+```javascript
 const feedback = data.series.find((serie) => serie.refId === 'Feedback');
 const typeOptions = data.series.find((serie) => serie.refId === 'Types');
 
@@ -124,7 +132,9 @@ if (feedback?.fields.length) {
   /**
    * Set Elements
    */
-  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });
+  elements = ids.map((id, index) => {
+    return { id, title: titles[index], type: types[index] };
+  });
 
   /**
    * Find Type element
@@ -137,7 +147,9 @@ if (feedback?.fields.length) {
     /**
      * Update Types
      */
-    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });
+    typeSelect.options = labels.map((label, index) => {
+      return { label, value: values[index] };
+    });
   }
 
   /**
