@@ -6,6 +6,7 @@
 
 - Update to Grafana 9.0.6 (#63)
 - Allow to get Elements Initial Value and Configuration from Data Source (#22)
+- Update Alert when no elements defined (#66)
 
 ### Bug fixes
 

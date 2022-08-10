@@ -251,17 +251,6 @@ export const FormPanel: React.FC<Props> = ({
   });
 
   /**
-   * Check Form Elements
-   */
-  if ((!options.elements || !options.elements.length) && !options.initial.code) {
-    return (
-      <Alert severity="info" title="Form Elements">
-        Please add elements in Panel Options.
-      </Alert>
-    );
-  }
-
-  /**
    * Return
    */
   return (
@@ -274,6 +263,12 @@ export const FormPanel: React.FC<Props> = ({
         `
       )}
     >
+      {(!options.elements || !options.elements.length) && (
+        <Alert severity="info" title="Form Elements">
+          Please add elements in Panel Options or Custom Code.
+        </Alert>
+      )}
+
       <table className={styles.table}>
         {options.layout.variant === LayoutVariant.SINGLE && (
           <tr>
@@ -391,7 +386,7 @@ export const FormPanel: React.FC<Props> = ({
                 </tr>
               </thead>
               <tbody>
-                {options.elements.map((element: FormElement) => {
+                {options.elements?.map((element: FormElement) => {
                   if (element.value === initial[element.id]) {
                     return;
                   }
