@@ -5,7 +5,7 @@
 ### Features / Enhancements
 
 - Update Sample code in README (#67)
-- Updated to be included in the Grafana Marketplace
+- Updated to be included in the Grafana Marketplace (#68)
 
 ## 2.2.0 (2022-08-09)
 
