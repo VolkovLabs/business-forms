@@ -1,10 +1,11 @@
 # Change Log
 
-## 2.2.0 (IN PROGRESS)
+## 2.3.0 (IN PROGRESS)
 
 ### Features / Enhancements
 
 - Update Sample code in README (#67)
+- Updated to be included in the Grafana Marketplace (#68)
 
 ## 2.2.0 (2022-08-09)
 
