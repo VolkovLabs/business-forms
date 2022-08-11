@@ -1,6 +1,10 @@
 # Change Log
 
-## 2.3.0 (IN PROGRESS)
+## 2.3.0 (2022-08-11)
+
+### Breaking changes
+
+- Signed as Community Plugin.
 
 ### Features / Enhancements
 
