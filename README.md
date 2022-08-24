@@ -91,11 +91,13 @@ elements.map((element) => {
 
 ## Dashboard Variables
 
-Dashboard variables will be replaced automatically in:
+Dashboard and Global variables will be replaced automatically in:
 
 - URL for Initial and Update requests
 - Header Parameters' values
 - Request body, which contains elements' values
+
+You can find [global built-in variables](https://grafana.com/docs/grafana/latest/variables/variable-types/global-variables/) in the Grafana documentation.
 
 ## Dynamic form elements
 
