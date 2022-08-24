@@ -6,6 +6,7 @@
 
 - Update to Grafana 9.1.1 (#72)
 - Explain how to use Dashboard Variables in README (#73)
+- Add onOptionsChange in examples to update the panel (#75)
 
 ## 2.3.0 (2022-08-11)
 
