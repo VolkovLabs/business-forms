@@ -51,7 +51,7 @@ grafana-cli plugins install volkovlabs-form-panel
 
 ## Custom Code
 
-The custom code has access to the Panel options, the response from the REST API call, form elements, various Grafana services and will be executed after the Initial and Update requests. Dashboard variables will be replaced automatically.
+The custom code has access to the Panel options, the response from the REST API call, form elements, various Grafana services and will be executed after the Initial and Update requests.
 
 Available Parameters:
 
@@ -74,7 +74,6 @@ console.log(options, data, response, elements, locationService, templateService)
 ### Reload page after update request
 
 ```javascript
-console.log(response);
 if (response && response.ok) {
   location.reload();
 }
@@ -89,6 +88,14 @@ elements.map((element) => {
   }
 });
 ```
+
+## Dashboard Variables
+
+Dashboard variables will be replaced automatically in:
+
+- URL for Initial and Update requests
+- Header Parameters' values
+- Request body, which contains elements' values
 
 ## Dynamic form elements
 
