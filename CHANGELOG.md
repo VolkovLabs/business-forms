@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Update to Grafana 9.1.1 (#72)
+- Explain how to use Dashboard Variables in README (#73)
 
 ## 2.3.0 (2022-08-11)
 
