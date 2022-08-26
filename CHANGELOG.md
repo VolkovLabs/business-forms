@@ -7,6 +7,8 @@
 - Update to Grafana 9.1.1 (#72)
 - Explain how to use Dashboard Variables in README (#73)
 - Add onOptionsChange in examples to update the panel (#75)
+- Add variables in URL to call from form elements (#78)
+- Add Custom Update Request to README (#79)
 
 ## 2.3.0 (2022-08-11)
 

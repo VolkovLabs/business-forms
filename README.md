@@ -168,6 +168,39 @@ if (feedback?.fields.length) {
 }
 ```
 
+## Custom Update Request
+
+Data Manipulation panel allows to create your own update request using Custom Code. Select Update Request to `-` and set Custom Code:
+
+```
+/**
+ * Set body
+ */
+const body = {};
+options.elements.forEach((element) => {
+  body[element.id] = element.value;
+});
+
+/**
+ * Set URL
+ */
+const url = `http://localhost:3001/${body['name']}`;
+
+/**
+ * Fetch
+ */
+const resp = fetch(url, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'PRIVATE-TOKEN': '$token'
+  },
+  body: JSON.stringify(body),
+}).catch((error) => {
+  console.error(error);
+}).then((resp) => {console.log(resp)});
+```
+
 ## NGINX
 
 We recommend running Grafana behind NGINX reverse proxy for an additional security layer. The reverse proxy also allows us to expose additional API endpoints and static files in the same domain, which makes it CORS-ready.
