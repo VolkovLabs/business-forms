@@ -9,6 +9,8 @@
 - Add onOptionsChange in examples to update the panel (#75)
 - Add variables in URL to call from form elements (#78)
 - Add Custom Update Request to README (#79)
+- Add Deno Deploy Playground server and dashboard
+- Add "How to Manipulate Data using Grafana dashboard" video
 
 ## 2.3.0 (2022-08-11)
 

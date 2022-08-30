@@ -47,6 +47,12 @@ grafana-cli plugins install volkovlabs-form-panel
 - Allows to split form elements into sections.
 - Allows to request confirmation before update request.
 
+## Architecture
+
+[![How to Manipulate Data using Grafana dashboard | API Node.js Server and Deno Deploy Project](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/server.png)](https://youtu.be/SHN2S-dRIEM)
+
+### Diagram
+
 ![API](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/form-api.png)
 
 ## Custom Code
@@ -71,11 +77,13 @@ To learn more about parameters you can log them in the Browser Console:
 console.log(options, data, response, elements, locationService, templateService);
 ```
 
-### Reload page after update request
+### Reload page after update request or show error
 
 ```javascript
 if (response && response.ok) {
   location.reload();
+} else {
+  alert(`Error: ${response.status}`);
 }
 ```
 
