@@ -22,3 +22,12 @@ datasources:
     orgId: 1
     version: 1
     editable: true
+  - name: Feedback API
+    uid: f5GJYlZVk
+    type: marcusolsson-json-datasource
+    access: proxy
+    url: https://volkovlabs-feedback.deno.dev
+    isDefault: false
+    orgId: 1
+    version: 1
+    editable: true
