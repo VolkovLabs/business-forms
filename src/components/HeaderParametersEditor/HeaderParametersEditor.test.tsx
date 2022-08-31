@@ -36,8 +36,6 @@ describe('Panel', () => {
     const removeButton = div.find('[icon="minus"]');
     expect(removeButton.exists()).toBeTruthy();
     removeButton.simulate('click');
-
-    console.log(div.debug());
   });
 
   /**
