@@ -144,7 +144,12 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Check Elements
      */
-    if (!options.elements || !options.elements.length || !options.initial.url) {
+    if (
+      !options.elements ||
+      !options.elements.length ||
+      !options.initial.url ||
+      options.initial.method === RequestMethod.NONE
+    ) {
       /**
        * Execute Custom Code and reset Loading
        */
@@ -243,6 +248,7 @@ export const FormPanel: React.FC<Props> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setUpdated(false);
+
     options.elements?.map((element) => {
       if (element.value !== initial[element.id]) {
         setUpdated(true);
@@ -375,7 +381,7 @@ export const FormPanel: React.FC<Props> = ({
               <thead>
                 <tr className={styles.confirmTable}>
                   <td className={styles.confirmTableTd}>
-                    <b>Id</b>
+                    <b>Label</b>
                   </td>
                   <td className={styles.confirmTableTd}>
                     <b>Old Value</b>
@@ -393,7 +399,7 @@ export const FormPanel: React.FC<Props> = ({
 
                   return (
                     <tr className={styles.confirmTable} key={element.id}>
-                      <td className={styles.confirmTableTd}>{element.id}</td>
+                      <td className={styles.confirmTableTd}>{element.title}</td>
                       <td className={styles.confirmTableTd}>{initial[element.id]}</td>
                       <td className={styles.confirmTableTd}>{element.value}</td>
                     </tr>
