@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.4.0 (IN PROGRESS)
+## 2.4.0 (2022-08-31)
 
 ### Features / Enhancements
 
@@ -11,6 +11,9 @@
 - Add Custom Update Request to README (#79)
 - Add Deno Deploy Playground server and dashboard (#80)
 - Add "How to Manipulate Data using Grafana dashboard" video in README (#80)
+- Show Title instead of Id in the Confirmation Panel (#81)
+- Avoid showing confirmation for disabled elements (#77)
+- Improve Test Coverage (#21)
 
 ## 2.3.0 (2022-08-11)
 

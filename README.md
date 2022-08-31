@@ -180,7 +180,7 @@ if (feedback?.fields.length) {
 
 Data Manipulation panel allows to create your own update request using Custom Code. Select Update Request to `-` and set Custom Code:
 
-```
+```javascript
 /**
  * Set body
  */
@@ -201,12 +201,16 @@ const resp = fetch(url, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'PRIVATE-TOKEN': '$token'
+    'PRIVATE-TOKEN': '$token',
   },
   body: JSON.stringify(body),
-}).catch((error) => {
-  console.error(error);
-}).then((resp) => {console.log(resp)});
+})
+  .catch((error) => {
+    console.error(error);
+  })
+  .then((resp) => {
+    console.log(resp);
+  });
 ```
 
 ## NGINX

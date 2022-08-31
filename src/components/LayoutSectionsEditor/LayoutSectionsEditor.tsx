@@ -47,12 +47,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
       <Button
         variant="secondary"
         onClick={(e) => {
-          if (sections) {
-            sections.push({ name: '' });
-          } else {
-            sections = [{ name: '' }];
-          }
-
+          sections.push({ name: '' });
           onChange(sections);
         }}
         icon="plus"

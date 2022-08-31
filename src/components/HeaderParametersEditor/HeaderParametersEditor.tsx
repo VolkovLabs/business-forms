@@ -58,12 +58,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
       <Button
         variant="secondary"
         onClick={(e) => {
-          if (parameters) {
-            parameters.push({ name: '', value: '' });
-          } else {
-            parameters = [{ name: '', value: '' }];
-          }
-
+          parameters.push({ name: '', value: '' });
           onChange(parameters);
         }}
         icon="plus"

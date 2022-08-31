@@ -3,7 +3,7 @@ import { css, cx } from '@emotion/css';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useTheme2 } from '@grafana/ui';
-import { ButtonVariant, LayoutVariant, RequestMethod } from '../../constants';
+import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
@@ -394,6 +394,13 @@ export const FormPanel: React.FC<Props> = ({
               <tbody>
                 {options.elements?.map((element: FormElement) => {
                   if (element.value === initial[element.id]) {
+                    return;
+                  }
+
+                  /**
+                   * Skip Disabled elements, which can be updated in the custom code as previous values
+                   */
+                  if (element.type === FormElementType.DISABLED) {
                     return;
                   }
 
