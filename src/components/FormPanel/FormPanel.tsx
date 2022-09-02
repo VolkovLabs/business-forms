@@ -108,7 +108,13 @@ export const FormPanel: React.FC<Props> = ({
      * Set Header
      */
     options.update.header?.forEach((parameter) => {
-      headers.set(replaceVariables(parameter.name), replaceVariables(parameter.value));
+      const name = replaceVariables(parameter.name);
+      if (!name) {
+        setError(`All request parameters should be defined. Remove empty parameters.`);
+        return;
+      }
+
+      headers.set(name, replaceVariables(parameter.value));
     });
 
     /**
@@ -171,7 +177,13 @@ export const FormPanel: React.FC<Props> = ({
      * Set Header
      */
     options.initial.header?.forEach((parameter) => {
-      headers.set(replaceVariables(parameter.name), replaceVariables(parameter.value));
+      const name = replaceVariables(parameter.name);
+      if (!name) {
+        setError(`All request parameters should be defined. Remove empty parameters.`);
+        return;
+      }
+
+      headers.set(name, replaceVariables(parameter.value));
     });
 
     /**

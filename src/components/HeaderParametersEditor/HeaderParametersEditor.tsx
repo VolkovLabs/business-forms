@@ -23,7 +23,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
     <div>
       {parameters.map((parameter, id) => (
         <InlineFieldRow key={id}>
-          <InlineField label="Name" labelWidth={8}>
+          <InlineField label="Name" labelWidth={8} invalid={parameter.name === ''}>
             <Input
               placeholder="name"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
