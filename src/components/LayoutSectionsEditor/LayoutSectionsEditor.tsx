@@ -23,7 +23,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
     <div>
       {sections.map((section, id) => (
         <InlineFieldRow key={id}>
-          <InlineField label="Name" grow labelWidth={8}>
+          <InlineField label="Name" grow labelWidth={8} invalid={section.name === ''}>
             <Input
               placeholder="name"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
