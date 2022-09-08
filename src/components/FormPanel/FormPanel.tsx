@@ -59,11 +59,12 @@ export const FormPanel: React.FC<Props> = ({
       'locationService',
       'templateService',
       'onOptionsChange',
+      'initialRequest',
       replaceVariables(code)
     );
 
     try {
-      f(options, data, response, options.elements, locationService, templateSrv, onOptionsChange);
+      f(options, data, response, options.elements, locationService, templateSrv, onOptionsChange, initialRequest);
     } catch (error: any) {
       console.error(error);
       setError(error.toString());

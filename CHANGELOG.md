@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add Request Header check (#85)
+- Expose `initialRequest()` in Custom Code to reload panel
+
 ## 2.4.0 (2022-08-31)
 
 ### Features / Enhancements
