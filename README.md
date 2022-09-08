@@ -67,7 +67,8 @@ Available Parameters:
 - `elements` - Form Elements.
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
-- `onOptionsChange` - Panel options Change handler.
+- `onOptionsChange()` - Panel options Change handler to refresh panel.
+- `initialRequest()` - Perform the Initial Request to reload panel.
 
 ![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/request.png)
 
@@ -82,6 +83,16 @@ console.log(options, data, response, elements, locationService, templateService)
 ```javascript
 if (response && response.ok) {
   location.reload();
+} else {
+  alert(`Error: ${response.status}`);
+}
+```
+
+### Perform Initial Request after update request or show error
+
+```javascript
+if (response && response.ok) {
+  initialRequest();
 } else {
   alert(`Error: ${response.status}`);
 }
