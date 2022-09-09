@@ -134,16 +134,14 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Check Response
      */
-    let json: any = null;
     if (response?.ok) {
-      json = await response.json();
       setTitle(response.toString());
     }
 
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode(options.update.code, json, response);
+    executeCustomCode(options.update.code, null, response);
     setLoading(false);
   };
 
