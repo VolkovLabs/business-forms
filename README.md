@@ -188,6 +188,42 @@ if (feedback?.fields.length) {
 }
 ```
 
+## Custom Initial Request
+
+Data Manipulation panel allows to create your own initial request using Custom Code. Select Initial Request to `-` and set Custom Code:
+
+```javascript
+const bucketsSelect = elements.find((element) => element.id === 'buckets');
+
+/**
+ * Set URL
+ */
+const url = `http://localhost:3001/test`;
+
+/**
+ * Fetch
+ */
+const resp = fetch(url, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'PRIVATE-TOKEN': '$token',
+  },
+})
+  .catch((error) => {
+    console.error(error);
+  })
+  .then(async (resp) => {
+    const body = await resp.json();
+
+    bucketsSelect.options = body.buckets.map((value) => {
+      return { label: value, value };
+    });
+  });
+
+onOptionsChange(options);
+```
+
 ## Custom Update Request
 
 Data Manipulation panel allows to create your own update request using Custom Code. Select Update Request to `-` and set Custom Code:
