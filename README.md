@@ -64,6 +64,7 @@ Available Parameters:
 - `options` - Panels' options.
 - `data` - Result set of panel queries.
 - `response` - Request's response.
+- `json` - Parsed JSON from the Initial Request.
 - `elements` - Form Elements.
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to up Time Range.
