@@ -46,7 +46,7 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = (code: string, response: Response | void) => {
+  const executeCustomCode = (code: string, json: any, response: Response | void) => {
     if (!code) {
       return;
     }
@@ -60,11 +60,12 @@ export const FormPanel: React.FC<Props> = ({
       'templateService',
       'onOptionsChange',
       'initialRequest',
+      'json',
       replaceVariables(code)
     );
 
     try {
-      f(options, data, response, options.elements, locationService, templateSrv, onOptionsChange, initialRequest);
+      f(options, data, response, options.elements, locationService, templateSrv, onOptionsChange, initialRequest, json);
     } catch (error: any) {
       console.error(error);
       setError(error.toString());
@@ -86,7 +87,7 @@ export const FormPanel: React.FC<Props> = ({
      * Execute Custom Code
      */
     if (options.update.method === RequestMethod.NONE) {
-      executeCustomCode(options.update.code);
+      executeCustomCode(options.update.code, null);
       setLoading(false);
 
       return;
@@ -140,7 +141,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode(options.update.code, response);
+    executeCustomCode(options.update.code, null, response);
     setLoading(false);
   };
 
@@ -160,7 +161,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Execute Custom Code and reset Loading
        */
-      executeCustomCode(options.initial.code);
+      executeCustomCode(options.initial.code, null);
       setLoading(false);
 
       return;
@@ -208,28 +209,29 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * OK
      */
+    let json: any = null;
     if (response?.ok) {
-      const body = await response.json();
+      json = await response.json();
 
       /**
        * Set Element values
        */
       options.elements.forEach((element) => {
-        element.value = body[element.id];
+        element.value = json[element.id];
       });
 
       /**
        * Update values
        */
       onOptionsChange(options);
-      setInitial(body);
+      setInitial(json);
       setTitle('Values updated.');
     }
 
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode(options.initial.code, response);
+    executeCustomCode(options.initial.code, json, response);
     setLoading(false);
   };
 

@@ -6,6 +6,7 @@
 
 - Add Request Header check (#85)
 - Expose `initialRequest()` in Custom Code to reload panel (#89)
+- Set `json` as response data from Initial Request (#90)
 
 ## 2.4.0 (2022-08-31)
 
