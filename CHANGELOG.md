@@ -1,12 +1,13 @@
 # Change Log
 
-## 2.5.0 (IN PROGRESS)
+## 2.5.0 (2022-09-10)
 
 ### Features / Enhancements
 
 - Add Request Header check (#85)
 - Expose `initialRequest()` in Custom Code to reload panel (#89)
 - Set `json` as response data from Initial Request (#90)
+- Update to Grafana 9.1.4 (#91)
 
 ## 2.4.0 (2022-08-31)
 
