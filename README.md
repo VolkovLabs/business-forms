@@ -188,9 +188,13 @@ if (feedback?.fields.length) {
 }
 ```
 
-## Custom Initial Request
+## Custom Requests
 
-Data Manipulation panel allows to create your own initial request using Custom Code. Select Initial Request to `-` and set Custom Code:
+Data Manipulation panel allows to create your own Initial and Update requests using Custom Code.
+
+### Initial Request
+
+Select Initial Request as `-` and set Custom Code:
 
 ```javascript
 const bucketsSelect = elements.find((element) => element.id === 'buckets');
@@ -219,14 +223,14 @@ const resp = fetch(url, {
     bucketsSelect.options = body.buckets.map((value) => {
       return { label: value, value };
     });
-  });
 
-onOptionsChange(options);
+    onOptionsChange(options);
+  });
 ```
 
-## Custom Update Request
+### Update Request
 
-Data Manipulation panel allows to create your own update request using Custom Code. Select Update Request to `-` and set Custom Code:
+Select Update Request as `-` and set Custom Code:
 
 ```javascript
 /**
@@ -275,12 +279,6 @@ We love to hear from users, developers, and the whole community interested in th
 
 - Ask a question, request a new feature, and file a bug with [GitHub issues](https://github.com/volkovlabs/volkovlabs-form-panel/issues/new/choose).
 - Star the repository to show your support.
-
-## Contributing
-
-- Fork the repository.
-- Find an issue to work on and submit a pull request.
-- Could not find an issue? Look for documentation, bugs, typos, and missing features.
 
 ## License
 
