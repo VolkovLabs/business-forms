@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.6.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add Compatibility Check Workflow
+
 ## 2.5.0 (2022-09-10)
 
 ### Features / Enhancements
