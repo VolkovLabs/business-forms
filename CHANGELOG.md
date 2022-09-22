@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.6.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add Compatibility Check Workflow (#92)
+- Update to Grafana 9.1.6 (#92)
+
 ## 2.5.0 (2022-09-10)
 
 ### Features / Enhancements
