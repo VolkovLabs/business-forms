@@ -110,6 +110,21 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     element.value = event.target.value;
+
+                    /**
+                     * Validate Maximum
+                     */
+                    if (element.max !== undefined && element.max !== null) {
+                      element.value = Math.min(element.max, Number(element.value));
+                    }
+
+                    /**
+                     * Validate Minimum
+                     */
+                    if (element.min !== undefined && element.min !== null) {
+                      element.value = Math.max(element.min, Number(element.value));
+                    }
+
                     onOptionsChange(options);
                   }}
                   type="number"
@@ -289,7 +304,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     max={element.max || 0}
                     value={element.value || 0}
                     onChange={(e) => {
-                      element.value = e.currentTarget.value;
+                      element.value = Math.max(
+                        element.min || 0,
+                        Math.min(element.max || 0, Number(e.currentTarget.value))
+                      );
                       onOptionsChange(options);
                     }}
                   ></Input>
