@@ -89,6 +89,16 @@ if (response && response.ok) {
 }
 ```
 
+### Update variable after update request to interact with other panels
+
+```javascript
+if (response && response.ok) {
+  response.json().then((resp) => {
+    locationService.partial({ 'var-name': resp['name'] }, true);
+  });
+}
+```
+
 ### Perform Initial Request after update request or show error
 
 ```javascript
