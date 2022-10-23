@@ -20,7 +20,7 @@ The Data Manipulation Form Panel is a plugin for Grafana that can be used to ins
 
 ## Getting Started
 
-Data Manipulation panel can be installed from the Grafana Marketplace or use the `grafana-cli` tool to install from the command line:
+Data Manipulation panel can be installed from the [Grafana Marketplace](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or use the `grafana-cli` tool to install from the command line:
 
 ```bash
 grafana-cli plugins install volkovlabs-form-panel
