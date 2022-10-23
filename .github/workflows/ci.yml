@@ -17,9 +17,12 @@ jobs:
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
-
+        
       - name: Setup Go environment
         uses: actions/setup-go@v3
+        with:
+          go-version: '1.16'
+          cache: true
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
