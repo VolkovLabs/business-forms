@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { PanelProps } from '@grafana/data';
+import { dateTime, PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useTheme2 } from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
@@ -429,6 +429,13 @@ export const FormPanel: React.FC<Props> = ({
                    */
                   if (element.type === FormElementType.DISABLED) {
                     return;
+                  }
+
+                  /**
+                   * Convert DateTime object to ISO string
+                   */
+                  if (element.type === FormElementType.DATETIME) {
+                    element.value = dateTime(element.value).toISOString();
                   }
 
                   return (

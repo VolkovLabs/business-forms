@@ -10,6 +10,10 @@
 - Add Number Input and Slider min, max validation (#95)
 - Initialize element value from a Data Source query (#105)
 
+### Bug fixes
+
+- Initial GET request date time formatting (#99)
+
 ## 2.5.0 (2022-09-10)
 
 ### Features / Enhancements
