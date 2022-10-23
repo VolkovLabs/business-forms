@@ -10,12 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: "16.x"
+        uses: actions/setup-node@v3
 
       - name: Setup Go environment
         uses: actions/setup-go@v2
@@ -45,10 +43,7 @@ jobs:
             ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile;
-        if: |
-          steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
-          steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
 
       - name: Build and test frontend
         run: yarn build
