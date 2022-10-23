@@ -6,6 +6,8 @@
 
 - Add Compatibility Check Workflow (#92)
 - Update to Grafana 9.1.6 (#92)
+- Add Custom Code to update variable after update request (#106)
+- Add Number Input and Slider min, max validation (#95)
 
 ## 2.5.0 (2022-09-10)
 
