@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.6.0 (IN PROGRESS)
+## 2.6.0 (2022-10-23)
 
 ### Features / Enhancements
 
@@ -9,6 +9,7 @@
 - Add Custom Code to update variable after update request (#106)
 - Add Number Input and Slider min, max validation (#95)
 - Initialize element value from a Data Source query (#105)
+- Update CI to Node 16 and Synchronize with Release workflow (#109)
 
 ### Bug fixes
 
