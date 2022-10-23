@@ -60,12 +60,24 @@ export const FormPanel: React.FC<Props> = ({
       'templateService',
       'onOptionsChange',
       'initialRequest',
+      'setInitial',
       'json',
       replaceVariables(code)
     );
 
     try {
-      f(options, data, response, options.elements, locationService, templateSrv, onOptionsChange, initialRequest, json);
+      f(
+        options,
+        data,
+        response,
+        options.elements,
+        locationService,
+        templateSrv,
+        onOptionsChange,
+        initialRequest,
+        setInitial,
+        json
+      );
     } catch (error: any) {
       console.error(error);
       setError(error.toString());

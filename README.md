@@ -20,7 +20,7 @@ The Data Manipulation Form Panel is a plugin for Grafana that can be used to ins
 
 ## Getting Started
 
-Data Manipulation panel can be installed from the Grafana Marketplace or use the `grafana-cli` tool to install from the command line:
+Data Manipulation panel can be installed from the [Grafana Marketplace](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or use the `grafana-cli` tool to install from the command line:
 
 ```bash
 grafana-cli plugins install volkovlabs-form-panel
@@ -70,6 +70,7 @@ Available Parameters:
 - `templateService` - Grafana's `templateService` provides access to variables and allows to update Time Range.
 - `onOptionsChange()` - Panel options Change handler to refresh panel.
 - `initialRequest()` - Perform the Initial Request to reload panel.
+- `setInitial({})` - Allows to specify the initial values for Custom Initial Requests to `Highlight changed values` and `Require Confirmation`.
 
 ![Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/request.png)
 
@@ -236,6 +237,12 @@ const resp = fetch(url, {
 
     onOptionsChange(options);
   });
+```
+
+To support `Highlight changed values` and `Require Confirmation` the Custom Code should use `setInitial({})` function to update `initial` values:
+
+```
+  setInitial({value: 99, name: 'Test'})
 ```
 
 ### Update Request

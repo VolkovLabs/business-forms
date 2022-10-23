@@ -8,6 +8,7 @@
 - Update to Grafana 9.1.6 (#92)
 - Add Custom Code to update variable after update request (#106)
 - Add Number Input and Slider min, max validation (#95)
+- Initialize element value from a Data Source query (#105)
 
 ## 2.5.0 (2022-09-10)
 
