@@ -1,7 +1,7 @@
 import Slider from 'rc-slider';
 import React, { ChangeEvent } from 'react';
 import { css, cx } from '@emotion/css';
-import { DateTime, SelectableValue } from '@grafana/data';
+import { dateTime, DateTime, SelectableValue } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
@@ -266,7 +266,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 transparent={!!!element.title}
               >
                 <DateTimePicker
-                  date={element.value}
+                  date={dateTime(element.value)}
                   onChange={(dateTime: DateTime) => {
                     element.value = dateTime;
                     onOptionsChange(options);
