@@ -4,7 +4,7 @@
 
 ### Features / Enhancements
 
-- Update to Grafana 9.2.2 ()
+- Update to Grafana 9.2.2 (#113)
 
 ## 2.6.0 (2022-10-23)
 
