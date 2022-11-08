@@ -53,7 +53,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
   });
 
   /**
-   * Initial Values
+   * Initial Request
    */
   builder
     .addRadio({
@@ -138,7 +138,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
     });
 
   /**
-   * Update Values
+   * Update Request
    */
   builder
     .addRadio({
@@ -180,6 +180,25 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       },
       showIf: (config) => !!config.update.url && config.update.method !== RequestMethod.NONE,
     })
+    .addRadio({
+      path: 'update.updatedOnly',
+      name: 'Payload',
+      description: 'Allows to include all or only updated values in payload.',
+      category: ['Update Request'],
+      settings: {
+        options: [
+          {
+            value: false,
+            label: 'All Elements',
+          },
+          {
+            value: true,
+            label: 'Updated Only',
+          },
+        ],
+      },
+      defaultValue: false,
+    })
     .addCustomEditor({
       id: 'update.code',
       path: 'update.code',
@@ -194,8 +213,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
     })
     .addRadio({
       path: 'update.confirm',
-      name: 'Require Confirmation',
-      description: 'Will ask to confirm updated values.',
+      name: 'Confirmation',
+      description: 'Ask to confirm updated values.',
       category: ['Update Request'],
       settings: {
         options: [

@@ -51,6 +51,9 @@ export const FormPanel: React.FC<Props> = ({
       return;
     }
 
+    /**
+     * Function
+     */
     const f = new Function(
       'options',
       'data',
@@ -106,7 +109,7 @@ export const FormPanel: React.FC<Props> = ({
     }
 
     /**
-     * Set Headers
+     * Set Content Type
      */
     const headers: HeadersInit = new Headers();
     headers.set('Content-Type', options.update.contentType);
@@ -115,6 +118,25 @@ export const FormPanel: React.FC<Props> = ({
      * Set elements
      */
     options.elements.forEach((element) => {
+      if (!options.update.updatedOnly) {
+        body[element.id] = element.value;
+        return;
+      }
+
+      /**
+       * Skip not updated elements
+       */
+      if (element.value === initial[element.id]) {
+        return;
+      }
+
+      /**
+       * Skip Disabled elements
+       */
+      if (element.type === FormElementType.DISABLED) {
+        return;
+      }
+
       body[element.id] = element.value;
     });
 
@@ -180,7 +202,7 @@ export const FormPanel: React.FC<Props> = ({
     }
 
     /**
-     * Set Headers
+     * Set Content Type
      */
     const headers: HeadersInit = new Headers();
     if (options.initial.method === RequestMethod.POST) {

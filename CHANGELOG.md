@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Update to Grafana 9.2.2 (#113)
+- Update Request may only send updated values (#114)
 
 ## 2.6.0 (2022-10-23)
 

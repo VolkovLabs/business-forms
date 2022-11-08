@@ -1,4 +1,4 @@
-# Data Manipulation Panel plugin for Grafana
+# Data Manipulation Panel for Grafana
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
@@ -46,6 +46,7 @@ grafana-cli plugins install volkovlabs-form-panel
 - Allows to customize Submit, Reset buttons and form layout.
 - Allows to split form elements into sections.
 - Allows to request confirmation before update request.
+- Allows to send all or only updated elements in the Payload.
 
 ## Architecture
 
