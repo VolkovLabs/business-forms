@@ -76,6 +76,7 @@
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
+          "updatedOnly": false,
           "url": "http://api.example.com/"
         }
       },
@@ -88,7 +89,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 12,
+        "h": 5,
         "w": 7,
         "x": 9,
         "y": 0
@@ -136,7 +137,8 @@
           "code": "console.log(response)",
           "confirm": false,
           "contentType": "application/json",
-          "method": "POST"
+          "method": "POST",
+          "updatedOnly": false
         }
       },
       "title": "No Initial Request and Custom Button",
@@ -215,10 +217,113 @@
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
+          "updatedOnly": false,
           "url": "http://localhost:3001"
         }
       },
       "title": "Data Manipulation Form",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 9,
+        "y": 5
+      },
+      "id": 15,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "elements": [
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Id",
+            "tooltip": "",
+            "type": "disabled",
+            "value": "8",
+            "width": 4
+          },
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Id",
+            "tooltip": "",
+            "type": "number",
+            "value": "8",
+            "width": 4
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Type",
+            "tooltip": "",
+            "type": "disabled",
+            "width": 4
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Type",
+            "tooltip": "",
+            "type": "string",
+            "width": 4
+          }
+        ],
+        "initial": {
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "sections": [
+            {
+              "name": "Read-only"
+            },
+            {
+              "name": "Updated"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "confirm": true,
+          "contentType": "application/json",
+          "method": "POST",
+          "updatedOnly": true,
+          "url": "http://localhost:3001"
+        }
+      },
+      "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -243,20 +348,17 @@
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz",
-            "value": 30
+            "unit": "Ghz"
           },
           {
             "id": "updated",
             "title": "Updated",
-            "type": "boolean",
-            "value": false
+            "type": "boolean"
           },
           {
             "id": "name",
             "title": "Name",
-            "type": "string",
-            "value": "Name"
+            "type": "string"
           },
           {
             "id": "step",
@@ -264,8 +366,7 @@
             "min": 0,
             "step": 1,
             "title": "Step",
-            "type": "slider",
-            "value": 4
+            "type": "slider"
           },
           {
             "id": "select",
@@ -305,8 +406,7 @@
               }
             ],
             "title": "Radio",
-            "type": "radio",
-            "value": "minus"
+            "type": "radio"
           },
           {
             "id": "disabled",
@@ -372,6 +472,7 @@
             }
           ],
           "method": "POST",
+          "updatedOnly": false,
           "url": "http://localhost:3001/${var}"
         },
         "width": 0,
@@ -403,22 +504,19 @@
             "section": "Input",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz",
-            "value": 30
+            "unit": "Ghz"
           },
           {
             "id": "updated",
             "section": "Input",
             "title": "Updated",
-            "type": "boolean",
-            "value": false
+            "type": "boolean"
           },
           {
             "id": "name",
             "section": "Output",
             "title": "Name",
-            "type": "string",
-            "value": "Name"
+            "type": "string"
           },
           {
             "id": "step",
@@ -428,8 +526,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "unit": "",
-            "value": 4
+            "unit": ""
           },
           {
             "id": "select",
@@ -473,8 +570,7 @@
             "section": "Input",
             "title": "Radio",
             "type": "radio",
-            "unit": "",
-            "value": "minus"
+            "unit": ""
           },
           {
             "id": "disabled",
@@ -538,6 +634,7 @@
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
+          "updatedOnly": false,
           "url": "http://localhost:3001/"
         },
         "width": 0,
@@ -548,7 +645,7 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
