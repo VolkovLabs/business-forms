@@ -60,12 +60,12 @@ grafana-cli plugins install volkovlabs-form-panel
 
 The custom code has access to the Panel options, the response from the REST API call, form elements, various Grafana services and will be executed after the Initial and Update requests.
 
-Available Parameters:
+### Available Parameters
 
 - `options` - Panels' options.
 - `data` - Result set of panel queries.
 - `response` - Request's response.
-- `json` - Parsed JSON from the Initial Request.
+- `initial` - Parsed values from the Initial Request.
 - `elements` - Form Elements.
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to update Time Range.
@@ -248,7 +248,7 @@ To support `Highlight changed values` and `Require Confirmation` the Custom Code
 
 ### Update Request
 
-Select Update Request as `-` and set Custom Code:
+Select Update Request as `-` and set Custom Code. Depends on the selected Payload options it will add all or only updated values.
 
 ```javascript
 /**
@@ -256,6 +256,18 @@ Select Update Request as `-` and set Custom Code:
  */
 const body = {};
 options.elements.forEach((element) => {
+  if (!options.update.updatedOnly) {
+    body[element.id] = element.value;
+    return;
+  }
+
+  /**
+   * Skip not updated elements
+   */
+  if (element.value === initial[element.id]) {
+    return;
+  }
+
   body[element.id] = element.value;
 });
 

@@ -7,6 +7,7 @@
 - Update to Grafana 9.2.2 (#113)
 - Update CI to upload signed artifacts (#116)
 - Allow to send all or updated only values in Payload (#116)
+- Add Initial values to Update Request parameters (#117)
 
 ## 2.6.0 (2022-10-23)
 

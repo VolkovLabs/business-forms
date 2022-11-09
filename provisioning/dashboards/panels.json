@@ -85,16 +85,16 @@
     },
     {
       "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
       },
       "gridPos": {
-        "h": 5,
+        "h": 8,
         "w": 7,
         "x": 9,
         "y": 0
       },
-      "id": 10,
+      "id": 15,
       "options": {
         "buttonGroup": {
           "orientation": "center",
@@ -102,20 +102,62 @@
         },
         "elements": [
           {
-            "id": "name",
-            "title": "Name",
-            "type": "string"
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Id",
+            "tooltip": "",
+            "type": "disabled",
+            "width": 4
+          },
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Id",
+            "tooltip": "",
+            "type": "number",
+            "width": 4
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Type",
+            "tooltip": "",
+            "type": "disabled",
+            "value": "bbb",
+            "width": 4
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Type",
+            "tooltip": "",
+            "type": "string",
+            "value": "bbb",
+            "width": 4
           }
         ],
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
           "contentType": "application/json",
           "highlight": false,
           "highlightColor": "red",
-          "method": "GET"
+          "method": "GET",
+          "url": "http://localhost:3001"
         },
         "layout": {
-          "variant": "single"
+          "sections": [
+            {
+              "name": "Read-only"
+            },
+            {
+              "name": "Updated"
+            }
+          ],
+          "variant": "split"
         },
         "reset": {
           "backgroundColor": "purple",
@@ -128,20 +170,19 @@
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
           "icon": "cloud-upload",
-          "orientation": "center",
-          "size": "md",
           "text": "Submit",
-          "variant": "custom"
+          "variant": "primary"
         },
         "update": {
-          "code": "console.log(response)",
-          "confirm": false,
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "confirm": true,
           "contentType": "application/json",
           "method": "POST",
-          "updatedOnly": false
+          "updatedOnly": true,
+          "url": "http://localhost:3001"
         }
       },
-      "title": "No Initial Request and Custom Button",
+      "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -222,108 +263,6 @@
         }
       },
       "title": "Data Manipulation Form",
-      "type": "volkovlabs-form-panel"
-    },
-    {
-      "datasource": {
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 7,
-        "x": 9,
-        "y": 5
-      },
-      "id": 15,
-      "options": {
-        "buttonGroup": {
-          "orientation": "center",
-          "size": "md"
-        },
-        "elements": [
-          {
-            "id": "id",
-            "labelWidth": 10,
-            "section": "Read-only",
-            "title": "Id",
-            "tooltip": "",
-            "type": "disabled",
-            "value": "8",
-            "width": 4
-          },
-          {
-            "id": "id",
-            "labelWidth": 10,
-            "section": "Updated",
-            "title": "Id",
-            "tooltip": "",
-            "type": "number",
-            "value": "8",
-            "width": 4
-          },
-          {
-            "id": "type",
-            "labelWidth": 10,
-            "section": "Read-only",
-            "title": "Type",
-            "tooltip": "",
-            "type": "disabled",
-            "width": 4
-          },
-          {
-            "id": "type",
-            "labelWidth": 10,
-            "section": "Updated",
-            "title": "Type",
-            "tooltip": "",
-            "type": "string",
-            "width": 4
-          }
-        ],
-        "initial": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
-          "contentType": "application/json",
-          "highlight": false,
-          "highlightColor": "red",
-          "method": "GET",
-          "url": "http://localhost:3001"
-        },
-        "layout": {
-          "sections": [
-            {
-              "name": "Read-only"
-            },
-            {
-              "name": "Updated"
-            }
-          ],
-          "variant": "split"
-        },
-        "reset": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "process",
-          "text": "Reset",
-          "variant": "hidden"
-        },
-        "submit": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "cloud-upload",
-          "text": "Submit",
-          "variant": "primary"
-        },
-        "update": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
-          "confirm": true,
-          "contentType": "application/json",
-          "method": "POST",
-          "updatedOnly": true,
-          "url": "http://localhost:3001"
-        }
-      },
-      "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -483,6 +422,170 @@
     },
     {
       "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 9,
+        "y": 8
+      },
+      "id": 16,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "elements": [
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Id",
+            "tooltip": "",
+            "type": "disabled",
+            "width": 8
+          },
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Id",
+            "tooltip": "",
+            "type": "number",
+            "value": "4",
+            "width": 8
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Type",
+            "tooltip": "",
+            "type": "disabled",
+            "value": "bbb",
+            "width": 8
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Type",
+            "tooltip": "",
+            "type": "string",
+            "value": "bbb",
+            "width": 8
+          }
+        ],
+        "initial": {
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "sections": [
+            {
+              "name": "Read-only"
+            },
+            {
+              "name": "Updated"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "destructive"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "console.log(initial)\n\n/**\n * Set body\n */\nconst body = {};\noptions.elements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
+          "confirm": true,
+          "contentType": "application/json",
+          "method": "-",
+          "updatedOnly": true,
+          "url": "http://localhost:3001"
+        }
+      },
+      "title": "Read Only Updated Custom Request",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 12
+      },
+      "id": 10,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "elements": [
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string"
+          }
+        ],
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Submit",
+          "variant": "custom"
+        },
+        "update": {
+          "code": "console.log(response)",
+          "confirm": false,
+          "contentType": "application/json",
+          "method": "POST",
+          "updatedOnly": false
+        }
+      },
+      "title": "No Initial Request and Custom Button",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
         "type": "datasource",
         "uid": "grafana"
       },
@@ -490,7 +593,7 @@
         "h": 16,
         "w": 15,
         "x": 9,
-        "y": 12
+        "y": 17
       },
       "id": 13,
       "options": {
@@ -680,6 +783,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 8,
   "weekStart": ""
 }
