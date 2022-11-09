@@ -60,4 +60,11 @@ export interface RequestOptions {
    * @type {boolean}
    */
   confirm: boolean;
+
+  /**
+   * Add only Updated Elements to Payload
+   *
+   * @type {boolean}
+   */
+  updatedOnly: boolean;
 }

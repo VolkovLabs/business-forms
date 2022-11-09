@@ -17,7 +17,7 @@ jobs:
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
-        
+
       - name: Setup Go environment
         uses: actions/setup-go@v3
         with:
@@ -50,6 +50,11 @@ jobs:
 
       - name: Build and test frontend
         run: yarn build
+
+      - name: Sign plugin
+        run: yarn sign
+        env:
+          GRAFANA_API_KEY: ${{ secrets.GRAFANA_API_KEY }}
 
       - name: Get plugin metadata
         id: metadata
@@ -107,3 +112,9 @@ jobs:
           files: ./coverage/lcov.info
           env_vars: OS,PYTHON
           fail_ci_if_error: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.metadata.outputs.archive }}
+          path: ${{ steps.metadata.outputs.archive }}
