@@ -46,7 +46,7 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = (code: string, json: any, response: Response | void) => {
+  const executeCustomCode = (code: string, initial: any, response: Response | void) => {
     if (!code) {
       return;
     }
@@ -65,6 +65,7 @@ export const FormPanel: React.FC<Props> = ({
       'initialRequest',
       'setInitial',
       'json',
+      'initial',
       replaceVariables(code)
     );
 
@@ -79,7 +80,8 @@ export const FormPanel: React.FC<Props> = ({
         onOptionsChange,
         initialRequest,
         setInitial,
-        json
+        initial,
+        initial
       );
     } catch (error: any) {
       console.error(error);
@@ -102,7 +104,7 @@ export const FormPanel: React.FC<Props> = ({
      * Execute Custom Code
      */
     if (options.update.method === RequestMethod.NONE) {
-      executeCustomCode(options.update.code, null);
+      executeCustomCode(options.update.code, initial);
       setLoading(false);
 
       return;
@@ -175,7 +177,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode(options.update.code, null, response);
+    executeCustomCode(options.update.code, initial, response);
     setLoading(false);
   };
 
@@ -195,7 +197,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Execute Custom Code and reset Loading
        */
-      executeCustomCode(options.initial.code, null);
+      executeCustomCode(options.initial.code, initial);
       setLoading(false);
 
       return;
