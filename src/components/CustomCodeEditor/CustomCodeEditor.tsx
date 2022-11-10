@@ -22,7 +22,11 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
    * Language
    */
   const language = item.settings?.language || CodeLanguage.JAVASCRIPT;
-  const variables = getTemplateSrv().getVariables();
+
+  /**
+   * Template Service to get Variables
+   */
+  const templateSrv = getTemplateSrv();
 
   /**
    * Format On Mount
@@ -46,7 +50,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
     /**
      * Add Variables
      */
-    const suggestions = variables.map((variable) => {
+    const suggestions = templateSrv.getVariables().map((variable) => {
       return {
         label: `\$\{${variable.name}\}`,
         kind: CodeEditorSuggestionItemKind.Property,
