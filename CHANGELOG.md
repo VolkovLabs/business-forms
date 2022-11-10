@@ -1,14 +1,15 @@
 # Change Log
 
-## 2.7.0 (IN PROGRESS)
+## 2.7.0 (2022-11-10)
 
 ### Features / Enhancements
 
 - Update to Grafana 9.2.2 (#113)
 - Update CI to upload signed artifacts (#116)
 - Allow to send all or updated only values in Payload (#116)
-- Add Initial values to Update Request parameters (#117)
-- Status notification after submit form (#98)
+- Add Initial values parameter to Update Request parameters (#117)
+- Add Status notification after submit form (#98)
+- Add Monaco Code Editor suggestions for available parameters (#88)
 
 ## 2.6.0 (2022-10-23)
 

@@ -100,11 +100,12 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       id: 'initial.code',
       path: 'initial.code',
       name: 'Custom Code',
-      description: 'Custom code to execute after initial request',
+      description: 'Custom code to execute after initial request.',
       editor: CustomCodeEditor,
       category: ['Initial Request'],
       settings: {
         language: CodeLanguage.JAVASCRIPT,
+        suggestions: true,
       },
       defaultValue: CodeInitialDefault,
     })
@@ -204,7 +205,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       id: 'update.code',
       path: 'update.code',
       name: 'Custom Code',
-      description: 'Custom code to execute after update request',
+      description: 'Custom code to execute after update request.',
       editor: CustomCodeEditor,
       category: ['Update Request'],
       settings: {

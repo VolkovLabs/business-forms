@@ -223,7 +223,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <CodeEditor
                   language={element.language || CodeLanguage.JAVASCRIPT}
                   showLineNumbers={true}
-                  showMiniMap={true}
+                  showMiniMap={(element.value && element.value.length) > 100}
                   value={element.value}
                   height={element.height || `${CodeEditorHeight}px`}
                   width={element.width}
