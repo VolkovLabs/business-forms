@@ -8,6 +8,7 @@
 - Update CI to upload signed artifacts (#116)
 - Allow to send all or updated only values in Payload (#116)
 - Add Initial values to Update Request parameters (#117)
+- Status notification after submit form (#98)
 
 ## 2.6.0 (2022-10-23)
 

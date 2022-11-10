@@ -4,7 +4,13 @@ import { SelectableValue } from '@grafana/data';
  * Code Editor
  */
 export const CodeEditorHeight = 200;
-export const CodeEditorDefault = 'console.log(options, data, response, elements, locationService, templateService)';
+export const CodeInitialDefault = 'console.log(data, response, initial, elements)';
+export const CodeUpdateDefault = `if (response && response.ok) {
+  notifySuccess(['Update', 'Values updated successfully.']);
+  locationService.reload();
+} else {
+  notifyError(['Update', 'An error occured updating values.']);
+}`;
 
 /**
  * Supported Languages

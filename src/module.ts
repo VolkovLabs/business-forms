@@ -15,8 +15,9 @@ import {
   ButtonVariant,
   ButtonVariantHiddenOption,
   ButtonVariantOptions,
-  CodeEditorDefault,
+  CodeInitialDefault,
   CodeLanguage,
+  CodeUpdateDefault,
   ContentType,
   ContentTypeOptions,
   InitialHighlightColorDefault,
@@ -105,7 +106,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeEditorDefault,
+      defaultValue: CodeInitialDefault,
     })
     .addRadio({
       path: 'initial.highlight',
@@ -209,7 +210,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeEditorDefault,
+      defaultValue: CodeUpdateDefault,
     })
     .addRadio({
       path: 'update.confirm',

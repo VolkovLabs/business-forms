@@ -58,8 +58,9 @@
       "options": {
         "displayLabels": ["value", "name"],
         "legend": {
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "pieType": "pie",
         "reduceOptions": {
@@ -118,8 +119,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -149,7 +149,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.6",
+      "pluginVersion": "9.2.2",
       "targets": [
         {
           "datasource": {
@@ -184,8 +184,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -261,7 +260,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.0.6",
+      "pluginVersion": "9.2.2",
       "targets": [
         {
           "datasource": {
@@ -407,10 +406,11 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}",
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}\n",
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
+          "updatedOnly": false,
           "url": "http://localhost:3002"
         }
       },
@@ -443,7 +443,42 @@
           "orientation": "center",
           "size": "md"
         },
-        "elements": [],
+        "elements": [
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string"
+          },
+          {
+            "id": "email",
+            "title": "Email",
+            "type": "string"
+          },
+          {
+            "id": "type",
+            "options": [
+              {
+                "label": "Comment",
+                "value": "comment"
+              },
+              {
+                "label": "Issue",
+                "value": "issue"
+              },
+              {
+                "label": "Feature Request",
+                "value": "feature"
+              }
+            ],
+            "title": "Type",
+            "type": "radio"
+          },
+          {
+            "id": "description",
+            "title": "Description",
+            "type": "textarea"
+          }
+        ],
         "initial": {
           "code": "const feedback = data.series.find((serie) => serie.refId === 'Feedback');\nconst typeOptions = data.series.find((serie) => serie.refId === 'Types');\n\nif (feedback?.fields.length) {\n  const ids = feedback.fields.find((f) => f.name === 'id').values.buffer;\n  const titles = feedback.fields.find((f) => f.name === 'title').values.buffer;\n  const types = feedback.fields.find((f) => f.name === 'type').values.buffer;\n\n  /**\n   * Set Elements\n   */\n  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });\n\n  /**\n   * Find Type element\n   */\n  const typeSelect = elements.find((element) => element.id === 'type');\n  if (typeSelect && typeOptions?.fields.length) {\n    const labels = typeOptions.fields.find((f) => f.name === 'label').values.buffer;\n    const values = typeOptions.fields.find((f) => f.name === 'value').values.buffer;\n\n    /**\n     * Update Types\n     */\n    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });\n  }\n\n  /**\n   * Update Panel Options\n   */\n  onOptionsChange({ ...options, elements });\n}",
           "contentType": "application/json",
@@ -473,6 +508,7 @@
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
+          "updatedOnly": false,
           "url": "http://localhost:3002"
         }
       },
@@ -539,7 +575,7 @@
       "type": "volkovlabs-form-panel"
     }
   ],
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -553,6 +589,6 @@
   "timezone": "",
   "title": "Feedback Submissions",
   "uid": "bSNr62X7z",
-  "version": 20,
+  "version": 3,
   "weekStart": ""
 }
