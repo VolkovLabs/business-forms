@@ -41,7 +41,7 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Template Service
    */
-  const templateSrv: any = getTemplateSrv();
+  const templateSrv = getTemplateSrv();
 
   /**
    * Events

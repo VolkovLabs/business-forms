@@ -47,6 +47,8 @@ grafana-cli plugins install volkovlabs-form-panel
 - Allows to split form elements into sections.
 - Allows to request confirmation before update request.
 - Allows to send all or only updated elements in the Payload.
+- Allows to display Success and Error notifications from the Custom Code.
+- Supports Code Editor suggestions for Available Parameters.
 
 ## Architecture
 
@@ -69,7 +71,7 @@ The custom code has access to the Panel options, the response from the REST API 
 - `elements` - Form Elements.
 - `locationService` - Grafana's `locationService` to work with browser location and history.
 - `templateService` - Grafana's `templateService` provides access to variables and allows to update Time Range.
-- `onOptionsChange()` - Panel options Change handler to refresh panel.
+- `onOptionsChange()` - Change handler to refresh panel.
 - `initialRequest()` - Perform the Initial Request to reload panel.
 - `setInitial({})` - Allows to specify the initial values for Custom Initial Requests to `Highlight changed values` and `Require Confirmation`.
 - `notifySuccess(['Header', 'Message'])` - Display successful notification.
