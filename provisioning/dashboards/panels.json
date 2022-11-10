@@ -126,7 +126,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
-            "value": "bbb",
             "width": 4
           },
           {
@@ -136,7 +135,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "string",
-            "value": "bbb",
             "width": 4
           }
         ],
@@ -287,17 +285,20 @@
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz"
+            "unit": "Ghz",
+            "value": "33"
           },
           {
             "id": "updated",
             "title": "Updated",
-            "type": "boolean"
+            "type": "boolean",
+            "value": true
           },
           {
             "id": "name",
             "title": "Name",
-            "type": "string"
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "step",
@@ -305,7 +306,8 @@
             "min": 0,
             "step": 1,
             "title": "Step",
-            "type": "slider"
+            "type": "slider",
+            "value": 4
           },
           {
             "id": "select",
@@ -401,7 +403,7 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  initialRequest();\n} else {\n  notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
           "confirm": true,
           "contentType": "application/json",
           "header": [
@@ -454,7 +456,6 @@
             "title": "Id",
             "tooltip": "",
             "type": "number",
-            "value": "4",
             "width": 8
           },
           {
@@ -464,7 +465,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
-            "value": "bbb",
             "width": 8
           },
           {
@@ -474,7 +474,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "string",
-            "value": "bbb",
             "width": 8
           }
         ],
@@ -607,19 +606,22 @@
             "section": "Input",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz"
+            "unit": "Ghz",
+            "value": "33"
           },
           {
             "id": "updated",
             "section": "Input",
             "title": "Updated",
-            "type": "boolean"
+            "type": "boolean",
+            "value": true
           },
           {
             "id": "name",
             "section": "Output",
             "title": "Name",
-            "type": "string"
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "step",
@@ -629,7 +631,8 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "unit": ""
+            "unit": "",
+            "value": 4
           },
           {
             "id": "select",

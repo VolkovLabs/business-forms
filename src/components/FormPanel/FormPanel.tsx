@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { dateTime, PanelProps } from '@grafana/data';
-import { getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
+import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
+import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useTheme2 } from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
@@ -44,6 +44,13 @@ export const FormPanel: React.FC<Props> = ({
   const templateSrv: any = getTemplateSrv();
 
   /**
+   * Events
+   */
+  const appEvents = getAppEvents();
+  const notifySuccess = (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload });
+  const notifyError = (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload });
+
+  /**
    * Execute Custom Code
    */
   const executeCustomCode = (code: string, initial: any, response: Response | void) => {
@@ -66,6 +73,8 @@ export const FormPanel: React.FC<Props> = ({
       'setInitial',
       'json',
       'initial',
+      'notifyError',
+      'notifySuccess',
       replaceVariables(code)
     );
 
@@ -81,7 +90,9 @@ export const FormPanel: React.FC<Props> = ({
         initialRequest,
         setInitial,
         initial,
-        initial
+        initial,
+        notifyError,
+        notifySuccess
       );
     } catch (error: any) {
       console.error(error);
