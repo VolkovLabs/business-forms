@@ -475,7 +475,7 @@ export const FormPanel: React.FC<Props> = ({
 
                   return (
                     <tr className={styles.confirmTable} key={element.id}>
-                      <td className={styles.confirmTableTd}>{element.title}</td>
+                      <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
                       <td className={styles.confirmTableTd}>{initial[element.id]}</td>
                       <td className={styles.confirmTableTd}>{element.value}</td>
                     </tr>

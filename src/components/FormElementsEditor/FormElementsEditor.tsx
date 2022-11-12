@@ -17,6 +17,7 @@ import {
   FormElementDefault,
   FormElementType,
   FormElementTypeOptions,
+  SelectElementOptions,
   SliderDefault,
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
@@ -367,16 +368,44 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
             <div>
               {element.options?.map((option) => (
                 <InlineFieldRow key={option.id}>
-                  <InlineField label="Value" labelWidth={8}>
-                    <Input
-                      placeholder="value"
-                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        option.value = event.target.value;
+                  <InlineField label="Type" labelWidth={8}>
+                    <Select
+                      options={SelectElementOptions}
+                      onChange={(event: SelectableValue) => {
+                        option.type = event?.value;
                         onChange(elements);
                       }}
-                      value={option.value}
+                      width={12}
+                      value={SelectElementOptions.find((type) => type.value === option.type)}
+                      defaultValue={FormElementType.STRING}
                     />
                   </InlineField>
+                  {(!option.type || option.type === FormElementType.STRING) && (
+                    <InlineField label="Value" labelWidth={8}>
+                      <Input
+                        placeholder="string"
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          option.value = event.target.value;
+                          onChange(elements);
+                        }}
+                        value={option.value}
+                      />
+                    </InlineField>
+                  )}
+                  {option.type === FormElementType.NUMBER && (
+                    <InlineField label="Value" labelWidth={8}>
+                      <Input
+                        type="number"
+                        placeholder="number"
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          option.value = Number(event.target.value);
+                          onChange(elements);
+                        }}
+                        value={option.value}
+                        width={12}
+                      />
+                    </InlineField>
+                  )}
                   <InlineField label="Label" labelWidth={8} grow>
                     <Input
                       placeholder="label"

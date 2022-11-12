@@ -81,3 +81,17 @@ export const BooleanElementOptions: SelectableValue[] = [
     label: 'False',
   },
 ];
+
+/**
+ * Select and Radio Type Options
+ */
+export const SelectElementOptions: SelectableValue[] = [
+  {
+    value: FormElementType.STRING,
+    label: 'String',
+  },
+  {
+    value: FormElementType.NUMBER,
+    label: 'Number',
+  },
+];
