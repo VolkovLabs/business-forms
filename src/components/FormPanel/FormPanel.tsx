@@ -467,6 +467,19 @@ export const FormPanel: React.FC<Props> = ({
                   }
 
                   /**
+                   * Skip Password elements
+                   */
+                  if (element.type === FormElementType.PASSWORD) {
+                    return (
+                      <tr className={styles.confirmTable} key={element.id}>
+                        <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
+                        <td className={styles.confirmTableTd}>*********</td>
+                        <td className={styles.confirmTableTd}>*********</td>
+                      </tr>
+                    );
+                  }
+
+                  /**
                    * Convert DateTime object to ISO string
                    */
                   if (element.type === FormElementType.DATETIME) {
@@ -475,9 +488,13 @@ export const FormPanel: React.FC<Props> = ({
 
                   return (
                     <tr className={styles.confirmTable} key={element.id}>
-                      <td className={styles.confirmTableTd}>{element.title}</td>
-                      <td className={styles.confirmTableTd}>{initial[element.id]}</td>
-                      <td className={styles.confirmTableTd}>{element.value}</td>
+                      <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
+                      <td className={styles.confirmTableTd}>
+                        {initial[element.id] === undefined ? '' : String(initial[element.id])}
+                      </td>
+                      <td className={styles.confirmTableTd}>
+                        {element.value === undefined ? '' : String(element.value)}
+                      </td>
                     </tr>
                   );
                 })}
