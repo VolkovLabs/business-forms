@@ -28,5 +28,5 @@
     "upgrade": "yarn upgrade --latest",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
-  "version": "2.7.0"
+  "version": "2.8.0"
 }

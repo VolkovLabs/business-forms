@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.8.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add String, Number Type for Select and Radio options (#120)
+
+### Bug fixes
+
+- Fix Password and Boolean elements confirmation (#120)
+
 ## 2.7.0 (2022-11-10)
 
 ### Features / Enhancements
