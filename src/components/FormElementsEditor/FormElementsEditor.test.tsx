@@ -214,7 +214,12 @@ describe('Panel', () => {
    */
   it('Should find component with Select', async () => {
     const elements = [
-      { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [{ id: 'id', label: 'label' }] },
+      {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [{ id: 'id', label: 'label', type: FormElementType.NUMBER }],
+      },
     ];
 
     const getComponent = ({ value = [], context = {}, ...restProps }: any) => {
@@ -232,13 +237,17 @@ describe('Panel', () => {
     expect(addButton.exists()).toBeTruthy();
     addButton.simulate('click');
 
-    const id = element.find('Input[placeholder="value"]');
+    const id = element.find('Input[placeholder="number"]');
     expect(id.exists()).toBeTruthy();
-    id.simulate('change', { target: { value: 'text' } });
+    id.simulate('change', { target: { value: 10 } });
 
     const label = element.find('Input[placeholder="label"]');
     expect(label.exists()).toBeTruthy();
     label.simulate('change', { target: { value: 'Id' } });
+
+    const select = element.find(`Select[defaultValue="string"]`);
+    expect(select.exists()).toBeTruthy();
+    select.simulate('change', { value: FormElementType.STRING });
 
     const removeButton = element.find('[icon="minus"]');
     expect(removeButton.exists()).toBeTruthy();
