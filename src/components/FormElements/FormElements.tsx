@@ -187,7 +187,15 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 disabled
                 transparent={!!!element.title}
               >
-                <Input value={element.value} type="text" width={element.width} />
+                <Input
+                  value={
+                    !element.options?.length
+                      ? element.value
+                      : element.options.find((option) => option.value === element.value)?.label
+                  }
+                  type="text"
+                  width={element.width}
+                />
               </InlineField>
             )}
 

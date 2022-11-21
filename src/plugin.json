@@ -44,6 +44,10 @@
         "path": "img/request.png"
       },
       {
+        "name": "Control Panel",
+        "path": "img/control.png"
+      },
+      {
         "name": "Visual",
         "path": "img/visual.png"
       }

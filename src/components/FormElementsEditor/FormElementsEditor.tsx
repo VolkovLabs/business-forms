@@ -364,7 +364,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
             </InlineFieldRow>
           )}
 
-          {(element.type === FormElementType.RADIO || element.type === FormElementType.SELECT) && (
+          {[FormElementType.RADIO, FormElementType.SELECT, FormElementType.DISABLED].includes(element.type) && (
             <div>
               {element.options?.map((option) => (
                 <InlineFieldRow key={option.id}>
@@ -389,6 +389,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                           onChange(elements);
                         }}
                         value={option.value}
+                        width={12}
                       />
                     </InlineField>
                   )}

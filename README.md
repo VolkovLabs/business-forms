@@ -32,7 +32,7 @@ grafana-cli plugins install volkovlabs-form-panel
 - Provides functionality to create customizable forms with elements:
   - Code Editor
   - Date and Time
-  - Read-only (Disabled)
+  - Read-only (Disabled) with support for lookup
   - Number Input
   - Number Slider
   - Password Input
@@ -206,6 +206,15 @@ if (feedback?.fields.length) {
   onOptionsChange({ ...options, elements });
 }
 ```
+
+## Control Panel
+
+Data Manipulation plugin allows to create control panels with multiple sections and same Id. Additional features:
+  - Read-only elements support lookup options similar to Radio and Select elements to display labels for the current state.
+  - Update Request allows to include only updated values in the Payload.
+  - Ask to confirm updated values before the Update Request.
+
+![Control Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/control.png)
 
 ## Custom Requests
 
