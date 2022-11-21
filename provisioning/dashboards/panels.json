@@ -185,14 +185,12 @@
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz",
-            "value": "33"
+            "unit": "Ghz"
           },
           {
             "id": "updated",
             "title": "Updated",
-            "type": "boolean",
-            "value": true
+            "type": "boolean"
           },
           {
             "id": "name",
@@ -345,6 +343,7 @@
             "title": "Id",
             "tooltip": "",
             "type": "disabled",
+            "value": "15",
             "width": 0
           },
           {
@@ -354,6 +353,7 @@
             "title": "Id",
             "tooltip": "",
             "type": "number",
+            "value": "15",
             "width": 0
           },
           {
@@ -363,6 +363,7 @@
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
+            "value": "15",
             "width": 0
           },
           {
@@ -372,6 +373,7 @@
             "title": "Type",
             "tooltip": "",
             "type": "string",
+            "value": "15",
             "width": 0
           }
         ],
@@ -454,6 +456,7 @@
             "title": "Id",
             "tooltip": "",
             "type": "number",
+            "value": "20",
             "width": 0
           },
           {
@@ -478,6 +481,7 @@
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
+            "value": 10,
             "width": 0
           },
           {
@@ -485,12 +489,12 @@
             "labelWidth": 10,
             "options": [
               {
-                "label": "Who?",
+                "label": "Active",
                 "type": "number",
                 "value": 10
               },
               {
-                "label": "Hello",
+                "label": "Reactive",
                 "type": "number",
                 "value": "15"
               },
@@ -504,6 +508,7 @@
             "title": "Type",
             "tooltip": "",
             "type": "select",
+            "value": 10,
             "width": 0
           }
         ],
@@ -549,7 +554,7 @@
           "url": "http://localhost:3001"
         }
       },
-      "title": "Read Only Updated Custom Request",
+      "title": "Control Panel",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -636,15 +641,13 @@
             "section": "Input",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz",
-            "value": "33"
+            "unit": "Ghz"
           },
           {
             "id": "updated",
             "section": "Input",
             "title": "Updated",
-            "type": "boolean",
-            "value": true
+            "type": "boolean"
           },
           {
             "id": "name",
@@ -814,6 +817,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 9,
+  "version": 10,
   "weekStart": ""
 }
