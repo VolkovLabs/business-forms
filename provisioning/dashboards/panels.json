@@ -447,16 +447,17 @@
             "title": "Id",
             "tooltip": "",
             "type": "disabled",
+            "value": "25",
             "width": 0
           },
           {
             "id": "id",
             "labelWidth": 10,
-            "section": "Updated",
+            "section": "Update",
             "title": "Id",
             "tooltip": "",
             "type": "number",
-            "value": "20",
+            "value": "25",
             "width": 0
           },
           {
@@ -466,12 +467,12 @@
             "min": 0,
             "options": [
               {
-                "label": "Who?",
+                "label": "Active",
                 "type": "number",
                 "value": 10
               },
               {
-                "label": "Hello",
+                "label": "Reactive",
                 "type": "number",
                 "value": "15"
               }
@@ -481,7 +482,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
-            "value": 10,
             "width": 0
           },
           {
@@ -504,11 +504,10 @@
                 "value": ""
               }
             ],
-            "section": "Updated",
+            "section": "Update",
             "title": "Type",
             "tooltip": "",
             "type": "select",
-            "value": 10,
             "width": 0
           }
         ],
@@ -526,7 +525,7 @@
               "name": "Read-only"
             },
             {
-              "name": "Updated"
+              "name": "Update"
             }
           ],
           "variant": "split"
@@ -817,6 +816,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 10,
+  "version": 11,
   "weekStart": ""
 }
