@@ -85,113 +85,13 @@
     },
     {
       "datasource": {
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 7,
-        "x": 9,
-        "y": 0
-      },
-      "id": 15,
-      "options": {
-        "buttonGroup": {
-          "orientation": "center",
-          "size": "md"
-        },
-        "elements": [
-          {
-            "id": "id",
-            "labelWidth": 10,
-            "section": "Read-only",
-            "title": "Id",
-            "tooltip": "",
-            "type": "disabled",
-            "width": 4
-          },
-          {
-            "id": "id",
-            "labelWidth": 10,
-            "section": "Updated",
-            "title": "Id",
-            "tooltip": "",
-            "type": "number",
-            "width": 4
-          },
-          {
-            "id": "type",
-            "labelWidth": 10,
-            "section": "Read-only",
-            "title": "Type",
-            "tooltip": "",
-            "type": "disabled",
-            "width": 4
-          },
-          {
-            "id": "type",
-            "labelWidth": 10,
-            "section": "Updated",
-            "title": "Type",
-            "tooltip": "",
-            "type": "string",
-            "width": 4
-          }
-        ],
-        "initial": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
-          "contentType": "application/json",
-          "highlight": false,
-          "highlightColor": "red",
-          "method": "GET",
-          "url": "http://localhost:3001"
-        },
-        "layout": {
-          "sections": [
-            {
-              "name": "Read-only"
-            },
-            {
-              "name": "Updated"
-            }
-          ],
-          "variant": "split"
-        },
-        "reset": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "process",
-          "text": "Reset",
-          "variant": "hidden"
-        },
-        "submit": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "cloud-upload",
-          "text": "Submit",
-          "variant": "primary"
-        },
-        "update": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
-          "confirm": true,
-          "contentType": "application/json",
-          "method": "POST",
-          "updatedOnly": true,
-          "url": "http://localhost:3001"
-        }
-      },
-      "title": "Read Only Updated",
-      "type": "volkovlabs-form-panel"
-    },
-    {
-      "datasource": {
         "type": "datasource",
         "uid": "grafana"
       },
       "gridPos": {
         "h": 12,
-        "w": 8,
-        "x": 16,
+        "w": 15,
+        "x": 9,
         "y": 0
       },
       "id": 12,
@@ -269,7 +169,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 21,
+        "h": 13,
         "w": 9,
         "x": 0,
         "y": 7
@@ -297,8 +197,7 @@
           {
             "id": "name",
             "title": "Name",
-            "type": "string",
-            "value": "Name"
+            "type": "string"
           },
           {
             "id": "step",
@@ -306,8 +205,7 @@
             "min": 0,
             "step": 1,
             "title": "Step",
-            "type": "slider",
-            "value": 4
+            "type": "slider"
           },
           {
             "id": "select",
@@ -428,10 +326,110 @@
         "uid": "P1D2C73DC01F2359B"
       },
       "gridPos": {
-        "h": 9,
-        "w": 7,
+        "h": 7,
+        "w": 15,
         "x": 9,
-        "y": 8
+        "y": 12
+      },
+      "id": 15,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "elements": [
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Id",
+            "tooltip": "",
+            "type": "disabled",
+            "width": 0
+          },
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Id",
+            "tooltip": "",
+            "type": "number",
+            "width": 0
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Read-only",
+            "title": "Type",
+            "tooltip": "",
+            "type": "disabled",
+            "width": 0
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "Updated",
+            "title": "Type",
+            "tooltip": "",
+            "type": "string",
+            "width": 0
+          }
+        ],
+        "initial": {
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "sections": [
+            {
+              "name": "Read-only"
+            },
+            {
+              "name": "Updated"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "confirm": true,
+          "contentType": "application/json",
+          "method": "POST",
+          "updatedOnly": true,
+          "url": "http://localhost:3001"
+        }
+      },
+      "title": "Read Only Updated",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 15,
+        "x": 9,
+        "y": 19
       },
       "id": 16,
       "options": {
@@ -447,7 +445,7 @@
             "title": "Id",
             "tooltip": "",
             "type": "disabled",
-            "width": 8
+            "width": 0
           },
           {
             "id": "id",
@@ -456,25 +454,57 @@
             "title": "Id",
             "tooltip": "",
             "type": "number",
-            "width": 8
+            "width": 0
           },
           {
             "id": "type",
             "labelWidth": 10,
+            "max": 10,
+            "min": 0,
+            "options": [
+              {
+                "label": "Who?",
+                "type": "number",
+                "value": 10
+              },
+              {
+                "label": "Hello",
+                "type": "number",
+                "value": "15"
+              }
+            ],
             "section": "Read-only",
+            "step": 1,
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
-            "width": 8
+            "width": 0
           },
           {
             "id": "type",
             "labelWidth": 10,
+            "options": [
+              {
+                "label": "Who?",
+                "type": "number",
+                "value": 10
+              },
+              {
+                "label": "Hello",
+                "type": "number",
+                "value": "15"
+              },
+              {
+                "label": "",
+                "type": "string",
+                "value": ""
+              }
+            ],
             "section": "Updated",
             "title": "Type",
             "tooltip": "",
-            "type": "string",
-            "width": 8
+            "type": "select",
+            "width": 0
           }
         ],
         "initial": {
@@ -528,10 +558,10 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 16,
-        "y": 12
+        "h": 4,
+        "w": 9,
+        "x": 0,
+        "y": 20
       },
       "id": 10,
       "options": {
@@ -589,10 +619,10 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 16,
+        "h": 9,
         "w": 15,
         "x": 9,
-        "y": 17
+        "y": 27
       },
       "id": 13,
       "options": {
@@ -620,8 +650,7 @@
             "id": "name",
             "section": "Output",
             "title": "Name",
-            "type": "string",
-            "value": "Name"
+            "type": "string"
           },
           {
             "id": "step",
@@ -631,8 +660,7 @@
             "step": 1,
             "title": "Step",
             "type": "slider",
-            "unit": "",
-            "value": 4
+            "unit": ""
           },
           {
             "id": "select",
@@ -786,6 +814,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }

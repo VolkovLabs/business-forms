@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Add String, Number Type for Select and Radio options (#120)
+- Add Lookup options for Disabled element (#121)
 
 ### Bug fixes
 
