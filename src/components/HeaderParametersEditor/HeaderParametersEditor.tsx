@@ -50,7 +50,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
               parameters = parameters?.filter((p) => p.name !== parameter.name);
               onChange(parameters);
             }}
-            icon="minus"
+            icon="trash-alt"
           ></Button>
         </InlineFieldRow>
       ))}

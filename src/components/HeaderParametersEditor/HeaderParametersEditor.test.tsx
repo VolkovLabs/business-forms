@@ -33,7 +33,7 @@ describe('Panel', () => {
     expect(value.exists()).toBeTruthy();
     value.simulate('change', { target: { value: 'value' } });
 
-    const removeButton = div.find('[icon="minus"]');
+    const removeButton = div.find('[icon="trash-alt"]');
     expect(removeButton.exists()).toBeTruthy();
     removeButton.simulate('click');
   });
