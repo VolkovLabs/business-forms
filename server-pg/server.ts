@@ -42,7 +42,7 @@ const server = http.createServer(async function (req, res) {
      * Get values from database
      */
     const query = await client.query('select * from feedbacks where name=$1;', [req.url.replace('/', '')]);
-    const values = query.rows[0];
+    const values = query.rows.length ? query.rows[0] : [];
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify(values));
