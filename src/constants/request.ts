@@ -5,11 +5,12 @@ import { CapitalizeFirstLetter } from '../utils';
  * Request Methods
  */
 export const enum RequestMethod {
-  NONE = '-',
+  DELETE = 'DELETE',
   GET = 'GET',
+  NONE = '-',
+  PATCH = 'PATCH',
   POST = 'POST',
   PUT = 'PUT',
-  PATCH = 'PATCH',
 }
 
 /**
@@ -35,16 +36,20 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
     label: RequestMethod.NONE,
   },
   {
+    value: RequestMethod.DELETE,
+    label: RequestMethod.DELETE,
+  },
+  {
+    value: RequestMethod.PATCH,
+    label: RequestMethod.PATCH,
+  },
+  {
     value: RequestMethod.POST,
     label: RequestMethod.POST,
   },
   {
     value: RequestMethod.PUT,
     label: RequestMethod.PUT,
-  },
-  {
-    value: RequestMethod.PATCH,
-    label: RequestMethod.PATCH,
   },
 ];
 
