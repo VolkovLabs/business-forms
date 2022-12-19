@@ -119,7 +119,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -149,7 +150,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.2",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -184,7 +185,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -260,7 +262,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.2.2",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -386,7 +388,8 @@
           "contentType": "application/json",
           "highlight": false,
           "highlightColor": "red",
-          "method": "GET"
+          "method": "GET",
+          "url": "http://localhost:3002/${__user.login}"
         },
         "layout": {
           "variant": "single"
@@ -587,8 +590,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Feedback Submissions",
+  "title": "PostgresSQL Feedback",
   "uid": "bSNr62X7z",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

@@ -6,6 +6,8 @@
 
 - Add String, Number Type for Select and Radio options (#120)
 - Add Lookup options for Disabled element (#121)
+- Add Server API with MYSQL for Feedback Dashboard (#125)
+- Update to Grafana 9.3.1 (#129)
 
 ### Bug fixes
 

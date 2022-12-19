@@ -295,7 +295,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 >
                   <Slider
                     value={element.value || 0}
-                    onChange={(value: number) => {
+                    onChange={(value: number | number[]) => {
                       element.value = value;
                       onOptionsChange(options);
                     }}
