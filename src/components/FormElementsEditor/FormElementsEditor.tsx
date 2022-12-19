@@ -460,9 +460,9 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           />
         </InlineField>
 
-        <InlineField label="Title" grow labelWidth={8} invalid={newElement.title === ''}>
+        <InlineField label="Label" grow labelWidth={8} invalid={newElement.title === ''}>
           <Input
-            placeholder="Title"
+            placeholder="Label"
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               setNewElement({ ...newElement, title: event.target.value });
             }}

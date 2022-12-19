@@ -39,7 +39,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
               sections = sections?.filter((s) => s.name !== section.name);
               onChange(sections);
             }}
-            icon="minus"
+            icon="trash-alt"
           ></Button>
         </InlineFieldRow>
       ))}
