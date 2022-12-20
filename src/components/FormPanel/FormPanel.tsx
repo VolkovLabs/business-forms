@@ -130,7 +130,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set elements
      */
-    options.elements.forEach((element) => {
+    options.elements?.forEach((element) => {
       if (!options.update.updatedOnly) {
         body[element.id] = element.value;
         return;
@@ -331,7 +331,7 @@ export const FormPanel: React.FC<Props> = ({
         `
       )}
     >
-      {(!options.elements || !options.elements.length) && (
+      {(!options.elements || !options.elements.length) && options.layout.variant !== LayoutVariant.NONE && (
         <Alert severity="info" title="Form Elements">
           Please add elements in Panel Options or Custom Code.
         </Alert>
@@ -387,7 +387,7 @@ export const FormPanel: React.FC<Props> = ({
                       }
                     : {}
                 }
-                disabled={loading || !updated}
+                disabled={loading || (!updated && options.layout.variant !== LayoutVariant.NONE)}
                 onClick={
                   options.update.confirm
                     ? () => {

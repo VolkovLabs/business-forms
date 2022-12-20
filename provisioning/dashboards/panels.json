@@ -33,7 +33,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 9,
         "x": 0,
         "y": 0
@@ -169,10 +169,66 @@
         "uid": "grafana"
       },
       "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 0,
+        "y": 6
+      },
+      "id": 17,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "url": "http://api.example.com/"
+        },
+        "layout": {
+          "variant": "none"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Submit",
+          "variant": "destructive"
+        },
+        "update": {
+          "code": "console.log(response)",
+          "confirm": false,
+          "contentType": "application/json",
+          "method": "DELETE",
+          "updatedOnly": false,
+          "url": "http://api.example.com/"
+        }
+      },
+      "title": "Buttons only",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
         "h": 13,
         "w": 9,
         "x": 0,
-        "y": 7
+        "y": 12
       },
       "id": 6,
       "options": {
@@ -185,17 +241,20 @@
             "id": "amount",
             "title": "Amount",
             "type": "number",
-            "unit": "Ghz"
+            "unit": "Ghz",
+            "value": 30
           },
           {
             "id": "updated",
             "title": "Updated",
-            "type": "boolean"
+            "type": "boolean",
+            "value": false
           },
           {
             "id": "name",
             "title": "Name",
-            "type": "string"
+            "type": "string",
+            "value": "Name"
           },
           {
             "id": "step",
@@ -203,7 +262,8 @@
             "min": 0,
             "step": 1,
             "title": "Step",
-            "type": "slider"
+            "type": "slider",
+            "value": 4
           },
           {
             "id": "select",
@@ -343,7 +403,6 @@
             "title": "Id",
             "tooltip": "",
             "type": "disabled",
-            "value": "15",
             "width": 0
           },
           {
@@ -353,7 +412,6 @@
             "title": "Id",
             "tooltip": "",
             "type": "number",
-            "value": "15",
             "width": 0
           },
           {
@@ -363,7 +421,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "disabled",
-            "value": "15",
             "width": 0
           },
           {
@@ -373,7 +430,6 @@
             "title": "Type",
             "tooltip": "",
             "type": "string",
-            "value": "15",
             "width": 0
           }
         ],
@@ -447,7 +503,6 @@
             "title": "Id",
             "tooltip": "",
             "type": "disabled",
-            "value": "25",
             "width": 0
           },
           {
@@ -457,7 +512,6 @@
             "title": "Id",
             "tooltip": "",
             "type": "number",
-            "value": "25",
             "width": 0
           },
           {
@@ -565,7 +619,7 @@
         "h": 4,
         "w": 9,
         "x": 0,
-        "y": 20
+        "y": 25
       },
       "id": 10,
       "options": {

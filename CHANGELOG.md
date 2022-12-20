@@ -8,6 +8,8 @@
 - Add Lookup options for Disabled element (#121)
 - Add Server API with MYSQL for Feedback Dashboard (#125)
 - Update to Grafana 9.3.1 (#129)
+- Add Option for DELETE request (#130)
+- Add "Buttons only" Layout to do GET/POST/DELETE requests (#131)
 
 ### Bug fixes
 
