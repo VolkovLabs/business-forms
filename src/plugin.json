@@ -11,8 +11,12 @@
       "url": "https://volkovlabs.io"
     },
     "description": "Data Manipulation Panel",
-    "keywords": ["form"],
+    "keywords": ["Form", "JSON", "Data"],
     "links": [
+      {
+        "name": "Documentation",
+        "url": "https://volkovlabs.io/plugins/volkovlabs-form-panel/"
+      },
       {
         "name": "GitHub",
         "url": "https://github.com/VolkovLabs/volkovlabs-form-panel"
@@ -20,10 +24,6 @@
       {
         "name": "YouTube Playlist",
         "url": "https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA"
-      },
-      {
-        "name": "Website",
-        "url": "https://volkovlabs.io"
       }
     ],
     "logos": {
