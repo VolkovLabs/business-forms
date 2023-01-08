@@ -14,15 +14,18 @@ const q1_post_sql_query_values = process.env.GRAFANA_API_SERVER_MYSQL_Q1_POST_SQ
 /**
  * Connect to Mysql
  */
-const client = mysql.createConnection({
+const client = mysql.createPool({
   host: process.env.GRAFANA_API_SERVER_MYSQL_HOST,
   user: process.env.GRAFANA_API_SERVER_MYSQL_USER,
   password: process.env.GRAFANA_API_SERVER_MYSQL_PASSWORD,
   database: process.env.GRAFANA_API_SERVER_MYSQL_DB
 });
-client.connect(function (err) {
+// Check MySQL connection
+client.getConnection(function (err, connection) {
+  // When done with the connection, destroy it.
+  connection.destroy();
   if (err) throw err;
-  console.log('Connected to the MySQL server!');
+  console.log('MySQL server connection is successful!');
 });
 
 /**
