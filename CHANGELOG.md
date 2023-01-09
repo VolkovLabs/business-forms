@@ -11,6 +11,7 @@
 - Add Option for DELETE request (#130)
 - Add "Buttons only" Layout to do GET/POST/DELETE requests (#131)
 - Update README and move Documentation to docs.volkovlabs.io (#132)
+- Update README and Documentation
 
 ### Bug fixes
 
