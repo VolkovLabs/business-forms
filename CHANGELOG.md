@@ -12,6 +12,7 @@
 - Add "Buttons only" Layout to do GET/POST/DELETE requests (#131)
 - Update README and move Documentation to docs.volkovlabs.io (#132)
 - Update README and Documentation (#134)
+- Refactor API Servers (#128)
 
 ### Bug fixes
 
