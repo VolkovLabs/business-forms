@@ -4,7 +4,7 @@ services:
   server:
     container_name: server
     build:
-      context: ./server
+      context: ./server-json
     ports:
       - 3001:3001/tcp
 
@@ -50,3 +50,42 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: postgres
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    restart: always
+    environment:
+      - GRAFANA_HOST=host.docker.internal
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    depends_on:
+      - grafana
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: api
+    ports:
+      - 3306:3306
+    volumes:
+      - ./server-mysql:/docker-entrypoint-initdb.d
+
+  server-mysql:
+    container_name: server-mysql
+    build:
+      context: ./server-mysql
+    ports:
+      - 3003:3001/tcp
+    depends_on:
+      - mysql
+    environment:
+      WAIT_HOSTS: mysql:3306
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: mysql
+      MYSQL_DB: api
