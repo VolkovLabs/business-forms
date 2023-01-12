@@ -42,6 +42,28 @@ import { PanelOptions } from './types';
  */
 export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((builder) => {
   /**
+   * Layout
+   */
+  builder
+    .addRadio({
+      path: 'layout.variant',
+      name: 'Layout',
+      category: ['Layout'],
+      settings: {
+        options: LayoutVariantOptions,
+      },
+      defaultValue: LayoutVariant.SINGLE,
+    })
+    .addCustomEditor({
+      id: 'layout.sections',
+      path: 'layout.sections',
+      name: 'Sections',
+      category: ['Layout'],
+      editor: LayoutSectionsEditor,
+      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
+    });
+
+  /**
    * Elements
    */
   builder.addCustomEditor({
@@ -51,6 +73,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
     category: ['Form Elements'],
     description: 'Form Elements',
     editor: FormElementsEditor,
+    showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
   });
 
   /**
@@ -127,6 +150,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         ],
       },
       defaultValue: false,
+      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
     })
     .addColorPicker({
       path: 'initial.highlightColor',
@@ -200,6 +224,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         ],
       },
       defaultValue: false,
+      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
     })
     .addCustomEditor({
       id: 'update.code',
@@ -231,28 +256,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((
         ],
       },
       defaultValue: false,
-    });
-
-  /**
-   * Layout
-   */
-  builder
-    .addRadio({
-      path: 'layout.variant',
-      name: 'Layout',
-      category: ['Layout'],
-      settings: {
-        options: LayoutVariantOptions,
-      },
-      defaultValue: LayoutVariant.SINGLE,
-    })
-    .addCustomEditor({
-      id: 'layout.sections',
-      path: 'layout.sections',
-      name: 'Sections',
-      category: ['Layout'],
-      editor: LayoutSectionsEditor,
-      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
+      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
     });
 
   /**

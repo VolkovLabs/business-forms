@@ -28,7 +28,7 @@ describe('Panel', () => {
     expect(id.exists()).toBeTruthy();
     id.simulate('change', { target: { value: 'text' } });
 
-    const title = newElement.find('Input[placeholder="Title"]');
+    const title = newElement.find('Input[placeholder="Label"]');
     expect(title.exists()).toBeTruthy();
     title.simulate('change', { target: { value: FormElementType.NUMBER } });
 

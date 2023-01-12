@@ -30,11 +30,11 @@ describe('Panel', () => {
     expect(name.exists()).toBeTruthy();
     name.simulate('change', { target: { value: 'name' } });
 
-    const firstRemoveButton = div.find('[icon="minus"]').first();
+    const firstRemoveButton = div.find('[icon="trash-alt"]').first();
     expect(firstRemoveButton.exists()).toBeTruthy();
     firstRemoveButton.simulate('click');
 
-    const lastRemoveButton = div.find('[icon="minus"]').last();
+    const lastRemoveButton = div.find('[icon="trash-alt"]').last();
     expect(lastRemoveButton.exists()).toBeTruthy();
     lastRemoveButton.simulate('click');
   });
