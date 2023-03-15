@@ -40,7 +40,7 @@ import { PanelOptions } from './types';
 /**
  * Panel Plugin
  */
-export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setPanelOptions((builder) => {
+export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().setPanelOptions((builder) => {
   /**
    * Layout
    */

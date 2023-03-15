@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.8.0 (IN PROGRESS)
+## 2.8.0 (2023-03-16)
 
 ### Features / Enhancements
 
@@ -13,7 +13,9 @@
 - Update README and move Documentation to docs.volkovlabs.io (#132)
 - Update README and Documentation (#134)
 - Refactor API Servers (#128)
-- Update CI and Release workflows
+- Update CI and Release workflows (#145)
+- Update to Grafana 9.4.3 (#146)
+- Add NoPadding to remove extra padding around (#146)
 
 ### Bug fixes
 
