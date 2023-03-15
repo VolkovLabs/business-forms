@@ -13,6 +13,7 @@
 - Update README and move Documentation to docs.volkovlabs.io (#132)
 - Update README and Documentation (#134)
 - Refactor API Servers (#128)
+- Update CI and Release workflows
 
 ### Bug fixes
 
