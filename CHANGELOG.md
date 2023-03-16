@@ -16,6 +16,7 @@
 - Update CI and Release workflows (#145)
 - Update to Grafana 9.4.3 (#146)
 - Add NoPadding to remove extra padding around and make it configurable (#146)
+- Update README and Documentation (#147)
 
 ### Bug fixes
 
