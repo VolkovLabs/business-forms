@@ -18,4 +18,11 @@ export interface LayoutOptions {
    * @type {LayoutSection}
    */
   sections: LayoutSection[];
+
+  /**
+   * Padding in pixels
+   *
+   * @type {number}
+   */
+  padding: number;
 }

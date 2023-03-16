@@ -26,31 +26,6 @@ services:
       # Uncomment to preserve Grafana configuration
       # - ./data:/var/lib/grafana
 
-  postgres:
-    container_name: postgres
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - ./server-pg:/docker-entrypoint-initdb.d
-
-  server-pg:
-    container_name: server-pg
-    build:
-      context: ./server-pg
-    ports:
-      - 3002:3001/tcp
-    depends_on:
-      - postgres
-    environment:
-      WAIT_HOSTS: postgres:5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres
-
   nginx:
     container_name: nginx
     build: ./nginx
@@ -62,3 +37,30 @@ services:
       - 443:443/tcp
     depends_on:
       - grafana
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: api
+    ports:
+      - 3306:3306
+    volumes:
+      - ./server-mysql:/docker-entrypoint-initdb.d
+
+  server-mysql:
+    container_name: server-mysql
+    build:
+      context: ./server-mysql
+    ports:
+      - 3003:3001/tcp
+    depends_on:
+      - mysql
+    environment:
+      WAIT_HOSTS: mysql:3306
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: mysql
+      MYSQL_DB: api

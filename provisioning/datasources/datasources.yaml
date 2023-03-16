@@ -9,7 +9,6 @@ datasources:
     editable: true
     url: host.docker.internal:5432
     user: postgres
-    editable: true
     jsonData:
       postgresVersion: 1200
       sslmode: disable

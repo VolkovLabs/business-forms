@@ -12,6 +12,7 @@ import {
   RadioButtonGroup,
   Select,
   TextArea,
+  useStyles2,
   useTheme2,
 } from '@grafana/ui';
 import {
@@ -21,7 +22,7 @@ import {
   FormElementType,
   InitialHighlightColorDefault,
 } from '../../constants';
-import { getStyles } from '../../styles';
+import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
 
 /**
@@ -61,7 +62,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
    * Theme and Styles
    */
   const theme = useTheme2();
-  const styles = getStyles(theme);
+  const styles = useStyles2(Styles);
 
   /**
    * Highlight Color
