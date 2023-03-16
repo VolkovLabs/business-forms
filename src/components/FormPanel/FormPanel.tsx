@@ -4,7 +4,7 @@ import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useStyles2, useTheme2 } from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
-import { getStyles } from '../../styles';
+import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
 
@@ -36,7 +36,7 @@ export const FormPanel: React.FC<Props> = ({
    * Theme and Styles
    */
   const theme = useTheme2();
-  const styles = useStyles2(getStyles);
+  const styles = useStyles2(Styles);
 
   /**
    * Template Service
