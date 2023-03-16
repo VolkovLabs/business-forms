@@ -61,6 +61,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Layout'],
       editor: LayoutSectionsEditor,
       showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
+    })
+    .addSliderInput({
+      path: 'layout.padding',
+      name: 'Padding',
+      category: ['Layout'],
+      defaultValue: 10,
+      settings: {
+        min: 0,
+        max: 20,
+      },
     });
 
   /**

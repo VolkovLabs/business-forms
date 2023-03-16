@@ -15,7 +15,7 @@
 - Refactor API Servers (#128)
 - Update CI and Release workflows (#145)
 - Update to Grafana 9.4.3 (#146)
-- Add NoPadding to remove extra padding around (#146)
+- Add NoPadding to remove extra padding around and make it configurable (#146)
 
 ### Bug fixes
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useTheme2 } from '@grafana/ui';
+import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useStyles2, useTheme2 } from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
 import { getStyles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
@@ -36,7 +36,7 @@ export const FormPanel: React.FC<Props> = ({
    * Theme and Styles
    */
   const theme = useTheme2();
-  const styles = getStyles(theme);
+  const styles = useStyles2(getStyles);
 
   /**
    * Template Service
@@ -328,6 +328,7 @@ export const FormPanel: React.FC<Props> = ({
         css`
           width: ${width}px;
           height: ${height}px;
+          padding: ${options.layout.padding}px;
         `
       )}
     >
