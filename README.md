@@ -59,6 +59,11 @@ grafana-cli plugins install volkovlabs-form-panel
 | -- | -- |
 | [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture) | Explains the Architecture and how to use Grafana and API behind NGINX. |
 | [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code) | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
+
+### Features
+
+| Section | Description |
+| -- | -- |
 | [Control Panel](https://volkovlabs.io/plugins/volkovlabs-form-panel/control) | Explains how to create Control Panels with multiple sections and same Id. |
 | [Custom Requests](https://volkovlabs.io/plugins/volkovlabs-form-panel/request) | Demonstrates how to create your own Initial and Update requests using Custom Code. |
 | [Dynamic form elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/dynamic) | Demonstrates how to update elements element's values and options from any data source. |
@@ -69,6 +74,10 @@ grafana-cli plugins install volkovlabs-form-panel
 [![How to Manipulate Data using Grafana dashboard | API Node.js Server and Deno Deploy Project](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/server.png)](https://youtu.be/SHN2S-dRIEM)
 
 [![Static and dynamic interface elements of Data Manipulation plugin | DML using data source in Grafana](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/elements.png)](https://youtu.be/RSVH1bSBNl8)
+
+Three plugins that make Grafana complete. Dynamic Text, Data Manipulation, and Apache ECharts are all you need to create functional real-world web applications.
+
+[![Magic JavaScript trio for Grafana | Dynamic Text, Data Manipulation and Apache ECharts plugins](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/magic-trio.png)](https://youtu.be/wPr4gZYzUVA)
 
 ## Feedback
 
