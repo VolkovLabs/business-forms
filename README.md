@@ -69,6 +69,15 @@ grafana-cli plugins install volkovlabs-form-panel
 | [Dynamic form elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/dynamic) | Demonstrates how to update elements element's values and options from any data source. |
 | [Variables](https://volkovlabs.io/plugins/volkovlabs-form-panel/variables) | Explains how to replace Dashboard and Global variables. |
 
+### API Servers
+
+| Section                          | Description                                                                       |
+| -------------------------------- | --------------------------------------------------------------------------------- |
+| [Deno](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/deno)             | Demonstrates how to create an API server on Deno.                                 |
+| [JSON](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/json)             | Demonstrates how to create an API server on Node.js with JSON object.             |
+| [MySQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/mysql)           | Demonstrates how to create an API server on Node.js with the MySQL database.      |
+| [PostgreSQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/postgresql) | Demonstrates how to create an API server on Node.js with the PostgreSQL database. |
+
 ## Tutorials
 
 [![How to Manipulate Data using Grafana dashboard | API Node.js Server and Deno Deploy Project](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/server.png)](https://youtu.be/SHN2S-dRIEM)
