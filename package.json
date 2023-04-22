@@ -2,11 +2,11 @@
   "author": "Volkov Labs",
   "description": "Data Manipulation Panel",
   "devDependencies": {
-    "@grafana/data": "9.4.3",
-    "@grafana/runtime": "9.4.3",
-    "@grafana/toolkit": "9.4.3",
-    "@grafana/ui": "9.4.3",
-    "@types/enzyme": "^3.10.12",
+    "@grafana/data": "9.4.7",
+    "@grafana/runtime": "9.4.7",
+    "@grafana/toolkit": "9.4.7",
+    "@grafana/ui": "9.4.7",
+    "@types/enzyme": "^3.10.13",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.7",
@@ -29,5 +29,5 @@
     "upgrade": "yarn upgrade --latest",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
-  "version": "2.8.0"
+  "version": "3.0.0"
 }
