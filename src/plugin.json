@@ -38,10 +38,6 @@
       {
         "name": "Request",
         "path": "img/request.png"
-      },
-      {
-        "name": "Visual",
-        "path": "img/visual.png"
       }
     ],
     "updated": "%TODAY%",
