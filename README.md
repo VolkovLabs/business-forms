@@ -2,7 +2,7 @@
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
-[![Grafana](https://img.shields.io/badge/Grafana-9.4.3-orange)](https://www.grafana.com)
+[![Grafana](https://img.shields.io/badge/Grafana-9.4.7-orange)](https://www.grafana.com)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 ![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/VolkovLabs/volkovlabs-form-panel/branch/main/graph/badge.svg?token=0m6f0ktUar)](https://codecov.io/gh/VolkovLabs/volkovlabs-form-panel)
@@ -14,16 +14,16 @@ The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the 
 
 [![Data Manipulation Plugin for Grafana | Manual data entering and User input into Dashboard](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/video.png)](https://youtu.be/DXALVG8GijM)
 
-### Requirements
+## Requirements
 
-- **Grafana 8.5+**, **Grafana 9.0+** is required for version 2.X.
-- **Grafana 8.0+** is required for version 1.X.
+- **Grafana 8.5+**, **Grafana 9.0+** is required for major version 2.
+- **Grafana 8.0+** is required for major version 1.
 
 ## Getting Started
 
-Data Manipulation panel can be installed from the [Grafana Catalog](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or utilizing the Grafana command line tool.
+The Data Manipulation panel can be installed from the [Grafana Catalog](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or utilizing the Grafana command line tool.
 
-For the latter, use the following command:
+For the latter, use the following command.
 
 ```bash
 grafana-cli plugins install volkovlabs-form-panel
@@ -59,6 +59,7 @@ grafana-cli plugins install volkovlabs-form-panel
 | -- | -- |
 | [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture) | Explains the Architecture and how to use Grafana and API behind NGINX. |
 | [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code) | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
+| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release)     | Stay up to date with the latest features and updates.                                         |
 
 ### Features
 
@@ -74,6 +75,7 @@ grafana-cli plugins install volkovlabs-form-panel
 | Section                          | Description                                                                       |
 | -------------------------------- | --------------------------------------------------------------------------------- |
 | [Deno](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/deno)             | Demonstrates how to create an API server on Deno.                                 |
+| [InfluxDB API](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/influx)   | Demonstrates how to integrate with InfluxDB API.                                  |
 | [JSON](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/json)             | Demonstrates how to create an API server on Node.js with JSON object.             |
 | [MySQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/mysql)           | Demonstrates how to create an API server on Node.js with the MySQL database.      |
 | [PostgreSQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/postgresql) | Demonstrates how to create an API server on Node.js with the PostgreSQL database. |

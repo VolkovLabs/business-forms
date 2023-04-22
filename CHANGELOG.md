@@ -1,10 +1,11 @@
 # Change Log
 
-## 2.9.0 (IN PROGRESS)
+## 3.0.0 (IN PROGRESS)
 
 ### Features / Enhancements
 
 - Update Documentation for API Servers (#149)
+- Update to Grafana 9.4.7 (#165)
 
 ## 2.8.0 (2023-03-16)
 
