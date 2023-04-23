@@ -8,6 +8,7 @@ export const Styles = (theme: GrafanaTheme2) => {
   return {
     wrapper: css`
       position: relative;
+      overflow-y: auto;
     `,
     table: css`
       width: 100%;
