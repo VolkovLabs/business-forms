@@ -1,4 +1,4 @@
-import { v4 } from 'https://deno.land/std/uuid/mod.ts';
+import { v5 } from 'https://deno.land/std/uuid/mod.ts';
 import { oakCors } from 'https://deno.land/x/cors/mod.ts';
 import { faker } from 'https://deno.land/x/deno_faker@v1.0.3/mod.ts';
 import { Application, Router } from 'https://deno.land/x/oak/mod.ts';
@@ -7,9 +7,12 @@ import { Application, Router } from 'https://deno.land/x/oak/mod.ts';
  * Generated Feedback
  */
 const types = ['issue', 'comment', 'feature'];
+const NAMESPACE_URL = '8acc3847-51e0-439f-a18c-24859fc68214';
+const DATA = new TextEncoder().encode('deno.land');
+const id = await v5.generate(NAMESPACE_URL, DATA);
 const feedbacks = [...Array(100).keys()].map(() => {
   return {
-    id: v4.generate(),
+    id,
     name: faker.name.findName(),
     email: faker.internet.email(),
     type: types[Math.floor(Math.random() * types.length)],
@@ -38,7 +41,6 @@ router
       });
     }
 
-    const id = v4.generate();
     const { value } = ctx.request.body({ type: 'json' });
     const { name, type, description } = await value;
 
