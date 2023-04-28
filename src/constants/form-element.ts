@@ -16,6 +16,7 @@ export const enum FormElementType {
   DISABLED = 'disabled',
   PASSWORD = 'password',
   CODE = 'code',
+  HIDDEN = 'hidden',
 }
 
 /**
@@ -65,6 +66,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.TEXTAREA,
     label: 'Text Area',
+  },
+  {
+    value: FormElementType.HIDDEN,
+    label: 'Hidden String Input',
   },
 ];
 

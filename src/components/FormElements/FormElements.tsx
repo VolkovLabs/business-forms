@@ -366,6 +366,29 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
               </InlineField>
             )}
 
+            {element.type === FormElementType.HIDDEN && (
+              <InlineField
+                label={element.title}
+                grow={!!!element.width}
+                labelWidth={element.labelWidth}
+                tooltip={element.tooltip}
+                transparent={!!!element.title}
+                style={{display: 'none'}}
+              >
+                <Input
+                  value={element.value}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    element.value = event.target.value;
+                    onOptionsChange(options);
+                  }}
+                  className={highlightClass(element)}
+                  width={element.width}
+                  type="text"
+                />
+              </InlineField>
+
+            )}
+
             {element.unit && (
               <InlineLabel transparent width={4}>
                 {element.unit}
