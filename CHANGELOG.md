@@ -6,6 +6,7 @@
 
 - Update Documentation for API Servers (#149)
 - Update to Grafana 9.4.7 (#165)
+- Add Hidden option to String element (#171)
 
 ## 2.8.0 (2023-03-16)
 

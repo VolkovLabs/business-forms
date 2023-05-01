@@ -4,18 +4,18 @@ import { SelectableValue } from '@grafana/data';
  * Form Element Type
  */
 export const enum FormElementType {
-  NUMBER = 'number',
-  STRING = 'string',
   BOOLEAN = 'boolean',
-  RADIO = 'radio',
-  SLIDER = 'slider',
-  SELECT = 'select',
-  TEXTAREA = 'textarea',
-  SECRET = 'secret',
+  CODE = 'code',
   DATETIME = 'datetime',
   DISABLED = 'disabled',
+  NUMBER = 'number',
   PASSWORD = 'password',
-  CODE = 'code',
+  RADIO = 'radio',
+  SECRET = 'secret',
+  SELECT = 'select',
+  SLIDER = 'slider',
+  STRING = 'string',
+  TEXTAREA = 'textarea',
 }
 
 /**
@@ -93,5 +93,21 @@ export const SelectElementOptions: SelectableValue[] = [
   {
     value: FormElementType.NUMBER,
     label: 'Number',
+  },
+];
+
+/**
+ * Options to Hide String element
+ */
+export const StringElementOptions: SelectableValue[] = [
+  {
+    description: 'Display',
+    icon: 'eye',
+    value: false,
+  },
+  {
+    description: 'Hidden',
+    icon: 'eye-slash',
+    value: true,
   },
 ];

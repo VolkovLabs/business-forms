@@ -144,6 +144,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
+                className={cx(element.hidden && styles.hidden)}
               >
                 <Input
                   value={element.value}
