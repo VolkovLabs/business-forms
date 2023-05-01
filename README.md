@@ -34,7 +34,7 @@ grafana-cli plugins install volkovlabs-form-panel
 - Provides functionality to create customizable forms with elements:
   - Number Input
   - Radio Group with Boolean options
-  - String Input with Hide options
+  - String Input
   - Number Slider
   - Select with Custom options
   - Date and Time
