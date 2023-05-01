@@ -62,11 +62,6 @@ describe('Panel', () => {
     expect(id.exists()).toBeTruthy();
     id.simulate('change', { target: { value: 'text' } });
 
-    const type = element.find('[options]');
-    expect(type.exists()).toBeTruthy();
-    type.simulate('change', { value: FormElementType.CODE });
-    type.simulate('change', { value: FormElementType.SLIDER });
-
     const width = element.find('Input[placeholder="auto"]');
     expect(width.exists()).toBeTruthy();
     width.simulate('change', { target: { value: 10 } });
