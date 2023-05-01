@@ -8,6 +8,7 @@ import {
   InlineField,
   InlineFieldRow,
   Input,
+  RadioButtonGroup,
   Select,
 } from '@grafana/ui';
 import {
@@ -19,6 +20,7 @@ import {
   FormElementTypeOptions,
   SelectElementOptions,
   SliderDefault,
+  StringElementOptions,
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
 import { MoveFormElements } from '../../utils';
@@ -138,7 +140,22 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               />
             </InlineField>
 
-            <Button variant="destructive" onClick={(e) => onElementRemove(element.id)} icon="trash-alt"></Button>
+            {element.type === FormElementType.STRING && (
+              <InlineField>
+                <RadioButtonGroup
+                  options={StringElementOptions}
+                  value={!!element.hidden}
+                  onChange={(value) => {
+                    element.hidden = value;
+                    onChange(elements);
+                  }}
+                />
+              </InlineField>
+            )}
+
+            <InlineField>
+              <Button variant="destructive" onClick={(e) => onElementRemove(element.id)} icon="trash-alt"></Button>
+            </InlineField>
           </InlineFieldRow>
 
           <InlineFieldRow>

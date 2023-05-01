@@ -76,5 +76,8 @@ export const Styles = (theme: GrafanaTheme2) => {
     sliderInput: css`
       margin-left: 15px;
     `,
+    hidden: css`
+      display: none;
+    `,
   };
 };
