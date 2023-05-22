@@ -30,28 +30,17 @@ For the latter, use the following command.
 grafana-cli plugins install volkovlabs-form-panel
 ```
 
-## Features
+## Highlights
 
-- Provides functionality to create customizable forms with elements:
-  - Number Input
-  - Radio Group with Boolean options
-  - String Input
-  - Number Slider
-  - Select with Custom options
-  - Date and Time
-  - Radio Group with Custom options
-  - Read-only (Disabled) with support for lookup
-  - Password Input
-  - Text Area
-  - Code Editor
-- Supports the Custom Code for the `Initial` and `Update` requests.
-- Allows specifying `GET` request to get initial values and `DELETE`, `PATCH`, `POST`, and `PUT` requests to send values updated in the form.
-- Allows adding `Header` fields to the `Initial` and `Update` requests.
-- Allows customizing `Submit`, `Reset` buttons, and form layout.
+- Provides functionality to create customizable forms.
+- Supports the Custom Code for the Initial and Update requests.
+- Allows specifying a `GET` request to get initial values and `DELETE`, `PATCH`, `POST`, and `PUT` requests to send values updated in the form.
+- Allows adding Header fields to the Initial and Update requests.
+- Allows customizing Submit, Reset buttons, and form layout.
 - Allows splitting form elements into sections.
-- Allows requesting confirmation before `Update` request.
-- Allows sending all or only updated elements in the `Payload`.
-- Allows displaying `Success` and `Error` notifications from the **Custom Code**.
+- Allows requesting confirmation before Update request.
+- Allows sending all or only updated elements in the Payload.
+- Allows displaying Success and Error notifications from the Custom Code.
 - Supports Code Editor suggestions for available parameters.
 
 ## Documentation
