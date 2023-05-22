@@ -3,7 +3,7 @@ import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useStyles2, useTheme2 } from '@grafana/ui';
-import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
+import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod, TestIds } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
@@ -323,6 +323,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   return (
     <div
+      data-testid={TestIds.panel.root}
       className={cx(
         styles.wrapper,
         css`

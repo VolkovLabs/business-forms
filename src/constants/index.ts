@@ -4,3 +4,4 @@ export * from './default';
 export * from './form-element';
 export * from './layout';
 export * from './request';
+export * from './tests';

@@ -1,0 +1,223 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 13,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "elements": [
+          {
+            "id": "amount",
+            "title": "Amount",
+            "type": "number",
+            "unit": "Ghz",
+            "value": 30
+          },
+          {
+            "id": "updated",
+            "title": "Updated",
+            "type": "boolean",
+            "value": false
+          },
+          {
+            "id": "name",
+            "title": "Name",
+            "type": "string",
+            "value": "Name"
+          },
+          {
+            "id": "step",
+            "max": 6,
+            "min": 0,
+            "step": 1,
+            "title": "Step",
+            "type": "slider",
+            "value": 4
+          },
+          {
+            "id": "select",
+            "options": [
+              {
+                "label": "Max",
+                "value": "max"
+              },
+              {
+                "label": "Min",
+                "value": "min"
+              },
+              {
+                "label": "Average",
+                "value": "avg"
+              }
+            ],
+            "title": "Select",
+            "type": "select",
+            "unit": "C"
+          },
+          {
+            "id": "dateTime",
+            "title": "DateTime",
+            "type": "datetime"
+          },
+          {
+            "id": "radio",
+            "options": [
+              {
+                "label": "Plus",
+                "value": "plus"
+              },
+              {
+                "label": "Minus",
+                "value": "minus"
+              }
+            ],
+            "title": "Radio",
+            "type": "radio"
+          },
+          {
+            "id": "disabled",
+            "title": "Disabled",
+            "type": "disabled"
+          },
+          {
+            "id": "password",
+            "title": "Password",
+            "type": "password"
+          },
+          {
+            "id": "text",
+            "rows": 4,
+            "title": "Text",
+            "type": "textarea"
+          }
+        ],
+        "height": 0,
+        "heightMode": "auto",
+        "initial": {
+          "code": "console.log(response)",
+          "contentType": "application/json",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
+          "highlight": true,
+          "highlightColor": "red",
+          "method": "GET",
+          "url": "http://localhost:3001/${var}"
+        },
+        "layout": {
+          "padding": 10,
+          "variant": "single"
+        },
+        "name": "data",
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "secondary"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Update",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  initialRequest();\n} else {\n  notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
+          "confirm": true,
+          "contentType": "application/json",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
+          "method": "POST",
+          "updatedOnly": false,
+          "url": "http://localhost:3001/${var}"
+        },
+        "width": 0,
+        "widthMode": "auto"
+      },
+      "title": "Single Form",
+      "type": "volkovlabs-form-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "test",
+          "value": "test"
+        },
+        "hide": 0,
+        "label": "Var",
+        "name": "var",
+        "options": [
+          {
+            "selected": true,
+            "text": "test",
+            "value": "test"
+          }
+        ],
+        "query": "test",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "E2E",
+  "uid": "ddab9faf-2c15-431a-a047-9a7a6a0aed71",
+  "version": 2,
+  "weekStart": ""
+}
