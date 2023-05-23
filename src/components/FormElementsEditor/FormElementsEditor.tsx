@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useCallback, useMemo } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import {
   Button,
@@ -59,7 +59,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
   /**
    * Add Elements
    */
-  const onElementAdd = () => {
+  const onElementAdd = useCallback(() => {
     /**
      * Slider values
      */
@@ -80,17 +80,18 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
      * Reset input values
      */
     setNewElement(FormElementDefault);
-  };
+  }, [newElement]);
 
   /**
    * Layout Sections
    */
-  const layoutSectionOptions: SelectableValue[] = [];
-  if (context.options?.layout && context.options.layout.sections?.length) {
-    context.options.layout.sections.forEach((section: LayoutSection) => {
-      layoutSectionOptions.push({ value: section.name, label: section.name });
-    });
-  }
+  const layoutSectionOptions = useMemo(() => {
+    return (
+      context.options?.layout?.sections?.map((section: LayoutSection) => {
+        return { value: section.name, label: section.name };
+      }) || []
+    );
+  }, [context.options?.layout?.sections]);
 
   /**
    * Return
@@ -111,7 +112,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                     event.stopPropagation();
                   }}
-                  data-testid={TestIds.formElementsEditor.buttonMoveElementUp}
+                  data-testid={TestIds.formElementsEditor.buttonMoveElementUp(element.id)}
                 />
               )}
               {id < elements.length - 1 && (
@@ -123,7 +124,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                     event.stopPropagation();
                   }}
-                  data-testid={TestIds.formElementsEditor.buttonMoveElementDown}
+                  data-testid={TestIds.formElementsEditor.buttonMoveElementDown(element.id)}
                 />
               )}
               {element.title} [{element.id}]
@@ -170,7 +171,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           </InlineFieldRow>
 
           <InlineFieldRow>
-            <InlineField label="Type" grow labelWidth={8} data-testid={TestIds.formElementsEditor.fieldType}>
+            <InlineField label="Type" grow labelWidth={8}>
               <Select
                 options={FormElementTypeOptions}
                 onChange={(event: SelectableValue) => {
@@ -189,6 +190,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={FormElementTypeOptions.find((type) => type.value === element.type)}
+                aria-label={TestIds.formElementsEditor.fieldType}
               />
             </InlineField>
 
@@ -267,7 +269,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
 
           {layoutSectionOptions.length > 0 && (
             <InlineFieldRow>
-              <InlineField label="Section" grow labelWidth={8} data-testid={TestIds.formElementsEditor.fieldSection}>
+              <InlineField label="Section" grow labelWidth={8}>
                 <Select
                   options={layoutSectionOptions}
                   onChange={(event: SelectableValue) => {
@@ -275,6 +277,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                   }}
                   value={layoutSectionOptions.find((section) => section.value === element.section)}
+                  aria-label={TestIds.formElementsEditor.fieldSection}
                 />
               </InlineField>
             </InlineFieldRow>
@@ -376,12 +379,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
 
           {element.type === FormElementType.CODE && (
             <InlineFieldRow>
-              <InlineField
-                label="Language"
-                grow
-                labelWidth={10}
-                data-testid={TestIds.formElementsEditor.fieldCodeLanguage}
-              >
+              <InlineField label="Language" grow labelWidth={10}>
                 <Select
                   options={CodeLanguageOptions}
                   onChange={(event: SelectableValue) => {
@@ -390,6 +388,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   }}
                   value={CodeLanguageOptions.find((language) => language.value === element.language)}
                   defaultValue={CodeLanguage.JAVASCRIPT}
+                  aria-label={TestIds.formElementsEditor.fieldCodeLanguage}
                 />
               </InlineField>
               <InlineField label="Height" labelWidth={12} tooltip="Code Editor height in px">
@@ -413,7 +412,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
             <div>
               {element.options?.map((option) => (
                 <InlineFieldRow key={option.id} data-testid={TestIds.formElementsEditor.fieldOption(option.id)}>
-                  <InlineField label="Type" labelWidth={8} data-testid={TestIds.formElementsEditor.fieldOptionType}>
+                  <InlineField label="Type" labelWidth={8}>
                     <Select
                       options={SelectElementOptions}
                       onChange={(event: SelectableValue) => {
@@ -423,6 +422,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                       width={12}
                       value={SelectElementOptions.find((type) => type.value === option.type)}
                       defaultValue={FormElementType.STRING}
+                      aria-label={TestIds.formElementsEditor.fieldOptionType}
                     />
                   </InlineField>
                   {(!option.type || option.type === FormElementType.STRING) && (
@@ -527,8 +527,9 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           />
         </InlineField>
 
-        <InlineField label="Type" grow labelWidth={8} data-testid={TestIds.formElementsEditor.newElementType}>
+        <InlineField label="Type" grow labelWidth={8}>
           <Select
+            aria-label={TestIds.formElementsEditor.newElementType}
             options={FormElementTypeOptions}
             onChange={(event?: SelectableValue) => {
               setNewElement({ ...newElement, type: event?.value });
@@ -539,8 +540,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
 
         <Button
           variant="secondary"
-          onClick={(e) => onElementAdd()}
-          disabled={!!!newElement.id || !!!newElement.type}
+          onClick={onElementAdd}
+          disabled={!newElement.id || !newElement.type}
           icon="plus"
           data-testid={TestIds.formElementsEditor.buttonAddElement}
         >
