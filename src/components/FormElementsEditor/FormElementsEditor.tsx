@@ -85,7 +85,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
   /**
    * Layout Sections
    */
-  const layoutSectionOptions = useMemo(() => {
+  const layoutSectionOptions: SelectableValue[] = useMemo(() => {
     return (
       context.options?.layout?.sections?.map((section: LayoutSection) => {
         return { value: section.name, label: section.name };
