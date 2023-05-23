@@ -80,7 +80,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
      * Reset input values
      */
     setNewElement(FormElementDefault);
-  }, [newElement]);
+  }, [newElement, onChange, elements]);
 
   /**
    * Layout Sections
