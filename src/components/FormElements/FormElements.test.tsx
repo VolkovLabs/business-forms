@@ -1,87 +1,86 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import { FormElementDefault, FormElementType } from '../../constants';
+import { getFormElementsSelectors } from '../../test-utils';
 import { FormElements } from './FormElements';
 
 /**
- * Panel
+ * Mock @grafana/ui
  */
-describe('Panel', () => {
+jest.mock('@grafana/ui', () => ({
+  ...jest.requireActual('@grafana/ui'),
+  CodeEditor: jest.fn().mockImplementation((props) => {
+    return <div data-testid={props['data-testid']} />;
+  }),
+}));
+
+/**
+ * Form Elements
+ */
+describe('Form Elements', () => {
   const onOptionsChange = jest.fn();
+  /**
+   * Form Elements Selectors
+   */
+  const elements = getFormElementsSelectors(screen);
 
-  it('Should find component with elements', async () => {
-    const options = {
-      submit: {},
-      initial: { highlightColor: false },
-      update: {},
-      reset: {},
-      elements: [
-        FormElementDefault,
-        { id: 'password', type: FormElementType.PASSWORD },
-        { id: 'number', type: FormElementType.NUMBER },
-        { id: 'textarea', type: FormElementType.TEXTAREA },
-        { id: 'code', type: FormElementType.CODE },
-        { id: 'boolean', type: FormElementType.BOOLEAN },
-        { id: 'datetime', type: FormElementType.DATETIME },
-      ],
-    };
+  describe('Render elements', () => {
+    beforeEach(() => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          FormElementDefault,
+          { id: 'password', type: FormElementType.PASSWORD },
+          { id: 'number', type: FormElementType.NUMBER },
+          { id: 'textarea', type: FormElementType.TEXTAREA },
+          { id: 'code', type: FormElementType.CODE },
+          { id: 'boolean', type: FormElementType.BOOLEAN },
+          { id: 'datetime', type: FormElementType.DATETIME },
+          { id: 'radioGroup', type: FormElementType.RADIO },
+        ],
+      };
 
-    const getComponent = ({ options = {}, ...restProps }: any) => {
-      return <FormElements options={options} {...restProps} />;
-    };
+      const getComponent = ({ options = {}, ...restProps }: any) => {
+        return <FormElements options={options} {...restProps} />;
+      };
 
-    const wrapper = shallow(getComponent({ options, onOptionsChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+      render(getComponent({ options, onOptionsChange }));
+    });
 
-    /**
-     * Input
-     */
-    const text = wrapper.find('Input[type="text"]');
-    expect(text.exists()).toBeTruthy();
-    text.simulate('change', { target: { value: 'text' } });
+    it('Should render container', () => {
+      expect(elements.root()).toBeInTheDocument();
+    });
 
-    /**
-     * Input number
-     */
-    const number = wrapper.find('Input[type="number"]');
-    expect(number.exists()).toBeTruthy();
-    number.simulate('change', { target: { value: 1 } });
+    it('Should render string field', () => {
+      expect(elements.fieldString()).toBeInTheDocument();
+    });
 
-    /**
-     * Password
-     */
-    const password = wrapper.find('Input[type="password"]');
-    expect(password.exists()).toBeTruthy();
-    password.simulate('change', { target: { value: 'secret' } });
+    it('Should render number field', () => {
+      expect(elements.fieldNumber()).toBeInTheDocument();
+    });
 
-    /**
-     * Textarea
-     */
-    const textarea = wrapper.find('TextArea');
-    expect(textarea.exists()).toBeTruthy();
-    textarea.simulate('change', { target: { value: 'hello' } });
+    it('Should render password field', () => {
+      expect(elements.fieldPassword()).toBeInTheDocument();
+    });
 
-    /**
-     * CodeEditor
-     */
-    const code = wrapper.find('[language="javascript"]');
-    expect(code.exists()).toBeTruthy();
-    code.simulate('blur', { value: 'alert();' });
+    it('Should render textarea field', () => {
+      expect(elements.fieldTextarea()).toBeInTheDocument();
+    });
 
-    /**
-     * RadioButtonGroup
-     */
-    const radio = wrapper.find('RadioButtonGroup');
-    expect(radio.exists()).toBeTruthy();
-    radio.simulate('change', { value: true });
+    it('Should render code field', () => {
+      expect(elements.fieldCode()).toBeInTheDocument();
+    });
 
-    /**
-     * DateTime
-     */
-    const dateTime = wrapper.find('DateTimePicker');
-    expect(dateTime.exists()).toBeTruthy();
-    dateTime.simulate('change', { value: new Date() });
+    it('Should render radio field', () => {
+      expect(elements.fieldRadioContainer()).toBeInTheDocument();
+    });
+
+    it('Should render dateTime field', () => {
+      expect(elements.fieldDateTime()).toBeInTheDocument();
+    });
   });
 
   it('Should find component with Slider', async () => {
@@ -97,20 +96,13 @@ describe('Panel', () => {
       return <FormElements options={options} {...restProps} />;
     };
 
-    const wrapper = shallow(getComponent({ options, onOptionsChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
-
-    const slider = wrapper.find('[step]');
-    expect(slider.exists()).toBeTruthy();
-    slider.simulate('change', { value: 1 });
+    render(getComponent({ options, onOptionsChange }));
+    expect(elements.fieldSliderContainer()).toBeInTheDocument();
 
     /**
      * Input
      */
-    const input = wrapper.find('Input');
-    expect(input.exists()).toBeTruthy();
-    input.simulate('change', { currentTarget: { value: 1 } });
+    expect(elements.fieldSliderInput()).toBeInTheDocument();
   });
 
   it('Should find component with Radio', async () => {
@@ -126,16 +118,12 @@ describe('Panel', () => {
       return <FormElements options={options} {...restProps} />;
     };
 
-    const wrapper = shallow(getComponent({ options, onOptionsChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    render(getComponent({ options, onOptionsChange }));
 
     /**
      * Radio
      */
-    const radio = wrapper.find('RadioButtonGroup');
-    expect(radio.exists()).toBeTruthy();
-    radio.simulate('change', { value: 'abc' });
+    expect(elements.fieldRadioContainer()).toBeInTheDocument();
   });
 
   it('Should find component with Select', async () => {
@@ -151,16 +139,12 @@ describe('Panel', () => {
       return <FormElements options={options} {...restProps} />;
     };
 
-    const wrapper = shallow(getComponent({ options, onOptionsChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    render(getComponent({ options, onOptionsChange }));
 
     /**
      * Select
      */
-    const select = wrapper.find('[options]');
-    expect(select.exists()).toBeTruthy();
-    select.simulate('change', { value: 'abc' });
+    expect(elements.fieldSelectContainer()).toBeInTheDocument();
   });
 
   it('Should not find component without section', async () => {
@@ -176,14 +160,12 @@ describe('Panel', () => {
       return <FormElements options={options} {...restProps} />;
     };
 
-    const wrapper = shallow(getComponent({ options, onOptionsChange, section: { name: 'left' } }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    render(getComponent({ options, onOptionsChange, section: { name: 'left' } }));
+    expect(elements.root()).toBeInTheDocument();
 
     /**
      * Select
      */
-    const select = wrapper.find('[options]');
-    expect(select.exists()).toBeFalsy();
+    expect(elements.fieldSelectContainer(true)).not.toBeInTheDocument();
   });
 });

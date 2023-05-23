@@ -334,7 +334,7 @@ export const FormPanel: React.FC<Props> = ({
       )}
     >
       {(!options.elements || !options.elements.length) && options.layout.variant !== LayoutVariant.NONE && (
-        <Alert severity="info" title="Form Elements">
+        <Alert data-testid={TestIds.panel.infoMessage} severity="info" title="Form Elements">
           Please add elements in Panel Options or Custom Code.
         </Alert>
       )}
@@ -343,12 +343,7 @@ export const FormPanel: React.FC<Props> = ({
         {options.layout.variant === LayoutVariant.SINGLE && (
           <tr>
             <td>
-              <FormElements
-                options={options}
-                onOptionsChange={onOptionsChange}
-                initial={initial}
-                section={null}
-              ></FormElements>
+              <FormElements options={options} onOptionsChange={onOptionsChange} initial={initial} section={null} />
             </td>
           </tr>
         )}
@@ -364,7 +359,7 @@ export const FormPanel: React.FC<Props> = ({
                       onOptionsChange={onOptionsChange}
                       initial={initial}
                       section={section}
-                    ></FormElements>
+                    />
                   </FieldSet>
                 </td>
               );

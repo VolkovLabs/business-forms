@@ -1,60 +1,62 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { screen, render, within } from '@testing-library/react';
+import { getHeaderParametersEditorSelectors } from '../../test-utils';
 import { HeaderParametersEditor } from './HeaderParametersEditor';
 
 /**
- * Panel
+ * Header Parameters Editor
  */
-describe('Panel', () => {
+describe('Header Parameters Editor', () => {
   const onChange = jest.fn();
+
+  /**
+   * Header Parameters Editor Selectors
+   */
+  const selectors = getHeaderParametersEditorSelectors(screen);
+
+  /**
+   * Get Tested Component
+   * @param value
+   * @param context
+   * @param restProps
+   */
+  const getComponent = ({ value = [], context = {}, ...restProps }: any) => {
+    return <HeaderParametersEditor {...restProps} value={value} context={context} />;
+  };
 
   /**
    * Parameters
    */
   it('Should find component with parameters', async () => {
     const parameters = [{ name: 'Authorization', value: 'Token' }];
-    const getComponent = ({ value = [], ...restProps }: any) => {
-      return <HeaderParametersEditor {...restProps} value={value} />;
-    };
 
-    const wrapper = shallow(getComponent({ value: parameters, onChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    render(getComponent({ value: parameters, onChange }));
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.buttonAdd()).toBeInTheDocument();
 
-    const addButton = div.find('[icon="plus"]');
-    expect(addButton.exists()).toBeTruthy();
-    addButton.simulate('click');
+    /**
+     * Check Authorization Parameter presence
+     */
+    const authorizationParameter = selectors.parameter(false, 'Authorization');
+    expect(authorizationParameter).toBeInTheDocument();
 
-    const name = div.find('Input[placeholder="name"]');
-    expect(name.exists()).toBeTruthy();
-    name.simulate('change', { target: { value: 'name' } });
-
-    const value = div.find('Input[placeholder="value"]');
-    expect(value.exists()).toBeTruthy();
-    value.simulate('change', { target: { value: 'value' } });
-
-    const removeButton = div.find('[icon="trash-alt"]');
-    expect(removeButton.exists()).toBeTruthy();
-    removeButton.simulate('click');
+    /**
+     * Check Authorization Parameter Fields presence
+     */
+    const authorizationParameterSelectors = getHeaderParametersEditorSelectors(within(authorizationParameter));
+    expect(authorizationParameterSelectors.fieldName()).toBeInTheDocument();
+    expect(authorizationParameterSelectors.fieldValue()).toBeInTheDocument();
+    expect(authorizationParameterSelectors.buttonRemove()).toBeInTheDocument();
   });
 
   /**
    * No parameters
    */
   it('Should find component without parameters', async () => {
-    const getComponent = ({ value = [], context = {}, ...restProps }: any) => {
-      return <HeaderParametersEditor {...restProps} value={value} context={context} />;
-    };
+    render(getComponent({ value: null, onChange }));
 
-    const wrapper = shallow(getComponent({ value: null, onChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
-
-    const input = div.find('Input');
-    expect(input.exists()).toBeFalsy();
-
-    const addButton = div.find('[icon="plus"]');
-    expect(addButton.exists()).toBeTruthy();
-    addButton.simulate('click');
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.fieldName(true)).not.toBeInTheDocument();
+    expect(selectors.buttonAdd()).toBeInTheDocument();
   });
 });

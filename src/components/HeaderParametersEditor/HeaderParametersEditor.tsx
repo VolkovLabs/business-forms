@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
 import { HeaderParameter } from '../../types';
+import { TestIds } from '../../constants';
 
 /**
  * Properties
@@ -20,9 +21,9 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
    * Return
    */
   return (
-    <div>
+    <div data-testid={TestIds.headerParametersEditor.root}>
       {parameters.map((parameter, id) => (
-        <InlineFieldRow key={id}>
+        <InlineFieldRow key={id} data-testid={TestIds.headerParametersEditor.parameter(parameter.name)}>
           <InlineField label="Name" labelWidth={8} invalid={parameter.name === ''}>
             <Input
               placeholder="name"
@@ -31,6 +32,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
                 onChange(parameters);
               }}
               value={parameter.name}
+              data-testid={TestIds.headerParametersEditor.fieldName}
             />
           </InlineField>
           <InlineField label="Value" labelWidth={8} grow>
@@ -42,6 +44,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
               }}
               type="password"
               value={parameter.value}
+              data-testid={TestIds.headerParametersEditor.fieldValue}
             />
           </InlineField>
           <Button
@@ -51,7 +54,8 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
               onChange(parameters);
             }}
             icon="trash-alt"
-          ></Button>
+            data-testid={TestIds.headerParametersEditor.buttonRemove}
+          />
         </InlineFieldRow>
       ))}
 
@@ -62,6 +66,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
           onChange(parameters);
         }}
         icon="plus"
+        data-testid={TestIds.headerParametersEditor.buttonAdd}
       >
         Add Parameter
       </Button>
