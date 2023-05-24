@@ -7,18 +7,22 @@ import { Application, Router } from 'https://deno.land/x/oak/mod.ts';
  * Generated Feedback
  */
 const types = ['issue', 'comment', 'feature'];
-const NAMESPACE_URL = '8acc3847-51e0-439f-a18c-24859fc68214';
-const DATA = new TextEncoder().encode('deno.land');
-const id = await v5.generate(NAMESPACE_URL, DATA);
-const feedbacks = [...Array(100).keys()].map(() => {
-  return {
-    id,
-    name: faker.name.findName(),
-    email: faker.internet.email(),
-    type: types[Math.floor(Math.random() * types.length)],
-    description: faker.lorem.sentences(),
-  };
-});
+const namespace = '8acc3847-51e0-439f-a18c-24859fc68214';
+const feedbacks: any = [];
+
+Promise.all(
+  [...Array(100).keys()].map(async (i) => {
+    const id = await v5.generate(namespace, new TextEncoder().encode(i.toString()));
+
+    feedbacks.push({
+      id,
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      type: types[Math.floor(Math.random() * types.length)],
+      description: faker.lorem.sentences(),
+    });
+  })
+);
 
 /**
  * Router
@@ -43,6 +47,7 @@ router
 
     const { value } = ctx.request.body({ type: 'json' });
     const { name, type, description } = await value;
+    const id = await v5.generate(namespace, new TextEncoder().encode(feedbacks.length().toString()));
 
     /**
      * Add Feedback
