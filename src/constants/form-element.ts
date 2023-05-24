@@ -74,10 +74,12 @@ export const FormElementTypeOptions: SelectableValue[] = [
  */
 export const BooleanElementOptions: SelectableValue[] = [
   {
+    ariaLabel: TestIds.formElements.booleanOption('true'),
     value: true,
     label: 'True',
   },
   {
+    ariaLabel: TestIds.formElements.booleanOption('false'),
     value: false,
     label: 'False',
   },

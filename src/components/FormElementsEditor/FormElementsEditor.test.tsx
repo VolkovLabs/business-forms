@@ -464,6 +464,7 @@ describe('Form Elements Editor', () => {
        */
       const fieldVisibilitySelectors = getFormElementsEditorSelectors(within(elementSelectors.fieldVisibility()));
       expect(fieldVisibilitySelectors.radioOption(false, 'visibility-hidden')).toBeInTheDocument();
+
       fireEvent.click(fieldVisibilitySelectors.radioOption(false, 'visibility-hidden'));
 
       /**
@@ -494,6 +495,7 @@ describe('Form Elements Editor', () => {
        * Change type
        */
       fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.NUMBER } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -518,6 +520,7 @@ describe('Form Elements Editor', () => {
        * Change type
        */
       fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.SLIDER } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -546,6 +549,7 @@ describe('Form Elements Editor', () => {
        * Change width
        */
       fireEvent.change(elementSelectors.fieldWidth(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -570,6 +574,7 @@ describe('Form Elements Editor', () => {
        * Change label
        */
       fireEvent.change(elementSelectors.fieldLabel(), { target: { value: 'new label' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -594,6 +599,7 @@ describe('Form Elements Editor', () => {
        * Change labelWidth
        */
       fireEvent.change(elementSelectors.fieldLabelWidth(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -618,6 +624,7 @@ describe('Form Elements Editor', () => {
        * Change tooltip
        */
       fireEvent.change(elementSelectors.fieldTooltip(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -642,6 +649,7 @@ describe('Form Elements Editor', () => {
        * Change tooltip
        */
       fireEvent.change(elementSelectors.fieldUnit(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -666,6 +674,7 @@ describe('Form Elements Editor', () => {
        * Change slider min
        */
       fireEvent.change(elementSelectors.fieldSliderMin(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -690,6 +699,7 @@ describe('Form Elements Editor', () => {
        * Change slider max
        */
       fireEvent.change(elementSelectors.fieldSliderMax(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -714,6 +724,7 @@ describe('Form Elements Editor', () => {
        * Change step
        */
       fireEvent.change(elementSelectors.fieldSliderStep(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -738,6 +749,7 @@ describe('Form Elements Editor', () => {
        * Change number min
        */
       fireEvent.change(elementSelectors.fieldNumberMin(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -762,6 +774,7 @@ describe('Form Elements Editor', () => {
        * Change number max
        */
       fireEvent.change(elementSelectors.fieldNumberMax(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -788,6 +801,7 @@ describe('Form Elements Editor', () => {
        * Change code language
        */
       fireEvent.change(elementSelectors.fieldCodeLanguage(), { target: { value: CodeLanguage.JSON } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -812,6 +826,7 @@ describe('Form Elements Editor', () => {
        * Change code language
        */
       fireEvent.change(elementSelectors.fieldCodeHeight(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -836,6 +851,7 @@ describe('Form Elements Editor', () => {
        * Change number max
        */
       fireEvent.change(elementSelectors.fieldTextareaRows(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -870,6 +886,7 @@ describe('Form Elements Editor', () => {
        * Add option
        */
       fireEvent.click(elementSelectors.buttonAddOption());
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -906,6 +923,7 @@ describe('Form Elements Editor', () => {
        * Add option
        */
       fireEvent.click(elementSelectors.buttonAddOption());
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -938,6 +956,7 @@ describe('Form Elements Editor', () => {
         },
       ];
       const onChange = jest.fn();
+
       render(getComponent({ value: elements, onChange }));
 
       /**
@@ -949,6 +968,7 @@ describe('Form Elements Editor', () => {
        * Change option type
        */
       fireEvent.change(elementSelectors.fieldOptionType(), { target: { value: FormElementType.NUMBER } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -973,6 +993,7 @@ describe('Form Elements Editor', () => {
         },
       ];
       const onChange = jest.fn();
+
       render(getComponent({ value: elements, onChange }));
 
       /**
@@ -984,6 +1005,7 @@ describe('Form Elements Editor', () => {
        * Change option value
        */
       fireEvent.change(elementSelectors.fieldOptionValue(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -1008,6 +1030,7 @@ describe('Form Elements Editor', () => {
         },
       ];
       const onChange = jest.fn();
+
       render(getComponent({ value: elements, onChange }));
 
       /**
@@ -1019,6 +1042,7 @@ describe('Form Elements Editor', () => {
        * Change option number value
        */
       fireEvent.change(elementSelectors.fieldOptionNumberValue(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -1043,6 +1067,7 @@ describe('Form Elements Editor', () => {
         },
       ];
       const onChange = jest.fn();
+
       render(getComponent({ value: elements, onChange }));
 
       /**
@@ -1054,6 +1079,7 @@ describe('Form Elements Editor', () => {
        * Change option label
        */
       fireEvent.change(elementSelectors.fieldOptionLabel(), { target: { value: '123' } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -1078,6 +1104,7 @@ describe('Form Elements Editor', () => {
         },
       ];
       const onChange = jest.fn();
+
       render(getComponent({ value: elements, onChange }));
 
       /**
@@ -1089,6 +1116,7 @@ describe('Form Elements Editor', () => {
        * Remove option
        */
       fireEvent.click(elementSelectors.buttonRemoveOption());
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -1137,6 +1165,7 @@ describe('Form Elements Editor', () => {
        * Change section
        */
       fireEvent.change(elementSelectors.fieldSection(), { target: { value: sections[1].name } });
+
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({

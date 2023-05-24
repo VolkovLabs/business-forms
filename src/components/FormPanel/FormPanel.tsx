@@ -294,7 +294,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * On Refresh
      */
-    const subscriber = eventBus.getStream(RefreshEvent).subscribe((event) => {
+    const subscriber = eventBus.getStream(RefreshEvent).subscribe(() => {
       initialRequest();
     });
 
@@ -311,7 +311,7 @@ export const FormPanel: React.FC<Props> = ({
   useEffect(() => {
     setUpdated(false);
 
-    options.elements?.map((element) => {
+    options.elements?.forEach((element) => {
       if (element.value !== initial[element.id]) {
         setUpdated(true);
       }
@@ -340,98 +340,102 @@ export const FormPanel: React.FC<Props> = ({
       )}
 
       <table className={styles.table}>
-        {options.layout.variant === LayoutVariant.SINGLE && (
-          <tr>
-            <td>
-              <FormElements options={options} onOptionsChange={onOptionsChange} initial={initial} section={null} />
-            </td>
-          </tr>
-        )}
+        <tbody>
+          {options.layout.variant === LayoutVariant.SINGLE && (
+            <tr>
+              <td data-testid={TestIds.panel.singleLayoutContent}>
+                <FormElements options={options} onOptionsChange={onOptionsChange} initial={initial} section={null} />
+              </td>
+            </tr>
+          )}
 
-        {options.layout.variant === LayoutVariant.SPLIT && (
+          {options.layout.variant === LayoutVariant.SPLIT && (
+            <tr>
+              {options.layout?.sections?.map((section, id) => {
+                return (
+                  <td className={styles.td} key={id} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
+                    <FieldSet label={section.name}>
+                      <FormElements
+                        options={options}
+                        onOptionsChange={onOptionsChange}
+                        initial={initial}
+                        section={section}
+                      />
+                    </FieldSet>
+                  </td>
+                );
+              })}
+            </tr>
+          )}
           <tr>
-            {options.layout?.sections?.map((section, id) => {
-              return (
-                <td className={styles.td} key={id}>
-                  <FieldSet label={section.name}>
-                    <FormElements
-                      options={options}
-                      onOptionsChange={onOptionsChange}
-                      initial={initial}
-                      section={section}
-                    />
-                  </FieldSet>
-                </td>
-              );
-            })}
-          </tr>
-        )}
-        <tr>
-          <td colSpan={options.layout?.sections?.length}>
-            <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
-              <Button
-                className={cx(styles.margin)}
-                variant={options.submit.variant as any}
-                icon={options.submit.icon}
-                title={title}
-                style={
-                  options.submit.variant === ButtonVariant.CUSTOM
-                    ? {
-                        background: 'none',
-                        border: 'none',
-                        backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
-                        color: theme.visualization.getColorByName(options.submit.foregroundColor),
-                      }
-                    : {}
-                }
-                disabled={loading || (!updated && options.layout.variant !== LayoutVariant.NONE)}
-                onClick={
-                  options.update.confirm
-                    ? () => {
-                        setUpdateConfirmation(true);
-                      }
-                    : updateRequest
-                }
-                size={options.buttonGroup.size}
-              >
-                {options.submit.text}
-              </Button>
-
-              {options.reset.variant !== ButtonVariant.HIDDEN && (
+            <td colSpan={options.layout?.sections?.length}>
+              <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
                 <Button
                   className={cx(styles.margin)}
-                  variant={options.reset.variant as any}
-                  icon={options.reset.icon}
+                  variant={options.submit.variant as any}
+                  icon={options.submit.icon}
+                  title={title}
                   style={
-                    options.reset.variant === ButtonVariant.CUSTOM
+                    options.submit.variant === ButtonVariant.CUSTOM
                       ? {
                           background: 'none',
                           border: 'none',
-                          backgroundColor: theme.visualization.getColorByName(options.reset.backgroundColor),
-                          color: theme.visualization.getColorByName(options.reset.foregroundColor),
+                          backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
+                          color: theme.visualization.getColorByName(options.submit.foregroundColor),
                         }
                       : {}
                   }
-                  disabled={loading}
-                  onClick={initialRequest}
+                  disabled={loading || (!updated && options.layout.variant !== LayoutVariant.NONE)}
+                  onClick={
+                    options.update.confirm
+                      ? () => {
+                          setUpdateConfirmation(true);
+                        }
+                      : updateRequest
+                  }
                   size={options.buttonGroup.size}
+                  data-testid={TestIds.panel.buttonSubmit}
                 >
-                  {options.reset.text}
+                  {options.submit.text}
                 </Button>
-              )}
-            </ButtonGroup>
-          </td>
-        </tr>
+
+                {options.reset.variant !== ButtonVariant.HIDDEN && (
+                  <Button
+                    className={cx(styles.margin)}
+                    variant={options.reset.variant as any}
+                    icon={options.reset.icon}
+                    style={
+                      options.reset.variant === ButtonVariant.CUSTOM
+                        ? {
+                            background: 'none',
+                            border: 'none',
+                            backgroundColor: theme.visualization.getColorByName(options.reset.backgroundColor),
+                            color: theme.visualization.getColorByName(options.reset.foregroundColor),
+                          }
+                        : {}
+                    }
+                    disabled={loading}
+                    onClick={initialRequest}
+                    size={options.buttonGroup.size}
+                    data-testid={TestIds.panel.buttonReset}
+                  >
+                    {options.reset.text}
+                  </Button>
+                )}
+              </ButtonGroup>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       {error && (
-        <Alert severity="error" title="Request">
+        <Alert data-testid={TestIds.panel.errorMessage} severity="error" title="Request">
           {error}
         </Alert>
       )}
 
       <ConfirmModal
-        isOpen={!!updateConfirmation}
+        isOpen={updateConfirmation}
         title="Confirm update request"
         body={
           <div>
