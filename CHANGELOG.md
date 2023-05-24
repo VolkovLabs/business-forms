@@ -10,6 +10,7 @@
 - Update to Grafana 9.5.1 (#172)
 - Add E2E Cypress testing (#180)
 - Increase Test Coverage and update Test library (#181, #183)
+- Update to Grafana 9.5.2 (#184)
 
 ## 2.8.0 (2023-03-16)
 
