@@ -1,11 +1,17 @@
-import { Screen, GetByBoundAttribute, BoundFunctions, Queries } from '@testing-library/react';
+import { BoundFunctions, GetByBoundAttribute, Queries, Screen } from '@testing-library/react';
 import { TestIds } from './constants';
 
+/**
+ * Jest Selector
+ */
 type JestSelector<Args extends unknown[]> = (
   noThrowOnNotFound?: boolean,
   ...args: Args
 ) => ReturnType<GetByBoundAttribute>;
 
+/**
+ * Jest Selectors
+ */
 type JestSelectors<T> = {
   [K in keyof T]: T[K] extends (...args: infer Args) => void ? JestSelector<Args> : JestSelector<[]>;
 };
@@ -29,9 +35,11 @@ const getJestSelectors =
        */
       const getElement = (noThrowOnNotFound = false, ...args: unknown[]) => {
         const value = typeof selector === 'function' ? selector(...args) : selector;
+
         if (value.startsWith('data-testid') || enforceTestIdSelectorForKeys.includes(key as keyof Selectors)) {
           return noThrowOnNotFound ? screen.queryByTestId(value) : screen.getByTestId(value);
         }
+
         return noThrowOnNotFound ? screen.queryByLabelText(value) : screen.getByLabelText(value);
       };
 

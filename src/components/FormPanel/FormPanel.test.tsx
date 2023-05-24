@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ButtonOrientation, FormElementDefault, LayoutVariant } from '../../constants';
 import { getPanelSelectors } from '../../test-utils';
 import { FormPanel } from './FormPanel';

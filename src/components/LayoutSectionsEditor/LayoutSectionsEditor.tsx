@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
-import { LayoutSection } from '../../types';
 import { TestIds } from '../../constants';
+import { LayoutSection } from '../../types';
 
 /**
  * Properties

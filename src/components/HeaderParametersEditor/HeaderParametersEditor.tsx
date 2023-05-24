@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
-import { HeaderParameter } from '../../types';
 import { TestIds } from '../../constants';
+import { HeaderParameter } from '../../types';
 
 /**
  * Properties

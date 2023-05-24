@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { FormElementDefault, FormElementType, SliderDefault, CodeLanguage } from '../../constants';
+import { CodeLanguage, FormElementDefault, FormElementType, SliderDefault } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../test-utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
@@ -208,7 +208,7 @@ describe('Form Elements Editor', () => {
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.sectionLabel(true, '123')).not.toBeInTheDocument();
   });
-  //
+
   /**
    * Slider
    */
@@ -342,7 +342,6 @@ describe('Form Elements Editor', () => {
      * Open text section
      */
     const elementSelectors = openElement('text');
-
     expect(elementSelectors.buttonRemoveElement()).toBeInTheDocument();
 
     /**

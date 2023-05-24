@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { getLayoutSectionsEditorSelectors } from '../../test-utils';
 import { LayoutSectionsEditor } from './LayoutSectionsEditor';
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useCallback, useMemo } from 'react';
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import {
   Button,
