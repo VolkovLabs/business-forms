@@ -7,12 +7,23 @@ export const TestIds = {
   panel: {
     root: 'data-testid panel',
     infoMessage: 'data-testid panel info-message',
+    singleLayoutContent: 'data-testid panel single-layout-content',
+    splitLayoutContent: (sectionName: string) => `data-testid panel split-layout-content-${sectionName}`,
+    buttonSubmit: 'data-testid panel button-submit',
+    buttonReset: 'data-testid panel button-reset',
+    errorMessage: 'data-testid panel error-message',
+    /**
+     * Default Confirm Button selector
+     * https://github.com/grafana/grafana/blob/b43206e26ba8535a23af578b6297fee3f67f80b2/packages/grafana-ui/src/components/ConfirmModal/ConfirmModal.tsx#LL108C58-L108C59
+     */
+    buttonConfirmUpdate: selectors.pages.ConfirmModal.delete,
   },
   customCodeEditor: {
     root: 'data-testid custom-code-editor',
   },
   formElements: {
     root: 'data-testid form-elements',
+    element: (elementId: string) => `data-testid form-elements element-${elementId}`,
     fieldNumber: 'data-testid form-elements field-number',
     fieldString: 'data-testid form-elements field-string',
     fieldPassword: 'data-testid form-elements field-password',
@@ -26,13 +37,15 @@ export const TestIds = {
     fieldBooleanContainer: 'data-testid form-elements field-boolean-container',
     /**
      * We should use default value for date-time-picker without data-testid prefix
-     * https://github.com/grafana/grafana/blob/6a12673f8b0e07bc2aeeed70defc461fdf93bca8/packages/grafana-ui/src/components/DateTimePickers/DateTimePicker/DateTimePicker.tsx#L97
+     * https://github.com/grafana/grafana/blob/6a12673f8b0e07bc2aeeed70defc461fdf93bca8/packages/grafana-ui/src/components/DateTimePickers/DateTimePicker/DateTimePicker.tsx#LL229C24-L229C39
      */
-    fieldDateTime: 'date-time-picker',
-    fieldSliderContainer: 'data-testid form-elements field-slider-container',
+    fieldDateTime: 'date-time-input',
+    fieldSlider: 'form-elements field-slider',
     fieldSliderInput: 'data-testid form-elements field-slider-input',
     fieldRadioContainer: 'data-testid form-elements field-radio-container',
-    fieldSelectContainer: 'data-testid form-elements field-select-container',
+    fieldSelect: 'form-elements field-select-container',
+    booleanOption: (name: string) => `form-elements boolean-${name}`,
+    unit: 'data-testid form-elements unit',
   },
   formElementsEditor: {
     root: 'data-testid form-elements-editor',

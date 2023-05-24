@@ -49,8 +49,8 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
           </InlineField>
           <Button
             variant="secondary"
-            onClick={(e) => {
-              parameters = parameters?.filter((p) => p.name !== parameter.name);
+            onClick={() => {
+              parameters = parameters.filter((p) => p.name !== parameter.name);
               onChange(parameters);
             }}
             icon="trash-alt"
@@ -61,7 +61,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
 
       <Button
         variant="secondary"
-        onClick={(e) => {
+        onClick={() => {
           parameters.push({ name: '', value: '' });
           onChange(parameters);
         }}

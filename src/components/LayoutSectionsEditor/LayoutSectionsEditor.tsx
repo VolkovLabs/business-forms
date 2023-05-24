@@ -37,8 +37,8 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
           </InlineField>
           <Button
             variant="secondary"
-            onClick={(e) => {
-              sections = sections?.filter((s) => s.name !== section.name);
+            onClick={() => {
+              sections = sections.filter((s) => s.name !== section.name);
               onChange(sections);
             }}
             icon="trash-alt"
@@ -49,7 +49,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
 
       <Button
         variant="secondary"
-        onClick={(e) => {
+        onClick={() => {
           sections.push({ name: '' });
           onChange(sections);
         }}
