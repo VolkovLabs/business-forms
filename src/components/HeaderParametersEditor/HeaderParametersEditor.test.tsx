@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, within, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { getHeaderParametersEditorSelectors } from '../../test-utils';
 import { HeaderParametersEditor } from './HeaderParametersEditor';
 

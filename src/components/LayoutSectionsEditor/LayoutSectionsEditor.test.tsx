@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, within, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { getLayoutSectionsEditorSelectors } from '../../test-utils';
 import { LayoutSectionsEditor } from './LayoutSectionsEditor';
 
@@ -59,6 +59,9 @@ describe('Layout Sections Editor', () => {
     expect(selectors.buttonAdd()).toBeInTheDocument();
   });
 
+  /**
+   * Change value
+   */
   it('Should change name value', () => {
     const sections = [{ name: 'Section' }];
     const onChange = jest.fn();
@@ -92,6 +95,9 @@ describe('Layout Sections Editor', () => {
     );
   });
 
+  /**
+   * Remove section
+   */
   it('Should remove section', () => {
     let sections = [{ name: 'Section 1' }, { name: 'Section 2' }];
     const onChange = jest.fn((updatedSections) => (sections = updatedSections));
@@ -125,6 +131,9 @@ describe('Layout Sections Editor', () => {
     expect(selectors.section(true, 'Section 2')).not.toBeInTheDocument();
   });
 
+  /**
+   * Add section
+   */
   it('Should add section', () => {
     let sections = [{ name: 'Section 1' }];
     const onChange = jest.fn((updatedSections) => (sections = updatedSections));

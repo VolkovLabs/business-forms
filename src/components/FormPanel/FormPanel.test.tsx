@@ -1,13 +1,13 @@
 import React from 'react';
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { getAppEvents } from '@grafana/runtime';
 import { AppEvents } from '@grafana/data';
+import { getAppEvents } from '@grafana/runtime';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ButtonOrientation, FormElementDefault, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
 import { getPanelSelectors } from '../../test-utils';
 import { FormPanel } from './FormPanel';
 
 /**
- * Mock FormElements
+ * Mock Form Elements
  */
 jest.mock('../FormElements', () => ({
   FormElements: jest.fn().mockImplementation(() => null),
@@ -88,16 +88,25 @@ describe('Panel', () => {
     expect(selectors.root()).toBeInTheDocument();
   });
 
+  /**
+   * Alert
+   */
   it('Should find component with Alert message if no elements', () => {
     act(() => render(getComponent({ options: { elements: [] } })));
     expect(selectors.infoMessage()).toBeInTheDocument();
   });
 
+  /**
+   * Single Layout
+   */
   it('Should render single layout', () => {
     act(() => render(getComponent()));
     expect(selectors.singleLayoutContent()).toBeInTheDocument();
   });
 
+  /**
+   * Split Layout
+   */
   it('Should render split layout', () => {
     act(() =>
       render(
@@ -115,6 +124,9 @@ describe('Panel', () => {
     expect(selectors.splitLayoutContent(false, 'section2')).toBeInTheDocument();
   });
 
+  /**
+   * Buttons
+   */
   it('Should render buttons ', () => {
     render(getComponent());
 

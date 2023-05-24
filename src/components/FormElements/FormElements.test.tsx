@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { FormElementDefault, FormElementType } from '../../constants';
 import { getFormElementsSelectors } from '../../test-utils';
 import { FormElements } from './FormElements';
@@ -282,8 +282,9 @@ describe('Form Elements', () => {
         );
       });
     };
+
     /**
-     * Number Field
+     * Number
      */
     describe('Number Field', () => {
       [
@@ -356,6 +357,9 @@ describe('Form Elements', () => {
       },
     ].forEach((scenario) => runFieldChangeScenario(scenario));
 
+    /**
+     * Code
+     */
     it('Should update code value', () => {
       const options = {
         submit: {},
@@ -387,6 +391,9 @@ describe('Form Elements', () => {
       );
     });
 
+    /**
+     * Boolean
+     */
     it('Should update boolean value', () => {
       const options = {
         submit: {},
@@ -419,6 +426,9 @@ describe('Form Elements', () => {
       );
     });
 
+    /**
+     * Date Time
+     */
     it('Should update dateTime value', () => {
       const options = {
         submit: {},
@@ -449,6 +459,9 @@ describe('Form Elements', () => {
       );
     });
 
+    /**
+     * Slider
+     */
     it('Should update slider value', () => {
       const options = {
         submit: {},
@@ -493,6 +506,9 @@ describe('Form Elements', () => {
       );
     });
 
+    /**
+     * Radio
+     */
     it('Should update radio value', () => {
       const options = {
         submit: {},
