@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
+import { TestIds } from '../../constants';
 import { LayoutSection } from '../../types';
 
 /**
@@ -20,9 +21,9 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
    * Return
    */
   return (
-    <div>
+    <div data-testid={TestIds.layoutSectionsEditor.root}>
       {sections.map((section, id) => (
-        <InlineFieldRow key={id}>
+        <InlineFieldRow key={id} data-testid={TestIds.layoutSectionsEditor.section(section.name)}>
           <InlineField label="Name" grow labelWidth={8} invalid={section.name === ''}>
             <Input
               placeholder="name"
@@ -31,26 +32,29 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value: sections, onChang
                 onChange(sections);
               }}
               value={section.name}
+              data-testid={TestIds.layoutSectionsEditor.fieldName}
             />
           </InlineField>
           <Button
             variant="secondary"
-            onClick={(e) => {
-              sections = sections?.filter((s) => s.name !== section.name);
+            onClick={() => {
+              sections = sections.filter((s) => s.name !== section.name);
               onChange(sections);
             }}
             icon="trash-alt"
-          ></Button>
+            data-testid={TestIds.layoutSectionsEditor.buttonRemove}
+          />
         </InlineFieldRow>
       ))}
 
       <Button
         variant="secondary"
-        onClick={(e) => {
+        onClick={() => {
           sections.push({ name: '' });
           onChange(sections);
         }}
         icon="plus"
+        data-testid={TestIds.layoutSectionsEditor.buttonAdd}
       >
         Add Section
       </Button>

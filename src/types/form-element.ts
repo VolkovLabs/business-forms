@@ -116,4 +116,11 @@ export interface FormElement {
    * @type {string}
    */
   language?: string;
+
+  /**
+   * Hidden
+   *
+   * @type {boolean}
+   */
+  hidden?: boolean;
 }

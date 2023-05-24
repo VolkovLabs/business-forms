@@ -1,60 +1,181 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { getHeaderParametersEditorSelectors } from '../../test-utils';
 import { HeaderParametersEditor } from './HeaderParametersEditor';
 
 /**
- * Panel
+ * Header Parameters Editor
  */
-describe('Panel', () => {
+describe('Header Parameters Editor', () => {
   const onChange = jest.fn();
+
+  /**
+   * Header Parameters Editor Selectors
+   */
+  const selectors = getHeaderParametersEditorSelectors(screen);
+
+  /**
+   * Get Tested Component
+   * @param value
+   * @param context
+   * @param restProps
+   */
+  const getComponent = ({ value = [], context = {}, ...restProps }: any) => {
+    return <HeaderParametersEditor {...restProps} value={value} context={context} />;
+  };
 
   /**
    * Parameters
    */
   it('Should find component with parameters', async () => {
     const parameters = [{ name: 'Authorization', value: 'Token' }];
-    const getComponent = ({ value = [], ...restProps }: any) => {
-      return <HeaderParametersEditor {...restProps} value={value} />;
-    };
 
-    const wrapper = shallow(getComponent({ value: parameters, onChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    /**
+     * Render
+     */
+    render(getComponent({ value: parameters, onChange }));
 
-    const addButton = div.find('[icon="plus"]');
-    expect(addButton.exists()).toBeTruthy();
-    addButton.simulate('click');
+    /**
+     * Check root presence
+     */
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.buttonAdd()).toBeInTheDocument();
 
-    const name = div.find('Input[placeholder="name"]');
-    expect(name.exists()).toBeTruthy();
-    name.simulate('change', { target: { value: 'name' } });
+    /**
+     * Check Authorization Parameter presence
+     */
+    const authorizationParameter = selectors.parameter(false, 'Authorization');
+    expect(authorizationParameter).toBeInTheDocument();
 
-    const value = div.find('Input[placeholder="value"]');
-    expect(value.exists()).toBeTruthy();
-    value.simulate('change', { target: { value: 'value' } });
-
-    const removeButton = div.find('[icon="trash-alt"]');
-    expect(removeButton.exists()).toBeTruthy();
-    removeButton.simulate('click');
+    /**
+     * Check Authorization Parameter Fields presence
+     */
+    const authorizationParameterSelectors = getHeaderParametersEditorSelectors(within(authorizationParameter));
+    expect(authorizationParameterSelectors.fieldName()).toBeInTheDocument();
+    expect(authorizationParameterSelectors.fieldValue()).toBeInTheDocument();
+    expect(authorizationParameterSelectors.buttonRemove()).toBeInTheDocument();
   });
 
   /**
    * No parameters
    */
   it('Should find component without parameters', async () => {
-    const getComponent = ({ value = [], context = {}, ...restProps }: any) => {
-      return <HeaderParametersEditor {...restProps} value={value} context={context} />;
-    };
+    render(getComponent({ value: null, onChange }));
 
-    const wrapper = shallow(getComponent({ value: null, onChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.fieldName(true)).not.toBeInTheDocument();
+    expect(selectors.buttonAdd()).toBeInTheDocument();
+  });
 
-    const input = div.find('Input');
-    expect(input.exists()).toBeFalsy();
+  /**
+   * Change Parameters
+   */
+  it('Should change parameters', () => {
+    const onChange = jest.fn();
 
-    const addButton = div.find('[icon="plus"]');
-    expect(addButton.exists()).toBeTruthy();
-    addButton.simulate('click');
+    /**
+     * Render
+     */
+    render(getComponent({ value: [{ name: 'Authorization', value: 'Token' }], onChange }));
+
+    /**
+     * Change name
+     */
+    fireEvent.change(selectors.fieldName(), { target: { value: 'newName' } });
+
+    /**
+     * Check if name is updated
+     */
+    expect(onChange).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'newName',
+        }),
+      ])
+    );
+
+    /**
+     * Change value
+     */
+    fireEvent.change(selectors.fieldValue(), { target: { value: 'newValue' } });
+
+    /**
+     * Check if value is updated
+     */
+    expect(onChange).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: 'newValue',
+        }),
+      ])
+    );
+  });
+
+  /**
+   * Remove Parameter
+   */
+  it('Should remove parameter', () => {
+    let value = [
+      { name: 'Authorization', value: 'auth' },
+      { name: 'Token', value: 'accessToken' },
+    ];
+    const onChange = jest.fn((parameters) => (value = parameters));
+
+    /**
+     * Render
+     */
+    const { rerender } = render(getComponent({ value, onChange }));
+
+    /**
+     * Check if all parameters are rendered
+     */
+    const authorizationParameter = selectors.parameter(false, 'Authorization');
+    expect(authorizationParameter).toBeInTheDocument();
+    expect(selectors.parameter(false, 'Token')).toBeInTheDocument();
+
+    /**
+     * Remove Parameter
+     */
+    const parameterSelectors = getHeaderParametersEditorSelectors(within(authorizationParameter));
+    fireEvent.click(parameterSelectors.buttonRemove());
+
+    /**
+     * Rerender with updated parameters
+     */
+    rerender(getComponent({ value, onChange }));
+
+    /**
+     * Check if only Token parameter is rendered
+     */
+    expect(selectors.parameter(true, 'Authorization')).not.toBeInTheDocument();
+    expect(selectors.parameter(false, 'Token')).toBeInTheDocument();
+  });
+
+  /**
+   * Add Parameter
+   */
+  it('Should add parameter', () => {
+    let value = [{ name: 'Authorization', value: 'auth' }];
+    const onChange = jest.fn((parameters) => (value = parameters));
+
+    /**
+     * Render
+     */
+    const { rerender } = render(getComponent({ value, onChange }));
+
+    /**
+     * Add Parameter
+     */
+    fireEvent.click(selectors.buttonAdd());
+
+    /**
+     * Rerender with updated parameters
+     */
+    rerender(getComponent({ value, onChange }));
+
+    /**
+     * Check if new parameter is rendered
+     */
+    expect(selectors.parameter(false, '')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   InlineField,
   InlineFieldRow,
   Input,
+  RadioButtonGroup,
   Select,
 } from '@grafana/ui';
 import {
@@ -19,6 +20,8 @@ import {
   FormElementTypeOptions,
   SelectElementOptions,
   SliderDefault,
+  StringElementOptions,
+  TestIds,
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
 import { MoveFormElements } from '../../utils';
@@ -56,7 +59,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
   /**
    * Add Elements
    */
-  const onElementAdd = () => {
+  const onElementAdd = useCallback(() => {
     /**
      * Slider values
      */
@@ -77,23 +80,24 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
      * Reset input values
      */
     setNewElement(FormElementDefault);
-  };
+  }, [newElement, onChange, elements]);
 
   /**
    * Layout Sections
    */
-  const layoutSectionOptions: SelectableValue[] = [];
-  if (context.options?.layout && context.options.layout.sections?.length) {
-    context.options.layout.sections.forEach((section: LayoutSection) => {
-      layoutSectionOptions.push({ value: section.name, label: section.name });
-    });
-  }
+  const layoutSectionOptions: SelectableValue[] = useMemo(() => {
+    return (
+      context.options?.layout?.sections?.map((section: LayoutSection) => {
+        return { value: section.name, label: section.name };
+      }) || []
+    );
+  }, [context.options?.layout?.sections]);
 
   /**
    * Return
    */
   return (
-    <div>
+    <div data-testid={TestIds.formElementsEditor.root}>
       {elements.map((element, id) => (
         <CollapsableSection
           key={id}
@@ -108,6 +112,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                     event.stopPropagation();
                   }}
+                  data-testid={TestIds.formElementsEditor.buttonMoveElementUp(element.id)}
                 />
               )}
               {id < elements.length - 1 && (
@@ -119,12 +124,15 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                     event.stopPropagation();
                   }}
+                  data-testid={TestIds.formElementsEditor.buttonMoveElementDown(element.id)}
                 />
               )}
               {element.title} [{element.id}]
             </ButtonGroup>
           }
           isOpen={false}
+          headerDataTestId={TestIds.formElementsEditor.sectionLabel(element.id)}
+          contentDataTestId={TestIds.formElementsEditor.sectionContent(element.id)}
         >
           <InlineFieldRow>
             <InlineField label="Id" grow labelWidth={8} invalid={element.id === ''}>
@@ -135,10 +143,31 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={element.id}
+                data-testid={TestIds.formElementsEditor.fieldId}
               />
             </InlineField>
 
-            <Button variant="destructive" onClick={(e) => onElementRemove(element.id)} icon="trash-alt"></Button>
+            {element.type === FormElementType.STRING && (
+              <InlineField data-testid={TestIds.formElementsEditor.fieldVisibility}>
+                <RadioButtonGroup
+                  options={StringElementOptions}
+                  value={!!element.hidden}
+                  onChange={(value) => {
+                    element.hidden = value;
+                    onChange(elements);
+                  }}
+                />
+              </InlineField>
+            )}
+
+            <InlineField>
+              <Button
+                data-testid={TestIds.formElementsEditor.buttonRemoveElement}
+                variant="destructive"
+                onClick={(e) => onElementRemove(element.id)}
+                icon="trash-alt"
+              />
+            </InlineField>
           </InlineFieldRow>
 
           <InlineFieldRow>
@@ -161,6 +190,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={FormElementTypeOptions.find((type) => type.value === element.type)}
+                aria-label={TestIds.formElementsEditor.fieldType}
               />
             </InlineField>
 
@@ -179,6 +209,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 defaultValue={FormElementDefault.width}
                 min={0}
                 type="number"
+                data-testid={TestIds.formElementsEditor.fieldWidth}
               />
             </InlineField>
           </InlineFieldRow>
@@ -191,6 +222,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={element.title}
+                data-testid={TestIds.formElementsEditor.fieldLabel}
               />
             </InlineField>
 
@@ -204,6 +236,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 value={element.labelWidth}
                 defaultValue={FormElementDefault.labelWidth}
                 type="number"
+                data-testid={TestIds.formElementsEditor.fieldLabelWidth}
               />
             </InlineField>
           </InlineFieldRow>
@@ -217,6 +250,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={element.tooltip}
+                data-testid={TestIds.formElementsEditor.fieldTooltip}
               />
             </InlineField>
 
@@ -228,6 +262,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={element.unit}
+                data-testid={TestIds.formElementsEditor.fieldUnit}
               />
             </InlineField>
           </InlineFieldRow>
@@ -242,6 +277,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                   }}
                   value={layoutSectionOptions.find((section) => section.value === element.section)}
+                  aria-label={TestIds.formElementsEditor.fieldSection}
                 />
               </InlineField>
             </InlineFieldRow>
@@ -259,6 +295,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   type="number"
                   width={10}
                   value={element.min}
+                  data-testid={TestIds.formElementsEditor.fieldSliderMin}
                 />
               </InlineField>
               <InlineField label="Max" labelWidth={8}>
@@ -271,6 +308,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   type="number"
                   width={10}
                   value={element.max}
+                  data-testid={TestIds.formElementsEditor.fieldSliderMax}
                 />
               </InlineField>
               <InlineField label="Step" labelWidth={8}>
@@ -283,6 +321,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   type="number"
                   width={10}
                   value={element.step}
+                  data-testid={TestIds.formElementsEditor.fieldSliderStep}
                 />
               </InlineField>
             </InlineFieldRow>
@@ -300,6 +339,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   type="number"
                   width={10}
                   value={element.min}
+                  data-testid={TestIds.formElementsEditor.fieldNumberMin}
                 />
               </InlineField>
               <InlineField label="Max" labelWidth={8}>
@@ -312,6 +352,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   type="number"
                   width={10}
                   value={element.max}
+                  data-testid={TestIds.formElementsEditor.fieldNumberMax}
                 />
               </InlineField>
             </InlineFieldRow>
@@ -330,6 +371,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   width={10}
                   value={element.rows}
                   min={2}
+                  data-testid={TestIds.formElementsEditor.fieldTextareaRows}
                 />
               </InlineField>
             </InlineFieldRow>
@@ -346,6 +388,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   }}
                   value={CodeLanguageOptions.find((language) => language.value === element.language)}
                   defaultValue={CodeLanguage.JAVASCRIPT}
+                  aria-label={TestIds.formElementsEditor.fieldCodeLanguage}
                 />
               </InlineField>
               <InlineField label="Height" labelWidth={12} tooltip="Code Editor height in px">
@@ -359,6 +402,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   value={element.height}
                   defaultValue={CodeEditorHeight}
                   min={0}
+                  data-testid={TestIds.formElementsEditor.fieldCodeHeight}
                 />
               </InlineField>
             </InlineFieldRow>
@@ -367,7 +411,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           {[FormElementType.RADIO, FormElementType.SELECT, FormElementType.DISABLED].includes(element.type) && (
             <div>
               {element.options?.map((option) => (
-                <InlineFieldRow key={option.id}>
+                <InlineFieldRow key={option.id} data-testid={TestIds.formElementsEditor.fieldOption(option.id)}>
                   <InlineField label="Type" labelWidth={8}>
                     <Select
                       options={SelectElementOptions}
@@ -378,6 +422,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                       width={12}
                       value={SelectElementOptions.find((type) => type.value === option.type)}
                       defaultValue={FormElementType.STRING}
+                      aria-label={TestIds.formElementsEditor.fieldOptionType}
                     />
                   </InlineField>
                   {(!option.type || option.type === FormElementType.STRING) && (
@@ -390,6 +435,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                         }}
                         value={option.value}
                         width={12}
+                        data-testid={TestIds.formElementsEditor.fieldOptionValue}
                       />
                     </InlineField>
                   )}
@@ -404,6 +450,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                         }}
                         value={option.value}
                         width={12}
+                        data-testid={TestIds.formElementsEditor.fieldOptionNumberValue}
                       />
                     </InlineField>
                   )}
@@ -415,6 +462,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                         onChange(elements);
                       }}
                       value={option.label}
+                      data-testid={TestIds.formElementsEditor.fieldOptionLabel}
                     />
                   </InlineField>
                   <Button
@@ -424,7 +472,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                       onChange(elements);
                     }}
                     icon="minus"
-                  ></Button>
+                    data-testid={TestIds.formElementsEditor.buttonRemoveOption}
+                  />
                 </InlineFieldRow>
               ))}
 
@@ -440,6 +489,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 icon="plus"
+                data-testid={TestIds.formElementsEditor.buttonAddOption}
               >
                 Add Option
               </Button>
@@ -449,7 +499,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
       ))}
 
       <hr />
-      <CollapsableSection label="New Element" isOpen={true}>
+      <CollapsableSection
+        label="New Element"
+        isOpen={true}
+        headerDataTestId={TestIds.formElementsEditor.sectionNewLabel}
+        contentDataTestId={TestIds.formElementsEditor.sectionNewContent}
+      >
         <InlineField label="Id" grow labelWidth={8} invalid={newElement.id === ''}>
           <Input
             placeholder="Id"
@@ -457,6 +512,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               setNewElement({ ...newElement, id: event.target.value });
             }}
             value={newElement.id}
+            data-testid={TestIds.formElementsEditor.newElementId}
           />
         </InlineField>
 
@@ -467,11 +523,13 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               setNewElement({ ...newElement, title: event.target.value });
             }}
             value={newElement.title}
+            data-testid={TestIds.formElementsEditor.newElementLabel}
           />
         </InlineField>
 
         <InlineField label="Type" grow labelWidth={8}>
           <Select
+            aria-label={TestIds.formElementsEditor.newElementType}
             options={FormElementTypeOptions}
             onChange={(event?: SelectableValue) => {
               setNewElement({ ...newElement, type: event?.value });
@@ -482,9 +540,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
 
         <Button
           variant="secondary"
-          onClick={(e) => onElementAdd()}
-          disabled={!!!newElement.id || !!!newElement.type}
+          onClick={onElementAdd}
+          disabled={!newElement.id || !newElement.type}
           icon="plus"
+          data-testid={TestIds.formElementsEditor.buttonAddElement}
         >
           Add Element
         </Button>

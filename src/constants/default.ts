@@ -42,4 +42,5 @@ export const FormElementDefault: FormElement = {
   labelWidth: 10,
   tooltip: '',
   section: '',
+  hidden: false,
 };

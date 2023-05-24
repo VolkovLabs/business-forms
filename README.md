@@ -2,9 +2,10 @@
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
-[![Grafana](https://img.shields.io/badge/Grafana-9.4.7-orange)](https://www.grafana.com)
+![Grafana](https://img.shields.io/badge/Grafana-9.5.2-orange)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 ![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
+![E2E](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/E2E/badge.svg)
 [![codecov](https://codecov.io/gh/VolkovLabs/volkovlabs-form-panel/branch/main/graph/badge.svg?token=0m6f0ktUar)](https://codecov.io/gh/VolkovLabs/volkovlabs-form-panel)
 [![CodeQL](https://github.com/VolkovLabs/volkovlabs-form-panel/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/volkovlabs-form-panel/actions/workflows/codeql-analysis.yml)
 
@@ -29,28 +30,17 @@ For the latter, use the following command.
 grafana-cli plugins install volkovlabs-form-panel
 ```
 
-## Features
+## Highlights
 
-- Provides functionality to create customizable forms with elements:
-  - Number Input
-  - Radio Group with Boolean options
-  - String Input
-  - Number Slider
-  - Select with Custom options
-  - Date and Time
-  - Radio Group with Custom options
-  - Read-only (Disabled) with support for lookup
-  - Password Input
-  - Text Area
-  - Code Editor
-- Supports the Custom Code for the `Initial` and `Update` requests.
-- Allows specifying `GET` request to get initial values and `DELETE`, `PATCH`, `POST`, and `PUT` requests to send values updated in the form.
-- Allows adding `Header` fields to the `Initial` and `Update` requests.
-- Allows customizing `Submit`, `Reset` buttons, and form layout.
+- Provides functionality to create customizable forms.
+- Supports the Custom Code for the Initial and Update requests.
+- Allows specifying a `GET` request to get initial values and `DELETE`, `PATCH`, `POST`, and `PUT` requests to send values updated in the form.
+- Allows adding Header fields to the Initial and Update requests.
+- Allows customizing Submit, Reset buttons, and form layout.
 - Allows splitting form elements into sections.
-- Allows requesting confirmation before `Update` request.
-- Allows sending all or only updated elements in the `Payload`.
-- Allows displaying `Success` and `Error` notifications from the **Custom Code**.
+- Allows requesting confirmation before Update request.
+- Allows sending all or only updated elements in the Payload.
+- Allows displaying Success and Error notifications from the Custom Code.
 - Supports Code Editor suggestions for available parameters.
 
 ## Documentation

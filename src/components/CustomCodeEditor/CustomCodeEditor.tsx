@@ -2,7 +2,7 @@ import React from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { CodeEditor, CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
-import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage } from '../../constants';
+import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage, TestIds } from '../../constants';
 
 /**
  * Monaco
@@ -65,7 +65,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
    * Return
    */
   return (
-    <div>
+    <div data-testid={TestIds.customCodeEditor.root}>
       <CodeEditor
         language={language}
         showLineNumbers={true}

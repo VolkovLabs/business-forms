@@ -1,21 +1,22 @@
 import { SelectableValue } from '@grafana/data';
+import { TestIds } from './tests';
 
 /**
  * Form Element Type
  */
 export const enum FormElementType {
-  NUMBER = 'number',
-  STRING = 'string',
   BOOLEAN = 'boolean',
-  RADIO = 'radio',
-  SLIDER = 'slider',
-  SELECT = 'select',
-  TEXTAREA = 'textarea',
-  SECRET = 'secret',
+  CODE = 'code',
   DATETIME = 'datetime',
   DISABLED = 'disabled',
+  NUMBER = 'number',
   PASSWORD = 'password',
-  CODE = 'code',
+  RADIO = 'radio',
+  SECRET = 'secret',
+  SELECT = 'select',
+  SLIDER = 'slider',
+  STRING = 'string',
+  TEXTAREA = 'textarea',
 }
 
 /**
@@ -73,10 +74,12 @@ export const FormElementTypeOptions: SelectableValue[] = [
  */
 export const BooleanElementOptions: SelectableValue[] = [
   {
+    ariaLabel: TestIds.formElements.booleanOption('true'),
     value: true,
     label: 'True',
   },
   {
+    ariaLabel: TestIds.formElements.booleanOption('false'),
     value: false,
     label: 'False',
   },
@@ -93,5 +96,23 @@ export const SelectElementOptions: SelectableValue[] = [
   {
     value: FormElementType.NUMBER,
     label: 'Number',
+  },
+];
+
+/**
+ * Options to Hide String element
+ */
+export const StringElementOptions: SelectableValue[] = [
+  {
+    ariaLabel: TestIds.formElementsEditor.radioOption('visibility-display'),
+    description: 'Display',
+    icon: 'eye',
+    value: false,
+  },
+  {
+    ariaLabel: TestIds.formElementsEditor.radioOption('visibility-hidden'),
+    description: 'Hidden',
+    icon: 'eye-slash',
+    value: true,
   },
 ];
