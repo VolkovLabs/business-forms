@@ -21,6 +21,7 @@ import {
   CodeLanguage,
   FormElementType,
   InitialHighlightColorDefault,
+  TestIds,
 } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
@@ -85,7 +86,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
   };
 
   return (
-    <div>
+    <div data-testid={TestIds.formElements.root}>
       {options.elements?.map((element) => {
         /**
          * Skip Hidden Elements
@@ -133,6 +134,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   width={element.width}
                   min={element.min !== null ? element.min : ''}
                   max={element.max !== null ? element.max : ''}
+                  data-testid={TestIds.formElements.fieldNumber}
                 />
               </InlineField>
             )}
@@ -155,6 +157,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   className={highlightClass(element)}
                   width={element.width}
                   type="text"
+                  data-testid={TestIds.formElements.fieldString}
                 />
               </InlineField>
             )}
@@ -176,6 +179,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   className={highlightClass(element)}
                   width={element.width}
                   type="password"
+                  data-testid={TestIds.formElements.fieldPassword}
                 />
               </InlineField>
             )}
@@ -197,6 +201,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   }
                   type="text"
                   width={element.width}
+                  data-testid={TestIds.formElements.fieldDisabled}
                 />
               </InlineField>
             )}
@@ -218,6 +223,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   className={highlightClass(element)}
                   cols={element.width}
                   rows={element.rows}
+                  data-testid={TestIds.formElements.fieldTextarea}
                 />
               </InlineField>
             )}
@@ -242,6 +248,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     onOptionsChange(options);
                   }}
                   monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+                  data-testid={TestIds.formElements.fieldCode}
                 />
               </InlineField>
             )}
@@ -253,6 +260,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
+                data-testid={TestIds.formElements.fieldBooleanContainer}
               >
                 <RadioButtonGroup
                   value={element.value}
@@ -281,6 +289,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     element.value = dateTime;
                     onOptionsChange(options);
                   }}
+                  data-testid={TestIds.formElements.fieldDateTime}
                 />
               </InlineField>
             )}
@@ -294,6 +303,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   tooltip={element.tooltip}
                   transparent={!!!element.title}
                   className={cx(styles.slider)}
+                  data-testid={TestIds.formElements.fieldSliderContainer}
                 >
                   <Slider
                     value={element.value || 0}
@@ -320,7 +330,8 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                       );
                       onOptionsChange(options);
                     }}
-                  ></Input>
+                    data-testid={TestIds.formElements.fieldSliderInput}
+                  />
                 </InlineField>
               </>
             )}
@@ -332,6 +343,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
+                data-testid={TestIds.formElements.fieldRadioContainer}
               >
                 <RadioButtonGroup
                   value={element.value}
@@ -353,6 +365,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 labelWidth={element.labelWidth}
                 tooltip={element.tooltip}
                 transparent={!!!element.title}
+                data-testid={TestIds.formElements.fieldSelectContainer}
               >
                 <Select
                   value={element.value}

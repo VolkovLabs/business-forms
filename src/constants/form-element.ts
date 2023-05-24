@@ -1,4 +1,5 @@
 import { SelectableValue } from '@grafana/data';
+import { TestIds } from './tests';
 
 /**
  * Form Element Type
@@ -101,11 +102,13 @@ export const SelectElementOptions: SelectableValue[] = [
  */
 export const StringElementOptions: SelectableValue[] = [
   {
+    ariaLabel: TestIds.formElementsEditor.radioOption('visibility-display'),
     description: 'Display',
     icon: 'eye',
     value: false,
   },
   {
+    ariaLabel: TestIds.formElementsEditor.radioOption('visibility-hidden'),
     description: 'Hidden',
     icon: 'eye-slash',
     value: true,

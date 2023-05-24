@@ -1,12 +1,27 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { render, screen, within } from '@testing-library/react';
+import { getLayoutSectionsEditorSelectors } from '../../test-utils';
 import { LayoutSectionsEditor } from './LayoutSectionsEditor';
 
 /**
- * Panel
+ * Layout Sections Editor
  */
-describe('Panel', () => {
+describe('Layout Sections Editor', () => {
   const onChange = jest.fn();
+
+  /**
+   * Layout Sections Editor Selectors
+   */
+  const selectors = getLayoutSectionsEditorSelectors(screen);
+
+  /**
+   * Get Tested Component
+   * @param value
+   * @param restProps
+   */
+  const getComponent = ({ value = [], ...restProps }: any) => {
+    return <LayoutSectionsEditor {...restProps} value={value} />;
+  };
 
   /**
    * Sections
@@ -14,48 +29,33 @@ describe('Panel', () => {
   it('Should find component with sections', async () => {
     const sections = [{ name: 'Section' }, { name: 'Section 2' }];
 
-    const getComponent = ({ value = [], ...restProps }: any) => {
-      return <LayoutSectionsEditor {...restProps} value={value} />;
-    };
+    render(getComponent({ value: sections, onChange }));
 
-    const wrapper = shallow(getComponent({ value: sections, onChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.buttonAdd()).toBeInTheDocument();
 
-    const addButton = div.find('[icon="plus"]');
-    expect(addButton.exists()).toBeTruthy();
-    addButton.simulate('click');
+    /**
+     * Section 1 presence
+     */
+    const section1 = selectors.section(false, 'Section');
+    expect(section1).toBeInTheDocument();
+    expect(getLayoutSectionsEditorSelectors(within(section1)).buttonRemove()).toBeInTheDocument();
 
-    const name = div.find('Input[placeholder="name"]').first();
-    expect(name.exists()).toBeTruthy();
-    name.simulate('change', { target: { value: 'name' } });
-
-    const firstRemoveButton = div.find('[icon="trash-alt"]').first();
-    expect(firstRemoveButton.exists()).toBeTruthy();
-    firstRemoveButton.simulate('click');
-
-    const lastRemoveButton = div.find('[icon="trash-alt"]').last();
-    expect(lastRemoveButton.exists()).toBeTruthy();
-    lastRemoveButton.simulate('click');
+    /**
+     * Section 2 presence
+     */
+    const section2 = selectors.section(false, 'Section 2');
+    expect(section2).toBeInTheDocument();
+    expect(getLayoutSectionsEditorSelectors(within(section2)).buttonRemove()).toBeInTheDocument();
   });
 
   /**
    * No sections
    */
   it('Should find component without sections', async () => {
-    const getComponent = ({ value = [], context = {}, ...restProps }: any) => {
-      return <LayoutSectionsEditor {...restProps} value={value} />;
-    };
+    render(getComponent({ value: null, onChange }));
 
-    const wrapper = shallow(getComponent({ value: null, onChange }));
-    const div = wrapper.find('div');
-    expect(div.exists()).toBeTruthy();
-
-    const input = div.find('Input');
-    expect(input.exists()).toBeFalsy();
-
-    const addButton = div.find('[icon="plus"]');
-    expect(addButton.exists()).toBeTruthy();
-    addButton.simulate('click');
+    expect(selectors.fieldName(true)).not.toBeInTheDocument();
+    expect(selectors.buttonAdd()).toBeInTheDocument();
   });
 });
