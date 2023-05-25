@@ -18,6 +18,7 @@ import {
   FormElementDefault,
   FormElementType,
   FormElementTypeOptions,
+  NumberDefault,
   SelectElementOptions,
   SliderDefault,
   StringElementOptions,
@@ -68,6 +69,16 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
       newElement.max = SliderDefault.max;
       newElement.step = SliderDefault.step;
       newElement.value = SliderDefault.value;
+    }
+
+    if (newElement.type === FormElementType.NUMBER) {
+      newElement.min = NumberDefault.min;
+      newElement.max = NumberDefault.max;
+    }
+
+    if (newElement.type === FormElementType.CODE) {
+      newElement.language = CodeLanguage.JAVASCRIPT;
+      newElement.height = CodeEditorHeight;
     }
 
     /**
@@ -164,7 +175,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Button
                 data-testid={TestIds.formElementsEditor.buttonRemoveElement}
                 variant="destructive"
-                onClick={(e) => onElementRemove(element.id)}
+                onClick={() => onElementRemove(element.id)}
                 icon="trash-alt"
               />
             </InlineField>
@@ -206,7 +217,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={element.width}
-                defaultValue={FormElementDefault.width}
                 min={0}
                 type="number"
                 data-testid={TestIds.formElementsEditor.fieldWidth}
@@ -234,7 +244,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   onChange(elements);
                 }}
                 value={element.labelWidth}
-                defaultValue={FormElementDefault.labelWidth}
                 type="number"
                 data-testid={TestIds.formElementsEditor.fieldLabelWidth}
               />
@@ -387,7 +396,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     onChange(elements);
                   }}
                   value={CodeLanguageOptions.find((language) => language.value === element.language)}
-                  defaultValue={CodeLanguage.JAVASCRIPT}
                   aria-label={TestIds.formElementsEditor.fieldCodeLanguage}
                 />
               </InlineField>
@@ -400,7 +408,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   }}
                   type="number"
                   value={element.height}
-                  defaultValue={CodeEditorHeight}
                   min={0}
                   data-testid={TestIds.formElementsEditor.fieldCodeHeight}
                 />
@@ -421,7 +428,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                       }}
                       width={12}
                       value={SelectElementOptions.find((type) => type.value === option.type)}
-                      defaultValue={FormElementType.STRING}
                       aria-label={TestIds.formElementsEditor.fieldOptionType}
                     />
                   </InlineField>
@@ -467,7 +473,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   </InlineField>
                   <Button
                     variant="secondary"
-                    onClick={(e) => {
+                    onClick={() => {
                       element.options = element.options?.filter((o) => o.value !== option.value);
                       onChange(elements);
                     }}
@@ -479,7 +485,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
 
               <Button
                 variant="secondary"
-                onClick={(e) => {
+                onClick={() => {
                   if (element.options) {
                     element.options.push({ value: '', label: '' });
                   } else {

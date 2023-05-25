@@ -23,6 +23,14 @@ export const ResetForegroundColorDefault = 'yellow';
 export const ResetTextDefault = 'Reset';
 
 /**
+ * Number Defaults
+ */
+export const NumberDefault = {
+  min: 0,
+  max: 10,
+};
+
+/**
  * Slider Defaults
  */
 export const SliderDefault = {
