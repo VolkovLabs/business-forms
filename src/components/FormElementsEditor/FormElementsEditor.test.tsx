@@ -1,12 +1,12 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import {
-  CodeLanguage,
   CodeEditorHeight,
+  CodeLanguage,
   FormElementDefault,
   FormElementType,
-  SliderDefault,
   NumberDefault,
+  SliderDefault,
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../test-utils';
 import { FormElementsEditor } from './FormElementsEditor';

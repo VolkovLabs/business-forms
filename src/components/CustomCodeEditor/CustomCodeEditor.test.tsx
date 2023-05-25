@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { CodeEditor, CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { getTemplateSrv } from '@grafana/runtime';
+import { CodeEditor, CodeEditorSuggestionItemKind } from '@grafana/ui';
+import { render, screen } from '@testing-library/react';
 import { CodeEditorSuggestions } from '../../constants';
 import { getCustomCodeEditorSelectors } from '../../test-utils';
 import { CustomCodeEditor } from './CustomCodeEditor';
@@ -52,6 +52,9 @@ describe('Custom Code Editor', () => {
     expect(selectors.root()).toBeInTheDocument();
   });
 
+  /**
+   * Minimap
+   */
   it('Should show mini map if value more than 100 symbols', () => {
     render(getComponent({ value: new Array(102).join('1') }));
 
@@ -63,6 +66,9 @@ describe('Custom Code Editor', () => {
     );
   });
 
+  /**
+   * Formatting
+   */
   it('Should enable formatting if enabled', () => {
     const runFormatDocument = jest.fn();
     const editor = {
@@ -98,6 +104,9 @@ describe('Custom Code Editor', () => {
     expect(runFormatDocument).toHaveBeenCalled();
   });
 
+  /**
+   * On Blur
+   */
   it('Should save changes on blur', () => {
     const value = 'some value';
     const onChange = jest.fn();
@@ -122,6 +131,9 @@ describe('Custom Code Editor', () => {
     expect(onChange).toHaveBeenCalledWith(value);
   });
 
+  /**
+   * On Save
+   */
   it('Should pass value on save', () => {
     const value = 'some value';
     const onChange = jest.fn();
@@ -146,6 +158,9 @@ describe('Custom Code Editor', () => {
     expect(onChange).toHaveBeenCalledWith(value);
   });
 
+  /**
+   * Suggestions
+   */
   it('Should make correct suggestions', () => {
     let suggestionsResult;
     const variableWithDescription = { name: 'var1', description: 'Var description', label: 'Var Label' };

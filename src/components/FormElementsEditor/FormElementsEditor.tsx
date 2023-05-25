@@ -12,42 +12,16 @@ import {
   Select,
 } from '@grafana/ui';
 import {
-  CodeEditorHeight,
-  CodeLanguage,
   CodeLanguageOptions,
   FormElementDefault,
   FormElementType,
   FormElementTypeOptions,
-  NumberDefault,
   SelectElementOptions,
-  SliderDefault,
   StringElementOptions,
   TestIds,
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
-import { MoveFormElements } from '../../utils';
-
-const setElementDefaults = (element: FormElement, newType: FormElementType): void => {
-  switch (newType) {
-    case FormElementType.SLIDER: {
-      element.min = SliderDefault.min;
-      element.max = SliderDefault.max;
-      element.step = SliderDefault.step;
-      element.value = SliderDefault.value;
-      break;
-    }
-    case FormElementType.NUMBER: {
-      element.min = NumberDefault.min;
-      element.max = NumberDefault.max;
-      break;
-    }
-    case FormElementType.CODE: {
-      element.language = CodeLanguage.JAVASCRIPT;
-      element.height = CodeEditorHeight;
-      break;
-    }
-  }
-};
+import { MoveFormElements, SetElementDefaults } from '../../utils';
 
 /**
  * Properties
@@ -83,7 +57,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
    * Add Elements
    */
   const onElementAdd = useCallback(() => {
-    setElementDefaults(newElement, newElement.type);
+    /**
+     * Set Defaults
+     */
+    SetElementDefaults(newElement, newElement.type);
 
     /**
      * Update Elements
@@ -192,7 +169,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 onChange={(event: SelectableValue) => {
                   element.type = event?.value;
 
-                  setElementDefaults(element, element.type);
+                  /**
+                   * Set Defaults
+                   */
+                  SetElementDefaults(element, element.type);
 
                   onChange(elements);
                 }}
