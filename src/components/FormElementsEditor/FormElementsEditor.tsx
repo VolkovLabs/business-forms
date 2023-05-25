@@ -27,6 +27,28 @@ import {
 import { FormElement, LayoutSection } from '../../types';
 import { MoveFormElements } from '../../utils';
 
+const setElementDefaults = (element: FormElement, newType: FormElementType): void => {
+  switch (newType) {
+    case FormElementType.SLIDER: {
+      element.min = SliderDefault.min;
+      element.max = SliderDefault.max;
+      element.step = SliderDefault.step;
+      element.value = SliderDefault.value;
+      break;
+    }
+    case FormElementType.NUMBER: {
+      element.min = NumberDefault.min;
+      element.max = NumberDefault.max;
+      break;
+    }
+    case FormElementType.CODE: {
+      element.language = CodeLanguage.JAVASCRIPT;
+      element.height = CodeEditorHeight;
+      break;
+    }
+  }
+};
+
 /**
  * Properties
  */
@@ -61,25 +83,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
    * Add Elements
    */
   const onElementAdd = useCallback(() => {
-    /**
-     * Slider values
-     */
-    if (newElement.type === FormElementType.SLIDER) {
-      newElement.min = SliderDefault.min;
-      newElement.max = SliderDefault.max;
-      newElement.step = SliderDefault.step;
-      newElement.value = SliderDefault.value;
-    }
-
-    if (newElement.type === FormElementType.NUMBER) {
-      newElement.min = NumberDefault.min;
-      newElement.max = NumberDefault.max;
-    }
-
-    if (newElement.type === FormElementType.CODE) {
-      newElement.language = CodeLanguage.JAVASCRIPT;
-      newElement.height = CodeEditorHeight;
-    }
+    setElementDefaults(newElement, newElement.type);
 
     /**
      * Update Elements
@@ -188,15 +192,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 onChange={(event: SelectableValue) => {
                   element.type = event?.value;
 
-                  /**
-                   * Slider values
-                   */
-                  if (element.type === FormElementType.SLIDER) {
-                    element.min = SliderDefault.min;
-                    element.max = SliderDefault.max;
-                    element.step = SliderDefault.step;
-                    element.value = SliderDefault.value;
-                  }
+                  setElementDefaults(element, element.type);
 
                   onChange(elements);
                 }}
