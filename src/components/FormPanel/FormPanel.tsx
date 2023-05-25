@@ -95,7 +95,6 @@ export const FormPanel: React.FC<Props> = ({
         notifySuccess
       );
     } catch (error: any) {
-      console.error(error);
       setError(error.toString());
     }
   };
@@ -174,7 +173,6 @@ export const FormPanel: React.FC<Props> = ({
       headers,
       body: replaceVariables(JSON.stringify(body)),
     }).catch((error: Error) => {
-      console.error(error);
       setError(error.toString());
     });
 
@@ -242,7 +240,6 @@ export const FormPanel: React.FC<Props> = ({
       method: options.initial.method,
       headers,
     }).catch((error: Error) => {
-      console.error(error);
       setError(error.toString());
     });
 

@@ -83,32 +83,32 @@ describe('Panel', () => {
     return <FormPanel {...finalProps} options={finalOptions} />;
   };
 
-  it('Should find component with Elements', () => {
-    act(() => render(getComponent()));
+  it('Should find component with Elements', async () => {
+    await act(() => render(getComponent()));
     expect(selectors.root()).toBeInTheDocument();
   });
 
   /**
    * Alert
    */
-  it('Should find component with Alert message if no elements', () => {
-    act(() => render(getComponent({ options: { elements: [] } })));
+  it('Should find component with Alert message if no elements', async () => {
+    await act(() => render(getComponent({ options: { elements: [] } })));
     expect(selectors.infoMessage()).toBeInTheDocument();
   });
 
   /**
    * Single Layout
    */
-  it('Should render single layout', () => {
-    act(() => render(getComponent()));
+  it('Should render single layout', async () => {
+    await act(() => render(getComponent()));
     expect(selectors.singleLayoutContent()).toBeInTheDocument();
   });
 
   /**
    * Split Layout
    */
-  it('Should render split layout', () => {
-    act(() =>
+  it('Should render split layout', async () => {
+    await act(() =>
       render(
         getComponent({
           options: {
@@ -127,8 +127,8 @@ describe('Panel', () => {
   /**
    * Buttons
    */
-  it('Should render buttons ', () => {
-    render(getComponent());
+  it('Should render buttons ', async () => {
+    await act(() => render(getComponent()));
 
     expect(selectors.buttonSubmit()).toBeInTheDocument();
     expect(selectors.buttonReset()).toBeInTheDocument();
@@ -150,7 +150,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(async () =>
+      await act(() =>
         render(
           getComponent({
             props: {},
@@ -188,7 +188,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(async () => render(getComponent({ props: { onOptionsChange } })));
+      await act(() => render(getComponent({ props: { onOptionsChange } })));
 
       /**
        * Check if options change is called
@@ -223,7 +223,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(async () =>
+      await act(() =>
         render(
           getComponent({
             props: {
@@ -253,7 +253,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(async () => render(getComponent()));
+      await act(() => render(getComponent()));
 
       /**
        * Check if cors error message is shown
@@ -285,7 +285,7 @@ describe('Panel', () => {
             ),
           }) as any
       );
-      const { rerender } = await act(async () =>
+      const { rerender } = await act(() =>
         render(
           getComponent({
             options: {
@@ -301,7 +301,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(async () =>
+      await act(() =>
         rerender(
           getComponent({
             options: {
@@ -346,7 +346,7 @@ describe('Panel', () => {
       /**
        * Run update request
        */
-      await act(async () => {
+      await act(() => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -370,12 +370,12 @@ describe('Panel', () => {
       /**
        * Render
        */
-      const { rerender } = await act(async () => render(getComponent()));
+      const { rerender } = await act(() => render(getComponent()));
 
       /**
        * Trigger element updates
        */
-      await act(async () =>
+      await act(() =>
         rerender(
           getComponent({
             props: {
@@ -397,7 +397,7 @@ describe('Panel', () => {
       /**
        * Run update request
        */
-      await act(async () => {
+      await act(() => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -411,12 +411,12 @@ describe('Panel', () => {
       /**
        * Render
        */
-      const { rerender } = await act(async () => render(getComponent()));
+      const { rerender } = await act(() => render(getComponent()));
 
       /**
        * Trigger element updates
        */
-      await act(async () =>
+      await act(() =>
         rerender(
           getComponent({
             options: {
@@ -465,7 +465,7 @@ describe('Panel', () => {
             ),
           }) as any
       );
-      const { rerender } = await act(async () =>
+      const { rerender } = await act(() =>
         render(
           getComponent({
             options: {
@@ -484,7 +484,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(async () =>
+      await act(() =>
         rerender(
           getComponent({
             options: {
@@ -575,7 +575,7 @@ describe('Panel', () => {
             publish,
           } as any)
       );
-      await act(async () =>
+      await act(() =>
         render(
           getComponent({
             props: {
@@ -621,7 +621,7 @@ describe('Panel', () => {
           code: 'notifySuccess("success"); notifyError("error");',
         },
       };
-      const { rerender } = await act(async () =>
+      const { rerender } = await act(() =>
         render(
           getComponent({
             props: {
@@ -632,7 +632,7 @@ describe('Panel', () => {
         )
       );
 
-      await act(async () =>
+      await act(() =>
         rerender(
           getComponent({
             props: {
@@ -653,7 +653,7 @@ describe('Panel', () => {
       jest.mocked(publish).mockClear();
 
       expect(selectors.buttonSubmit()).not.toBeDisabled();
-      await act(async () => {
+      await act(() => {
         fireEvent.click(selectors.buttonSubmit());
       });
 

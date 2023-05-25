@@ -1,3 +1,4 @@
+import { CodeEditorHeight, CodeLanguage, FormElementType, SliderDefault } from './constants';
 import { FormElement } from './types';
 
 /**
@@ -14,4 +15,24 @@ export const MoveFormElements = (elements: FormElement[], from: number, to: numb
   const element = elements[from];
   elements.splice(from, 1);
   elements.splice(to, 0, element);
+};
+
+/**
+ * Set Element Defaults
+ */
+export const SetElementDefaults = (element: FormElement, newType: FormElementType): void => {
+  switch (newType) {
+    case FormElementType.SLIDER: {
+      element.min = SliderDefault.min;
+      element.max = SliderDefault.max;
+      element.step = SliderDefault.step;
+      element.value = SliderDefault.value;
+      break;
+    }
+    case FormElementType.CODE: {
+      element.language = CodeLanguage.JAVASCRIPT;
+      element.height = CodeEditorHeight;
+      break;
+    }
+  }
 };

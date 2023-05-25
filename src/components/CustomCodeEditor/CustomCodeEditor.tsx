@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { CodeEditor, CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
@@ -42,7 +42,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
    *
    * Will skip adding suggestions if settings are not defined to avoid duplicates
    */
-  const getSuggestions = (): CodeEditorSuggestionItem[] => {
+  const getSuggestions = useCallback((): CodeEditorSuggestionItem[] => {
     if (!item.settings?.suggestions) {
       return [];
     }
@@ -59,7 +59,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
     });
 
     return [...CodeEditorSuggestions, ...suggestions];
-  };
+  }, [templateSrv, item.settings?.suggestions]);
 
   /**
    * Return
@@ -72,12 +72,8 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
         showMiniMap={(value && value.length) > 100}
         value={value}
         height={`${CodeEditorHeight}px`}
-        onBlur={(code) => {
-          onChange(code);
-        }}
-        onSave={(code) => {
-          onChange(code);
-        }}
+        onBlur={onChange}
+        onSave={onChange}
         monacoOptions={{ formatOnPaste: true, formatOnType: true }}
         onEditorDidMount={onEditorMount}
         getSuggestions={getSuggestions}

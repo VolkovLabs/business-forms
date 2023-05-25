@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { CodeLanguage, FormElementDefault, FormElementType, SliderDefault } from '../../constants';
+import { CodeEditorHeight, CodeLanguage, FormElementDefault, FormElementType, SliderDefault } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../test-utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
@@ -172,6 +172,74 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldSliderStep()).toHaveValue(SliderDefault.step);
       expect(elementSelectors.fieldSliderMin()).toHaveValue(SliderDefault.min);
       expect(elementSelectors.fieldSliderMax()).toHaveValue(SliderDefault.max);
+    });
+
+    it('Should add Number element with default parameters', async () => {
+      let elements = [{ ...FormElementDefault, id: 'id' }];
+      const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
+      const { rerender } = render(getComponent({ value: elements, onChange }));
+
+      const newElementId = 'newSlider';
+      /**
+       * Check if section is missing
+       */
+      expect(selectors.sectionLabel(true, newElementId)).not.toBeInTheDocument();
+
+      /**
+       * Fill new element form
+       */
+      fireEvent.change(selectors.newElementId(), { target: { value: newElementId } });
+      fireEvent.change(selectors.newElementLabel(), { target: { value: 'New Number' } });
+      fireEvent.change(selectors.newElementType(), { target: { value: FormElementType.NUMBER } });
+
+      /**
+       * Create new element
+       */
+      fireEvent.click(selectors.buttonAddElement());
+
+      /**
+       * Check if new element exists
+       */
+      rerender(getComponent({ value: elements, onChange }));
+
+      const elementSelectors = openElement(newElementId);
+
+      expect(elementSelectors.fieldNumberMin()).toHaveValue(null);
+      expect(elementSelectors.fieldNumberMax()).toHaveValue(null);
+    });
+
+    it('Should add Code element with default parameters', async () => {
+      let elements = [{ ...FormElementDefault, id: 'id' }];
+      const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
+      const { rerender } = render(getComponent({ value: elements, onChange }));
+
+      const newElementId = 'newSlider';
+      /**
+       * Check if section is missing
+       */
+      expect(selectors.sectionLabel(true, newElementId)).not.toBeInTheDocument();
+
+      /**
+       * Fill new element form
+       */
+      fireEvent.change(selectors.newElementId(), { target: { value: newElementId } });
+      fireEvent.change(selectors.newElementLabel(), { target: { value: 'New Code' } });
+      fireEvent.change(selectors.newElementType(), { target: { value: FormElementType.CODE } });
+
+      /**
+       * Create new element
+       */
+      fireEvent.click(selectors.buttonAddElement());
+
+      /**
+       * Check if new element exists
+       */
+      rerender(getComponent({ value: elements, onChange }));
+
+      const elementSelectors = openElement(newElementId);
+
+      expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorHeight);
+      expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
     });
   });
 
