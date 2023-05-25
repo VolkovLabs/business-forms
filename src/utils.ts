@@ -1,4 +1,4 @@
-import { CodeEditorHeight, CodeLanguage, FormElementType, NumberDefault, SliderDefault } from './constants';
+import { CodeEditorHeight, CodeLanguage, FormElementType, SliderDefault } from './constants';
 import { FormElement } from './types';
 
 /**
@@ -27,11 +27,6 @@ export const SetElementDefaults = (element: FormElement, newType: FormElementTyp
       element.max = SliderDefault.max;
       element.step = SliderDefault.step;
       element.value = SliderDefault.value;
-      break;
-    }
-    case FormElementType.NUMBER: {
-      element.min = NumberDefault.min;
-      element.max = NumberDefault.max;
       break;
     }
     case FormElementType.CODE: {

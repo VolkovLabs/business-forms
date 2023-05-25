@@ -1,13 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import {
-  CodeEditorHeight,
-  CodeLanguage,
-  FormElementDefault,
-  FormElementType,
-  NumberDefault,
-  SliderDefault,
-} from '../../constants';
+import { CodeEditorHeight, CodeLanguage, FormElementDefault, FormElementType, SliderDefault } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../test-utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
@@ -211,8 +204,8 @@ describe('Form Elements Editor', () => {
 
       const elementSelectors = openElement(newElementId);
 
-      expect(elementSelectors.fieldNumberMin()).toHaveValue(NumberDefault.min);
-      expect(elementSelectors.fieldNumberMax()).toHaveValue(NumberDefault.max);
+      expect(elementSelectors.fieldNumberMin()).toHaveValue(null);
+      expect(elementSelectors.fieldNumberMax()).toHaveValue(null);
     });
 
     it('Should add Code element with default parameters', async () => {
