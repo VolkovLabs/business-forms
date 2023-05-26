@@ -793,6 +793,7 @@ describe('Form Elements Editor', () => {
     it('Should update Number Min', async () => {
       const element = { ...FormElementDefault, ...NumberDefault, id: 'id', type: FormElementType.NUMBER };
       const elements = [element];
+      const onChange = jest.fn();
 
       render(getComponent({ value: elements, onChange }));
 
@@ -807,11 +808,32 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldNumberMin(), { target: { value: '123' } }));
 
       expect(elementSelectors.fieldNumberMin()).toHaveValue(123);
+
+      /**
+       * Clean number min value
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldNumberMin(), { target: { value: '' } }));
+
+      expect(elementSelectors.fieldNumberMin()).toHaveDisplayValue('');
+
+      /**
+       * Check if empty number min is null
+       */
+      await act(() => fireEvent.click(selectors.buttonSaveChanges()));
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            min: null,
+          }),
+        ])
+      );
     });
 
     it('Should update Number Max', async () => {
       const element = { ...FormElementDefault, ...NumberDefault, id: 'id', type: FormElementType.NUMBER };
       const elements = [element];
+      const onChange = jest.fn();
 
       render(getComponent({ value: elements, onChange }));
 
@@ -826,6 +848,26 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldNumberMax(), { target: { value: '123' } }));
 
       expect(elementSelectors.fieldNumberMax()).toHaveValue(123);
+
+      /**
+       * Clean number max value
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldNumberMax(), { target: { value: '' } }));
+
+      expect(elementSelectors.fieldNumberMax()).toHaveDisplayValue('');
+
+      /**
+       * Check if empty number max is null
+       */
+      await act(() => fireEvent.click(selectors.buttonSaveChanges()));
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            max: null,
+          }),
+        ])
+      );
     });
 
     it('Should update Code Language', async () => {

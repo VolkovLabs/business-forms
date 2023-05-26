@@ -27,8 +27,8 @@ export const ResetTextDefault = 'Reset';
  * Number Defaults
  */
 export const NumberDefault: NumberOptions = {
-  min: 0,
-  max: 10,
+  min: null,
+  max: null,
   value: 0,
 };
 

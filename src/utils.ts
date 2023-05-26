@@ -115,3 +115,21 @@ export const IsElementConflict = (elements: FormElement[], element: FormElement)
 export const IsElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {
   return options.some((item) => item.value === option.value);
 };
+
+/**
+ * To Number Value
+ * @param value
+ * @constructor
+ */
+export const ToNumberValue = (value: string): number | null => {
+  return value.trim().length > 0 ? Number(value) : null;
+};
+
+/**
+ * Format Number Value
+ * @param value
+ * @constructor
+ */
+export const FormatNumberValue = (value: unknown): string | number => {
+  return typeof value === 'number' ? value : '';
+};

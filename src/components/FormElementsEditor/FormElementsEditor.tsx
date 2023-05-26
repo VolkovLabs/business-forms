@@ -22,7 +22,14 @@ import {
   TestIds,
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
-import { MoveFormElements, GetElementWithNewType, IsElementConflict, IsElementOptionConflict } from '../../utils';
+import {
+  MoveFormElements,
+  GetElementWithNewType,
+  IsElementConflict,
+  IsElementOptionConflict,
+  FormatNumberValue,
+  ToNumberValue,
+} from '../../utils';
 import { useAutoSave } from './useAutoSave';
 
 /**
@@ -430,12 +437,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     onChangeElement({
                       ...element,
-                      min: Number(event.target.value),
+                      min: ToNumberValue(event.target.value),
                     });
                   }}
                   type="number"
                   width={10}
-                  value={element.min}
+                  value={FormatNumberValue(element.min)}
                   data-testid={TestIds.formElementsEditor.fieldNumberMin}
                 />
               </InlineField>
@@ -445,12 +452,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     onChangeElement({
                       ...element,
-                      max: Number(event.target.value),
+                      max: ToNumberValue(event.target.value),
                     });
                   }}
                   type="number"
                   width={10}
-                  value={element.max}
+                  value={FormatNumberValue(element.max)}
                   data-testid={TestIds.formElementsEditor.fieldNumberMax}
                 />
               </InlineField>

@@ -147,16 +147,16 @@ export interface NumberOptions {
   /**
    * Maximum Value
    *
-   * @type {number}
+   * @type {number | null}
    */
-  max: number;
+  max: number | null;
 
   /**
    * Minimum Value
    *
    * @type {number}
    */
-  min: number;
+  min: number | null;
 
   /**
    * Value
