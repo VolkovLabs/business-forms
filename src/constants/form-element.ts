@@ -120,5 +120,4 @@ export const StringElementOptions: SelectableValue[] = [
 /**
  * Auto Save timeout ms
  */
-
 export const AutoSaveTimeout = 1000;
