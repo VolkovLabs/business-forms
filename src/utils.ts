@@ -108,8 +108,8 @@ export const IsElementConflict = (elements: FormElement[], element: FormElement)
 
 /**
  * Is Element Option Conflict
- * @param options
- * @param option
+ * @param options<SelectableValue[]>
+ * @param option<SelectableValue>
  * @constructor
  */
 export const IsElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {
