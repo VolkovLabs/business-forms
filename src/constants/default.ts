@@ -1,5 +1,6 @@
-import { FormElement } from '../types';
+import { CodeOptions, FormElement, NumberOptions, SliderOptions, TextareaOptions } from '../types';
 import { FormElementType } from './form-element';
+import { CodeEditorHeight, CodeLanguage } from './code-editor';
 
 /**
  * Initial Request
@@ -23,13 +24,37 @@ export const ResetForegroundColorDefault = 'yellow';
 export const ResetTextDefault = 'Reset';
 
 /**
+ * Number Defaults
+ */
+export const NumberDefault: NumberOptions = {
+  min: 0,
+  max: 10,
+  value: 0,
+};
+
+/**
  * Slider Defaults
  */
-export const SliderDefault = {
+export const SliderDefault: SliderOptions = {
   min: 0,
   max: 10,
   step: 1,
   value: 0,
+};
+
+/**
+ * Code Defaults
+ */
+export const CodeDefault: CodeOptions = {
+  height: CodeEditorHeight,
+  language: CodeLanguage.JAVASCRIPT,
+};
+
+/**
+ * Textarea Defaults
+ */
+export const TextareaDefault: TextareaOptions = {
+  rows: 10,
 };
 
 /**
@@ -39,8 +64,11 @@ export const FormElementDefault: FormElement = {
   id: '',
   title: '',
   type: FormElementType.STRING,
+  width: 0,
   labelWidth: 10,
   tooltip: '',
   section: '',
   hidden: false,
+  unit: '',
+  value: '',
 };

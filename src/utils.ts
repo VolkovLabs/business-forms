@@ -1,38 +1,117 @@
-import { CodeEditorHeight, CodeLanguage, FormElementType, SliderDefault } from './constants';
-import { FormElement } from './types';
-
-/**
- * Capitalize First Letter
- */
-export const CapitalizeFirstLetter = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+import { SelectableValue } from '@grafana/data';
+import { CodeDefault, FormElementType, NumberDefault, TextareaDefault, SliderDefault } from './constants';
+import { FormElement, FormElementBase, FormElementByType } from './types';
 
 /**
  * Move Form Elements
  */
-export const MoveFormElements = (elements: FormElement[], from: number, to: number) => {
+export const MoveFormElements = <T extends unknown>(elements: T[], from: number, to: number): T[] => {
+  /**
+   * Clone array to prevent mutation
+   */
+  const result = [...elements];
+
+  /**
+   * Swap element on to position
+   */
   const element = elements[from];
-  elements.splice(from, 1);
-  elements.splice(to, 0, element);
+  result.splice(from, 1);
+  result.splice(to, 0, element);
+
+  return result;
 };
 
 /**
- * Set Element Defaults
+ * Get Element With New Type
+ * @param element
+ * @param newType
  */
-export const SetElementDefaults = (element: FormElement, newType: FormElementType): void => {
+export const GetElementWithNewType = (
+  element: FormElement,
+  newType: FormElementType
+): FormElementByType<typeof newType> => {
+  const baseValues: FormElementBase = {
+    id: element.id,
+    type: newType,
+    labelWidth: element.labelWidth,
+    width: element.width,
+    value: element.value,
+    title: element.title,
+    tooltip: element.tooltip,
+    section: element.section,
+    unit: element.unit,
+  };
+
   switch (newType) {
+    case FormElementType.STRING: {
+      return {
+        ...baseValues,
+        hidden: false,
+        value: '',
+        type: newType,
+      };
+    }
     case FormElementType.SLIDER: {
-      element.min = SliderDefault.min;
-      element.max = SliderDefault.max;
-      element.step = SliderDefault.step;
-      element.value = SliderDefault.value;
-      break;
+      return {
+        ...baseValues,
+        ...SliderDefault,
+        type: newType,
+      };
+    }
+    case FormElementType.NUMBER: {
+      return {
+        ...baseValues,
+        ...NumberDefault,
+        type: newType,
+      };
     }
     case FormElementType.CODE: {
-      element.language = CodeLanguage.JAVASCRIPT;
-      element.height = CodeEditorHeight;
-      break;
+      return {
+        ...element,
+        ...CodeDefault,
+        type: newType,
+      };
+    }
+    case FormElementType.TEXTAREA: {
+      return {
+        ...element,
+        ...TextareaDefault,
+        type: newType,
+      };
+    }
+    case FormElementType.SELECT:
+    case FormElementType.DISABLED:
+    case FormElementType.RADIO: {
+      return {
+        ...element,
+        options: [],
+        type: newType,
+      };
+    }
+    default: {
+      return {
+        ...baseValues,
+        type: newType,
+      };
     }
   }
+};
+
+/**
+ * Is Element Conflict
+ * @param elements<FormElement[]>
+ * @param element<FormElement>
+ */
+export const IsElementConflict = (elements: FormElement[], element: FormElement) => {
+  return elements.some((item) => item.id === element.id && item.type === element.type);
+};
+
+/**
+ * Is Element Option Conflict
+ * @param options
+ * @param option
+ * @constructor
+ */
+export const IsElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {
+  return options.some((item) => item.value === option.value);
 };
