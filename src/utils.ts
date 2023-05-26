@@ -67,14 +67,14 @@ export const GetElementWithNewType = (
     }
     case FormElementType.CODE: {
       return {
-        ...element,
+        ...baseValues,
         ...CodeDefault,
         type: newType,
       };
     }
     case FormElementType.TEXTAREA: {
       return {
-        ...element,
+        ...baseValues,
         ...TextareaDefault,
         type: newType,
       };
@@ -83,8 +83,8 @@ export const GetElementWithNewType = (
     case FormElementType.DISABLED:
     case FormElementType.RADIO: {
       return {
-        ...element,
-        options: [],
+        ...baseValues,
+        options: 'options' in element ? element.options || [] : [],
         type: newType,
       };
     }
