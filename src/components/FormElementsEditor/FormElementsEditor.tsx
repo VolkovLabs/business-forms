@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import {
+  Alert,
   Button,
   ButtonGroup,
   CollapsableSection,
@@ -21,7 +22,15 @@ import {
   TestIds,
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
-import { MoveFormElements, SetElementDefaults } from '../../utils';
+import {
+  FormatNumberValue,
+  GetElementWithNewType,
+  IsElementConflict,
+  IsElementOptionConflict,
+  MoveFormElements,
+  ToNumberValue,
+} from '../../utils';
+import { useAutoSave } from './useAutoSave';
 
 /**
  * Properties
@@ -31,15 +40,77 @@ interface Props extends StandardEditorProps<FormElement[]> {}
 /**
  * Form Elements Editor
  */
-export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange, context }) => {
+export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }) => {
   /**
    * States
    */
   const [newElement, setNewElement] = useState(FormElementDefault);
+  const [elements, setElements] = useState(value && Array.isArray(value) ? value : []);
+  const [isChanged, setIsChanged] = useState(false);
+  const [addElementError, setAddElementError] = useState<string | null>(null);
+  const { startTimer, removeTimer } = useAutoSave();
 
-  if (!elements || !elements.length) {
-    elements = [];
-  }
+  /**
+   * Save Updates
+   */
+  const onSaveUpdates = useCallback(() => {
+    onChange(elements);
+    setIsChanged(false);
+  }, [elements, onChange]);
+
+  /**
+   * Change Elements
+   */
+  const onChangeElements = useCallback((newElements: FormElement[]) => {
+    setElements(newElements);
+    setIsChanged(true);
+  }, []);
+
+  /**
+   * Change Element
+   */
+  const onChangeElement = useCallback(
+    (
+      updatedElement: FormElement,
+      { id = updatedElement.id, type = updatedElement.type }: FormElement = updatedElement,
+      checkConflict = false
+    ) => {
+      if (checkConflict && IsElementConflict(elements, updatedElement)) {
+        alert('Element with the same id and type exists.');
+        return;
+      }
+
+      onChangeElements(
+        elements.map((element) => (element.id === id && element.type === type ? updatedElement : element))
+      );
+    },
+    [elements, onChangeElements]
+  );
+
+  /**
+   * Change Element Option
+   */
+  const onChangeElementOption = useCallback(
+    (
+      element: FormElement,
+      updatedOption: SelectableValue,
+      { value = updatedOption.value }: SelectableValue = {},
+      checkConflict = false
+    ) => {
+      if ('options' in element) {
+        if (checkConflict && IsElementOptionConflict(element.options || [], updatedOption)) {
+          alert('Option with the same value exists');
+          return;
+        }
+
+        onChangeElement({
+          ...element,
+          options: element.options?.map((item) => (item.value === value ? updatedOption : item)),
+        });
+      }
+    },
+    [onChangeElement]
+  );
 
   /**
    * Remove Element
@@ -50,29 +121,37 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
     /**
      * Update Elements
      */
-    onChange(updated);
+    onChangeElements(updated);
   };
+
+  /**
+   * Change new element
+   */
+  const onChangeNewElement = useCallback((newElement: FormElement) => {
+    setNewElement(newElement);
+    setAddElementError(null);
+  }, []);
 
   /**
    * Add Elements
    */
   const onElementAdd = useCallback(() => {
-    /**
-     * Set Defaults
-     */
-    SetElementDefaults(newElement, newElement.type);
+    if (IsElementConflict(elements, newElement)) {
+      setAddElementError('Element with the same Id and Type already exists');
+      return;
+    }
 
     /**
      * Update Elements
      */
-    const updated = [...elements, newElement];
-    onChange(updated);
+    const updated = [...elements, GetElementWithNewType(newElement, newElement.type)];
+    onChangeElements(updated);
 
     /**
      * Reset input values
      */
     setNewElement(FormElementDefault);
-  }, [newElement, onChange, elements]);
+  }, [newElement, elements, onChangeElements]);
 
   /**
    * Layout Sections
@@ -84,6 +163,29 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
       }) || []
     );
   }, [context.options?.layout?.sections]);
+
+  /**
+   * Auto Save Timer
+   */
+  useEffect(() => {
+    if (isChanged) {
+      startTimer(onSaveUpdates);
+    } else {
+      removeTimer();
+    }
+
+    return () => {
+      removeTimer();
+    };
+  }, [startTimer, isChanged, onSaveUpdates, removeTimer]);
+
+  /**
+   * Update local elements
+   */
+  useEffect(() => {
+    setElements(value && Array.isArray(value) ? value : []);
+    setIsChanged(false);
+  }, [value]);
 
   /**
    * Return
@@ -100,11 +202,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   name="arrow-up"
                   tooltip="Move Up"
                   onClick={(event) => {
-                    MoveFormElements(elements, id, id - 1);
-                    onChange(elements);
+                    onChangeElements(MoveFormElements(elements, id, id - 1));
                     event.stopPropagation();
                   }}
-                  data-testid={TestIds.formElementsEditor.buttonMoveElementUp(element.id)}
+                  data-testid={TestIds.formElementsEditor.buttonMoveElementUp(element.id, element.type)}
                 />
               )}
               {id < elements.length - 1 && (
@@ -112,27 +213,32 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   name="arrow-down"
                   tooltip="Move Down"
                   onClick={(event) => {
-                    MoveFormElements(elements, id, id + 1);
-                    onChange(elements);
+                    onChangeElements(MoveFormElements(elements, id, id + 1));
                     event.stopPropagation();
                   }}
-                  data-testid={TestIds.formElementsEditor.buttonMoveElementDown(element.id)}
+                  data-testid={TestIds.formElementsEditor.buttonMoveElementDown(element.id, element.type)}
                 />
               )}
               {element.title} [{element.id}]
             </ButtonGroup>
           }
           isOpen={false}
-          headerDataTestId={TestIds.formElementsEditor.sectionLabel(element.id)}
-          contentDataTestId={TestIds.formElementsEditor.sectionContent(element.id)}
+          headerDataTestId={TestIds.formElementsEditor.sectionLabel(element.id, element.type)}
+          contentDataTestId={TestIds.formElementsEditor.sectionContent(element.id, element.type)}
         >
           <InlineFieldRow>
             <InlineField label="Id" grow labelWidth={8} invalid={element.id === ''}>
               <Input
                 placeholder="Id"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  element.id = event.target.value;
-                  onChange(elements);
+                  onChangeElement(
+                    {
+                      ...element,
+                      id: event.target.value,
+                    },
+                    element,
+                    true
+                  );
                 }}
                 value={element.id}
                 data-testid={TestIds.formElementsEditor.fieldId}
@@ -145,8 +251,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   options={StringElementOptions}
                   value={!!element.hidden}
                   onChange={(value) => {
-                    element.hidden = value;
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      hidden: value,
+                    });
                   }}
                 />
               </InlineField>
@@ -167,14 +275,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Select
                 options={FormElementTypeOptions}
                 onChange={(event: SelectableValue) => {
-                  element.type = event?.value;
-
-                  /**
-                   * Set Defaults
-                   */
-                  SetElementDefaults(element, element.type);
-
-                  onChange(elements);
+                  onChangeElement(GetElementWithNewType(element, event?.value), element, true);
                 }}
                 value={FormElementTypeOptions.find((type) => type.value === element.type)}
                 aria-label={TestIds.formElementsEditor.fieldType}
@@ -189,8 +290,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Input
                 placeholder="auto"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  element.width = Number(event.target.value);
-                  onChange(elements);
+                  onChangeElement({
+                    ...element,
+                    width: Number(event.target.value),
+                  });
                 }}
                 value={element.width}
                 min={0}
@@ -204,8 +307,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Input
                 placeholder="Label"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  element.title = event.target.value;
-                  onChange(elements);
+                  onChangeElement({
+                    ...element,
+                    title: event.target.value,
+                  });
                 }}
                 value={element.title}
                 data-testid={TestIds.formElementsEditor.fieldLabel}
@@ -216,8 +321,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Input
                 placeholder="10"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  element.labelWidth = Number(event.target.value);
-                  onChange(elements);
+                  onChangeElement({
+                    ...element,
+                    labelWidth: Number(event.target.value),
+                  });
                 }}
                 value={element.labelWidth}
                 type="number"
@@ -231,8 +338,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Input
                 placeholder="Tooltip"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  element.tooltip = event.target.value;
-                  onChange(elements);
+                  onChangeElement({
+                    ...element,
+                    tooltip: event.target.value,
+                  });
                 }}
                 value={element.tooltip}
                 data-testid={TestIds.formElementsEditor.fieldTooltip}
@@ -243,8 +352,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Input
                 placeholder="Unit"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                  element.unit = event.target.value;
-                  onChange(elements);
+                  onChangeElement({
+                    ...element,
+                    unit: event.target.value,
+                  });
                 }}
                 value={element.unit}
                 data-testid={TestIds.formElementsEditor.fieldUnit}
@@ -258,8 +369,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Select
                   options={layoutSectionOptions}
                   onChange={(event: SelectableValue) => {
-                    element.section = event?.value;
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      section: event?.value,
+                    });
                   }}
                   value={layoutSectionOptions.find((section) => section.value === element.section)}
                   aria-label={TestIds.formElementsEditor.fieldSection}
@@ -274,8 +387,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Min"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.min = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      min: Number(event.target.value),
+                    });
                   }}
                   type="number"
                   width={10}
@@ -287,8 +402,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Max"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.max = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      max: Number(event.target.value),
+                    });
                   }}
                   type="number"
                   width={10}
@@ -300,8 +417,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Step"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.step = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      step: Number(event.target.value),
+                    });
                   }}
                   type="number"
                   width={10}
@@ -318,12 +437,14 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Min"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.min = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      min: ToNumberValue(event.target.value),
+                    });
                   }}
                   type="number"
                   width={10}
-                  value={element.min}
+                  value={FormatNumberValue(element.min)}
                   data-testid={TestIds.formElementsEditor.fieldNumberMin}
                 />
               </InlineField>
@@ -331,12 +452,14 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Max"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.max = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      max: ToNumberValue(event.target.value),
+                    });
                   }}
                   type="number"
                   width={10}
-                  value={element.max}
+                  value={FormatNumberValue(element.max)}
                   data-testid={TestIds.formElementsEditor.fieldNumberMax}
                 />
               </InlineField>
@@ -349,8 +472,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Rows"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.rows = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      rows: Number(event.target.value),
+                    });
                   }}
                   type="number"
                   width={10}
@@ -368,8 +493,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Select
                   options={CodeLanguageOptions}
                   onChange={(event: SelectableValue) => {
-                    element.language = event?.value;
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      language: event?.value,
+                    });
                   }}
                   value={CodeLanguageOptions.find((language) => language.value === element.language)}
                   aria-label={TestIds.formElementsEditor.fieldCodeLanguage}
@@ -379,8 +506,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                 <Input
                   placeholder="Height"
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.height = Number(event.target.value);
-                    onChange(elements);
+                    onChangeElement({
+                      ...element,
+                      height: Number(event.target.value),
+                    });
                   }}
                   type="number"
                   value={element.height}
@@ -391,16 +520,20 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
             </InlineFieldRow>
           )}
 
-          {[FormElementType.RADIO, FormElementType.SELECT, FormElementType.DISABLED].includes(element.type) && (
+          {(element.type === FormElementType.RADIO ||
+            element.type === FormElementType.SELECT ||
+            element.type === FormElementType.DISABLED) && (
             <div>
-              {element.options?.map((option) => (
-                <InlineFieldRow key={option.id} data-testid={TestIds.formElementsEditor.fieldOption(option.id)}>
+              {element.options?.map((option, index) => (
+                <InlineFieldRow key={index} data-testid={TestIds.formElementsEditor.fieldOption(option.value)}>
                   <InlineField label="Type" labelWidth={8}>
                     <Select
                       options={SelectElementOptions}
                       onChange={(event: SelectableValue) => {
-                        option.type = event?.value;
-                        onChange(elements);
+                        onChangeElementOption(element, {
+                          ...option,
+                          type: event?.value,
+                        });
                       }}
                       width={12}
                       value={SelectElementOptions.find((type) => type.value === option.type)}
@@ -412,8 +545,15 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                       <Input
                         placeholder="string"
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                          option.value = event.target.value;
-                          onChange(elements);
+                          onChangeElementOption(
+                            element,
+                            {
+                              ...option,
+                              value: event.target.value,
+                            },
+                            option,
+                            true
+                          );
                         }}
                         value={option.value}
                         width={12}
@@ -427,8 +567,16 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                         type="number"
                         placeholder="number"
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                          option.value = Number(event.target.value);
-                          onChange(elements);
+                          onChangeElementOption(
+                            element,
+                            {
+                              ...option,
+                              value: Number(event.target.value),
+                              id: event.target.value,
+                            },
+                            option,
+                            true
+                          );
                         }}
                         value={option.value}
                         width={12}
@@ -440,8 +588,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                     <Input
                       placeholder="label"
                       onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        option.label = event.target.value;
-                        onChange(elements);
+                        onChangeElementOption(element, {
+                          ...option,
+                          label: event.target.value,
+                        });
                       }}
                       value={option.label}
                       data-testid={TestIds.formElementsEditor.fieldOptionLabel}
@@ -450,8 +600,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      element.options = element.options?.filter((o) => o.value !== option.value);
-                      onChange(elements);
+                      onChangeElement({
+                        ...element,
+                        options: element.options?.filter((o) => o.value !== option.value),
+                      });
                     }}
                     icon="minus"
                     data-testid={TestIds.formElementsEditor.buttonRemoveOption}
@@ -462,13 +614,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
               <Button
                 variant="secondary"
                 onClick={() => {
-                  if (element.options) {
-                    element.options.push({ value: '', label: '' });
-                  } else {
-                    element.options = [{ value: '', label: '' }];
-                  }
-
-                  onChange(elements);
+                  onChangeElement({
+                    ...element,
+                    options: element.options
+                      ? element.options.concat({ id: '', value: '', label: '' })
+                      : [{ id: '', value: '', label: '' }],
+                  });
                 }}
                 icon="plus"
                 data-testid={TestIds.formElementsEditor.buttonAddOption}
@@ -479,6 +630,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           )}
         </CollapsableSection>
       ))}
+
+      {isChanged && (
+        <Button onClick={onSaveUpdates} data-testid={TestIds.formElementsEditor.buttonSaveChanges}>
+          Save changes
+        </Button>
+      )}
 
       <hr />
       <CollapsableSection
@@ -491,7 +648,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           <Input
             placeholder="Id"
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setNewElement({ ...newElement, id: event.target.value });
+              onChangeNewElement({ ...newElement, id: event.target.value });
             }}
             value={newElement.id}
             data-testid={TestIds.formElementsEditor.newElementId}
@@ -502,7 +659,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
           <Input
             placeholder="Label"
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setNewElement({ ...newElement, title: event.target.value });
+              onChangeNewElement({ ...newElement, title: event.target.value });
             }}
             value={newElement.title}
             data-testid={TestIds.formElementsEditor.newElementLabel}
@@ -514,16 +671,22 @@ export const FormElementsEditor: React.FC<Props> = ({ value: elements, onChange,
             aria-label={TestIds.formElementsEditor.newElementType}
             options={FormElementTypeOptions}
             onChange={(event?: SelectableValue) => {
-              setNewElement({ ...newElement, type: event?.value });
+              onChangeNewElement({ ...newElement, type: event?.value });
             }}
             value={FormElementTypeOptions.find((type) => type.value === newElement.type)}
           />
         </InlineField>
 
+        {!!addElementError && (
+          <Alert data-testid={TestIds.formElementsEditor.addElementError} severity="error" title="Element Creation">
+            {addElementError}
+          </Alert>
+        )}
+
         <Button
           variant="secondary"
           onClick={onElementAdd}
-          disabled={!newElement.id || !newElement.type}
+          disabled={!newElement.id || !newElement.type || !!addElementError}
           icon="plus"
           data-testid={TestIds.formElementsEditor.buttonAddElement}
         >

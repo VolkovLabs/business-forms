@@ -1,5 +1,5 @@
 import { SelectableValue } from '@grafana/data';
-import { CapitalizeFirstLetter } from '../utils';
+import { CapitalizeFirstLetter } from '../constant-utils';
 
 /**
  * Request Methods

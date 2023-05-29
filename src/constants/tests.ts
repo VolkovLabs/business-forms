@@ -49,13 +49,14 @@ export const TestIds = {
   },
   formElementsEditor: {
     root: 'data-testid form-elements-editor',
-    sectionLabel: (sectionId: string) => `data-testid form-elements-editor section-label-${sectionId}`,
-    sectionContent: (sectionId: string) => `data-testid form-elements-editor section-content-${sectionId}`,
+    sectionLabel: (id: string, type: string) => `data-testid form-elements-editor section-label-${id}-${type}`,
+    sectionContent: (id: string, type: string) => `data-testid form-elements-editor section-content-${id}-${type}`,
     sectionNewLabel: 'data-testid form-elements-editor section-new-label',
     sectionNewContent: 'data-testid form-elements-editor section-new-content',
-    buttonMoveElementUp: (sectionId: string) => `data-testid form-elements-editor button-move-element-up-${sectionId}`,
-    buttonMoveElementDown: (sectionId: string) =>
-      `data-testid form-elements-editor button-move-element-down-${sectionId}`,
+    buttonMoveElementUp: (id: string, type: string) =>
+      `data-testid form-elements-editor button-move-element-up-${id}-${type}`,
+    buttonMoveElementDown: (id: string, type: string) =>
+      `data-testid form-elements-editor button-move-element-down-${id}-${type}`,
     buttonRemoveElement: 'data-testid form-elements-editor button-remove-element',
     buttonAddElement: 'data-testid form-elements-editor button-add-element',
     buttonRemoveOption: 'data-testid form-elements-editor button-remove-option',
@@ -86,6 +87,8 @@ export const TestIds = {
     newElementLabel: 'data-testid form-elements-editor new-element-label',
     newElementType: 'form-elements-editor new-element-type',
     radioOption: (name: string) => `form-elements-editor option-${name}`,
+    buttonSaveChanges: 'data-testid form-elements-editor button-save-changes',
+    addElementError: 'data-testid form-elements-editor add-element-error',
   },
   headerParametersEditor: {
     root: 'data-testid header-parameters-editor',

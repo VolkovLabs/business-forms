@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { FormElementDefault, FormElementType } from '../../constants';
-import { getFormElementsSelectors } from '../../test-utils';
+import { getFormElementsSelectors } from '../../utils';
 import { FormElements } from './FormElements';
 
 /**
