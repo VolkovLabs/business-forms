@@ -1,4 +1,4 @@
-import { MoveFormElements } from './utils';
+import { MoveFormElements } from './form-element';
 
 describe('Utils', () => {
   it('Should move element up', () => {

@@ -1,14 +1,14 @@
 import React from 'react';
-import { act, fireEvent, render, screen, within, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import {
-  CodeLanguage,
   CodeEditorHeight,
+  CodeLanguage,
   FormElementDefault,
   FormElementType,
-  SliderDefault,
   NumberDefault,
+  SliderDefault,
 } from '../../constants';
-import { getFormElementsEditorSelectors } from '../../test-utils';
+import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
 /**

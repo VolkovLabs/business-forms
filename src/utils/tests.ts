@@ -1,5 +1,5 @@
 import { BoundFunctions, GetByBoundAttribute, Queries, Screen } from '@testing-library/react';
-import { TestIds } from './constants';
+import { TestIds } from '../constants';
 
 /**
  * Jest Selector

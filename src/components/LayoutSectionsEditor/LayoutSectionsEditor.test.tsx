@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { getLayoutSectionsEditorSelectors } from '../../test-utils';
+import { getLayoutSectionsEditorSelectors } from '../../utils';
 import { LayoutSectionsEditor } from './LayoutSectionsEditor';
 
 /**

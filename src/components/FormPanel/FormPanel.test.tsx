@@ -3,7 +3,7 @@ import { AppEvents } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ButtonOrientation, FormElementDefault, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
-import { getPanelSelectors } from '../../test-utils';
+import { getPanelSelectors } from '../../utils';
 import { FormPanel } from './FormPanel';
 
 /**
