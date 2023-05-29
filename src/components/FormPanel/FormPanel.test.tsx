@@ -171,39 +171,6 @@ describe('Panel', () => {
       expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
     });
 
-    it('Should update elements', async () => {
-      jest.mocked(fetch).mockImplementationOnce(
-        () =>
-          Promise.resolve({
-            ok: true,
-            json: jest.fn(() =>
-              Promise.resolve({
-                test: '123',
-              })
-            ),
-          }) as any
-      );
-      const onOptionsChange = jest.fn();
-
-      /**
-       * Render
-       */
-      await act(() => render(getComponent({ props: { onOptionsChange } })));
-
-      /**
-       * Check if options change is called
-       */
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: '123',
-            }),
-          ]),
-        })
-      );
-    });
-
     it('Should show error if initial request failed', async () => {
       jest.mocked(fetch).mockRejectedValueOnce(new Error('message'));
 

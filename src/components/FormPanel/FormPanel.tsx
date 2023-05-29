@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
@@ -6,6 +6,7 @@ import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useStyles2, useThem
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod, TestIds } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
+import { useFormElements } from '../../hooks';
 import { FormElements } from '../FormElements';
 
 /**
@@ -30,7 +31,16 @@ export const FormPanel: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: any }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
-  const [updated, setUpdated] = useState(false);
+
+  /**
+   * Save Options
+   */
+  const onSaveOptions = useCallback(() => {}, []);
+
+  /**
+   * Form Elements
+   */
+  const { elements, onChangeElement, onChangeElements } = useFormElements(onSaveOptions, options.elements, false);
 
   /**
    * Theme and Styles
@@ -129,7 +139,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set elements
      */
-    options.elements?.forEach((element) => {
+    elements.forEach((element) => {
       if (!options.update.updatedOnly) {
         body[element.id] = element.value;
         return;
@@ -197,12 +207,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Check Elements
      */
-    if (
-      !options.elements ||
-      !options.elements.length ||
-      !options.initial.url ||
-      options.initial.method === RequestMethod.NONE
-    ) {
+    if (!elements.length || !options.initial.url || options.initial.method === RequestMethod.NONE) {
       /**
        * Execute Custom Code and reset Loading
        */
@@ -258,17 +263,27 @@ export const FormPanel: React.FC<Props> = ({
       json = await response.json();
 
       /**
-       * Set Element values
-       */
-      options.elements.forEach((element) => {
-        element.value = json[element.id];
-      });
-
-      /**
        * Update values
        */
-      onOptionsChange(options);
-      setInitial(json);
+      const valuesMap =
+        options.elements?.reduce((acc: Record<string, unknown>, element) => {
+          return {
+            ...acc,
+            [element.id]: json[element.id] !== undefined ? json[element.id] : element.value,
+          };
+        }, {}) || {};
+
+      onChangeElements(
+        elements.map(({ value, ...rest }) => ({
+          ...rest,
+          value: valuesMap[rest.id],
+        }))
+      );
+
+      setInitial({
+        ...json,
+        ...valuesMap,
+      });
       setTitle('Values updated.');
     }
 
@@ -304,16 +319,15 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Check updated values
    */
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    setUpdated(false);
-
-    options.elements?.forEach((element) => {
+  const isUpdated = useMemo(() => {
+    for (let element of elements) {
       if (element.value !== initial[element.id]) {
-        setUpdated(true);
+        return true;
       }
-    });
-  });
+    }
+
+    return false;
+  }, [elements, initial]);
 
   /**
    * Return
@@ -330,7 +344,7 @@ export const FormPanel: React.FC<Props> = ({
         `
       )}
     >
-      {(!options.elements || !options.elements.length) && options.layout.variant !== LayoutVariant.NONE && (
+      {!elements.length && options.layout.variant !== LayoutVariant.NONE && (
         <Alert data-testid={TestIds.panel.infoMessage} severity="info" title="Form Elements">
           Please add elements in Panel Options or Custom Code.
         </Alert>
@@ -341,7 +355,13 @@ export const FormPanel: React.FC<Props> = ({
           {options.layout.variant === LayoutVariant.SINGLE && (
             <tr>
               <td data-testid={TestIds.panel.singleLayoutContent}>
-                <FormElements options={options} onOptionsChange={onOptionsChange} initial={initial} section={null} />
+                <FormElements
+                  options={options}
+                  elements={elements}
+                  onChangeElement={onChangeElement}
+                  initial={initial}
+                  section={null}
+                />
               </td>
             </tr>
           )}
@@ -354,7 +374,8 @@ export const FormPanel: React.FC<Props> = ({
                     <FieldSet label={section.name}>
                       <FormElements
                         options={options}
-                        onOptionsChange={onOptionsChange}
+                        elements={elements}
+                        onChangeElement={onChangeElement}
                         initial={initial}
                         section={section}
                       />
@@ -382,7 +403,7 @@ export const FormPanel: React.FC<Props> = ({
                         }
                       : {}
                   }
-                  disabled={loading || (!updated && options.layout.variant !== LayoutVariant.NONE)}
+                  disabled={loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE)}
                   onClick={
                     options.update.confirm
                       ? () => {
@@ -452,7 +473,7 @@ export const FormPanel: React.FC<Props> = ({
                 </tr>
               </thead>
               <tbody>
-                {options.elements?.map((element: FormElement) => {
+                {elements.map((element: FormElement) => {
                   if (element.value === initial[element.id]) {
                     return;
                   }
@@ -477,11 +498,12 @@ export const FormPanel: React.FC<Props> = ({
                     );
                   }
 
+                  let currentValue = element.value;
                   /**
                    * Convert DateTime object to ISO string
                    */
                   if (element.type === FormElementType.DATETIME) {
-                    element.value = dateTime(element.value).toISOString();
+                    currentValue = dateTime(element.value).toISOString();
                   }
 
                   return (
@@ -491,7 +513,7 @@ export const FormPanel: React.FC<Props> = ({
                         {initial[element.id] === undefined ? '' : String(initial[element.id])}
                       </td>
                       <td className={styles.confirmTableTd}>
-                        {element.value === undefined ? '' : String(element.value)}
+                        {currentValue === undefined ? '' : String(currentValue)}
                       </td>
                     </tr>
                   );

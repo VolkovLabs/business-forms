@@ -8,8 +8,13 @@ import { useAutoSave } from './useAutoSave';
  * Use Form Elements
  * @param onChange
  * @param value
+ * @param isAutoSave
  */
-export const useFormElements = (onChange: (elements: FormElement[]) => void, value?: FormElement[]) => {
+export const useFormElements = (
+  onChange: (elements: FormElement[]) => void,
+  value?: FormElement[],
+  isAutoSave = true
+) => {
   /**
    * States
    */
@@ -106,7 +111,7 @@ export const useFormElements = (onChange: (elements: FormElement[]) => void, val
    * Auto Save Timer
    */
   useEffect(() => {
-    if (isChanged) {
+    if (isAutoSave && isChanged) {
       startTimer(onSaveUpdates);
     } else {
       removeTimer();
@@ -115,7 +120,7 @@ export const useFormElements = (onChange: (elements: FormElement[]) => void, val
     return () => {
       removeTimer();
     };
-  }, [startTimer, isChanged, onSaveUpdates, removeTimer]);
+  }, [startTimer, isChanged, onSaveUpdates, removeTimer, isAutoSave]);
 
   /**
    * Return

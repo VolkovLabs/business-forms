@@ -1,5 +1,5 @@
 import Slider from 'rc-slider';
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent } from 'react';
 import { css, cx } from '@emotion/css';
 import { dateTime, DateTime, SelectableValue } from '@grafana/data';
 import {
@@ -25,7 +25,6 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
-import { useFormElements } from '../../hooks';
 import { ToNumberValue } from '../../utils';
 
 /**
@@ -40,9 +39,14 @@ interface Props {
   options: PanelOptions;
 
   /**
-   * On Options Change
+   * Elements
    */
-  onOptionsChange: (options: PanelOptions) => void;
+  elements: FormElement[];
+
+  /**
+   * On Element Change
+   */
+  onChangeElement: (element: FormElement) => void;
 
   /**
    * Initial values
@@ -60,30 +64,12 @@ interface Props {
 /**
  * Form Elements
  */
-export const FormElements: React.FC<Props> = ({ options, onOptionsChange, section, initial }) => {
+export const FormElements: React.FC<Props> = ({ options, elements, onChangeElement, section, initial }) => {
   /**
    * Theme and Styles
    */
   const theme = useTheme2();
   const styles = useStyles2(Styles);
-
-  /**
-   * Save Options
-   */
-  const onSaveOptions = useCallback(
-    (elements: FormElement[]) => {
-      onOptionsChange({
-        ...options,
-        elements,
-      });
-    },
-    [onOptionsChange, options]
-  );
-
-  /**
-   * Form Elements
-   */
-  const { elements, onChangeElement } = useFormElements(onSaveOptions, options.elements);
 
   /**
    * Highlight Color
@@ -129,7 +115,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 transparent={!element.title}
               >
                 <Input
-                  value={element.value}
+                  value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     let value = ToNumberValue(event.target.value);
 
@@ -172,7 +158,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 className={cx(element.hidden && styles.hidden)}
               >
                 <Input
-                  value={element.value}
+                  value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     onChangeElement({
                       ...element,
@@ -196,7 +182,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 transparent={!element.title}
               >
                 <Input
-                  value={element.value}
+                  value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     onChangeElement({
                       ...element,
@@ -223,7 +209,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <Input
                   value={
                     !element.options?.length
-                      ? element.value
+                      ? element.value || ''
                       : element.options.find((option) => option.value === element.value)?.label
                   }
                   type="text"
@@ -242,7 +228,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 transparent={!element.title}
               >
                 <TextArea
-                  value={element.value}
+                  value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
                     onChangeElement({
                       ...element,
@@ -269,7 +255,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   language={element.language || CodeLanguage.JAVASCRIPT}
                   showLineNumbers={true}
                   showMiniMap={(element.value && element.value.length) > 100}
-                  value={element.value}
+                  value={element.value || ''}
                   height={element.height || `${CodeEditorHeight}px`}
                   width={element.width}
                   onBlur={(code) => {
@@ -406,7 +392,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
               >
                 <Select
                   aria-label={TestIds.formElements.fieldSelect}
-                  value={element.value}
+                  value={element.value !== undefined ? element.value : null}
                   onChange={(event: SelectableValue) => {
                     onChangeElement({
                       ...element,

@@ -13,6 +13,12 @@ jest.mock('@grafana/ui', () => ({
     return (
       <input
         data-testid={restProps['data-testid']}
+        value={restProps.value}
+        onChange={(event) => {
+          if (onBlur) {
+            onBlur(event.target.value);
+          }
+        }}
         onBlur={(event) => {
           if (onBlur) {
             onBlur(event.target.value);
@@ -28,6 +34,7 @@ jest.mock('@grafana/ui', () => ({
     return (
       <input
         data-testid={restProps['data-testid']}
+        value={restProps.value}
         onChange={(event) => {
           if (onChange) {
             onChange(event.target.value);
@@ -86,7 +93,7 @@ jest.useFakeTimers();
  * Form Elements
  */
 describe('Form Elements', () => {
-  const onOptionsChange = jest.fn();
+  const onChangeElement = jest.fn();
   /**
    * Form Elements Selectors
    */
@@ -98,7 +105,7 @@ describe('Form Elements', () => {
    * @param restProps
    */
   const getComponent = ({ options = {}, ...restProps }: any) => {
-    return <FormElements options={options} {...restProps} />;
+    return <FormElements options={options} elements={options.elements} {...restProps} />;
   };
 
   describe('Render elements', () => {
@@ -121,7 +128,7 @@ describe('Form Elements', () => {
         ],
       };
 
-      render(getComponent({ options, onOptionsChange }));
+      render(getComponent({ options, onChangeElement }));
     });
 
     it('Should render container', () => {
@@ -170,7 +177,7 @@ describe('Form Elements', () => {
       elements: [{ id: 'slider', type: FormElementType.SLIDER, value: 0 }],
     };
 
-    render(getComponent({ options, onOptionsChange }));
+    render(getComponent({ options, onChangeElement }));
     expect(selectors.fieldSlider()).toBeInTheDocument();
 
     /**
@@ -188,7 +195,7 @@ describe('Form Elements', () => {
       elements: [{ id: 'radio', type: FormElementType.RADIO }],
     };
 
-    render(getComponent({ options, onOptionsChange }));
+    render(getComponent({ options, onChangeElement }));
 
     /**
      * Radio
@@ -205,7 +212,7 @@ describe('Form Elements', () => {
       elements: [{ id: 'select', type: FormElementType.SELECT }],
     };
 
-    render(getComponent({ options, onOptionsChange }));
+    render(getComponent({ options, onChangeElement }));
 
     /**
      * Select
@@ -222,7 +229,7 @@ describe('Form Elements', () => {
       elements: [{ id: 'select', type: FormElementType.STRING, unit: '123' }],
     };
 
-    render(getComponent({ options, onOptionsChange }));
+    render(getComponent({ options, onChangeElement }));
 
     /**
      * Unit
@@ -239,11 +246,7 @@ describe('Form Elements', () => {
       elements: [{ id: 'select', type: FormElementType.SELECT }],
     };
 
-    const getComponent = ({ options = {}, ...restProps }: any) => {
-      return <FormElements options={options} {...restProps} />;
-    };
-
-    render(getComponent({ options, onOptionsChange, section: { name: 'left' } }));
+    render(getComponent({ options, onChangeElement, section: { name: 'left' } }));
     expect(selectors.root()).toBeInTheDocument();
 
     /**
@@ -266,22 +269,47 @@ describe('Form Elements', () => {
       name: string;
       getField: () => HTMLElement;
       newValue: string;
-      elements?: unknown[];
+      elements?: any[];
       expectedValue: any;
     }) => {
       it(name, async () => {
+        let appliedElements = elements;
         const options = {
           submit: {},
           initial: { highlightColor: false },
           update: {},
           reset: {},
-          elements,
+          elements: appliedElements,
         };
-        const onOptionsChange = jest.fn();
+        const onChangeElement = jest.fn(
+          (updatedElement) =>
+            (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+        );
 
-        render(getComponent({ options, onOptionsChange }));
+        /**
+         * First render
+         */
+        const { rerender } = render(getComponent({ options, onChangeElement }));
 
+        /**
+         * Change field value
+         */
         await act(() => fireEvent.change(getField(), { target: { value: newValue } }));
+
+        /**
+         * Rerender with updated elements
+         */
+        await act(() =>
+          rerender(
+            getComponent({
+              options: {
+                ...options,
+                elements: appliedElements,
+              },
+              onChangeElement,
+            })
+          )
+        );
 
         expect(getField()).toHaveValue(expectedValue);
       });
@@ -340,7 +368,9 @@ describe('Form Elements', () => {
       },
       {
         name: 'Should update select value',
-        elements: [{ id: 'number', type: FormElementType.SELECT, value: '', options: [{ value: '123' }] }],
+        elements: [
+          { id: 'number', type: FormElementType.SELECT, value: '111', options: [{ value: '111' }, { value: '123' }] },
+        ],
         getField: selectors.fieldSelect,
         newValue: '123',
         expectedValue: '123',
@@ -356,14 +386,14 @@ describe('Form Elements', () => {
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'number', type: FormElementType.CODE }],
+        elements: [{ id: 'number', type: FormElementType.CODE, value: '' }],
       };
-      const onOptionsChange = jest.fn();
+      const onChangeElement = jest.fn();
 
       /**
        * Render Component
        */
-      render(getComponent({ options, onOptionsChange }));
+      render(getComponent({ options, onChangeElement }));
 
       /**
        * Blur code field
@@ -376,26 +406,42 @@ describe('Form Elements', () => {
     /**
      * Boolean
      */
-    it('Should update boolean value', () => {
+    it('Should update boolean value', async () => {
+      let appliedElements = [{ id: 'number', type: FormElementType.BOOLEAN }];
       const options = {
         submit: {},
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'number', type: FormElementType.BOOLEAN }],
+        elements: appliedElements,
       };
-      const onOptionsChange = jest.fn();
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
 
       /**
        * Render Component
        */
-      render(getComponent({ options, onOptionsChange }));
+      const { rerender } = render(getComponent({ options, onChangeElement }));
 
       /**
        * Click on true option
        */
       const booleanSelectors = getFormElementsSelectors(within(selectors.fieldBooleanContainer()));
-      fireEvent.click(booleanSelectors.booleanOption(false, 'true'));
+      await act(() => fireEvent.click(booleanSelectors.booleanOption(false, 'true')));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
 
       expect(booleanSelectors.booleanOption(false, 'true')).toBeChecked();
     });
@@ -411,12 +457,12 @@ describe('Form Elements', () => {
         reset: {},
         elements: [{ id: 'number', type: FormElementType.DATETIME, value: '2023-05-31 12:30:30' }],
       };
-      const onOptionsChange = jest.fn();
+      const onChangeElement = jest.fn();
 
       /**
        * Render Component
        */
-      render(getComponent({ options, onOptionsChange }));
+      render(getComponent({ options, onChangeElement }));
 
       /**
        * Change date time
@@ -430,24 +476,40 @@ describe('Form Elements', () => {
      * Slider
      */
     it('Should update slider value', async () => {
+      let appliedElements = [{ id: 'number', type: FormElementType.SLIDER, value: 100, min: 1, max: 200 }];
       const options = {
         submit: {},
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'number', type: FormElementType.SLIDER, value: 100, min: 1, max: 200 }],
+        elements: appliedElements,
       };
-      const onOptionsChange = jest.fn();
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
 
       /**
        * Render Component
        */
-      render(getComponent({ options, onOptionsChange }));
+      const { rerender } = render(getComponent({ options, onChangeElement }));
 
       /**
        * Change slider input value
        */
       await act(() => fireEvent.change(selectors.fieldSliderInput(), { target: { value: '123' } }));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
 
       expect(selectors.fieldSliderInput()).toHaveValue(123);
 
@@ -455,6 +517,18 @@ describe('Form Elements', () => {
        * Change slider value
        */
       await act(() => fireEvent.change(selectors.fieldSlider(), { target: { value: '150' } }));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
 
       expect(selectors.fieldSlider()).toHaveValue(150);
     });
@@ -465,18 +539,23 @@ describe('Form Elements', () => {
     it('Should update radio value', async () => {
       const elementOption = { value: 'optionValue', label: 'Option Label' };
       const element = { id: 'number', type: FormElementType.RADIO, options: [elementOption] };
+      let appliedElements = [element];
       const options = {
         submit: {},
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [element],
+        elements: appliedElements,
       };
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
 
       /**
        * Render Component
        */
-      const { container } = render(getComponent({ options, onOptionsChange }));
+      const { container, rerender } = render(getComponent({ options, onChangeElement }));
 
       /**
        * Check option
@@ -484,6 +563,18 @@ describe('Form Elements', () => {
       const radioGroupContainer = within(selectors.fieldRadioContainer());
 
       await act(() => fireEvent.click(radioGroupContainer.getByText(elementOption.label)));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
 
       /**
        * Use native querySelector due to impossible to set aria-label because dynamic options
@@ -493,46 +584,6 @@ describe('Form Elements', () => {
 
       expect(radioInput).toBeInTheDocument();
       expect(radioInput).toBeChecked();
-    });
-  });
-
-  /**
-   * Auto Save
-   */
-  describe('Auto Save', () => {
-    it('Should call auto save changes if no changes on timeout', async () => {
-      const element = { id: 'number', type: FormElementType.STRING, value: '' };
-      const options = {
-        submit: {},
-        initial: { highlightColor: false },
-        update: {},
-        reset: {},
-        elements: [element],
-      };
-      const onOptionsChange = jest.fn();
-
-      render(getComponent({ options, onOptionsChange }));
-
-      await act(() => fireEvent.change(selectors.fieldString(), { target: { value: '10' } }));
-      await act(() => fireEvent.change(selectors.fieldString(), { target: { value: '20' } }));
-
-      await act(() => {
-        jest.runAllTimers();
-      });
-
-      /**
-       * Check call onOptionsChange
-       */
-      expect(onOptionsChange).toHaveBeenCalledTimes(1);
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: '20',
-            }),
-          ]),
-        })
-      );
     });
   });
 
@@ -546,7 +597,7 @@ describe('Form Elements', () => {
       elements: [element],
     };
 
-    const { rerender } = render(getComponent({ options, onOptionsChange }));
+    const { rerender } = render(getComponent({ options, onChangeElement }));
 
     /**
      * Check element presence
@@ -568,7 +619,7 @@ describe('Form Elements', () => {
             ...options,
             elements: [updatedElement],
           },
-          onOptionsChange,
+          onChangeElement,
         })
       )
     );
