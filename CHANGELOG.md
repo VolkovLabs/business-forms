@@ -12,6 +12,7 @@
 - Increase Test Coverage and update Test library (#181, #183, #185)
 - Update to Grafana 9.5.2 (#184)
 - Update Form Elements to delay save changes with auto-save (#186)
+- Migrate to Plugin Tools 1.5.0 (#187)
 
 ## 2.8.0 (2023-03-16)
 
