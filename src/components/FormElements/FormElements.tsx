@@ -1,5 +1,5 @@
 import Slider from 'rc-slider';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 import { css, cx } from '@emotion/css';
 import { dateTime, DateTime, SelectableValue } from '@grafana/data';
 import {
@@ -25,6 +25,8 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
+import { useFormElements } from '../../hooks';
+import { ToNumberValue } from '../../utils';
 
 /**
  * Properties
@@ -40,7 +42,7 @@ interface Props {
   /**
    * On Options Change
    */
-  onOptionsChange: any;
+  onOptionsChange: (options: PanelOptions) => void;
 
   /**
    * Initial values
@@ -66,6 +68,24 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
   const styles = useStyles2(Styles);
 
   /**
+   * Save Options
+   */
+  const onSaveOptions = useCallback(
+    (elements: FormElement[]) => {
+      onOptionsChange({
+        ...options,
+        elements,
+      });
+    },
+    [onOptionsChange, options]
+  );
+
+  /**
+   * Form Elements
+   */
+  const { elements, onChangeElement } = useFormElements(onSaveOptions, options.elements);
+
+  /**
    * Highlight Color
    */
   const highlightColor = theme.visualization.getColorByName(
@@ -87,7 +107,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
 
   return (
     <div data-testid={TestIds.formElements.root}>
-      {options.elements?.map((element) => {
+      {elements.map((element, index) => {
         /**
          * Skip Hidden Elements
          */
@@ -99,7 +119,7 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
          * Return
          */
         return (
-          <InlineFieldRow key={element.id} data-testid={TestIds.formElements.element(element.id)}>
+          <InlineFieldRow key={index} data-testid={TestIds.formElements.element(element.id, element.type)}>
             {element.type === FormElementType.NUMBER && (
               <InlineField
                 label={element.title}
@@ -111,23 +131,26 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <Input
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.value = event.target.value;
+                    let value = ToNumberValue(event.target.value);
 
                     /**
                      * Validate Maximum
                      */
                     if (element.max !== undefined && element.max !== null) {
-                      element.value = Math.min(element.max, Number(element.value));
+                      value = Math.min(element.max, value || 0);
                     }
 
                     /**
                      * Validate Minimum
                      */
                     if (element.min !== undefined && element.min !== null) {
-                      element.value = Math.max(element.min, Number(element.value));
+                      value = Math.max(element.min, value || 0);
                     }
 
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value,
+                    });
                   }}
                   type="number"
                   className={highlightClass(element)}
@@ -151,8 +174,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <Input
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.value = event.target.value;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value: event.target.value,
+                    });
                   }}
                   className={highlightClass(element)}
                   width={element.width}
@@ -173,8 +198,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <Input
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    element.value = event.target.value;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value: event.target.value,
+                    });
                   }}
                   className={highlightClass(element)}
                   width={element.width}
@@ -217,8 +244,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <TextArea
                   value={element.value}
                   onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                    element.value = event.target.value;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value: event.target.value,
+                    });
                   }}
                   className={highlightClass(element)}
                   cols={element.width}
@@ -244,8 +273,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   height={element.height || `${CodeEditorHeight}px`}
                   width={element.width}
                   onBlur={(code) => {
-                    element.value = code;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value: code,
+                    });
                   }}
                   monacoOptions={{ formatOnPaste: true, formatOnType: true }}
                   data-testid={TestIds.formElements.fieldCode}
@@ -265,8 +296,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <RadioButtonGroup
                   value={element.value}
                   onChange={(value: Boolean) => {
-                    element.value = value;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value,
+                    });
                   }}
                   className={highlightClass(element)}
                   fullWidth={!element.width}
@@ -286,8 +319,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                 <DateTimePicker
                   date={dateTime(element.value)}
                   onChange={(dateTime: DateTime) => {
-                    element.value = dateTime;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value: dateTime,
+                    });
                   }}
                   data-testid={TestIds.formElements.fieldDateTime}
                 />
@@ -307,8 +342,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   <Slider
                     value={element.value || 0}
                     onChange={(value: number | number[]) => {
-                      element.value = value;
-                      onOptionsChange(options);
+                      onChangeElement({
+                        ...element,
+                        value,
+                      });
                     }}
                     min={element.min || 0}
                     max={element.max || 0}
@@ -324,11 +361,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                     max={element.max || 0}
                     value={element.value || 0}
                     onChange={(e) => {
-                      element.value = Math.max(
-                        element.min || 0,
-                        Math.min(element.max || 0, Number(e.currentTarget.value))
-                      );
-                      onOptionsChange(options);
+                      onChangeElement({
+                        ...element,
+                        value: Math.max(element.min || 0, Math.min(element.max || 0, Number(e.currentTarget.value))),
+                      });
                     }}
                     data-testid={TestIds.formElements.fieldSliderInput}
                   />
@@ -347,9 +383,11 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
               >
                 <RadioButtonGroup
                   value={element.value}
-                  onChange={(value: any) => {
-                    element.value = value;
-                    onOptionsChange(options);
+                  onChange={(value: unknown) => {
+                    onChangeElement({
+                      ...element,
+                      value,
+                    });
                   }}
                   fullWidth={!element.width}
                   options={element.options || []}
@@ -370,8 +408,10 @@ export const FormElements: React.FC<Props> = ({ options, onOptionsChange, sectio
                   aria-label={TestIds.formElements.fieldSelect}
                   value={element.value}
                   onChange={(event: SelectableValue) => {
-                    element.value = event?.value;
-                    onOptionsChange(options);
+                    onChangeElement({
+                      ...element,
+                      value: event?.value,
+                    });
                   }}
                   width={element.width}
                   options={element.options || []}

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import {
   Alert,
@@ -26,11 +26,10 @@ import {
   FormatNumberValue,
   GetElementWithNewType,
   IsElementConflict,
-  IsElementOptionConflict,
   MoveFormElements,
   ToNumberValue,
 } from '../../utils';
-import { useAutoSave } from './useAutoSave';
+import { useFormElements } from '../../hooks';
 
 /**
  * Properties
@@ -45,84 +44,20 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
    * States
    */
   const [newElement, setNewElement] = useState(FormElementDefault);
-  const [elements, setElements] = useState(value && Array.isArray(value) ? value : []);
-  const [isChanged, setIsChanged] = useState(false);
   const [addElementError, setAddElementError] = useState<string | null>(null);
-  const { startTimer, removeTimer } = useAutoSave();
 
   /**
-   * Save Updates
+   * Form Elements State
    */
-  const onSaveUpdates = useCallback(() => {
-    onChange(elements);
-    setIsChanged(false);
-  }, [elements, onChange]);
-
-  /**
-   * Change Elements
-   */
-  const onChangeElements = useCallback((newElements: FormElement[]) => {
-    setElements(newElements);
-    setIsChanged(true);
-  }, []);
-
-  /**
-   * Change Element
-   */
-  const onChangeElement = useCallback(
-    (
-      updatedElement: FormElement,
-      { id = updatedElement.id, type = updatedElement.type }: FormElement = updatedElement,
-      checkConflict = false
-    ) => {
-      if (checkConflict && IsElementConflict(elements, updatedElement)) {
-        alert('Element with the same id and type exists.');
-        return;
-      }
-
-      onChangeElements(
-        elements.map((element) => (element.id === id && element.type === type ? updatedElement : element))
-      );
-    },
-    [elements, onChangeElements]
-  );
-
-  /**
-   * Change Element Option
-   */
-  const onChangeElementOption = useCallback(
-    (
-      element: FormElement,
-      updatedOption: SelectableValue,
-      { value = updatedOption.value }: SelectableValue = {},
-      checkConflict = false
-    ) => {
-      if ('options' in element) {
-        if (checkConflict && IsElementOptionConflict(element.options || [], updatedOption)) {
-          alert('Option with the same value exists');
-          return;
-        }
-
-        onChangeElement({
-          ...element,
-          options: element.options?.map((item) => (item.value === value ? updatedOption : item)),
-        });
-      }
-    },
-    [onChangeElement]
-  );
-
-  /**
-   * Remove Element
-   */
-  const onElementRemove = (id: string) => {
-    const updated = elements.filter((e) => e.id !== id);
-
-    /**
-     * Update Elements
-     */
-    onChangeElements(updated);
-  };
+  const {
+    elements,
+    isChanged,
+    onSaveUpdates,
+    onChangeElements,
+    onChangeElement,
+    onChangeElementOption,
+    onElementRemove,
+  } = useFormElements(onChange, value);
 
   /**
    * Change new element
@@ -163,29 +98,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
       }) || []
     );
   }, [context.options?.layout?.sections]);
-
-  /**
-   * Auto Save Timer
-   */
-  useEffect(() => {
-    if (isChanged) {
-      startTimer(onSaveUpdates);
-    } else {
-      removeTimer();
-    }
-
-    return () => {
-      removeTimer();
-    };
-  }, [startTimer, isChanged, onSaveUpdates, removeTimer]);
-
-  /**
-   * Update local elements
-   */
-  useEffect(() => {
-    setElements(value && Array.isArray(value) ? value : []);
-    setIsChanged(false);
-  }, [value]);
 
   /**
    * Return

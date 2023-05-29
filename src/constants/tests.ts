@@ -23,7 +23,8 @@ export const TestIds = {
   },
   formElements: {
     root: 'data-testid form-elements',
-    element: (elementId: string) => `data-testid form-elements element-${elementId}`,
+    element: (elementId: string, elementType: string) =>
+      `data-testid form-elements element-${elementId}-${elementType}`,
     fieldNumber: 'data-testid form-elements field-number',
     fieldString: 'data-testid form-elements field-string',
     fieldPassword: 'data-testid form-elements field-password',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { FormElementDefault, FormElementType } from '../../constants';
 import { getFormElementsSelectors } from '../../utils';
 import { FormElements } from './FormElements';
@@ -61,19 +61,26 @@ jest.mock('@grafana/ui', () => ({
  * Mock rc-slider
  */
 jest.mock('rc-slider', () =>
-  jest.fn().mockImplementation(({ onChange, ariaLabelForHandle }) => {
+  jest.fn().mockImplementation(({ onChange, ariaLabelForHandle, value }) => {
     return (
       <input
+        type="number"
         onChange={(event) => {
           if (onChange) {
             onChange(Number(event.target.value));
           }
         }}
         aria-label={ariaLabelForHandle}
+        value={value}
       />
     );
   })
 );
+
+/**
+ * Mock timers
+ */
+jest.useFakeTimers();
 
 /**
  * Form Elements
@@ -254,15 +261,15 @@ describe('Form Elements', () => {
       elements = [{ id: 'number', type: FormElementType.NUMBER }],
       getField,
       newValue,
-      shouldContainResult,
+      expectedValue,
     }: {
       name: string;
       getField: () => HTMLElement;
-      newValue: unknown;
+      newValue: string;
       elements?: unknown[];
-      shouldContainResult: any;
+      expectedValue: any;
     }) => {
-      it(name, () => {
+      it(name, async () => {
         const options = {
           submit: {},
           initial: { highlightColor: false },
@@ -274,12 +281,9 @@ describe('Form Elements', () => {
 
         render(getComponent({ options, onOptionsChange }));
 
-        fireEvent.change(getField(), { target: { value: newValue } });
-        expect(onOptionsChange).toHaveBeenCalledWith(
-          expect.objectContaining({
-            elements: expect.arrayContaining([expect.objectContaining(shouldContainResult)]),
-          })
-        );
+        await act(() => fireEvent.change(getField(), { target: { value: newValue } }));
+
+        expect(getField()).toHaveValue(expectedValue);
       });
     };
 
@@ -290,30 +294,24 @@ describe('Form Elements', () => {
       [
         {
           name: 'Should update value',
-          elements: [{ id: 'number', type: FormElementType.NUMBER }],
+          elements: [{ id: 'number', type: FormElementType.NUMBER, value: 0 }],
           getField: selectors.fieldNumber,
           newValue: '123',
-          shouldContainResult: {
-            value: '123',
-          },
+          expectedValue: 123,
         },
         {
           name: 'Should update with max value',
-          elements: [{ id: 'number', type: FormElementType.NUMBER, max: 100 }],
+          elements: [{ id: 'number', type: FormElementType.NUMBER, max: 100, value: 0 }],
           getField: selectors.fieldNumber,
           newValue: '123',
-          shouldContainResult: {
-            value: 100,
-          },
+          expectedValue: 100,
         },
         {
           name: 'Should update with min value',
-          elements: [{ id: 'number', type: FormElementType.NUMBER, min: 200 }],
+          elements: [{ id: 'number', type: FormElementType.NUMBER, min: 200, value: 0 }],
           getField: selectors.fieldNumber,
           newValue: '123',
-          shouldContainResult: {
-            value: 200,
-          },
+          expectedValue: 200,
         },
       ].forEach((scenario) => runFieldChangeScenario(scenario));
     });
@@ -321,39 +319,31 @@ describe('Form Elements', () => {
     [
       {
         name: 'Should update string value',
-        elements: [{ id: 'number', type: FormElementType.STRING }],
+        elements: [{ id: 'number', type: FormElementType.STRING, value: '' }],
         getField: selectors.fieldString,
         newValue: '123',
-        shouldContainResult: {
-          value: '123',
-        },
+        expectedValue: '123',
       },
       {
         name: 'Should update password value',
-        elements: [{ id: 'number', type: FormElementType.PASSWORD }],
+        elements: [{ id: 'number', type: FormElementType.PASSWORD, value: '' }],
         getField: selectors.fieldPassword,
         newValue: '123',
-        shouldContainResult: {
-          value: '123',
-        },
+        expectedValue: '123',
       },
       {
         name: 'Should update textarea value',
-        elements: [{ id: 'number', type: FormElementType.TEXTAREA }],
+        elements: [{ id: 'number', type: FormElementType.TEXTAREA, value: '' }],
         getField: selectors.fieldTextarea,
         newValue: '123',
-        shouldContainResult: {
-          value: '123',
-        },
+        expectedValue: '123',
       },
       {
         name: 'Should update select value',
-        elements: [{ id: 'number', type: FormElementType.SELECT, options: [{ value: '123' }] }],
+        elements: [{ id: 'number', type: FormElementType.SELECT, value: '', options: [{ value: '123' }] }],
         getField: selectors.fieldSelect,
         newValue: '123',
-        shouldContainResult: {
-          value: '123',
-        },
+        expectedValue: '123',
       },
     ].forEach((scenario) => runFieldChangeScenario(scenario));
 
@@ -380,15 +370,7 @@ describe('Form Elements', () => {
        */
       fireEvent.blur(selectors.fieldCode(), { target: { value: '123' } });
 
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: '123',
-            }),
-          ]),
-        })
-      );
+      expect(selectors.fieldCode()).toHaveValue('123');
     });
 
     /**
@@ -415,15 +397,7 @@ describe('Form Elements', () => {
       const booleanSelectors = getFormElementsSelectors(within(selectors.fieldBooleanContainer()));
       fireEvent.click(booleanSelectors.booleanOption(false, 'true'));
 
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: true,
-            }),
-          ]),
-        })
-      );
+      expect(booleanSelectors.booleanOption(false, 'true')).toBeChecked();
     });
 
     /**
@@ -448,21 +422,14 @@ describe('Form Elements', () => {
        * Change date time
        */
       fireEvent.change(selectors.fieldDateTime(), { target: { value: '2021-07-31 12:30:30' } });
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: '2021-07-31 12:30:30',
-            }),
-          ]),
-        })
-      );
+
+      expect(selectors.fieldDateTime()).toHaveValue('2021-07-31 12:30:30');
     });
 
     /**
      * Slider
      */
-    it('Should update slider value', () => {
+    it('Should update slider value', async () => {
       const options = {
         submit: {},
         initial: { highlightColor: false },
@@ -480,66 +447,136 @@ describe('Form Elements', () => {
       /**
        * Change slider input value
        */
-      fireEvent.change(selectors.fieldSliderInput(), { target: { value: '123' } });
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: 123,
-            }),
-          ]),
-        })
-      );
+      await act(() => fireEvent.change(selectors.fieldSliderInput(), { target: { value: '123' } }));
+
+      expect(selectors.fieldSliderInput()).toHaveValue(123);
 
       /**
        * Change slider value
        */
-      fireEvent.change(selectors.fieldSlider(), { target: { value: '150' } });
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: 150,
-            }),
-          ]),
-        })
-      );
+      await act(() => fireEvent.change(selectors.fieldSlider(), { target: { value: '150' } }));
+
+      expect(selectors.fieldSlider()).toHaveValue(150);
     });
 
     /**
      * Radio
      */
-    it('Should update radio value', () => {
+    it('Should update radio value', async () => {
+      const elementOption = { value: 'optionValue', label: 'Option Label' };
+      const element = { id: 'number', type: FormElementType.RADIO, options: [elementOption] };
       const options = {
         submit: {},
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [
-          { id: 'number', type: FormElementType.RADIO, options: [{ value: 'optionValue', label: 'Option Label' }] },
-        ],
+        elements: [element],
       };
-      const onOptionsChange = jest.fn();
 
       /**
        * Render Component
        */
-      render(getComponent({ options, onOptionsChange }));
+      const { container } = render(getComponent({ options, onOptionsChange }));
 
       /**
-       * Change date time
+       * Check option
        */
-      const radioOption = within(selectors.fieldRadioContainer()).getByText('Option Label');
-      fireEvent.click(radioOption);
+      const radioGroupContainer = within(selectors.fieldRadioContainer());
+
+      await act(() => fireEvent.click(radioGroupContainer.getByText(elementOption.label)));
+
+      /**
+       * Use native querySelector due to impossible to set aria-label because dynamic options
+       */
+      const radioLabel = radioGroupContainer.getByText(elementOption.label);
+      const radioInput = container.querySelector(`#${radioLabel.getAttribute('for')}`);
+
+      expect(radioInput).toBeInTheDocument();
+      expect(radioInput).toBeChecked();
+    });
+  });
+
+  /**
+   * Auto Save
+   */
+  describe('Auto Save', () => {
+    it('Should call auto save changes if no changes on timeout', async () => {
+      const element = { id: 'number', type: FormElementType.STRING, value: '' };
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [element],
+      };
+      const onOptionsChange = jest.fn();
+
+      render(getComponent({ options, onOptionsChange }));
+
+      await act(() => fireEvent.change(selectors.fieldString(), { target: { value: '10' } }));
+      await act(() => fireEvent.change(selectors.fieldString(), { target: { value: '20' } }));
+
+      await act(() => {
+        jest.runAllTimers();
+      });
+
+      /**
+       * Check call onOptionsChange
+       */
+      expect(onOptionsChange).toHaveBeenCalledTimes(1);
       expect(onOptionsChange).toHaveBeenCalledWith(
         expect.objectContaining({
           elements: expect.arrayContaining([
             expect.objectContaining({
-              value: 'optionValue',
+              value: '20',
             }),
           ]),
         })
       );
     });
+  });
+
+  it('Should update local elements if prop elements is changed', async () => {
+    const element = { id: 'number', type: FormElementType.STRING, value: '123' };
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [element],
+    };
+
+    const { rerender } = render(getComponent({ options, onOptionsChange }));
+
+    /**
+     * Check element presence
+     */
+    expect(selectors.element(false, element.id, element.type)).toBeInTheDocument();
+
+    /**
+     * Rerender with new elements
+     */
+    const updatedElement = {
+      ...element,
+      type: FormElementType.NUMBER,
+    };
+
+    await act(() =>
+      rerender(
+        getComponent({
+          options: {
+            ...options,
+            elements: [updatedElement],
+          },
+          onOptionsChange,
+        })
+      )
+    );
+
+    /**
+     * Check if only updated elements is rendered
+     */
+    expect(selectors.element(true, element.id, element.type)).not.toBeInTheDocument();
+    expect(selectors.element(false, updatedElement.id, updatedElement.type)).toBeInTheDocument();
   });
 });
