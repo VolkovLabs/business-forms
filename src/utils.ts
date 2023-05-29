@@ -1,5 +1,5 @@
 import { SelectableValue } from '@grafana/data';
-import { CodeDefault, FormElementType, NumberDefault, TextareaDefault, SliderDefault } from './constants';
+import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from './constants';
 import { FormElement, FormElementBase, FormElementByType } from './types';
 
 /**

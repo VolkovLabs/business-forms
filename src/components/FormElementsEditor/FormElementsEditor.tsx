@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo, useState, useEffect } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import {
   Alert,
@@ -23,11 +23,11 @@ import {
 } from '../../constants';
 import { FormElement, LayoutSection } from '../../types';
 import {
-  MoveFormElements,
+  FormatNumberValue,
   GetElementWithNewType,
   IsElementConflict,
   IsElementOptionConflict,
-  FormatNumberValue,
+  MoveFormElements,
   ToNumberValue,
 } from '../../utils';
 import { useAutoSave } from './useAutoSave';
@@ -140,6 +140,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
       setAddElementError('Element with the same Id and Type already exists');
       return;
     }
+
     /**
      * Update Elements
      */
@@ -172,6 +173,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     } else {
       removeTimer();
     }
+
     return () => {
       removeTimer();
     };

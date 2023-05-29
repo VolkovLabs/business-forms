@@ -1,6 +1,6 @@
 import { CodeOptions, FormElement, NumberOptions, SliderOptions, TextareaOptions } from '../types';
-import { FormElementType } from './form-element';
 import { CodeEditorHeight, CodeLanguage } from './code-editor';
+import { FormElementType } from './form-element';
 
 /**
  * Initial Request

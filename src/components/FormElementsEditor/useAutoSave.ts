@@ -1,6 +1,9 @@
-import { useRef, useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { AutoSaveTimeout } from '../../constants';
 
+/**
+ * Auto Save
+ */
 export const useAutoSave = () => {
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -28,6 +31,9 @@ export const useAutoSave = () => {
     [removeTimer]
   );
 
+  /**
+   * Return
+   */
   return {
     startTimer,
     removeTimer,
