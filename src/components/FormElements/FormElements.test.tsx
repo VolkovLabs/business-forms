@@ -12,7 +12,7 @@ jest.mock('@grafana/ui', () => ({
   CodeEditor: jest.fn().mockImplementation(({ onBlur, ...restProps }) => {
     return (
       <input
-        data-testid={restProps['data-testid']}
+        aria-label={restProps['aria-label']}
         value={restProps.value}
         onChange={(event) => {
           if (onBlur) {
@@ -209,7 +209,7 @@ describe('Form Elements', () => {
       initial: { highlightColor: false },
       update: {},
       reset: {},
-      elements: [{ id: 'select', type: FormElementType.SELECT }],
+      elements: [{ id: 'select', type: FormElementType.SELECT, value: '123' }],
     };
 
     render(getComponent({ options, onChangeElement }));
@@ -380,13 +380,13 @@ describe('Form Elements', () => {
     /**
      * Code
      */
-    it('Should update code value', () => {
+    it('Should update code value', async () => {
       const options = {
         submit: {},
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'number', type: FormElementType.CODE, value: '' }],
+        elements: [{ id: 'number', type: FormElementType.CODE, value: '111' }],
       };
       const onChangeElement = jest.fn();
 
@@ -398,7 +398,7 @@ describe('Form Elements', () => {
       /**
        * Blur code field
        */
-      fireEvent.blur(selectors.fieldCode(), { target: { value: '123' } });
+      await act(() => fireEvent.blur(selectors.fieldCode(), { target: { value: '123' } }));
 
       expect(selectors.fieldCode()).toHaveValue('123');
     });

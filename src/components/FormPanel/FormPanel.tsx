@@ -113,8 +113,6 @@ export const FormPanel: React.FC<Props> = ({
    * Update Request
    */
   const updateRequest = async () => {
-    const body: any = {};
-
     /**
      * Loading
      */
@@ -139,6 +137,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set elements
      */
+    const body: any = {};
     elements.forEach((element) => {
       if (!options.update.updatedOnly) {
         body[element.id] = element.value;
@@ -456,7 +455,7 @@ export const FormPanel: React.FC<Props> = ({
         isOpen={updateConfirmation}
         title="Confirm update request"
         body={
-          <div>
+          <div data-testid={TestIds.panel.confirmModalContent}>
             <h4>Please confirm to update changed values?</h4>
             <table className={styles.confirmTable}>
               <thead>
@@ -490,10 +489,23 @@ export const FormPanel: React.FC<Props> = ({
                    */
                   if (element.type === FormElementType.PASSWORD) {
                     return (
-                      <tr className={styles.confirmTable} key={element.id}>
-                        <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
-                        <td className={styles.confirmTableTd}>*********</td>
-                        <td className={styles.confirmTableTd}>*********</td>
+                      <tr
+                        className={styles.confirmTable}
+                        key={element.id}
+                        data-testid={TestIds.panel.confirmModalField(element.id)}
+                      >
+                        <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldTitle}>
+                          {element.title || element.tooltip}
+                        </td>
+                        <td
+                          className={styles.confirmTableTd}
+                          data-testid={TestIds.panel.confirmModalFieldPreviousValue}
+                        >
+                          *********
+                        </td>
+                        <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldValue}>
+                          *********
+                        </td>
                       </tr>
                     );
                   }
@@ -507,12 +519,18 @@ export const FormPanel: React.FC<Props> = ({
                   }
 
                   return (
-                    <tr className={styles.confirmTable} key={element.id}>
-                      <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
-                      <td className={styles.confirmTableTd}>
+                    <tr
+                      className={styles.confirmTable}
+                      key={element.id}
+                      data-testid={TestIds.panel.confirmModalField(element.id)}
+                    >
+                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldTitle}>
+                        {element.title || element.tooltip}
+                      </td>
+                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldPreviousValue}>
                         {initial[element.id] === undefined ? '' : String(initial[element.id])}
                       </td>
-                      <td className={styles.confirmTableTd}>
+                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldValue}>
                         {currentValue === undefined ? '' : String(currentValue)}
                       </td>
                     </tr>

@@ -265,7 +265,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                     });
                   }}
                   monacoOptions={{ formatOnPaste: true, formatOnType: true }}
-                  data-testid={TestIds.formElements.fieldCode}
+                  aria-label={TestIds.formElements.fieldCode}
                 />
               </InlineField>
             )}

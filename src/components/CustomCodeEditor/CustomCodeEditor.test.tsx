@@ -12,7 +12,7 @@ import { CustomCodeEditor } from './CustomCodeEditor';
 jest.mock('@grafana/ui', () => ({
   ...jest.requireActual('@grafana/ui'),
   CodeEditor: jest.fn().mockImplementation((props) => {
-    return <div data-testid={props['data-testid']} />;
+    return <div aria-label={props['aria-label']} />;
   }),
 }));
 
