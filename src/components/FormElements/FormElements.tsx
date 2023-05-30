@@ -25,7 +25,7 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
-import { ToNumberValue } from '../../utils';
+import { ToNumberValue, ApplyWidth } from '../../utils';
 
 /**
  * Properties
@@ -110,7 +110,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
@@ -140,7 +140,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                   }}
                   type="number"
                   className={highlightClass(element)}
-                  width={element.width}
+                  width={ApplyWidth(element.width)}
                   min={element.min !== null ? element.min : ''}
                   max={element.max !== null ? element.max : ''}
                   data-testid={TestIds.formElements.fieldNumber}
@@ -152,7 +152,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
                 className={cx(element.hidden && styles.hidden)}
@@ -166,7 +166,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                     });
                   }}
                   className={highlightClass(element)}
-                  width={element.width}
+                  width={ApplyWidth(element.width)}
                   type="text"
                   data-testid={TestIds.formElements.fieldString}
                 />
@@ -177,7 +177,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
@@ -190,7 +190,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                     });
                   }}
                   className={highlightClass(element)}
-                  width={element.width}
+                  width={ApplyWidth(element.width)}
                   type="password"
                   data-testid={TestIds.formElements.fieldPassword}
                 />
@@ -201,7 +201,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 disabled
                 transparent={!element.title}
@@ -213,7 +213,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                       : element.options.find((option) => option.value === element.value)?.label
                   }
                   type="text"
-                  width={element.width}
+                  width={ApplyWidth(element.width)}
                   data-testid={TestIds.formElements.fieldDisabled}
                 />
               </InlineField>
@@ -223,7 +223,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
@@ -236,7 +236,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                     });
                   }}
                   className={highlightClass(element)}
-                  cols={element.width}
+                  cols={ApplyWidth(element.width)}
                   rows={element.rows}
                   data-testid={TestIds.formElements.fieldTextarea}
                 />
@@ -247,7 +247,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
@@ -257,8 +257,14 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                   showMiniMap={(element.value && element.value.length) > 100}
                   value={element.value || ''}
                   height={element.height || `${CodeEditorHeight}px`}
-                  width={element.width}
+                  width={ApplyWidth(element.width)}
                   onBlur={(code) => {
+                    onChangeElement({
+                      ...element,
+                      value: code,
+                    });
+                  }}
+                  onSave={(code) => {
                     onChangeElement({
                       ...element,
                       value: code,
@@ -274,7 +280,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
                 data-testid={TestIds.formElements.fieldBooleanContainer}
@@ -298,7 +304,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
@@ -320,7 +326,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 <InlineField
                   label={element.title}
                   grow={!element.width}
-                  labelWidth={element.labelWidth}
+                  labelWidth={ApplyWidth(element.labelWidth)}
                   tooltip={element.tooltip}
                   transparent={!element.title}
                   className={cx(styles.slider)}
@@ -362,7 +368,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
                 data-testid={TestIds.formElements.fieldRadioContainer}
@@ -386,7 +392,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               <InlineField
                 label={element.title}
                 grow={!element.width}
-                labelWidth={element.labelWidth}
+                labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
@@ -399,7 +405,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                       value: event?.value,
                     });
                   }}
-                  width={element.width}
+                  width={ApplyWidth(element.width)}
                   options={element.options || []}
                   className={highlightClass(element)}
                 />

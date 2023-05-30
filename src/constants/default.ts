@@ -64,7 +64,7 @@ export const FormElementDefault: FormElement = {
   id: '',
   title: '',
   type: FormElementType.STRING,
-  width: 0,
+  width: null,
   labelWidth: 10,
   tooltip: '',
   section: '',

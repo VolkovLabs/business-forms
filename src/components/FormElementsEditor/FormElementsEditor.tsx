@@ -204,10 +204,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   onChangeElement({
                     ...element,
-                    width: Number(event.target.value),
+                    width: ToNumberValue(event.target.value),
                   });
                 }}
-                value={element.width}
+                value={FormatNumberValue(element.width)}
                 min={0}
                 type="number"
                 data-testid={TestIds.formElementsEditor.fieldWidth}
@@ -231,14 +231,14 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
 
             <InlineField label="Label Width" labelWidth={12}>
               <Input
-                placeholder="10"
+                placeholder="auto"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   onChangeElement({
                     ...element,
-                    labelWidth: Number(event.target.value),
+                    labelWidth: ToNumberValue(event.target.value),
                   });
                 }}
-                value={element.labelWidth}
+                value={FormatNumberValue(element.labelWidth)}
                 type="number"
                 data-testid={TestIds.formElementsEditor.fieldLabelWidth}
               />
