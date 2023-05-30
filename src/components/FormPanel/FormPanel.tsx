@@ -93,7 +93,7 @@ export const FormPanel: React.FC<Props> = ({
         options,
         data,
         response,
-        options.elements,
+        elements,
         locationService,
         templateSrv,
         onOptionsChange,
