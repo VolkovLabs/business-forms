@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Build and test frontend
+      - name: Build
         run: yarn build
 
       - name: Sign plugin
