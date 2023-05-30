@@ -29,13 +29,13 @@ describe('Viewing a panel with a Form', () => {
     /**
      * Form
      */
-    const chart = currentPanel.find(getTestIdSelector(TestIds.panel.root));
-    chart.should('be.visible');
+    const form = currentPanel.find(getTestIdSelector(TestIds.panel.root));
+    form.should('be.visible');
 
     /**
      * Screenshot
      */
-    chart.screenshot(testedPanel.title);
+    form.screenshot(testedPanel.title);
     e2e().compareScreenshots({ name: testedPanel.title, threshold: 0.05 });
   });
 });
