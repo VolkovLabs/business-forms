@@ -43,6 +43,13 @@ export interface PanelOptions {
   reset: ButtonOptions;
 
   /**
+   * Save Default Button
+   *
+   * @type {Pick<ButtonOptions, 'variant' | 'text' | 'icon'>}
+   */
+  saveDefault: Pick<ButtonOptions, 'variant' | 'text' | 'icon'>;
+
+  /**
    * Form Elements
    *
    * @type {FormElement[]}

@@ -1,8 +1,16 @@
 import React from 'react';
 import { AppEvents } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
+import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { ButtonOrientation, FormElementDefault, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
+import {
+  ButtonOrientation,
+  FormElementDefault,
+  FormElementType,
+  LayoutVariant,
+  RequestMethod,
+  ButtonVariant,
+} from '../../constants';
 import { FormElement } from '../../types';
 import { getPanelSelectors } from '../../utils';
 import { FormElements } from '../FormElements';
@@ -63,6 +71,7 @@ describe('Panel', () => {
         ],
       },
       reset: {},
+      saveDefault: {},
       layout: { variant: LayoutVariant.SINGLE },
       buttonGroup: { orientation: ButtonOrientation.CENTER },
       elements: [{ ...FormElementDefault, id: 'test' }],
@@ -653,7 +662,7 @@ describe('Panel', () => {
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
-      jest.mocked(fetch).mockImplementationOnce((url, options) => {
+      jest.mocked(fetch).mockImplementationOnce(() => {
         return Promise.resolve({
           ok: true,
           json: jest.fn(() => Promise.resolve(initialValues)),
@@ -768,6 +777,96 @@ describe('Panel', () => {
         elementWithoutInitialValue.value
       );
       expect(updatedFieldSelectors.confirmModalFieldValue()).toHaveTextContent('111');
+    });
+  });
+
+  describe('Save default values', () => {
+    it('Should update options', async () => {
+      const onOptionsChange = jest.fn();
+      let triggerChangeElement: (element: FormElement) => void = jest.fn();
+      jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
+        triggerChangeElement = onChangeElement;
+        return null;
+      });
+
+      const elementWithoutInitialValue = { ...FormElementDefault, id: 'test', title: 'Field', value: '123' };
+      const elementWithInitialValue = { ...FormElementDefault, id: 'string', title: 'Field 2', value: '' };
+      const initialValues = {
+        [elementWithInitialValue.id]: 'abc',
+      };
+      jest.mocked(fetch).mockImplementationOnce(() => {
+        return Promise.resolve({
+          ok: true,
+          json: jest.fn(() => Promise.resolve(initialValues)),
+        } as any);
+      });
+
+      await act(() =>
+        render(
+          <PanelContextProvider value={{ canEditAnnotations: () => true } as any}>
+            {getComponent({
+              props: {
+                onOptionsChange,
+              },
+              options: {
+                elements: [elementWithInitialValue, elementWithoutInitialValue],
+                saveDefault: {
+                  variant: ButtonVariant.SECONDARY,
+                },
+              },
+            })}
+          </PanelContextProvider>
+        )
+      );
+
+      await act(() =>
+        triggerChangeElement({
+          ...elementWithoutInitialValue,
+          value: '111',
+        })
+      );
+
+      expect(selectors.buttonSaveDefault()).toBeInTheDocument();
+
+      expect(onOptionsChange).not.toHaveBeenCalled();
+
+      /**
+       * Save Default values
+       */
+      await act(() => fireEvent.click(selectors.buttonSaveDefault()));
+
+      expect(onOptionsChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: elementWithoutInitialValue.id,
+              value: '111',
+            }),
+            expect.objectContaining({
+              id: elementWithInitialValue.id,
+              value: initialValues[elementWithInitialValue.id],
+            }),
+          ]),
+        })
+      );
+    });
+
+    it('Should not show save default button if can not update dashboard', async () => {
+      await act(() =>
+        render(
+          <PanelContextProvider value={{ canEditAnnotations: () => false } as any}>
+            {getComponent({
+              options: {
+                saveDefault: {
+                  variant: ButtonVariant.SECONDARY,
+                },
+              },
+            })}
+          </PanelContextProvider>
+        )
+      );
+
+      expect(selectors.buttonSaveDefault(true)).not.toBeInTheDocument();
     });
   });
 });

@@ -11,6 +11,7 @@ export const TestIds = {
     splitLayoutContent: (sectionName: string) => `data-testid panel split-layout-content-${sectionName}`,
     buttonSubmit: 'data-testid panel button-submit',
     buttonReset: 'data-testid panel button-reset',
+    buttonSaveDefault: 'data-testid panel button-save-default',
     errorMessage: 'data-testid panel error-message',
     /**
      * Default Confirm Button selector

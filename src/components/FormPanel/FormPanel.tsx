@@ -2,7 +2,16 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useStyles2, useTheme2 } from '@grafana/ui';
+import {
+  Alert,
+  Button,
+  ButtonGroup,
+  ConfirmModal,
+  FieldSet,
+  useStyles2,
+  useTheme2,
+  usePanelContext,
+} from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod, TestIds } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
@@ -33,14 +42,35 @@ export const FormPanel: React.FC<Props> = ({
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
 
   /**
-   * Save Options
+   * Can User Save Options
    */
-  const onSaveOptions = useCallback(() => {}, []);
+  const { canEditAnnotations } = usePanelContext();
+
+  const canSaveDefaultValues = useMemo(() => {
+    return canEditAnnotations ? canEditAnnotations() : false;
+  }, [canEditAnnotations]);
+
+  /**
+   * Change Options
+   */
+  const onChangeOptions = useCallback(
+    (elements: FormElement[]) => {
+      onOptionsChange({
+        ...options,
+        elements,
+      });
+    },
+    [onOptionsChange, options]
+  );
 
   /**
    * Form Elements
    */
-  const { elements, onChangeElement, onChangeElements } = useFormElements(onSaveOptions, options.elements, false);
+  const { elements, onChangeElement, onChangeElements, onSaveUpdates } = useFormElements(
+    onChangeOptions,
+    options.elements,
+    false
+  );
 
   /**
    * Theme and Styles
@@ -63,7 +93,17 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = (code: string, initial: any, response: Response | void) => {
+  const executeCustomCode = ({
+    code,
+    initial,
+    response,
+    initialRequest,
+  }: {
+    code: string;
+    initial: any;
+    response?: Response | void;
+    initialRequest?: () => void;
+  }) => {
     if (!code) {
       return;
     }
@@ -110,96 +150,6 @@ export const FormPanel: React.FC<Props> = ({
   };
 
   /**
-   * Update Request
-   */
-  const updateRequest = async () => {
-    /**
-     * Loading
-     */
-    setLoading(true);
-
-    /**
-     * Execute Custom Code
-     */
-    if (options.update.method === RequestMethod.NONE) {
-      executeCustomCode(options.update.code, initial);
-      setLoading(false);
-
-      return;
-    }
-
-    /**
-     * Set Content Type
-     */
-    const headers: HeadersInit = new Headers();
-    headers.set('Content-Type', options.update.contentType);
-
-    /**
-     * Set elements
-     */
-    const body: any = {};
-    elements.forEach((element) => {
-      if (!options.update.updatedOnly) {
-        body[element.id] = element.value;
-        return;
-      }
-
-      /**
-       * Skip not updated elements
-       */
-      if (element.value === initial[element.id]) {
-        return;
-      }
-
-      /**
-       * Skip Disabled elements
-       */
-      if (element.type === FormElementType.DISABLED) {
-        return;
-      }
-
-      body[element.id] = element.value;
-    });
-
-    /**
-     * Set Header
-     */
-    options.update.header?.forEach((parameter) => {
-      const name = replaceVariables(parameter.name);
-      if (!name) {
-        setError(`All request parameters should be defined. Remove empty parameters.`);
-        return;
-      }
-
-      headers.set(name, replaceVariables(parameter.value));
-    });
-
-    /**
-     * Fetch
-     */
-    const response = await fetch(replaceVariables(options.update.url), {
-      method: options.update.method,
-      headers,
-      body: replaceVariables(JSON.stringify(body)),
-    }).catch((error: Error) => {
-      setError(error.toString());
-    });
-
-    /**
-     * Check Response
-     */
-    if (response?.ok) {
-      setTitle(response.toString());
-    }
-
-    /**
-     * Execute Custom Code and reset Loading
-     */
-    executeCustomCode(options.update.code, initial, response);
-    setLoading(false);
-  };
-
-  /**
    * Initial Request
    */
   const initialRequest = async () => {
@@ -210,7 +160,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Execute Custom Code and reset Loading
        */
-      executeCustomCode(options.initial.code, initial);
+      executeCustomCode({ code: options.initial.code, initial });
       setLoading(false);
 
       return;
@@ -289,7 +239,97 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode(options.initial.code, json, response);
+    executeCustomCode({ code: options.initial.code, initial: json, response });
+    setLoading(false);
+  };
+
+  /**
+   * Update Request
+   */
+  const updateRequest = async () => {
+    /**
+     * Loading
+     */
+    setLoading(true);
+
+    /**
+     * Execute Custom Code
+     */
+    if (options.update.method === RequestMethod.NONE) {
+      executeCustomCode({ code: options.update.code, initial, initialRequest });
+      setLoading(false);
+
+      return;
+    }
+
+    /**
+     * Set Content Type
+     */
+    const headers: HeadersInit = new Headers();
+    headers.set('Content-Type', options.update.contentType);
+
+    /**
+     * Set elements
+     */
+    const body: any = {};
+    elements.forEach((element) => {
+      if (!options.update.updatedOnly) {
+        body[element.id] = element.value;
+        return;
+      }
+
+      /**
+       * Skip not updated elements
+       */
+      if (element.value === initial[element.id]) {
+        return;
+      }
+
+      /**
+       * Skip Disabled elements
+       */
+      if (element.type === FormElementType.DISABLED) {
+        return;
+      }
+
+      body[element.id] = element.value;
+    });
+
+    /**
+     * Set Header
+     */
+    options.update.header?.forEach((parameter) => {
+      const name = replaceVariables(parameter.name);
+      if (!name) {
+        setError(`All request parameters should be defined. Remove empty parameters.`);
+        return;
+      }
+
+      headers.set(name, replaceVariables(parameter.value));
+    });
+
+    /**
+     * Fetch
+     */
+    const response = await fetch(replaceVariables(options.update.url), {
+      method: options.update.method,
+      headers,
+      body: replaceVariables(JSON.stringify(body)),
+    }).catch((error: Error) => {
+      setError(error.toString());
+    });
+
+    /**
+     * Check Response
+     */
+    if (response?.ok) {
+      setTitle(response.toString());
+    }
+
+    /**
+     * Execute Custom Code and reset Loading
+     */
+    executeCustomCode({ code: options.update.code, initial, response, initialRequest });
     setLoading(false);
   };
 
@@ -437,6 +477,20 @@ export const FormPanel: React.FC<Props> = ({
                     data-testid={TestIds.panel.buttonReset}
                   >
                     {options.reset.text}
+                  </Button>
+                )}
+
+                {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
+                  <Button
+                    className={cx(styles.margin)}
+                    variant={options.saveDefault.variant as any}
+                    icon={options.saveDefault.icon}
+                    disabled={loading}
+                    onClick={onSaveUpdates}
+                    size={options.buttonGroup.size}
+                    data-testid={TestIds.panel.buttonSaveDefault}
+                  >
+                    {options.saveDefault.text}
                   </Button>
                 )}
               </ButtonGroup>
