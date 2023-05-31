@@ -25,7 +25,7 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
-import { ToNumberValue, ApplyWidth } from '../../utils';
+import { ToNumberValue, ApplyWidth, FormatNumberValue } from '../../utils';
 
 /**
  * Properties
@@ -141,8 +141,8 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                   type="number"
                   className={highlightClass(element)}
                   width={ApplyWidth(element.width)}
-                  min={element.min !== null ? element.min : ''}
-                  max={element.max !== null ? element.max : ''}
+                  min={FormatNumberValue(element.min)}
+                  max={FormatNumberValue(element.max)}
                   data-testid={TestIds.formElements.fieldNumber}
                 />
               </InlineField>
@@ -259,12 +259,6 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                   height={element.height || `${CodeEditorHeight}px`}
                   width={ApplyWidth(element.width)}
                   onBlur={(code) => {
-                    onChangeElement({
-                      ...element,
-                      value: code,
-                    });
-                  }}
-                  onSave={(code) => {
                     onChangeElement({
                       ...element,
                       value: code,

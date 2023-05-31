@@ -46,13 +46,18 @@ jest.mock('@grafana/ui', () => ({
   /**
    * Mock Select component
    */
-  Select: jest.fn().mockImplementation(({ options, onChange, ...restProps }) => (
+  Select: jest.fn().mockImplementation(({ options, onChange, value, ...restProps }) => (
     <select
       onChange={(event: any) => {
         if (onChange) {
           onChange(options.find((option: any) => option.value === event.target.value));
         }
       }}
+      /**
+       * Fix jest warnings because null value.
+       * For Select component in @grafana/io should be used null to reset value.
+       */
+      value={value === null ? '' : value}
       {...restProps}
     >
       {options.map(({ label, value }: any) => (
@@ -109,25 +114,35 @@ describe('Form Elements', () => {
   };
 
   describe('Render elements', () => {
-    beforeEach(() => {
-      const options = {
-        submit: {},
-        initial: { highlightColor: false },
-        update: {},
-        reset: {},
-        elements: [
-          FormElementDefault,
-          { id: 'password', type: FormElementType.PASSWORD },
-          { id: 'number', type: FormElementType.NUMBER },
-          { id: 'textarea', type: FormElementType.TEXTAREA },
-          { id: 'code', type: FormElementType.CODE },
-          { id: 'boolean', type: FormElementType.BOOLEAN },
-          { id: 'datetime', type: FormElementType.DATETIME },
-          { id: 'radioGroup', type: FormElementType.RADIO },
-          { id: 'disabled', type: FormElementType.DISABLED },
-        ],
-      };
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [
+        FormElementDefault,
+        { id: 'password', type: FormElementType.PASSWORD },
+        { id: 'number', type: FormElementType.NUMBER },
+        { id: 'textarea', type: FormElementType.TEXTAREA },
+        { id: 'code', type: FormElementType.CODE },
+        { id: 'boolean', type: FormElementType.BOOLEAN },
+        { id: 'datetime', type: FormElementType.DATETIME },
+        { id: 'radioGroup', type: FormElementType.RADIO },
+        { id: 'disabled', type: FormElementType.DISABLED },
+        {
+          id: 'disabledWithOptions',
+          type: FormElementType.DISABLED,
+          value: 'option',
+          options: [{ value: 'option', label: 'Option' }],
+        },
+      ],
+    };
 
+    const findElementById = (id: string): any => {
+      return options.elements.find((item) => item.id === id);
+    };
+
+    beforeEach(() => {
       render(getComponent({ options, onChangeElement }));
     });
 
@@ -164,7 +179,24 @@ describe('Form Elements', () => {
     });
 
     it('Should render disabled field', () => {
-      expect(selectors.fieldDisabled()).toBeInTheDocument();
+      const elementOption = findElementById('disabled');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.fieldDisabled()).toBeInTheDocument();
+    });
+
+    it('Should render disabled field with options', () => {
+      const elementOption = findElementById('disabledWithOptions');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.fieldDisabled()).toBeInTheDocument();
+      expect(elementSelectors.fieldDisabled()).toHaveValue('Option');
     });
   });
 
@@ -218,6 +250,24 @@ describe('Form Elements', () => {
      * Select
      */
     expect(selectors.fieldSelect()).toBeInTheDocument();
+  });
+
+  it('Should find component with Select and unset value', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [{ id: 'select', type: FormElementType.SELECT }],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * Select
+     */
+    expect(selectors.fieldSelect()).toBeInTheDocument();
+    expect(selectors.fieldSelect()).toHaveDisplayValue([]);
   });
 
   it('Should find unit element', async () => {
@@ -335,10 +385,24 @@ describe('Form Elements', () => {
           expectedValue: 100,
         },
         {
+          name: 'Should update with max value for empty value',
+          elements: [{ id: 'number', type: FormElementType.NUMBER, max: 100, value: 10 }],
+          getField: selectors.fieldNumber,
+          newValue: '',
+          expectedValue: null,
+        },
+        {
           name: 'Should update with min value',
           elements: [{ id: 'number', type: FormElementType.NUMBER, min: 200, value: 0 }],
           getField: selectors.fieldNumber,
           newValue: '123',
+          expectedValue: 200,
+        },
+        {
+          name: 'Should update with min value for empty value',
+          elements: [{ id: 'number', type: FormElementType.NUMBER, min: 200, value: 10 }],
+          getField: selectors.fieldNumber,
+          newValue: '',
           expectedValue: 200,
         },
       ].forEach((scenario) => runFieldChangeScenario(scenario));
@@ -533,6 +597,45 @@ describe('Form Elements', () => {
       expect(selectors.fieldSlider()).toHaveValue(150);
     });
 
+    it('Should update slider value when min and max are not set', async () => {
+      let appliedElements = [{ id: 'number', type: FormElementType.SLIDER, value: 100 }];
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      /**
+       * Render Component
+       */
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Change slider input value
+       */
+      await act(() => fireEvent.change(selectors.fieldSliderInput(), { target: { value: '123' } }));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(selectors.fieldSliderInput()).toHaveValue(0);
+    });
+
     /**
      * Radio
      */
@@ -629,5 +732,9 @@ describe('Form Elements', () => {
      */
     expect(selectors.element(true, element.id, element.type)).not.toBeInTheDocument();
     expect(selectors.element(false, updatedElement.id, updatedElement.type)).toBeInTheDocument();
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 });
