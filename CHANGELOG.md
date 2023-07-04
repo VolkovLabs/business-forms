@@ -5,7 +5,7 @@
 ### Features / Enhancements
 
 - Update Documentation for API Servers (#149)
-- Update to Grafana 9.5.2 (#165, #172, #184)
+- Update to Grafana 10.0.0 (#165, #172, #184)
 - Add Hidden option to String element (#171)
 - Add E2E Cypress testing (#180)
 - Increase Test Coverage and update Test library (#181, #183, #185)

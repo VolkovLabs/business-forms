@@ -2,7 +2,7 @@
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-9.5.2-orange)
+![Grafana](https://img.shields.io/badge/Grafana-10.0.0-orange)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 ![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/E2E/badge.svg)
@@ -17,8 +17,8 @@ The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the 
 
 ## Requirements
 
-- **Grafana 8.5+**, **Grafana 9.0+** is required for major version 2.
-- **Grafana 8.0+** is required for major version 1.
+- **Grafana 8.5** and **Grafana 9** are required for major version 2.
+- **Grafana 8** is required for major version 1.
 
 ## Getting Started
 
@@ -85,6 +85,7 @@ Three plugins that make Grafana complete. Dynamic Text, Data Manipulation, and A
 We love to hear from you. There are various ways to get in touch with us.
 
 - Ask a question, request a new feature, and file a bug with [GitHub issues](https://github.com/volkovlabs/volkovlabs-form-panel/issues/new/choose).
+- Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and add a comment.
 - Sponsor our open-source plugins for Grafana with [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
 - Star the repository to show your support.
 
