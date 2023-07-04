@@ -44,11 +44,12 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Can User Save Options
    */
-  const { canEditAnnotations } = usePanelContext();
-
+  const { canAddAnnotations } = usePanelContext();
   const canSaveDefaultValues = useMemo(() => {
-    return canEditAnnotations ? canEditAnnotations() : false;
-  }, [canEditAnnotations]);
+    return canAddAnnotations ? canAddAnnotations() : false;
+  }, [canAddAnnotations]);
+
+  console.log(usePanelContext());
 
   /**
    * Change Options
