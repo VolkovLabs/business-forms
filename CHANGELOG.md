@@ -14,6 +14,7 @@
 - Update to Node 18 (#188)
 - Update constants and E2E tests (#190)
 - Update Form elements to use local state (#191)
+- Add notifyWarning() function (#201)
 
 ## 2.8.0 (2023-03-16)
 
