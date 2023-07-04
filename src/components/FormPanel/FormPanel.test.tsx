@@ -562,14 +562,16 @@ describe('Panel', () => {
             options: {
               initial: {
                 method: RequestMethod.NONE,
-                code: 'notifySuccess("success"); notifyError("error");',
+                code: 'notifySuccess("success"); notifyError("error"); notifyWarning("warning");',
               },
             },
           })
         )
       );
 
-      expect(replaceVariables).toHaveBeenCalledWith('notifySuccess("success"); notifyError("error");');
+      expect(replaceVariables).toHaveBeenCalledWith(
+        'notifySuccess("success"); notifyError("error"); notifyWarning("warning");'
+      );
       expect(publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
@@ -577,6 +579,10 @@ describe('Panel', () => {
       expect(publish).toHaveBeenCalledWith({
         type: AppEvents.alertError.name,
         payload: 'error',
+      });
+      expect(publish).toHaveBeenCalledWith({
+        type: AppEvents.alertWarning.name,
+        payload: 'warning',
       });
     });
 
