@@ -803,7 +803,7 @@ describe('Panel', () => {
 
       await act(() =>
         render(
-          <PanelContextProvider value={{ canEditAnnotations: () => true } as any}>
+          <PanelContextProvider value={{ canAddAnnotations: () => true } as any}>
             {getComponent({
               props: {
                 onOptionsChange,
@@ -854,7 +854,7 @@ describe('Panel', () => {
     it('Should not show save default button if can not update dashboard', async () => {
       await act(() =>
         render(
-          <PanelContextProvider value={{ canEditAnnotations: () => false } as any}>
+          <PanelContextProvider value={{ canAddAnnotations: () => false } as any}>
             {getComponent({
               options: {
                 saveDefault: {

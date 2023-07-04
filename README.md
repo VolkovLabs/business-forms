@@ -2,7 +2,7 @@
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-9.5.2-orange)
+![Grafana](https://img.shields.io/badge/Grafana-10.0.0-orange)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 ![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/E2E/badge.svg)
@@ -17,8 +17,8 @@ The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the 
 
 ## Requirements
 
-- **Grafana 8.5+**, **Grafana 9.0+** is required for major version 2.
-- **Grafana 8.0+** is required for major version 1.
+- **Grafana 8.5** and **Grafana 9** are required for major version 2.
+- **Grafana 8** is required for major version 1.
 
 ## Getting Started
 
@@ -47,28 +47,11 @@ grafana-cli plugins install volkovlabs-form-panel
 
 | Section | Description |
 | -- | -- |
-| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture) | Explains the Architecture and how to use Grafana and API behind NGINX. |
-| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code) | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
-| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release)     | Stay up to date with the latest features and updates.                                         |
-
-### Features
-
-| Section | Description |
-| -- | -- |
-| [Control Panel](https://volkovlabs.io/plugins/volkovlabs-form-panel/control) | Explains how to create Control Panels with multiple sections and same Id. |
-| [Custom Requests](https://volkovlabs.io/plugins/volkovlabs-form-panel/request) | Demonstrates how to create your own Initial and Update requests using Custom Code. |
-| [Dynamic form elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/dynamic) | Demonstrates how to update elements element's values and options from any data source. |
-| [Variables](https://volkovlabs.io/plugins/volkovlabs-form-panel/variables) | Explains how to replace Dashboard and Global variables. |
-
-### API Servers
-
-| Section                          | Description                                                                       |
-| -------------------------------- | --------------------------------------------------------------------------------- |
-| [Deno](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/deno)             | Demonstrates how to create an API server on Deno.                                 |
-| [InfluxDB API](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/influx)   | Demonstrates how to integrate with InfluxDB API.                                  |
-| [JSON](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/json)             | Demonstrates how to create an API server on Node.js with JSON object.             |
-| [MySQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/mysql)           | Demonstrates how to create an API server on Node.js with the MySQL database.      |
-| [PostgreSQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/postgresql) | Demonstrates how to create an API server on Node.js with the PostgreSQL database. |
+| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/) | Explains the Architecture and how to use Grafana and API behind NGINX. |
+| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/) | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
+| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)         | Demonstrates panel features.                                                                  |
+| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)           | Demonstrates various server API implementations                                               |
+| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)     | Stay up to date with the latest features and updates.                                         |
 
 ## Tutorials
 
@@ -85,6 +68,7 @@ Three plugins that make Grafana complete. Dynamic Text, Data Manipulation, and A
 We love to hear from you. There are various ways to get in touch with us.
 
 - Ask a question, request a new feature, and file a bug with [GitHub issues](https://github.com/volkovlabs/volkovlabs-form-panel/issues/new/choose).
+- Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and add a comment.
 - Sponsor our open-source plugins for Grafana with [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
 - Star the repository to show your support.
 
