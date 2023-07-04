@@ -49,8 +49,6 @@ export const FormPanel: React.FC<Props> = ({
     return canAddAnnotations ? canAddAnnotations() : false;
   }, [canAddAnnotations]);
 
-  console.log(usePanelContext());
-
   /**
    * Change Options
    */
