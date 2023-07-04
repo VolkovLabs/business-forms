@@ -30,12 +30,12 @@ import {
   ResetForegroundColorDefault,
   ResetIconDefault,
   ResetTextDefault,
+  SaveDefaultIconDefault,
+  SaveDefaultTextDefault,
   SubmitBackgroundColorDefault,
   SubmitForegroundColorDefault,
   SubmitIconDefault,
   SubmitTextDefault,
-  SaveDefaultIconDefault,
-  SaveDefaultTextDefault,
 } from './constants';
 import { PanelOptions } from './types';
 

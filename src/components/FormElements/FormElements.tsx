@@ -25,7 +25,7 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { FormElement, LayoutSection, PanelOptions } from '../../types';
-import { ToNumberValue, ApplyWidth, FormatNumberValue } from '../../utils';
+import { ApplyWidth, FormatNumberValue, ToNumberValue } from '../../utils';
 
 /**
  * Properties

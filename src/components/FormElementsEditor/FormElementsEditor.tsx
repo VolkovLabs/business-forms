@@ -21,6 +21,7 @@ import {
   StringElementOptions,
   TestIds,
 } from '../../constants';
+import { useFormElements } from '../../hooks';
 import { FormElement, LayoutSection } from '../../types';
 import {
   FormatNumberValue,
@@ -29,7 +30,6 @@ import {
   MoveFormElements,
   ToNumberValue,
 } from '../../utils';
-import { useFormElements } from '../../hooks';
 
 /**
  * Properties

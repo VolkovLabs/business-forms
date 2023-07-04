@@ -8,14 +8,14 @@ import {
   ButtonGroup,
   ConfirmModal,
   FieldSet,
+  usePanelContext,
   useStyles2,
   useTheme2,
-  usePanelContext,
 } from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod, TestIds } from '../../constants';
+import { useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
-import { useFormElements } from '../../hooks';
 import { FormElements } from '../FormElements';
 
 /**

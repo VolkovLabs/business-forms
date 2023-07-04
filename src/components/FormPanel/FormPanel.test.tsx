@@ -5,11 +5,11 @@ import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import {
   ButtonOrientation,
+  ButtonVariant,
   FormElementDefault,
   FormElementType,
   LayoutVariant,
   RequestMethod,
-  ButtonVariant,
 } from '../../constants';
 import { FormElement } from '../../types';
 import { getPanelSelectors } from '../../utils';
