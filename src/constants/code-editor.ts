@@ -99,4 +99,9 @@ export const CodeEditorSuggestions: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Method,
     detail: 'Display error notification.',
   },
+  {
+    label: 'notifyWarning',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Display warning notification.',
+  },
 ];

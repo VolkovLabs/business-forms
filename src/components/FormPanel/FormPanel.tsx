@@ -88,6 +88,8 @@ export const FormPanel: React.FC<Props> = ({
   const appEvents = getAppEvents();
   const notifySuccess = (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload });
   const notifyError = (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload });
+  const notifyWarning = (payload: AlertErrorPayload) =>
+    appEvents.publish({ type: AppEvents.alertWarning.name, payload });
 
   /**
    * Execute Custom Code
@@ -124,6 +126,7 @@ export const FormPanel: React.FC<Props> = ({
       'initial',
       'notifyError',
       'notifySuccess',
+      'notifyWarning',
       replaceVariables(code)
     );
 
@@ -141,7 +144,8 @@ export const FormPanel: React.FC<Props> = ({
         initial,
         initial,
         notifyError,
-        notifySuccess
+        notifySuccess,
+        notifyWarning
       );
     } catch (error: any) {
       setError(error.toString());
