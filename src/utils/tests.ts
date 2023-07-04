@@ -58,7 +58,7 @@ export const getCustomCodeEditorSelectors = getJestSelectors(TestIds.customCodeE
 /**
  * Get Form Elements Selectors
  */
-export const getFormElementsSelectors = getJestSelectors(TestIds.formElements, ['fieldDateTime', 'fieldCode']);
+export const getFormElementsSelectors = getJestSelectors(TestIds.formElements, ['fieldDateTime']);
 
 /**
  * Get Form Elements Editor Selectors

@@ -30,6 +30,8 @@ import {
   ResetForegroundColorDefault,
   ResetIconDefault,
   ResetTextDefault,
+  SaveDefaultIconDefault,
+  SaveDefaultTextDefault,
   SubmitBackgroundColorDefault,
   SubmitForegroundColorDefault,
   SubmitIconDefault,
@@ -410,6 +412,44 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'The text on the button',
       defaultValue: ResetTextDefault,
       showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
+    });
+
+  /**
+   * Save Defaults Button
+   */
+  builder
+    .addRadio({
+      path: 'saveDefault.variant',
+      name: 'Save Default Button',
+      category: ['Save Default Button'],
+      description: 'Button variant',
+      settings: {
+        options: [...ButtonVariantHiddenOption, { value: ButtonVariant.SECONDARY, label: 'Auto' }],
+      },
+      defaultValue: ButtonVariant.HIDDEN,
+    })
+    .addSelect({
+      path: 'saveDefault.icon',
+      name: 'Icon',
+      category: ['Save Default Button'],
+      settings: {
+        options: getAvailableIcons().map((icon): SelectableValue => {
+          return {
+            value: icon,
+            label: icon,
+          };
+        }),
+      },
+      defaultValue: SaveDefaultIconDefault,
+      showIf: (config: any) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
+    })
+    .addTextInput({
+      path: 'saveDefault.text',
+      name: 'Text',
+      category: ['Save Default Button'],
+      description: 'The text on the button',
+      defaultValue: SaveDefaultTextDefault,
+      showIf: (config: any) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
     });
 
   return builder;

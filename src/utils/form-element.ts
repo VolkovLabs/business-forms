@@ -133,3 +133,12 @@ export const ToNumberValue = (value: string): number | null => {
 export const FormatNumberValue = (value: unknown): string | number => {
   return typeof value === 'number' ? value : '';
 };
+
+/**
+ * Apply Width
+ * @param value
+ * @constructor
+ */
+export const ApplyWidth = (value: number | null): undefined | number => {
+  return typeof value === 'number' ? value : undefined;
+};

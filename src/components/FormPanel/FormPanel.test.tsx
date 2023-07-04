@@ -1,9 +1,19 @@
 import React from 'react';
 import { AppEvents } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
+import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { ButtonOrientation, FormElementDefault, FormElementType, LayoutVariant, RequestMethod } from '../../constants';
+import {
+  ButtonOrientation,
+  ButtonVariant,
+  FormElementDefault,
+  FormElementType,
+  LayoutVariant,
+  RequestMethod,
+} from '../../constants';
+import { FormElement } from '../../types';
 import { getPanelSelectors } from '../../utils';
+import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
 /**
@@ -61,6 +71,7 @@ describe('Panel', () => {
         ],
       },
       reset: {},
+      saveDefault: {},
       layout: { variant: LayoutVariant.SINGLE },
       buttonGroup: { orientation: ButtonOrientation.CENTER },
       elements: [{ ...FormElementDefault, id: 'test' }],
@@ -169,39 +180,6 @@ describe('Panel', () => {
         })
       );
       expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
-    });
-
-    it('Should update elements', async () => {
-      jest.mocked(fetch).mockImplementationOnce(
-        () =>
-          Promise.resolve({
-            ok: true,
-            json: jest.fn(() =>
-              Promise.resolve({
-                test: '123',
-              })
-            ),
-          }) as any
-      );
-      const onOptionsChange = jest.fn();
-
-      /**
-       * Render
-       */
-      await act(() => render(getComponent({ props: { onOptionsChange } })));
-
-      /**
-       * Check if options change is called
-       */
-      expect(onOptionsChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          elements: expect.arrayContaining([
-            expect.objectContaining({
-              value: '123',
-            }),
-          ]),
-        })
-      );
     });
 
     it('Should show error if initial request failed', async () => {
@@ -668,6 +646,227 @@ describe('Panel', () => {
       });
 
       jest.mocked(getAppEvents).mockClear();
+    });
+  });
+
+  describe('Confirm changes', () => {
+    const prepareComponent = async () => {
+      let triggerChangeElement: (element: FormElement) => void = jest.fn();
+      jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
+        triggerChangeElement = onChangeElement;
+        return null;
+      });
+
+      const elementWithoutInitialValue = { ...FormElementDefault, id: 'test', title: 'Field', value: '123' };
+      const elementWithInitialValue = { ...FormElementDefault, id: 'string', title: 'Field 2', value: '' };
+      const initialValues = {
+        [elementWithInitialValue.id]: 'abc',
+      };
+      jest.mocked(fetch).mockImplementationOnce(() => {
+        return Promise.resolve({
+          ok: true,
+          json: jest.fn(() => Promise.resolve(initialValues)),
+        } as any);
+      });
+
+      await act(() =>
+        render(
+          getComponent({
+            options: { elements: [elementWithInitialValue, elementWithoutInitialValue], update: { confirm: true } },
+          })
+        )
+      );
+
+      return {
+        triggerChangeElement,
+        elementWithoutInitialValue,
+        elementWithInitialValue,
+        initialValues,
+      };
+    };
+
+    afterAll(() => {
+      jest.mocked(FormElements).mockReset();
+    });
+
+    it('Should show changed values if field has initial value', async () => {
+      const { triggerChangeElement, elementWithInitialValue, initialValues } = await prepareComponent();
+
+      /**
+       * Trigger field change
+       */
+      await act(() =>
+        triggerChangeElement({
+          ...elementWithInitialValue,
+          value: '111',
+        })
+      );
+
+      /**
+       * Check if submit button is enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Open confirm modal
+       */
+      await act(() => fireEvent.click(selectors.buttonSubmit()));
+
+      /**
+       * Check confirm modal presence
+       */
+      expect(selectors.confirmModalContent()).toBeInTheDocument();
+
+      /**
+       * Check updated field presence in confirm modal
+       */
+      const updatedField = selectors.confirmModalField(false, elementWithInitialValue.id);
+      expect(updatedField).toBeInTheDocument();
+
+      /**
+       * Check correct data is shown for updated field
+       */
+      const updatedFieldSelectors = getPanelSelectors(within(updatedField));
+      expect(updatedFieldSelectors.confirmModalFieldTitle()).toHaveTextContent(elementWithInitialValue.title);
+      expect(updatedFieldSelectors.confirmModalFieldPreviousValue()).toHaveTextContent(
+        initialValues[elementWithInitialValue.id]
+      );
+      expect(updatedFieldSelectors.confirmModalFieldValue()).toHaveTextContent('111');
+    });
+
+    it('Should show changed values if field does not have initial value', async () => {
+      const { triggerChangeElement, elementWithoutInitialValue } = await prepareComponent();
+
+      /**
+       * Trigger field change
+       */
+      await act(() =>
+        triggerChangeElement({
+          ...elementWithoutInitialValue,
+          value: '111',
+        })
+      );
+
+      /**
+       * Check if submit button is enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Open confirm modal
+       */
+      await act(() => fireEvent.click(selectors.buttonSubmit()));
+
+      /**
+       * Check confirm modal presence
+       */
+      expect(selectors.confirmModalContent()).toBeInTheDocument();
+
+      /**
+       * Check updated field presence in confirm modal
+       */
+      const updatedField = selectors.confirmModalField(false, elementWithoutInitialValue.id);
+      expect(updatedField).toBeInTheDocument();
+
+      /**
+       * Check correct data is shown for updated field
+       */
+      const updatedFieldSelectors = getPanelSelectors(within(updatedField));
+      expect(updatedFieldSelectors.confirmModalFieldTitle()).toHaveTextContent(elementWithoutInitialValue.title);
+      expect(updatedFieldSelectors.confirmModalFieldPreviousValue()).toHaveTextContent(
+        elementWithoutInitialValue.value
+      );
+      expect(updatedFieldSelectors.confirmModalFieldValue()).toHaveTextContent('111');
+    });
+  });
+
+  describe('Save default values', () => {
+    it('Should update options', async () => {
+      const onOptionsChange = jest.fn();
+      let triggerChangeElement: (element: FormElement) => void = jest.fn();
+      jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
+        triggerChangeElement = onChangeElement;
+        return null;
+      });
+
+      const elementWithoutInitialValue = { ...FormElementDefault, id: 'test', title: 'Field', value: '123' };
+      const elementWithInitialValue = { ...FormElementDefault, id: 'string', title: 'Field 2', value: '' };
+      const initialValues = {
+        [elementWithInitialValue.id]: 'abc',
+      };
+      jest.mocked(fetch).mockImplementationOnce(() => {
+        return Promise.resolve({
+          ok: true,
+          json: jest.fn(() => Promise.resolve(initialValues)),
+        } as any);
+      });
+
+      await act(() =>
+        render(
+          <PanelContextProvider value={{ canEditAnnotations: () => true } as any}>
+            {getComponent({
+              props: {
+                onOptionsChange,
+              },
+              options: {
+                elements: [elementWithInitialValue, elementWithoutInitialValue],
+                saveDefault: {
+                  variant: ButtonVariant.SECONDARY,
+                },
+              },
+            })}
+          </PanelContextProvider>
+        )
+      );
+
+      await act(() =>
+        triggerChangeElement({
+          ...elementWithoutInitialValue,
+          value: '111',
+        })
+      );
+
+      expect(selectors.buttonSaveDefault()).toBeInTheDocument();
+
+      expect(onOptionsChange).not.toHaveBeenCalled();
+
+      /**
+       * Save Default values
+       */
+      await act(() => fireEvent.click(selectors.buttonSaveDefault()));
+
+      expect(onOptionsChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: elementWithoutInitialValue.id,
+              value: '111',
+            }),
+            expect.objectContaining({
+              id: elementWithInitialValue.id,
+              value: initialValues[elementWithInitialValue.id],
+            }),
+          ]),
+        })
+      );
+    });
+
+    it('Should not show save default button if can not update dashboard', async () => {
+      await act(() =>
+        render(
+          <PanelContextProvider value={{ canEditAnnotations: () => false } as any}>
+            {getComponent({
+              options: {
+                saveDefault: {
+                  variant: ButtonVariant.SECONDARY,
+                },
+              },
+            })}
+          </PanelContextProvider>
+        )
+      );
+
+      expect(selectors.buttonSaveDefault(true)).not.toBeInTheDocument();
     });
   });
 });

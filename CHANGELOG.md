@@ -5,7 +5,7 @@
 ### Features / Enhancements
 
 - Update Documentation for API Servers (#149)
-- Update to Grafana 9.5.2 (#165, #172, #180)
+- Update to Grafana 9.5.2 (#165, #172, #184)
 - Add Hidden option to String element (#171)
 - Add E2E Cypress testing (#180)
 - Increase Test Coverage and update Test library (#181, #183, #185)
@@ -13,6 +13,7 @@
 - Migrate to Plugin Tools 1.5.2 (#187, #192)
 - Update to Node 18 (#188)
 - Update constants and E2E tests (#190)
+- Update Form elements to use local state (#191)
 
 ## 2.8.0 (2023-03-16)
 

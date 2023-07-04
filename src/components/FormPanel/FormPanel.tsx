@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, ConfirmModal, FieldSet, useStyles2, useTheme2 } from '@grafana/ui';
+import {
+  Alert,
+  Button,
+  ButtonGroup,
+  ConfirmModal,
+  FieldSet,
+  usePanelContext,
+  useStyles2,
+  useTheme2,
+} from '@grafana/ui';
 import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod, TestIds } from '../../constants';
+import { useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
@@ -30,7 +40,36 @@ export const FormPanel: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: any }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
-  const [updated, setUpdated] = useState(false);
+
+  /**
+   * Can User Save Options
+   */
+  const { canAddAnnotations } = usePanelContext();
+  const canSaveDefaultValues = useMemo(() => {
+    return canAddAnnotations ? canAddAnnotations() : false;
+  }, [canAddAnnotations]);
+
+  /**
+   * Change Options
+   */
+  const onChangeOptions = useCallback(
+    (elements: FormElement[]) => {
+      onOptionsChange({
+        ...options,
+        elements,
+      });
+    },
+    [onOptionsChange, options]
+  );
+
+  /**
+   * Form Elements
+   */
+  const { elements, onChangeElement, onChangeElements, onSaveUpdates } = useFormElements(
+    onChangeOptions,
+    options.elements,
+    false
+  );
 
   /**
    * Theme and Styles
@@ -53,7 +92,17 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = (code: string, initial: any, response: Response | void) => {
+  const executeCustomCode = ({
+    code,
+    initial,
+    response,
+    initialRequest,
+  }: {
+    code: string;
+    initial: any;
+    response?: Response | void;
+    initialRequest?: () => void;
+  }) => {
     if (!code) {
       return;
     }
@@ -83,7 +132,7 @@ export const FormPanel: React.FC<Props> = ({
         options,
         data,
         response,
-        options.elements,
+        elements,
         locationService,
         templateSrv,
         onOptionsChange,
@@ -100,11 +149,103 @@ export const FormPanel: React.FC<Props> = ({
   };
 
   /**
+   * Initial Request
+   */
+  const initialRequest = async () => {
+    /**
+     * Check Elements
+     */
+    if (!elements.length || !options.initial.url || options.initial.method === RequestMethod.NONE) {
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      executeCustomCode({ code: options.initial.code, initial });
+      setLoading(false);
+
+      return;
+    }
+
+    /**
+     * Set Content Type
+     */
+    const headers: HeadersInit = new Headers();
+    if (options.initial.method === RequestMethod.POST) {
+      headers.set('Content-Type', options.initial.contentType);
+    }
+
+    /**
+     * Set Header
+     */
+    options.initial.header?.forEach((parameter) => {
+      const name = replaceVariables(parameter.name);
+      if (!name) {
+        setError(`All request parameters should be defined. Remove empty parameters.`);
+        return;
+      }
+
+      headers.set(name, replaceVariables(parameter.value));
+    });
+
+    /**
+     * Fetch
+     */
+    const response = await fetch(replaceVariables(options.initial.url), {
+      method: options.initial.method,
+      headers,
+    }).catch((error: Error) => {
+      setError(error.toString());
+    });
+
+    /**
+     * CORS
+     */
+    if (response?.type === 'opaque') {
+      setError('CORS prevents access to the response for Initial values.');
+    }
+
+    /**
+     * OK
+     */
+    let json: any = null;
+    if (response?.ok) {
+      json = await response.json();
+
+      /**
+       * Update values
+       */
+      const valuesMap =
+        options.elements?.reduce((acc: Record<string, unknown>, element) => {
+          return {
+            ...acc,
+            [element.id]: json[element.id] !== undefined ? json[element.id] : element.value,
+          };
+        }, {}) || {};
+
+      onChangeElements(
+        elements.map(({ value, ...rest }) => ({
+          ...rest,
+          value: valuesMap[rest.id],
+        }))
+      );
+
+      setInitial({
+        ...json,
+        ...valuesMap,
+      });
+      setTitle('Values updated.');
+    }
+
+    /**
+     * Execute Custom Code and reset Loading
+     */
+    executeCustomCode({ code: options.initial.code, initial: json, response });
+    setLoading(false);
+  };
+
+  /**
    * Update Request
    */
   const updateRequest = async () => {
-    const body: any = {};
-
     /**
      * Loading
      */
@@ -114,7 +255,7 @@ export const FormPanel: React.FC<Props> = ({
      * Execute Custom Code
      */
     if (options.update.method === RequestMethod.NONE) {
-      executeCustomCode(options.update.code, initial);
+      executeCustomCode({ code: options.update.code, initial, initialRequest });
       setLoading(false);
 
       return;
@@ -129,7 +270,8 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set elements
      */
-    options.elements?.forEach((element) => {
+    const body: any = {};
+    elements.forEach((element) => {
       if (!options.update.updatedOnly) {
         body[element.id] = element.value;
         return;
@@ -186,96 +328,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode(options.update.code, initial, response);
-    setLoading(false);
-  };
-
-  /**
-   * Initial Request
-   */
-  const initialRequest = async () => {
-    /**
-     * Check Elements
-     */
-    if (
-      !options.elements ||
-      !options.elements.length ||
-      !options.initial.url ||
-      options.initial.method === RequestMethod.NONE
-    ) {
-      /**
-       * Execute Custom Code and reset Loading
-       */
-      executeCustomCode(options.initial.code, initial);
-      setLoading(false);
-
-      return;
-    }
-
-    /**
-     * Set Content Type
-     */
-    const headers: HeadersInit = new Headers();
-    if (options.initial.method === RequestMethod.POST) {
-      headers.set('Content-Type', options.initial.contentType);
-    }
-
-    /**
-     * Set Header
-     */
-    options.initial.header?.forEach((parameter) => {
-      const name = replaceVariables(parameter.name);
-      if (!name) {
-        setError(`All request parameters should be defined. Remove empty parameters.`);
-        return;
-      }
-
-      headers.set(name, replaceVariables(parameter.value));
-    });
-
-    /**
-     * Fetch
-     */
-    const response = await fetch(replaceVariables(options.initial.url), {
-      method: options.initial.method,
-      headers,
-    }).catch((error: Error) => {
-      setError(error.toString());
-    });
-
-    /**
-     * CORS
-     */
-    if (response?.type === 'opaque') {
-      setError('CORS prevents access to the response for Initial values.');
-    }
-
-    /**
-     * OK
-     */
-    let json: any = null;
-    if (response?.ok) {
-      json = await response.json();
-
-      /**
-       * Set Element values
-       */
-      options.elements.forEach((element) => {
-        element.value = json[element.id];
-      });
-
-      /**
-       * Update values
-       */
-      onOptionsChange(options);
-      setInitial(json);
-      setTitle('Values updated.');
-    }
-
-    /**
-     * Execute Custom Code and reset Loading
-     */
-    executeCustomCode(options.initial.code, json, response);
+    executeCustomCode({ code: options.update.code, initial, response, initialRequest });
     setLoading(false);
   };
 
@@ -304,16 +357,15 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Check updated values
    */
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    setUpdated(false);
-
-    options.elements?.forEach((element) => {
+  const isUpdated = useMemo(() => {
+    for (let element of elements) {
       if (element.value !== initial[element.id]) {
-        setUpdated(true);
+        return true;
       }
-    });
-  });
+    }
+
+    return false;
+  }, [elements, initial]);
 
   /**
    * Return
@@ -330,7 +382,7 @@ export const FormPanel: React.FC<Props> = ({
         `
       )}
     >
-      {(!options.elements || !options.elements.length) && options.layout.variant !== LayoutVariant.NONE && (
+      {!elements.length && options.layout.variant !== LayoutVariant.NONE && (
         <Alert data-testid={TestIds.panel.infoMessage} severity="info" title="Form Elements">
           Please add elements in Panel Options or Custom Code.
         </Alert>
@@ -341,7 +393,13 @@ export const FormPanel: React.FC<Props> = ({
           {options.layout.variant === LayoutVariant.SINGLE && (
             <tr>
               <td data-testid={TestIds.panel.singleLayoutContent}>
-                <FormElements options={options} onOptionsChange={onOptionsChange} initial={initial} section={null} />
+                <FormElements
+                  options={options}
+                  elements={elements}
+                  onChangeElement={onChangeElement}
+                  initial={initial}
+                  section={null}
+                />
               </td>
             </tr>
           )}
@@ -354,7 +412,8 @@ export const FormPanel: React.FC<Props> = ({
                     <FieldSet label={section.name}>
                       <FormElements
                         options={options}
-                        onOptionsChange={onOptionsChange}
+                        elements={elements}
+                        onChangeElement={onChangeElement}
                         initial={initial}
                         section={section}
                       />
@@ -382,7 +441,7 @@ export const FormPanel: React.FC<Props> = ({
                         }
                       : {}
                   }
-                  disabled={loading || (!updated && options.layout.variant !== LayoutVariant.NONE)}
+                  disabled={loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE)}
                   onClick={
                     options.update.confirm
                       ? () => {
@@ -419,6 +478,20 @@ export const FormPanel: React.FC<Props> = ({
                     {options.reset.text}
                   </Button>
                 )}
+
+                {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
+                  <Button
+                    className={cx(styles.margin)}
+                    variant={options.saveDefault.variant as any}
+                    icon={options.saveDefault.icon}
+                    disabled={loading}
+                    onClick={onSaveUpdates}
+                    size={options.buttonGroup.size}
+                    data-testid={TestIds.panel.buttonSaveDefault}
+                  >
+                    {options.saveDefault.text}
+                  </Button>
+                )}
               </ButtonGroup>
             </td>
           </tr>
@@ -435,7 +508,7 @@ export const FormPanel: React.FC<Props> = ({
         isOpen={updateConfirmation}
         title="Confirm update request"
         body={
-          <div>
+          <div data-testid={TestIds.panel.confirmModalContent}>
             <h4>Please confirm to update changed values?</h4>
             <table className={styles.confirmTable}>
               <thead>
@@ -452,7 +525,7 @@ export const FormPanel: React.FC<Props> = ({
                 </tr>
               </thead>
               <tbody>
-                {options.elements?.map((element: FormElement) => {
+                {elements.map((element: FormElement) => {
                   if (element.value === initial[element.id]) {
                     return;
                   }
@@ -469,29 +542,49 @@ export const FormPanel: React.FC<Props> = ({
                    */
                   if (element.type === FormElementType.PASSWORD) {
                     return (
-                      <tr className={styles.confirmTable} key={element.id}>
-                        <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
-                        <td className={styles.confirmTableTd}>*********</td>
-                        <td className={styles.confirmTableTd}>*********</td>
+                      <tr
+                        className={styles.confirmTable}
+                        key={element.id}
+                        data-testid={TestIds.panel.confirmModalField(element.id)}
+                      >
+                        <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldTitle}>
+                          {element.title || element.tooltip}
+                        </td>
+                        <td
+                          className={styles.confirmTableTd}
+                          data-testid={TestIds.panel.confirmModalFieldPreviousValue}
+                        >
+                          *********
+                        </td>
+                        <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldValue}>
+                          *********
+                        </td>
                       </tr>
                     );
                   }
 
+                  let currentValue = element.value;
                   /**
                    * Convert DateTime object to ISO string
                    */
                   if (element.type === FormElementType.DATETIME) {
-                    element.value = dateTime(element.value).toISOString();
+                    currentValue = dateTime(element.value).toISOString();
                   }
 
                   return (
-                    <tr className={styles.confirmTable} key={element.id}>
-                      <td className={styles.confirmTableTd}>{element.title || element.tooltip}</td>
-                      <td className={styles.confirmTableTd}>
+                    <tr
+                      className={styles.confirmTable}
+                      key={element.id}
+                      data-testid={TestIds.panel.confirmModalField(element.id)}
+                    >
+                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldTitle}>
+                        {element.title || element.tooltip}
+                      </td>
+                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldPreviousValue}>
                         {initial[element.id] === undefined ? '' : String(initial[element.id])}
                       </td>
-                      <td className={styles.confirmTableTd}>
-                        {element.value === undefined ? '' : String(element.value)}
+                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldValue}>
+                        {currentValue === undefined ? '' : String(currentValue)}
                       </td>
                     </tr>
                   );

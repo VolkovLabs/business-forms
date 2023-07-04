@@ -24,6 +24,12 @@ export const ResetForegroundColorDefault = 'yellow';
 export const ResetTextDefault = 'Reset';
 
 /**
+ * Save Default Button
+ */
+export const SaveDefaultIconDefault = 'save';
+export const SaveDefaultTextDefault = 'Save Default';
+
+/**
  * Number Defaults
  */
 export const NumberDefault: NumberOptions = {
@@ -64,7 +70,7 @@ export const FormElementDefault: FormElement = {
   id: '',
   title: '',
   type: FormElementType.STRING,
-  width: 0,
+  width: null,
   labelWidth: 10,
   tooltip: '',
   section: '',

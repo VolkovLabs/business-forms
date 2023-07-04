@@ -29,16 +29,16 @@ export interface FormElementBase {
   /**
    * Label Width
    *
-   * @type {number}
+   * @type {number | null}
    */
-  labelWidth: number;
+  labelWidth: number | null;
 
   /**
    * Width
    *
-   * @type {number}
+   * @type {number | null}
    */
-  width: number;
+  width: number | null;
 
   /**
    * Tooltip

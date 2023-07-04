@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { AutoSaveTimeout } from '../../constants';
+import { AutoSaveTimeout } from '../constants';
 
 /**
  * Auto Save

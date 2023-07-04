@@ -11,19 +11,26 @@ export const TestIds = {
     splitLayoutContent: (sectionName: string) => `data-testid panel split-layout-content-${sectionName}`,
     buttonSubmit: 'data-testid panel button-submit',
     buttonReset: 'data-testid panel button-reset',
+    buttonSaveDefault: 'data-testid panel button-save-default',
     errorMessage: 'data-testid panel error-message',
     /**
      * Default Confirm Button selector
      * https://github.com/grafana/grafana/blob/b43206e26ba8535a23af578b6297fee3f67f80b2/packages/grafana-ui/src/components/ConfirmModal/ConfirmModal.tsx#LL108C58-L108C59
      */
     buttonConfirmUpdate: selectors.pages.ConfirmModal.delete,
+    confirmModalContent: 'data-testid panel confirm-modal-content',
+    confirmModalField: (fieldId: string) => `data-testid panel confirm-modal-content field-${fieldId}`,
+    confirmModalFieldTitle: `data-testid panel confirm-modal-content field field-title`,
+    confirmModalFieldPreviousValue: `data-testid panel confirm-modal-content field field-previous-value`,
+    confirmModalFieldValue: `data-testid panel confirm-modal-content field field-value`,
   },
   customCodeEditor: {
     root: 'data-testid custom-code-editor',
   },
   formElements: {
     root: 'data-testid form-elements',
-    element: (elementId: string) => `data-testid form-elements element-${elementId}`,
+    element: (elementId: string, elementType: string) =>
+      `data-testid form-elements element-${elementId}-${elementType}`,
     fieldNumber: 'data-testid form-elements field-number',
     fieldString: 'data-testid form-elements field-string',
     fieldPassword: 'data-testid form-elements field-password',
