@@ -10,7 +10,7 @@
 - Add E2E Cypress testing (#180)
 - Increase Test Coverage and update Test library (#181, #183, #185)
 - Update Form Elements to delay save changes with auto-save (#186)
-- Migrate to Plugin Tools 1.5.0 (#187)
+- Migrate to Plugin Tools 1.5.2 (#187, #192)
 - Update to Node 18 (#188)
 - Update constants and E2E tests (#190)
 - Update Form elements to use local state (#191)
