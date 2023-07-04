@@ -47,28 +47,11 @@ grafana-cli plugins install volkovlabs-form-panel
 
 | Section | Description |
 | -- | -- |
-| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture) | Explains the Architecture and how to use Grafana and API behind NGINX. |
-| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code) | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
-| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release)     | Stay up to date with the latest features and updates.                                         |
-
-### Features
-
-| Section | Description |
-| -- | -- |
-| [Control Panel](https://volkovlabs.io/plugins/volkovlabs-form-panel/control) | Explains how to create Control Panels with multiple sections and same Id. |
-| [Custom Requests](https://volkovlabs.io/plugins/volkovlabs-form-panel/request) | Demonstrates how to create your own Initial and Update requests using Custom Code. |
-| [Dynamic form elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/dynamic) | Demonstrates how to update elements element's values and options from any data source. |
-| [Variables](https://volkovlabs.io/plugins/volkovlabs-form-panel/variables) | Explains how to replace Dashboard and Global variables. |
-
-### API Servers
-
-| Section                          | Description                                                                       |
-| -------------------------------- | --------------------------------------------------------------------------------- |
-| [Deno](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/deno)             | Demonstrates how to create an API server on Deno.                                 |
-| [InfluxDB API](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/influx)   | Demonstrates how to integrate with InfluxDB API.                                  |
-| [JSON](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/json)             | Demonstrates how to create an API server on Node.js with JSON object.             |
-| [MySQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/mysql)           | Demonstrates how to create an API server on Node.js with the MySQL database.      |
-| [PostgreSQL](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/postgresql) | Demonstrates how to create an API server on Node.js with the PostgreSQL database. |
+| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/) | Explains the Architecture and how to use Grafana and API behind NGINX. |
+| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/) | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
+| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)         | Demonstrates panel features.                                                                  |
+| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)           | Demonstrates various server API implementations                                               |
+| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)     | Stay up to date with the latest features and updates.                                         |
 
 ## Tutorials
 
