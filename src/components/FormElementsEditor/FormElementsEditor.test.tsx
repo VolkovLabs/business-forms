@@ -1,4 +1,5 @@
 import React from 'react';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import {
   CodeEditorHeight,
@@ -36,6 +37,23 @@ jest.mock('@grafana/ui', () => ({
       ))}
     </select>
   )),
+}));
+
+/**
+ * Mock react-beautiful-dnd
+ */
+jest.mock('react-beautiful-dnd', () => ({
+  ...jest.requireActual('react-beautiful-dnd'),
+  DragDropContext: jest.fn(({ children }) => children),
+  Droppable: jest.fn(({ children }) => children({})),
+  Draggable: jest.fn(({ children }) =>
+    children(
+      {
+        draggableProps: {},
+      },
+      {}
+    )
+  ),
 }));
 
 /**
@@ -322,7 +340,6 @@ describe('Form Elements Editor', () => {
     expect(elementSelectors.fieldLabelWidth()).toBeInTheDocument();
     expect(elementSelectors.fieldTooltip()).toBeInTheDocument();
     expect(elementSelectors.fieldUnit()).toBeInTheDocument();
-    expect(elementSelectors.buttonRemoveElement()).toBeInTheDocument();
   });
 
   /**
@@ -463,15 +480,12 @@ describe('Form Elements Editor', () => {
     expect(selectors.sectionLabel(false, numberElement.id, numberElement.type)).toBeInTheDocument();
 
     /**
-     * Open text section
-     */
-    const elementSelectors = openElement(textElement.id, textElement.type);
-    expect(elementSelectors.buttonRemoveElement()).toBeInTheDocument();
-
-    /**
      * Remove text section
      */
-    fireEvent.click(elementSelectors.buttonRemoveElement());
+    const textSectionLabelSelectors = getFormElementsEditorSelectors(
+      within(selectors.sectionLabel(false, textElement.id, textElement.type))
+    );
+    fireEvent.click(textSectionLabelSelectors.buttonRemoveElement());
 
     /**
      * Check if section is removed
@@ -484,7 +498,13 @@ describe('Form Elements Editor', () => {
    * Element order
    */
   describe('Element order', () => {
-    it('Should move element up', async () => {
+    it('Should reorder items', async () => {
+      let onDragEndHandler: (result: DropResult) => void = () => {};
+      jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
+        onDragEndHandler = onDragEnd;
+        return children;
+      });
+
       const elementString = { ...FormElementDefault, id: 'number' };
       const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA };
       let elements = [elementString, elementTextarea];
@@ -493,9 +513,18 @@ describe('Form Elements Editor', () => {
       render(getComponent({ value: elements, onChange }));
 
       /**
-       * Move element up
+       * Simulate drop element 1 to index 0
        */
-      await act(() => fireEvent.click(selectors.buttonMoveElementUp(false, elementTextarea.id, elementTextarea.type)));
+      await act(() =>
+        onDragEndHandler({
+          destination: {
+            index: 0,
+          },
+          source: {
+            index: 1,
+          },
+        } as any)
+      );
 
       /**
        * Save changes
@@ -508,48 +537,35 @@ describe('Form Elements Editor', () => {
       expect(elements).toEqual([elementTextarea, elementString]);
     });
 
-    it('Should move element down', async () => {
-      const elementString = { ...FormElementDefault, id: 'number' };
-      const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA };
-      let elements = [elementString, elementTextarea];
-      const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
+    it('Should not reorder items if drop outside the list', async () => {
+      let onDragEndHandler: (result: DropResult) => void = () => {};
+      jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
+        onDragEndHandler = onDragEnd;
+        return children;
+      });
 
-      render(getComponent({ value: elements, onChange }));
-
-      /**
-       * Move element up
-       */
-      await act(() => fireEvent.click(selectors.buttonMoveElementDown(false, elementString.id, elementString.type)));
-
-      /**
-       * Save changes
-       */
-      fireEvent.click(selectors.buttonSaveChanges());
-
-      /**
-       * Check if elements order is changed
-       */
-      expect(elements).toEqual([elementTextarea, elementString]);
-    });
-
-    it('Should not be able to move first element up', () => {
       const elementString = { ...FormElementDefault, id: 'number' };
       const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA };
       const elements = [elementString, elementTextarea];
 
-      render(getComponent({ value: elements, onChange }));
+      render(getComponent({ value: elements }));
 
-      expect(selectors.buttonMoveElementUp(true, elementString.id, elementString.type)).not.toBeInTheDocument();
-    });
+      /**
+       * Simulate drop field 1 to outside the list
+       */
+      await act(() =>
+        onDragEndHandler({
+          destination: null,
+          source: {
+            index: 1,
+          },
+        } as any)
+      );
 
-    it('Should not be able to move last element down', () => {
-      const elementString = { ...FormElementDefault, id: 'number' };
-      const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA };
-      const elements = [elementString, elementTextarea];
-
-      render(getComponent({ value: elements, onChange }));
-
-      expect(selectors.buttonMoveElementDown(true, elementTextarea.id, elementTextarea.type)).not.toBeInTheDocument();
+      /**
+       * Save button is not shown because there is no changes
+       */
+      expect(selectors.buttonSaveChanges(true)).not.toBeInTheDocument();
     });
   });
 

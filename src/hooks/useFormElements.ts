@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { FormElement } from '../types';
-import { IsElementConflict, IsElementOptionConflict } from '../utils';
+import { IsElementConflict, IsElementOptionConflict, GetElementUniqueId } from '../utils';
 import { useAutoSave } from './useAutoSave';
 
 /**
@@ -89,7 +89,7 @@ export const useFormElements = (
    */
   const onElementRemove = useCallback(
     (id: string) => {
-      const updated = elements.filter((e) => e.id !== id);
+      const updated = elements.filter((e) => GetElementUniqueId(e) !== id);
 
       /**
        * Update Elements

@@ -3,20 +3,15 @@ import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDef
 import { FormElement, FormElementBase, FormElementByType } from '../types';
 
 /**
- * Move Form Elements
+ * Reorder
+ * @param list
+ * @param startIndex
+ * @param endIndex
  */
-export const MoveFormElements = <T extends unknown>(elements: T[], from: number, to: number): T[] => {
-  /**
-   * Clone array to prevent mutation
-   */
-  const result = [...elements];
-
-  /**
-   * Swap element on to position
-   */
-  const element = elements[from];
-  result.splice(from, 1);
-  result.splice(to, 0, element);
+export const Reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: number) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
   return result;
 };
@@ -142,3 +137,8 @@ export const FormatNumberValue = (value: unknown): string | number => {
 export const ApplyWidth = (value: number | null): undefined | number => {
   return typeof value === 'number' ? value : undefined;
 };
+
+/**
+ * Get Element Unique Id
+ */
+export const GetElementUniqueId = (element: FormElement) => `${element.id}-${element.type}`;

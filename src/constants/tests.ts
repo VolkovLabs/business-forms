@@ -60,10 +60,6 @@ export const TestIds = {
     sectionContent: (id: string, type: string) => `data-testid form-elements-editor section-content-${id}-${type}`,
     sectionNewLabel: 'data-testid form-elements-editor section-new-label',
     sectionNewContent: 'data-testid form-elements-editor section-new-content',
-    buttonMoveElementUp: (id: string, type: string) =>
-      `data-testid form-elements-editor button-move-element-up-${id}-${type}`,
-    buttonMoveElementDown: (id: string, type: string) =>
-      `data-testid form-elements-editor button-move-element-down-${id}-${type}`,
     buttonRemoveElement: 'data-testid form-elements-editor button-remove-element',
     buttonAddElement: 'data-testid form-elements-editor button-add-element',
     buttonRemoveOption: 'data-testid form-elements-editor button-remove-option',
