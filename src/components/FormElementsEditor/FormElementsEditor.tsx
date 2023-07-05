@@ -151,7 +151,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {elements.map((element, index) => (
-                <Draggable key={index} draggableId={GetElementUniqueId(element)} index={index}>
+                <Draggable key={GetElementUniqueId(element)} draggableId={GetElementUniqueId(element)} index={index}>
                   {(provided, snapshot) => (
                     <div
                       {...provided.draggableProps}
