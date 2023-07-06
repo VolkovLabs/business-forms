@@ -179,12 +179,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                           <div
                             className={styles.header}
                             data-testid={TestIds.formElementsEditor.sectionLabel(element.id, element.type)}
+                            onClick={() => onToggleElement(element.uid)}
                           >
                             <IconButton
                               name={isOpen ? 'angle-down' : 'angle-right'}
                               tooltip={isOpen ? 'Collapse' : 'Expand'}
                               className={styles.collapseIcon}
-                              onClick={() => onToggleElement(element.uid)}
                               aria-expanded={isOpen}
                               aria-controls={element.uid}
                             />
@@ -205,6 +205,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                                 name="draggabledots"
                                 size="lg"
                                 className={styles.dragIcon}
+                                onClick={(event) => event.stopPropagation()}
                                 {...provided.dragHandleProps}
                               />
                             </div>
