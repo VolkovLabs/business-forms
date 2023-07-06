@@ -505,8 +505,8 @@ describe('Form Elements Editor', () => {
         return children;
       });
 
-      const elementString = { ...FormElementDefault, id: 'number' };
-      const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA };
+      const elementString = { ...FormElementDefault, id: 'number', uid: 'number123' };
+      const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA, uid: 'text123' };
       let elements = [elementString, elementTextarea];
       const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
 
@@ -534,7 +534,7 @@ describe('Form Elements Editor', () => {
       /**
        * Check if elements order is changed
        */
-      expect(elements).toEqual([expect.objectContaining(elementTextarea), expect.objectContaining(elementString)]);
+      expect(elements).toEqual([elementTextarea, elementString]);
     });
 
     it('Should not reorder items if drop outside the list', async () => {
