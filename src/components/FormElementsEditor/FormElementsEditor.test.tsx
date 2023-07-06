@@ -534,7 +534,7 @@ describe('Form Elements Editor', () => {
       /**
        * Check if elements order is changed
        */
-      expect(elements).toEqual([elementTextarea, elementString]);
+      expect(elements).toEqual([expect.objectContaining(elementTextarea), expect.objectContaining(elementString)]);
     });
 
     it('Should not reorder items if drop outside the list', async () => {

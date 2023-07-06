@@ -1,4 +1,5 @@
 import { SelectableValue } from '@grafana/data';
+import { v4 as uuidv4 } from 'uuid';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
 import { FormElement, FormElementBase, FormElementByType } from '../types';
 
@@ -26,6 +27,7 @@ export const GetElementWithNewType = (
   newType: FormElementType
 ): FormElementByType<typeof newType> => {
   const baseValues: FormElementBase = {
+    uid: element.uid,
     id: element.id,
     type: newType,
     labelWidth: element.labelWidth,
@@ -141,4 +143,17 @@ export const ApplyWidth = (value: number | null): undefined | number => {
 /**
  * Get Element Unique Id
  */
-export const GetElementUniqueId = (element: FormElement) => `${element.id}-${element.type}`;
+export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv4();
+
+/**
+ * Get Elements With Uid
+ */
+export const GetElementsWithUid = (elements?: FormElement[]) => {
+  if (elements && Array.isArray(elements)) {
+    return elements.map((element) => ({
+      ...element,
+      uid: GetElementUniqueId(element),
+    }));
+  }
+  return [];
+};

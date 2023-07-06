@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { FormElement } from '../types';
-import { IsElementConflict, IsElementOptionConflict, GetElementUniqueId } from '../utils';
+import { IsElementConflict, IsElementOptionConflict, GetElementsWithUid } from '../utils';
 import { useAutoSave } from './useAutoSave';
 
 /**
@@ -18,7 +18,7 @@ export const useFormElements = (
   /**
    * States
    */
-  const [elements, setElements] = useState(value && Array.isArray(value) ? value : []);
+  const [elements, setElements] = useState<FormElement[]>(GetElementsWithUid(value));
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -42,19 +42,13 @@ export const useFormElements = (
    * Change Element
    */
   const onChangeElement = useCallback(
-    (
-      updatedElement: FormElement,
-      { id = updatedElement.id, type = updatedElement.type }: FormElement = updatedElement,
-      checkConflict = false
-    ) => {
+    (updatedElement: FormElement, checkConflict = false) => {
       if (checkConflict && IsElementConflict(elements, updatedElement)) {
         alert('Element with the same id and type exists.');
         return;
       }
 
-      onChangeElements(
-        elements.map((element) => (element.id === id && element.type === type ? updatedElement : element))
-      );
+      onChangeElements(elements.map((element) => (element.uid === updatedElement.uid ? updatedElement : element)));
     },
     [elements, onChangeElements]
   );
@@ -88,8 +82,8 @@ export const useFormElements = (
    * Remove Element
    */
   const onElementRemove = useCallback(
-    (id: string) => {
-      const updated = elements.filter((e) => GetElementUniqueId(e) !== id);
+    (uid: string) => {
+      const updated = elements.filter((e) => e.uid !== uid);
 
       /**
        * Update Elements
@@ -103,7 +97,7 @@ export const useFormElements = (
    * Update local elements
    */
   useEffect(() => {
-    setElements(value && Array.isArray(value) ? value : []);
+    setElements(GetElementsWithUid(value));
     setIsChanged(false);
   }, [value]);
 

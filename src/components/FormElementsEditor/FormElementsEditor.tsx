@@ -70,6 +70,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
    */
   const [newElement, setNewElement] = useState(FormElementDefault);
   const [addElementError, setAddElementError] = useState<string | null>(null);
+  const [collapseState, setCollapseState] = useState<Record<string, boolean>>({});
 
   /**
    * Form Elements State
@@ -104,7 +105,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     /**
      * Update Elements
      */
-    const updated = [...elements, GetElementWithNewType(newElement, newElement.type)];
+    const element = GetElementWithNewType(newElement, newElement.type);
+    const updated = [...elements, { ...element, uid: GetElementUniqueId(element) }];
     onChangeElements(updated);
 
     /**
@@ -142,6 +144,16 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   }, [context.options?.layout?.sections]);
 
   /**
+   * Toggle collapse state for element
+   */
+  const onToggleElement = useCallback((uid: string) => {
+    setCollapseState((prev) => ({
+      ...prev,
+      [uid]: !prev[uid],
+    }));
+  }, []);
+
+  /**
    * Return
    */
   return (
@@ -151,7 +163,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {elements.map((element, index) => (
-                <Draggable key={GetElementUniqueId(element)} draggableId={GetElementUniqueId(element)} index={index}>
+                <Draggable
+                  key={element.uid}
+                  draggableId={element.uid}
+                  index={index}
+                  isDragDisabled={collapseState[index]}
+                >
                   {(provided, snapshot) => (
                     <div
                       {...provided.draggableProps}
@@ -174,7 +191,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             />
                           </div>
                         }
-                        isOpen={false}
+                        isOpen={collapseState[element.uid]}
+                        onToggle={() => onToggleElement(element.uid)}
                         headerDataTestId={TestIds.formElementsEditor.sectionLabel(element.id, element.type)}
                         contentDataTestId={TestIds.formElementsEditor.sectionContent(element.id, element.type)}
                       >
@@ -188,7 +206,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                                     ...element,
                                     id: event.target.value,
                                   },
-                                  element,
                                   true
                                 );
                               }}
@@ -218,7 +235,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             <Select
                               options={FormElementTypeOptions}
                               onChange={(event: SelectableValue) => {
-                                onChangeElement(GetElementWithNewType(element, event?.value), element, true);
+                                onChangeElement(GetElementWithNewType(element, event?.value), true);
                               }}
                               value={FormElementTypeOptions.find((type) => type.value === element.type)}
                               aria-label={TestIds.formElementsEditor.fieldType}
