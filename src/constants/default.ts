@@ -67,6 +67,7 @@ export const TextareaDefault: TextareaOptions = {
  * Form Element
  */
 export const FormElementDefault: FormElement = {
+  uid: '',
   id: '',
   title: '',
   type: FormElementType.STRING,
