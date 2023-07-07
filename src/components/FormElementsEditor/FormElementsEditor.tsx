@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   DragDropContext,
   Draggable,
@@ -8,23 +8,13 @@ import {
   NotDraggingStyle,
 } from 'react-beautiful-dnd';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
-import {
-  Alert,
-  Button,
-  CollapsableSection,
-  Icon,
-  IconButton,
-  InlineField,
-  Input,
-  Select,
-  useTheme2,
-} from '@grafana/ui';
-import { FormElementDefault, FormElementTypeOptions, TestIds } from '../../constants';
+import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
+import { TestIds } from '../../constants';
 import { useFormElements } from '../../hooks';
 import { FormElement, LayoutSection } from '../../types';
-import { GetElementUniqueId, GetElementWithNewType, IsElementConflict, Reorder } from '../../utils';
+import { GetElementUniqueId, Reorder } from '../../utils';
 import { Collapse } from '../Collapse';
-import { ElementEditor } from './components';
+import { ElementEditor, NewElement } from './components';
 import { Styles } from './styles';
 
 /**
@@ -55,8 +45,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   /**
    * States
    */
-  const [newElement, setNewElement] = useState(FormElementDefault);
-  const [addElementError, setAddElementError] = useState<string | null>(null);
   const [collapseState, setCollapseState] = useState<Record<string, boolean>>({});
 
   /**
@@ -73,34 +61,14 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   } = useFormElements(onChange, value);
 
   /**
-   * Change new element
-   */
-  const onChangeNewElement = useCallback((newElement: FormElement) => {
-    setNewElement(newElement);
-    setAddElementError(null);
-  }, []);
-
-  /**
    * Add Elements
    */
-  const onElementAdd = useCallback(() => {
-    if (IsElementConflict(elements, newElement)) {
-      setAddElementError('Element with the same Id and Type already exists');
-      return;
-    }
-
-    /**
-     * Update Elements
-     */
-    const element = GetElementWithNewType(newElement, newElement.type);
-    const updated = [...elements, { ...element, uid: GetElementUniqueId(element) }];
-    onChangeElements(updated);
-
-    /**
-     * Reset input values
-     */
-    setNewElement(FormElementDefault);
-  }, [newElement, elements, onChangeElements]);
+  const onElementAdd = useCallback(
+    (newElement: FormElement) => {
+      onChangeElements(elements.concat([newElement]));
+    },
+    [elements, onChangeElements]
+  );
 
   /**
    * Drag End
@@ -185,7 +153,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                                 name="draggabledots"
                                 size="lg"
                                 className={styles.dragIcon}
-                                onClick={(event) => event.stopPropagation()}
                                 {...provided.dragHandleProps}
                               />
                             </>
@@ -216,61 +183,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
       )}
 
       <hr />
-      <CollapsableSection
-        label="New Element"
-        isOpen={true}
-        headerDataTestId={TestIds.formElementsEditor.sectionNewLabel}
-        contentDataTestId={TestIds.formElementsEditor.sectionNewContent}
-      >
-        <InlineField label="Id" grow labelWidth={8} invalid={newElement.id === ''}>
-          <Input
-            placeholder="Id"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChangeNewElement({ ...newElement, id: event.target.value });
-            }}
-            value={newElement.id}
-            data-testid={TestIds.formElementsEditor.newElementId}
-          />
-        </InlineField>
-
-        <InlineField label="Label" grow labelWidth={8} invalid={newElement.title === ''}>
-          <Input
-            placeholder="Label"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChangeNewElement({ ...newElement, title: event.target.value });
-            }}
-            value={newElement.title}
-            data-testid={TestIds.formElementsEditor.newElementLabel}
-          />
-        </InlineField>
-
-        <InlineField label="Type" grow labelWidth={8}>
-          <Select
-            aria-label={TestIds.formElementsEditor.newElementType}
-            options={FormElementTypeOptions}
-            onChange={(event?: SelectableValue) => {
-              onChangeNewElement({ ...newElement, type: event?.value });
-            }}
-            value={FormElementTypeOptions.find((type) => type.value === newElement.type)}
-          />
-        </InlineField>
-
-        {!!addElementError && (
-          <Alert data-testid={TestIds.formElementsEditor.addElementError} severity="error" title="Element Creation">
-            {addElementError}
-          </Alert>
-        )}
-
-        <Button
-          variant="secondary"
-          onClick={onElementAdd}
-          disabled={!newElement.id || !newElement.type || !!addElementError}
-          icon="plus"
-          data-testid={TestIds.formElementsEditor.buttonAddElement}
-        >
-          Add Element
-        </Button>
-      </CollapsableSection>
+      <NewElement elements={elements} onSave={onElementAdd} />
     </div>
   );
 };
