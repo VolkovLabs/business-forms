@@ -1,5 +1,5 @@
-import { SelectableValue } from '@grafana/data';
 import { v4 as uuidv4 } from 'uuid';
+import { SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
 import { FormElement, FormElementBase, FormElementByType } from '../types';
 
