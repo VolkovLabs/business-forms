@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { FormElement } from '../types';
-import { IsElementConflict, IsElementOptionConflict, GetElementsWithUid } from '../utils';
+import { GetElementsWithUid, IsElementConflict, IsElementOptionConflict } from '../utils';
 import { useAutoSave } from './useAutoSave';
 
 /**

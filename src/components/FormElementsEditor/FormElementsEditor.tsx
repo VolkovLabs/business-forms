@@ -12,14 +12,14 @@ import {
   Alert,
   Button,
   CollapsableSection,
+  Icon,
+  IconButton,
   InlineField,
   InlineFieldRow,
   Input,
   RadioButtonGroup,
   Select,
   useTheme2,
-  Icon,
-  IconButton,
 } from '@grafana/ui';
 import {
   CodeLanguageOptions,
@@ -34,11 +34,11 @@ import { useFormElements } from '../../hooks';
 import { FormElement, LayoutSection } from '../../types';
 import {
   FormatNumberValue,
+  GetElementUniqueId,
   GetElementWithNewType,
   IsElementConflict,
   Reorder,
   ToNumberValue,
-  GetElementUniqueId,
 } from '../../utils';
 import { Styles } from './styles';
 
