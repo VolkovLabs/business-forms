@@ -6,6 +6,13 @@ import { CodeLanguage, FormElementType } from '../constants';
  */
 export interface FormElementBase {
   /**
+   * Uid
+   *
+   * @type {string}
+   */
+  uid: string;
+
+  /**
    * Id
    *
    * @type {string}

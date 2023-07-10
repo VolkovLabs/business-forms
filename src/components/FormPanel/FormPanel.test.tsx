@@ -663,8 +663,20 @@ describe('Panel', () => {
         return null;
       });
 
-      const elementWithoutInitialValue = { ...FormElementDefault, id: 'test', title: 'Field', value: '123' };
-      const elementWithInitialValue = { ...FormElementDefault, id: 'string', title: 'Field 2', value: '' };
+      const elementWithoutInitialValue = {
+        ...FormElementDefault,
+        id: 'test',
+        title: 'Field',
+        value: '123',
+        uid: 'test123',
+      };
+      const elementWithInitialValue = {
+        ...FormElementDefault,
+        id: 'string',
+        title: 'Field 2',
+        value: '',
+        uid: 'string123',
+      };
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
@@ -795,8 +807,20 @@ describe('Panel', () => {
         return null;
       });
 
-      const elementWithoutInitialValue = { ...FormElementDefault, id: 'test', title: 'Field', value: '123' };
-      const elementWithInitialValue = { ...FormElementDefault, id: 'string', title: 'Field 2', value: '' };
+      const elementWithoutInitialValue = {
+        ...FormElementDefault,
+        id: 'test',
+        title: 'Field',
+        value: '123',
+        uid: 'test123',
+      };
+      const elementWithInitialValue = {
+        ...FormElementDefault,
+        id: 'string',
+        title: 'Field 2',
+        value: '',
+        uid: 'string123',
+      };
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };

@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.0.0 (IN PROGRESS)
+## 3.0.0 (2023-07-09)
 
 ### Features / Enhancements
 
@@ -15,6 +15,7 @@
 - Update constants and E2E tests (#190)
 - Update Form elements to use local state (#191)
 - Add notifyWarning() function (#201)
+- Add drag and drop for elements editor (#202)
 
 ## 2.8.0 (2023-03-16)
 

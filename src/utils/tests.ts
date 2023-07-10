@@ -21,7 +21,7 @@ type JestSelectors<T> = {
  * @param selectors
  * @param enforceTestIdSelectorForKeys
  */
-const getJestSelectors =
+export const getJestSelectors =
   <Selectors extends Record<keyof Selectors, Selectors[keyof Selectors]>>(
     selectors: Selectors,
     enforceTestIdSelectorForKeys: Array<keyof Selectors> = []
