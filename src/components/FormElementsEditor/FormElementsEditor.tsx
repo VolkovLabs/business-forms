@@ -14,7 +14,8 @@ import { useFormElements } from '../../hooks';
 import { FormElement, LayoutSection } from '../../types';
 import { GetElementUniqueId, Reorder } from '../../utils';
 import { Collapse } from '../Collapse';
-import { ElementEditor, NewElement } from './components';
+import { ElementEditor } from '../ElementEditor';
+import { NewElement } from '../NewElement';
 import { Styles } from './styles';
 
 /**

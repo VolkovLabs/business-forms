@@ -8,22 +8,37 @@ import {
   SelectElementOptions,
   StringElementOptions,
   TestIds,
-} from '../../../../constants';
-import { FormElement } from '../../../../types';
-import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../../../utils';
+} from '../../constants';
+import { FormElement } from '../../types';
+import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 
 /**
  * Properties
  */
 interface Props {
+  /**
+   * Element
+   */
   element: FormElement;
+
+  /**
+   * On Change
+   */
   onChange: (element: FormElement, checkConflict?: boolean) => void;
+
+  /**
+   * On Change Option
+   */
   onChangeOption: (
     element: FormElement,
     updatedOption: SelectableValue,
     value?: SelectableValue,
     checkConflict?: boolean
   ) => void;
+
+  /**
+   * Layout Section Options
+   */
   layoutSectionOptions: SelectableValue[];
 }
 

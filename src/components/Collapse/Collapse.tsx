@@ -6,12 +6,39 @@ import { Styles } from './styles';
  * Properties
  */
 interface Props {
+  /**
+   * Title
+   */
   title?: React.ReactElement | string;
+
+  /**
+   * Actions
+   */
   actions?: React.ReactElement;
+
+  /**
+   * Children
+   */
   children?: React.ReactElement | string;
+
+  /**
+   * Is Open?
+   */
   isOpen?: boolean;
+
+  /**
+   * On Toggle
+   */
   onToggle?: () => void;
+
+  /**
+   * Header Test Id
+   */
   headerTestId?: string;
+
+  /**
+   * Content Test Id
+   */
   contentTestId?: string;
 }
 

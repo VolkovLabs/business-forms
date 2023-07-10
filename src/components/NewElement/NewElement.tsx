@@ -1,15 +1,22 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { Alert, Button, CollapsableSection, InlineField, Input, Select } from '@grafana/ui';
-import { FormElementDefault, FormElementTypeOptions, TestIds } from '../../../../constants';
-import { FormElement } from '../../../../types';
-import { GetElementUniqueId, GetElementWithNewType, IsElementConflict } from '../../../../utils';
+import { FormElementDefault, FormElementTypeOptions, TestIds } from '../../constants';
+import { FormElement } from '../../types';
+import { GetElementUniqueId, GetElementWithNewType, IsElementConflict } from '../../utils';
 
 /**
  * Properties
  */
 interface Props {
+  /**
+   * Elements
+   */
   elements: FormElement[];
+
+  /**
+   * On Save
+   */
   onSave: (element: FormElement) => void;
 }
 
@@ -93,7 +100,7 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
       </InlineField>
 
       {!!addElementError && (
-        <Alert data-testid={TestIds.formElementsEditor.addElementError} severity="error" title="Element Creation">
+        <Alert data-testid={TestIds.formElementsEditor.addElementError} severity="error" title="Add Element">
           {addElementError}
         </Alert>
       )}

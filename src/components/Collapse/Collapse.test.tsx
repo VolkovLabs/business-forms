@@ -35,7 +35,6 @@ describe('Collapse', () => {
     expect(selectors.content(true)).not.toBeInTheDocument();
 
     rerender(getComponent({ isOpen: true }));
-
     expect(selectors.content()).toBeInTheDocument();
   });
 
@@ -43,9 +42,7 @@ describe('Collapse', () => {
     const onToggle = jest.fn();
 
     render(getComponent({ onToggle, actions: <button data-testid={InTestIds.buttonRemove}>remove</button> }));
-
     fireEvent.click(selectors.buttonRemove());
-
     expect(onToggle).not.toHaveBeenCalled();
   });
 });
