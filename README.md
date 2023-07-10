@@ -17,6 +17,7 @@ The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the 
 
 ## Requirements
 
+- **Grafana 9** and **Grafana 10** are required for major version 3.
 - **Grafana 8.5** and **Grafana 9** are required for major version 2.
 - **Grafana 8** is required for major version 1.
 

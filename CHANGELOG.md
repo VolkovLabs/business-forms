@@ -2,6 +2,12 @@
 
 ## 3.0.0 (2023-07-09)
 
+## Breaking changes
+
+- Requires Grafana 9 and Grafana 10.
+- Form Elements are kept in the local state and not saved in the dashboard by default.
+- Stated and Elements refactoring may introduce breaking changes. Please test before using panel in Production.
+
 ### Features / Enhancements
 
 - Update Documentation for API Servers (#149)
@@ -16,6 +22,7 @@
 - Update Form elements to use local state (#191)
 - Add notifyWarning() function (#201)
 - Add drag and drop for elements editor (#202)
+- Remove Grafana 8.5 support (#203)
 
 ## 2.8.0 (2023-03-16)
 
