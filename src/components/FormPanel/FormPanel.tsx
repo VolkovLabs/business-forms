@@ -416,7 +416,7 @@ export const FormPanel: React.FC<Props> = ({
           )}
 
           {options.layout.variant === LayoutVariant.SPLIT &&
-            options.layout.orientation === LayoutOrientation.HORIZONTAL && (
+            options.layout.orientation !== LayoutOrientation.VERTICAL && (
               <tr>
                 {options.layout?.sections?.map((section, id) => {
                   return (
