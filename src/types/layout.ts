@@ -1,4 +1,4 @@
-import { LayoutVariant } from '../constants';
+import { LayoutOrientation, LayoutVariant } from '../constants';
 import { LayoutSection } from './layout-section';
 
 /**
@@ -25,4 +25,11 @@ export interface LayoutOptions {
    * @type {number}
    */
   padding: number;
+
+  /**
+   * Orientation
+   *
+   * @type {LayoutOrientation}
+   */
+  orientation: LayoutOrientation;
 }

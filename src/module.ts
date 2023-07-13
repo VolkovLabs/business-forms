@@ -21,6 +21,8 @@ import {
   ContentType,
   ContentTypeOptions,
   InitialHighlightColorDefault,
+  LayoutOrientation,
+  LayoutOrientationOptions,
   LayoutVariant,
   LayoutVariantOptions,
   RequestMethod,
@@ -73,6 +75,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         min: 0,
         max: 20,
       },
+    })
+    .addRadio({
+      path: 'layout.orientation',
+      name: 'Orientation',
+      category: ['Layout'],
+      settings: {
+        options: LayoutOrientationOptions,
+      },
+      defaultValue: LayoutOrientation.HORIZONTAL,
+      showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
     });
 
   /**

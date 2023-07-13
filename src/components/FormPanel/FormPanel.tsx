@@ -12,7 +12,14 @@ import {
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
-import { ButtonVariant, FormElementType, LayoutVariant, RequestMethod, TestIds } from '../../constants';
+import {
+  ButtonVariant,
+  FormElementType,
+  LayoutOrientation,
+  LayoutVariant,
+  RequestMethod,
+  TestIds,
+} from '../../constants';
 import { useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
@@ -408,25 +415,49 @@ export const FormPanel: React.FC<Props> = ({
             </tr>
           )}
 
-          {options.layout.variant === LayoutVariant.SPLIT && (
-            <tr>
-              {options.layout?.sections?.map((section, id) => {
-                return (
-                  <td className={styles.td} key={id} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
-                    <FieldSet label={section.name}>
-                      <FormElements
-                        options={options}
-                        elements={elements}
-                        onChangeElement={onChangeElement}
-                        initial={initial}
-                        section={section}
-                      />
-                    </FieldSet>
-                  </td>
-                );
-              })}
-            </tr>
-          )}
+          {options.layout.variant === LayoutVariant.SPLIT &&
+            options.layout.orientation === LayoutOrientation.HORIZONTAL && (
+              <tr>
+                {options.layout?.sections?.map((section, id) => {
+                  return (
+                    <td className={styles.td} key={id} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
+                      <FieldSet label={section.name}>
+                        <FormElements
+                          options={options}
+                          elements={elements}
+                          onChangeElement={onChangeElement}
+                          initial={initial}
+                          section={section}
+                        />
+                      </FieldSet>
+                    </td>
+                  );
+                })}
+              </tr>
+            )}
+
+          {options.layout.variant === LayoutVariant.SPLIT &&
+            options.layout.orientation === LayoutOrientation.VERTICAL && (
+              <>
+                {options.layout?.sections?.map((section, id) => {
+                  return (
+                    <tr key={id}>
+                      <td className={styles.td} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
+                        <FieldSet label={section.name}>
+                          <FormElements
+                            options={options}
+                            elements={elements}
+                            onChangeElement={onChangeElement}
+                            initial={initial}
+                            section={section}
+                          />
+                        </FieldSet>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </>
+            )}
           <tr>
             <td colSpan={options.layout?.sections?.length}>
               <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
