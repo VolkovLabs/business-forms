@@ -1,27 +1,29 @@
 import { PanelPlugin } from '@grafana/data';
+import { PanelOptions } from './types';
+import { ButtonVariant, LayoutVariant, RequestMethod } from './constants';
 import { plugin } from './module';
 
 /*
  Plugin
  */
 describe('plugin', () => {
+  /**
+   * Builder
+   */
+  const builder: any = {
+    addColorPicker: jest.fn().mockImplementation(() => builder),
+    addCustomEditor: jest.fn().mockImplementation(() => builder),
+    addRadio: jest.fn().mockImplementation(() => builder),
+    addSelect: jest.fn().mockImplementation(() => builder),
+    addSliderInput: jest.fn().mockImplementation(() => builder),
+    addTextInput: jest.fn().mockImplementation(() => builder),
+  };
+
   it('Should be instance of PanelPlugin', () => {
     expect(plugin).toBeInstanceOf(PanelPlugin);
   });
 
   it('Should add inputs', () => {
-    /**
-     * Builder
-     */
-    const builder: any = {
-      addColorPicker: jest.fn().mockImplementation(() => builder),
-      addCustomEditor: jest.fn().mockImplementation(() => builder),
-      addRadio: jest.fn().mockImplementation(() => builder),
-      addSelect: jest.fn().mockImplementation(() => builder),
-      addSliderInput: jest.fn().mockImplementation(() => builder),
-      addTextInput: jest.fn().mockImplementation(() => builder),
-    };
-
     /**
      * Supplier
      */
@@ -36,5 +38,160 @@ describe('plugin', () => {
     expect(builder.addSelect).toHaveBeenCalled();
     expect(builder.addSliderInput).toHaveBeenCalled();
     expect(builder.addTextInput).toHaveBeenCalled();
+  });
+
+  describe('Input Visibility', () => {
+    /**
+     * Add Input Implementation
+     * @param config
+     * @param result
+     */
+    const addInputImplementation = (config: Partial<PanelOptions>, result: string[]) => (input: any) => {
+      if (input.showIf) {
+        if (input.showIf({ initial: {}, layout: {}, update: {}, reset: {}, saveDefault: {}, submit: {}, ...config })) {
+          result.push(input.path);
+        }
+      } else {
+        result.push(input.path);
+      }
+
+      return builder;
+    };
+
+    it('Should show layout sections and orientation if split layout enabled', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ layout: { variant: LayoutVariant.SPLIT } as any }, shownOptionsPaths)
+      );
+      builder.addRadio.mockImplementation(
+        addInputImplementation({ layout: { variant: LayoutVariant.SPLIT } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['layout.sections', 'layout.orientation']));
+    });
+
+    it('Should show initial url and header if method specified', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addTextInput.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.GET } as any }, shownOptionsPaths)
+      );
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.GET } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.url', 'initial.header']));
+    });
+
+    it('Should show initial contentType if method POST', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addSelect.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.POST } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.contentType']));
+    });
+
+    it('Should show initial highlightColor if highlight enabled', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addColorPicker.mockImplementation(
+        addInputImplementation({ initial: { highlight: true } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.highlightColor']));
+    });
+
+    it('Should show update url and header if method specified', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addTextInput.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.GET } as any }, shownOptionsPaths)
+      );
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ update: { method: RequestMethod.GET } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.url', 'update.header']));
+    });
+
+    it('Should show update contentType if method and url specified', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addSelect.mockImplementation(
+        addInputImplementation({ update: { method: RequestMethod.POST, url: 'abc.com' } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.contentType']));
+    });
+
+    it('Should show update updatedOnly and confirm if layout enabled', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addRadio.mockImplementation(
+        addInputImplementation({ layout: { variant: LayoutVariant.SINGLE } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.updatedOnly', 'update.confirm']));
+    });
+
+    it('Should show submit foregroundColor and backgroundColor if variant custom', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addColorPicker.mockImplementation(
+        addInputImplementation({ submit: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['submit.foregroundColor', 'submit.backgroundColor']));
+    });
+
+    it('Should show reset foregroundColor and backgroundColor if variant custom', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addColorPicker.mockImplementation(
+        addInputImplementation({ reset: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['reset.foregroundColor', 'reset.backgroundColor']));
+    });
+
+    it('Should show reset icon and text if variant is not hidden', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addSelect.mockImplementation(
+        addInputImplementation({ reset: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      builder.addTextInput.mockImplementation(
+        addInputImplementation({ reset: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['reset.icon', 'reset.text']));
+    });
+
+    it('Should show saveDefault icon and text if variant is not hidden', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addSelect.mockImplementation(
+        addInputImplementation({ saveDefault: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      builder.addTextInput.mockImplementation(
+        addInputImplementation({ saveDefault: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['saveDefault.icon', 'saveDefault.text']));
+    });
   });
 });
