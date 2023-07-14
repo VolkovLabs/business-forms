@@ -356,7 +356,7 @@ export const FormPanel: React.FC<Props> = ({
       subscriber.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [options.initial]);
 
   /**
    * Check updated values
