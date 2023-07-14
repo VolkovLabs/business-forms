@@ -23,6 +23,8 @@
 - Add notifyWarning() function (#201)
 - Add drag and drop for elements editor (#202)
 - Remove Grafana 8.5 support (#203)
+- Add running initial request on initial updates (#205)
+- Add vertical layout orientation (#206)
 
 ## 2.8.0 (2023-03-16)
 
