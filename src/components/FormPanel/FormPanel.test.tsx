@@ -8,6 +8,7 @@ import {
   ButtonVariant,
   FormElementDefault,
   FormElementType,
+  LayoutOrientation,
   LayoutVariant,
   RequestMethod,
 } from '../../constants';
@@ -125,6 +126,27 @@ describe('Panel', () => {
           options: {
             layout: {
               variant: LayoutVariant.SPLIT,
+              sections: [{ name: 'section1' }, { name: 'section2' }],
+            },
+          },
+        })
+      )
+    );
+    expect(selectors.splitLayoutContent(false, 'section1')).toBeInTheDocument();
+    expect(selectors.splitLayoutContent(false, 'section2')).toBeInTheDocument();
+  });
+
+  /**
+   * Split Vertical Layout
+   */
+  it('Should render split vertical layout', async () => {
+    await act(() =>
+      render(
+        getComponent({
+          options: {
+            layout: {
+              variant: LayoutVariant.SPLIT,
+              orientation: LayoutOrientation.VERTICAL,
               sections: [{ name: 'section1' }, { name: 'section2' }],
             },
           },
