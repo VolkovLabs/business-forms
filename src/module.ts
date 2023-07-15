@@ -58,14 +58,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       },
       defaultValue: LayoutVariant.SINGLE,
     })
-    .addCustomEditor({
-      id: 'layout.sections',
-      path: 'layout.sections',
-      name: 'Sections',
-      category: ['Layout'],
-      editor: LayoutSectionsEditor,
-      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
-    })
     .addSliderInput({
       path: 'layout.padding',
       name: 'Padding',
@@ -75,11 +67,24 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         min: 0,
         max: 20,
       },
+    });
+
+  /**
+   * Sections
+   */
+  builder
+    .addCustomEditor({
+      id: 'layout.sections',
+      path: 'layout.sections',
+      name: 'Sections',
+      category: ['Sections'],
+      editor: LayoutSectionsEditor,
+      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
     })
     .addRadio({
       path: 'layout.orientation',
       name: 'Orientation',
-      category: ['Layout'],
+      category: ['Sections'],
       settings: {
         options: LayoutOrientationOptions,
       },

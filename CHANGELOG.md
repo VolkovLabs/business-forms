@@ -1,12 +1,12 @@
 # Change Log
 
-## 3.0.0 (2023-07-14)
+## 3.0.0 (2023-07-15)
 
 ## Breaking changes
 
 - Requires Grafana 9 and Grafana 10.
 - Form Elements are kept in the local state and not saved in the dashboard by default.
-- Stated and Elements refactoring may introduce breaking changes. Please test before using panel in Production.
+- Local states and elements refactoring may introduce breaking changes. Please test before using in Production.
 
 ### Features / Enhancements
 
