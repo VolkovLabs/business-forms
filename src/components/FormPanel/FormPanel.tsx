@@ -523,6 +523,7 @@ export const FormPanel: React.FC<Props> = ({
                     onClick={onSaveUpdates}
                     size={options.buttonGroup.size}
                     data-testid={TestIds.panel.buttonSaveDefault}
+                    title="Save values in the dashboard. Requires to Save dashboard."
                   >
                     {options.saveDefault.text}
                   </Button>
