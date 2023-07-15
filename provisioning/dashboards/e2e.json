@@ -41,34 +41,44 @@
         "elements": [
           {
             "id": "amount",
+            "labelWidth": 10,
             "title": "Amount",
             "type": "number",
+            "uid": "5ec96b3b-1360-48fb-aea0-6aecfd5a6bfb",
             "unit": "Ghz",
             "value": 30
           },
           {
             "id": "updated",
+            "labelWidth": 10,
             "title": "Updated",
             "type": "boolean",
+            "uid": "251b9dc7-7fed-4df1-981f-122cd141c51c",
             "value": false
           },
           {
             "id": "name",
+            "labelWidth": 10,
             "title": "Name",
             "type": "string",
+            "uid": "67e7fa0e-8038-4b14-80d0-9e2ccc3336ff",
             "value": "Name"
           },
           {
             "id": "step",
+            "labelWidth": 10,
             "max": 6,
             "min": 0,
             "step": 1,
             "title": "Step",
             "type": "slider",
+            "uid": "60c1e59d-9b9d-414e-974d-ef0ce63db007",
+            "unit": "",
             "value": 4
           },
           {
             "id": "select",
+            "labelWidth": 10,
             "options": [
               {
                 "label": "Max",
@@ -85,15 +95,19 @@
             ],
             "title": "Select",
             "type": "select",
+            "uid": "fe3025fc-b91a-42b6-858f-1ac20e49f768",
             "unit": "C"
           },
           {
             "id": "dateTime",
+            "labelWidth": 10,
             "title": "DateTime",
-            "type": "datetime"
+            "type": "datetime",
+            "uid": "69baa91c-9674-455e-896b-83e866a68b36"
           },
           {
             "id": "radio",
+            "labelWidth": 10,
             "options": [
               {
                 "label": "Plus",
@@ -105,23 +119,31 @@
               }
             ],
             "title": "Radio",
-            "type": "radio"
+            "type": "radio",
+            "uid": "9dbab8b8-92ca-4bd0-b7b4-9e5f47911de8"
           },
           {
             "id": "disabled",
+            "labelWidth": 10,
+            "options": [],
             "title": "Disabled",
-            "type": "disabled"
+            "type": "disabled",
+            "uid": "79758a94-6654-4dbe-a44e-a311cba6a4e5"
           },
           {
             "id": "password",
+            "labelWidth": 10,
             "title": "Password",
-            "type": "password"
+            "type": "password",
+            "uid": "0b021eb5-f8b3-4e8d-9387-9693d6a7df8c"
           },
           {
             "id": "text",
+            "labelWidth": 10,
             "rows": 4,
             "title": "Text",
-            "type": "textarea"
+            "type": "textarea",
+            "uid": "ff544458-ce27-4e30-bac5-58a7f8fbe955"
           }
         ],
         "height": 0,
@@ -141,6 +163,7 @@
           "url": "http://localhost:3001/${var}"
         },
         "layout": {
+          "orientation": "horizontal",
           "padding": 10,
           "variant": "single"
         },
@@ -151,6 +174,11 @@
           "icon": "process",
           "text": "Reset",
           "variant": "secondary"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
         },
         "submit": {
           "backgroundColor": "purple",
@@ -218,6 +246,6 @@
   "timezone": "",
   "title": "E2E",
   "uid": "ddab9faf-2c15-431a-a047-9a7a6a0aed71",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
