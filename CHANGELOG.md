@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Update jest selectors to use npm package (#209)
+
 ## 3.0.0 (2023-07-15)
 
 ## Breaking changes
