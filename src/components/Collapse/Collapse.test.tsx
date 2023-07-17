@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getJestSelectors } from '../../utils';
+import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import { Collapse } from './Collapse';
 
 type Props = React.ComponentProps<typeof Collapse>;
