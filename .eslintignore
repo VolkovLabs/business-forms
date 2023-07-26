@@ -1,0 +1,15 @@
+# Configuration files
+jest-setup.js
+jest.config.js
+webpack.config.ts
+
+# Development folders
+coverage/
+cypress/
+dist/
+
+# Servers
+server-deno/
+server-json/
+server-mysql/
+server-pg/
