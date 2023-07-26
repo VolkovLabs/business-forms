@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Update jest selectors to use npm package (#209)
+- Add onChange to update elements in local state within custom code (#214)
 
 ## 3.0.0 (2023-07-15)
 
