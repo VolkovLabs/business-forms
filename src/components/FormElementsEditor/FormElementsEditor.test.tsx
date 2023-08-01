@@ -451,6 +451,33 @@ describe('Form Elements Editor', () => {
   });
 
   /**
+   * Multi Select
+   */
+  it('Should find component with Multi Select', () => {
+    const elements = [
+      {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.MULTISELECT,
+        options: [{ id: 'id', label: 'label', type: FormElementType.NUMBER }],
+      },
+    ];
+
+    render(getComponent({ value: elements, onChange }));
+    expect(selectors.root()).toBeInTheDocument();
+
+    /**
+     * Make Select Element is opened
+     */
+    const elementSelectors = openElement('select', FormElementType.MULTISELECT);
+
+    expect(elementSelectors.fieldType()).toBeInTheDocument();
+    expect(elementSelectors.fieldOptionType()).toBeInTheDocument();
+    expect(elementSelectors.fieldOptionLabel()).toBeInTheDocument();
+    expect(elementSelectors.buttonRemoveOption()).toBeInTheDocument();
+  });
+
+  /**
    * Two elements
    */
   it('Should find component with Two Elements', () => {

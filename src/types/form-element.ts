@@ -208,6 +208,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.NUMBER } & NumberOptions)
     | ({ type: FormElementType.TEXTAREA } & TextareaOptions)
     | ({ type: FormElementType.SELECT } & SelectOptions)
+    | ({ type: FormElementType.MULTISELECT } & SelectOptions)
     | ({ type: FormElementType.RADIO } & SelectOptions)
     | ({ type: FormElementType.DISABLED } & SelectOptions)
     | { type: FormElementType.PASSWORD }

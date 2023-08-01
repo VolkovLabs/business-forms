@@ -1,7 +1,7 @@
 import Slider from 'rc-slider';
 import React, { ChangeEvent } from 'react';
 import { css, cx } from '@emotion/css';
-import { dateTime, DateTime, SelectableValue } from '@grafana/data';
+import { dateTime, DateTime } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
@@ -382,7 +382,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
               </InlineField>
             )}
 
-            {element.type === FormElementType.SELECT && (
+            {(element.type === FormElementType.SELECT || element.type === FormElementType.MULTISELECT) && (
               <InlineField
                 label={element.title}
                 grow={!element.width}
@@ -391,12 +391,13 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 transparent={!element.title}
               >
                 <Select
+                  isMulti={element.type === FormElementType.MULTISELECT}
                   aria-label={TestIds.formElements.fieldSelect}
                   value={element.value !== undefined ? element.value : null}
-                  onChange={(event: SelectableValue) => {
+                  onChange={(event) => {
                     onChangeElement({
                       ...element,
-                      value: event?.value,
+                      value: Array.isArray(event) ? event.map(({ value }) => value) : event.value,
                     });
                   }}
                   width={ApplyWidth(element.width)}
