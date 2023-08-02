@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
-import { FormElement, FormElementBase, FormElementByType, LocalFormElement, ShowIfHelper } from '../types';
+import { FormElement, FormElementByType, LocalFormElement, ShowIfHelper } from '../types';
 
 /**
  * Reorder
@@ -23,10 +23,10 @@ export const Reorder = <T extends unknown>(list: T[], startIndex: number, endInd
  * @param newType
  */
 export const GetElementWithNewType = (
-  element: FormElement,
+  element: LocalFormElement,
   newType: FormElementType
-): FormElementByType<typeof newType> => {
-  const baseValues: FormElementBase = {
+): FormElementByType<LocalFormElement, typeof newType> => {
+  const baseValues = {
     uid: element.uid,
     id: element.id,
     type: newType,
@@ -37,6 +37,7 @@ export const GetElementWithNewType = (
     tooltip: element.tooltip,
     section: element.section,
     unit: element.unit,
+    helpers: element.helpers,
   };
 
   switch (newType) {

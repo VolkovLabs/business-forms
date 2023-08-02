@@ -249,4 +249,4 @@ export type LocalFormElement = FormElement & {
 /**
  * FormElementByType
  */
-export type FormElementByType<Type> = Extract<FormElement, { type: Type }>;
+export type FormElementByType<ElementType, Type> = Extract<ElementType, { type: Type }>;

@@ -20,7 +20,7 @@ import {
   StringElementOptions,
   TestIds,
 } from '../../constants';
-import { FormElement } from '../../types';
+import { LocalFormElement } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 import { Styles } from './styles';
 
@@ -31,18 +31,18 @@ interface Props {
   /**
    * Element
    */
-  element: FormElement;
+  element: LocalFormElement;
 
   /**
    * On Change
    */
-  onChange: (element: FormElement, checkConflict?: boolean) => void;
+  onChange: (element: LocalFormElement, checkConflict?: boolean) => void;
 
   /**
    * On Change Option
    */
   onChangeOption: (
-    element: FormElement,
+    element: LocalFormElement,
     updatedOption: SelectableValue,
     value?: SelectableValue,
     checkConflict?: boolean

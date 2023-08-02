@@ -2,8 +2,8 @@ import React, { ChangeEvent, useCallback, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { Alert, Button, CollapsableSection, InlineField, Input, Select } from '@grafana/ui';
 import { FormElementDefault, FormElementTypeOptions, TestIds } from '../../constants';
-import { FormElement } from '../../types';
-import { GetElementUniqueId, GetElementWithNewType, IsElementConflict } from '../../utils';
+import { FormElement, LocalFormElement } from '../../types';
+import { GetElementWithNewType, IsElementConflict, ToLocalFormElement } from '../../utils';
 
 /**
  * Properties
@@ -12,12 +12,12 @@ interface Props {
   /**
    * Elements
    */
-  elements: FormElement[];
+  elements: LocalFormElement[];
 
   /**
    * On Save
    */
-  onSave: (element: FormElement) => void;
+  onSave: (element: LocalFormElement) => void;
 }
 
 /**
@@ -50,8 +50,7 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
     /**
      * Save Element
      */
-    const element = GetElementWithNewType(newElement, newElement.type);
-    onSave({ ...element, uid: GetElementUniqueId(element) });
+    onSave(GetElementWithNewType(ToLocalFormElement(newElement), newElement.type));
 
     /**
      * Reset input values
