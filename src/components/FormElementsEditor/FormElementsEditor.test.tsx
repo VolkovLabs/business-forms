@@ -13,68 +13,6 @@ import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
 /**
- * Mock @grafana/ui
- */
-jest.mock('@grafana/ui', () => ({
-  ...jest.requireActual('@grafana/ui'),
-  /**
-   * Mock Select component
-   */
-  Select: jest.fn().mockImplementation(({ options, onChange, value, ...restProps }) => (
-    <select
-      onChange={(event: any) => {
-        if (onChange) {
-          onChange(options.find((option: any) => option.value === event.target.value));
-        }
-      }}
-      value={value?.value}
-      {...restProps}
-    >
-      {options.map(({ label, value }: any) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  )),
-  CodeEditor: jest.fn().mockImplementation(({ onBlur, ...restProps }) => {
-    return (
-      <input
-        aria-label={restProps['aria-label']}
-        value={restProps.value}
-        onChange={(event) => {
-          if (onBlur) {
-            onBlur(event.target.value);
-          }
-        }}
-        onBlur={(event) => {
-          if (onBlur) {
-            onBlur(event.target.value);
-          }
-        }}
-      />
-    );
-  }),
-}));
-
-/**
- * Mock react-beautiful-dnd
- */
-jest.mock('react-beautiful-dnd', () => ({
-  ...jest.requireActual('react-beautiful-dnd'),
-  DragDropContext: jest.fn(({ children }) => children),
-  Droppable: jest.fn(({ children }) => children({})),
-  Draggable: jest.fn(({ children }) =>
-    children(
-      {
-        draggableProps: {},
-      },
-      {}
-    )
-  ),
-}));
-
-/**
  * Mock timers
  */
 jest.useFakeTimers();

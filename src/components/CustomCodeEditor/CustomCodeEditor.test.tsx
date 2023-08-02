@@ -7,16 +7,6 @@ import { getCustomCodeEditorSelectors } from '../../utils';
 import { CustomCodeEditor } from './CustomCodeEditor';
 
 /**
- * Mock @grafana/ui
- */
-jest.mock('@grafana/ui', () => ({
-  ...jest.requireActual('@grafana/ui'),
-  CodeEditor: jest.fn().mockImplementation((props) => {
-    return <div aria-label={props['aria-label']} />;
-  }),
-}));
-
-/**
  * Mock @grafana/runtime
  */
 jest.mock('@grafana/runtime', () => ({

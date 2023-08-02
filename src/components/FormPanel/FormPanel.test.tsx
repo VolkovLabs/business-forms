@@ -21,7 +21,7 @@ import { FormPanel } from './FormPanel';
  * Mock Form Elements
  */
 jest.mock('../FormElements', () => ({
-  FormElements: jest.fn().mockImplementation(() => null),
+  FormElements: jest.fn(() => null),
 }));
 
 /**
