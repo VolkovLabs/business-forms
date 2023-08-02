@@ -12,6 +12,7 @@ import {
   useStyles2,
 } from '@grafana/ui';
 import {
+  CodeEditorHeight,
   CodeLanguage,
   CodeLanguageOptions,
   FormElementType,
@@ -466,7 +467,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         <CodeEditor
           value={element.showIf || ''}
           language={CodeLanguage.JAVASCRIPT}
-          height={300}
+          height={`${CodeEditorHeight}px`}
           onBlur={(code) => {
             onChange({
               ...element,

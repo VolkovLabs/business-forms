@@ -160,21 +160,26 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         suggestions: true,
       },
       defaultValue: CodeInitialDefault,
-    })
+    });
+
+  /**
+   * Highlight
+   */
+  builder
     .addRadio({
       path: 'initial.highlight',
-      name: 'Highlight changed values',
+      name: 'Highlight Changes',
       description: 'Some elements are not supporting highlighting.',
-      category: ['Initial Request'],
+      category: ['Highlight Changes'],
       settings: {
         options: [
           {
-            value: false,
-            label: 'No',
+            value: true,
+            label: 'Enabled',
           },
           {
-            value: true,
-            label: 'Highlight',
+            value: false,
+            label: 'Disabled',
           },
         ],
       },
@@ -183,8 +188,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     })
     .addColorPicker({
       path: 'initial.highlightColor',
-      name: 'Highlight Color',
-      category: ['Initial Request'],
+      name: 'Color',
+      category: ['Highlight Changes'],
       defaultValue: InitialHighlightColorDefault,
       settings: {
         disableNamedColors: true,
