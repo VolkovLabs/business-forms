@@ -147,16 +147,22 @@ export const ApplyWidth = (value: number | null): undefined | number => {
 export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv4();
 
 /**
- * Get Elements With Uid
+ * To Local Form Element
  */
-export const GetElementsWithUid = (elements?: FormElement[]) => {
-  if (elements && Array.isArray(elements)) {
-    return elements.map((element) => ({
-      ...element,
-      uid: GetElementUniqueId(element),
-    }));
+export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
+  const showIf = element.showIf;
+  let showIfFn: ShowIfHelper = () => true;
+  if (showIf || showIf?.trim()) {
+    const fn = new Function('elements', showIf);
+    showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
   }
-  return [];
+  return {
+    ...element,
+    helpers: {
+      showIf: showIfFn,
+    },
+    uid: GetElementUniqueId(element),
+  };
 };
 
 /**
@@ -164,21 +170,7 @@ export const GetElementsWithUid = (elements?: FormElement[]) => {
  */
 export const NormalizeElementsForLocalState = (elements?: FormElement[]): LocalFormElement[] => {
   if (elements && Array.isArray(elements)) {
-    return elements.map<LocalFormElement>((element) => {
-      const showIf = element.showIf;
-      let showIfFn: ShowIfHelper = () => true;
-      if (showIf || showIf?.trim()) {
-        const fn = new Function('elements', showIf);
-        showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
-      }
-      return {
-        ...element,
-        helpers: {
-          showIf: showIfFn,
-        },
-        uid: GetElementUniqueId(element),
-      };
-    });
+    return elements.map<LocalFormElement>((element) => ToLocalFormElement(element));
   }
   return [];
 };

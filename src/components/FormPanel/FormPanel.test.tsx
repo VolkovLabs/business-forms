@@ -12,8 +12,8 @@ import {
   LayoutVariant,
   RequestMethod,
 } from '../../constants';
-import { FormElement } from '../../types';
-import { getPanelSelectors } from '../../utils';
+import { LocalFormElement } from '../../types';
+import { getPanelSelectors, ToLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -679,26 +679,26 @@ describe('Panel', () => {
 
   describe('Confirm changes', () => {
     const prepareComponent = async () => {
-      let triggerChangeElement: (element: FormElement) => void = jest.fn();
+      let triggerChangeElement: (element: LocalFormElement) => void = jest.fn();
       jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
         triggerChangeElement = onChangeElement;
         return null;
       });
 
-      const elementWithoutInitialValue = {
+      const elementWithoutInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'test',
         title: 'Field',
         value: '123',
         uid: 'test123',
-      };
-      const elementWithInitialValue = {
+      });
+      const elementWithInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'string',
         title: 'Field 2',
         value: '',
         uid: 'string123',
-      };
+      });
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
@@ -823,26 +823,26 @@ describe('Panel', () => {
   describe('Save default values', () => {
     it('Should update options', async () => {
       const onOptionsChange = jest.fn();
-      let triggerChangeElement: (element: FormElement) => void = jest.fn();
+      let triggerChangeElement: (element: LocalFormElement) => void = jest.fn();
       jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
         triggerChangeElement = onChangeElement;
         return null;
       });
 
-      const elementWithoutInitialValue = {
+      const elementWithoutInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'test',
         title: 'Field',
         value: '123',
         uid: 'test123',
-      };
-      const elementWithInitialValue = {
+      });
+      const elementWithInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'string',
         title: 'Field 2',
         value: '',
         uid: 'string123',
-      };
+      });
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
