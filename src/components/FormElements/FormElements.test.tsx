@@ -46,11 +46,15 @@ jest.mock('@grafana/ui', () => ({
   /**
    * Mock Select component
    */
-  Select: jest.fn().mockImplementation(({ options, onChange, value, ...restProps }) => (
+  Select: jest.fn().mockImplementation(({ options, onChange, value, isMulti, ...restProps }) => (
     <select
       onChange={(event: any) => {
         if (onChange) {
-          onChange(options.find((option: any) => option.value === event.target.value));
+          if (isMulti) {
+            onChange(options.filter((option: any) => event.target.values.includes(option.value)));
+          } else {
+            onChange(options.find((option: any) => option.value === event.target.value));
+          }
         }
       }}
       /**
@@ -58,6 +62,7 @@ jest.mock('@grafana/ui', () => ({
        * For Select component in @grafana/io should be used null to reset value.
        */
       value={value === null ? '' : value}
+      multiple={isMulti}
       {...restProps}
     >
       {options.map(({ label, value }: any) => (
@@ -318,7 +323,7 @@ describe('Form Elements', () => {
     }: {
       name: string;
       getField: () => HTMLElement;
-      newValue: string;
+      newValue: unknown;
       elements?: any[];
       expectedValue: any;
     }) => {
@@ -344,7 +349,11 @@ describe('Form Elements', () => {
         /**
          * Change field value
          */
-        await act(() => fireEvent.change(getField(), { target: { value: newValue } }));
+        await act(() =>
+          fireEvent.change(getField(), {
+            target: { value: newValue, values: Array.isArray(newValue) ? newValue : [newValue] },
+          })
+        );
 
         /**
          * Rerender with updated elements
@@ -438,6 +447,20 @@ describe('Form Elements', () => {
         getField: selectors.fieldSelect,
         newValue: '123',
         expectedValue: '123',
+      },
+      {
+        name: 'Should update multi select value',
+        elements: [
+          {
+            id: 'number',
+            type: FormElementType.MULTISELECT,
+            value: ['111'],
+            options: [{ value: '111' }, { value: '123' }],
+          },
+        ],
+        getField: selectors.fieldSelect,
+        newValue: ['111', '123'],
+        expectedValue: ['111', '123'],
       },
     ].forEach((scenario) => runFieldChangeScenario(scenario));
 

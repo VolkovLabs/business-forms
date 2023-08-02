@@ -77,6 +77,7 @@ export const GetElementWithNewType = (
       };
     }
     case FormElementType.SELECT:
+    case FormElementType.MULTISELECT:
     case FormElementType.DISABLED:
     case FormElementType.RADIO: {
       return {

@@ -14,6 +14,7 @@ export const enum FormElementType {
   RADIO = 'radio',
   SECRET = 'secret',
   SELECT = 'select',
+  MULTISELECT = 'multiselect',
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
@@ -58,6 +59,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.SELECT,
     label: 'Select with Custom options',
+  },
+  {
+    value: FormElementType.MULTISELECT,
+    label: 'Multi Select with Custom options',
   },
   {
     value: FormElementType.STRING,

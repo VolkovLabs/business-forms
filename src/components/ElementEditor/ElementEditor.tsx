@@ -337,6 +337,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
 
       {(element.type === FormElementType.RADIO ||
         element.type === FormElementType.SELECT ||
+        element.type === FormElementType.MULTISELECT ||
         element.type === FormElementType.DISABLED) && (
         <div>
           {element.options?.map((option, index) => (
