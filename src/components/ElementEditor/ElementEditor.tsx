@@ -463,7 +463,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         </div>
       )}
 
-      <Field label="Show If">
+      <Field label="Show if returned value is true">
         <CodeEditor
           value={element.showIf || ''}
           language={CodeLanguage.JAVASCRIPT}
