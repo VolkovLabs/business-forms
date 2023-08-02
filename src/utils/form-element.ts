@@ -152,11 +152,13 @@ export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv
  */
 export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
   const showIf = element.showIf;
+
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
     const fn = new Function('elements', showIf);
     showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
   }
+
   return {
     ...element,
     helpers: {
@@ -173,6 +175,7 @@ export const NormalizeElementsForLocalState = (elements?: FormElement[]): LocalF
   if (elements && Array.isArray(elements)) {
     return elements.map<LocalFormElement>((element) => ToLocalFormElement(element));
   }
+
   return [];
 };
 
