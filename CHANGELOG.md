@@ -8,6 +8,7 @@
 - Add onChange to update elements in local state within custom code (#214)
 - Update ESLint configuration (#215)
 - Add Multi Select element (#217)
+- Add conditional element visibility (#219)
 
 ## 3.0.0 (2023-07-15)
 

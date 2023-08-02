@@ -11,7 +11,7 @@ import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
 import { TestIds } from '../../constants';
 import { useFormElements } from '../../hooks';
-import { FormElement, LayoutSection } from '../../types';
+import { FormElement, LayoutSection, LocalFormElement } from '../../types';
 import { GetElementUniqueId, Reorder } from '../../utils';
 import { Collapse } from '../Collapse';
 import { ElementEditor } from '../ElementEditor';
@@ -65,7 +65,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
    * Add Elements
    */
   const onElementAdd = useCallback(
-    (newElement: FormElement) => {
+    (newElement: LocalFormElement) => {
       onChangeElements(elements.concat([newElement]));
     },
     [elements, onChangeElements]

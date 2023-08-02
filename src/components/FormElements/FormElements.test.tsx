@@ -1,98 +1,8 @@
 import React from 'react';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { FormElementDefault, FormElementType } from '../../constants';
-import { getFormElementsSelectors } from '../../utils';
+import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
-
-/**
- * Mock @grafana/ui
- */
-jest.mock('@grafana/ui', () => ({
-  ...jest.requireActual('@grafana/ui'),
-  CodeEditor: jest.fn().mockImplementation(({ onBlur, ...restProps }) => {
-    return (
-      <input
-        aria-label={restProps['aria-label']}
-        value={restProps.value}
-        onChange={(event) => {
-          if (onBlur) {
-            onBlur(event.target.value);
-          }
-        }}
-        onBlur={(event) => {
-          if (onBlur) {
-            onBlur(event.target.value);
-          }
-        }}
-      />
-    );
-  }),
-  /**
-   * Mock DatetimePicker component
-   */
-  DateTimePicker: jest.fn().mockImplementation(({ onChange, ...restProps }) => {
-    return (
-      <input
-        data-testid={restProps['data-testid']}
-        value={restProps.value}
-        onChange={(event) => {
-          if (onChange) {
-            onChange(event.target.value);
-          }
-        }}
-      />
-    );
-  }),
-  /**
-   * Mock Select component
-   */
-  Select: jest.fn().mockImplementation(({ options, onChange, value, isMulti, ...restProps }) => (
-    <select
-      onChange={(event: any) => {
-        if (onChange) {
-          if (isMulti) {
-            onChange(options.filter((option: any) => event.target.values.includes(option.value)));
-          } else {
-            onChange(options.find((option: any) => option.value === event.target.value));
-          }
-        }
-      }}
-      /**
-       * Fix jest warnings because null value.
-       * For Select component in @grafana/io should be used null to reset value.
-       */
-      value={value === null ? '' : value}
-      multiple={isMulti}
-      {...restProps}
-    >
-      {options.map(({ label, value }: any) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  )),
-}));
-
-/**
- * Mock rc-slider
- */
-jest.mock('rc-slider', () =>
-  jest.fn().mockImplementation(({ onChange, ariaLabelForHandle, value }) => {
-    return (
-      <input
-        type="number"
-        onChange={(event) => {
-          if (onChange) {
-            onChange(Number(event.target.value));
-          }
-        }}
-        aria-label={ariaLabelForHandle}
-        value={value}
-      />
-    );
-  })
-);
 
 /**
  * Mock timers
@@ -115,7 +25,9 @@ describe('Form Elements', () => {
    * @param restProps
    */
   const getComponent = ({ options = {}, ...restProps }: any) => {
-    return <FormElements options={options} elements={options.elements} {...restProps} />;
+    return (
+      <FormElements options={options} elements={NormalizeElementsForLocalState(options.elements)} {...restProps} />
+    );
   };
 
   describe('Render elements', () => {
@@ -125,7 +37,7 @@ describe('Form Elements', () => {
       update: {},
       reset: {},
       elements: [
-        FormElementDefault,
+        { ...FormElementDefault, id: 'string' },
         { id: 'password', type: FormElementType.PASSWORD },
         { id: 'number', type: FormElementType.NUMBER },
         { id: 'textarea', type: FormElementType.TEXTAREA },
@@ -139,6 +51,30 @@ describe('Form Elements', () => {
           type: FormElementType.DISABLED,
           value: 'option',
           options: [{ value: 'option', label: 'Option' }],
+        },
+        {
+          id: 'visibleByValue',
+          type: FormElementType.STRING,
+          value: '123',
+          showIf: `
+            const field = elements.find((element) => element.id === 'disabledWithOptions');
+            
+            if (field) {
+              return field.value === 'option'
+            }
+          `,
+        },
+        {
+          id: 'hiddenByValue',
+          type: FormElementType.STRING,
+          value: '123',
+          showIf: `
+            const field = elements.find((element) => element.id === 'disabledWithOptions');
+            
+            if (field) {
+              return field.value !== 'option'
+            }
+          `,
         },
       ],
     };
@@ -156,7 +92,13 @@ describe('Form Elements', () => {
     });
 
     it('Should render string field', () => {
-      expect(selectors.fieldString()).toBeInTheDocument();
+      const elementOption = findElementById('string');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.fieldString()).toBeInTheDocument();
     });
 
     it('Should render number field', () => {
@@ -202,6 +144,20 @@ describe('Form Elements', () => {
       const elementSelectors = getFormElementsSelectors(within(element));
       expect(elementSelectors.fieldDisabled()).toBeInTheDocument();
       expect(elementSelectors.fieldDisabled()).toHaveValue('Option');
+    });
+
+    it('Should render field if showIf returns true', () => {
+      const elementOption = findElementById('visibleByValue');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+    });
+
+    it('Should not render field if showIf returns falsy', () => {
+      const elementOption = findElementById('hiddenByValue');
+      const element = selectors.element(true, elementOption.id, elementOption.type);
+
+      expect(element).not.toBeInTheDocument();
     });
   });
 

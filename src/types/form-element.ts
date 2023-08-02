@@ -74,6 +74,13 @@ export interface FormElementBase {
    * @type {any}
    */
   value?: any;
+
+  /**
+   * Show If
+   *
+   * @type {string}
+   */
+  showIf?: string;
 }
 
 /**
@@ -218,6 +225,28 @@ export type FormElement = FormElementBase &
   );
 
 /**
+ * Show If Helper
+ */
+export type ShowIfHelper = (params: { elements: FormElement[] }) => boolean | undefined;
+
+/**
+ * Local Form Element
+ */
+export type LocalFormElement = FormElement & {
+  /**
+   * Helpers
+   */
+  helpers: {
+    /**
+     * Show If Function
+     *
+     * @type {ShowIfHelper}
+     */
+    showIf: ShowIfHelper;
+  };
+};
+
+/**
  * FormElementByType
  */
-export type FormElementByType<Type> = Extract<FormElement, { type: Type }>;
+export type FormElementByType<ElementType, Type> = Extract<ElementType, { type: Type }>;

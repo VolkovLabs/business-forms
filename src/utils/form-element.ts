@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
-import { FormElement, FormElementBase, FormElementByType } from '../types';
+import { FormElement, FormElementByType, LocalFormElement, ShowIfHelper } from '../types';
 
 /**
  * Reorder
@@ -23,10 +23,10 @@ export const Reorder = <T extends unknown>(list: T[], startIndex: number, endInd
  * @param newType
  */
 export const GetElementWithNewType = (
-  element: FormElement,
+  element: LocalFormElement,
   newType: FormElementType
-): FormElementByType<typeof newType> => {
-  const baseValues: FormElementBase = {
+): FormElementByType<LocalFormElement, typeof newType> => {
+  const baseValues = {
     uid: element.uid,
     id: element.id,
     type: newType,
@@ -37,6 +37,7 @@ export const GetElementWithNewType = (
     tooltip: element.tooltip,
     section: element.section,
     unit: element.unit,
+    helpers: element.helpers,
   };
 
   switch (newType) {
@@ -147,14 +148,42 @@ export const ApplyWidth = (value: number | null): undefined | number => {
 export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv4();
 
 /**
- * Get Elements With Uid
+ * To Local Form Element
  */
-export const GetElementsWithUid = (elements?: FormElement[]) => {
-  if (elements && Array.isArray(elements)) {
-    return elements.map((element) => ({
-      ...element,
-      uid: GetElementUniqueId(element),
-    }));
+export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
+  const showIf = element.showIf;
+
+  let showIfFn: ShowIfHelper = () => true;
+  if (showIf || showIf?.trim()) {
+    const fn = new Function('elements', showIf);
+    showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
   }
+
+  return {
+    ...element,
+    helpers: {
+      showIf: showIfFn,
+    },
+    uid: GetElementUniqueId(element),
+  };
+};
+
+/**
+ * Normalize Elements for Local State
+ */
+export const NormalizeElementsForLocalState = (elements?: FormElement[]): LocalFormElement[] => {
+  if (elements && Array.isArray(elements)) {
+    return elements.map<LocalFormElement>((element) => ToLocalFormElement(element));
+  }
+
   return [];
+};
+
+/**
+ * Normalize Elements for Dashboard
+ */
+export const NormalizeElementsForDashboard = (elements: LocalFormElement[]): FormElement[] => {
+  return elements.map<FormElement>(({ helpers, ...restElement }) => {
+    return restElement;
+  });
 };

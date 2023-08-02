@@ -13,50 +13,6 @@ import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
 /**
- * Mock @grafana/ui
- */
-jest.mock('@grafana/ui', () => ({
-  ...jest.requireActual('@grafana/ui'),
-  /**
-   * Mock Select component
-   */
-  Select: jest.fn().mockImplementation(({ options, onChange, value, ...restProps }) => (
-    <select
-      onChange={(event: any) => {
-        if (onChange) {
-          onChange(options.find((option: any) => option.value === event.target.value));
-        }
-      }}
-      value={value?.value}
-      {...restProps}
-    >
-      {options.map(({ label, value }: any) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  )),
-}));
-
-/**
- * Mock react-beautiful-dnd
- */
-jest.mock('react-beautiful-dnd', () => ({
-  ...jest.requireActual('react-beautiful-dnd'),
-  DragDropContext: jest.fn(({ children }) => children),
-  Droppable: jest.fn(({ children }) => children({})),
-  Draggable: jest.fn(({ children }) =>
-    children(
-      {
-        draggableProps: {},
-      },
-      {}
-    )
-  ),
-}));
-
-/**
  * Mock timers
  */
 jest.useFakeTimers();
@@ -973,6 +929,25 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldTextareaRows(), { target: { value: '123' } }));
 
       expect(elementSelectors.fieldTextareaRows()).toHaveValue(123);
+    });
+
+    it('Should update showIf', async () => {
+      const element = { ...FormElementDefault, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Change textarea rows
+       */
+      await act(() => fireEvent.blur(elementSelectors.fieldShowIf(), { target: { value: '123' } }));
+
+      expect(elementSelectors.fieldShowIf()).toHaveValue('123');
     });
 
     describe('Apply default element options', () => {
