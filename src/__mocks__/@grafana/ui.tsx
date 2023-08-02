@@ -23,6 +23,7 @@ const CodeEditor = jest.fn(({ onBlur, ...restProps }) => {
     />
   );
 });
+
 /**
  * Mock DatetimePicker component
  */
@@ -39,6 +40,7 @@ const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
     />
   );
 });
+
 /**
  * Mock Select component
  */
