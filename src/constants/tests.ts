@@ -80,6 +80,7 @@ export const TestIds = {
     fieldTextareaRows: 'data-testid form-elements-editor field-textarea-rows',
     fieldTooltip: 'data-testid form-elements-editor field-tooltip',
     fieldType: 'form-elements-editor field-type',
+    fieldShowIf: 'form-elements-editor field-show-if',
     fieldUnit: 'data-testid form-elements-editor field-unit',
     fieldVisibility: 'data-testid form-elements-editor field-visibility',
     fieldWidth: 'data-testid form-elements-editor field-width',

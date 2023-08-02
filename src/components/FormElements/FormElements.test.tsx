@@ -37,7 +37,7 @@ describe('Form Elements', () => {
       update: {},
       reset: {},
       elements: [
-        FormElementDefault,
+        { ...FormElementDefault, id: 'string' },
         { id: 'password', type: FormElementType.PASSWORD },
         { id: 'number', type: FormElementType.NUMBER },
         { id: 'textarea', type: FormElementType.TEXTAREA },
@@ -51,6 +51,30 @@ describe('Form Elements', () => {
           type: FormElementType.DISABLED,
           value: 'option',
           options: [{ value: 'option', label: 'Option' }],
+        },
+        {
+          id: 'visibleByValue',
+          type: FormElementType.STRING,
+          value: '123',
+          showIf: `
+            const field = elements.find((element) => element.id === 'disabledWithOptions');
+            
+            if (field) {
+              return field.value === 'option'
+            }
+          `,
+        },
+        {
+          id: 'hiddenByValue',
+          type: FormElementType.STRING,
+          value: '123',
+          showIf: `
+            const field = elements.find((element) => element.id === 'disabledWithOptions');
+            
+            if (field) {
+              return field.value !== 'option'
+            }
+          `,
         },
       ],
     };
@@ -68,7 +92,13 @@ describe('Form Elements', () => {
     });
 
     it('Should render string field', () => {
-      expect(selectors.fieldString()).toBeInTheDocument();
+      const elementOption = findElementById('string');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.fieldString()).toBeInTheDocument();
     });
 
     it('Should render number field', () => {
@@ -114,6 +144,20 @@ describe('Form Elements', () => {
       const elementSelectors = getFormElementsSelectors(within(element));
       expect(elementSelectors.fieldDisabled()).toBeInTheDocument();
       expect(elementSelectors.fieldDisabled()).toHaveValue('Option');
+    });
+
+    it('Should render field if showIf returns true', () => {
+      const elementOption = findElementById('visibleByValue');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+    });
+
+    it('Should not render field if showIf returns falsy', () => {
+      const elementOption = findElementById('hiddenByValue');
+      const element = selectors.element(true, elementOption.id, elementOption.type);
+
+      expect(element).not.toBeInTheDocument();
     });
   });
 

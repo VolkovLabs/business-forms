@@ -475,6 +475,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
           }}
           monacoOptions={{ formatOnPaste: true, formatOnType: true }}
           showLineNumbers={true}
+          aria-label={TestIds.formElementsEditor.fieldShowIf}
         />
       </Field>
     </>
