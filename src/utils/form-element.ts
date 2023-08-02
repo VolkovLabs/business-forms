@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
-import { FormElement, FormElementBase, FormElementByType } from '../types';
+import { FormElement, FormElementBase, FormElementByType, LocalFormElement, ShowIfHelper } from '../types';
 
 /**
  * Reorder
@@ -157,4 +157,37 @@ export const GetElementsWithUid = (elements?: FormElement[]) => {
     }));
   }
   return [];
+};
+
+/**
+ * Normalize Elements for Local State
+ */
+export const NormalizeElementsForLocalState = (elements?: FormElement[]): LocalFormElement[] => {
+  if (elements && Array.isArray(elements)) {
+    return elements.map<LocalFormElement>((element) => {
+      const showIf = element.showIf;
+      let showIfFn: ShowIfHelper = () => true;
+      if (showIf || showIf?.trim()) {
+        const fn = new Function('elements', showIf);
+        showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
+      }
+      return {
+        ...element,
+        helpers: {
+          showIf: showIfFn,
+        },
+        uid: GetElementUniqueId(element),
+      };
+    });
+  }
+  return [];
+};
+
+/**
+ * Normalize Elements for Dashboard
+ */
+export const NormalizeElementsForDashboard = (elements: LocalFormElement[]): FormElement[] => {
+  return elements.map<FormElement>(({ helpers, ...restElement }) => {
+    return restElement;
+  });
 };

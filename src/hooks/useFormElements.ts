@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
-import { FormElement } from '../types';
-import { GetElementsWithUid, IsElementConflict, IsElementOptionConflict } from '../utils';
+import { FormElement, LocalFormElement } from '../types';
+import {
+  IsElementConflict,
+  IsElementOptionConflict,
+  NormalizeElementsForDashboard,
+  NormalizeElementsForLocalState,
+} from '../utils';
 import { useAutoSave } from './useAutoSave';
 
 /**
@@ -18,7 +23,7 @@ export const useFormElements = (
   /**
    * States
    */
-  const [elements, setElements] = useState<FormElement[]>(GetElementsWithUid(value));
+  const [elements, setElements] = useState<LocalFormElement[]>(NormalizeElementsForLocalState(value));
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -26,14 +31,14 @@ export const useFormElements = (
    * Save Updates
    */
   const onSaveUpdates = useCallback(() => {
-    onChange(elements);
+    onChange(NormalizeElementsForDashboard(elements));
     setIsChanged(false);
   }, [elements, onChange]);
 
   /**
    * Change Elements
    */
-  const onChangeElements = useCallback((newElements: FormElement[]) => {
+  const onChangeElements = useCallback((newElements: LocalFormElement[]) => {
     setElements(newElements);
     setIsChanged(true);
   }, []);
@@ -42,7 +47,7 @@ export const useFormElements = (
    * Change Element
    */
   const onChangeElement = useCallback(
-    (updatedElement: FormElement, checkConflict = false) => {
+    (updatedElement: LocalFormElement, checkConflict = false) => {
       if (checkConflict && IsElementConflict(elements, updatedElement)) {
         alert('Element with the same id and type exists.');
         return;
@@ -58,7 +63,7 @@ export const useFormElements = (
    */
   const onChangeElementOption = useCallback(
     (
-      element: FormElement,
+      element: LocalFormElement,
       updatedOption: SelectableValue,
       { value = updatedOption.value }: SelectableValue = {},
       checkConflict = false
@@ -97,7 +102,7 @@ export const useFormElements = (
    * Update local elements
    */
   useEffect(() => {
-    setElements(GetElementsWithUid(value));
+    setElements(NormalizeElementsForLocalState(value));
     setIsChanged(false);
   }, [value]);
 

@@ -1,7 +1,18 @@
 import React, { ChangeEvent } from 'react';
 import { SelectableValue } from '@grafana/data';
-import { Button, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select } from '@grafana/ui';
 import {
+  Button,
+  CodeEditor,
+  Field,
+  InlineField,
+  InlineFieldRow,
+  Input,
+  RadioButtonGroup,
+  Select,
+  useStyles2,
+} from '@grafana/ui';
+import {
+  CodeLanguage,
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
@@ -11,6 +22,7 @@ import {
 } from '../../constants';
 import { FormElement } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
+import { Styles } from './styles';
 
 /**
  * Properties
@@ -46,6 +58,11 @@ interface Props {
  * Element Editor
  */
 export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOption, layoutSectionOptions }) => {
+  /**
+   * Styles
+   */
+  const styles = useStyles2(Styles);
+
   /**
    * Return
    */
@@ -339,7 +356,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||
         element.type === FormElementType.DISABLED) && (
-        <div>
+        <div className={styles.optionsContainer}>
           {element.options?.map((option, index) => (
             <InlineFieldRow key={index} data-testid={TestIds.formElementsEditor.fieldOption(option.value)}>
               <InlineField label="Type" labelWidth={8}>
@@ -444,6 +461,22 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
           </Button>
         </div>
       )}
+
+      <Field label="Show If">
+        <CodeEditor
+          value={element.showIf || ''}
+          language={CodeLanguage.JAVASCRIPT}
+          height={300}
+          onBlur={(code) => {
+            onChange({
+              ...element,
+              showIf: code,
+            });
+          }}
+          monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+          showLineNumbers={true}
+        />
+      </Field>
     </>
   );
 };

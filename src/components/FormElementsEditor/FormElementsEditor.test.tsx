@@ -37,6 +37,24 @@ jest.mock('@grafana/ui', () => ({
       ))}
     </select>
   )),
+  CodeEditor: jest.fn().mockImplementation(({ onBlur, ...restProps }) => {
+    return (
+      <input
+        aria-label={restProps['aria-label']}
+        value={restProps.value}
+        onChange={(event) => {
+          if (onBlur) {
+            onBlur(event.target.value);
+          }
+        }}
+        onBlur={(event) => {
+          if (onBlur) {
+            onBlur(event.target.value);
+          }
+        }}
+      />
+    );
+  }),
 }));
 
 /**

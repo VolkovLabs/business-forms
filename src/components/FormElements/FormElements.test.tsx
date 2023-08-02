@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { FormElementDefault, FormElementType } from '../../constants';
-import { getFormElementsSelectors } from '../../utils';
+import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
 
 /**
@@ -115,7 +115,9 @@ describe('Form Elements', () => {
    * @param restProps
    */
   const getComponent = ({ options = {}, ...restProps }: any) => {
-    return <FormElements options={options} elements={options.elements} {...restProps} />;
+    return (
+      <FormElements options={options} elements={NormalizeElementsForLocalState(options.elements)} {...restProps} />
+    );
   };
 
   describe('Render elements', () => {

@@ -1,5 +1,5 @@
 import Slider from 'rc-slider';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useMemo } from 'react';
 import { css, cx } from '@emotion/css';
 import { dateTime, DateTime } from '@grafana/data';
 import {
@@ -24,7 +24,7 @@ import {
   TestIds,
 } from '../../constants';
 import { Styles } from '../../styles';
-import { FormElement, LayoutSection, PanelOptions } from '../../types';
+import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { ApplyWidth, FormatNumberValue, ToNumberValue } from '../../utils';
 
 /**
@@ -41,12 +41,12 @@ interface Props {
   /**
    * Elements
    */
-  elements: FormElement[];
+  elements: LocalFormElement[];
 
   /**
    * On Element Change
    */
-  onChangeElement: (element: FormElement) => void;
+  onChangeElement: (element: LocalFormElement) => void;
 
   /**
    * Initial values
@@ -81,7 +81,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
   /**
    * Highlight CSS
    */
-  const highlightClass = (element: FormElement) => {
+  const highlightClass = (element: LocalFormElement) => {
     return options.initial.highlight && Object.keys(initial).length && initial[element.id] !== element.value
       ? css`
           -webkit-text-fill-color: ${highlightColor};
@@ -91,9 +91,18 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
         `;
   };
 
+  /**
+   * Visible Elements
+   */
+  const visibleElements = useMemo(() => {
+    return elements.filter((element) => {
+      return element.helpers.showIf({ elements });
+    });
+  }, [elements]);
+
   return (
     <div data-testid={TestIds.formElements.root}>
-      {elements.map((element, index) => {
+      {visibleElements.map((element, index) => {
         /**
          * Skip Hidden Elements
          */
