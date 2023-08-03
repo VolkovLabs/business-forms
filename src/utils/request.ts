@@ -19,7 +19,7 @@ export const GetPayloadForRequest = ({
      */
     const getPayloadFn = new Function('elements', 'initial', request.getPayload);
 
-    return getPayloadFn(elements, initial);
+    return getPayloadFn(elements, initial) as unknown;
   }
 
   /**
@@ -28,7 +28,11 @@ export const GetPayloadForRequest = ({
   const updatedOnly =
     request.payloadMode === undefined ? request.updatedOnly : request.payloadMode === PayloadMode.UPDATED;
 
-  const body: any = {};
+  /**
+   * Payload
+   */
+  const body: Record<string, unknown> = {};
+
   elements.forEach((element) => {
     if (!updatedOnly) {
       body[element.id] = element.value;
