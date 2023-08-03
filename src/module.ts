@@ -42,12 +42,20 @@ import {
   SubmitIconDefault,
   SubmitTextDefault,
 } from './constants';
-import { PanelOptions } from './types';
+import { PanelOptions, RequestOptions } from './types';
 
 /**
  * Panel Plugin
  */
 export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().setPanelOptions((builder) => {
+  /**
+   * Is Request Configured
+   * @param request
+   */
+  const isRequestConfigured = (request: RequestOptions) => {
+    return request.method !== RequestMethod.NONE;
+  };
+
   /**
    * Layout
    */
@@ -221,7 +229,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         placeholder: 'http://',
       },
-      showIf: (config) => config.update.method !== RequestMethod.NONE,
+      showIf: (config) => isRequestConfigured(config.update),
     })
     .addCustomEditor({
       id: 'update.header',
@@ -229,7 +237,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Header Parameters',
       category: ['Update Request'],
       editor: HeaderParametersEditor,
-      showIf: (config) => config.update.method !== RequestMethod.NONE,
+      showIf: (config) => isRequestConfigured(config.update),
     })
     .addSelect({
       path: 'update.contentType',
@@ -241,7 +249,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         allowCustomValue: true,
         options: ContentTypeOptions,
       },
-      showIf: (config) => !!config.update.url && config.update.method !== RequestMethod.NONE,
+      showIf: (config) => isRequestConfigured(config.update),
     })
     .addRadio({
       path: 'update.payloadMode',
@@ -252,7 +260,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         options: PayloadModeOptions,
       },
       defaultValue: PayloadMode.ALL,
-      showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
+      showIf: (config) => isRequestConfigured(config.update) && config.layout.variant !== LayoutVariant.NONE,
     })
     .addCustomEditor({
       id: 'update.getPayload',
@@ -265,7 +273,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: GetPayloadDefault,
-      showIf: (config) => config.update.payloadMode === PayloadMode.CUSTOM,
+      showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
     })
     .addCustomEditor({
       id: 'update.code',
@@ -278,6 +286,20 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: CodeUpdateDefault,
+      showIf: (config) => isRequestConfigured(config.update),
+    })
+    .addCustomEditor({
+      id: 'update.code',
+      path: 'update.code',
+      name: 'Custom Code',
+      description: 'Custom code to execute update request.',
+      editor: CustomCodeEditor,
+      category: ['Update Request'],
+      settings: {
+        language: CodeLanguage.JAVASCRIPT,
+      },
+      defaultValue: CodeUpdateDefault,
+      showIf: (config) => !isRequestConfigured(config.update),
     })
     .addRadio({
       path: 'update.confirm',
