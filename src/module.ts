@@ -163,6 +163,20 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       id: 'initial.code',
       path: 'initial.code',
       name: 'Custom Code',
+      description: 'Custom code to execute initial request.',
+      editor: CustomCodeEditor,
+      category: ['Initial Request'],
+      settings: {
+        language: CodeLanguage.JAVASCRIPT,
+        suggestions: true,
+      },
+      defaultValue: CodeInitialDefault,
+      showIf: (config) => !isRequestConfigured(config.initial),
+    })
+    .addCustomEditor({
+      id: 'initial.code',
+      path: 'initial.code',
+      name: 'Custom Code',
       description: 'Custom code to execute after initial request.',
       editor: CustomCodeEditor,
       category: ['Initial Request'],
@@ -171,6 +185,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         suggestions: true,
       },
       defaultValue: CodeInitialDefault,
+      showIf: (config) => isRequestConfigured(config.initial),
     });
 
   /**

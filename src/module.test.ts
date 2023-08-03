@@ -97,6 +97,28 @@ describe('plugin', () => {
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.contentType']));
     });
 
+    it('Should show initial code if method set', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.POST } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.code']));
+    });
+
+    it('Should show initial code if method not set', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.NONE } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.code']));
+    });
+
     it('Should show initial highlightColor if highlight enabled', () => {
       const shownOptionsPaths: string[] = [];
 
