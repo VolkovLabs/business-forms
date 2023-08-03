@@ -20,11 +20,14 @@ import {
   CodeUpdateDefault,
   ContentType,
   ContentTypeOptions,
+  GetPayloadDefault,
   InitialHighlightColorDefault,
   LayoutOrientation,
   LayoutOrientationOptions,
   LayoutVariant,
   LayoutVariantOptions,
+  PayloadMode,
+  PayloadModeOptions,
   RequestMethod,
   RequestMethodInitialOptions,
   RequestMethodUpdateOptions,
@@ -241,24 +244,28 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       showIf: (config) => !!config.update.url && config.update.method !== RequestMethod.NONE,
     })
     .addRadio({
-      path: 'update.updatedOnly',
+      path: 'update.payloadMode',
       name: 'Payload',
-      description: 'Allows to include all or only updated values in payload.',
+      description: 'Choose what values will be included in payload.',
       category: ['Update Request'],
       settings: {
-        options: [
-          {
-            value: false,
-            label: 'All Elements',
-          },
-          {
-            value: true,
-            label: 'Updated Only',
-          },
-        ],
+        options: PayloadModeOptions,
       },
-      defaultValue: false,
-      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+      defaultValue: PayloadMode.ALL,
+      showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
+    })
+    .addCustomEditor({
+      id: 'update.getPayload',
+      path: 'update.getPayload',
+      name: 'Get Payload',
+      description: 'Custom code to get payload for update request.',
+      editor: CustomCodeEditor,
+      category: ['Update Request'],
+      settings: {
+        language: CodeLanguage.JAVASCRIPT,
+      },
+      defaultValue: GetPayloadDefault,
+      showIf: (config) => config.update.payloadMode === PayloadMode.CUSTOM,
     })
     .addCustomEditor({
       id: 'update.code',

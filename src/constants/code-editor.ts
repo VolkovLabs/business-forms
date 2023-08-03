@@ -12,6 +12,11 @@ export const CodeUpdateDefault = `if (response && response.ok) {
 } else {
   notifyError(['Update', 'An error occured updating values.']);
 }`;
+export const GetPayloadDefault = `console.log(elements, initial);
+  return {
+    key: 'hello'
+  }
+`;
 
 /**
  * Supported Languages
