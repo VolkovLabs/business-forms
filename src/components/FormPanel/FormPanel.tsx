@@ -18,6 +18,7 @@ import {
   LayoutOrientation,
   LayoutVariant,
   RequestMethod,
+  ResetActionMode,
   TestIds,
 } from '../../constants';
 import { useFormElements } from '../../hooks';
@@ -257,6 +258,25 @@ export const FormPanel: React.FC<Props> = ({
   };
 
   /**
+   * Reset Request
+   */
+  const resetRequest = async () => {
+    if (options.resetAction.mode === ResetActionMode.INITIAL) {
+      /**
+       * Use Initial Request
+       */
+      initialRequest();
+      return;
+    }
+
+    /**
+     * Execute Custom Code and reset Loading
+     */
+    executeCustomCode({ code: options.resetAction.code, initial });
+    setLoading(false);
+  };
+
+  /**
    * Update Request
    */
   const updateRequest = async () => {
@@ -491,7 +511,7 @@ export const FormPanel: React.FC<Props> = ({
                         : {}
                     }
                     disabled={loading}
-                    onClick={initialRequest}
+                    onClick={resetRequest}
                     size={options.buttonGroup.size}
                     data-testid={TestIds.panel.buttonReset}
                   >

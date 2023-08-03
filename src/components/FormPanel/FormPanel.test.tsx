@@ -11,6 +11,7 @@ import {
   LayoutOrientation,
   LayoutVariant,
   RequestMethod,
+  ResetActionMode,
 } from '../../constants';
 import { LocalFormElement } from '../../types';
 import { getPanelSelectors, ToLocalFormElement } from '../../utils';
@@ -669,6 +670,150 @@ describe('Panel', () => {
         payload: 'success',
       });
       expect(publish).toHaveBeenCalledWith({
+        type: AppEvents.alertError.name,
+        payload: 'error',
+      });
+
+      jest.mocked(getAppEvents).mockClear();
+    });
+  });
+
+  describe('Reset actions', () => {
+    it('Should execute initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+      const publish = jest.fn();
+      jest.mocked(getAppEvents).mockImplementation(
+        () =>
+          ({
+            publish,
+          } as any)
+      );
+      const defaultOptions = {
+        initial: {
+          code: `notifySuccess("success");`,
+        },
+        update: {},
+        resetAction: {
+          mode: ResetActionMode.INITIAL,
+          code: 'notifyError("error");',
+        },
+      };
+      const { rerender } = await act(() =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: defaultOptions,
+          })
+        )
+      );
+
+      await act(() =>
+        rerender(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              ...defaultOptions,
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+            },
+          })
+        )
+      );
+
+      jest.mocked(replaceVariables).mockClear();
+      jest.mocked(publish).mockClear();
+
+      expect(selectors.buttonReset()).not.toBeDisabled();
+      await act(() => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.initial.code);
+      expect(publish).toHaveBeenCalledWith({
+        type: AppEvents.alertSuccess.name,
+        payload: 'success',
+      });
+      expect(publish).not.toHaveBeenCalledWith({
+        type: AppEvents.alertError.name,
+        payload: 'error',
+      });
+
+      jest.mocked(getAppEvents).mockClear();
+    });
+
+    it('Should execute custom reset code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+      const publish = jest.fn();
+      jest.mocked(getAppEvents).mockImplementation(
+        () =>
+          ({
+            publish,
+          } as any)
+      );
+      const defaultOptions = {
+        initial: {
+          code: `notifyError("error");`,
+        },
+        update: {},
+        resetAction: {
+          mode: ResetActionMode.CUSTOM,
+          code: 'notifySuccess("success");',
+        },
+      };
+      const { rerender } = await act(() =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: defaultOptions,
+          })
+        )
+      );
+
+      await act(() =>
+        rerender(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              ...defaultOptions,
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+            },
+          })
+        )
+      );
+
+      jest.mocked(replaceVariables).mockClear();
+      jest.mocked(publish).mockClear();
+
+      expect(selectors.buttonReset()).not.toBeDisabled();
+      await act(() => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.resetAction.code);
+      expect(publish).toHaveBeenCalledWith({
+        type: AppEvents.alertSuccess.name,
+        payload: 'success',
+      });
+      expect(publish).not.toHaveBeenCalledWith({
         type: AppEvents.alertError.name,
         payload: 'error',
       });

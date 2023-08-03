@@ -1,6 +1,6 @@
 import { PanelPlugin } from '@grafana/data';
 import { PanelOptions } from './types';
-import { ButtonVariant, LayoutVariant, PayloadMode, RequestMethod } from './constants';
+import { ButtonVariant, LayoutVariant, PayloadMode, RequestMethod, ResetActionMode } from './constants';
 import { plugin } from './module';
 
 /*
@@ -48,7 +48,18 @@ describe('plugin', () => {
      */
     const addInputImplementation = (config: Partial<PanelOptions>, result: string[]) => (input: any) => {
       if (input.showIf) {
-        if (input.showIf({ initial: {}, layout: {}, update: {}, reset: {}, saveDefault: {}, submit: {}, ...config })) {
+        if (
+          input.showIf({
+            initial: {},
+            layout: {},
+            update: {},
+            reset: {},
+            saveDefault: {},
+            submit: {},
+            resetAction: {},
+            ...config,
+          })
+        ) {
           result.push(input.path);
         }
       } else {
@@ -225,6 +236,34 @@ describe('plugin', () => {
       plugin['optionsSupplier'](builder);
 
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['saveDefault.icon', 'saveDefault.text']));
+    });
+
+    it('Should show reset action mode if reset button visible', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addRadio.mockImplementation(
+        addInputImplementation({ reset: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['resetAction.mode']));
+    });
+
+    it('Should show reset action code if reset button visible and mode custom', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addRadio.mockImplementation(
+        addInputImplementation({ reset: { variant: ButtonVariant.CUSTOM } as any }, shownOptionsPaths)
+      );
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation(
+          { reset: { variant: ButtonVariant.CUSTOM } as any, resetAction: { mode: ResetActionMode.CUSTOM } as any },
+          shownOptionsPaths
+        )
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['resetAction.code']));
     });
   });
 });

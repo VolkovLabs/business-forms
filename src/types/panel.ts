@@ -1,7 +1,7 @@
 import { ButtonGroupOptions, ButtonOptions } from './button';
 import { FormElement } from './form-element';
 import { LayoutOptions } from './layout';
-import { RequestOptions } from './request';
+import { RequestOptions, ResetAction } from './request';
 
 /**
  * Panel Options
@@ -20,6 +20,13 @@ export interface PanelOptions {
    * @type {RequestOptions}
    */
   update: RequestOptions;
+
+  /**
+   * Reset Action
+   *
+   * @type {ResetAction}
+   */
+  resetAction: ResetAction;
 
   /**
    * Button Group
