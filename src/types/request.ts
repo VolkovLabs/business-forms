@@ -1,4 +1,4 @@
-import { ContentType, PayloadMode, RequestMethod } from '../constants';
+import { ContentType, PayloadMode, RequestMethod, ResetActionMode } from '../constants';
 import { HeaderParameter } from './header-parameter';
 
 /**
@@ -82,4 +82,23 @@ export interface RequestOptions {
    * @type {string}
    */
   getPayload: string;
+}
+
+/**
+ * Reset Action
+ */
+export interface ResetAction {
+  /**
+   * Mode
+   *
+   * @type {ResetActionMode}
+   */
+  mode: ResetActionMode;
+
+  /**
+   * Code
+   *
+   * @type {string}
+   */
+  code: string;
 }

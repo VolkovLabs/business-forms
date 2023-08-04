@@ -86,3 +86,19 @@ export const PayloadModeOptions = [
   { label: 'Updated Only', value: PayloadMode.UPDATED },
   { label: 'Custom Code', value: PayloadMode.CUSTOM },
 ];
+
+/**
+ * Reset Action Mode
+ */
+export const enum ResetActionMode {
+  INITIAL = 'initial',
+  CUSTOM = 'custom',
+}
+
+/**
+ * Reset Action Options
+ */
+export const ResetActionOptions = [
+  { label: '-', value: ResetActionMode.CUSTOM },
+  { label: 'Initial request', value: ResetActionMode.INITIAL },
+];

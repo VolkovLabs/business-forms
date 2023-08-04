@@ -31,6 +31,8 @@ import {
   RequestMethod,
   RequestMethodInitialOptions,
   RequestMethodUpdateOptions,
+  ResetActionMode,
+  ResetActionOptions,
   ResetBackgroundColorDefault,
   ResetForegroundColorDefault,
   ResetIconDefault,
@@ -483,6 +485,36 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'The text on the button',
       defaultValue: ResetTextDefault,
       showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
+    });
+
+  /**
+   * Reset Action
+   */
+  builder
+    .addRadio({
+      path: 'resetAction.mode',
+      name: 'Reset Action',
+      category: ['Reset request'],
+      description: 'What action should be called by clicking on reset button.',
+      settings: {
+        options: ResetActionOptions,
+      },
+      defaultValue: ResetActionMode.INITIAL,
+      showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
+    })
+    .addCustomEditor({
+      id: 'resetAction.code',
+      path: 'resetAction.code',
+      name: 'Custom Code',
+      description: 'Custom code to execute reset request.',
+      editor: CustomCodeEditor,
+      category: ['Reset request'],
+      settings: {
+        language: CodeLanguage.JAVASCRIPT,
+      },
+      defaultValue: CodeInitialDefault,
+      showIf: (config) =>
+        config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.CUSTOM,
     });
 
   /**
