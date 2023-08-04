@@ -10,11 +10,13 @@ import {
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
+  PayloadMode,
   RequestMethod,
   ResetActionMode,
 } from '../../constants';
 import { LocalFormElement } from '../../types';
 import { getPanelSelectors, ToLocalFormElement } from '../../utils';
+import { useDatasourceRequest } from '../../hooks';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -33,6 +35,14 @@ jest.mock('@grafana/runtime', () => ({
   getAppEvents: jest.fn().mockImplementation(() => ({
     publish: jest.fn(),
   })),
+}));
+
+/**
+ * Mock hooks
+ */
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useDatasourceRequest: jest.fn(() => jest.fn()),
 }));
 
 /**
@@ -203,6 +213,54 @@ describe('Panel', () => {
         })
       );
       expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
+    });
+
+    it('Should show error if initial request failed', async () => {
+      jest.mocked(fetch).mockRejectedValueOnce(new Error('message'));
+
+      /**
+       * Render
+       */
+      await act(async () => render(getComponent()));
+
+      /**
+       * Check if http error message shown
+       */
+      expect(selectors.errorMessage()).toBeInTheDocument();
+      expect(within(selectors.errorMessage()).getByText('Error: message')).toBeInTheDocument();
+    });
+
+    it('Should make initial datasource request', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          message: 'hello',
+        })
+      );
+      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(() =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '123',
+                getPayload: `return { key1: 'value' }`,
+              },
+            },
+            props: {},
+          })
+        )
+      );
+
+      expect(datasourceRequestMock).toHaveBeenCalledWith({
+        datasource: '123',
+        query: { key1: 'value' },
+        replaceVariables: expect.any(Function),
+      });
     });
 
     it('Should show error if initial request failed', async () => {
@@ -408,6 +466,87 @@ describe('Panel', () => {
       ).toBeInTheDocument();
     });
 
+    it('Should run update datasource request', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          message: 'hello',
+        })
+      );
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      const { rerender } = await act(() =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+      /**
+       * Trigger element updates
+       */
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              update: {
+                datasource: 'abc',
+                method: RequestMethod.DATASOURCE,
+                payloadMode: PayloadMode.CUSTOM,
+                getPayload: `return { key1: 'value' }`,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if Update can be run
+       */
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Run update request
+       */
+      await act(() => {
+        fireEvent.click(selectors.buttonSubmit());
+      });
+
+      expect(datasourceRequestMock).toHaveBeenCalledWith({
+        datasource: 'abc',
+        query: {
+          key1: 'value',
+        },
+        replaceVariables: expect.any(Function),
+      });
+    });
+
     it('Should show http error', async () => {
       /**
        * Render
@@ -574,7 +713,7 @@ describe('Panel', () => {
         () =>
           ({
             publish,
-          } as any)
+          }) as any
       );
       await act(() =>
         render(
@@ -619,7 +758,7 @@ describe('Panel', () => {
         () =>
           ({
             publish,
-          } as any)
+          }) as any
       );
       const defaultOptions = {
         initial: {},
@@ -689,7 +828,7 @@ describe('Panel', () => {
         () =>
           ({
             publish,
-          } as any)
+          }) as any
       );
       const defaultOptions = {
         initial: {
@@ -760,7 +899,7 @@ describe('Panel', () => {
         () =>
           ({
             publish,
-          } as any)
+          }) as any
       );
       const defaultOptions = {
         initial: {

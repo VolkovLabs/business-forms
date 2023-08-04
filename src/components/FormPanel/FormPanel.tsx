@@ -17,6 +17,7 @@ import {
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
+  PayloadMode,
   RequestMethod,
   ResetActionMode,
   TestIds,
@@ -190,7 +191,10 @@ export const FormPanel: React.FC<Props> = ({
        * Run Datasource Query
        */
       const body = GetPayloadForRequest({
-        request: options.update,
+        request: {
+          ...options.initial,
+          payloadMode: PayloadMode.CUSTOM,
+        },
         elements,
         initial,
       });
@@ -338,7 +342,7 @@ export const FormPanel: React.FC<Props> = ({
     if (options.update.method === RequestMethod.DATASOURCE) {
       response = await datasourceRequest({
         query: body,
-        datasource: options.initial.datasource,
+        datasource: options.update.datasource,
         replaceVariables,
       }).catch((error: Error) => {
         setError(error.toString());
