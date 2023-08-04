@@ -68,3 +68,21 @@ export const ContentTypeOptions: SelectableValue[] = [
   { label: CapitalizeFirstLetter(ContentType.JSON), value: ContentType.JSON },
   { label: CapitalizeFirstLetter(ContentType.PLAIN), value: ContentType.PLAIN },
 ];
+
+/**
+ * Payload Mode
+ */
+export const enum PayloadMode {
+  ALL = 'all',
+  UPDATED = 'updated',
+  CUSTOM = 'custom',
+}
+
+/**
+ * Payload Mode Options
+ */
+export const PayloadModeOptions = [
+  { label: 'All Elements', value: PayloadMode.ALL },
+  { label: 'Updated Only', value: PayloadMode.UPDATED },
+  { label: 'Custom Code', value: PayloadMode.CUSTOM },
+];

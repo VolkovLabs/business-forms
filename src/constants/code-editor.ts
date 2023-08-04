@@ -12,6 +12,17 @@ export const CodeUpdateDefault = `if (response && response.ok) {
 } else {
   notifyError(['Update', 'An error occured updating values.']);
 }`;
+export const GetPayloadDefault = `const payload = {};
+
+elements.forEach((element) => {
+  if (!element.value) {
+    return;
+  }
+
+  payload[element.id] = element.value;
+})
+
+return payload;`;
 
 /**
  * Supported Languages

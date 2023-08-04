@@ -1,6 +1,6 @@
 import { PanelPlugin } from '@grafana/data';
 import { PanelOptions } from './types';
-import { ButtonVariant, LayoutVariant, RequestMethod } from './constants';
+import { ButtonVariant, LayoutVariant, PayloadMode, RequestMethod } from './constants';
 import { plugin } from './module';
 
 /*
@@ -97,6 +97,28 @@ describe('plugin', () => {
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.contentType']));
     });
 
+    it('Should show initial code if method set', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.POST } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.code']));
+    });
+
+    it('Should show initial code if method not set', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ initial: { method: RequestMethod.NONE } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['initial.code']));
+    });
+
     it('Should show initial highlightColor if highlight enabled', () => {
       const shownOptionsPaths: string[] = [];
 
@@ -133,7 +155,7 @@ describe('plugin', () => {
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.contentType']));
     });
 
-    it('Should show update updatedOnly and confirm if layout enabled', () => {
+    it('Should show update payloadMode and confirm if layout enabled', () => {
       const shownOptionsPaths: string[] = [];
 
       builder.addRadio.mockImplementation(
@@ -141,7 +163,18 @@ describe('plugin', () => {
       );
       plugin['optionsSupplier'](builder);
 
-      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.updatedOnly', 'update.confirm']));
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.payloadMode', 'update.confirm']));
+    });
+
+    it('Should show update getPayload if payloadMode custom', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation({ update: { payloadMode: PayloadMode.CUSTOM } as any }, shownOptionsPaths)
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['update.getPayload']));
     });
 
     it('Should show submit foregroundColor and backgroundColor if variant custom', () => {

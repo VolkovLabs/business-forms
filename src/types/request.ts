@@ -1,4 +1,4 @@
-import { ContentType, RequestMethod } from '../constants';
+import { ContentType, PayloadMode, RequestMethod } from '../constants';
 import { HeaderParameter } from './header-parameter';
 
 /**
@@ -62,9 +62,24 @@ export interface RequestOptions {
   confirm: boolean;
 
   /**
+   * @deprecated Keep for backward compatability.
    * Add only Updated Elements to Payload
    *
    * @type {boolean}
    */
   updatedOnly: boolean;
+
+  /**
+   * Payload Mode
+   *
+   * @type {PayloadMode}
+   */
+  payloadMode: PayloadMode;
+
+  /**
+   * Get Payload
+   *
+   * @type {string}
+   */
+  getPayload: string;
 }

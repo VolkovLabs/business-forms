@@ -23,6 +23,7 @@ import {
 import { useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
+import { GetPayloadForRequest } from '../../utils';
 import { FormElements } from '../FormElements';
 
 /**
@@ -281,30 +282,12 @@ export const FormPanel: React.FC<Props> = ({
     headers.set('Content-Type', options.update.contentType);
 
     /**
-     * Set elements
+     * Set payload
      */
-    const body: any = {};
-    elements.forEach((element) => {
-      if (!options.update.updatedOnly) {
-        body[element.id] = element.value;
-        return;
-      }
-
-      /**
-       * Skip not updated elements
-       */
-      if (element.value === initial[element.id]) {
-        return;
-      }
-
-      /**
-       * Skip Disabled elements
-       */
-      if (element.type === FormElementType.DISABLED) {
-        return;
-      }
-
-      body[element.id] = element.value;
+    const body = GetPayloadForRequest({
+      request: options.update,
+      elements,
+      initial,
     });
 
     /**
