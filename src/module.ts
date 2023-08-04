@@ -6,6 +6,7 @@ import {
   FormPanel,
   HeaderParametersEditor,
   LayoutSectionsEditor,
+  SelectDatasourceEditor,
 } from './components';
 import {
   ButtonOrientation,
@@ -56,6 +57,14 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
    */
   const isRequestConfigured = (request: RequestOptions) => {
     return request.method !== RequestMethod.NONE;
+  };
+
+  /**
+   * Is Rest API Request
+   * @param request
+   */
+  const isRestApiRequest = (request: RequestOptions) => {
+    return request.method !== RequestMethod.NONE && request.method !== RequestMethod.DATASOURCE;
   };
 
   /**
@@ -139,7 +148,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         placeholder: 'http://',
       },
-      showIf: (config) => config.initial.method !== RequestMethod.NONE,
+      showIf: (config) => isRestApiRequest(config.initial),
     })
     .addCustomEditor({
       id: 'initial.header',
@@ -147,7 +156,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Header Parameters',
       category: ['Initial Request'],
       editor: HeaderParametersEditor,
-      showIf: (config) => config.initial.method !== RequestMethod.NONE,
+      showIf: (config) => isRestApiRequest(config.initial),
+    })
+    .addCustomEditor({
+      id: 'initial.datasource',
+      path: 'initial.datasource',
+      name: 'Datasource',
+      category: ['Initial Request'],
+      description: 'Choose the Datasource for the query',
+      editor: SelectDatasourceEditor,
+      showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
     })
     .addSelect({
       path: 'initial.contentType',
@@ -246,7 +264,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         placeholder: 'http://',
       },
-      showIf: (config) => isRequestConfigured(config.update),
+      showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
+    })
+    .addCustomEditor({
+      id: 'update.datasource',
+      path: 'update.datasource',
+      name: 'Datasource',
+      category: ['Update Request'],
+      description: 'Choose the Datasource for the query',
+      editor: SelectDatasourceEditor,
+      showIf: (config) => config.update.method === RequestMethod.DATASOURCE,
     })
     .addCustomEditor({
       id: 'update.header',
@@ -254,7 +281,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Header Parameters',
       category: ['Update Request'],
       editor: HeaderParametersEditor,
-      showIf: (config) => isRequestConfigured(config.update),
+      showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
     })
     .addSelect({
       path: 'update.contentType',
@@ -266,7 +293,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         allowCustomValue: true,
         options: ContentTypeOptions,
       },
-      showIf: (config) => isRequestConfigured(config.update),
+      showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
     })
     .addCustomEditor({
       id: 'update.code',
@@ -316,7 +343,24 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     });
 
   /**
-   * Payload
+   * Initial Payload For Datasource
+   */
+  builder.addCustomEditor({
+    id: 'initial.getPayload',
+    path: 'initial.getPayload',
+    name: 'Create Payload',
+    description: 'Custom code to create payload for the initial datasource request.',
+    editor: CustomCodeEditor,
+    category: ['Initial Request Payload'],
+    settings: {
+      language: CodeLanguage.JAVASCRIPT,
+    },
+    defaultValue: GetPayloadDefault,
+    showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
+  });
+
+  /**
+   * Update Payload
    */
   builder
     .addRadio({

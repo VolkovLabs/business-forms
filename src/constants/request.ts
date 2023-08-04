@@ -11,6 +11,7 @@ export const enum RequestMethod {
   PATCH = 'PATCH',
   POST = 'POST',
   PUT = 'PUT',
+  DATASOURCE = 'datasource',
 }
 
 /**
@@ -24,6 +25,10 @@ export const RequestMethodInitialOptions: SelectableValue[] = [
   {
     value: RequestMethod.GET,
     label: RequestMethod.GET,
+  },
+  {
+    value: RequestMethod.DATASOURCE,
+    label: 'Datasource',
   },
 ];
 
@@ -50,6 +55,10 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
   {
     value: RequestMethod.PUT,
     label: RequestMethod.PUT,
+  },
+  {
+    value: RequestMethod.DATASOURCE,
+    label: 'Datasource',
   },
 ];
 

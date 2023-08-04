@@ -20,6 +20,13 @@ export interface RequestOptions {
   url: string;
 
   /**
+   * Datasource
+   *
+   * @type {string}
+   */
+  datasource: string;
+
+  /**
    * Header Parameters
    *
    * @type {HeaderParameter[]}
