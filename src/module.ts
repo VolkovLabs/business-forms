@@ -222,7 +222,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.initial.highlight,
+      showIf: (config: any) => config.initial.highlight && config.layout.variant !== LayoutVariant.NONE,
     });
 
   /**
@@ -337,6 +337,35 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       },
       defaultValue: false,
       showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+    });
+
+  /**
+   * Payload
+   */
+  builder
+    .addRadio({
+      path: 'update.payloadMode',
+      name: 'Update Request Payload',
+      description: 'Choose what values will be included in payload.',
+      category: ['Update Request Payload'],
+      settings: {
+        options: PayloadModeOptions,
+      },
+      defaultValue: PayloadMode.ALL,
+      showIf: (config) => isRequestConfigured(config.update) && config.layout.variant !== LayoutVariant.NONE,
+    })
+    .addCustomEditor({
+      id: 'update.getPayload',
+      path: 'update.getPayload',
+      name: 'Create Payload',
+      description: 'Custom code to create payload for the update request.',
+      editor: CustomCodeEditor,
+      category: ['Update Request Payload'],
+      settings: {
+        language: CodeLanguage.JAVASCRIPT,
+      },
+      defaultValue: GetPayloadDefault,
+      showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
     });
 
   /**
