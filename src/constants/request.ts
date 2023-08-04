@@ -99,6 +99,6 @@ export const enum ResetActionMode {
  * Reset Action Options
  */
 export const ResetActionOptions = [
+  { label: '-', value: ResetActionMode.CUSTOM },
   { label: 'Initial request', value: ResetActionMode.INITIAL },
-  { label: 'Custom', value: ResetActionMode.CUSTOM },
 ];

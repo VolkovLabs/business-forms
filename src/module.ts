@@ -493,7 +493,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
   builder
     .addRadio({
       path: 'resetAction.mode',
-      name: 'Reset Action Mode',
+      name: 'Reset Action',
       category: ['Reset request'],
       description: 'What action should be called by clicking on reset button.',
       settings: {
