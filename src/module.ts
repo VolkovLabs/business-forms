@@ -268,30 +268,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       },
       showIf: (config) => isRequestConfigured(config.update),
     })
-    .addRadio({
-      path: 'update.payloadMode',
-      name: 'Payload',
-      description: 'Choose what values will be included in payload.',
-      category: ['Update Request'],
-      settings: {
-        options: PayloadModeOptions,
-      },
-      defaultValue: PayloadMode.ALL,
-      showIf: (config) => isRequestConfigured(config.update) && config.layout.variant !== LayoutVariant.NONE,
-    })
-    .addCustomEditor({
-      id: 'update.getPayload',
-      path: 'update.getPayload',
-      name: 'Get Payload',
-      description: 'Custom code to get payload for update request.',
-      editor: CustomCodeEditor,
-      category: ['Update Request'],
-      settings: {
-        language: CodeLanguage.JAVASCRIPT,
-      },
-      defaultValue: GetPayloadDefault,
-      showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
-    })
     .addCustomEditor({
       id: 'update.code',
       path: 'update.code',

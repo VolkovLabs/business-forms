@@ -10,6 +10,7 @@
 - Add Multi Select element (#217)
 - Add conditional element visibility (#219)
 - Add custom payload code editor (#220)
+- Add custom reset code editor (#221)
 
 ## 3.0.0 (2023-07-15)
 
