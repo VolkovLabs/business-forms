@@ -9,6 +9,7 @@
 - Update ESLint configuration (#215)
 - Add Multi Select element (#217)
 - Add conditional element visibility (#219)
+- Add custom payload code editor (#220)
 
 ## 3.0.0 (2023-07-15)
 
