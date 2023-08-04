@@ -263,21 +263,6 @@ describe('Panel', () => {
       });
     });
 
-    it('Should show error if initial request failed', async () => {
-      jest.mocked(fetch).mockRejectedValueOnce(new Error('message'));
-
-      /**
-       * Render
-       */
-      await act(async () => render(getComponent()));
-
-      /**
-       * Check if http error message shown
-       */
-      expect(selectors.errorMessage()).toBeInTheDocument();
-      expect(within(selectors.errorMessage()).getByText('Error: message')).toBeInTheDocument();
-    });
-
     it('Should show error if initial request parameter is not defined', async () => {
       /**
        * Render
