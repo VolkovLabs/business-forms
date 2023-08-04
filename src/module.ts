@@ -220,7 +220,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.initial.highlight,
+      showIf: (config: any) => config.initial.highlight && config.layout.variant !== LayoutVariant.NONE,
     });
 
   /**
