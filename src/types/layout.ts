@@ -1,5 +1,16 @@
 import { LayoutOrientation, LayoutVariant } from '../constants';
-import { LayoutSection } from './layout-section';
+
+/**
+ * Layout Section
+ */
+export interface LayoutSection {
+  /**
+   * Name
+   *
+   * @type {string}
+   */
+  name: string;
+}
 
 /**
  * Layout Options
