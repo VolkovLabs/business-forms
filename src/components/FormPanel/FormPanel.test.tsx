@@ -2,7 +2,7 @@ import React from 'react';
 import { AppEvents } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import {
   ButtonOrientation,
   ButtonVariant,
@@ -261,6 +261,35 @@ describe('Panel', () => {
         query: { key1: 'value' },
         replaceVariables: expect.any(Function),
       });
+    });
+
+    it('Should show initial datasource request error', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.reject({
+          message: 'hello',
+        })
+      );
+      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(async () => {
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '123',
+                getPayload: `return { key1: 'value' }`,
+              },
+            },
+            props: {},
+          })
+        );
+      });
+
+      await waitFor(() => expect(selectors.errorMessage()).toBeInTheDocument());
     });
 
     it('Should show error if initial request parameter is not defined', async () => {
@@ -530,6 +559,81 @@ describe('Panel', () => {
         },
         replaceVariables: expect.any(Function),
       });
+    });
+
+    it('Should show update datasource request error', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.reject({
+          message: 'hello',
+        })
+      );
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      const { rerender } = await act(() =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+      /**
+       * Trigger element updates
+       */
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              update: {
+                datasource: 'abc',
+                method: RequestMethod.DATASOURCE,
+                payloadMode: PayloadMode.CUSTOM,
+                getPayload: `return { key1: 'value' }`,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if Update can be run
+       */
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Run update request
+       */
+      await act(async () => {
+        fireEvent.click(selectors.buttonSubmit());
+      });
+
+      await waitFor(() => expect(selectors.errorMessage()).toBeInTheDocument());
     });
 
     it('Should show http error', async () => {
