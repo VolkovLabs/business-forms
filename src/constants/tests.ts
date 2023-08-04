@@ -109,4 +109,7 @@ export const TestIds = {
     root: 'data-testid layout-sections-editor',
     section: (name: string) => `data-testid layout-sections-editor section-${name}`,
   },
+  selectDatasourceEditor: {
+    fieldSelect: 'select-datasource-editor field-select',
+  },
 };

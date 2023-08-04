@@ -199,6 +199,8 @@ export const FormPanel: React.FC<Props> = ({
         query: body,
         datasource: options.initial.datasource,
         replaceVariables,
+      }).catch((error: Error) => {
+        setError(error.toString());
       });
     } else {
       /**

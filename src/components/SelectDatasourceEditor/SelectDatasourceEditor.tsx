@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Select } from '@grafana/ui';
+import { TestIds } from '../../constants';
 import { useDatasources } from '../../hooks';
 
 /**
@@ -36,6 +37,7 @@ export const SelectDatasourceEditor: React.FC<Props> = ({ value, onChange }) => 
       }}
       options={datasourceOptions}
       value={value}
+      aria-label={TestIds.selectDatasourceEditor.fieldSelect}
     />
   );
 };
