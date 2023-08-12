@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import { TestIds } from '../../constants';
 import { useDatasources } from '../../hooks';
-import { SelectDatasourceEditor } from './SelectDatasourceEditor';
+import { DatasourceEditor } from './DatasourceEditor';
 
 /**
  * Mock hooks
@@ -18,7 +18,7 @@ describe('Select Datasource Editor', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TestIds.selectDatasourceEditor);
+  const getSelectors = getJestSelectors(TestIds.datasourceEditor);
   const selectors = getSelectors(screen);
 
   /**
@@ -28,7 +28,7 @@ describe('Select Datasource Editor', () => {
    * @param restProps
    */
   const getComponent = ({ value = null, context = {}, ...restProps }: any) => {
-    return <SelectDatasourceEditor onChange={onChange} {...restProps} value={value} context={context} />;
+    return <DatasourceEditor onChange={onChange} {...restProps} value={value} context={context} />;
   };
 
   it('Should update value', () => {

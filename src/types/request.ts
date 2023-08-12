@@ -20,7 +20,7 @@ export interface RequestOptions {
   url: string;
 
   /**
-   * Datasource
+   * Data Source
    *
    * @type {string}
    */

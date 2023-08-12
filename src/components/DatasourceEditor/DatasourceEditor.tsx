@@ -10,16 +10,16 @@ import { useDatasources } from '../../hooks';
 interface Props extends StandardEditorProps<string> {}
 
 /**
- * Select Datasource Editor
+ * Data Source Editor
  */
-export const SelectDatasourceEditor: React.FC<Props> = ({ value, onChange }) => {
+export const DatasourceEditor: React.FC<Props> = ({ value, onChange }) => {
   /**
-   * Datasources
+   * Data Sources
    */
   const datasources = useDatasources();
 
   /**
-   * Datasource Options
+   * Options
    */
   const datasourceOptions = useMemo(() => {
     return datasources.map((datasource) => ({
@@ -27,6 +27,7 @@ export const SelectDatasourceEditor: React.FC<Props> = ({ value, onChange }) => 
       value: datasource.name,
     }));
   }, [datasources]);
+
   /**
    * Return
    */
@@ -37,7 +38,7 @@ export const SelectDatasourceEditor: React.FC<Props> = ({ value, onChange }) => 
       }}
       options={datasourceOptions}
       value={value}
-      aria-label={TestIds.selectDatasourceEditor.fieldSelect}
+      aria-label={TestIds.datasourceEditor.fieldSelect}
     />
   );
 };

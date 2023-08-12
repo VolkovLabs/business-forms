@@ -2,11 +2,11 @@ import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
 import {
   CustomCodeEditor,
+  DatasourceEditor,
   FormElementsEditor,
   FormPanel,
   HeaderParametersEditor,
   LayoutSectionsEditor,
-  SelectDatasourceEditor,
 } from './components';
 import {
   ButtonOrientation,
@@ -164,7 +164,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Datasource',
       category: ['Initial Request'],
       description: 'Choose the Datasource for the query',
-      editor: SelectDatasourceEditor,
+      editor: DatasourceEditor,
       showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
     })
     .addSelect({
@@ -272,7 +272,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Datasource',
       category: ['Update Request'],
       description: 'Choose the Datasource for the query',
-      editor: SelectDatasourceEditor,
+      editor: DatasourceEditor,
       showIf: (config) => config.update.method === RequestMethod.DATASOURCE,
     })
     .addCustomEditor({

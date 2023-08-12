@@ -5,13 +5,13 @@ import { CapitalizeFirstLetter } from './button';
  * Request Methods
  */
 export const enum RequestMethod {
+  DATASOURCE = 'datasource',
   DELETE = 'DELETE',
   GET = 'GET',
   NONE = '-',
   PATCH = 'PATCH',
   POST = 'POST',
   PUT = 'PUT',
-  DATASOURCE = 'datasource',
 }
 
 /**
@@ -23,12 +23,12 @@ export const RequestMethodInitialOptions: SelectableValue[] = [
     label: RequestMethod.NONE,
   },
   {
-    value: RequestMethod.GET,
-    label: RequestMethod.GET,
+    value: RequestMethod.DATASOURCE,
+    label: 'Data Source',
   },
   {
-    value: RequestMethod.DATASOURCE,
-    label: 'Datasource',
+    value: RequestMethod.GET,
+    label: RequestMethod.GET,
   },
 ];
 
@@ -39,6 +39,10 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
     label: RequestMethod.NONE,
+  },
+  {
+    value: RequestMethod.DATASOURCE,
+    label: 'Data Source',
   },
   {
     value: RequestMethod.DELETE,
@@ -55,10 +59,6 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
   {
     value: RequestMethod.PUT,
     label: RequestMethod.PUT,
-  },
-  {
-    value: RequestMethod.DATASOURCE,
-    label: 'Datasource',
   },
 ];
 
