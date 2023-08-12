@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.1.0 (IN PROGRESS)
+## 3.1.0 (2023-08-12)
 
 ### Features / Enhancements
 
@@ -11,6 +11,7 @@
 - Add conditional element visibility (#219)
 - Add custom payload code editor (#220)
 - Add custom reset code editor (#221)
+- Add Data Source request (#222)
 
 ## 3.0.0 (2023-07-15)
 
