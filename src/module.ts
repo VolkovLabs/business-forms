@@ -162,9 +162,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     .addCustomEditor({
       id: 'initial.datasource',
       path: 'initial.datasource',
-      name: 'Datasource',
+      name: 'Data Source',
       category: ['Initial Request'],
-      description: 'Choose the Datasource for the query',
       editor: DatasourceEditor,
       showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
     })
@@ -216,7 +215,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     id: 'initial.getPayload',
     path: 'initial.getPayload',
     name: 'Create Payload',
-    description: 'Custom code to create payload for the initial datasource request.',
+    description: 'Custom code to create payload for the initial data source request.',
     editor: CustomCodeEditor,
     category: ['Initial Request Payload'],
     settings: {
@@ -287,9 +286,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     .addCustomEditor({
       id: 'update.datasource',
       path: 'update.datasource',
-      name: 'Datasource',
+      name: 'Data Source',
       category: ['Update Request'],
-      description: 'Choose the Datasource for the query',
       editor: DatasourceEditor,
       showIf: (config) => config.update.method === RequestMethod.DATASOURCE,
     })

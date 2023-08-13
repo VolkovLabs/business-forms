@@ -5,10 +5,19 @@ import { FormElementType } from './form-element';
 /**
  * Initial Request
  */
-export const CodeInitialDefault = 'console.log(data, response, initial, elements)';
+export const CodeInitialDefault = `console.log(data, response, initial, elements);
+
+return;
 
 /**
- * Update Requestt
+ * Data Source
+ * Requires form elements to be defined
+ */
+const dataQuery = toDataQueryResponse(response);
+console.log(dataQuery);`;
+
+/**
+ * Update Request
  */
 export const CodeUpdateDefault = `if (response && response.ok) {
   notifySuccess(['Update', 'Values updated successfully.']);

@@ -97,4 +97,9 @@ export const CodeEditorSuggestions: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Method,
     detail: 'Display warning notification.',
   },
+  {
+    label: 'toDataQueryResponse',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Parse the results from /api/ds/query.',
+  },
 ];
