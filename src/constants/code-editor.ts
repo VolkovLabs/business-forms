@@ -5,24 +5,6 @@ import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana
  * Code Editor
  */
 export const CodeEditorHeight = 200;
-export const CodeInitialDefault = 'console.log(data, response, initial, elements)';
-export const CodeUpdateDefault = `if (response && response.ok) {
-  notifySuccess(['Update', 'Values updated successfully.']);
-  locationService.reload();
-} else {
-  notifyError(['Update', 'An error occured updating values.']);
-}`;
-export const GetPayloadDefault = `const payload = {};
-
-elements.forEach((element) => {
-  if (!element.value) {
-    return;
-  }
-
-  payload[element.id] = element.value;
-})
-
-return payload;`;
 
 /**
  * Supported Languages

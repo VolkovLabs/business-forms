@@ -189,6 +189,10 @@ export const FormPanel: React.FC<Props> = ({
     let json: any = null;
 
     if (options.initial.method === RequestMethod.DATASOURCE) {
+      if (!options.initial.datasource) {
+        return;
+      }
+
       /**
        * Run Datasource Query
        */

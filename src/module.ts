@@ -21,14 +21,15 @@ import {
   CodeUpdateDefault,
   ContentType,
   ContentTypeOptions,
-  GetPayloadDefault,
   InitialHighlightColorDefault,
   LayoutOrientation,
   LayoutOrientationOptions,
   LayoutVariant,
   LayoutVariantOptions,
+  PayloadInitialDefault,
   PayloadMode,
   PayloadModeOptions,
+  PayloadUpdateDefault,
   RequestMethod,
   RequestMethodInitialOptions,
   RequestMethodUpdateOptions,
@@ -221,8 +222,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     settings: {
       language: CodeLanguage.JAVASCRIPT,
     },
-    defaultValue: GetPayloadDefault,
-    showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
+    defaultValue: PayloadInitialDefault,
+    showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
   });
 
   /**
@@ -384,7 +385,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: GetPayloadDefault,
+      defaultValue: PayloadUpdateDefault,
       showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
     });
 
