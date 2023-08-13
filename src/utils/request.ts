@@ -23,7 +23,7 @@ export const GetPayloadForRequest = ({
   }
 
   /**
-   * Use deprecated property for backward compatability
+   * Use deprecated property for backward compatibility
    */
   const updatedOnly =
     request.payloadMode === undefined ? request.updatedOnly : request.payloadMode === PayloadMode.UPDATED;
@@ -33,6 +33,9 @@ export const GetPayloadForRequest = ({
    */
   const body: Record<string, unknown> = {};
 
+  /**
+   * Get payload
+   */
   elements.forEach((element) => {
     if (!updatedOnly) {
       body[element.id] = element.value;

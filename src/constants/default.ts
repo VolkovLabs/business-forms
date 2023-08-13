@@ -5,6 +5,66 @@ import { FormElementType } from './form-element';
 /**
  * Initial Request
  */
+export const CodeInitialDefault = `console.log(data, response, initial, elements);
+
+return;
+
+/**
+ * Data Source
+ * Requires form elements to be defined
+ */
+const dataQuery = toDataQueryResponse(response);
+console.log(dataQuery);`;
+
+/**
+ * Update Request
+ */
+export const CodeUpdateDefault = `if (response && response.ok) {
+  notifySuccess(['Update', 'Values updated successfully.']);
+  locationService.reload();
+} else {
+  notifyError(['Update', 'An error occured updating values.']);
+}`;
+
+/**
+ * Reset Request
+ */
+export const CodeResetDefault = `console.log(data, response, initial, elements);`;
+
+/**
+ * Initial Payload
+ */
+export const PayloadInitialDefault = `return {
+  rawSql: '',
+  format: 'table',
+}`;
+
+/**
+ * Update Payload
+ */
+export const PayloadUpdateDefault = `const payload = {};
+
+elements.forEach((element) => {
+  if (!element.value) {
+    return;
+  }
+
+  payload[element.id] = element.value;
+})
+
+return payload;
+
+/**
+ * Data Source payload
+ */ 
+return {
+  rawSql: '',
+  format: 'table',
+};`;
+
+/**
+ * Initial Request
+ */
 export const InitialHighlightColorDefault = 'red';
 
 /**

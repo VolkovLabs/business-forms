@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
-import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
+import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
 import {
   Alert,
   Button,
@@ -17,11 +17,12 @@ import {
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
+  PayloadMode,
   RequestMethod,
   ResetActionMode,
   TestIds,
 } from '../../constants';
-import { useFormElements } from '../../hooks';
+import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
 import { GetPayloadForRequest } from '../../utils';
@@ -49,6 +50,11 @@ export const FormPanel: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: any }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
+
+  /**
+   * Use Datasource Request
+   */
+  const datasourceRequest = useDatasourceRequest();
 
   /**
    * Can User Save Options
@@ -137,6 +143,7 @@ export const FormPanel: React.FC<Props> = ({
       'notifyError',
       'notifySuccess',
       'notifyWarning',
+      'toDataQueryResponse',
       replaceVariables(code)
     );
 
@@ -156,7 +163,8 @@ export const FormPanel: React.FC<Props> = ({
         initial,
         notifyError,
         notifySuccess,
-        notifyWarning
+        notifyWarning,
+        toDataQueryResponse
       );
     } catch (error: any) {
       setError(error.toString());
@@ -167,12 +175,9 @@ export const FormPanel: React.FC<Props> = ({
    * Initial Request
    */
   const initialRequest = async () => {
-    /**
-     * Check Elements
-     */
-    if (!elements.length || !options.initial.url || options.initial.method === RequestMethod.NONE) {
+    if (!elements.length || options.initial.method === RequestMethod.NONE) {
       /**
-       * Execute Custom Code and reset Loading
+       * No method specified
        */
       executeCustomCode({ code: options.initial.code, initial });
       setLoading(false);
@@ -180,74 +185,102 @@ export const FormPanel: React.FC<Props> = ({
       return;
     }
 
-    /**
-     * Set Content Type
-     */
-    const headers: HeadersInit = new Headers();
-    if (options.initial.method === RequestMethod.POST) {
-      headers.set('Content-Type', options.initial.contentType);
-    }
+    let response: any;
+    let json: any = null;
 
-    /**
-     * Set Header
-     */
-    options.initial.header?.forEach((parameter) => {
-      const name = replaceVariables(parameter.name);
-      if (!name) {
-        setError(`All request parameters should be defined. Remove empty parameters.`);
+    if (options.initial.method === RequestMethod.DATASOURCE) {
+      if (!options.initial.datasource) {
         return;
       }
 
-      headers.set(name, replaceVariables(parameter.value));
-    });
+      /**
+       * Run Datasource Query
+       */
+      const body = GetPayloadForRequest({
+        request: {
+          ...options.initial,
+          payloadMode: PayloadMode.CUSTOM,
+        },
+        elements,
+        initial,
+      });
 
-    /**
-     * Fetch
-     */
-    const response = await fetch(replaceVariables(options.initial.url), {
-      method: options.initial.method,
-      headers,
-    }).catch((error: Error) => {
-      setError(error.toString());
-    });
-
-    /**
-     * CORS
-     */
-    if (response?.type === 'opaque') {
-      setError('CORS prevents access to the response for Initial values.');
-    }
-
-    /**
-     * OK
-     */
-    let json: any = null;
-    if (response?.ok) {
-      json = await response.json();
+      response = await datasourceRequest({
+        query: body,
+        datasource: options.initial.datasource,
+        replaceVariables,
+      }).catch((error: Error) => {
+        setError(error.toString());
+      });
+    } else {
+      /**
+       * Set Content Type
+       */
+      const headers: HeadersInit = new Headers();
+      if (options.initial.method === RequestMethod.POST) {
+        headers.set('Content-Type', options.initial.contentType);
+      }
 
       /**
-       * Update values
+       * Set Header
        */
-      const valuesMap =
-        options.elements?.reduce((acc: Record<string, unknown>, element) => {
-          return {
-            ...acc,
-            [element.id]: json[element.id] !== undefined ? json[element.id] : element.value,
-          };
-        }, {}) || {};
+      options.initial.header?.forEach((parameter) => {
+        const name = replaceVariables(parameter.name);
+        if (!name) {
+          setError(`All request parameters should be defined. Remove empty parameters.`);
+          return;
+        }
 
-      onChangeElements(
-        elements.map(({ value, ...rest }) => ({
-          ...rest,
-          value: valuesMap[rest.id],
-        }))
-      );
-
-      setInitial({
-        ...json,
-        ...valuesMap,
+        headers.set(name, replaceVariables(parameter.value));
       });
-      setTitle('Values updated.');
+
+      /**
+       * Fetch
+       */
+      response = await fetch(replaceVariables(options.initial.url), {
+        method: options.initial.method,
+        headers,
+      }).catch((error: Error) => {
+        setError(error.toString());
+      });
+
+      /**
+       * CORS
+       */
+      if (response?.type === 'opaque') {
+        setError('CORS prevents access to the response for Initial values.');
+      }
+
+      /**
+       * OK
+       */
+      if (response?.ok) {
+        json = await response.json();
+
+        /**
+         * Update values
+         */
+        const valuesMap =
+          options.elements?.reduce((acc: Record<string, unknown>, element) => {
+            return {
+              ...acc,
+              [element.id]: json[element.id] !== undefined ? json[element.id] : element.value,
+            };
+          }, {}) || {};
+
+        onChangeElements(
+          elements.map(({ value, ...rest }) => ({
+            ...rest,
+            value: valuesMap[rest.id],
+          }))
+        );
+
+        setInitial({
+          ...json,
+          ...valuesMap,
+        });
+        setTitle('Values updated.');
+      }
     }
 
     /**
@@ -296,12 +329,6 @@ export const FormPanel: React.FC<Props> = ({
     }
 
     /**
-     * Set Content Type
-     */
-    const headers: HeadersInit = new Headers();
-    headers.set('Content-Type', options.update.contentType);
-
-    /**
      * Set payload
      */
     const body = GetPayloadForRequest({
@@ -311,34 +338,58 @@ export const FormPanel: React.FC<Props> = ({
     });
 
     /**
-     * Set Header
+     * Response
      */
-    options.update.header?.forEach((parameter) => {
-      const name = replaceVariables(parameter.name);
-      if (!name) {
-        setError(`All request parameters should be defined. Remove empty parameters.`);
-        return;
+    let response: any;
+
+    /**
+     * Datasource query
+     */
+    if (options.update.method === RequestMethod.DATASOURCE) {
+      response = await datasourceRequest({
+        query: body,
+        datasource: options.update.datasource,
+        replaceVariables,
+      }).catch((error: Error) => {
+        setError(error.toString());
+      });
+    } else {
+      /**
+       * Set Content Type
+       */
+      const headers: HeadersInit = new Headers();
+      headers.set('Content-Type', options.update.contentType);
+
+      /**
+       * Set Header
+       */
+      options.update.header?.forEach((parameter) => {
+        const name = replaceVariables(parameter.name);
+        if (!name) {
+          setError(`All request parameters should be defined. Remove empty parameters.`);
+          return;
+        }
+
+        headers.set(name, replaceVariables(parameter.value));
+      });
+
+      /**
+       * Fetch
+       */
+      response = await fetch(replaceVariables(options.update.url), {
+        method: options.update.method,
+        headers,
+        body: replaceVariables(JSON.stringify(body)),
+      }).catch((error: Error) => {
+        setError(error.toString());
+      });
+
+      /**
+       * Check Response
+       */
+      if (response?.ok) {
+        setTitle(response.toString());
       }
-
-      headers.set(name, replaceVariables(parameter.value));
-    });
-
-    /**
-     * Fetch
-     */
-    const response = await fetch(replaceVariables(options.update.url), {
-      method: options.update.method,
-      headers,
-      body: replaceVariables(JSON.stringify(body)),
-    }).catch((error: Error) => {
-      setError(error.toString());
-    });
-
-    /**
-     * Check Response
-     */
-    if (response?.ok) {
-      setTitle(response.toString());
     }
 
     /**

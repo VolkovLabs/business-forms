@@ -2,6 +2,7 @@ import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
 import {
   CustomCodeEditor,
+  DatasourceEditor,
   FormElementsEditor,
   FormPanel,
   HeaderParametersEditor,
@@ -17,17 +18,19 @@ import {
   ButtonVariantOptions,
   CodeInitialDefault,
   CodeLanguage,
+  CodeResetDefault,
   CodeUpdateDefault,
   ContentType,
   ContentTypeOptions,
-  GetPayloadDefault,
   InitialHighlightColorDefault,
   LayoutOrientation,
   LayoutOrientationOptions,
   LayoutVariant,
   LayoutVariantOptions,
+  PayloadInitialDefault,
   PayloadMode,
   PayloadModeOptions,
+  PayloadUpdateDefault,
   RequestMethod,
   RequestMethodInitialOptions,
   RequestMethodUpdateOptions,
@@ -56,6 +59,14 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
    */
   const isRequestConfigured = (request: RequestOptions) => {
     return request.method !== RequestMethod.NONE;
+  };
+
+  /**
+   * Is Rest API Request
+   * @param request
+   */
+  const isRestApiRequest = (request: RequestOptions) => {
+    return request.method !== RequestMethod.NONE && request.method !== RequestMethod.DATASOURCE;
   };
 
   /**
@@ -139,7 +150,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         placeholder: 'http://',
       },
-      showIf: (config) => config.initial.method !== RequestMethod.NONE,
+      showIf: (config) => isRestApiRequest(config.initial),
     })
     .addCustomEditor({
       id: 'initial.header',
@@ -147,7 +158,15 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Header Parameters',
       category: ['Initial Request'],
       editor: HeaderParametersEditor,
-      showIf: (config) => config.initial.method !== RequestMethod.NONE,
+      showIf: (config) => isRestApiRequest(config.initial),
+    })
+    .addCustomEditor({
+      id: 'initial.datasource',
+      path: 'initial.datasource',
+      name: 'Data Source',
+      category: ['Initial Request'],
+      editor: DatasourceEditor,
+      showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
     })
     .addSelect({
       path: 'initial.contentType',
@@ -189,6 +208,23 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       defaultValue: CodeInitialDefault,
       showIf: (config) => isRequestConfigured(config.initial),
     });
+
+  /**
+   * Initial Payload For Data Source
+   */
+  builder.addCustomEditor({
+    id: 'initial.getPayload',
+    path: 'initial.getPayload',
+    name: 'Create Payload',
+    description: 'Custom code to create payload for the initial data source request.',
+    editor: CustomCodeEditor,
+    category: ['Initial Request Payload'],
+    settings: {
+      language: CodeLanguage.JAVASCRIPT,
+    },
+    defaultValue: PayloadInitialDefault,
+    showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
+  });
 
   /**
    * Highlight
@@ -246,7 +282,15 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         placeholder: 'http://',
       },
-      showIf: (config) => isRequestConfigured(config.update),
+      showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
+    })
+    .addCustomEditor({
+      id: 'update.datasource',
+      path: 'update.datasource',
+      name: 'Data Source',
+      category: ['Update Request'],
+      editor: DatasourceEditor,
+      showIf: (config) => config.update.method === RequestMethod.DATASOURCE,
     })
     .addCustomEditor({
       id: 'update.header',
@@ -254,7 +298,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Header Parameters',
       category: ['Update Request'],
       editor: HeaderParametersEditor,
-      showIf: (config) => isRequestConfigured(config.update),
+      showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
     })
     .addSelect({
       path: 'update.contentType',
@@ -266,7 +310,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         allowCustomValue: true,
         options: ContentTypeOptions,
       },
-      showIf: (config) => isRequestConfigured(config.update),
+      showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
     })
     .addCustomEditor({
       id: 'update.code',
@@ -316,7 +360,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     });
 
   /**
-   * Payload
+   * Update Payload
    */
   builder
     .addRadio({
@@ -340,7 +384,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: GetPayloadDefault,
+      defaultValue: PayloadUpdateDefault,
       showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
     });
 
@@ -512,7 +556,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeInitialDefault,
+      defaultValue: CodeResetDefault,
       showIf: (config) =>
         config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.CUSTOM,
     });

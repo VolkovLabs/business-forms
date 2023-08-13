@@ -20,6 +20,13 @@ export interface RequestOptions {
   url: string;
 
   /**
+   * Data Source
+   *
+   * @type {string}
+   */
+  datasource: string;
+
+  /**
    * Header Parameters
    *
    * @type {HeaderParameter[]}
@@ -62,7 +69,7 @@ export interface RequestOptions {
   confirm: boolean;
 
   /**
-   * @deprecated Keep for backward compatability.
+   * @deprecated Keep for backward compatibility.
    * Add only Updated Elements to Payload
    *
    * @type {boolean}

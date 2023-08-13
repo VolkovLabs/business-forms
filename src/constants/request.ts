@@ -5,6 +5,7 @@ import { CapitalizeFirstLetter } from './button';
  * Request Methods
  */
 export const enum RequestMethod {
+  DATASOURCE = 'datasource',
   DELETE = 'DELETE',
   GET = 'GET',
   NONE = '-',
@@ -22,6 +23,10 @@ export const RequestMethodInitialOptions: SelectableValue[] = [
     label: RequestMethod.NONE,
   },
   {
+    value: RequestMethod.DATASOURCE,
+    label: 'Data Source',
+  },
+  {
     value: RequestMethod.GET,
     label: RequestMethod.GET,
   },
@@ -34,6 +39,10 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
     label: RequestMethod.NONE,
+  },
+  {
+    value: RequestMethod.DATASOURCE,
+    label: 'Data Source',
   },
   {
     value: RequestMethod.DELETE,
