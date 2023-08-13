@@ -33,6 +33,9 @@ export const GetPayloadForRequest = ({
    */
   const body: Record<string, unknown> = {};
 
+  /**
+   * Get payload
+   */
   elements.forEach((element) => {
     if (!updatedOnly) {
       body[element.id] = element.value;

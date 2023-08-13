@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
-import { getAppEvents, getTemplateSrv, locationService, RefreshEvent } from '@grafana/runtime';
+import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
 import {
   Alert,
   Button,
@@ -143,6 +143,7 @@ export const FormPanel: React.FC<Props> = ({
       'notifyError',
       'notifySuccess',
       'notifyWarning',
+      'toDataQueryResponse',
       replaceVariables(code)
     );
 
@@ -162,7 +163,8 @@ export const FormPanel: React.FC<Props> = ({
         initial,
         notifyError,
         notifySuccess,
-        notifyWarning
+        notifyWarning,
+        toDataQueryResponse
       );
     } catch (error: any) {
       setError(error.toString());

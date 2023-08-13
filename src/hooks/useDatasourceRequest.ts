@@ -4,7 +4,7 @@ import { InterpolateFunction } from '@grafana/data';
 import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
 
 /**
- * Use Datasource Request
+ * Use Data Source Request
  */
 export const useDatasourceRequest = () => {
   return useCallback(
@@ -20,7 +20,10 @@ export const useDatasourceRequest = () => {
       const ds = await getDataSourceSrv().get(datasource);
       const payload = JSON.parse(replaceVariables(JSON.stringify(query)));
 
-      const result = await lastValueFrom(
+      /**
+       * Fetch
+       */
+      const response = await lastValueFrom(
         getBackendSrv().fetch({
           method: 'POST',
           url: 'api/ds/query',
@@ -36,7 +39,7 @@ export const useDatasourceRequest = () => {
         })
       );
 
-      return result.data;
+      return response;
     },
     []
   );

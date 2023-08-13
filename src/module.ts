@@ -209,6 +209,23 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     });
 
   /**
+   * Initial Payload For Data Source
+   */
+  builder.addCustomEditor({
+    id: 'initial.getPayload',
+    path: 'initial.getPayload',
+    name: 'Create Payload',
+    description: 'Custom code to create payload for the initial datasource request.',
+    editor: CustomCodeEditor,
+    category: ['Initial Request Payload'],
+    settings: {
+      language: CodeLanguage.JAVASCRIPT,
+    },
+    defaultValue: GetPayloadDefault,
+    showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
+  });
+
+  /**
    * Highlight
    */
   builder
@@ -341,23 +358,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       defaultValue: false,
       showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
     });
-
-  /**
-   * Initial Payload For Datasource
-   */
-  builder.addCustomEditor({
-    id: 'initial.getPayload',
-    path: 'initial.getPayload',
-    name: 'Create Payload',
-    description: 'Custom code to create payload for the initial datasource request.',
-    editor: CustomCodeEditor,
-    category: ['Initial Request Payload'],
-    settings: {
-      language: CodeLanguage.JAVASCRIPT,
-    },
-    defaultValue: GetPayloadDefault,
-    showIf: (config) => config.initial.method === RequestMethod.DATASOURCE,
-  });
 
   /**
    * Update Payload

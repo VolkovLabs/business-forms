@@ -1,6 +1,6 @@
-import { renderHook } from '@testing-library/react';
-import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
 import { Observable } from 'rxjs';
+import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
+import { renderHook } from '@testing-library/react';
 import { useDatasourceRequest } from './useDatasourceRequest';
 
 /**
@@ -84,7 +84,9 @@ describe('Use Datasource Request', () => {
      * Should return result
      */
     expect(response).toEqual({
-      message: 'hello',
+      data: {
+        message: 'hello',
+      },
     });
   });
 });

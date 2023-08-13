@@ -14,9 +14,9 @@ import {
   RequestMethod,
   ResetActionMode,
 } from '../../constants';
+import { useDatasourceRequest } from '../../hooks';
 import { LocalFormElement } from '../../types';
 import { getPanelSelectors, ToLocalFormElement } from '../../utils';
-import { useDatasourceRequest } from '../../hooks';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -235,7 +235,7 @@ describe('Panel', () => {
         Promise.resolve({
           message: 'hello',
         })
-      );
+      ) as any;
       jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
 
       /**
@@ -501,7 +501,7 @@ describe('Panel', () => {
         Promise.resolve({
           message: 'hello',
         })
-      );
+      ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
 
       const { rerender } = await act(() =>
