@@ -27,6 +27,11 @@ export const CodeUpdateDefault = `if (response && response.ok) {
 }`;
 
 /**
+ * Reset Request
+ */
+export const CodeResetDefault = `console.log(data, response, initial, elements);`;
+
+/**
  * Initial Payload
  */
 export const PayloadInitialDefault = `return {

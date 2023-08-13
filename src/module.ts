@@ -18,6 +18,7 @@ import {
   ButtonVariantOptions,
   CodeInitialDefault,
   CodeLanguage,
+  CodeResetDefault,
   CodeUpdateDefault,
   ContentType,
   ContentTypeOptions,
@@ -555,7 +556,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeInitialDefault,
+      defaultValue: CodeResetDefault,
       showIf: (config) =>
         config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.CUSTOM,
     });
