@@ -81,6 +81,11 @@ export interface FormElementBase {
    * @type {string}
    */
   showIf?: string;
+
+  /**
+   * Field Name
+   */
+  fieldName?: string;
 }
 
 /**

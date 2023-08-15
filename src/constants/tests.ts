@@ -84,6 +84,7 @@ export const TestIds = {
     fieldUnit: 'data-testid form-elements-editor field-unit',
     fieldVisibility: 'data-testid form-elements-editor field-visibility',
     fieldWidth: 'data-testid form-elements-editor field-width',
+    fieldNamePicker: 'data-testid form-elements-editor field-name-picker',
     newElementId: 'data-testid form-elements-editor new-element-id',
     newElementLabel: 'data-testid form-elements-editor new-element-label',
     newElementType: 'form-elements-editor new-element-type',

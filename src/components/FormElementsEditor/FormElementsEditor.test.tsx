@@ -931,6 +931,24 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldTextareaRows()).toHaveValue(123);
     });
 
+    it('Should update field name', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementDefault.type);
+
+      /**
+       * Change id
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldNamePicker(), { target: { value: 'metric' } }));
+
+      expect(elementSelectors.fieldNamePicker()).toHaveValue('metric');
+    });
+
     it('Should update showIf', async () => {
       const element = { ...FormElementDefault, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
       const elements = [element];

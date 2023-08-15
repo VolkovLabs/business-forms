@@ -353,6 +353,21 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         </InlineFieldRow>
       )}
 
+      <InlineFieldRow>
+        <InlineField grow={true} label="Field Name" labelWidth={14} tooltip="Select field value">
+          <Input
+            value={element.fieldName || ''}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+              onChange({
+                ...element,
+                fieldName: event.target.value,
+              });
+            }}
+            data-testid={TestIds.formElementsEditor.fieldNamePicker}
+          />
+        </InlineField>
+      </InlineFieldRow>
+
       {(element.type === FormElementType.RADIO ||
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||

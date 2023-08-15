@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppEvents } from '@grafana/data';
+import { AppEvents, FieldType } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
@@ -105,6 +105,11 @@ describe('Panel', () => {
 
     return <FormPanel {...finalProps} options={finalOptions} />;
   };
+
+  beforeEach(() => {
+    jest.mocked(useDatasourceRequest).mockRestore();
+    jest.mocked(FormElements).mockClear();
+  });
 
   it('Should find component with Elements', async () => {
     await act(() => render(getComponent()));
@@ -261,6 +266,85 @@ describe('Panel', () => {
         query: { key1: 'value' },
         replaceVariables: expect.any(Function),
       });
+    });
+
+    it('Should update elements with initial datasource result', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          data: {
+            results: {
+              A: {
+                frames: [
+                  {
+                    data: {
+                      values: [['metric1', 'metric2']],
+                    },
+                    schema: {
+                      fields: [
+                        {
+                          name: 'metric',
+                          type: FieldType.string,
+                        },
+                      ],
+                    },
+                  },
+                ],
+                refId: 'A',
+                status: 200,
+              },
+            },
+          },
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(() =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '123',
+                getPayload: `return { key1: 'value' }`,
+              },
+              elements: [
+                {
+                  ...FormElementDefault,
+                  id: 'mapped',
+                  fieldName: 'metric',
+                },
+                {
+                  ...FormElementDefault,
+                  id: 'unmapped',
+                  fieldName: '',
+                },
+              ],
+            },
+            props: {},
+          })
+        )
+      );
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        3,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: 'metric2',
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
     });
 
     it('Should show initial datasource request error', async () => {

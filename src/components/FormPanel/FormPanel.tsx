@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, PanelProps } from '@grafana/data';
+import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, Field, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
 import {
   Alert,
@@ -212,6 +212,38 @@ export const FormPanel: React.FC<Props> = ({
       }).catch((error: Error) => {
         setError(error.toString());
       });
+
+      if (response && response.ok) {
+        /**
+         * Update elements with initial values
+         */
+        const queryResponse = toDataQueryResponse(response);
+        const fields: Field[] | undefined = queryResponse.data[0]?.fields;
+
+        /**
+         * Get elements with data source values
+         */
+        const updatedElements = elements.map((element) => {
+          const field = fields?.find((field: Field) => field.name === element.fieldName);
+
+          if (field) {
+            /**
+             * Update with initial value
+             */
+            return {
+              ...element,
+              value: field.values[field.values.length - 1],
+            };
+          }
+
+          return element;
+        });
+
+        /**
+         * Update elements with data source values
+         */
+        onChangeElements(updatedElements);
+      }
     } else {
       /**
        * Set Content Type
