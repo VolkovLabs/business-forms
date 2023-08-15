@@ -928,7 +928,7 @@ describe('Form Elements Editor', () => {
       /**
        * Date is not set
        */
-      expect(fieldSelectors.fieldMinDate(true)).not.toBeInTheDocument();
+      expect(fieldSelectors.fieldMaxDate(true)).not.toBeInTheDocument();
     });
 
     it('Should update date min', async () => {
