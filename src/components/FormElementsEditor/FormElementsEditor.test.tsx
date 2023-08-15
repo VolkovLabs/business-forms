@@ -942,7 +942,7 @@ describe('Form Elements Editor', () => {
       const elementSelectors = openElement('id', FormElementDefault.type);
 
       /**
-       * Change id
+       * Change field name
        */
       await act(() => fireEvent.change(elementSelectors.fieldNamePicker(), { target: { value: 'metric' } }));
 

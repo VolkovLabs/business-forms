@@ -230,9 +230,10 @@ export const FormPanel: React.FC<Props> = ({
             /**
              * Update with initial value
              */
+            const values = field.values;
             return {
               ...element,
-              value: field.values[field.values.length - 1],
+              value: field.values.get(values.length - 1),
             };
           }
 
