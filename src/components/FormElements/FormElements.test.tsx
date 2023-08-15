@@ -498,7 +498,15 @@ describe('Form Elements', () => {
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'number', type: FormElementType.DATETIME, value: '2023-05-31 12:30:30' }],
+        elements: [
+          {
+            id: 'number',
+            type: FormElementType.DATETIME,
+            value: '2023-05-31 12:30:30',
+            min: '2023-05-20 12:30:30',
+            max: '2023-06-15 12:30:30',
+          },
+        ],
       };
       const onChangeElement = jest.fn();
 

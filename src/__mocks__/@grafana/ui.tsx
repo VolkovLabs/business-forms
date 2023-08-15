@@ -1,4 +1,5 @@
 import React from 'react';
+import { dateTime } from '@grafana/data';
 
 const actual = jest.requireActual('@grafana/ui');
 
@@ -34,7 +35,7 @@ const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
       value={restProps.value}
       onChange={(event) => {
         if (onChange) {
-          onChange(event.target.value);
+          onChange(dateTime(event.target.value));
         }
       }}
     />

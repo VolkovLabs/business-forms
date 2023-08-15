@@ -23,6 +23,7 @@ import {
 } from '../../constants';
 import { LocalFormElement } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
+import { ElementDateEditor } from '../ElementDateEditor';
 import { Styles } from './styles';
 
 /**
@@ -297,6 +298,33 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
             />
           </InlineField>
         </InlineFieldRow>
+      )}
+
+      {element.type === FormElementType.DATETIME && (
+        <>
+          <ElementDateEditor
+            label="Min"
+            onChange={(value) =>
+              onChange({
+                ...element,
+                min: value,
+              })
+            }
+            value={element.min}
+            data-testid={TestIds.formElementsEditor.fieldMinDate}
+          />
+          <ElementDateEditor
+            label="Max"
+            onChange={(value) =>
+              onChange({
+                ...element,
+                max: value,
+              })
+            }
+            value={element.max}
+            data-testid={TestIds.formElementsEditor.fieldMaxDate}
+          />
+        </>
       )}
 
       {element.type === FormElementType.TEXTAREA && (
