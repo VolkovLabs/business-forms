@@ -87,12 +87,6 @@ export const GetElementWithNewType = (
         type: newType,
       };
     }
-    case FormElementType.DATETIME: {
-      return {
-        ...baseValues,
-        type: newType,
-      };
-    }
     default: {
       return {
         ...baseValues,
