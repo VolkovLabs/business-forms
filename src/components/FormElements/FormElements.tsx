@@ -46,7 +46,7 @@ interface Props {
   /**
    * On Element Change
    */
-  onChangeElement: (element: LocalFormElement) => void;
+  onChangeElement: <T extends LocalFormElement>(element: T) => void;
 
   /**
    * Initial values
@@ -142,7 +142,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                       value = Math.max(element.min, value || 0);
                     }
 
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value,
                     });
@@ -169,7 +169,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 <Input
                   value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value: event.target.value,
                     });
@@ -193,7 +193,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 <Input
                   value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value: event.target.value,
                     });
@@ -239,7 +239,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 <TextArea
                   value={element.value || ''}
                   onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value: event.target.value,
                     });
@@ -268,7 +268,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                   height={element.height || `${CodeEditorHeight}px`}
                   width={ApplyWidth(element.width)}
                   onBlur={(code) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value: code,
                     });
@@ -291,7 +291,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 <RadioButtonGroup
                   value={element.value}
                   onChange={(value: Boolean) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value,
                     });
@@ -312,11 +312,13 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 transparent={!element.title}
               >
                 <DateTimePicker
+                  minDate={element.min ? new Date(element.min) : undefined}
+                  maxDate={element.max ? new Date(element.max) : undefined}
                   date={dateTime(element.value)}
                   onChange={(dateTime: DateTime) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
-                      value: dateTime,
+                      value: dateTime.toISOString(),
                     });
                   }}
                   data-testid={TestIds.formElements.fieldDateTime}
@@ -336,10 +338,10 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 >
                   <Slider
                     value={element.value || 0}
-                    onChange={(value: number | number[]) => {
-                      onChangeElement({
+                    onChange={(value) => {
+                      onChangeElement<typeof element>({
                         ...element,
-                        value,
+                        value: Array.isArray(value) ? value[value.length - 1] : value,
                       });
                     }}
                     min={element.min || 0}
@@ -356,7 +358,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                     max={element.max || 0}
                     value={element.value || 0}
                     onChange={(e) => {
-                      onChangeElement({
+                      onChangeElement<typeof element>({
                         ...element,
                         value: Math.max(element.min || 0, Math.min(element.max || 0, Number(e.currentTarget.value))),
                       });
@@ -379,7 +381,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 <RadioButtonGroup
                   value={element.value}
                   onChange={(value: unknown) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value,
                     });
@@ -404,7 +406,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                   aria-label={TestIds.formElements.fieldSelect}
                   value={element.value !== undefined ? element.value : null}
                   onChange={(event) => {
-                    onChangeElement({
+                    onChangeElement<typeof element>({
                       ...element,
                       value: Array.isArray(event) ? event.map(({ value }) => value) : event.value,
                     });

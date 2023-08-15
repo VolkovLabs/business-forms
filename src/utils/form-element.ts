@@ -87,6 +87,12 @@ export const GetElementWithNewType = (
         type: newType,
       };
     }
+    case FormElementType.DATETIME: {
+      return {
+        ...baseValues,
+        type: newType,
+      };
+    }
     default: {
       return {
         ...baseValues,
@@ -98,8 +104,8 @@ export const GetElementWithNewType = (
 
 /**
  * Is Element Conflict
- * @param elements<FormElement[]>
- * @param element<FormElement>
+ * @params elements<FormElement[]>
+ * @params element<FormElement>
  */
 export const IsElementConflict = (elements: FormElement[], element: FormElement) => {
   return elements.some((item) => item.id === element.id && item.type === element.type);
@@ -107,8 +113,8 @@ export const IsElementConflict = (elements: FormElement[], element: FormElement)
 
 /**
  * Is Element Option Conflict
- * @param options<SelectableValue[]>
- * @param option<SelectableValue>
+ * @params options<SelectableValue[]>
+ * @params option<SelectableValue>
  * @constructor
  */
 export const IsElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {

@@ -869,6 +869,130 @@ describe('Form Elements Editor', () => {
       );
     });
 
+    it('Should update date max', async () => {
+      const element = { ...FormElementDefault, id: 'id', type: FormElementType.DATETIME, max: '' };
+      const elements = [element];
+      const onChange = jest.fn();
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      const field = elementSelectors.fieldMaxDate();
+      const fieldSelectors = getFormElementsEditorSelectors(within(field));
+
+      /**
+       * Date is not set
+       */
+      expect(fieldSelectors.fieldMaxDate(true)).not.toBeInTheDocument();
+      expect(fieldSelectors.buttonSetDate()).toBeInTheDocument();
+
+      /**
+       * Set Date
+       */
+      await act(() => fireEvent.click(fieldSelectors.buttonSetDate()));
+
+      /**
+       * Date
+       */
+      expect(fieldSelectors.fieldDateTime()).toBeInTheDocument();
+
+      /**
+       * Change Date
+       */
+      const date = new Date('2021-07-31 12:30:30');
+      await act(() => fireEvent.change(fieldSelectors.fieldDateTime(), { target: { value: date.toISOString() } }));
+
+      expect(fieldSelectors.fieldDateTime()).toHaveValue(date.toISOString());
+
+      await act(() => fireEvent.click(selectors.buttonSaveChanges()));
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            max: date.toISOString(),
+          }),
+        ])
+      );
+
+      /**
+       * Remove Date
+       */
+      expect(fieldSelectors.buttonRemoveDate()).toBeInTheDocument();
+
+      await act(() => fireEvent.click(fieldSelectors.buttonRemoveDate()));
+
+      /**
+       * Date is not set
+       */
+      expect(fieldSelectors.fieldMinDate(true)).not.toBeInTheDocument();
+    });
+
+    it('Should update date min', async () => {
+      const element = { ...FormElementDefault, id: 'id', type: FormElementType.DATETIME, min: '' };
+      const elements = [element];
+      const onChange = jest.fn();
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      const field = elementSelectors.fieldMinDate();
+      const fieldSelectors = getFormElementsEditorSelectors(within(field));
+
+      /**
+       * Date is not set
+       */
+      expect(fieldSelectors.fieldMinDate(true)).not.toBeInTheDocument();
+      expect(fieldSelectors.buttonSetDate()).toBeInTheDocument();
+
+      /**
+       * Set Date
+       */
+      await act(() => fireEvent.click(fieldSelectors.buttonSetDate()));
+
+      /**
+       * Date
+       */
+      expect(fieldSelectors.fieldDateTime()).toBeInTheDocument();
+
+      /**
+       * Change Date
+       */
+      const date = new Date('2021-07-31 12:30:30');
+      await act(() => fireEvent.change(fieldSelectors.fieldDateTime(), { target: { value: date.toISOString() } }));
+
+      expect(fieldSelectors.fieldDateTime()).toHaveValue(date.toISOString());
+
+      await act(() => fireEvent.click(selectors.buttonSaveChanges()));
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            min: date.toISOString(),
+          }),
+        ])
+      );
+
+      /**
+       * Remove Date
+       */
+      expect(fieldSelectors.buttonRemoveDate()).toBeInTheDocument();
+
+      await act(() => fireEvent.click(fieldSelectors.buttonRemoveDate()));
+
+      /**
+       * Date is not set
+       */
+      expect(fieldSelectors.fieldMinDate(true)).not.toBeInTheDocument();
+    });
+
     it('Should update Code Language', async () => {
       const element = {
         ...FormElementDefault,
