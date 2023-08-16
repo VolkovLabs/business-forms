@@ -14,7 +14,7 @@ export const getFormElementsSelectors = getJestSelectors(TestIds.formElements, [
 /**
  * Get Form Elements Editor Selectors
  */
-export const getFormElementsEditorSelectors = getJestSelectors(TestIds.formElementsEditor);
+export const getFormElementsEditorSelectors = getJestSelectors(TestIds.formElementsEditor, ['fieldDateTime']);
 
 /**
  * Get Panel Selectors

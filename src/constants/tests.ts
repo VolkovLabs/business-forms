@@ -85,6 +85,9 @@ export const TestIds = {
     fieldVisibility: 'data-testid form-elements-editor field-visibility',
     fieldWidth: 'data-testid form-elements-editor field-width',
     fieldNamePicker: 'data-testid form-elements-editor field-name-picker',
+    fieldDateTime: 'date-time-input',
+    fieldMinDate: 'data-testid form-elements-editor field-min-date',
+    fieldMaxDate: 'data-testid form-elements-editor field-max-date',
     newElementId: 'data-testid form-elements-editor new-element-id',
     newElementLabel: 'data-testid form-elements-editor new-element-label',
     newElementType: 'form-elements-editor new-element-type',
@@ -94,6 +97,8 @@ export const TestIds = {
     sectionLabel: (id: string, type: string) => `data-testid form-elements-editor section-label-${id}-${type}`,
     sectionNewContent: 'data-testid form-elements-editor section-new-content',
     sectionNewLabel: 'data-testid form-elements-editor section-new-label',
+    buttonSetDate: 'data-testid form-elements-editor button-set-date',
+    buttonRemoveDate: 'data-testid form-elements-editor button-remove-date',
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',

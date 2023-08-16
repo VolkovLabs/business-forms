@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.2.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add min and max date for date time element (#225)
+
 ## 3.1.0 (2023-08-13)
 
 ### Features / Enhancements

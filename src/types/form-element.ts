@@ -180,9 +180,9 @@ export interface NumberOptions {
   /**
    * Value
    *
-   * @type {number}
+   * @type {number | null}
    */
-  value: number;
+  value: number | null;
 }
 
 /**
@@ -210,6 +210,26 @@ export interface SelectOptions {
 }
 
 /**
+ * Date Time Options
+ */
+export interface DateTimeOptions {
+  /**
+   * Min Date
+   */
+  min?: string;
+
+  /**
+   * Max Date
+   */
+  max?: string;
+
+  /**
+   * Value
+   */
+  value: string;
+}
+
+/**
  * Form Element
  */
 export type FormElement = FormElementBase &
@@ -224,7 +244,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.RADIO } & SelectOptions)
     | ({ type: FormElementType.DISABLED } & SelectOptions)
     | { type: FormElementType.PASSWORD }
-    | { type: FormElementType.DATETIME }
+    | ({ type: FormElementType.DATETIME } & DateTimeOptions)
     | { type: FormElementType.SECRET }
     | { type: FormElementType.BOOLEAN }
   );
