@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Add min and max date for date time element (#225)
+- Map Data Source values to elements (#224)
 
 ## 3.1.0 (2023-08-13)
 

@@ -7,6 +7,7 @@ import {
   FormElementDefault,
   FormElementType,
   NumberDefault,
+  RequestMethod,
   SliderDefault,
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../utils';
@@ -1057,8 +1058,15 @@ describe('Form Elements Editor', () => {
 
     it('Should update field name', async () => {
       const elements = [{ ...FormElementDefault, id: 'id' }];
+      const context = {
+        options: {
+          initial: {
+            method: RequestMethod.DATASOURCE,
+          },
+        },
+      };
 
-      render(getComponent({ value: elements, onChange }));
+      render(getComponent({ value: elements, onChange, context }));
 
       /**
        * Open id element
