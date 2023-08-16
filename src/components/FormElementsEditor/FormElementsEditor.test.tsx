@@ -7,6 +7,7 @@ import {
   FormElementDefault,
   FormElementType,
   NumberDefault,
+  RequestMethod,
   SliderDefault,
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../utils';
@@ -1053,6 +1054,31 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldTextareaRows(), { target: { value: '123' } }));
 
       expect(elementSelectors.fieldTextareaRows()).toHaveValue(123);
+    });
+
+    it('Should update field name', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const context = {
+        options: {
+          initial: {
+            method: RequestMethod.DATASOURCE,
+          },
+        },
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementDefault.type);
+
+      /**
+       * Change field name
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldNamePicker(), { target: { value: 'metric' } }));
+
+      expect(elementSelectors.fieldNamePicker()).toHaveValue('metric');
     });
 
     it('Should update showIf', async () => {

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { lastValueFrom } from 'rxjs';
-import { InterpolateFunction } from '@grafana/data';
+import { DataQueryResponse, InterpolateFunction } from '@grafana/data';
 import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
 
 /**
@@ -23,8 +23,8 @@ export const useDatasourceRequest = () => {
       /**
        * Fetch
        */
-      const response = await lastValueFrom(
-        getBackendSrv().fetch({
+      return lastValueFrom(
+        getBackendSrv().fetch<DataQueryResponse>({
           method: 'POST',
           url: 'api/ds/query',
           data: {
@@ -38,8 +38,6 @@ export const useDatasourceRequest = () => {
           },
         })
       );
-
-      return response;
     },
     []
   );

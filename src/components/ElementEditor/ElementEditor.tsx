@@ -17,6 +17,7 @@ import {
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
+  RequestMethod,
   SelectElementOptions,
   StringElementOptions,
   TestIds,
@@ -54,12 +55,23 @@ interface Props {
    * Layout Section Options
    */
   layoutSectionOptions: SelectableValue[];
+
+  /**
+   * Initial Request Method
+   */
+  initialMethod: RequestMethod;
 }
 
 /**
  * Element Editor
  */
-export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOption, layoutSectionOptions }) => {
+export const ElementEditor: React.FC<Props> = ({
+  element,
+  onChange,
+  onChangeOption,
+  layoutSectionOptions,
+  initialMethod,
+}) => {
   /**
    * Styles
    */
@@ -376,6 +388,28 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
               value={element.height}
               min={0}
               data-testid={TestIds.formElementsEditor.fieldCodeHeight}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+
+      {initialMethod === RequestMethod.DATASOURCE && (
+        <InlineFieldRow>
+          <InlineField
+            grow={true}
+            label="Field Name"
+            labelWidth={14}
+            tooltip="Specify a field name from the Data Source response"
+          >
+            <Input
+              value={element.fieldName || ''}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                onChange({
+                  ...element,
+                  fieldName: event.target.value,
+                });
+              }}
+              data-testid={TestIds.formElementsEditor.fieldNamePicker}
             />
           </InlineField>
         </InlineFieldRow>

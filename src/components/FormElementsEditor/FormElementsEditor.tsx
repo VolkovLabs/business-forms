@@ -163,6 +163,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             element={element}
                             onChange={onChangeElement}
                             layoutSectionOptions={layoutSectionOptions}
+                            initialMethod={context.options?.initial?.method}
                             onChangeOption={onChangeElementOption}
                           />
                         </Collapse>
