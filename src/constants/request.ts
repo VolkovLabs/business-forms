@@ -68,6 +68,7 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
 export const enum ContentType {
   JSON = 'application/json',
   PLAIN = 'text/plain',
+  FORMDATA = 'multipart/form-data',
 }
 
 /**
@@ -76,6 +77,7 @@ export const enum ContentType {
 export const ContentTypeOptions: SelectableValue[] = [
   { label: CapitalizeFirstLetter(ContentType.JSON), value: ContentType.JSON },
   { label: CapitalizeFirstLetter(ContentType.PLAIN), value: ContentType.PLAIN },
+  { label: CapitalizeFirstLetter(ContentType.FORMDATA), value: ContentType.FORMDATA },
 ];
 
 /**
