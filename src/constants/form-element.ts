@@ -18,6 +18,7 @@ export const enum FormElementType {
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
+  FILE = 'file',
 }
 
 /**
@@ -71,6 +72,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.TEXTAREA,
     label: 'Text Area',
+  },
+  {
+    value: FormElementType.FILE,
+    label: 'File',
   },
 ];
 

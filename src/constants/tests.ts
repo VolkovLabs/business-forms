@@ -33,6 +33,7 @@ export const TestIds = {
       `data-testid form-elements element-${elementId}-${elementType}`,
     fieldNumber: 'data-testid form-elements field-number',
     fieldString: 'data-testid form-elements field-string',
+    fieldFile: selectors.components.FileUpload.inputField,
     fieldPassword: 'data-testid form-elements field-password',
     fieldDisabled: 'data-testid form-elements field-disabled',
     fieldTextarea: 'data-testid form-elements field-textarea',
