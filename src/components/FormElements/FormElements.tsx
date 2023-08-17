@@ -25,7 +25,7 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { ApplyWidth, FormatNumberValue, ToNumberValue } from '../../utils';
+import { ApplyWidth, FormatNumberValue, GetLayoutUniqueId, ToNumberValue } from '../../utils';
 
 /**
  * Properties
@@ -106,7 +106,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
         /**
          * Skip Hidden Elements
          */
-        if (section && element.section !== section.name) {
+        if (section && element.section !== GetLayoutUniqueId(section)) {
           return;
         }
 
