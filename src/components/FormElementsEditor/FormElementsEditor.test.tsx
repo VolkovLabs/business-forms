@@ -12,6 +12,7 @@ import {
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
+import { toDataFrame } from '@grafana/data';
 
 /**
  * Mock timers
@@ -432,6 +433,76 @@ describe('Form Elements Editor', () => {
     expect(elementSelectors.fieldOptionType()).toBeInTheDocument();
     expect(elementSelectors.fieldOptionLabel()).toBeInTheDocument();
     expect(elementSelectors.buttonRemoveOption()).toBeInTheDocument();
+  });
+
+  /**
+   * Field Name Disabled
+   */
+  it('Should not allow to select field name if initial method is not Datasource', () => {
+    const elements = [
+      {
+        ...FormElementDefault,
+        id: 'element',
+        type: FormElementType.STRING,
+      },
+    ];
+
+    render(
+      getComponent({
+        value: elements,
+        onChange,
+        context: {
+          options: {
+            initial: {
+              method: RequestMethod.QUERY,
+            },
+          },
+        },
+      })
+    );
+    expect(selectors.root()).toBeInTheDocument();
+
+    /**
+     * Make Element is opened
+     */
+    const elementSelectors = openElement('element', FormElementType.STRING);
+
+    expect(elementSelectors.fieldNamePicker(true)).not.toBeInTheDocument();
+  });
+
+  /**
+   * Query Field Name Disabled
+   */
+  it('Should not allow to select query field name if initial method is not Query', () => {
+    const elements = [
+      {
+        ...FormElementDefault,
+        id: 'element',
+        type: FormElementType.STRING,
+      },
+    ];
+
+    render(
+      getComponent({
+        value: elements,
+        onChange,
+        context: {
+          options: {
+            initial: {
+              method: RequestMethod.DATASOURCE,
+            },
+          },
+        },
+      })
+    );
+    expect(selectors.root()).toBeInTheDocument();
+
+    /**
+     * Make Element is opened
+     */
+    const elementSelectors = openElement('element', FormElementType.STRING);
+
+    expect(elementSelectors.fieldFromQueryPicker(true)).not.toBeInTheDocument();
   });
 
   /**
@@ -1079,6 +1150,52 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldNamePicker(), { target: { value: 'metric' } }));
 
       expect(elementSelectors.fieldNamePicker()).toHaveValue('metric');
+    });
+
+    it('Should update query field name', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const context = {
+        options: {
+          initial: {
+            method: RequestMethod.QUERY,
+          },
+        },
+        data: [
+          toDataFrame({
+            fields: [
+              {
+                name: 'field1',
+                values: [],
+              },
+              {
+                name: 'field2',
+                values: [],
+              },
+            ],
+          }),
+        ],
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementDefault.type);
+
+      /**
+       * Change query field name
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldFromQueryPicker(), { target: { value: 'field1' } }));
+
+      expect(elementSelectors.fieldFromQueryPicker()).toHaveValue('field1');
+
+      /**
+       * Clear query field name
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldFromQueryPicker(), { target: { value: '' } }));
+
+      expect(elementSelectors.fieldFromQueryPicker()).toHaveValue('');
     });
 
     it('Should update showIf', async () => {

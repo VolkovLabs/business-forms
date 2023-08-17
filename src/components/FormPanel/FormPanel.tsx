@@ -107,6 +107,49 @@ export const FormPanel: React.FC<Props> = ({
     appEvents.publish({ type: AppEvents.alertWarning.name, payload });
 
   /**
+   * On Update Elements With Field Values
+   */
+  const onUpdateElementsWithFieldValues = useCallback(
+    (fields: Field[] | undefined, sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE) => {
+      if (!fields) {
+        return;
+      }
+
+      /**
+       * Field Name Key
+       */
+      const fieldNameKey = sourceType === RequestMethod.QUERY ? 'queryFieldName' : 'fieldName';
+
+      /**
+       * Get elements values
+       */
+      const updatedElements = elements.map((element) => {
+        const field = fields?.find((field: Field) => field.name === element[fieldNameKey]);
+
+        if (field) {
+          /**
+           * Update with initial value
+           */
+          const values = field.values.toArray();
+
+          return {
+            ...element,
+            value: field.values.get(values.length - 1),
+          };
+        }
+
+        return element;
+      });
+
+      /**
+       * Update elements with data source values
+       */
+      onChangeElements(updatedElements);
+    },
+    [elements, onChangeElements]
+  );
+
+  /**
    * Execute Custom Code
    */
   const executeCustomCode = ({
@@ -175,7 +218,18 @@ export const FormPanel: React.FC<Props> = ({
    * Initial Request
    */
   const initialRequest = async () => {
-    if (!elements.length || options.initial.method === RequestMethod.NONE) {
+    if (
+      !elements.length ||
+      options.initial.method === RequestMethod.NONE ||
+      options.initial.method === RequestMethod.QUERY
+    ) {
+      if (options.initial.method === RequestMethod.QUERY) {
+        /**
+         * Update Elements with Query Values
+         */
+        onUpdateElementsWithFieldValues(data.series[0]?.fields, RequestMethod.QUERY);
+      }
+
       /**
        * No method specified
        */
@@ -221,30 +275,9 @@ export const FormPanel: React.FC<Props> = ({
         const fields: Field[] | undefined = queryResponse.data[0]?.fields;
 
         /**
-         * Get elements with data source values
+         * Update Elements With Data Source Values
          */
-        const updatedElements = elements.map((element) => {
-          const field = fields?.find((field: Field) => field.name === element.fieldName);
-
-          if (field) {
-            /**
-             * Update with initial value
-             */
-            const values = field.values.toArray();
-
-            return {
-              ...element,
-              value: field.values.get(values.length - 1),
-            };
-          }
-
-          return element;
-        });
-
-        /**
-         * Update elements with data source values
-         */
-        onChangeElements(updatedElements);
+        onUpdateElementsWithFieldValues(fields, RequestMethod.DATASOURCE);
       }
     } else {
       /**

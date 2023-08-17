@@ -86,6 +86,11 @@ export interface FormElementBase {
    * Field Name
    */
   fieldName?: string;
+
+  /**
+   * Query Field Name
+   */
+  queryFieldName?: string;
 }
 
 /**

@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useMemo } from 'react';
 import { SelectableValue } from '@grafana/data';
 import {
   Button,
@@ -59,7 +59,17 @@ interface Props {
   /**
    * Initial Request Method
    */
-  initialMethod: RequestMethod;
+  initialMethod?: RequestMethod;
+
+  /**
+   * Query Fields
+   */
+  queryFields: string[];
+
+  /**
+   * Is Query Fields Enabled
+   */
+  isQueryFieldsEnabled: boolean;
 }
 
 /**
@@ -71,11 +81,25 @@ export const ElementEditor: React.FC<Props> = ({
   onChangeOption,
   layoutSectionOptions,
   initialMethod,
+  isQueryFieldsEnabled,
+  queryFields,
 }) => {
   /**
    * Styles
    */
   const styles = useStyles2(Styles);
+
+  /**
+   * Query Fields Options
+   */
+  const queryFieldsOptions = useMemo(() => {
+    return isQueryFieldsEnabled
+      ? queryFields.map((fieldName) => ({
+          label: fieldName,
+          value: fieldName,
+        }))
+      : [];
+  }, [isQueryFieldsEnabled, queryFields]);
 
   /**
    * Return
@@ -410,6 +434,30 @@ export const ElementEditor: React.FC<Props> = ({
                 });
               }}
               data-testid={TestIds.formElementsEditor.fieldNamePicker}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+
+      {isQueryFieldsEnabled && (
+        <InlineFieldRow>
+          <InlineField
+            grow={true}
+            label="Query Field"
+            labelWidth={14}
+            tooltip="Specify a field name from the first Query"
+          >
+            <Select
+              value={element.queryFieldName}
+              options={queryFieldsOptions}
+              onChange={(item) => {
+                onChange({
+                  ...element,
+                  queryFieldName: item?.value,
+                });
+              }}
+              aria-label={TestIds.formElementsEditor.fieldFromQueryPicker}
+              isClearable={true}
             />
           </InlineField>
         </InlineFieldRow>
