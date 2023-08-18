@@ -7,6 +7,8 @@
 - Add min and max date for date time element (#225)
 - Map Data Source values to elements (#224)
 - Update element Show If to support variables (#230)
+- Add clearing errors before initial and update requests (#232)
+- Add URL encode to variables (#231)
 
 ## 3.1.0 (2023-08-13)
 
