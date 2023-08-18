@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { dateTime } from '@grafana/data';
 
 const actual = jest.requireActual('@grafana/ui');
@@ -77,9 +77,43 @@ const Select = jest.fn(({ options, onChange, value, isMulti, isClearable, ...res
   </select>
 ));
 
+/**
+ * Mock FileDropzone
+ */
+const FileDropzone = jest.fn(({ onChange, options, onFileRemove, ...props }) => {
+  const { onDrop } = options;
+  const [files, setFiles] = useState<File[]>([]);
+
+  return (
+    <>
+      <input
+        type="file"
+        onChange={(event) => {
+          if (onDrop) {
+            onDrop(event.target.files);
+            setFiles(event.target.files as any);
+          }
+        }}
+        data-testid={props['data-testid']}
+      />
+      {files.map((file) => (
+        <button
+          key={file.name}
+          aria-label="Remove File"
+          onClick={() => {
+            setFiles((files) => files.filter((item) => item.name !== file.name));
+            onFileRemove({ file });
+          }}
+        />
+      ))}
+    </>
+  );
+});
+
 module.exports = {
   ...actual,
   CodeEditor,
   DateTimePicker,
   Select,
+  FileDropzone,
 };

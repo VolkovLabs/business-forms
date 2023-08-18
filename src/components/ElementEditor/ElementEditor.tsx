@@ -426,7 +426,6 @@ export const ElementEditor: React.FC<Props> = ({
           </InlineField>
         </InlineFieldRow>
       )}
-
       {isQueryFieldsEnabled && (
         <InlineFieldRow>
           <InlineField grow={true} label="Query Field" labelWidth={14} tooltip="Specify a field name from the Query">
@@ -441,6 +440,28 @@ export const ElementEditor: React.FC<Props> = ({
               }}
               aria-label={TestIds.formElementsEditor.fieldFromQueryPicker}
               isClearable={true}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+
+      {element.type === FormElementType.FILE && (
+        <InlineFieldRow>
+          <InlineField
+            grow={true}
+            label="Accept"
+            labelWidth={14}
+            tooltip="Specify comma-separated file extensions or keep blank to allow any file"
+          >
+            <Input
+              value={element.accept || ''}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                onChange({
+                  ...element,
+                  accept: event.target.value,
+                });
+              }}
+              data-testid={TestIds.formElementsEditor.fieldAccept}
             />
           </InlineField>
         </InlineFieldRow>

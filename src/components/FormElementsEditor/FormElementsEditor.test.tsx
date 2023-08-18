@@ -1,5 +1,6 @@
 import React from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import {
   CodeEditorHeight,
@@ -12,7 +13,6 @@ import {
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
-import { toDataFrame } from '@grafana/data';
 
 /**
  * Mock timers
@@ -436,6 +436,30 @@ describe('Form Elements Editor', () => {
   });
 
   /**
+   * Multi Select
+   */
+  it('Should find component with File', () => {
+    const elements = [
+      {
+        ...FormElementDefault,
+        id: 'file',
+        type: FormElementType.FILE,
+      },
+    ];
+
+    render(getComponent({ value: elements, onChange }));
+    expect(selectors.root()).toBeInTheDocument();
+
+    /**
+     * Make Select Element is opened
+     */
+    const elementSelectors = openElement('file', FormElementType.FILE);
+
+    expect(elementSelectors.fieldType()).toBeInTheDocument();
+    expect(elementSelectors.fieldAccept()).toBeInTheDocument();
+  });
+
+  /*
    * Field Name Disabled
    */
   it('Should not allow to select field name if initial method is not Datasource', () => {
@@ -670,48 +694,128 @@ describe('Form Elements Editor', () => {
       expect(fieldVisibilitySelectors.radioOption(false, 'visibility-hidden')).toBeChecked();
     });
 
-    it('Should update Type', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
-      const elements = [element];
+    describe('Type updates', () => {
+      it('Should update type to number', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
 
-      render(getComponent({ value: elements, onChange }));
+        render(getComponent({ value: elements, onChange }));
 
-      /**
-       * Open id element
-       */
-      const elementSelectors = openElement(element.id, element.type);
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
 
-      /**
-       * Change type
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.NUMBER } }));
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.NUMBER } }));
 
-      expect(elementSelectors.fieldType()).toHaveValue(FormElementType.NUMBER);
-    });
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.NUMBER);
+      });
 
-    it('Should not update Type if element with the same id and type exists', async () => {
-      const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
-      const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
-      const elements = [elementOne, elementTwo];
-      jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
+      it('Should update type to select', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING, options: [] };
+        const elements = [element];
 
-      render(getComponent({ value: elements, onChange }));
+        render(getComponent({ value: elements, onChange }));
 
-      /**
-       * Open id element
-       */
-      const elementSelectors = openElement(elementTwo.id, elementTwo.type);
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
 
-      /**
-       * Change on already exist type
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: elementOne.type } }));
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.SELECT } }));
 
-      /**
-       * Check if type is not updated because conflict
-       */
-      expect(selectors.sectionLabel(false, elementOne.id, elementOne.type)).toBeInTheDocument();
-      expect(selectors.sectionLabel(false, elementTwo.id, elementTwo.type)).toBeInTheDocument();
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.SELECT);
+      });
+
+      it('Should update type to radio', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+      });
+
+      it('Should update type to file', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.FILE } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.FILE);
+      });
+
+      it('Should update type to date time', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() =>
+          fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.DATETIME } })
+        );
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.DATETIME);
+      });
+
+      it('Should not update Type if element with the same id and type exists', async () => {
+        const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
+        const elements = [elementOne, elementTwo];
+        jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(elementTwo.id, elementTwo.type);
+
+        /**
+         * Change on already exist type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: elementOne.type } }));
+
+        /**
+         * Check if type is not updated because conflict
+         */
+        expect(selectors.sectionLabel(false, elementOne.id, elementOne.type)).toBeInTheDocument();
+        expect(selectors.sectionLabel(false, elementTwo.id, elementTwo.type)).toBeInTheDocument();
+      });
     });
 
     it('Should update Width', async () => {
@@ -1152,6 +1256,27 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldNamePicker()).toHaveValue('metric');
     });
 
+    it('Should update field accept', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.FILE }];
+      const context = {
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.FILE);
+
+      /**
+       * Change field name
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldAccept(), { target: { value: '.png' } }));
+
+      expect(elementSelectors.fieldAccept()).toHaveValue('.png');
+    });
+
     it('Should update query field name', async () => {
       const elements = [{ ...FormElementDefault, id: 'id' }];
       const context = {
@@ -1181,6 +1306,7 @@ describe('Form Elements Editor', () => {
       /**
        * Open id element
        */
+
       const elementSelectors = openElement('id', FormElementDefault.type);
 
       /**

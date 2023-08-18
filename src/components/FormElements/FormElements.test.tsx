@@ -76,6 +76,7 @@ describe('Form Elements', () => {
             }
           `,
         },
+        { id: 'file', type: FormElementType.FILE },
       ],
     };
 
@@ -123,6 +124,10 @@ describe('Form Elements', () => {
 
     it('Should render dateTime field', () => {
       expect(selectors.fieldDateTime()).toBeInTheDocument();
+    });
+
+    it('Should render file field', () => {
+      expect(selectors.fieldFile()).toBeInTheDocument();
     });
 
     it('Should render disabled field', () => {
@@ -582,6 +587,75 @@ describe('Form Elements', () => {
       );
 
       expect(selectors.fieldSlider()).toHaveValue(150);
+    });
+
+    /**
+     * File
+     */
+    it('Should update file value', async () => {
+      let appliedElements = [{ id: 'file', type: FormElementType.FILE, value: [] }];
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      const image = new File(['(⌐□_□)'], 'chucknorris.png', { type: 'image/png' });
+
+      /**
+       * Render Component
+       */
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Select file
+       */
+      await act(() =>
+        fireEvent.change(selectors.fieldFile(), {
+          target: {
+            files: [image],
+          },
+        })
+      );
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      /**
+       * Remove File
+       */
+      const removeFileButton = screen.getByLabelText('Remove File');
+      expect(removeFileButton).toBeInTheDocument();
+      await act(() => fireEvent.click(removeFileButton));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(screen.queryByLabelText('Remove File')).not.toBeInTheDocument();
     });
 
     it('Should update slider value when min and max are not set', async () => {

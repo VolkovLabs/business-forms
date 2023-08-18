@@ -14,6 +14,7 @@ import {
 } from '@grafana/ui';
 import {
   ButtonVariant,
+  ContentType,
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
@@ -25,7 +26,7 @@ import {
 import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
-import { GetPayloadForRequest } from '../../utils';
+import { GetPayloadForRequest, ToFormData, ToJSON } from '../../utils';
 import { FormElements } from '../FormElements';
 
 /**
@@ -403,7 +404,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const body = GetPayloadForRequest({
+    const payload = GetPayloadForRequest({
       request: options.update,
       elements,
       initial,
@@ -419,7 +420,7 @@ export const FormPanel: React.FC<Props> = ({
      */
     if (options.update.method === RequestMethod.DATASOURCE) {
       response = await datasourceRequest({
-        query: body,
+        query: payload,
         datasource: options.update.datasource,
         replaceVariables,
       }).catch((error: Error) => {
@@ -445,13 +446,27 @@ export const FormPanel: React.FC<Props> = ({
         headers.set(name, replaceVariables(parameter.value));
       });
 
+      let body: string | FormData = '';
+
+      if (options.update.contentType === ContentType.FORMDATA && payload instanceof Object) {
+        /**
+         * Form Data
+         */
+        body = ToFormData(payload, replaceVariables);
+      } else {
+        /**
+         * JSON or Text Plain
+         */
+        body = await ToJSON(payload, replaceVariables);
+      }
+
       /**
        * Fetch
        */
       response = await fetch(replaceVariables(options.update.url, undefined, encodeURIComponent), {
         method: options.update.method,
         headers,
-        body: replaceVariables(JSON.stringify(body)),
+        body,
       }).catch((error: Error) => {
         setError(error.toString());
       });

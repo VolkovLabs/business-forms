@@ -18,6 +18,7 @@ export const enum FormElementType {
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
+  FILE = 'file',
 }
 
 /**
@@ -31,6 +32,14 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.DATETIME,
     label: 'Date and Time',
+  },
+  {
+    value: FormElementType.FILE,
+    label: 'File',
+  },
+  {
+    value: FormElementType.MULTISELECT,
+    label: 'Multi Select with Custom options',
   },
   {
     value: FormElementType.NUMBER,
@@ -59,10 +68,6 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.SELECT,
     label: 'Select with Custom options',
-  },
-  {
-    value: FormElementType.MULTISELECT,
-    label: 'Multi Select with Custom options',
   },
   {
     value: FormElementType.STRING,

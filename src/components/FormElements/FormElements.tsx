@@ -5,6 +5,7 @@ import { dateTime, DateTime, InterpolateFunction } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
+  FileDropzone,
   InlineField,
   InlineFieldRow,
   InlineLabel,
@@ -426,6 +427,36 @@ export const FormElements: React.FC<Props> = ({
                   width={ApplyWidth(element.width)}
                   options={element.options || []}
                   className={highlightClass(element)}
+                />
+              </InlineField>
+            )}
+
+            {element.type === FormElementType.FILE && (
+              <InlineField
+                label={element.title}
+                grow={!element.width}
+                labelWidth={ApplyWidth(element.labelWidth)}
+                tooltip={element.tooltip}
+                transparent={!element.title}
+              >
+                <FileDropzone
+                  options={{
+                    accept: element.accept || undefined,
+                    multiple: true,
+                    onDrop: (files: File[]) => {
+                      onChangeElement<typeof element>({
+                        ...element,
+                        value: files,
+                      });
+                    },
+                  }}
+                  onFileRemove={(removedItem) => {
+                    onChangeElement<typeof element>({
+                      ...element,
+                      value: element.value.filter((item: File) => item.name !== removedItem.file.name),
+                    });
+                  }}
+                  data-testid={TestIds.formElements.fieldFile}
                 />
               </InlineField>
             )}

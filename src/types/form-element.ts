@@ -224,18 +224,41 @@ export interface SelectOptions {
 export interface DateTimeOptions {
   /**
    * Min Date
+   *
+   * @type {string}
    */
   min?: string;
 
   /**
    * Max Date
+   *
+   * @type {string}
    */
   max?: string;
 
   /**
    * Value
+   *
+   * @type {string}
    */
   value: string;
+}
+
+/**
+ * File Options
+ */
+export interface FileOptions {
+  /**
+   * Value
+   *
+   * @type {File[] | null}
+   */
+  value: File[] | null;
+
+  /**
+   * Accept
+   */
+  accept: string;
 }
 
 /**
@@ -256,6 +279,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.DATETIME } & DateTimeOptions)
     | { type: FormElementType.SECRET }
     | { type: FormElementType.BOOLEAN }
+    | ({ type: FormElementType.FILE } & FileOptions)
   );
 
 /**
