@@ -1,7 +1,7 @@
 import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 import { css, cx } from '@emotion/css';
-import { dateTime, DateTime } from '@grafana/data';
+import { dateTime, DateTime, InterpolateFunction } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
@@ -59,12 +59,24 @@ interface Props {
    * Section
    */
   section: LayoutSection | null;
+
+  /**
+   * Template variables interpolation function
+   */
+  replaceVariables: InterpolateFunction;
 }
 
 /**
  * Form Elements
  */
-export const FormElements: React.FC<Props> = ({ options, elements, onChangeElement, section, initial }) => {
+export const FormElements: React.FC<Props> = ({
+  options,
+  elements,
+  onChangeElement,
+  section,
+  initial,
+  replaceVariables,
+}) => {
   /**
    * Theme and Styles
    */
@@ -96,9 +108,9 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
    */
   const visibleElements = useMemo(() => {
     return elements.filter((element) => {
-      return element.helpers.showIf({ elements });
+      return element.helpers.showIf({ elements, replaceVariables });
     });
-  }, [elements]);
+  }, [elements, replaceVariables]);
 
   return (
     <div data-testid={TestIds.formElements.root}>

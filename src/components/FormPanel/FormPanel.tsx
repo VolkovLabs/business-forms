@@ -500,6 +500,7 @@ export const FormPanel: React.FC<Props> = ({
                   onChangeElement={onChangeElement}
                   initial={initial}
                   section={null}
+                  replaceVariables={replaceVariables}
                 />
               </td>
             </tr>
@@ -518,6 +519,7 @@ export const FormPanel: React.FC<Props> = ({
                           onChangeElement={onChangeElement}
                           initial={initial}
                           section={section}
+                          replaceVariables={replaceVariables}
                         />
                       </FieldSet>
                     </td>
@@ -540,6 +542,7 @@ export const FormPanel: React.FC<Props> = ({
                             onChangeElement={onChangeElement}
                             initial={initial}
                             section={section}
+                            replaceVariables={replaceVariables}
                           />
                         </FieldSet>
                       </td>
