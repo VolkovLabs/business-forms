@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { InterpolateFunction, SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
-import { FormElement, FormElementByType, LocalFormElement, ShowIfHelper } from '../types';
+import { FormElement, FormElementByType, LayoutSection, LocalFormElement, ShowIfHelper } from '../types';
 
 /**
  * Reorder
@@ -146,6 +146,18 @@ export const ApplyWidth = (value: number | null): undefined | number => {
  * Get Element Unique Id
  */
 export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv4();
+
+/**
+ * Get Layout Unique Id
+ */
+export const GetLayoutUniqueId = (section: LayoutSection) => (section.id !== undefined ? section.id : section.name);
+
+/**
+ * Is Section Collision Exists
+ */
+export const IsSectionCollisionExists = (sections: LayoutSection[], compareWith: LayoutSection) => {
+  return sections.some((section) => section.id === compareWith.id);
+};
 
 /**
  * To Local Form Element
