@@ -10,6 +10,7 @@
 - Add clearing errors before initial and update requests (#232)
 - Add URL encode to variables (#231)
 - Allow empty section name (#228)
+- Add Query Field Picker for Initial Request (#227)
 
 ## 3.1.0 (2023-08-13)
 

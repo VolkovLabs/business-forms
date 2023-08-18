@@ -1,6 +1,10 @@
 import { InterpolateFunction, SelectableValue } from '@grafana/data';
 import { CodeLanguage, FormElementType } from '../constants';
 
+export type QueryField = SelectableValue<string> & {
+  refId?: string;
+};
+
 /**
  * Form Element Base
  */
@@ -86,6 +90,11 @@ export interface FormElementBase {
    * Field Name
    */
   fieldName?: string;
+
+  /**
+   * Query Field
+   */
+  queryField?: QueryField;
 }
 
 /**

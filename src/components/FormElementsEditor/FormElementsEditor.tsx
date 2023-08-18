@@ -9,9 +9,9 @@ import {
 } from 'react-beautiful-dnd';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
-import { TestIds } from '../../constants';
-import { useFormElements } from '../../hooks';
-import { FormElement, LayoutSection, LocalFormElement } from '../../types';
+import { RequestMethod, TestIds } from '../../constants';
+import { useFormElements, useQueryFields } from '../../hooks';
+import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { GetElementUniqueId, GetLayoutUniqueId, Reorder } from '../../utils';
 import { Collapse } from '../Collapse';
 import { ElementEditor } from '../ElementEditor';
@@ -31,7 +31,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<FormElement[]> {}
+interface Props extends StandardEditorProps<FormElement[], null, PanelOptions> {}
 
 /**
  * Form Elements Editor
@@ -60,6 +60,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     onChangeElementOption,
     onElementRemove,
   } = useFormElements(onChange, value);
+
+  /**
+   * Query Fields
+   */
+  const isQueryFieldsEnabled = context.options?.initial?.method === RequestMethod.QUERY;
+  const queryFields = useQueryFields({ data: context.data, isEnabled: isQueryFieldsEnabled });
 
   /**
    * Add Elements
@@ -165,6 +171,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             layoutSectionOptions={layoutSectionOptions}
                             initialMethod={context.options?.initial?.method}
                             onChangeOption={onChangeElementOption}
+                            queryFields={queryFields}
+                            isQueryFieldsEnabled={isQueryFieldsEnabled}
                           />
                         </Collapse>
                       </div>

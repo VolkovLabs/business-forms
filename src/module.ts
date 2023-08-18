@@ -66,7 +66,11 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
    * @param request
    */
   const isRestApiRequest = (request: RequestOptions) => {
-    return request.method !== RequestMethod.NONE && request.method !== RequestMethod.DATASOURCE;
+    return (
+      request.method !== RequestMethod.NONE &&
+      request.method !== RequestMethod.DATASOURCE &&
+      request.method !== RequestMethod.QUERY
+    );
   };
 
   /**

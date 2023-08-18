@@ -85,6 +85,7 @@ export const TestIds = {
     fieldVisibility: 'data-testid form-elements-editor field-visibility',
     fieldWidth: 'data-testid form-elements-editor field-width',
     fieldNamePicker: 'data-testid form-elements-editor field-name-picker',
+    fieldFromQueryPicker: 'form-elements-editor field-from-query-picker',
     fieldDateTime: 'date-time-input',
     fieldMinDate: 'data-testid form-elements-editor field-min-date',
     fieldMaxDate: 'data-testid form-elements-editor field-max-date',
