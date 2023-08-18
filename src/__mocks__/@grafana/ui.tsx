@@ -45,7 +45,7 @@ const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
 /**
  * Mock Select component
  */
-const Select = jest.fn(({ options, onChange, value, isMulti, ...restProps }) => (
+const Select = jest.fn(({ options, onChange, value, isMulti, isClearable, ...restProps }) => (
   <select
     onChange={(event: any) => {
       if (onChange) {
@@ -64,6 +64,11 @@ const Select = jest.fn(({ options, onChange, value, isMulti, ...restProps }) => 
     multiple={isMulti}
     {...restProps}
   >
+    {isClearable && (
+      <option key="clear" value="">
+        Clear
+      </option>
+    )}
     {options.map(({ label, value }: any) => (
       <option key={value} value={value}>
         {label}

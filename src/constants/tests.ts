@@ -87,6 +87,7 @@ export const TestIds = {
     fieldWidth: 'data-testid form-elements-editor field-width',
     fieldNamePicker: 'data-testid form-elements-editor field-name-picker',
     fieldAccept: 'data-testid form-elements-editor field-accept',
+    fieldFromQueryPicker: 'form-elements-editor field-from-query-picker',
     fieldDateTime: 'date-time-input',
     fieldMinDate: 'data-testid form-elements-editor field-min-date',
     fieldMaxDate: 'data-testid form-elements-editor field-max-date',
@@ -113,6 +114,7 @@ export const TestIds = {
   layoutSectionsEditor: {
     buttonAdd: 'data-testid layout-sections-editor button-add',
     buttonRemove: 'data-testid layout-sections-editor button-remove',
+    fieldId: 'data-testid layout-sections-editor field-id',
     fieldName: 'data-testid layout-sections-editor field-name',
     root: 'data-testid layout-sections-editor',
     section: (name: string) => `data-testid layout-sections-editor section-${name}`,

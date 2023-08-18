@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, Field, PanelProps } from '@grafana/data';
+import { AlertErrorPayload, AlertPayload, AppEvents, DataFrame, dateTime, Field, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
 import {
   Alert,
@@ -108,6 +108,49 @@ export const FormPanel: React.FC<Props> = ({
     appEvents.publish({ type: AppEvents.alertWarning.name, payload });
 
   /**
+   * On Change Elements With Field Values
+   */
+  const onChangeElementsWithFieldValues = useCallback(
+    (frames: DataFrame[], sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE) => {
+      /**
+       * Get elements values
+       */
+      const updatedElements = elements.map((element) => {
+        const fieldConfig = sourceType === RequestMethod.QUERY ? element.queryField : { value: element.fieldName };
+        const field = frames
+          .filter((frame) => (fieldConfig?.refId ? frame.refId === fieldConfig.refId : true))
+          .reduce((acc: Field | undefined, { fields }) => {
+            const field = fields?.find((field: Field) => field.name === fieldConfig?.value);
+            if (field) {
+              return field;
+            }
+            return acc;
+          }, undefined);
+
+        if (field) {
+          /**
+           * Update with initial value
+           */
+          const values = field.values.toArray();
+
+          return {
+            ...element,
+            value: field.values.get(values.length - 1),
+          };
+        }
+
+        return element;
+      });
+
+      /**
+       * Update elements with data source values
+       */
+      onChangeElements(updatedElements);
+    },
+    [elements, onChangeElements]
+  );
+
+  /**
    * Execute Custom Code
    */
   const executeCustomCode = ({
@@ -176,7 +219,23 @@ export const FormPanel: React.FC<Props> = ({
    * Initial Request
    */
   const initialRequest = async () => {
-    if (!elements.length || options.initial.method === RequestMethod.NONE) {
+    /**
+     * Clear Error
+     */
+    setError('');
+
+    if (
+      !elements.length ||
+      options.initial.method === RequestMethod.NONE ||
+      options.initial.method === RequestMethod.QUERY
+    ) {
+      if (options.initial.method === RequestMethod.QUERY) {
+        /**
+         * Change Elements with Query Values
+         */
+        onChangeElementsWithFieldValues(data.series, RequestMethod.QUERY);
+      }
+
       /**
        * No method specified
        */
@@ -216,36 +275,10 @@ export const FormPanel: React.FC<Props> = ({
 
       if (response && response.ok) {
         /**
-         * Update elements with initial values
+         * Change Elements With Data Source Values
          */
         const queryResponse = toDataQueryResponse(response);
-        const fields: Field[] | undefined = queryResponse.data[0]?.fields;
-
-        /**
-         * Get elements with data source values
-         */
-        const updatedElements = elements.map((element) => {
-          const field = fields?.find((field: Field) => field.name === element.fieldName);
-
-          if (field) {
-            /**
-             * Update with initial value
-             */
-            const values = field.values.toArray();
-
-            return {
-              ...element,
-              value: field.values.get(values.length - 1),
-            };
-          }
-
-          return element;
-        });
-
-        /**
-         * Update elements with data source values
-         */
-        onChangeElements(updatedElements);
+        onChangeElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
       }
     } else {
       /**
@@ -272,7 +305,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Fetch
        */
-      response = await fetch(replaceVariables(options.initial.url), {
+      response = await fetch(replaceVariables(options.initial.url, undefined, encodeURIComponent), {
         method: options.initial.method,
         headers,
       }).catch((error: Error) => {
@@ -348,6 +381,11 @@ export const FormPanel: React.FC<Props> = ({
    * Update Request
    */
   const updateRequest = async () => {
+    /**
+     * Clear Error
+     */
+    setError('');
+
     /**
      * Loading
      */
@@ -425,7 +463,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Fetch
        */
-      response = await fetch(replaceVariables(options.update.url), {
+      response = await fetch(replaceVariables(options.update.url, undefined, encodeURIComponent), {
         method: options.update.method,
         headers,
         body,
@@ -515,6 +553,7 @@ export const FormPanel: React.FC<Props> = ({
                   onChangeElement={onChangeElement}
                   initial={initial}
                   section={null}
+                  replaceVariables={replaceVariables}
                 />
               </td>
             </tr>
@@ -533,6 +572,7 @@ export const FormPanel: React.FC<Props> = ({
                           onChangeElement={onChangeElement}
                           initial={initial}
                           section={section}
+                          replaceVariables={replaceVariables}
                         />
                       </FieldSet>
                     </td>
@@ -555,6 +595,7 @@ export const FormPanel: React.FC<Props> = ({
                             onChangeElement={onChangeElement}
                             initial={initial}
                             section={section}
+                            replaceVariables={replaceVariables}
                           />
                         </FieldSet>
                       </td>

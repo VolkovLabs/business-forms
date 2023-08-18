@@ -60,6 +60,114 @@ describe('Layout Sections Editor', () => {
   });
 
   /**
+   * Change id
+   */
+  it('Should change id value', () => {
+    const sections = [
+      { id: '1', name: 'Section' },
+      { id: '2', name: '' },
+    ];
+    const onChange = jest.fn();
+
+    /**
+     * Render
+     */
+    render(getComponent({ value: sections, onChange }));
+
+    /**
+     * Check section presence
+     */
+    const section = selectors.section(false, '1');
+    expect(section).toBeInTheDocument();
+
+    /**
+     * Change section name
+     */
+    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
+    fireEvent.change(sectionSelectors.fieldId(), { target: { value: '11' } });
+
+    /**
+     * Check if id is changed
+     */
+    expect(onChange).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: '2',
+        }),
+      ])
+    );
+  });
+
+  /**
+   * Clean id
+   */
+  it('Should clean id value', () => {
+    const sections = [{ id: '1', name: 'Section' }];
+    const onChange = jest.fn();
+
+    /**
+     * Render
+     */
+    render(getComponent({ value: sections, onChange }));
+
+    /**
+     * Check section presence
+     */
+    const section = selectors.section(false, '1');
+    expect(section).toBeInTheDocument();
+
+    /**
+     * Change section name
+     */
+    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
+    fireEvent.change(sectionSelectors.fieldId(), { target: { value: '' } });
+
+    /**
+     * Check if id is changed
+     */
+    expect(onChange).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: '',
+        }),
+      ])
+    );
+  });
+
+  /**
+   * Disallow change on already existing id
+   */
+  it('Should not allow use already existing id', () => {
+    const sections = [
+      { id: '1', name: 'Section' },
+      { id: '2', name: 'Section' },
+    ];
+    const onChange = jest.fn();
+
+    /**
+     * Render
+     */
+    render(getComponent({ value: sections, onChange }));
+
+    /**
+     * Check section presence
+     */
+    const section = selectors.section(false, '1');
+    expect(section).toBeInTheDocument();
+
+    /**
+     * Change section name
+     */
+    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
+    fireEvent.change(sectionSelectors.fieldId(), { target: { value: '2' } });
+
+    /**
+     * Check if id is not changed
+     */
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  /**
    * Change value
    */
   it('Should change name value', () => {

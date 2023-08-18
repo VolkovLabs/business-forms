@@ -22,7 +22,7 @@ import {
   StringElementOptions,
   TestIds,
 } from '../../constants';
-import { LocalFormElement } from '../../types';
+import { LocalFormElement, QueryField } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { Styles } from './styles';
@@ -59,7 +59,17 @@ interface Props {
   /**
    * Initial Request Method
    */
-  initialMethod: RequestMethod;
+  initialMethod?: RequestMethod;
+
+  /**
+   * Query Fields
+   */
+  queryFields: QueryField[];
+
+  /**
+   * Is Query Fields Enabled
+   */
+  isQueryFieldsEnabled: boolean;
 }
 
 /**
@@ -71,6 +81,8 @@ export const ElementEditor: React.FC<Props> = ({
   onChangeOption,
   layoutSectionOptions,
   initialMethod,
+  isQueryFieldsEnabled,
+  queryFields,
 }) => {
   /**
    * Styles
@@ -410,6 +422,24 @@ export const ElementEditor: React.FC<Props> = ({
                 });
               }}
               data-testid={TestIds.formElementsEditor.fieldNamePicker}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+      {isQueryFieldsEnabled && (
+        <InlineFieldRow>
+          <InlineField grow={true} label="Query Field" labelWidth={14} tooltip="Specify a field name from the Query">
+            <Select
+              value={element.queryField?.value}
+              options={queryFields}
+              onChange={(item) => {
+                onChange({
+                  ...element,
+                  queryField: item,
+                });
+              }}
+              aria-label={TestIds.formElementsEditor.fieldFromQueryPicker}
+              isClearable={true}
             />
           </InlineField>
         </InlineFieldRow>

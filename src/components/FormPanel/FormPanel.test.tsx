@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppEvents, FieldType } from '@grafana/data';
+import { AppEvents, FieldType, toDataFrame } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
@@ -269,6 +269,131 @@ describe('Panel', () => {
       });
     });
 
+    it('Should update elements with query result', async () => {
+      /**
+       * Render
+       */
+      await act(() =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FormElementDefault,
+                  id: 'mapped',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metric',
+                  },
+                },
+                {
+                  ...FormElementDefault,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: {
+                series: [
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    refId: 'A',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricB1', 'metricB2'],
+                      },
+                    ],
+                    refId: 'B',
+                  }),
+                ],
+              },
+            },
+          })
+        )
+      );
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: 'metricA2',
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
+    it('Should not update elements if no query result', async () => {
+      /**
+       * Render
+       */
+      await act(() =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FormElementDefault,
+                  id: 'mapped',
+                  queryFieldName: 'metric',
+                  value: '123',
+                },
+                {
+                  ...FormElementDefault,
+                  id: 'unmapped',
+                  queryFieldName: '',
+                },
+              ],
+            },
+            props: {
+              data: {
+                series: [],
+              },
+            },
+          })
+        )
+      );
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: '123',
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
     it('Should update elements with initial datasource result', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
@@ -337,6 +462,86 @@ describe('Panel', () => {
             expect.objectContaining({
               id: 'mapped',
               value: 'metric2',
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
+    it('Should not update elements if datasource is unspecified', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          data: {
+            results: {
+              A: {
+                frames: [
+                  {
+                    data: {
+                      values: [['metric1', 'metric2']],
+                    },
+                    schema: {
+                      fields: [
+                        {
+                          name: 'metric',
+                          type: FieldType.string,
+                        },
+                      ],
+                    },
+                  },
+                ],
+                refId: 'A',
+                status: 200,
+              },
+            },
+          },
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(() =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '',
+                getPayload: `return { key1: 'value' }`,
+              },
+              elements: [
+                {
+                  ...FormElementDefault,
+                  id: 'mapped',
+                  fieldName: 'metric',
+                  value: '123',
+                },
+                {
+                  ...FormElementDefault,
+                  id: 'unmapped',
+                  fieldName: '',
+                },
+              ],
+            },
+            props: {},
+          })
+        )
+      );
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: '123',
             }),
             expect.objectContaining({
               id: 'unmapped',

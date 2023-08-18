@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { SelectableValue } from '@grafana/data';
+import { InterpolateFunction, SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
-import { FormElement, FormElementByType, LocalFormElement, ShowIfHelper } from '../types';
+import { FormElement, FormElementByType, LayoutSection, LocalFormElement, ShowIfHelper } from '../types';
 
 /**
  * Reorder
@@ -155,6 +155,18 @@ export const ApplyWidth = (value: number | null): undefined | number => {
 export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv4();
 
 /**
+ * Get Layout Unique Id
+ */
+export const GetLayoutUniqueId = (section: LayoutSection) => (section.id !== undefined ? section.id : section.name);
+
+/**
+ * Is Section Collision Exists
+ */
+export const IsSectionCollisionExists = (sections: LayoutSection[], compareWith: LayoutSection) => {
+  return sections.some((section) => section.id === compareWith.id);
+};
+
+/**
  * To Local Form Element
  */
 export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
@@ -162,8 +174,9 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
 
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = new Function('elements', showIf);
-    showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
+    const fn = new Function('elements', 'replaceVariables', showIf);
+    showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
+      fn(elements, replaceVariables);
   }
 
   return {
