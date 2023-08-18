@@ -102,6 +102,7 @@ export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunc
       result[elementKey] = elementValue;
     }
   }
+
   return replaceVariables(JSON.stringify(result));
 };
 
@@ -112,9 +113,11 @@ const GetFormDataValue = (value: unknown, replaceVariables: InterpolateFunction)
   if (typeof value === 'string') {
     return replaceVariables(value);
   }
+
   if (value instanceof File) {
     return value;
   }
+
   return `${value}`;
 };
 

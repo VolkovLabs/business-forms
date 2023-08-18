@@ -34,6 +34,14 @@ export const FormElementTypeOptions: SelectableValue[] = [
     label: 'Date and Time',
   },
   {
+    value: FormElementType.FILE,
+    label: 'File',
+  },
+  {
+    value: FormElementType.MULTISELECT,
+    label: 'Multi Select with Custom options',
+  },
+  {
     value: FormElementType.NUMBER,
     label: 'Number Input',
   },
@@ -62,20 +70,12 @@ export const FormElementTypeOptions: SelectableValue[] = [
     label: 'Select with Custom options',
   },
   {
-    value: FormElementType.MULTISELECT,
-    label: 'Multi Select with Custom options',
-  },
-  {
     value: FormElementType.STRING,
     label: 'String Input',
   },
   {
     value: FormElementType.TEXTAREA,
     label: 'Text Area',
-  },
-  {
-    value: FormElementType.FILE,
-    label: 'File',
   },
 ];
 
