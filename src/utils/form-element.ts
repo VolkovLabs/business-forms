@@ -87,6 +87,13 @@ export const GetElementWithNewType = (
         type: newType,
       };
     }
+    case FormElementType.FILE: {
+      return {
+        ...baseValues,
+        accept: 'accept' in element ? element.accept : '',
+        type: newType,
+      };
+    }
     default: {
       return {
         ...baseValues,
