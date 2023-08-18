@@ -435,6 +435,30 @@ describe('Form Elements Editor', () => {
   });
 
   /**
+   * Multi Select
+   */
+  it('Should find component with File', () => {
+    const elements = [
+      {
+        ...FormElementDefault,
+        id: 'file',
+        type: FormElementType.FILE,
+      },
+    ];
+
+    render(getComponent({ value: elements, onChange }));
+    expect(selectors.root()).toBeInTheDocument();
+
+    /**
+     * Make Select Element is opened
+     */
+    const elementSelectors = openElement('file', FormElementType.FILE);
+
+    expect(elementSelectors.fieldType()).toBeInTheDocument();
+    expect(elementSelectors.fieldAccept()).toBeInTheDocument();
+  });
+
+  /**
    * Two elements
    */
   it('Should find component with Two Elements', () => {
@@ -1079,6 +1103,27 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldNamePicker(), { target: { value: 'metric' } }));
 
       expect(elementSelectors.fieldNamePicker()).toHaveValue('metric');
+    });
+
+    it('Should update field accept', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.FILE }];
+      const context = {
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.FILE);
+
+      /**
+       * Change field name
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldAccept(), { target: { value: '.png' } }));
+
+      expect(elementSelectors.fieldAccept()).toHaveValue('.png');
     });
 
     it('Should update showIf', async () => {

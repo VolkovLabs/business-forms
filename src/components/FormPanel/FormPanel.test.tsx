@@ -6,6 +6,7 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import {
   ButtonOrientation,
   ButtonVariant,
+  ContentType,
   FormElementDefault,
   FormElementType,
   LayoutOrientation,
@@ -521,6 +522,104 @@ describe('Panel', () => {
       expect(requestData).toEqual({
         number: 111,
       });
+    });
+
+    it('Should run update request with form data', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+      const { rerender } = await act(() =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+
+      /**
+       * Trigger element updates
+       */
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              update: {
+                url: 'update-url',
+                method: RequestMethod.POST,
+                updatedOnly: true,
+                contentType: ContentType.FORMDATA,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Clear fetch mock
+       */
+      let requestData: FormData | any = undefined;
+      jest.mocked(fetch).mockClear();
+      jest.mocked(fetch).mockImplementationOnce((url, options) => {
+        if (options?.body instanceof FormData) {
+          requestData = options.body;
+        }
+        return Promise.resolve({
+          ok: true,
+          json: jest.fn(() =>
+            Promise.resolve({
+              test: '123',
+            })
+          ),
+        }) as any;
+      });
+
+      /**
+       * Check if Update can be run
+       */
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Run update request
+       */
+      await act(() => {
+        fireEvent.click(selectors.buttonSubmit());
+      });
+
+      expect(fetch).toHaveBeenCalledWith(
+        'update-url',
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.any(FormData),
+        })
+      );
+
+      /**
+       * Check if only updated elements are sent
+       */
+      expect(requestData.get('number')).toEqual('111');
     });
 
     it('Should show parameters error', async () => {

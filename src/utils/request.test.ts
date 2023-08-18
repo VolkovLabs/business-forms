@@ -1,7 +1,15 @@
 import { FormElementType, PayloadMode } from '../constants';
-import { GetPayloadForRequest } from './request';
+import { GetPayloadForRequest, ToFormData, ToJSON } from './request';
 
 describe('Request Utils', () => {
+  const replaceVariables = jest.fn((str) => str);
+
+  /**
+   * Files
+   */
+  const image = new File(['(⌐□_□)'], 'chucknorris.png', { type: 'image/png' });
+  const pdf = new File(['(⌐□_□)'], 'chucknorris.pdf', { type: 'application/pdf' });
+
   describe('GetPayloadForRequest', () => {
     const elements: any[] = [
       {
@@ -92,6 +100,55 @@ describe('Request Utils', () => {
         password: '123',
         role: 'admin',
       });
+    });
+  });
+
+  describe('To JSON', () => {
+    it('Should work for array', async () => {
+      const result = await ToJSON([1, 2, 3], replaceVariables);
+
+      expect(result).toEqual(expect.any(String));
+      expect(JSON.parse(result)).toEqual([1, 2, 3]);
+    });
+    it('Should read files', async () => {
+      const payload = {
+        name: 'Alex',
+        list: [1, 2, 3],
+        file: [image, pdf],
+      };
+
+      const result = await ToJSON(payload, replaceVariables);
+
+      expect(result).toEqual(expect.any(String));
+      expect(JSON.parse(result)).toEqual({
+        ...payload,
+        file: expect.arrayContaining([expect.any(String), expect.any(String)]),
+      });
+    });
+  });
+
+  describe('To FormData', () => {
+    it('Should append array values', () => {
+      const payload = {
+        name: 'Alex',
+        list: [1, 2, 3],
+        file: [image, pdf],
+      };
+
+      const result = ToFormData(payload, replaceVariables);
+
+      expect(result.get('name')).toEqual(payload.name);
+      /**
+       * Numbers array
+       */
+      expect(result.get('list[0]')).toEqual(payload.list[0].toString());
+      expect(result.get('list[1]')).toEqual(payload.list[1].toString());
+
+      /**
+       * Files array
+       */
+      expect(result.get('file[0]')).toEqual(payload.file[0]);
+      expect(result.get('file[1]')).toEqual(payload.file[1]);
     });
   });
 });

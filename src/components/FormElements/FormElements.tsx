@@ -5,7 +5,7 @@ import { dateTime, DateTime } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
-  FileUpload,
+  FileDropzone,
   InlineField,
   InlineFieldRow,
   InlineLabel,
@@ -427,14 +427,23 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
-                <FileUpload
-                  onFileUpload={(event) => {
-                    onChangeElement({
+                <FileDropzone
+                  options={{
+                    accept: element.accept,
+                    multiple: true,
+                    onDrop: (files: File[]) => {
+                      onChangeElement<typeof element>({
+                        ...element,
+                        value: files,
+                      });
+                    },
+                  }}
+                  onFileRemove={(removedItem) => {
+                    onChangeElement<typeof element>({
                       ...element,
-                      value: event.currentTarget?.files?.[0] || null,
+                      value: element.value.filter((item: File) => item.name !== removedItem.file.name),
                     });
                   }}
-                  showFileName={true}
                 />
               </InlineField>
             )}

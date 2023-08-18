@@ -242,9 +242,14 @@ export interface FileOptions {
   /**
    * Value
    *
-   * @type {File | null}
+   * @type {File[] | null}
    */
-  value: File | null;
+  value: File[] | null;
+
+  /**
+   * Accept
+   */
+  accept: string;
 }
 
 /**

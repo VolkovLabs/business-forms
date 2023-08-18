@@ -1,3 +1,4 @@
+import { InterpolateFunction } from '@grafana/data';
 import { FormElementType, PayloadMode } from '../constants';
 import { LocalFormElement, RequestOptions } from '../types';
 
@@ -60,4 +61,78 @@ export const GetPayloadForRequest = ({
   });
 
   return body;
+};
+
+/**
+ * File To Base64
+ * @param file
+ * @constructor
+ */
+const FileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event) => {
+      if (typeof event.target?.result === 'string') {
+        resolve(event.target.result);
+      }
+    });
+
+    // Convert data to base64
+    reader.readAsDataURL(file);
+  });
+};
+
+/**
+ * To JSON
+ */
+export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunction): Promise<string> => {
+  if (typeof payload !== 'object' || Array.isArray(payload) || payload === null) {
+    return replaceVariables(JSON.stringify(payload));
+  }
+
+  const result: Record<string, unknown> = {};
+  for (let [elementKey, elementValue] of Object.entries(payload)) {
+    if (Array.isArray(elementValue) && elementValue[0] instanceof File) {
+      /**
+       * Read Files
+       */
+      result[elementKey] = await Promise.all(elementValue.map((file) => FileToBase64(file)));
+    } else {
+      result[elementKey] = elementValue;
+    }
+  }
+  return replaceVariables(JSON.stringify(result));
+};
+
+/**
+ * Get Form Data Value
+ */
+const GetFormDataValue = (value: unknown, replaceVariables: InterpolateFunction): string | Blob => {
+  if (typeof value === 'string') {
+    return replaceVariables(value);
+  }
+  if (value instanceof File) {
+    return value;
+  }
+  return `${value}`;
+};
+
+/**
+ * To Form Data
+ */
+export const ToFormData = (payload: Object, replaceVariables: InterpolateFunction): FormData => {
+  const formData = new FormData();
+
+  Object.entries(payload).forEach(([elementKey, elementValue]) => {
+    if (Array.isArray(elementValue)) {
+      elementValue.forEach((value, index) => {
+        formData.set(`${elementKey}[${index}]`, GetFormDataValue(value, replaceVariables));
+      });
+      return;
+    }
+    formData.set(elementKey, GetFormDataValue(elementValue, replaceVariables));
+  });
+
+  return formData;
 };

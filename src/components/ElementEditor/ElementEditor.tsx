@@ -415,6 +415,28 @@ export const ElementEditor: React.FC<Props> = ({
         </InlineFieldRow>
       )}
 
+      {element.type === FormElementType.FILE && (
+        <InlineFieldRow>
+          <InlineField
+            grow={true}
+            label="Accept"
+            labelWidth={14}
+            tooltip="Specify comma-separated file extensions or * to allow any file "
+          >
+            <Input
+              value={element.accept || ''}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                onChange({
+                  ...element,
+                  accept: event.target.value,
+                });
+              }}
+              data-testid={TestIds.formElementsEditor.fieldAccept}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+
       {(element.type === FormElementType.RADIO ||
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||
