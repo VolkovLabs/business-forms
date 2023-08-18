@@ -1,4 +1,4 @@
-import { SelectableValue } from '@grafana/data';
+import { InterpolateFunction, SelectableValue } from '@grafana/data';
 import { CodeLanguage, FormElementType } from '../constants';
 
 /**
@@ -252,7 +252,10 @@ export type FormElement = FormElementBase &
 /**
  * Show If Helper
  */
-export type ShowIfHelper = (params: { elements: FormElement[] }) => boolean | undefined;
+export type ShowIfHelper = (params: {
+  elements: FormElement[];
+  replaceVariables: InterpolateFunction;
+}) => boolean | undefined;
 
 /**
  * Local Form Element
