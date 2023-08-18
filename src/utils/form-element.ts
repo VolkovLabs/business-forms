@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { SelectableValue } from '@grafana/data';
+import { InterpolateFunction, SelectableValue } from '@grafana/data';
 import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
 import { FormElement, FormElementByType, LayoutSection, LocalFormElement, ShowIfHelper } from '../types';
 
@@ -167,8 +167,9 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
 
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = new Function('elements', showIf);
-    showIfFn = ({ elements }: { elements: FormElement[] }) => fn(elements);
+    const fn = new Function('elements', 'replaceVariables', showIf);
+    showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
+      fn(elements, replaceVariables);
   }
 
   return {
