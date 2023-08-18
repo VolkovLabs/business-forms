@@ -12,7 +12,7 @@ export interface LayoutSection {
   name: string;
 
   /**
-   * ID
+   * Id
    * Optional to backward compatibility
    *
    * @type {string}

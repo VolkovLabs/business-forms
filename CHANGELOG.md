@@ -9,6 +9,7 @@
 - Update element Show If to support variables (#230)
 - Add clearing errors before initial and update requests (#232)
 - Add URL encode to variables (#231)
+- Allow empty section name (#228)
 
 ## 3.1.0 (2023-08-13)
 
