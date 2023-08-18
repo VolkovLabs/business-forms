@@ -623,48 +623,128 @@ describe('Form Elements Editor', () => {
       expect(fieldVisibilitySelectors.radioOption(false, 'visibility-hidden')).toBeChecked();
     });
 
-    it('Should update Type', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
-      const elements = [element];
+    describe('Type updates', () => {
+      it('Should update type to number', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
 
-      render(getComponent({ value: elements, onChange }));
+        render(getComponent({ value: elements, onChange }));
 
-      /**
-       * Open id element
-       */
-      const elementSelectors = openElement(element.id, element.type);
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
 
-      /**
-       * Change type
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.NUMBER } }));
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.NUMBER } }));
 
-      expect(elementSelectors.fieldType()).toHaveValue(FormElementType.NUMBER);
-    });
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.NUMBER);
+      });
 
-    it('Should not update Type if element with the same id and type exists', async () => {
-      const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
-      const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
-      const elements = [elementOne, elementTwo];
-      jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
+      it('Should update type to select', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING, options: [] };
+        const elements = [element];
 
-      render(getComponent({ value: elements, onChange }));
+        render(getComponent({ value: elements, onChange }));
 
-      /**
-       * Open id element
-       */
-      const elementSelectors = openElement(elementTwo.id, elementTwo.type);
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
 
-      /**
-       * Change on already exist type
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: elementOne.type } }));
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.SELECT } }));
 
-      /**
-       * Check if type is not updated because conflict
-       */
-      expect(selectors.sectionLabel(false, elementOne.id, elementOne.type)).toBeInTheDocument();
-      expect(selectors.sectionLabel(false, elementTwo.id, elementTwo.type)).toBeInTheDocument();
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.SELECT);
+      });
+
+      it('Should update type to radio', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+      });
+
+      it('Should update type to file', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.FILE } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.FILE);
+      });
+
+      it('Should update type to date time', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() =>
+          fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.DATETIME } })
+        );
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.DATETIME);
+      });
+
+      it('Should not update Type if element with the same id and type exists', async () => {
+        const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
+        const elements = [elementOne, elementTwo];
+        jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(elementTwo.id, elementTwo.type);
+
+        /**
+         * Change on already exist type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: elementOne.type } }));
+
+        /**
+         * Check if type is not updated because conflict
+         */
+        expect(selectors.sectionLabel(false, elementOne.id, elementOne.type)).toBeInTheDocument();
+        expect(selectors.sectionLabel(false, elementTwo.id, elementTwo.type)).toBeInTheDocument();
+      });
     });
 
     it('Should update Width', async () => {

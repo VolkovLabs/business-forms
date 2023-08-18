@@ -90,7 +90,7 @@ export const GetElementWithNewType = (
     case FormElementType.FILE: {
       return {
         ...baseValues,
-        accept: 'accept' in element ? element.accept : '',
+        accept: '',
         type: newType,
       };
     }

@@ -444,6 +444,7 @@ export const FormElements: React.FC<Props> = ({ options, elements, onChangeEleme
                       value: element.value.filter((item: File) => item.name !== removedItem.file.name),
                     });
                   }}
+                  data-testid={TestIds.formElements.fieldFile}
                 />
               </InlineField>
             )}
