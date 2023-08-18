@@ -271,7 +271,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Fetch
        */
-      response = await fetch(replaceVariables(options.initial.url), {
+      response = await fetch(replaceVariables(options.initial.url, undefined, encodeURIComponent), {
         method: options.initial.method,
         headers,
       }).catch((error: Error) => {
@@ -410,7 +410,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Fetch
        */
-      response = await fetch(replaceVariables(options.update.url), {
+      response = await fetch(replaceVariables(options.update.url, undefined, encodeURIComponent), {
         method: options.update.method,
         headers,
         body: replaceVariables(JSON.stringify(body)),
