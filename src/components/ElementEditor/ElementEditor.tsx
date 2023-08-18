@@ -429,12 +429,7 @@ export const ElementEditor: React.FC<Props> = ({
 
       {isQueryFieldsEnabled && (
         <InlineFieldRow>
-          <InlineField
-            grow={true}
-            label="Query Field"
-            labelWidth={14}
-            tooltip="Specify a field name from the first Query"
-          >
+          <InlineField grow={true} label="Query Field" labelWidth={14} tooltip="Specify a field name from the Query">
             <Select
               value={element.queryField?.value}
               options={queryFields}
