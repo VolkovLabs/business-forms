@@ -451,7 +451,7 @@ export const ElementEditor: React.FC<Props> = ({
             grow={true}
             label="Accept"
             labelWidth={14}
-            tooltip="Specify comma-separated file extensions or * to allow any file "
+            tooltip="Specify comma-separated file extensions or keep blank to allow any file"
           >
             <Input
               value={element.accept || ''}
