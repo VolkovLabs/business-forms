@@ -175,6 +175,11 @@ export const FormPanel: React.FC<Props> = ({
    * Initial Request
    */
   const initialRequest = async () => {
+    /**
+     * Clear Error
+     */
+    setError('');
+
     if (!elements.length || options.initial.method === RequestMethod.NONE) {
       /**
        * No method specified
@@ -347,6 +352,11 @@ export const FormPanel: React.FC<Props> = ({
    * Update Request
    */
   const updateRequest = async () => {
+    /**
+     * Clear Error
+     */
+    setError('');
+
     /**
      * Loading
      */
