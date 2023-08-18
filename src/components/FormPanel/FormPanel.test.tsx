@@ -283,12 +283,15 @@ describe('Panel', () => {
                 {
                   ...FormElementDefault,
                   id: 'mapped',
-                  queryFieldName: 'metric',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metric',
+                  },
                 },
                 {
                   ...FormElementDefault,
                   id: 'unmapped',
-                  queryFieldName: '',
+                  queryField: undefined,
                 },
               ],
             },
@@ -299,9 +302,19 @@ describe('Panel', () => {
                     fields: [
                       {
                         name: 'metric',
-                        values: ['metric1', 'metric2'],
+                        values: ['metricA1', 'metricA2'],
                       },
                     ],
+                    refId: 'A',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricB1', 'metricB2'],
+                      },
+                    ],
+                    refId: 'B',
                   }),
                 ],
               },
@@ -316,7 +329,7 @@ describe('Panel', () => {
           elements: expect.arrayContaining([
             expect.objectContaining({
               id: 'mapped',
-              value: 'metric2',
+              value: 'metricA2',
             }),
             expect.objectContaining({
               id: 'unmapped',

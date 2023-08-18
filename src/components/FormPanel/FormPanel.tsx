@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { AlertErrorPayload, AlertPayload, AppEvents, dateTime, Field, PanelProps } from '@grafana/data';
+import { AlertErrorPayload, AlertPayload, AppEvents, DataFrame, dateTime, Field, PanelProps } from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
 import {
   Alert,
@@ -107,24 +107,24 @@ export const FormPanel: React.FC<Props> = ({
     appEvents.publish({ type: AppEvents.alertWarning.name, payload });
 
   /**
-   * On Update Elements With Field Values
+   * On Change Elements With Field Values
    */
-  const onUpdateElementsWithFieldValues = useCallback(
-    (fields: Field[] | undefined, sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE) => {
-      if (!fields) {
-        return;
-      }
-
-      /**
-       * Field Name Key
-       */
-      const fieldNameKey = sourceType === RequestMethod.QUERY ? 'queryFieldName' : 'fieldName';
-
+  const onChangeElementsWithFieldValues = useCallback(
+    (frames: DataFrame[], sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE) => {
       /**
        * Get elements values
        */
       const updatedElements = elements.map((element) => {
-        const field = fields?.find((field: Field) => field.name === element[fieldNameKey]);
+        const fieldConfig = sourceType === RequestMethod.QUERY ? element.queryField : { value: element.fieldName };
+        const field = frames
+          .filter((frame) => (fieldConfig?.refId ? frame.refId === fieldConfig.refId : true))
+          .reduce((acc: Field | undefined, { fields }) => {
+            const field = fields?.find((field: Field) => field.name === fieldConfig?.value);
+            if (field) {
+              return field;
+            }
+            return acc;
+          }, undefined);
 
         if (field) {
           /**
@@ -225,9 +225,9 @@ export const FormPanel: React.FC<Props> = ({
     ) {
       if (options.initial.method === RequestMethod.QUERY) {
         /**
-         * Update Elements with Query Values
+         * Change Elements with Query Values
          */
-        onUpdateElementsWithFieldValues(data.series[0]?.fields, RequestMethod.QUERY);
+        onChangeElementsWithFieldValues(data.series, RequestMethod.QUERY);
       }
 
       /**
@@ -269,15 +269,10 @@ export const FormPanel: React.FC<Props> = ({
 
       if (response && response.ok) {
         /**
-         * Update elements with initial values
+         * Change Elements With Data Source Values
          */
         const queryResponse = toDataQueryResponse(response);
-        const fields: Field[] | undefined = queryResponse.data[0]?.fields;
-
-        /**
-         * Update Elements With Data Source Values
-         */
-        onUpdateElementsWithFieldValues(fields, RequestMethod.DATASOURCE);
+        onChangeElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
       }
     } else {
       /**

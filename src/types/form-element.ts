@@ -1,6 +1,10 @@
 import { SelectableValue } from '@grafana/data';
 import { CodeLanguage, FormElementType } from '../constants';
 
+export type QueryField = SelectableValue<string> & {
+  refId?: string;
+};
+
 /**
  * Form Element Base
  */
@@ -88,9 +92,9 @@ export interface FormElementBase {
   fieldName?: string;
 
   /**
-   * Query Field Name
+   * Query Field
    */
-  queryFieldName?: string;
+  queryField?: QueryField;
 }
 
 /**

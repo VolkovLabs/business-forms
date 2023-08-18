@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useMemo } from 'react';
+import React, { ChangeEvent } from 'react';
 import { SelectableValue } from '@grafana/data';
 import {
   Button,
@@ -22,7 +22,7 @@ import {
   StringElementOptions,
   TestIds,
 } from '../../constants';
-import { LocalFormElement } from '../../types';
+import { LocalFormElement, QueryField } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { Styles } from './styles';
@@ -64,7 +64,7 @@ interface Props {
   /**
    * Query Fields
    */
-  queryFields: string[];
+  queryFields: QueryField[];
 
   /**
    * Is Query Fields Enabled
@@ -88,18 +88,6 @@ export const ElementEditor: React.FC<Props> = ({
    * Styles
    */
   const styles = useStyles2(Styles);
-
-  /**
-   * Query Fields Options
-   */
-  const queryFieldsOptions = useMemo(() => {
-    return isQueryFieldsEnabled
-      ? queryFields.map((fieldName) => ({
-          label: fieldName,
-          value: fieldName,
-        }))
-      : [];
-  }, [isQueryFieldsEnabled, queryFields]);
 
   /**
    * Return
@@ -448,12 +436,12 @@ export const ElementEditor: React.FC<Props> = ({
             tooltip="Specify a field name from the first Query"
           >
             <Select
-              value={element.queryFieldName}
-              options={queryFieldsOptions}
+              value={element.queryField?.value}
+              options={queryFields}
               onChange={(item) => {
                 onChange({
                   ...element,
-                  queryFieldName: item?.value,
+                  queryField: item,
                 });
               }}
               aria-label={TestIds.formElementsEditor.fieldFromQueryPicker}
