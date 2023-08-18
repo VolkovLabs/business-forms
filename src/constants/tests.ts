@@ -112,6 +112,7 @@ export const TestIds = {
   layoutSectionsEditor: {
     buttonAdd: 'data-testid layout-sections-editor button-add',
     buttonRemove: 'data-testid layout-sections-editor button-remove',
+    fieldId: 'data-testid layout-sections-editor field-id',
     fieldName: 'data-testid layout-sections-editor field-name',
     root: 'data-testid layout-sections-editor',
     section: (name: string) => `data-testid layout-sections-editor section-${name}`,

@@ -218,6 +218,11 @@ export const FormPanel: React.FC<Props> = ({
    * Initial Request
    */
   const initialRequest = async () => {
+    /**
+     * Clear Error
+     */
+    setError('');
+
     if (
       !elements.length ||
       options.initial.method === RequestMethod.NONE ||
@@ -299,7 +304,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Fetch
        */
-      response = await fetch(replaceVariables(options.initial.url), {
+      response = await fetch(replaceVariables(options.initial.url, undefined, encodeURIComponent), {
         method: options.initial.method,
         headers,
       }).catch((error: Error) => {
@@ -376,6 +381,11 @@ export const FormPanel: React.FC<Props> = ({
    */
   const updateRequest = async () => {
     /**
+     * Clear Error
+     */
+    setError('');
+
+    /**
      * Loading
      */
     setLoading(true);
@@ -438,7 +448,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Fetch
        */
-      response = await fetch(replaceVariables(options.update.url), {
+      response = await fetch(replaceVariables(options.update.url, undefined, encodeURIComponent), {
         method: options.update.method,
         headers,
         body: replaceVariables(JSON.stringify(body)),
@@ -528,6 +538,7 @@ export const FormPanel: React.FC<Props> = ({
                   onChangeElement={onChangeElement}
                   initial={initial}
                   section={null}
+                  replaceVariables={replaceVariables}
                 />
               </td>
             </tr>
@@ -546,6 +557,7 @@ export const FormPanel: React.FC<Props> = ({
                           onChangeElement={onChangeElement}
                           initial={initial}
                           section={section}
+                          replaceVariables={replaceVariables}
                         />
                       </FieldSet>
                     </td>
@@ -568,6 +580,7 @@ export const FormPanel: React.FC<Props> = ({
                             onChangeElement={onChangeElement}
                             initial={initial}
                             section={section}
+                            replaceVariables={replaceVariables}
                           />
                         </FieldSet>
                       </td>

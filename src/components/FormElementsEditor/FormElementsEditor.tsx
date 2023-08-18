@@ -12,7 +12,7 @@ import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
 import { RequestMethod, TestIds } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { GetElementUniqueId, Reorder } from '../../utils';
+import { GetElementUniqueId, GetLayoutUniqueId, Reorder } from '../../utils';
 import { Collapse } from '../Collapse';
 import { ElementEditor } from '../ElementEditor';
 import { NewElement } from '../NewElement';
@@ -100,7 +100,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   const layoutSectionOptions: SelectableValue[] = useMemo(() => {
     return (
       context.options?.layout?.sections?.map((section: LayoutSection) => {
-        return { value: section.name, label: section.name };
+        return { value: GetLayoutUniqueId(section), label: GetLayoutUniqueId(section) };
       }) || []
     );
   }, [context.options?.layout?.sections]);

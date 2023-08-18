@@ -10,6 +10,14 @@ export interface LayoutSection {
    * @type {string}
    */
   name: string;
+
+  /**
+   * Id
+   * Optional to backward compatibility
+   *
+   * @type {string}
+   */
+  id?: string;
 }
 
 /**
