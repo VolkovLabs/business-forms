@@ -571,7 +571,7 @@ export const FormPanel: React.FC<Props> = ({
       )}
     >
       {loading === LoadingMode.INITIAL && (
-        <div className={styles.loadingBar}>
+        <div className={styles.loadingBar} data-testid={TestIds.panel.loadingBar}>
           <LoadingBar width={width} />
         </div>
       )}
