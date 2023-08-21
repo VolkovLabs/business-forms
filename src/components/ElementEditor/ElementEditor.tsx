@@ -480,6 +480,7 @@ export const ElementEditor: React.FC<Props> = ({
                   onChange={(event: SelectableValue) => {
                     const newValue =
                       event?.value === FormElementType.NUMBER ? Number(option.value) || 0 : String(option.value);
+
                     onChangeOption(
                       element,
                       {
@@ -571,11 +572,11 @@ export const ElementEditor: React.FC<Props> = ({
           <Button
             variant="secondary"
             onClick={() => {
+              const newOption = { id: '', value: '', label: '', type: FormElementType.STRING };
+
               onChange({
                 ...element,
-                options: element.options
-                  ? element.options.concat({ id: '', value: '', label: '' })
-                  : [{ id: '', value: '', label: '' }],
+                options: element.options ? element.options.concat(newOption) : [newOption],
               });
             }}
             icon="plus"

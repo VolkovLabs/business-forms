@@ -12,6 +12,7 @@
 - Allow empty section name (#228)
 - Add Query Field Picker for Initial Request (#227)
 - Add File element type for File Upload (#229)
+- Add converting option value to string and number based on type (#233)
 
 ## 3.1.0 (2023-08-13)
 
