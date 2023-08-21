@@ -478,10 +478,18 @@ export const ElementEditor: React.FC<Props> = ({
                 <Select
                   options={SelectElementOptions}
                   onChange={(event: SelectableValue) => {
-                    onChangeOption(element, {
-                      ...option,
-                      type: event?.value,
-                    });
+                    const newValue =
+                      event?.value === FormElementType.NUMBER ? Number(option.value) || 0 : String(option.value);
+                    onChangeOption(
+                      element,
+                      {
+                        ...option,
+                        value: newValue,
+                        id: newValue,
+                        type: event?.value,
+                      },
+                      option
+                    );
                   }}
                   width={12}
                   value={SelectElementOptions.find((type) => type.value === option.type)}
@@ -498,6 +506,7 @@ export const ElementEditor: React.FC<Props> = ({
                         {
                           ...option,
                           value: event.target.value,
+                          id: event.target.value,
                         },
                         option,
                         true

@@ -1482,8 +1482,8 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldOption(false, '')).toBeInTheDocument();
     });
 
-    it('Should update option type', async () => {
-      const originalOption = { label: 'label', type: FormElementType.STRING, value: '111' };
+    it('Should update option type to number and convert value', async () => {
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: '123' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1506,6 +1506,73 @@ describe('Form Elements Editor', () => {
 
       const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
       expect(elementOptionSelectors.fieldOptionType()).toHaveValue(FormElementType.NUMBER);
+
+      /**
+       * Value should be number
+       */
+      expect(elementOptionSelectors.fieldOptionNumberValue()).toHaveValue(123);
+    });
+
+    it('Should update option type to number and use default value if NaN', async () => {
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: 'abc' };
+      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Change option type
+       */
+      await act(() =>
+        fireEvent.change(elementSelectors.fieldOptionType(), { target: { value: FormElementType.NUMBER } })
+      );
+
+      const elementOption = elementSelectors.fieldOption(false, '0');
+      expect(elementOption).toBeInTheDocument();
+
+      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
+      expect(elementOptionSelectors.fieldOptionType()).toHaveValue(FormElementType.NUMBER);
+
+      /**
+       * Value should be number
+       */
+      expect(elementOptionSelectors.fieldOptionNumberValue()).toHaveValue(0);
+    });
+
+    it('Should update option type to string and convert value', async () => {
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 123 };
+      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Change option type
+       */
+      await act(() =>
+        fireEvent.change(elementSelectors.fieldOptionType(), { target: { value: FormElementType.STRING } })
+      );
+
+      const elementOption = elementSelectors.fieldOption(false, originalOption.value.toString());
+      expect(elementOption).toBeInTheDocument();
+
+      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
+      expect(elementOptionSelectors.fieldOptionType()).toHaveValue(FormElementType.STRING);
+
+      /**
+       * Value should be string
+       */
+      expect(elementOptionSelectors.fieldOptionValue()).toHaveValue('123');
     });
 
     it('Should update option value for STRING option', async () => {
