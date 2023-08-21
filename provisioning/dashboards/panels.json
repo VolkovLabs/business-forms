@@ -692,7 +692,7 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(initial)\n\n/**\n * Set body\n */\nconst body = {};\noptions.elements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
+          "code": "console.log(initial)\n\n/**\n * Set body\n */\nconst body = {};\nelements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
           "confirm": true,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
@@ -732,11 +732,14 @@
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
           "method": "GET"
         },
         "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
           "variant": "single"
         },
         "reset": {
@@ -744,6 +747,15 @@
           "foregroundColor": "yellow",
           "icon": "process",
           "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "console.log(data, response, initial, elements);",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
           "variant": "hidden"
         },
         "submit": {
@@ -759,7 +771,9 @@
           "code": "console.log(response)",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payloadMode": "all",
           "updatedOnly": false
         }
       },
@@ -876,12 +890,15 @@
         "initial": {
           "code": "console.log(response)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
           "url": "http://localhost:3001"
         },
         "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
           "sections": [
             {
               "name": "Input"
@@ -905,6 +922,15 @@
           "text": "Reset",
           "variant": "secondary"
         },
+        "resetAction": {
+          "code": "console.log(data, response, initial, elements);",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -918,7 +944,9 @@
           "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payloadMode": "all",
           "updatedOnly": false,
           "url": "http://localhost:3001/"
         },
@@ -937,21 +965,21 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "test2",
-          "value": "test2"
+          "selected": true,
+          "text": "test",
+          "value": "test"
         },
         "hide": 0,
         "label": "Var",
         "name": "var",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "test",
             "value": "test"
           }
         ],
-        "query": "test2",
+        "query": "test",
         "skipUrlSync": false,
         "type": "textbox"
       }
