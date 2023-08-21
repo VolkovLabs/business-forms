@@ -17,7 +17,6 @@ import {
   ButtonGroup,
   ConfirmModal,
   FieldSet,
-  LoadingBar,
   usePanelContext,
   useStyles2,
   useTheme2,
@@ -39,6 +38,7 @@ import { Styles } from '../../styles';
 import { FormElement, PanelOptions } from '../../types';
 import { GetPayloadForRequest, ToFormData, ToJSON } from '../../utils';
 import { FormElements } from '../FormElements';
+import { LoadingBar } from '../LoadingBar';
 
 /**
  * Properties
