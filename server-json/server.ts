@@ -32,11 +32,13 @@ const server = http.createServer(function (req, res) {
    * GET
    */
   if (req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify(values));
-    res.end();
+    setTimeout(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(JSON.stringify(values));
+      res.end();
 
-    console.log('Requested', values);
+      console.log('Requested', values);
+    }, 2000);
 
     return;
   }
@@ -45,19 +47,21 @@ const server = http.createServer(function (req, res) {
    * POST, PUT or PATCH
    */
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
-    let body = '';
-    req.on('data', function (chunk) {
-      body += chunk;
-    });
+    setTimeout(() => {
+      let body = '';
+      req.on('data', function (chunk) {
+        body += chunk;
+      });
 
-    req.on('end', function () {
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.write(`${req.method}: Success!`);
-      res.end();
+      req.on('end', function () {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.write(`${req.method}: Success!`);
+        res.end();
 
-      values = JSON.parse(body);
-      console.log('Updated', values);
-    });
+        values = JSON.parse(body);
+        console.log('Updated', values);
+      });
+    }, 2000);
 
     return;
   }

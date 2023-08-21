@@ -13,6 +13,8 @@
 - Add Query Field Picker for Initial Request (#227)
 - Add File element type for File Upload (#229)
 - Add converting option value to string and number based on type (#233)
+- Add loading states for Initial, Update and Reset button actions (#234)
+- Add support for asynchronous custom code (#234)
 
 ## 3.1.0 (2023-08-13)
 

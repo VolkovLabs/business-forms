@@ -6,6 +6,7 @@ import { selectors } from '@grafana/e2e-selectors';
 export const TestIds = {
   panel: {
     root: 'data-testid panel',
+    loadingBar: 'data-testid panel loading-bar',
     infoMessage: 'data-testid panel info-message',
     singleLayoutContent: 'data-testid panel single-layout-content',
     splitLayoutContent: (sectionName: string) => `data-testid panel split-layout-content-${sectionName}`,
