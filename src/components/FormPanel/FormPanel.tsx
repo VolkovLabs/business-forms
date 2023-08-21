@@ -268,6 +268,9 @@ export const FormPanel: React.FC<Props> = ({
     let response: any;
     let json: any = null;
 
+    /**
+     * Data Source
+     */
     if (options.initial.method === RequestMethod.DATASOURCE) {
       if (!options.initial.datasource) {
         /**
@@ -307,6 +310,16 @@ export const FormPanel: React.FC<Props> = ({
         onChangeElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
       }
     } else {
+      if (!options.initial.url) {
+        /**
+         * Show no URL Error and Reset Loading
+         */
+        setError('Please select URL for Initial Request.');
+        setLoading(LoadingMode.NONE);
+
+        return;
+      }
+
       /**
        * Set Content Type
        */

@@ -1356,15 +1356,11 @@ describe('Panel', () => {
         fireEvent.click(selectors.buttonReset());
       });
 
-      expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.initial.code);
-      expect(publish).toHaveBeenCalledWith({
-        type: AppEvents.alertSuccess.name,
-        payload: 'success',
-      });
-      expect(publish).not.toHaveBeenCalledWith({
-        type: AppEvents.alertError.name,
-        payload: 'error',
-      });
+      /**
+       * Check if URL message shown
+       */
+      expect(selectors.errorMessage()).toBeInTheDocument();
+      expect(within(selectors.errorMessage()).getByText('Please select URL for Initial Request.')).toBeInTheDocument();
 
       jest.mocked(getAppEvents).mockClear();
     });
