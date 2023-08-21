@@ -10,6 +10,12 @@ export const Styles = (theme: GrafanaTheme2) => {
       position: relative;
       overflow-y: auto;
     `,
+    loadingBar: css`
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    `,
     table: css`
       width: 100%;
     `,

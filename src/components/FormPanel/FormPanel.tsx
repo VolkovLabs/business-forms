@@ -1,6 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
-import { AlertErrorPayload, AlertPayload, AppEvents, DataFrame, dateTime, Field, PanelProps } from '@grafana/data';
+import {
+  AlertErrorPayload,
+  AlertPayload,
+  AppEvents,
+  DataFrame,
+  DataQueryError,
+  dateTime,
+  Field,
+  PanelProps,
+} from '@grafana/data';
 import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
 import {
   Alert,
@@ -8,6 +17,7 @@ import {
   ButtonGroup,
   ConfirmModal,
   FieldSet,
+  LoadingBar,
   usePanelContext,
   useStyles2,
   useTheme2,
@@ -18,6 +28,7 @@ import {
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
+  LoadingMode,
   PayloadMode,
   RequestMethod,
   ResetActionMode,
@@ -46,7 +57,7 @@ export const FormPanel: React.FC<Props> = ({
   replaceVariables,
   data,
 }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<LoadingMode>(LoadingMode.INITIAL);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: any }>({});
@@ -153,7 +164,7 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = ({
+  const executeCustomCode = async ({
     code,
     initial,
     response,
@@ -192,7 +203,7 @@ export const FormPanel: React.FC<Props> = ({
     );
 
     try {
-      f(
+      await f(
         options,
         data,
         response,
@@ -224,6 +235,11 @@ export const FormPanel: React.FC<Props> = ({
      */
     setError('');
 
+    /**
+     * Loading
+     */
+    setLoading(LoadingMode.INITIAL);
+
     if (
       !elements.length ||
       options.initial.method === RequestMethod.NONE ||
@@ -239,8 +255,12 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * No method specified
        */
-      executeCustomCode({ code: options.initial.code, initial });
-      setLoading(false);
+      await executeCustomCode({ code: options.initial.code, initial });
+
+      /**
+       * Reset Loading
+       */
+      setLoading(LoadingMode.NONE);
 
       return;
     }
@@ -250,6 +270,12 @@ export const FormPanel: React.FC<Props> = ({
 
     if (options.initial.method === RequestMethod.DATASOURCE) {
       if (!options.initial.datasource) {
+        /**
+         * Show No Data Source Error and Reset Loading
+         */
+        setError('Please select Data Source for Initial Request.');
+        setLoading(LoadingMode.NONE);
+
         return;
       }
 
@@ -269,8 +295,8 @@ export const FormPanel: React.FC<Props> = ({
         query: body,
         datasource: options.initial.datasource,
         replaceVariables,
-      }).catch((error: Error) => {
-        setError(error.toString());
+      }).catch((error: DataQueryError) => {
+        setError(JSON.stringify(error));
       });
 
       if (response && response.ok) {
@@ -354,8 +380,8 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode({ code: options.initial.code, initial: json, response });
-    setLoading(false);
+    await executeCustomCode({ code: options.initial.code, initial: json, response });
+    setLoading(LoadingMode.NONE);
   };
 
   /**
@@ -366,15 +392,20 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Use Initial Request
        */
-      initialRequest();
+      await initialRequest();
       return;
     }
 
     /**
+     * Loading
+     */
+    setLoading(LoadingMode.RESET);
+
+    /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode({ code: options.resetAction.code, initial });
-    setLoading(false);
+    await executeCustomCode({ code: options.resetAction.code, initial });
+    setLoading(LoadingMode.NONE);
   };
 
   /**
@@ -389,14 +420,17 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Loading
      */
-    setLoading(true);
+    setLoading(LoadingMode.UPDATE);
 
     /**
      * Execute Custom Code
      */
     if (options.update.method === RequestMethod.NONE) {
-      executeCustomCode({ code: options.update.code, initial, initialRequest });
-      setLoading(false);
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      await executeCustomCode({ code: options.update.code, initial, initialRequest });
+      setLoading(LoadingMode.NONE);
 
       return;
     }
@@ -423,8 +457,8 @@ export const FormPanel: React.FC<Props> = ({
         query: payload,
         datasource: options.update.datasource,
         replaceVariables,
-      }).catch((error: Error) => {
-        setError(error.toString());
+      }).catch((error: DataQueryError) => {
+        setError(JSON.stringify(error));
       });
     } else {
       /**
@@ -446,7 +480,7 @@ export const FormPanel: React.FC<Props> = ({
         headers.set(name, replaceVariables(parameter.value));
       });
 
-      let body: string | FormData = '';
+      let body: string | FormData;
 
       if (options.update.contentType === ContentType.FORMDATA && payload instanceof Object) {
         /**
@@ -482,8 +516,8 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    executeCustomCode({ code: options.update.code, initial, response, initialRequest });
-    setLoading(false);
+    await executeCustomCode({ code: options.update.code, initial, response, initialRequest });
+    setLoading(LoadingMode.NONE);
   };
 
   /**
@@ -536,6 +570,12 @@ export const FormPanel: React.FC<Props> = ({
         `
       )}
     >
+      {loading === LoadingMode.INITIAL && (
+        <div className={styles.loadingBar}>
+          <LoadingBar width={width} />
+        </div>
+      )}
+
       {!elements.length && options.layout.variant !== LayoutVariant.NONE && (
         <Alert data-testid={TestIds.panel.infoMessage} severity="info" title="Form Elements">
           Please add elements in Panel Options or Custom Code.
@@ -610,7 +650,7 @@ export const FormPanel: React.FC<Props> = ({
                 <Button
                   className={cx(styles.margin)}
                   variant={options.submit.variant as any}
-                  icon={options.submit.icon}
+                  icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
                   title={title}
                   style={
                     options.submit.variant === ButtonVariant.CUSTOM
@@ -622,7 +662,7 @@ export const FormPanel: React.FC<Props> = ({
                         }
                       : {}
                   }
-                  disabled={loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE)}
+                  disabled={!!loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE)}
                   onClick={
                     options.update.confirm
                       ? () => {
@@ -640,7 +680,7 @@ export const FormPanel: React.FC<Props> = ({
                   <Button
                     className={cx(styles.margin)}
                     variant={options.reset.variant as any}
-                    icon={options.reset.icon}
+                    icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
                     style={
                       options.reset.variant === ButtonVariant.CUSTOM
                         ? {
@@ -651,7 +691,7 @@ export const FormPanel: React.FC<Props> = ({
                           }
                         : {}
                     }
-                    disabled={loading}
+                    disabled={!!loading}
                     onClick={resetRequest}
                     size={options.buttonGroup.size}
                     data-testid={TestIds.panel.buttonReset}
@@ -665,7 +705,7 @@ export const FormPanel: React.FC<Props> = ({
                     className={cx(styles.margin)}
                     variant={options.saveDefault.variant as any}
                     icon={options.saveDefault.icon}
-                    disabled={loading}
+                    disabled={!!loading}
                     onClick={onSaveUpdates}
                     size={options.buttonGroup.size}
                     data-testid={TestIds.panel.buttonSaveDefault}
