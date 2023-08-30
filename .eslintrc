@@ -8,7 +8,7 @@
   },
   "plugins": ["deprecation"],
   "rules": {
-    "deprecation/deprecation": ["warn"],
+    "deprecation/deprecation": ["error"],
     "sort-imports": [
       "error",
       {
