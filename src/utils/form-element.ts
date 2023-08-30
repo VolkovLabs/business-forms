@@ -207,3 +207,18 @@ export const NormalizeElementsForDashboard = (elements: LocalFormElement[]): For
     return restElement;
   });
 };
+
+/**
+ * Get Initial Values Map
+ * @param elements
+ * @constructor
+ */
+export const GetInitialValuesMap = (elements: LocalFormElement[]): Record<string, unknown> => {
+  return elements.reduce(
+    (acc, element) => ({
+      ...acc,
+      [element.id]: element.value,
+    }),
+    {}
+  );
+};

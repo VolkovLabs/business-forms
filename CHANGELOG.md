@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.2.0 (IN PROGRESS)
+## 3.2.0 (2023-08-30)
 
 ### Features / Enhancements
 
@@ -15,6 +15,7 @@
 - Add converting option value to string and number based on type (#233)
 - Add loading states for Initial, Update and Reset button actions (#234)
 - Add support for asynchronous custom code (#234)
+- Update Query and Data Source initial request (#237)
 
 ## 3.1.0 (2023-08-13)
 

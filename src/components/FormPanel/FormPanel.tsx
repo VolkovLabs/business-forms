@@ -35,8 +35,8 @@ import {
 } from '../../constants';
 import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
-import { FormElement, PanelOptions } from '../../types';
-import { GetPayloadForRequest, ToFormData, ToJSON } from '../../utils';
+import { FormElement, LocalFormElement, PanelOptions } from '../../types';
+import { GetFieldValues, GetInitialValuesMap, GetPayloadForRequest, ToFormData, ToJSON } from '../../utils';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
 
@@ -121,12 +121,12 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * On Change Elements With Field Values
    */
-  const onChangeElementsWithFieldValues = useCallback(
+  const getElementsWithFieldValues = useCallback(
     (frames: DataFrame[], sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE) => {
       /**
        * Get elements values
        */
-      const updatedElements = elements.map((element) => {
+      return elements.map((element) => {
         const fieldConfig = sourceType === RequestMethod.QUERY ? element.queryField : { value: element.fieldName };
         const field = frames
           .filter((frame) => (fieldConfig?.refId ? frame.refId === fieldConfig.refId : true))
@@ -142,23 +142,18 @@ export const FormPanel: React.FC<Props> = ({
           /**
            * Update with initial value
            */
-          const values = field.values.toArray();
+          const values = GetFieldValues(field);
 
           return {
             ...element,
-            value: field.values.get(values.length - 1),
+            value: values[values.length - 1],
           };
         }
 
         return element;
       });
-
-      /**
-       * Update elements with data source values
-       */
-      onChangeElements(updatedElements);
     },
-    [elements, onChangeElements]
+    [elements]
   );
 
   /**
@@ -169,11 +164,13 @@ export const FormPanel: React.FC<Props> = ({
     initial,
     response,
     initialRequest,
+    currentElements,
   }: {
     code: string;
     initial: any;
     response?: Response | void;
     initialRequest?: () => void;
+    currentElements?: LocalFormElement[];
   }) => {
     if (!code) {
       return;
@@ -207,7 +204,7 @@ export const FormPanel: React.FC<Props> = ({
         options,
         data,
         response,
-        elements,
+        currentElements || elements,
         onChangeElements,
         locationService,
         templateSrv,
@@ -240,6 +237,8 @@ export const FormPanel: React.FC<Props> = ({
      */
     setLoading(LoadingMode.INITIAL);
 
+    let currentElements = elements;
+
     if (
       !elements.length ||
       options.initial.method === RequestMethod.NONE ||
@@ -249,13 +248,19 @@ export const FormPanel: React.FC<Props> = ({
         /**
          * Change Elements with Query Values
          */
-        onChangeElementsWithFieldValues(data.series, RequestMethod.QUERY);
+        currentElements = getElementsWithFieldValues(data.series, RequestMethod.QUERY);
       }
+
+      /**
+       * Update Elements and Initial values
+       */
+      onChangeElements(currentElements);
+      setInitial(GetInitialValuesMap(currentElements));
 
       /**
        * No method specified
        */
-      await executeCustomCode({ code: options.initial.code, initial });
+      await executeCustomCode({ code: options.initial.code, initial, currentElements });
 
       /**
        * Reset Loading
@@ -307,7 +312,13 @@ export const FormPanel: React.FC<Props> = ({
          * Change Elements With Data Source Values
          */
         const queryResponse = toDataQueryResponse(response);
-        onChangeElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+        currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+
+        /**
+         * Update Elements and Initial Values
+         */
+        onChangeElements(currentElements);
+        setInitial(currentElements);
       }
     } else {
       if (!options.initial.url) {
@@ -375,12 +386,12 @@ export const FormPanel: React.FC<Props> = ({
             };
           }, {}) || {};
 
-        onChangeElements(
-          elements.map(({ value, ...rest }) => ({
-            ...rest,
-            value: valuesMap[rest.id],
-          }))
-        );
+        currentElements = elements.map(({ value, ...rest }) => ({
+          ...rest,
+          value: valuesMap[rest.id],
+        }));
+
+        onChangeElements(currentElements);
 
         setInitial({
           ...json,
@@ -393,7 +404,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    await executeCustomCode({ code: options.initial.code, initial: json, response });
+    await executeCustomCode({ code: options.initial.code, initial: json, response, currentElements });
     setLoading(LoadingMode.NONE);
   };
 
@@ -534,7 +545,7 @@ export const FormPanel: React.FC<Props> = ({
   };
 
   /**
-   * Execute Initial Request
+   * Execute Initial Request on options.initial or data updates
    */
   useEffect(() => {
     /**
@@ -553,7 +564,7 @@ export const FormPanel: React.FC<Props> = ({
       subscriber.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.initial]);
+  }, [options.initial, data]);
 
   /**
    * Check updated values
