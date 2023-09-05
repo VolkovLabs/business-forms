@@ -1644,6 +1644,30 @@ describe('Form Elements Editor', () => {
       expect(elementOptionSelectors.fieldOptionLabel()).toHaveValue('123');
     });
 
+    it('Should update option icon', async () => {
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, icon: undefined };
+      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Change option icon
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldOptionIcon(), { target: { value: 'check' } }));
+
+      const elementOption = elementSelectors.fieldOption(false, originalOption.value.toString());
+      expect(elementOption).toBeInTheDocument();
+
+      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
+      expect(elementOptionSelectors.fieldOptionIcon()).toHaveValue('check');
+    });
+
     it('Should remove option', async () => {
       const originalOption = { label: 'label', type: FormElementType.STRING, value: '111' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };

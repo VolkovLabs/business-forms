@@ -72,6 +72,7 @@ export const TestIds = {
     fieldNumberMin: 'data-testid form-elements-editor field-number-min',
     fieldOption: (optionId: string) => `data-testid form-elements-editor field-option-${optionId}`,
     fieldOptionLabel: 'data-testid form-elements-editor field-option-label',
+    fieldOptionIcon: 'form-elements-editor field-option-icon',
     fieldOptionNumberValue: 'data-testid form-elements-editor field-option-number-value',
     fieldOptionType: 'form-elements-editor field-option-type',
     fieldOptionValue: 'data-testid form-elements-editor field-option-value',

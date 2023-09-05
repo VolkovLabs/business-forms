@@ -17,6 +17,7 @@ import {
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
+  IconOptions,
   RequestMethod,
   SelectElementOptions,
   StringElementOptions,
@@ -553,6 +554,20 @@ export const ElementEditor: React.FC<Props> = ({
                   }}
                   value={option.label}
                   data-testid={TestIds.formElementsEditor.fieldOptionLabel}
+                />
+              </InlineField>
+              <InlineField label="Icon" labelWidth={8} grow>
+                <Select
+                  onChange={(event) => {
+                    onChangeOption(element, {
+                      ...option,
+                      icon: event?.value,
+                    });
+                  }}
+                  options={IconOptions}
+                  isClearable={true}
+                  value={option.icon}
+                  aria-label={TestIds.formElementsEditor.fieldOptionIcon}
                 />
               </InlineField>
               <Button
