@@ -9,7 +9,7 @@ import {
   DropResult,
   NotDraggingStyle,
 } from 'react-beautiful-dnd';
-import { FormElementType, IconOptions, SelectElementOptions, TestIds } from '../../constants';
+import { FormElementOptionDefault, FormElementType, IconOptions, SelectElementOptions, TestIds } from '../../constants';
 import { Styles } from './ElementOptionsEditor.styles';
 import { Collapse } from '../Collapse';
 import { Reorder } from '../../utils';
@@ -152,7 +152,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                         {
                                           ...option,
                                           value: newValue,
-                                          id: newValue,
+                                          id: newValue.toString(),
                                           type: event?.value,
                                         },
                                         option
@@ -163,62 +163,44 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                     aria-label={TestIds.formElementsEditor.fieldOptionType}
                                   />
                                 </InlineField>
-                                {(!option.type || option.type === FormElementType.STRING) && (
-                                  <InlineField label="Value" labelWidth={6} grow={true}>
-                                    <Input
-                                      placeholder="string"
-                                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                        onChangeItem(
-                                          {
-                                            ...option,
-                                            value: event.target.value,
-                                          },
-                                          option,
-                                          true
-                                        );
-                                      }}
-                                      onBlur={() => {
-                                        const isUpdated = onChangeItem(
-                                          {
-                                            ...option,
-                                            id: option.value,
-                                          },
-                                          option
-                                        );
+                                <InlineField label="Value" labelWidth={6} grow={true}>
+                                  <Input
+                                    placeholder={option.type === FormElementType.NUMBER ? 'number' : 'string'}
+                                    type={option.type === FormElementType.NUMBER ? 'number' : undefined}
+                                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                      onChangeItem(
+                                        {
+                                          ...option,
+                                          value:
+                                            option.type === FormElementType.NUMBER
+                                              ? Number(event.target.value)
+                                              : event.target.value,
+                                        },
+                                        option,
+                                        true
+                                      );
+                                    }}
+                                    onBlur={() => {
+                                      const newId = option.value?.toString() || FormElementOptionDefault.id;
+                                      const isUpdated = onChangeItem(
+                                        {
+                                          ...option,
+                                          id: newId,
+                                        },
+                                        option
+                                      );
 
-                                        if (isUpdated && option.value !== option.id) {
-                                          /**
-                                           * Open content with new id
-                                           */
-                                          onToggleVisibility(option.value);
-                                        }
-                                      }}
-                                      value={option.value}
-                                      data-testid={TestIds.formElementsEditor.fieldOptionValue}
-                                    />
-                                  </InlineField>
-                                )}
-                                {option.type === FormElementType.NUMBER && (
-                                  <InlineField label="Value" labelWidth={6} grow={true}>
-                                    <Input
-                                      type="number"
-                                      placeholder="number"
-                                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                        onChangeItem(
-                                          {
-                                            ...option,
-                                            value: Number(event.target.value),
-                                            id: event.target.value,
-                                          },
-                                          option,
-                                          true
-                                        );
-                                      }}
-                                      value={option.value}
-                                      data-testid={TestIds.formElementsEditor.fieldOptionNumberValue}
-                                    />
-                                  </InlineField>
-                                )}
+                                      if (isUpdated && newId !== option.id) {
+                                        /**
+                                         * Open content with new id
+                                         */
+                                        onToggleVisibility(newId);
+                                      }
+                                    }}
+                                    value={option.value}
+                                    data-testid={TestIds.formElementsEditor.fieldOptionValue}
+                                  />
+                                </InlineField>
                               </InlineFieldRow>
                               <InlineFieldRow>
                                 <InlineField label="Icon" labelWidth={6}>
@@ -266,7 +248,9 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
         <Button
           variant="secondary"
           onClick={() => {
-            const newOption = { id: '', value: '', label: '', type: FormElementType.STRING };
+            const newOption = {
+              ...FormElementOptionDefault,
+            };
 
             onChange(options ? options.concat(newOption) : [newOption]);
             onToggleVisibility(newOption.id);
@@ -274,7 +258,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
           icon="plus"
           data-testid={TestIds.formElementsEditor.buttonAddOption}
           size="sm"
-          disabled={options.some((option) => option.id === '')}
+          disabled={options.some((option) => option.id === FormElementOptionDefault.id)}
         >
           Add Option
         </Button>
