@@ -71,15 +71,19 @@ export const useFormElements = (
       if ('options' in element) {
         if (checkConflict && IsElementOptionConflict(element.options || [], updatedOption)) {
           alert('Option with the same value exists');
-          return;
+          return false;
         }
 
         onChangeElement({
           ...element,
           options: element.options?.map((item) => (item.value === value ? updatedOption : item)),
         });
+        return true;
       }
+
+      return false;
     },
+
     [onChangeElement]
   );
 
