@@ -470,7 +470,7 @@ export const ElementEditor: React.FC<Props> = ({
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||
         element.type === FormElementType.DISABLED) && (
-        <div className={styles.optionsContainer}>
+        <div className={styles.optionsContainer} data-testid={TestIds.formElementsEditor.options}>
           <ElementOptionsEditor
             options={element.options}
             onChange={(options) =>

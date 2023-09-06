@@ -93,7 +93,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
       <Label>Options</Label>
       <div className={styles.content}>
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="elements">
+          <Droppable droppableId="options">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {options.map((option, index) => {
@@ -108,8 +108,8 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                           className={styles.item}
                         >
                           <Collapse
-                            headerTestId={TestIds.formElementsEditor.optionLabel(option.value)}
-                            contentTestId={TestIds.formElementsEditor.optionContent(option.value)}
+                            headerTestId={TestIds.formElementsEditor.optionLabel(option.id)}
+                            contentTestId={TestIds.formElementsEditor.optionContent(option.id)}
                             isOpen={isOpen}
                             onToggle={() => onToggleVisibility(option.id)}
                             title={
@@ -252,7 +252,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
               ...FormElementOptionDefault,
             };
 
-            onChange(options ? options.concat(newOption) : [newOption]);
+            onChange(options.concat(newOption));
             onToggleVisibility(newOption.id);
           }}
           icon="plus"

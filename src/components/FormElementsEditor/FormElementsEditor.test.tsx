@@ -6,6 +6,7 @@ import {
   CodeEditorHeight,
   CodeLanguage,
   FormElementDefault,
+  FormElementOptionDefault,
   FormElementType,
   NumberDefault,
   RequestMethod,
@@ -403,9 +404,7 @@ describe('Form Elements Editor', () => {
     const elementSelectors = openElement('select', FormElementType.SELECT);
 
     expect(elementSelectors.fieldType()).toBeInTheDocument();
-    expect(elementSelectors.fieldOptionType()).toBeInTheDocument();
-    expect(elementSelectors.fieldOptionLabel()).toBeInTheDocument();
-    expect(elementSelectors.buttonRemoveOption()).toBeInTheDocument();
+    expect(elementSelectors.options()).toBeInTheDocument();
   });
 
   /**
@@ -430,9 +429,7 @@ describe('Form Elements Editor', () => {
     const elementSelectors = openElement('select', FormElementType.MULTISELECT);
 
     expect(elementSelectors.fieldType()).toBeInTheDocument();
-    expect(elementSelectors.fieldOptionType()).toBeInTheDocument();
-    expect(elementSelectors.fieldOptionLabel()).toBeInTheDocument();
-    expect(elementSelectors.buttonRemoveOption()).toBeInTheDocument();
+    expect(elementSelectors.options()).toBeInTheDocument();
   });
 
   /**
@@ -1436,6 +1433,34 @@ describe('Form Elements Editor', () => {
    * Options
    */
   describe('Options', () => {
+    /**
+     * Open Option
+     * @param elementSelectors
+     * @param id
+     */
+    const openOption = (elementSelectors: typeof selectors, id: string) => {
+      /**
+       * Check option presence
+       */
+      expect(elementSelectors.optionLabel(false, id)).toBeInTheDocument();
+
+      /**
+       * Make option is opened
+       */
+      fireEvent.click(elementSelectors.optionLabel(false, id));
+
+      /**
+       * Check if option content exists
+       */
+      const optionContent = elementSelectors.optionContent(false, id);
+      expect(optionContent).toBeInTheDocument();
+
+      /**
+       * Return selectors for opened option
+       */
+      return getFormElementsEditorSelectors(within(optionContent));
+    };
+
     it('Should add option to element', async () => {
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT };
       const elements = [element];
@@ -1452,17 +1477,15 @@ describe('Form Elements Editor', () => {
        */
       await act(() => fireEvent.click(elementSelectors.buttonAddOption()));
 
-      const elementOption = elementSelectors.fieldOption(false, '');
-      expect(elementOption).toBeInTheDocument();
-
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-
-      expect(elementOptionSelectors.fieldOptionLabel()).toHaveValue('');
-      expect(elementOptionSelectors.fieldOptionValue()).toHaveValue('');
+      /**
+       * Added option should be opened
+       */
+      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
+      expect(elementSelectors.optionContent(false, FormElementOptionDefault.id)).toBeInTheDocument();
     });
 
     it('Should add option to existing element options', async () => {
-      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: '111' };
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: '111', id: '111' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1478,12 +1501,12 @@ describe('Form Elements Editor', () => {
        */
       await act(() => fireEvent.click(elementSelectors.buttonAddOption()));
 
-      expect(elementSelectors.fieldOption(false, originalOption.value)).toBeInTheDocument();
-      expect(elementSelectors.fieldOption(false, '')).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, originalOption.id)).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
     });
 
     it('Should update option type to number and convert value', async () => {
-      const originalOption = { label: 'label', type: FormElementType.STRING, value: '123' };
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: '123', id: '123' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1495,26 +1518,26 @@ describe('Form Elements Editor', () => {
       const elementSelectors = openElement(element.id, element.type);
 
       /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
+
+      /**
        * Change option type
        */
       await act(() =>
-        fireEvent.change(elementSelectors.fieldOptionType(), { target: { value: FormElementType.NUMBER } })
+        fireEvent.change(optionSelectors.fieldOptionType(), { target: { value: FormElementType.NUMBER } })
       );
-
-      const elementOption = elementSelectors.fieldOption(false, originalOption.value);
-      expect(elementOption).toBeInTheDocument();
-
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionType()).toHaveValue(FormElementType.NUMBER);
 
       /**
        * Value should be number
        */
-      expect(elementOptionSelectors.fieldOptionNumberValue()).toHaveValue(123);
+      expect(optionSelectors.fieldOptionType()).toHaveValue(FormElementType.NUMBER);
+      expect(optionSelectors.fieldOptionValue()).toHaveValue(123);
     });
 
     it('Should update option type to number and use default value if NaN', async () => {
-      const originalOption = { label: 'label', type: FormElementType.STRING, value: 'abc' };
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: 'abc', id: 'abc' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1526,26 +1549,28 @@ describe('Form Elements Editor', () => {
       const elementSelectors = openElement(element.id, element.type);
 
       /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
+
+      /**
        * Change option type
        */
       await act(() =>
-        fireEvent.change(elementSelectors.fieldOptionType(), { target: { value: FormElementType.NUMBER } })
+        fireEvent.change(optionSelectors.fieldOptionType(), { target: { value: FormElementType.NUMBER } })
       );
 
-      const elementOption = elementSelectors.fieldOption(false, '0');
-      expect(elementOption).toBeInTheDocument();
-
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionType()).toHaveValue(FormElementType.NUMBER);
+      const updatedOption = openOption(elementSelectors, '0');
 
       /**
        * Value should be number
        */
-      expect(elementOptionSelectors.fieldOptionNumberValue()).toHaveValue(0);
+      expect(updatedOption.fieldOptionType()).toHaveValue(FormElementType.NUMBER);
+      expect(updatedOption.fieldOptionValue()).toHaveValue(0);
     });
 
     it('Should update option type to string and convert value', async () => {
-      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 123 };
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 123, id: '123' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1557,26 +1582,26 @@ describe('Form Elements Editor', () => {
       const elementSelectors = openElement(element.id, element.type);
 
       /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
+
+      /**
        * Change option type
        */
       await act(() =>
-        fireEvent.change(elementSelectors.fieldOptionType(), { target: { value: FormElementType.STRING } })
+        fireEvent.change(optionSelectors.fieldOptionType(), { target: { value: FormElementType.STRING } })
       );
-
-      const elementOption = elementSelectors.fieldOption(false, originalOption.value.toString());
-      expect(elementOption).toBeInTheDocument();
-
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionType()).toHaveValue(FormElementType.STRING);
 
       /**
        * Value should be string
        */
-      expect(elementOptionSelectors.fieldOptionValue()).toHaveValue('123');
+      expect(optionSelectors.fieldOptionType()).toHaveValue(FormElementType.STRING);
+      expect(optionSelectors.fieldOptionValue()).toHaveValue('123');
     });
 
     it('Should update option value for STRING option', async () => {
-      const originalOption = { label: 'label', type: FormElementType.STRING, value: '111' };
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1587,17 +1612,25 @@ describe('Form Elements Editor', () => {
        */
       const elementSelectors = openElement(element.id, element.type);
 
-      await act(() => fireEvent.change(elementSelectors.fieldOptionValue(), { target: { value: '123' } }));
+      /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
 
-      const elementOption = elementSelectors.fieldOption(false, '123');
-      expect(elementOption).toBeInTheDocument();
+      await act(() => fireEvent.change(optionSelectors.fieldOptionValue(), { target: { value: '123' } }));
 
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionValue()).toHaveValue('123');
+      expect(optionSelectors.fieldOptionValue()).toHaveValue('123');
+
+      /**
+       * ID should be updated after lose focus
+       */
+      await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
+
+      expect(elementSelectors.optionLabel(false, '123')).toBeInTheDocument();
     });
 
     it('Should update option value for NUMBER option', async () => {
-      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0 };
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, id: '0' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1607,21 +1640,29 @@ describe('Form Elements Editor', () => {
        * Open select element
        */
       const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
 
       /**
        * Change option number value
        */
-      await act(() => fireEvent.change(elementSelectors.fieldOptionNumberValue(), { target: { value: '123' } }));
+      await act(() => fireEvent.change(optionSelectors.fieldOptionValue(), { target: { value: '123' } }));
 
-      const elementOption = elementSelectors.fieldOption(false, '123');
-      expect(elementOption).toBeInTheDocument();
+      expect(optionSelectors.fieldOptionValue()).toHaveValue(123);
 
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionNumberValue()).toHaveValue(123);
+      /**
+       * ID should be updated after lose focus
+       */
+      await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
+
+      expect(elementSelectors.optionLabel(false, '123')).toBeInTheDocument();
     });
 
-    it('Should update option label', async () => {
-      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0 };
+    it('Should use default option id if empty value', async () => {
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1631,21 +1672,51 @@ describe('Form Elements Editor', () => {
        * Open select element
        */
       const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
+
+      await act(() => fireEvent.change(optionSelectors.fieldOptionValue(), { target: { value: '' } }));
+
+      expect(optionSelectors.fieldOptionValue()).toHaveValue('');
+
+      /**
+       * ID should be updated after lose focus
+       */
+      await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
+
+      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
+    });
+
+    it('Should update option label', async () => {
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, id: '0' };
+      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
 
       /**
        * Change option label
        */
-      await act(() => fireEvent.change(elementSelectors.fieldOptionLabel(), { target: { value: '123' } }));
+      await act(() => fireEvent.change(optionSelectors.fieldOptionLabel(), { target: { value: '123' } }));
 
-      const elementOption = elementSelectors.fieldOption(false, originalOption.value.toString());
-      expect(elementOption).toBeInTheDocument();
-
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionLabel()).toHaveValue('123');
+      expect(optionSelectors.fieldOptionLabel()).toHaveValue('123');
     });
 
     it('Should update option icon', async () => {
-      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, icon: undefined };
+      const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, icon: undefined, id: '0' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1657,19 +1728,20 @@ describe('Form Elements Editor', () => {
       const elementSelectors = openElement(element.id, element.type);
 
       /**
+       * Open option
+       */
+      const optionSelectors = openOption(elementSelectors, originalOption.id);
+
+      /**
        * Change option icon
        */
-      await act(() => fireEvent.change(elementSelectors.fieldOptionIcon(), { target: { value: 'check' } }));
+      await act(() => fireEvent.change(optionSelectors.fieldOptionIcon(), { target: { value: 'check' } }));
 
-      const elementOption = elementSelectors.fieldOption(false, originalOption.value.toString());
-      expect(elementOption).toBeInTheDocument();
-
-      const elementOptionSelectors = getFormElementsEditorSelectors(within(elementOption));
-      expect(elementOptionSelectors.fieldOptionIcon()).toHaveValue('check');
+      expect(optionSelectors.fieldOptionIcon()).toHaveValue('check');
     });
 
     it('Should remove option', async () => {
-      const originalOption = { label: 'label', type: FormElementType.STRING, value: '111' };
+      const originalOption = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
       const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
       const elements = [element];
 
@@ -1683,20 +1755,27 @@ describe('Form Elements Editor', () => {
       /**
        * Remove option
        */
-      expect(elementSelectors.fieldOption(false, originalOption.value)).toBeInTheDocument();
-      await act(() => fireEvent.click(elementSelectors.buttonRemoveOption()));
+      expect(elementSelectors.optionLabel(false, originalOption.id)).toBeInTheDocument();
 
-      expect(elementSelectors.fieldOption(true, originalOption.value)).not.toBeInTheDocument();
+      const optionLabelSelectors = getFormElementsEditorSelectors(
+        within(elementSelectors.optionLabel(false, originalOption.id))
+      );
+      await act(() => fireEvent.click(optionLabelSelectors.buttonRemoveOption()));
+
+      /**
+       * Option should be removed
+       */
+      expect(elementSelectors.optionLabel(true, originalOption.id)).not.toBeInTheDocument();
     });
 
     it('Should not update option value if option with the same value exists', async () => {
-      const optionOne = { label: 'label', type: FormElementType.STRING, value: '111' };
-      const optionTwo = { label: 'label', type: FormElementType.STRING, value: '100' };
+      const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
+      const option2 = { label: 'label', type: FormElementType.STRING, value: '100', id: '100' };
       const element = {
         ...FormElementDefault,
         id: 'select',
         type: FormElementType.SELECT,
-        options: [optionOne, optionTwo],
+        options: [option1, option2],
       };
       const elements = [element];
       jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
@@ -1709,18 +1788,134 @@ describe('Form Elements Editor', () => {
       const elementSelectors = openElement(element.id, element.type);
 
       /**
+       * Open 2 option
+       */
+      const option2Selectors = openOption(elementSelectors, option2.id);
+
+      /**
        * Change value which is already exist
        */
-      const optionTwoSelectors = getFormElementsEditorSelectors(
-        within(elementSelectors.fieldOption(false, optionTwo.value))
-      );
-      await act(() => fireEvent.change(optionTwoSelectors.fieldOptionValue(), { target: { value: optionOne.value } }));
+      await act(() => fireEvent.change(option2Selectors.fieldOptionValue(), { target: { value: option1.value } }));
+
+      /**
+       * ID should not be updated after loosing focus
+       */
+      await act(() => fireEvent.blur(option2Selectors.fieldOptionValue()));
 
       /**
        * Check if option is not updated
        */
-      expect(elementSelectors.fieldOption(false, optionOne.value)).toBeInTheDocument();
-      expect(elementSelectors.fieldOption(false, optionTwo.value)).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, option1.id)).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, option2.id)).toBeInTheDocument();
+
+      /**
+       * Check option 2 value
+       */
+      expect(option2Selectors.fieldOptionValue()).toHaveValue(option2.value);
+    });
+
+    /**
+     * Option order
+     */
+    describe('Option order', () => {
+      it('Should reorder items', async () => {
+        let onDragEndHandler: (result: DropResult) => void = () => {};
+        jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd, key }: any) => {
+          if (children.props.droppableId === 'options') {
+            onDragEndHandler = onDragEnd;
+          }
+          return children;
+        });
+
+        const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
+        const option2 = { label: 'label', type: FormElementType.STRING, value: '100', id: '100' };
+        const element = {
+          ...FormElementDefault,
+          id: 'select',
+          type: FormElementType.SELECT,
+          options: [option1, option2],
+        };
+
+        let elements = [element];
+        const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open Element
+         */
+        openElement(element.id, element.type);
+
+        /**
+         * Simulate drop option 1 to index 0
+         */
+        await act(async () =>
+          onDragEndHandler({
+            destination: {
+              index: 0,
+            },
+            source: {
+              index: 1,
+            },
+          } as any)
+        );
+
+        /**
+         * Save changes
+         */
+        fireEvent.click(selectors.buttonSaveChanges());
+
+        /**
+         * Check if options order is changed
+         */
+        expect(elements[0].options).toEqual([option2, option1]);
+      });
+
+      it('Should not reorder items if drop outside the list', async () => {
+        let onDragEndHandler: (result: DropResult) => void = () => {};
+        jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd, key }: any) => {
+          if (children.props.droppableId === 'options') {
+            onDragEndHandler = onDragEnd;
+          }
+          return children;
+        });
+
+        const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
+        const option2 = { label: 'label', type: FormElementType.STRING, value: '100', id: '100' };
+        const element = {
+          ...FormElementDefault,
+          id: 'select',
+          type: FormElementType.SELECT,
+          options: [option1, option2],
+        };
+
+        let elements = [element];
+        const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open Element
+         */
+        openElement(element.id, element.type);
+
+        /**
+         * Simulate drop field 1 to outside the list
+         */
+        await act(() =>
+          onDragEndHandler({
+            destination: null,
+            source: {
+              index: 1,
+            },
+          } as any)
+        );
+
+        /**
+         * Save button is not shown because there is no changes
+         */
+        expect(selectors.buttonSaveChanges(true)).not.toBeInTheDocument();
+      });
     });
   });
 

@@ -67,7 +67,7 @@ export const useFormElements = (
       updatedOption: SelectableValue,
       { value = updatedOption.value }: SelectableValue = {},
       checkConflict = false
-    ) => {
+    ): boolean => {
       if ('options' in element) {
         if (checkConflict && IsElementOptionConflict(element.options || [], updatedOption)) {
           alert('Option with the same value exists');
@@ -78,6 +78,7 @@ export const useFormElements = (
           ...element,
           options: element.options?.map((item) => (item.value === value ? updatedOption : item)),
         });
+
         return true;
       }
 
