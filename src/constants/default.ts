@@ -145,7 +145,7 @@ export const FormElementDefault: FormElement = {
  */
 export const FormElementOptionDefault = {
   id: '_',
-  type: FormElementType.STRING,
+  type: FormElementType.NUMBER,
   label: '',
   value: '',
 };

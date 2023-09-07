@@ -101,12 +101,12 @@ export const BooleanElementOptions: SelectableValue[] = [
  */
 export const SelectElementOptions: SelectableValue[] = [
   {
-    value: FormElementType.STRING,
-    label: 'String',
-  },
-  {
     value: FormElementType.NUMBER,
     label: 'Number',
+  },
+  {
+    value: FormElementType.STRING,
+    label: 'String',
   },
 ];
 

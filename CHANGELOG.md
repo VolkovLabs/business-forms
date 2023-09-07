@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.2.0 (2023-08-30)
+## 3.2.0 (2023-09-06)
 
 ### Features / Enhancements
 
@@ -16,6 +16,7 @@
 - Add loading states for Initial, Update and Reset button actions (#234)
 - Add support for asynchronous custom code (#234)
 - Update Query and Data Source initial request (#237)
+- Add icons for radio and select options (#238)
 
 ## 3.1.0 (2023-08-13)
 
