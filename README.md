@@ -13,7 +13,7 @@
 
 The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the first plugin that allows inserting and updating application data, as well as modifying configuration directly from your Grafana dashboard.
 
-[![Data Manipulation Plugin for Grafana | Manual data entering and User input into Dashboard](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/video.png)](https://youtu.be/DXALVG8GijM)
+[![Use REST API, Data Source and Queries to manipulate your data](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/tutorial.png)](https://youtu.be/hVy9NfFiI5U)
 
 ## Requirements
 
@@ -53,16 +53,6 @@ grafana-cli plugins install volkovlabs-form-panel
 | [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)         | Demonstrates panel features.                                                                  |
 | [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)           | Demonstrates various server API implementations                                               |
 | [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)     | Stay up to date with the latest features and updates.                                         |
-
-## Tutorials
-
-[![How to Manipulate Data using Grafana dashboard | API Node.js Server and Deno Deploy Project](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/server.png)](https://youtu.be/SHN2S-dRIEM)
-
-[![Static and dynamic interface elements of Data Manipulation plugin | DML using data source in Grafana](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/elements.png)](https://youtu.be/RSVH1bSBNl8)
-
-Three plugins that make Grafana complete. Dynamic Text, Data Manipulation, and Apache ECharts are all you need to create functional real-world web applications.
-
-[![Magic JavaScript trio for Grafana | Dynamic Text, Data Manipulation and Apache ECharts plugins](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/magic-trio.png)](https://youtu.be/wPr4gZYzUVA)
 
 ## Feedback
 
