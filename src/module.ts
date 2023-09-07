@@ -20,6 +20,7 @@ import {
   CodeLanguage,
   CodeResetDefault,
   CodeUpdateDefault,
+  ConfirmModalDefault,
   ContentType,
   ContentTypeOptions,
   InitialHighlightColorDefault,
@@ -361,6 +362,64 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       },
       defaultValue: false,
       showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+    });
+
+  builder
+    .addTextInput({
+      path: 'confirmModal.title',
+      name: 'Title',
+      category: ['Confirmation Modal'],
+      description: 'The header of the modal.',
+      defaultValue: ConfirmModalDefault.title,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.body',
+      name: 'Text',
+      category: ['Confirmation Modal'],
+      description: 'The text of the modal.',
+      defaultValue: ConfirmModalDefault.body,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.columns.name',
+      name: 'Name Column',
+      category: ['Confirmation Modal'],
+      description: 'The text of field name column.',
+      defaultValue: ConfirmModalDefault.columns.name,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.columns.prevValue',
+      name: 'Previous Column',
+      category: ['Confirmation Modal'],
+      description: 'The text of previous value column.',
+      defaultValue: ConfirmModalDefault.columns.prevValue,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.columns.newValue',
+      name: 'New Column',
+      category: ['Confirmation Modal'],
+      description: 'The text of new value column.',
+      defaultValue: ConfirmModalDefault.columns.newValue,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.confirm',
+      name: 'Confirm Text',
+      category: ['Confirmation Modal'],
+      description: 'The text on the confirm button.',
+      defaultValue: ConfirmModalDefault.confirm,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.cancel',
+      name: 'Cancel Text',
+      category: ['Confirmation Modal'],
+      description: 'The text on the cancel button.',
+      defaultValue: ConfirmModalDefault.cancel,
+      showIf: (config) => config.update.confirm,
     });
 
   /**

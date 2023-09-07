@@ -752,21 +752,21 @@ export const FormPanel: React.FC<Props> = ({
 
       <ConfirmModal
         isOpen={updateConfirmation}
-        title="Confirm update request"
+        title={options.confirmModal.title}
         body={
           <div data-testid={TestIds.panel.confirmModalContent}>
-            <h4>Please confirm to update changed values?</h4>
+            <h4>{options.confirmModal.body}</h4>
             <table className={styles.confirmTable}>
               <thead>
                 <tr className={styles.confirmTable}>
                   <td className={styles.confirmTableTd}>
-                    <b>Label</b>
+                    <b>{options.confirmModal.columns.name}</b>
                   </td>
                   <td className={styles.confirmTableTd}>
-                    <b>Old Value</b>
+                    <b>{options.confirmModal.columns.prevValue}</b>
                   </td>
                   <td className={styles.confirmTableTd}>
-                    <b>New Value</b>
+                    <b>{options.confirmModal.columns.newValue}</b>
                   </td>
                 </tr>
               </thead>
@@ -839,12 +839,13 @@ export const FormPanel: React.FC<Props> = ({
             </table>
           </div>
         }
-        confirmText="Confirm"
+        confirmText={options.confirmModal.confirm}
         onConfirm={() => {
           updateRequest();
           setUpdateConfirmation(false);
         }}
         onDismiss={() => setUpdateConfirmation(false)}
+        dismissText={options.confirmModal.cancel}
       />
     </div>
   );

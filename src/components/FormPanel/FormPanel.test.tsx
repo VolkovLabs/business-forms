@@ -6,6 +6,7 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import {
   ButtonOrientation,
   ButtonVariant,
+  ConfirmModalDefault,
   ContentType,
   FormElementDefault,
   FormElementType,
@@ -88,6 +89,7 @@ describe('Panel', () => {
       layout: { variant: LayoutVariant.SINGLE },
       buttonGroup: { orientation: ButtonOrientation.CENTER },
       elements: [{ ...FormElementDefault, id: 'test' }],
+      confirmModal: ConfirmModalDefault,
       ...options,
     };
 

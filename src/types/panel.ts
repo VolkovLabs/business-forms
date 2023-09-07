@@ -2,6 +2,7 @@ import { ButtonGroupOptions, ButtonOptions } from './button';
 import { FormElement } from './form-element';
 import { LayoutOptions } from './layout';
 import { RequestOptions, ResetAction } from './request';
+import { ModalOptions } from './modal';
 
 /**
  * Panel Options
@@ -69,4 +70,11 @@ export interface PanelOptions {
    * @type {LayoutOptions}
    */
   layout: LayoutOptions;
+
+  /**
+   * Confirm Modal
+   *
+   * @type {ModalOptions}
+   */
+  confirmModal: ModalOptions;
 }
