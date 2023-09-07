@@ -180,6 +180,16 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                         true
                                       );
                                     }}
+                                    onBlur={() => {
+                                      const newId = option.value?.toString() || FormElementOptionDefault.id;
+                                      onChangeItem(
+                                        {
+                                          ...option,
+                                          id: newId,
+                                        },
+                                        option
+                                      );
+                                    }}
                                     value={option.value}
                                     data-testid={TestIds.formElementsEditor.fieldOptionValue}
                                   />
