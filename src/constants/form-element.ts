@@ -1,5 +1,6 @@
 import { SelectableValue } from '@grafana/data';
 import { TestIds } from './tests';
+import { getAvailableIcons } from '@grafana/ui';
 
 /**
  * Form Element Type
@@ -100,12 +101,12 @@ export const BooleanElementOptions: SelectableValue[] = [
  */
 export const SelectElementOptions: SelectableValue[] = [
   {
-    value: FormElementType.STRING,
-    label: 'String',
-  },
-  {
     value: FormElementType.NUMBER,
     label: 'Number',
+  },
+  {
+    value: FormElementType.STRING,
+    label: 'String',
   },
 ];
 
@@ -141,3 +142,12 @@ export enum LoadingMode {
   UPDATE = 'update',
   RESET = 'reset',
 }
+
+/**
+ * Icon Options
+ */
+export const IconOptions = getAvailableIcons().map((name) => ({
+  label: name,
+  value: name,
+  icon: name,
+}));

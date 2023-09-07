@@ -119,7 +119,7 @@ export const IsElementConflict = (elements: FormElement[], element: FormElement)
  * @constructor
  */
 export const IsElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {
-  return options.some((item) => item.value === option.value);
+  return options.some((item) => item.value.toString() === option.value.toString());
 };
 
 /**

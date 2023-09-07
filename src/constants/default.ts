@@ -139,3 +139,13 @@ export const FormElementDefault: FormElement = {
   unit: '',
   value: '',
 };
+
+/**
+ * Form Element Option
+ */
+export const FormElementOptionDefault = {
+  id: '_',
+  type: FormElementType.NUMBER,
+  label: '',
+  value: '',
+};

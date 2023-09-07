@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { SelectableValue } from '@grafana/data';
 import {
-  Button,
   CodeEditor,
   Field,
   InlineField,
@@ -18,14 +17,14 @@ import {
   FormElementType,
   FormElementTypeOptions,
   RequestMethod,
-  SelectElementOptions,
   StringElementOptions,
   TestIds,
 } from '../../constants';
 import { LocalFormElement, QueryField } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 import { ElementDateEditor } from '../ElementDateEditor';
-import { Styles } from './styles';
+import { ElementOptionsEditor } from '../ElementOptionsEditor';
+import { Styles } from './ElementEditor.styles';
 
 /**
  * Properties
@@ -49,7 +48,7 @@ interface Props {
     updatedOption: SelectableValue,
     value?: SelectableValue,
     checkConflict?: boolean
-  ) => void;
+  ) => boolean;
 
   /**
    * Layout Section Options
@@ -471,119 +470,19 @@ export const ElementEditor: React.FC<Props> = ({
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||
         element.type === FormElementType.DISABLED) && (
-        <div className={styles.optionsContainer}>
-          {element.options?.map((option, index) => (
-            <InlineFieldRow key={index} data-testid={TestIds.formElementsEditor.fieldOption(option.value)}>
-              <InlineField label="Type" labelWidth={8}>
-                <Select
-                  options={SelectElementOptions}
-                  onChange={(event: SelectableValue) => {
-                    const newValue =
-                      event?.value === FormElementType.NUMBER ? Number(option.value) || 0 : String(option.value);
-
-                    onChangeOption(
-                      element,
-                      {
-                        ...option,
-                        value: newValue,
-                        id: newValue,
-                        type: event?.value,
-                      },
-                      option
-                    );
-                  }}
-                  width={12}
-                  value={SelectElementOptions.find((type) => type.value === option.type)}
-                  aria-label={TestIds.formElementsEditor.fieldOptionType}
-                />
-              </InlineField>
-              {(!option.type || option.type === FormElementType.STRING) && (
-                <InlineField label="Value" labelWidth={8}>
-                  <Input
-                    placeholder="string"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      onChangeOption(
-                        element,
-                        {
-                          ...option,
-                          value: event.target.value,
-                          id: event.target.value,
-                        },
-                        option,
-                        true
-                      );
-                    }}
-                    value={option.value}
-                    width={12}
-                    data-testid={TestIds.formElementsEditor.fieldOptionValue}
-                  />
-                </InlineField>
-              )}
-              {option.type === FormElementType.NUMBER && (
-                <InlineField label="Value" labelWidth={8}>
-                  <Input
-                    type="number"
-                    placeholder="number"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      onChangeOption(
-                        element,
-                        {
-                          ...option,
-                          value: Number(event.target.value),
-                          id: event.target.value,
-                        },
-                        option,
-                        true
-                      );
-                    }}
-                    value={option.value}
-                    width={12}
-                    data-testid={TestIds.formElementsEditor.fieldOptionNumberValue}
-                  />
-                </InlineField>
-              )}
-              <InlineField label="Label" labelWidth={8} grow>
-                <Input
-                  placeholder="label"
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    onChangeOption(element, {
-                      ...option,
-                      label: event.target.value,
-                    });
-                  }}
-                  value={option.label}
-                  data-testid={TestIds.formElementsEditor.fieldOptionLabel}
-                />
-              </InlineField>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  onChange({
-                    ...element,
-                    options: element.options?.filter((o) => o.value !== option.value),
-                  });
-                }}
-                icon="minus"
-                data-testid={TestIds.formElementsEditor.buttonRemoveOption}
-              />
-            </InlineFieldRow>
-          ))}
-
-          <Button
-            variant="secondary"
-            onClick={() => {
-              const newOption = { id: '', value: '', label: '', type: FormElementType.STRING };
-
+        <div className={styles.optionsContainer} data-testid={TestIds.formElementsEditor.options}>
+          <ElementOptionsEditor
+            options={element.options}
+            onChange={(options) =>
               onChange({
                 ...element,
-                options: element.options ? element.options.concat(newOption) : [newOption],
-              });
+                options,
+              })
+            }
+            onChangeItem={(updated, original, checkConflict) => {
+              return onChangeOption(element, updated, original, checkConflict);
             }}
-            icon="plus"
-            data-testid={TestIds.formElementsEditor.buttonAddOption}
-          >
-            Add Option
-          </Button>
+          />
         </div>
       )}
 
