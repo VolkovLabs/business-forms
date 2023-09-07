@@ -97,7 +97,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {options.map((option, index) => {
-                  const isOpen = collapseState[option.id];
+                  const isOpen = !collapseState[option.id];
                   return (
                     <Draggable key={option.id} draggableId={option.id} index={index}>
                       {(provided, snapshot) => (
@@ -180,23 +180,6 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                         true
                                       );
                                     }}
-                                    onBlur={() => {
-                                      const newId = option.value?.toString() || FormElementOptionDefault.id;
-                                      const isUpdated = onChangeItem(
-                                        {
-                                          ...option,
-                                          id: newId,
-                                        },
-                                        option
-                                      );
-
-                                      if (isUpdated && newId !== option.id) {
-                                        /**
-                                         * Open content with new id
-                                         */
-                                        onToggleVisibility(newId);
-                                      }
-                                    }}
                                     value={option.value}
                                     data-testid={TestIds.formElementsEditor.fieldOptionValue}
                                   />
@@ -253,7 +236,6 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
             };
 
             onChange(options.concat(newOption));
-            onToggleVisibility(newOption.id);
           }}
           icon="plus"
           data-testid={TestIds.formElementsEditor.buttonAddOption}
