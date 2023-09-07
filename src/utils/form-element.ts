@@ -70,7 +70,8 @@ export const GetElementWithNewType = (
         type: newType,
       };
     }
-    case FormElementType.TEXTAREA: {
+    case FormElementType.TEXTAREA:
+    case FormElementType.DISABLED_TEXTAREA: {
       return {
         ...baseValues,
         ...TextareaDefault,

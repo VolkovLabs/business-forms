@@ -20,6 +20,7 @@ export const enum FormElementType {
   STRING = 'string',
   TEXTAREA = 'textarea',
   FILE = 'file',
+  DISABLED_TEXTAREA = 'disabledTextarea',
 }
 
 /**
@@ -65,6 +66,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.DISABLED,
     label: 'Read-only',
+  },
+  {
+    value: FormElementType.DISABLED_TEXTAREA,
+    label: 'Read-only Text Area',
   },
   {
     value: FormElementType.SELECT,

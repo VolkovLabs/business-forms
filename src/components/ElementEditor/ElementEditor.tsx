@@ -350,7 +350,7 @@ export const ElementEditor: React.FC<Props> = ({
         </>
       )}
 
-      {element.type === FormElementType.TEXTAREA && (
+      {(element.type === FormElementType.TEXTAREA || element.type === FormElementType.DISABLED_TEXTAREA) && (
         <InlineFieldRow>
           <InlineField label="Rows" labelWidth={8}>
             <Input
