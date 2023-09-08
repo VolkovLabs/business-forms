@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.3.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add Disabled Text Area element type (#243)
+
+## 3.2.1 (2023-09-07)
+
+### Features / Enhancements
+
+- Add backward compatibility for option id (#244)
+
 ## 3.2.0 (2023-09-06)
 
 ### Features / Enhancements

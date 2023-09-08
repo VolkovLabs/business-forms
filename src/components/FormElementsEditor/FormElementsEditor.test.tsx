@@ -1615,6 +1615,13 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(optionSelectors.fieldOptionValue(), { target: { value: '123' } }));
 
       expect(optionSelectors.fieldOptionValue()).toHaveValue('123');
+
+      /**
+       * ID should be updated after lose focus
+       */
+      await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
+
+      expect(elementSelectors.optionLabel(false, '123')).toBeInTheDocument();
     });
 
     it('Should update option value for NUMBER option', async () => {
@@ -1640,6 +1647,13 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(optionSelectors.fieldOptionValue(), { target: { value: '123' } }));
 
       expect(optionSelectors.fieldOptionValue()).toHaveValue(123);
+
+      /**
+       * ID should be updated after lose focus
+       */
+      await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
+
+      expect(elementSelectors.optionLabel(false, '123')).toBeInTheDocument();
     });
 
     it('Should use default option id if empty value', async () => {
@@ -1662,6 +1676,13 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(optionSelectors.fieldOptionValue(), { target: { value: '' } }));
 
       expect(optionSelectors.fieldOptionValue()).toHaveValue('');
+
+      /**
+       * ID should be updated after lose focus
+       */
+      await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
+
+      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
     });
 
     it('Should update option label', async () => {

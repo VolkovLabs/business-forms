@@ -11,11 +11,11 @@ export const CapitalizeFirstLetter = (str: string) => {
  * Button Variants
  */
 export const enum ButtonVariant {
+  CUSTOM = 'custom',
+  DESTRUCTIVE = 'destructive',
+  HIDDEN = 'hidden',
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
-  DESTRUCTIVE = 'destructive',
-  CUSTOM = 'custom',
-  HIDDEN = 'hidden',
 }
 
 /**

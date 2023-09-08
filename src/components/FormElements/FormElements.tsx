@@ -241,13 +241,14 @@ export const FormElements: React.FC<Props> = ({
               </InlineField>
             )}
 
-            {element.type === FormElementType.TEXTAREA && (
+            {(element.type === FormElementType.TEXTAREA || element.type === FormElementType.DISABLED_TEXTAREA) && (
               <InlineField
                 label={element.title}
                 grow={!element.width}
                 labelWidth={ApplyWidth(element.labelWidth)}
                 tooltip={element.tooltip}
                 transparent={!element.title}
+                disabled={element.type === FormElementType.DISABLED_TEXTAREA}
               >
                 <TextArea
                   value={element.value || ''}

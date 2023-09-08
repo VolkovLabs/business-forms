@@ -70,7 +70,8 @@ export const GetElementWithNewType = (
         type: newType,
       };
     }
-    case FormElementType.TEXTAREA: {
+    case FormElementType.TEXTAREA:
+    case FormElementType.DISABLED_TEXTAREA: {
       return {
         ...baseValues,
         ...TextareaDefault,
@@ -160,6 +161,11 @@ export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv
 export const GetLayoutUniqueId = (section: LayoutSection) => (section.id !== undefined ? section.id : section.name);
 
 /**
+ * Get Option Unique Id
+ */
+export const GetOptionUniqueId = (option: SelectableValue) => (option.id !== undefined ? option.id : option.value);
+
+/**
  * Is Section Collision Exists
  */
 export const IsSectionCollisionExists = (sections: LayoutSection[], compareWith: LayoutSection) => {
@@ -181,6 +187,14 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
 
   return {
     ...element,
+    ...('options' in element
+      ? {
+          options: element.options?.map((option) => ({
+            ...option,
+            id: GetOptionUniqueId(option),
+          })),
+        }
+      : {}),
     helpers: {
       showIf: showIfFn,
     },
