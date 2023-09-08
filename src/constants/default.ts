@@ -155,7 +155,7 @@ export const FormElementOptionDefault = {
  */
 export const ConfirmModalDefault: ModalOptions = {
   title: 'Confirm update request',
-  body: 'Please confirm to update changed values?',
+  body: 'Please confirm to update changed values',
   columns: {
     name: 'Label',
     prevValue: 'Old Value',
