@@ -275,6 +275,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.MULTISELECT } & SelectOptions)
     | ({ type: FormElementType.RADIO } & SelectOptions)
     | ({ type: FormElementType.DISABLED } & SelectOptions)
+    | ({ type: FormElementType.DISABLED_TEXTAREA } & TextareaOptions)
     | { type: FormElementType.PASSWORD }
     | ({ type: FormElementType.DATETIME } & DateTimeOptions)
     | { type: FormElementType.SECRET }
