@@ -5,7 +5,7 @@
 ### Features / Enhancements
 
 - Add Disabled Text Area element type (#243)
-- Add Confirmation Modal options (#242)
+- Add Confirmation Window options (#242)
 
 ## 3.2.1 (2023-09-07)
 

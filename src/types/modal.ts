@@ -32,7 +32,7 @@ export interface ModalOptions {
      *
      * @type {string}
      */
-    prevValue: string;
+    oldValue: string;
 
     /**
      * New Value

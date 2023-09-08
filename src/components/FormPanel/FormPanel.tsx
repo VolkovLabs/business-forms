@@ -763,7 +763,7 @@ export const FormPanel: React.FC<Props> = ({
                     <b>{options.confirmModal.columns.name}</b>
                   </td>
                   <td className={styles.confirmTableTd}>
-                    <b>{options.confirmModal.columns.prevValue}</b>
+                    <b>{options.confirmModal.columns.oldValue}</b>
                   </td>
                   <td className={styles.confirmTableTd}>
                     <b>{options.confirmModal.columns.newValue}</b>

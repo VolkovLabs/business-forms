@@ -416,10 +416,10 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
-      path: 'confirmModal.columns.prevValue',
+      path: 'confirmModal.columns.oldValue',
       name: 'Old value column',
       category: ['Confirmation Window'],
-      defaultValue: ConfirmModalDefault.columns.prevValue,
+      defaultValue: ConfirmModalDefault.columns.oldValue,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({

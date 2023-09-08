@@ -158,7 +158,7 @@ export const ConfirmModalDefault: ModalOptions = {
   body: 'Please confirm to update changed values',
   columns: {
     name: 'Label',
-    prevValue: 'Old Value',
+    oldValue: 'Old Value',
     newValue: 'New Value',
   },
   confirm: 'Confirm',
