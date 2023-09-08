@@ -20,6 +20,7 @@ import {
   CodeLanguage,
   CodeResetDefault,
   CodeUpdateDefault,
+  ConfirmModalDefault,
   ContentType,
   ContentTypeOptions,
   InitialHighlightColorDefault,
@@ -341,26 +342,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       },
       defaultValue: CodeUpdateDefault,
       showIf: (config) => !isRequestConfigured(config.update),
-    })
-    .addRadio({
-      path: 'update.confirm',
-      name: 'Confirmation',
-      description: 'Ask to confirm updated values.',
-      category: ['Update Request'],
-      settings: {
-        options: [
-          {
-            value: false,
-            label: 'No',
-          },
-          {
-            value: true,
-            label: 'Require',
-          },
-        ],
-      },
-      defaultValue: false,
-      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
     });
 
   /**
@@ -390,6 +371,79 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       },
       defaultValue: PayloadUpdateDefault,
       showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
+    });
+
+  builder
+    .addRadio({
+      path: 'update.confirm',
+      name: 'Confirmation Window',
+      description: 'Ask to confirm updated values.',
+      category: ['Confirmation Window'],
+      settings: {
+        options: [
+          {
+            value: true,
+            label: 'Enabled',
+          },
+          {
+            value: false,
+            label: 'Disabled',
+          },
+        ],
+      },
+      defaultValue: false,
+      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+    })
+    .addTextInput({
+      path: 'confirmModal.title',
+      name: 'Title',
+      category: ['Confirmation Window'],
+      defaultValue: ConfirmModalDefault.title,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.body',
+      name: 'Text',
+      category: ['Confirmation Window'],
+      defaultValue: ConfirmModalDefault.body,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.columns.name',
+      name: 'Label column',
+      category: ['Confirmation Window'],
+      defaultValue: ConfirmModalDefault.columns.name,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.columns.oldValue',
+      name: 'Old value column',
+      category: ['Confirmation Window'],
+      defaultValue: ConfirmModalDefault.columns.oldValue,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.columns.newValue',
+      name: 'New value column',
+      category: ['Confirmation Window'],
+      defaultValue: ConfirmModalDefault.columns.newValue,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.confirm',
+      name: 'Confirm button',
+      category: ['Confirmation Window'],
+      description: 'The text on the confirm button.',
+      defaultValue: ConfirmModalDefault.confirm,
+      showIf: (config) => config.update.confirm,
+    })
+    .addTextInput({
+      path: 'confirmModal.cancel',
+      name: 'Cancel button',
+      category: ['Confirmation Window'],
+      description: 'The text on the cancel button.',
+      defaultValue: ConfirmModalDefault.cancel,
+      showIf: (config) => config.update.confirm,
     });
 
   /**

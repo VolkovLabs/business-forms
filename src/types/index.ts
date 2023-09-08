@@ -4,3 +4,4 @@ export * from './header-parameter';
 export * from './layout';
 export * from './panel';
 export * from './request';
+export * from './modal';

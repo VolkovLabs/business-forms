@@ -1,4 +1,4 @@
-import { CodeOptions, FormElement, NumberOptions, SliderOptions, TextareaOptions } from '../types';
+import { CodeOptions, FormElement, ModalOptions, NumberOptions, SliderOptions, TextareaOptions } from '../types';
 import { CodeEditorHeight, CodeLanguage } from './code-editor';
 import { FormElementType } from './form-element';
 
@@ -148,4 +148,19 @@ export const FormElementOptionDefault = {
   type: FormElementType.NUMBER,
   label: '',
   value: '',
+};
+
+/**
+ * Confirm Modal
+ */
+export const ConfirmModalDefault: ModalOptions = {
+  title: 'Confirm update request',
+  body: 'Please confirm to update changed values',
+  columns: {
+    name: 'Label',
+    oldValue: 'Old Value',
+    newValue: 'New Value',
+  },
+  confirm: 'Confirm',
+  cancel: 'Cancel',
 };
