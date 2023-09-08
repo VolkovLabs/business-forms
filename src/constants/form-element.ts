@@ -10,17 +10,17 @@ export const enum FormElementType {
   CODE = 'code',
   DATETIME = 'datetime',
   DISABLED = 'disabled',
+  DISABLED_TEXTAREA = 'disabledTextarea',
+  FILE = 'file',
+  MULTISELECT = 'multiselect',
   NUMBER = 'number',
   PASSWORD = 'password',
   RADIO = 'radio',
   SECRET = 'secret',
   SELECT = 'select',
-  MULTISELECT = 'multiselect',
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
-  FILE = 'file',
-  DISABLED_TEXTAREA = 'disabledTextarea',
 }
 
 /**
