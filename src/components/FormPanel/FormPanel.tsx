@@ -612,6 +612,7 @@ export const FormPanel: React.FC<Props> = ({
             <tr>
               <td data-testid={TestIds.panel.singleLayoutContent}>
                 <FormElements
+                  data={data}
                   options={options}
                   elements={elements}
                   onChangeElement={onChangeElement}
@@ -631,6 +632,7 @@ export const FormPanel: React.FC<Props> = ({
                     <td className={styles.td} key={id} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
                       <FieldSet label={section.name}>
                         <FormElements
+                          data={data}
                           options={options}
                           elements={elements}
                           onChangeElement={onChangeElement}
@@ -660,6 +662,7 @@ export const FormPanel: React.FC<Props> = ({
                             initial={initial}
                             section={section}
                             replaceVariables={replaceVariables}
+                            data={data}
                           />
                         </FieldSet>
                       </td>

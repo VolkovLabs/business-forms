@@ -1,6 +1,14 @@
-import { CodeOptions, FormElement, ModalOptions, NumberOptions, SliderOptions, TextareaOptions } from '../types';
+import {
+  CodeOptions,
+  FormElement,
+  ModalOptions,
+  NumberOptions,
+  SelectOptions,
+  SliderOptions,
+  TextareaOptions,
+} from '../types';
 import { CodeEditorHeight, CodeLanguage } from './code-editor';
-import { FormElementType } from './form-element';
+import { FormElementType, OptionsSource } from './form-element';
 
 /**
  * Initial Request
@@ -121,6 +129,13 @@ export const CodeDefault: CodeOptions = {
  */
 export const TextareaDefault: TextareaOptions = {
   rows: 10,
+};
+
+/**
+ * Select Defaults
+ */
+export const SelectDefaults: SelectOptions = {
+  optionsSource: OptionsSource.Custom,
 };
 
 /**

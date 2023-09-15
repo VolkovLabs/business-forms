@@ -1,7 +1,7 @@
 import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 import { css, cx } from '@emotion/css';
-import { dateTime, DateTime, InterpolateFunction } from '@grafana/data';
+import { dateTime, DateTime, InterpolateFunction, PanelData } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
@@ -65,6 +65,11 @@ interface Props {
    * Template variables interpolation function
    */
   replaceVariables: InterpolateFunction;
+
+  /**
+   * Data
+   */
+  data: PanelData;
 }
 
 /**
@@ -77,6 +82,7 @@ export const FormElements: React.FC<Props> = ({
   section,
   initial,
   replaceVariables,
+  data,
 }) => {
   /**
    * Theme and Styles
@@ -230,9 +236,9 @@ export const FormElements: React.FC<Props> = ({
               >
                 <Input
                   value={
-                    !element.options?.length
+                    !element.helpers.getOptions({ data }).length
                       ? element.value || ''
-                      : element.options.find((option) => option.value === element.value)?.label
+                      : element.helpers.getOptions({ data }).find((option) => option.value === element.value)?.label
                   }
                   type="text"
                   width={ApplyWidth(element.width)}
@@ -401,7 +407,7 @@ export const FormElements: React.FC<Props> = ({
                     });
                   }}
                   fullWidth={!element.width}
-                  options={element.options || []}
+                  options={element.helpers.getOptions({ data })}
                   className={highlightClass(element)}
                 />
               </InlineField>
@@ -426,7 +432,7 @@ export const FormElements: React.FC<Props> = ({
                     });
                   }}
                   width={ApplyWidth(element.width)}
-                  options={element.options || []}
+                  options={element.helpers.getOptions({ data })}
                   className={highlightClass(element)}
                 />
               </InlineField>

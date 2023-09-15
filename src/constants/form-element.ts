@@ -156,3 +156,25 @@ export const IconOptions = getAvailableIcons().map((name) => ({
   value: name,
   icon: name,
 }));
+
+/**
+ * Options Source
+ */
+export enum OptionsSource {
+  Query = 'Query',
+  Custom = 'Custom',
+}
+
+/**
+ * Options Source Options
+ */
+export const OptionsSourceOptions = [
+  {
+    label: 'Query',
+    value: OptionsSource.Query,
+  },
+  {
+    label: 'Custom',
+    value: OptionsSource.Custom,
+  },
+];
