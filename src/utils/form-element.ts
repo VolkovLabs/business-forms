@@ -207,10 +207,14 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
   }
 
   let getOptions: GetOptionsHelper = () => [];
-  if ('optionsSource' in element) {
+  if (
+    element.type === FormElementType.DISABLED ||
+    element.type === FormElementType.SELECT ||
+    element.type === FormElementType.MULTISELECT ||
+    element.type === FormElementType.RADIO
+  ) {
     if (element.optionsSource === OptionsSource.Query) {
       getOptions = ({ data }) => {
-        console.log('calc options');
         const { queryOptions } = element;
 
         if (!queryOptions || !queryOptions.value) {

@@ -172,9 +172,11 @@ export const OptionsSourceOptions = [
   {
     label: 'Query',
     value: OptionsSource.Query,
+    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.Query),
   },
   {
     label: 'Custom',
     value: OptionsSource.Custom,
+    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.Custom),
   },
 ];

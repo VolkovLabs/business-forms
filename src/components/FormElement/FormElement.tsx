@@ -49,7 +49,6 @@ interface Props {
 
 /**
  * Form Element
- * @constructor
  */
 export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass, data }) => {
   /**

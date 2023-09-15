@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { DataFrame, SelectableValue } from '@grafana/data';
 import { InlineField, InlineFieldRow, Select } from '@grafana/ui';
+import { TestIds } from '../../constants';
 import { QueryOptionsMapper } from '../../types';
 
 /**
@@ -25,6 +26,9 @@ interface Props {
   data: DataFrame[];
 }
 
+/**
+ * Element Query Options Editor
+ */
 export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, data }) => {
   /**
    * Available Field Options
@@ -80,6 +84,7 @@ export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, da
                 label: value?.source !== option.source ? null : value?.label || null,
               })
             }
+            aria-label={TestIds.formElementsEditor.fieldQueryOptionsValue}
           />
         </InlineField>
       </InlineFieldRow>
@@ -95,6 +100,7 @@ export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, da
                   label: option.fieldName,
                 })
               }
+              aria-label={TestIds.formElementsEditor.fieldQueryOptionsLabel}
             />
           </InlineField>
         </InlineFieldRow>
