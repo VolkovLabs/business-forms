@@ -11,6 +11,7 @@ import {
   NumberDefault,
   OptionsSource,
   RequestMethod,
+  SelectDefaults,
   SliderDefault,
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../utils';
@@ -875,6 +876,40 @@ describe('Form Elements Editor', () => {
         );
         expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue(element.queryOptions.label);
       });
+
+      it('Should use default optionsSource', async () => {
+        const element = {
+          ...FormElementDefault,
+          id: 'id',
+          type: FormElementType.SELECT,
+          optionsSource: undefined,
+        };
+        const elements = [element];
+
+        render(
+          getComponent({
+            value: elements,
+            onChange,
+            context: {
+              data: [],
+            },
+          })
+        );
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+
+        expect(elementSelectors.optionsSourceOption(false, SelectDefaults.optionsSource)).toBeChecked();
+      });
     });
 
     it('Should update Width', async () => {
@@ -1334,6 +1369,32 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldAccept(), { target: { value: '.png' } }));
 
       expect(elementSelectors.fieldAccept()).toHaveValue('.png');
+    });
+
+    it('Should update file options source', async () => {
+      const elements = [
+        { ...FormElementDefault, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.Custom },
+      ];
+      const context = {
+        data: [],
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.SELECT);
+
+      /**
+       * Change field name
+       */
+      const sourceOption = elementSelectors.optionsSourceOption(false, OptionsSource.Query);
+      await act(() => fireEvent.click(sourceOption));
+
+      expect(sourceOption).toBeChecked();
+      expect(elementSelectors.fieldQueryOptionsValue()).toBeInTheDocument();
     });
 
     it('Should update query field name', async () => {
