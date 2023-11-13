@@ -6,6 +6,7 @@
 
 - Add Disabled Text Area element type (#243)
 - Add Confirmation Window options (#242)
+- Add context object to the custom code (#255)
 
 ### Bugfixes
 
