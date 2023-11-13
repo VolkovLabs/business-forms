@@ -137,7 +137,7 @@ export const FormElements: React.FC<Props> = ({
                 transparent={!element.title}
               >
                 <Input
-                  value={element.value || ''}
+                  value={FormatNumberValue(element.value)}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     let value = ToNumberValue(event.target.value);
 
