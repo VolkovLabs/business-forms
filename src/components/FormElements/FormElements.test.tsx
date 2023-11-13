@@ -359,7 +359,7 @@ describe('Form Elements', () => {
           elements: [{ id: 'number', type: FormElementType.NUMBER, max: 100, value: 10 }],
           getField: selectors.fieldNumber,
           newValue: '',
-          expectedValue: null,
+          expectedValue: 0,
         },
         {
           name: 'Should update with min value',
