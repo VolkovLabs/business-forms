@@ -6,6 +6,11 @@
 
 - Add Disabled Text Area element type (#243)
 - Add Confirmation Window options (#242)
+- Add context object to the custom code (#255)
+
+### Bugfixes
+
+- Allow to enter zero value in number field (#288)
 
 ## 3.2.1 (2023-09-07)
 

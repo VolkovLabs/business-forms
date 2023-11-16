@@ -102,4 +102,59 @@ export const CodeEditorSuggestions: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Method,
     detail: 'Parse the results from /api/ds/query.',
   },
+  {
+    label: 'context',
+    kind: CodeEditorSuggestionItemKind.Constant,
+    detail: 'All passed possible properties and methods.',
+  },
+  {
+    label: 'context.panel',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Panel instance properties.',
+  },
+  {
+    label: 'context.panel.data',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Panel data.',
+  },
+  {
+    label: 'context.panel.options',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Panel options.',
+  },
+  {
+    label: 'context.panel.onOptionsChange',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Update panel options on dashboard.',
+  },
+  {
+    label: 'context.panel.elements',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Panel elements.',
+  },
+  {
+    label: 'context.panel.onChangeElements',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Update panel elements.',
+  },
+  {
+    label: 'context.panel.initial',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Set initial values.',
+  },
+  {
+    label: 'context.panel.initialRequest',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Run Initial Request.',
+  },
+  {
+    label: 'context.panel.response',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Response object.',
+  },
+  {
+    label: 'context.grafana',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Grafana properties and methods.',
+  },
 ];

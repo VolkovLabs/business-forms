@@ -196,6 +196,7 @@ export const FormPanel: React.FC<Props> = ({
       'notifySuccess',
       'notifyWarning',
       'toDataQueryResponse',
+      'context',
       replaceVariables(code)
     );
 
@@ -216,7 +217,30 @@ export const FormPanel: React.FC<Props> = ({
         notifyError,
         notifySuccess,
         notifyWarning,
-        toDataQueryResponse
+        toDataQueryResponse,
+        {
+          grafana: {
+            locationService,
+            templateService: templateSrv,
+            notifyError,
+            notifySuccess,
+            notifyWarning,
+          },
+          panel: {
+            options,
+            data,
+            onOptionsChange,
+            elements: currentElements || elements,
+            onChangeElements,
+            setInitial,
+            initial,
+            initialRequest,
+            response,
+          },
+          utils: {
+            toDataQueryResponse,
+          },
+        }
       );
     } catch (error: any) {
       setError(error.toString());
