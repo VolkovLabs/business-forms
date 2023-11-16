@@ -26,7 +26,8 @@ import {
 } from '../../constants';
 import { Styles } from '../../styles';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { ApplyWidth, FormatNumberValue, GetLayoutUniqueId, ToNumberValue } from '../../utils';
+import { ApplyWidth, FormatNumberValue, GetLayoutUniqueId } from '../../utils';
+import { NumberInput } from '../NumberInput';
 
 /**
  * Properties
@@ -136,25 +137,9 @@ export const FormElements: React.FC<Props> = ({
                 tooltip={element.tooltip}
                 transparent={!element.title}
               >
-                <Input
+                <NumberInput
                   value={FormatNumberValue(element.value)}
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    let value = ToNumberValue(event.target.value);
-
-                    /**
-                     * Validate Maximum
-                     */
-                    if (element.max !== undefined && element.max !== null) {
-                      value = Math.min(element.max, value || 0);
-                    }
-
-                    /**
-                     * Validate Minimum
-                     */
-                    if (element.min !== undefined && element.min !== null) {
-                      value = Math.max(element.min, value || 0);
-                    }
-
+                  onChange={(value: number) => {
                     onChangeElement<typeof element>({
                       ...element,
                       value,
@@ -163,8 +148,8 @@ export const FormElements: React.FC<Props> = ({
                   type="number"
                   className={highlightClass(element)}
                   width={ApplyWidth(element.width)}
-                  min={FormatNumberValue(element.min)}
-                  max={FormatNumberValue(element.max)}
+                  min={element.min !== null ? element.min : undefined}
+                  max={element.max !== null ? element.max : undefined}
                   data-testid={TestIds.formElements.fieldNumber}
                 />
               </InlineField>
