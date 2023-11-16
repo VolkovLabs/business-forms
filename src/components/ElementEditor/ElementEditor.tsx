@@ -296,7 +296,7 @@ export const ElementEditor: React.FC<Props> = ({
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 onChange({
                   ...element,
-                  min: ToNumberValue(event.target.value),
+                  min: event.target.value ? Number(event.target.value) : undefined,
                 });
               }}
               type="number"
@@ -311,7 +311,7 @@ export const ElementEditor: React.FC<Props> = ({
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 onChange({
                   ...element,
-                  max: ToNumberValue(event.target.value),
+                  max: event.target.value ? Number(event.target.value) : undefined,
                 });
               }}
               type="number"
