@@ -148,8 +148,8 @@ export const FormElements: React.FC<Props> = ({
                   type="number"
                   className={highlightClass(element)}
                   width={ApplyWidth(element.width)}
-                  min={element.min !== null ? element.min : undefined}
-                  max={element.max !== null ? element.max : undefined}
+                  min={element.min}
+                  max={element.max}
                   data-testid={TestIds.formElements.fieldNumber}
                 />
               </InlineField>

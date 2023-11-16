@@ -104,4 +104,15 @@ describe('Number Input', () => {
 
     expect(selectors.field()).toHaveValue('10');
   });
+
+  it('Should save value to enter press', () => {
+    const onChange = jest.fn();
+
+    render(getComponent({ onChange }));
+
+    fireEvent.change(selectors.field(), { target: { value: '5' } });
+    fireEvent.keyDown(selectors.field(), { key: 'Enter' });
+
+    expect(onChange).toHaveBeenCalledWith(5);
+  });
 });
