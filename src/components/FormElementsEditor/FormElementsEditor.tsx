@@ -1,12 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-  DragDropContext,
-  Draggable,
-  DraggingStyle,
-  Droppable,
-  DropResult,
-  NotDraggingStyle,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
 import { RequestMethod, TestIds } from '../../constants';

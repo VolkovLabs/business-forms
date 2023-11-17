@@ -1,14 +1,7 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { Button, Icon, IconButton, InlineField, InlineFieldRow, Input, Label, Select, useStyles2 } from '@grafana/ui';
-import {
-  DragDropContext,
-  Draggable,
-  DraggingStyle,
-  Droppable,
-  DropResult,
-  NotDraggingStyle,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { FormElementOptionDefault, FormElementType, IconOptions, SelectElementOptions, TestIds } from '../../constants';
 import { Styles } from './ElementOptionsEditor.styles';
 import { Collapse } from '../Collapse';

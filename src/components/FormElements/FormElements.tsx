@@ -27,7 +27,7 @@ import {
 import { Styles } from '../../styles';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { ApplyWidth, FormatNumberValue, GetLayoutUniqueId } from '../../utils';
-import { NumberInput } from '../NumberInput';
+import { NumberInput } from '@volkovlabs/components';
 
 /**
  * Properties

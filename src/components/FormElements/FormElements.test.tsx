@@ -10,9 +10,9 @@ import { FormElements } from './FormElements';
 jest.useFakeTimers();
 
 /**
- * Mock Number Input
+ * Mock @volkovlabs/components
  */
-jest.mock('../NumberInput');
+jest.mock('@volkovlabs/components');
 
 /**
  * Form Elements

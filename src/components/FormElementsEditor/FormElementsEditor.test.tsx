@@ -1,5 +1,5 @@
 import React from 'react';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import {
