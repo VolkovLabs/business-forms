@@ -8,6 +8,7 @@
 - Add Confirmation Window options (#242)
 - Add context object to the custom code (#255)
 - Add Select Options From Query (#254)
+- Add NumberInput component which allows to enter decimals (#291)
 
 ### Bugfixes
 
