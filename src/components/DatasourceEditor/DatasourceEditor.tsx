@@ -1,13 +1,14 @@
-import React, { useMemo } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Select } from '@grafana/ui';
+import React, { useMemo } from 'react';
+
 import { TestIds } from '../../constants';
 import { useDatasources } from '../../hooks';
 
 /**
  * Properties
  */
-interface Props extends Pick<StandardEditorProps<string>, 'value' | 'onChange'> {}
+type Props = Pick<StandardEditorProps<string>, 'value' | 'onChange'>
 
 /**
  * Data Source Editor

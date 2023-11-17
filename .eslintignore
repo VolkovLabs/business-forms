@@ -13,3 +13,7 @@ server-deno/
 server-json/
 server-mysql/
 server-pg/
+
+**/*.test.ts
+**/*.test.tsx
+__mocks__

@@ -1,18 +1,18 @@
-import React, { useCallback } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { CodeEditor, CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
-import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage, TestIds } from '../../constants';
-
 /**
  * Monaco
  */
 import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
+import React, { useCallback } from 'react';
+
+import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage, TestIds } from '../../constants';
 
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<string, any, any> {}
+type Props = StandardEditorProps<string, any, any>
 
 /**
  * Custom Code Editor

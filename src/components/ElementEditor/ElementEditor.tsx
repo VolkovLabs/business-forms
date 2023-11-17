@@ -1,4 +1,3 @@
-import React, { ChangeEvent } from 'react';
 import { DataFrame, SelectableValue } from '@grafana/data';
 import {
   CodeEditor,
@@ -10,6 +9,8 @@ import {
   Select,
   useStyles2,
 } from '@grafana/ui';
+import React, { ChangeEvent } from 'react';
+
 import {
   CodeEditorHeight,
   CodeLanguage,
@@ -305,7 +306,7 @@ export const ElementEditor: React.FC<Props> = ({
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 onChange({
                   ...element,
-                  min: ToNumberValue(event.target.value),
+                  min: event.target.value ? Number(event.target.value) : undefined,
                 });
               }}
               type="number"
@@ -320,7 +321,7 @@ export const ElementEditor: React.FC<Props> = ({
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 onChange({
                   ...element,
-                  max: ToNumberValue(event.target.value),
+                  max: event.target.value ? Number(event.target.value) : undefined,
                 });
               }}
               type="number"

@@ -1,14 +1,20 @@
-import React from 'react';
+import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import React from 'react';
+
 import { FormElementDefault, FormElementType, OptionsSource } from '../../constants';
 import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
-import { toDataFrame } from '@grafana/data';
 
 /**
  * Mock timers
  */
 jest.useFakeTimers();
+
+/**
+ * Mock @volkovlabs/components
+ */
+jest.mock('@volkovlabs/components');
 
 /**
  * Form Elements

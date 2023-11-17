@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
 import { DataFrame, SelectableValue } from '@grafana/data';
 import { InlineField, InlineFieldRow, Select } from '@grafana/ui';
+import React, { useMemo } from 'react';
+
 import { TestIds } from '../../constants';
 import { QueryOptionsMapper } from '../../types';
 

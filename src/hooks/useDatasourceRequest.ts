@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
-import { lastValueFrom } from 'rxjs';
 import { DataQueryResponse, InterpolateFunction } from '@grafana/data';
 import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
+import { useCallback } from 'react';
+import { lastValueFrom } from 'rxjs';
 
 /**
  * Use Data Source Request

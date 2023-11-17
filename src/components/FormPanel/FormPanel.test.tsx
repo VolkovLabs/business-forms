@@ -1,8 +1,9 @@
-import React from 'react';
 import { AppEvents, FieldType, toDataFrame } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import React from 'react';
+
 import {
   ButtonOrientation,
   ButtonVariant,

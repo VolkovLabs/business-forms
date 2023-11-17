@@ -1,6 +1,7 @@
-import { Observable } from 'rxjs';
 import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
+import { Observable } from 'rxjs';
+
 import { useDatasourceRequest } from './useDatasourceRequest';
 
 /**

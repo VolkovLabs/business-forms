@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
 import { css } from '@emotion/css';
 import { InterpolateFunction, PanelData } from '@grafana/data';
 import { useTheme2 } from '@grafana/ui';
+import React, { useCallback, useMemo } from 'react';
+
 import { InitialHighlightColorDefault, TestIds } from '../../constants';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { GetLayoutUniqueId } from '../../utils';

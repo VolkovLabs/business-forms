@@ -101,8 +101,6 @@ export const SaveDefaultTextDefault = 'Save Default';
  * Number Defaults
  */
 export const NumberDefault: NumberOptions = {
-  min: null,
-  max: null,
   value: 0,
 };
 

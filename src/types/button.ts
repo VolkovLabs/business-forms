@@ -1,4 +1,5 @@
 import { IconName } from '@grafana/ui';
+
 import { ButtonOrientation, ButtonSize, ButtonVariant } from '../constants';
 
 /**

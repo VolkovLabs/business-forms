@@ -1,5 +1,6 @@
 import { PanelPlugin, SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
+
 import {
   CustomCodeEditor,
   DatasourceEditor,
@@ -108,7 +109,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Sections',
       category: ['Sections'],
       editor: LayoutSectionsEditor,
-      showIf: (config: any) => config.layout.variant === LayoutVariant.SPLIT,
+      showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
     })
     .addRadio({
       path: 'layout.orientation',
@@ -131,7 +132,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     category: ['Form Elements'],
     description: 'Form Elements',
     editor: FormElementsEditor,
-    showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+    showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
   });
 
   /**
@@ -253,7 +254,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         ],
       },
       defaultValue: false,
-      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+      showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
     })
     .addColorPicker({
       path: 'initial.highlightColor',
@@ -263,7 +264,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.initial.highlight && config.layout.variant !== LayoutVariant.NONE,
+      showIf: (config) => config.initial.highlight && config.layout.variant !== LayoutVariant.NONE,
     });
 
   /**
@@ -392,7 +393,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         ],
       },
       defaultValue: false,
-      showIf: (config: any) => config.layout.variant !== LayoutVariant.NONE,
+      showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
     })
     .addTextInput({
       path: 'confirmModal.title',
@@ -494,7 +495,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.submit.variant === ButtonVariant.CUSTOM,
+      showIf: (config) => config.submit.variant === ButtonVariant.CUSTOM,
     })
     .addColorPicker({
       path: 'submit.backgroundColor',
@@ -505,7 +506,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.submit.variant === ButtonVariant.CUSTOM,
+      showIf: (config) => config.submit.variant === ButtonVariant.CUSTOM,
     })
     .addSelect({
       path: 'submit.icon',
@@ -552,7 +553,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.reset.variant === ButtonVariant.CUSTOM,
+      showIf: (config) => config.reset.variant === ButtonVariant.CUSTOM,
     })
     .addColorPicker({
       path: 'reset.backgroundColor',
@@ -563,7 +564,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         disableNamedColors: true,
       },
-      showIf: (config: any) => config.reset.variant === ButtonVariant.CUSTOM,
+      showIf: (config) => config.reset.variant === ButtonVariant.CUSTOM,
     })
     .addSelect({
       path: 'reset.icon',
@@ -578,7 +579,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         }),
       },
       defaultValue: ResetIconDefault,
-      showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
+      showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
     })
     .addTextInput({
       path: 'reset.text',
@@ -586,7 +587,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Reset Button'],
       description: 'The text on the button',
       defaultValue: ResetTextDefault,
-      showIf: (config: any) => config.reset.variant !== ButtonVariant.HIDDEN,
+      showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
     });
 
   /**
@@ -646,7 +647,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         }),
       },
       defaultValue: SaveDefaultIconDefault,
-      showIf: (config: any) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
+      showIf: (config) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
     })
     .addTextInput({
       path: 'saveDefault.text',
@@ -654,7 +655,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Save Default Button'],
       description: 'The text on the button',
       defaultValue: SaveDefaultTextDefault,
-      showIf: (config: any) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
+      showIf: (config) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
     });
 
   return builder;

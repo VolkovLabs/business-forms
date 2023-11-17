@@ -1,4 +1,5 @@
 import { InterpolateFunction } from '@grafana/data';
+
 import { FormElementType, PayloadMode } from '../constants';
 import { LocalFormElement, RequestOptions } from '../types';
 
@@ -92,7 +93,7 @@ export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunc
   }
 
   const result: Record<string, unknown> = {};
-  for (let [elementKey, elementValue] of Object.entries(payload)) {
+  for (const [elementKey, elementValue] of Object.entries(payload)) {
     if (Array.isArray(elementValue) && elementValue[0] instanceof File) {
       /**
        * Read Files
@@ -124,7 +125,7 @@ const GetFormDataValue = (value: unknown, replaceVariables: InterpolateFunction)
 /**
  * To Form Data
  */
-export const ToFormData = (payload: Object, replaceVariables: InterpolateFunction): FormData => {
+export const ToFormData = (payload: object, replaceVariables: InterpolateFunction): FormData => {
   const formData = new FormData();
 
   Object.entries(payload).forEach(([elementKey, elementValue]) => {

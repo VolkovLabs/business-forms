@@ -1,7 +1,8 @@
-import React from 'react';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { toDataFrame } from '@grafana/data';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import React from 'react';
+
 import {
   CodeEditorHeight,
   CodeLanguage,
@@ -194,8 +195,8 @@ describe('Form Elements Editor', () => {
        */
       const elementSelectors = openElement(newElementId, newElementType);
 
-      expect(elementSelectors.fieldNumberMin()).toHaveValue(NumberDefault.min);
-      expect(elementSelectors.fieldNumberMax()).toHaveValue(NumberDefault.max);
+      expect(elementSelectors.fieldNumberMin()).toHaveValue(null);
+      expect(elementSelectors.fieldNumberMax()).toHaveValue(null);
     });
 
     it('Should add Code element with default parameters', async () => {
@@ -1093,7 +1094,7 @@ describe('Form Elements Editor', () => {
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
-            min: null,
+            min: undefined,
           }),
         ])
       );
@@ -1133,7 +1134,7 @@ describe('Form Elements Editor', () => {
       expect(onChange).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
-            max: null,
+            max: undefined,
           }),
         ])
       );
@@ -1503,8 +1504,8 @@ describe('Form Elements Editor', () => {
         await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.NUMBER } }));
 
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.NUMBER);
-        expect(elementSelectors.fieldNumberMin()).toHaveValue(NumberDefault.min);
-        expect(elementSelectors.fieldNumberMax()).toHaveValue(NumberDefault.max);
+        expect(elementSelectors.fieldNumberMin()).toHaveValue(null);
+        expect(elementSelectors.fieldNumberMax()).toHaveValue(null);
       });
 
       it('Should set default Code options if NewType=CODE', async () => {

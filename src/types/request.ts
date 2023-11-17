@@ -69,8 +69,7 @@ export interface RequestOptions {
   confirm: boolean;
 
   /**
-   * @deprecated Keep for backward compatibility.
-   * Add only Updated Elements to Payload
+   * @deprecated Keep for backward compatibility. Add only Updated Elements to Payload
    *
    * @type {boolean}
    */

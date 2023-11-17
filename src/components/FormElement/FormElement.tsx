@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useMemo } from 'react';
+import { cx } from '@emotion/css';
+import { DateTime, dateTime, PanelData } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
@@ -12,13 +13,14 @@ import {
   TextArea,
   useStyles2,
 } from '@grafana/ui';
-import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType, TestIds } from '../../constants';
-import { ApplyWidth, FormatNumberValue, ToNumberValue } from '../../utils';
-import { cx } from '@emotion/css';
-import { DateTime, dateTime, PanelData } from '@grafana/data';
+import { NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
-import { LocalFormElement } from '../../types';
+import React, { ChangeEvent, useMemo } from 'react';
+
+import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType, TestIds } from '../../constants';
 import { Styles } from '../../styles';
+import { LocalFormElement } from '../../types';
+import { ApplyWidth, FormatNumberValue } from '../../utils';
 
 /**
  * Properties
@@ -71,25 +73,9 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
         >
-          <Input
+          <NumberInput
             value={FormatNumberValue(element.value)}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              let value = ToNumberValue(event.target.value);
-
-              /**
-               * Validate Maximum
-               */
-              if (element.max !== undefined && element.max !== null) {
-                value = Math.min(element.max, value || 0);
-              }
-
-              /**
-               * Validate Minimum
-               */
-              if (element.min !== undefined && element.min !== null) {
-                value = Math.max(element.min, value || 0);
-              }
-
+            onChange={(value: number) => {
               onChange<typeof element>({
                 ...element,
                 value,
@@ -98,8 +84,8 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             type="number"
             className={highlightClass(element)}
             width={ApplyWidth(element.width)}
-            min={FormatNumberValue(element.min)}
-            max={FormatNumberValue(element.max)}
+            min={element.min}
+            max={element.max}
             data-testid={TestIds.formElements.fieldNumber}
           />
         </InlineField>
@@ -237,7 +223,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         >
           <RadioButtonGroup
             value={element.value}
-            onChange={(value: Boolean) => {
+            onChange={(value: boolean) => {
               onChange<typeof element>({
                 ...element,
                 value,
