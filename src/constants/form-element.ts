@@ -1,6 +1,7 @@
 import { SelectableValue } from '@grafana/data';
-import { TestIds } from './tests';
 import { getAvailableIcons } from '@grafana/ui';
+
+import { TestIds } from './tests';
 
 /**
  * Form Element Type

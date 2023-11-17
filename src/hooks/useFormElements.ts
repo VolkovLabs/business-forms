@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
+import { useCallback, useEffect, useState } from 'react';
+
 import { FormElement, LocalFormElement } from '../types';
 import {
   IsElementConflict,

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { DataSourceApi } from '@grafana/data';
 import { getBackendSrv } from '@grafana/runtime';
+import { useEffect, useState } from 'react';
 
 /**
  * Use Datasource

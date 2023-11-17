@@ -1,4 +1,3 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css, cx } from '@emotion/css';
 import {
   AlertErrorPayload,
@@ -21,6 +20,8 @@ import {
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import {
   ButtonVariant,
   ContentType,
@@ -43,7 +44,7 @@ import { LoadingBar } from '../LoadingBar';
 /**
  * Properties
  */
-interface Props extends PanelProps<PanelOptions> {}
+type Props = PanelProps<PanelOptions>
 
 /**
  * Panel
@@ -594,7 +595,7 @@ export const FormPanel: React.FC<Props> = ({
    * Check updated values
    */
   const isUpdated = useMemo(() => {
-    for (let element of elements) {
+    for (const element of elements) {
       if (element.value !== initial[element.id]) {
         return true;
       }

@@ -1,5 +1,5 @@
 {
-  "extends": "./.config/.eslintrc",
+  "extends": ["./.config/.eslintrc", "@volkovlabs/eslint-config"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -8,13 +8,6 @@
   },
   "plugins": ["deprecation"],
   "rules": {
-    "deprecation/deprecation": ["warn"],
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true
-      }
-    ]
+    "deprecation/deprecation": ["warn"]
   }
 }

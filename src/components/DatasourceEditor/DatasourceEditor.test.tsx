@@ -1,6 +1,7 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import React from 'react';
+
 import { TestIds } from '../../constants';
 import { useDatasources } from '../../hooks';
 import { DatasourceEditor } from './DatasourceEditor';

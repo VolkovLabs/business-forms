@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
+import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
+import React, { useCallback, useMemo, useState } from 'react';
+
 import { RequestMethod, TestIds } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
@@ -24,7 +25,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<FormElement[], null, PanelOptions> {}
+type Props = StandardEditorProps<FormElement[], null, PanelOptions>
 
 /**
  * Form Elements Editor

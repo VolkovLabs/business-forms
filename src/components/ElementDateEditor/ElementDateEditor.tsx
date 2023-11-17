@@ -1,6 +1,7 @@
-import React from 'react';
-import { Button, DateTimePicker, InlineField, InlineFieldRow } from '@grafana/ui';
 import { dateTime } from '@grafana/data';
+import { Button, DateTimePicker, InlineField, InlineFieldRow } from '@grafana/ui';
+import React from 'react';
+
 import { TestIds } from '../../constants';
 
 /**

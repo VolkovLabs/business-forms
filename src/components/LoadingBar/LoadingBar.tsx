@@ -1,5 +1,6 @@
-import React, { CSSProperties } from 'react';
 import { useStyles2 } from '@grafana/ui';
+import React, { CSSProperties } from 'react';
+
 import { Styles } from './LoadingBar.styles';
 
 /**

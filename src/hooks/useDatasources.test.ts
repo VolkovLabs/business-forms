@@ -1,5 +1,6 @@
-import { renderHook, waitFor } from '@testing-library/react';
 import { getBackendSrv } from '@grafana/runtime';
+import { renderHook, waitFor } from '@testing-library/react';
+
 import { useDatasources } from './useDatasources';
 
 /**

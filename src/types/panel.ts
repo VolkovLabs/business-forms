@@ -1,8 +1,8 @@
 import { ButtonGroupOptions, ButtonOptions } from './button';
 import { FormElement } from './form-element';
 import { LayoutOptions } from './layout';
-import { RequestOptions, ResetAction } from './request';
 import { ModalOptions } from './modal';
+import { RequestOptions, ResetAction } from './request';
 
 /**
  * Panel Options

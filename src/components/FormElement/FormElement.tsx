@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useMemo } from 'react';
+import { cx } from '@emotion/css';
+import { DateTime, dateTime, PanelData } from '@grafana/data';
 import {
   CodeEditor,
   DateTimePicker,
@@ -13,13 +14,13 @@ import {
   useStyles2,
 } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
-import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType, TestIds } from '../../constants';
-import { ApplyWidth, FormatNumberValue } from '../../utils';
-import { cx } from '@emotion/css';
-import { DateTime, dateTime, PanelData } from '@grafana/data';
 import Slider from 'rc-slider';
-import { LocalFormElement } from '../../types';
+import React, { ChangeEvent, useMemo } from 'react';
+
+import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType, TestIds } from '../../constants';
 import { Styles } from '../../styles';
+import { LocalFormElement } from '../../types';
+import { ApplyWidth, FormatNumberValue } from '../../utils';
 
 /**
  * Properties
@@ -222,7 +223,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         >
           <RadioButtonGroup
             value={element.value}
-            onChange={(value: Boolean) => {
+            onChange={(value: boolean) => {
               onChange<typeof element>({
                 ...element,
                 value,

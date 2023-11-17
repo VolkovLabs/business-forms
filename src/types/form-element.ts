@@ -1,4 +1,5 @@
 import { InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
+
 import { CodeLanguage, FormElementType, OptionsSource } from '../constants';
 
 export type QueryField = SelectableValue<string> & {

@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useCallback, useMemo } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
+import React, { ChangeEvent, useCallback, useMemo } from 'react';
+
 import { TestIds } from '../../constants';
 import { LayoutSection } from '../../types';
 import { GetLayoutUniqueId, IsSectionCollisionExists } from '../../utils';
@@ -8,7 +9,7 @@ import { GetLayoutUniqueId, IsSectionCollisionExists } from '../../utils';
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<LayoutSection[] | undefined> {}
+type Props = StandardEditorProps<LayoutSection[] | undefined>
 
 /**
  * Layout Section Editor

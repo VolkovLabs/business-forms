@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useCallback } from 'react';
 import { Input } from '@grafana/ui';
+import React, { ChangeEvent, useCallback } from 'react';
 
 /**
  * Properties

@@ -1,4 +1,5 @@
 import { PanelPlugin } from '@grafana/data';
+
 import { ButtonVariant, LayoutVariant, PayloadMode, RequestMethod, ResetActionMode } from './constants';
 import { plugin } from './module';
 import { PanelOptions } from './types';

@@ -1,13 +1,14 @@
-import React, { ChangeEvent } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
+import React, { ChangeEvent } from 'react';
+
 import { TestIds } from '../../constants';
 import { HeaderParameter } from '../../types';
 
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<HeaderParameter[]> {}
+type Props = StandardEditorProps<HeaderParameter[]>
 
 /**
  * Header Parameters Editor

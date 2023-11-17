@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
 import { SelectableValue } from '@grafana/data';
 import { Alert, Button, CollapsableSection, InlineField, Input, Select } from '@grafana/ui';
+import React, { ChangeEvent, useCallback, useState } from 'react';
+
 import { FormElementDefault, FormElementTypeOptions, TestIds } from '../../constants';
 import { FormElement, LocalFormElement } from '../../types';
 import { GetElementWithNewType, IsElementConflict, ToLocalFormElement } from '../../utils';

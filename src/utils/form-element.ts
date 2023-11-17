@@ -1,5 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
 import { InterpolateFunction, SelectableValue } from '@grafana/data';
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   CodeDefault,
   FormElementType,
@@ -25,7 +26,7 @@ import { GetFieldValues } from './grafana';
  * @param startIndex
  * @param endIndex
  */
-export const Reorder = <T extends unknown>(list: T[], startIndex: number, endIndex: number) => {
+export const Reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);

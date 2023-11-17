@@ -1,4 +1,3 @@
-import React, { ChangeEvent } from 'react';
 import { DataFrame, SelectableValue } from '@grafana/data';
 import {
   CodeEditor,
@@ -10,6 +9,8 @@ import {
   Select,
   useStyles2,
 } from '@grafana/ui';
+import React, { ChangeEvent } from 'react';
+
 import {
   CodeEditorHeight,
   CodeLanguage,

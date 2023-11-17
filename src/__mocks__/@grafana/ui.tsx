@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { dateTime } from '@grafana/data';
+import React, { useState } from 'react';
 
 const actual = jest.requireActual('@grafana/ui');
 

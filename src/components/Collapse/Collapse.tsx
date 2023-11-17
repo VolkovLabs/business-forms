@@ -1,5 +1,6 @@
-import React from 'react';
 import { IconButton, useTheme2 } from '@grafana/ui';
+import React from 'react';
+
 import { Styles } from './styles';
 
 /**
