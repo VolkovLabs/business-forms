@@ -1,5 +1,5 @@
-import { InterpolateFunction, SelectableValue } from '@grafana/data';
-import { CodeLanguage, FormElementType } from '../constants';
+import { InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
+import { CodeLanguage, FormElementType, OptionsSource } from '../constants';
 
 export type QueryField = SelectableValue<string> & {
   refId?: string;
@@ -207,9 +207,45 @@ export interface TextareaOptions {
 }
 
 /**
+ * Query Options Mapper
+ */
+export interface QueryOptionsMapper {
+  /**
+   * Source
+   */
+  source: string;
+
+  /**
+   * Value Field
+   *
+   * @type {string}
+   */
+  value: string;
+
+  /**
+   * Label Field
+   *
+   * @type {string}
+   */
+  label: string | null;
+}
+
+/**
  * Select Options
  */
 export interface SelectOptions {
+  /**
+   * Source
+   *
+   * @type {OptionsSource}
+   */
+  optionsSource: OptionsSource;
+
+  /**
+   * Options Mapper
+   */
+  queryOptions?: QueryOptionsMapper;
+
   /**
    * Options
    *
@@ -284,6 +320,11 @@ export type FormElement = FormElementBase &
   );
 
 /**
+ * Get Options Helper
+ */
+export type GetOptionsHelper = (params: { data: PanelData }) => SelectableValue[];
+
+/**
  * Show If Helper
  */
 export type ShowIfHelper = (params: {
@@ -305,6 +346,13 @@ export type LocalFormElement = FormElement & {
      * @type {ShowIfHelper}
      */
     showIf: ShowIfHelper;
+
+    /**
+     * Get Options Function
+     *
+     * @type {GetOptionsHelper}
+     */
+    getOptions: GetOptionsHelper;
   };
 };
 

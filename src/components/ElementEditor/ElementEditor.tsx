@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { SelectableValue } from '@grafana/data';
+import { DataFrame, SelectableValue } from '@grafana/data';
 import {
   CodeEditor,
   Field,
@@ -16,6 +16,8 @@ import {
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
+  OptionsSource,
+  OptionsSourceOptions,
   RequestMethod,
   StringElementOptions,
   TestIds,
@@ -24,6 +26,7 @@ import { LocalFormElement, QueryField } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
+import { ElementQueryOptionsEditor } from '../ElementQueryOptionsEditor';
 import { Styles } from './ElementEditor.styles';
 
 /**
@@ -69,6 +72,11 @@ interface Props {
    * Is Query Fields Enabled
    */
   isQueryFieldsEnabled: boolean;
+
+  /**
+   * Data
+   */
+  data: DataFrame[];
 }
 
 /**
@@ -82,6 +90,7 @@ export const ElementEditor: React.FC<Props> = ({
   initialMethod,
   isQueryFieldsEnabled,
   queryFields,
+  data,
 }) => {
   /**
    * Styles
@@ -470,20 +479,49 @@ export const ElementEditor: React.FC<Props> = ({
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||
         element.type === FormElementType.DISABLED) && (
-        <div className={styles.optionsContainer} data-testid={TestIds.formElementsEditor.options}>
-          <ElementOptionsEditor
-            options={element.options}
-            onChange={(options) =>
-              onChange({
-                ...element,
-                options,
-              })
-            }
-            onChangeItem={(updated, original, checkConflict) => {
-              return onChangeOption(element, updated, original, checkConflict);
-            }}
-          />
-        </div>
+        <>
+          <InlineFieldRow>
+            <InlineField label="Options Source" labelWidth={14}>
+              <RadioButtonGroup
+                options={OptionsSourceOptions}
+                value={element.optionsSource || OptionsSource.Custom}
+                onChange={(value) => {
+                  onChange({
+                    ...element,
+                    optionsSource: value,
+                  });
+                }}
+              />
+            </InlineField>
+          </InlineFieldRow>
+          {element.optionsSource === OptionsSource.Query ? (
+            <ElementQueryOptionsEditor
+              value={element.queryOptions}
+              onChange={(queryOptions) => {
+                onChange({
+                  ...element,
+                  queryOptions,
+                });
+              }}
+              data={data}
+            />
+          ) : (
+            <div className={styles.optionsContainer} data-testid={TestIds.formElementsEditor.options}>
+              <ElementOptionsEditor
+                options={element.options}
+                onChange={(options) =>
+                  onChange({
+                    ...element,
+                    options,
+                  })
+                }
+                onChangeItem={(updated, original, checkConflict) => {
+                  return onChangeOption(element, updated, original, checkConflict);
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
 
       <Field label="Show if returned value is true">
