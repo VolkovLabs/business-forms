@@ -7,7 +7,7 @@ import { useDatasources } from '../../hooks';
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<string> {}
+interface Props extends Pick<StandardEditorProps<string>, 'value' | 'onChange'> {}
 
 /**
  * Data Source Editor

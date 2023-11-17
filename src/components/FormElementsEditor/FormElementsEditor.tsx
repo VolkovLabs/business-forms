@@ -173,6 +173,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             onChangeOption={onChangeElementOption}
                             queryFields={queryFields}
                             isQueryFieldsEnabled={isQueryFieldsEnabled}
+                            data={context.data}
                           />
                         </Collapse>
                       </div>

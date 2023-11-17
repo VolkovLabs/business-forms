@@ -9,7 +9,9 @@ import {
   FormElementOptionDefault,
   FormElementType,
   NumberDefault,
+  OptionsSource,
   RequestMethod,
+  SelectDefaults,
   SliderDefault,
 } from '../../constants';
 import { getFormElementsEditorSelectors } from '../../utils';
@@ -712,7 +714,13 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should update type to select', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING, options: [] };
+        const element = {
+          ...FormElementDefault,
+          id: 'id',
+          type: FormElementType.STRING,
+          options: [],
+          optionsSource: OptionsSource.Custom,
+        };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -812,6 +820,95 @@ describe('Form Elements Editor', () => {
          */
         expect(selectors.sectionLabel(false, elementOne.id, elementOne.type)).toBeInTheDocument();
         expect(selectors.sectionLabel(false, elementTwo.id, elementTwo.type)).toBeInTheDocument();
+      });
+
+      it('Should keep optionsSource and queryOptions', async () => {
+        const element = {
+          ...FormElementDefault,
+          id: 'id',
+          type: FormElementType.SELECT,
+          optionsSource: OptionsSource.Query,
+          queryOptions: {
+            source: 'A',
+            value: 'Value',
+            label: 'Label',
+          },
+        };
+        const elements = [element];
+
+        render(
+          getComponent({
+            value: elements,
+            onChange,
+            context: {
+              data: [
+                toDataFrame({
+                  refId: 'A',
+                  fields: [
+                    {
+                      name: 'Value',
+                    },
+                    {
+                      name: 'Label',
+                    },
+                  ],
+                }),
+              ],
+            },
+          })
+        );
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+
+        expect(elementSelectors.optionsSourceOption(false, element.optionsSource)).toBeChecked();
+        expect(elementSelectors.fieldQueryOptionsValue()).toHaveValue(
+          `${element.queryOptions.source}:${element.queryOptions.value}`
+        );
+        expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue(element.queryOptions.label);
+      });
+
+      it('Should use default optionsSource', async () => {
+        const element = {
+          ...FormElementDefault,
+          id: 'id',
+          type: FormElementType.SELECT,
+          optionsSource: undefined,
+        };
+        const elements = [element];
+
+        render(
+          getComponent({
+            value: elements,
+            onChange,
+            context: {
+              data: [],
+            },
+          })
+        );
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+
+        expect(elementSelectors.optionsSourceOption(false, SelectDefaults.optionsSource)).toBeChecked();
       });
     });
 
@@ -1272,6 +1369,32 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldAccept(), { target: { value: '.png' } }));
 
       expect(elementSelectors.fieldAccept()).toHaveValue('.png');
+    });
+
+    it('Should update file options source', async () => {
+      const elements = [
+        { ...FormElementDefault, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.Custom },
+      ];
+      const context = {
+        data: [],
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.SELECT);
+
+      /**
+       * Change field name
+       */
+      const sourceOption = elementSelectors.optionsSourceOption(false, OptionsSource.Query);
+      await act(() => fireEvent.click(sourceOption));
+
+      expect(sourceOption).toBeChecked();
+      expect(elementSelectors.fieldQueryOptionsValue()).toBeInTheDocument();
     });
 
     it('Should update query field name', async () => {
@@ -1911,6 +2034,178 @@ describe('Form Elements Editor', () => {
          */
         expect(selectors.buttonSaveChanges(true)).not.toBeInTheDocument();
       });
+    });
+  });
+
+  /**
+   * Query Options
+   */
+  describe('Query Options', () => {
+    const data = [
+      toDataFrame({
+        refId: 'A',
+        fields: [{ name: 'Time' }, { name: 'Value' }],
+      }),
+      toDataFrame({
+        refId: 'B',
+        fields: [{ name: 'Value' }],
+      }),
+    ];
+
+    it('Should change queryOptions value', async () => {
+      const element = {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.Query,
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange, context: { data } }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      await act(async () =>
+        fireEvent.change(elementSelectors.fieldQueryOptionsValue(), { target: { value: 'A:Time' } })
+      );
+
+      expect(elementSelectors.fieldQueryOptionsValue()).toHaveValue('A:Time');
+    });
+
+    it('Should keep label if the same source', async () => {
+      const element = {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.Query,
+        queryOptions: {
+          source: 'A',
+          value: 'Time',
+          label: 'Time',
+        },
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange, context: { data } }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Time');
+
+      /**
+       * Change Value Field
+       */
+      await act(async () =>
+        fireEvent.change(elementSelectors.fieldQueryOptionsValue(), { target: { value: 'A:Value' } })
+      );
+
+      expect(elementSelectors.fieldQueryOptionsValue()).toHaveValue('A:Value');
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Time');
+    });
+
+    it('Should use default label if the same source', async () => {
+      const element = {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.Query,
+        queryOptions: {
+          source: 'A',
+          value: 'Time',
+        },
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange, context: { data } }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Time');
+
+      /**
+       * Change Value Field
+       */
+      await act(async () =>
+        fireEvent.change(elementSelectors.fieldQueryOptionsValue(), { target: { value: 'A:Value' } })
+      );
+
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Time');
+    });
+
+    it('Should reset label if different source', async () => {
+      const element = {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.Query,
+        queryOptions: {
+          source: 'A',
+          value: 'Time',
+          label: 'Time',
+        },
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange, context: { data } }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Time');
+
+      /**
+       * Change Value Field
+       */
+      await act(async () =>
+        fireEvent.change(elementSelectors.fieldQueryOptionsValue(), { target: { value: 'B:Value' } })
+      );
+
+      expect(elementSelectors.fieldQueryOptionsValue()).toHaveValue('B:Value');
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Value');
+    });
+
+    it('Should update label', async () => {
+      const element = {
+        ...FormElementDefault,
+        id: 'select',
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.Query,
+        queryOptions: {
+          source: 'A',
+          value: 'Time',
+          label: 'Time',
+        },
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange, context: { data } }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Time');
+
+      /**
+       * Change Label Field
+       */
+      await act(async () =>
+        fireEvent.change(elementSelectors.fieldQueryOptionsLabel(), { target: { value: 'Value' } })
+      );
+
+      expect(elementSelectors.fieldQueryOptionsLabel()).toHaveValue('Value');
     });
   });
 

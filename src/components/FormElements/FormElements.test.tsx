@@ -1,8 +1,9 @@
 import React from 'react';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { FormElementDefault, FormElementType } from '../../constants';
+import { FormElementDefault, FormElementType, OptionsSource } from '../../constants';
 import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
+import { toDataFrame } from '@grafana/data';
 
 /**
  * Mock timers
@@ -33,7 +34,7 @@ describe('Form Elements', () => {
   describe('Render elements', () => {
     const options = {
       submit: {},
-      initial: { highlightColor: false },
+      initial: { highlight: true },
       update: {},
       reset: {},
       elements: [
@@ -50,7 +51,7 @@ describe('Form Elements', () => {
           id: 'disabledWithOptions',
           type: FormElementType.DISABLED,
           value: 'option',
-          options: [{ value: 'option', label: 'Option' }],
+          options: [{ value: 'option', label: 'OptionLabel' }],
         },
         {
           id: 'visibleByValue',
@@ -77,6 +78,7 @@ describe('Form Elements', () => {
           `,
         },
         { id: 'file', type: FormElementType.FILE },
+        { id: 'highlighted', type: FormElementType.STRING, value: 'hello' },
       ],
     };
 
@@ -85,7 +87,7 @@ describe('Form Elements', () => {
     };
 
     beforeEach(() => {
-      render(getComponent({ options, onChangeElement }));
+      render(getComponent({ options, onChangeElement, initial: { changed: 'bye' } }));
     });
 
     it('Should render container', () => {
@@ -140,7 +142,7 @@ describe('Form Elements', () => {
       expect(elementSelectors.fieldDisabled()).toBeInTheDocument();
     });
 
-    it('Should render disabled field with options', () => {
+    it('Should render disabled field with option label', () => {
       const elementOption = findElementById('disabledWithOptions');
       const element = selectors.element(false, elementOption.id, elementOption.type);
 
@@ -148,7 +150,7 @@ describe('Form Elements', () => {
 
       const elementSelectors = getFormElementsSelectors(within(element));
       expect(elementSelectors.fieldDisabled()).toBeInTheDocument();
-      expect(elementSelectors.fieldDisabled()).toHaveValue('Option');
+      expect(elementSelectors.fieldDisabled()).toHaveValue('OptionLabel');
     });
 
     it('Should render field if showIf returns true', () => {
@@ -163,6 +165,19 @@ describe('Form Elements', () => {
       const element = selectors.element(true, elementOption.id, elementOption.type);
 
       expect(element).not.toBeInTheDocument();
+    });
+
+    it('Should highlight field if value is different', () => {
+      const elementOption = findElementById('highlighted');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+
+      /**
+       * We can't check styles here so just check class
+       */
+      expect(elementSelectors.fieldString().getAttribute('class')).toBeTruthy();
     });
   });
 
@@ -236,6 +251,102 @@ describe('Form Elements', () => {
     expect(selectors.fieldSelect()).toHaveDisplayValue([]);
   });
 
+  describe('Query Options', () => {
+    it('Should render if no config', async () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [{ id: 'select', type: FormElementType.SELECT, optionsSource: OptionsSource.Query }],
+      };
+
+      render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Select
+       */
+      expect(selectors.fieldSelect()).toBeInTheDocument();
+      expect(selectors.fieldSelect()).toHaveDisplayValue([]);
+    });
+
+    it('Should render if no frame', async () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          {
+            id: 'select',
+            type: FormElementType.SELECT,
+            optionsSource: OptionsSource.Query,
+            queryOptions: {
+              source: 'A',
+              value: 'Value',
+              label: 'Label',
+            },
+          },
+        ],
+      };
+
+      render(getComponent({ options, onChangeElement, data: { series: [] } }));
+
+      /**
+       * Select
+       */
+      expect(selectors.fieldSelect()).toBeInTheDocument();
+      expect(selectors.fieldSelect()).toHaveDisplayValue([]);
+    });
+
+    it('Should use value field if no label field', async () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          {
+            id: 'select',
+            type: FormElementType.SELECT,
+            optionsSource: OptionsSource.Query,
+            queryOptions: {
+              source: 'A',
+              value: 'Value',
+            },
+          },
+        ],
+      };
+
+      render(
+        getComponent({
+          options,
+          onChangeElement,
+          data: {
+            series: [
+              toDataFrame({
+                fields: [
+                  {
+                    name: 'Value',
+                    values: ['1', '2'],
+                  },
+                ],
+                refId: 'A',
+              }),
+            ],
+          },
+        })
+      );
+
+      /**
+       * Select
+       */
+      expect(selectors.fieldSelect()).toBeInTheDocument();
+
+      expect(selectors.fieldSelect()).toHaveTextContent('2');
+    });
+  });
+
   it('Should find unit element', async () => {
     const options = {
       submit: {},
@@ -301,11 +412,28 @@ describe('Form Elements', () => {
           (updatedElement) =>
             (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
         );
+        const data = {
+          series: [
+            toDataFrame({
+              refId: 'A',
+              fields: [
+                {
+                  name: 'Value',
+                  values: ['Value1', 'Value2'],
+                },
+                {
+                  name: 'Label',
+                  values: ['Label1', 'Label2'],
+                },
+              ],
+            }),
+          ],
+        };
 
         /**
          * First render
          */
-        const { rerender } = render(getComponent({ options, onChangeElement }));
+        const { rerender } = render(getComponent({ options, onChangeElement, data }));
 
         /**
          * Change field value
@@ -327,6 +455,7 @@ describe('Form Elements', () => {
                 elements: appliedElements,
               },
               onChangeElement,
+              data,
             })
           )
         );
@@ -408,6 +537,26 @@ describe('Form Elements', () => {
         getField: selectors.fieldSelect,
         newValue: '123',
         expectedValue: '123',
+      },
+      {
+        name: 'Should update select value from query options',
+        elements: [
+          {
+            id: 'queryOptions',
+            type: FormElementType.SELECT,
+            value: '111',
+            options: [],
+            optionsSource: OptionsSource.Query,
+            queryOptions: {
+              source: 'A',
+              value: 'Value',
+              label: 'Label',
+            },
+          },
+        ],
+        getField: selectors.fieldSelect,
+        newValue: 'Value1',
+        expectedValue: 'Value1',
       },
       {
         name: 'Should update multi select value',

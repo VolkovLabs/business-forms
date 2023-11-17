@@ -110,8 +110,27 @@ const FileDropzone = jest.fn(({ onChange, options, onFileRemove, ...props }) => 
   );
 });
 
+/**
+ * useTheme2
+ */
+const useTheme2 = () => ({
+  colors: {
+    text: {},
+    background: {},
+  },
+  typography: {},
+  spacing: jest.fn(),
+  shape: {
+    borderRadius: jest.fn(),
+  },
+  visualization: {
+    getColorByName: (color: unknown) => color,
+  },
+});
+
 module.exports = {
   ...actual,
+  useTheme2,
   CodeEditor,
   DateTimePicker,
   Select,

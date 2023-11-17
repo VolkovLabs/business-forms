@@ -1,7 +1,23 @@
 import { v4 as uuidv4 } from 'uuid';
 import { InterpolateFunction, SelectableValue } from '@grafana/data';
-import { CodeDefault, FormElementType, NumberDefault, SliderDefault, TextareaDefault } from '../constants';
-import { FormElement, FormElementByType, LayoutSection, LocalFormElement, ShowIfHelper } from '../types';
+import {
+  CodeDefault,
+  FormElementType,
+  NumberDefault,
+  OptionsSource,
+  SelectDefaults,
+  SliderDefault,
+  TextareaDefault,
+} from '../constants';
+import {
+  FormElement,
+  FormElementByType,
+  GetOptionsHelper,
+  LayoutSection,
+  LocalFormElement,
+  ShowIfHelper,
+} from '../types';
+import { GetFieldValues } from './grafana';
 
 /**
  * Reorder
@@ -85,6 +101,11 @@ export const GetElementWithNewType = (
       return {
         ...baseValues,
         options: 'options' in element ? element.options || [] : [],
+        optionsSource:
+          'optionsSource' in element
+            ? element.optionsSource || SelectDefaults.optionsSource
+            : SelectDefaults.optionsSource,
+        queryOptions: 'queryOptions' in element ? element.queryOptions : undefined,
         type: newType,
       };
     }
@@ -185,6 +206,42 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
       fn(elements, replaceVariables);
   }
 
+  let getOptions: GetOptionsHelper = () => [];
+  if (
+    element.type === FormElementType.DISABLED ||
+    element.type === FormElementType.SELECT ||
+    element.type === FormElementType.MULTISELECT ||
+    element.type === FormElementType.RADIO
+  ) {
+    if (element.optionsSource === OptionsSource.Query) {
+      getOptions = ({ data }) => {
+        const { queryOptions } = element;
+
+        if (!queryOptions || !queryOptions.value) {
+          return [];
+        }
+
+        const frame = data.series.find((frame) => frame.refId === queryOptions.source);
+        const valueField = frame?.fields.find((field) => field.name === queryOptions.value);
+
+        if (!frame || !valueField) {
+          return [];
+        }
+
+        const labelValues = GetFieldValues(
+          frame?.fields.find((field) => field.name === queryOptions.label) || valueField
+        );
+
+        return GetFieldValues(valueField).map((value, index) => ({
+          value,
+          label: labelValues[index] as string,
+        }));
+      };
+    } else {
+      getOptions = () => element.options || [];
+    }
+  }
+
   return {
     ...element,
     ...('options' in element
@@ -197,6 +254,7 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
       : {}),
     helpers: {
       showIf: showIfFn,
+      getOptions,
     },
     uid: GetElementUniqueId(element),
   };
