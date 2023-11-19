@@ -22,7 +22,7 @@ export const enum RequestMethod {
 export const RequestMethodInitialOptions: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
-    label: RequestMethod.NONE,
+    label: 'Custom Code',
   },
   {
     value: RequestMethod.DATASOURCE,
@@ -44,7 +44,7 @@ export const RequestMethodInitialOptions: SelectableValue[] = [
 export const RequestMethodUpdateOptions: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
-    label: RequestMethod.NONE,
+    label: 'Custom Code',
   },
   {
     value: RequestMethod.DATASOURCE,
@@ -72,9 +72,9 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
  * Content Types
  */
 export const enum ContentType {
+  FORMDATA = 'multipart/form-data',
   JSON = 'application/json',
   PLAIN = 'text/plain',
-  FORMDATA = 'multipart/form-data',
 }
 
 /**
@@ -116,6 +116,6 @@ export const enum ResetActionMode {
  * Reset Action Options
  */
 export const ResetActionOptions = [
-  { label: '-', value: ResetActionMode.CUSTOM },
+  { label: 'Custom Code', value: ResetActionMode.CUSTOM },
   { label: 'Initial request', value: ResetActionMode.INITIAL },
 ];
