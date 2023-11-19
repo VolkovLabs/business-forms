@@ -12,7 +12,7 @@ import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage, TestIds } from '
 /**
  * Properties
  */
-type Props = StandardEditorProps<string, any, any>
+type Props = StandardEditorProps<string, any, any>;
 
 /**
  * Custom Code Editor
@@ -69,7 +69,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
       <CodeEditor
         language={language}
         showLineNumbers={true}
-        showMiniMap={(value && value.length) > 100}
+        showMiniMap={Number(value && value.length) > 100}
         value={value}
         height={`${CodeEditorHeight}px`}
         onBlur={onChange}

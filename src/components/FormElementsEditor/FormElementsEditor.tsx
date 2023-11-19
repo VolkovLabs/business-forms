@@ -25,7 +25,7 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 /**
  * Properties
  */
-type Props = StandardEditorProps<FormElement[], null, PanelOptions>
+type Props = StandardEditorProps<FormElement[], null, PanelOptions>;
 
 /**
  * Form Elements Editor
@@ -148,6 +148,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                                 className={styles.removeButton}
                                 data-testid={TestIds.formElementsEditor.buttonRemoveElement}
                                 onClick={() => onElementRemove(GetElementUniqueId(element))}
+                                aria-label="Remove"
                               />
                               <Icon
                                 title="Drag and drop to reorder"

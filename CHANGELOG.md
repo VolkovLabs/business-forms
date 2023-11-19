@@ -9,6 +9,9 @@
 - Add context object to the custom code (#255)
 - Add Select Options From Query (#254)
 - Add NumberInput component which allows to enter decimals (#291)
+- Update to Plugin Tools 2.1.1 (#292)
+- Use Grafana Access Policy to sign plugin (#292)
+- Update to Grafana 10.2.1 (#292)
 
 ### Bugfixes
 
