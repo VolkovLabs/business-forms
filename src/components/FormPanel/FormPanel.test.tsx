@@ -237,6 +237,31 @@ describe('Panel', () => {
       expect(within(selectors.errorMessage()).getByText('Error: message')).toBeInTheDocument();
     });
 
+    it('Should show error if error while execution', async () => {
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: `throw new Error('execution error')`,
+              },
+            },
+            props: {},
+          })
+        )
+      );
+
+      /**
+       * Check if execution error message shown
+       */
+      expect(selectors.errorMessage()).toBeInTheDocument();
+      expect(within(selectors.errorMessage()).getByText('Error: execution error')).toBeInTheDocument();
+    });
+
     it('Should make initial datasource request', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
