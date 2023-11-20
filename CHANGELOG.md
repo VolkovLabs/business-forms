@@ -12,6 +12,7 @@
 - Update to Plugin Tools 2.1.1 (#292)
 - Use Grafana Access Policy to sign plugin (#292)
 - Update to Grafana 10.2.1 (#292)
+- Update ESLint configuration (#293)
 
 ### Bugfixes
 
