@@ -85,6 +85,7 @@ describe('Form Elements', () => {
         },
         { id: 'file', type: FormElementType.FILE },
         { id: 'highlighted', type: FormElementType.STRING, value: 'hello' },
+        { id: 'disabledTextarea', type: FormElementType.DISABLED_TEXTAREA, value: 'hello' },
       ],
     };
 
@@ -120,6 +121,10 @@ describe('Form Elements', () => {
 
     it('Should render textarea field', () => {
       expect(selectors.fieldTextarea()).toBeInTheDocument();
+    });
+
+    it('Should render disabled textarea field', () => {
+      expect(selectors.fieldDisabledTextarea()).toBeInTheDocument();
     });
 
     it('Should render code field', () => {

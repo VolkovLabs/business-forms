@@ -98,7 +98,9 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={ApplyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
-          className={cx(element.hidden && styles.hidden)}
+          className={cx({
+            [styles.hidden]: element.hidden,
+          })}
         >
           <Input
             value={element.value || ''}
@@ -171,7 +173,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
         >
           <TextArea
-            value={element.value || ''}
+            value={element.value}
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
               onChange<typeof element>({
                 ...element,
@@ -196,17 +198,11 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           disabled={element.type === FormElementType.DISABLED_TEXTAREA}
         >
           <TextArea
-            value={element.value || ''}
-            onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-              onChange<typeof element>({
-                ...element,
-                value: event.target.value,
-              });
-            }}
+            value={element.value}
             className={highlightClass(element)}
             cols={ApplyWidth(element.width)}
             rows={element.rows}
-            data-testid={TestIds.formElements.fieldTextarea}
+            data-testid={TestIds.formElements.fieldDisabledTextarea}
           />
         </InlineField>
       )}

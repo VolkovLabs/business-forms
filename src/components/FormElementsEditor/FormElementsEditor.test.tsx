@@ -798,6 +798,25 @@ describe('Form Elements Editor', () => {
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.DATETIME);
       });
 
+      it('Should update type to boolean', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.BOOLEAN } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.BOOLEAN);
+      });
+
       it('Should not update Type if element with the same id and type exists', async () => {
         const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
         const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
@@ -1939,7 +1958,7 @@ describe('Form Elements Editor', () => {
     describe('Option order', () => {
       it('Should reorder items', async () => {
         let onDragEndHandler: (result: DropResult) => void = () => {};
-        jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd, key }: any) => {
+        jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
           if (children.props.droppableId === 'options') {
             onDragEndHandler = onDragEnd;
           }
@@ -1992,7 +2011,7 @@ describe('Form Elements Editor', () => {
 
       it('Should not reorder items if drop outside the list', async () => {
         let onDragEndHandler: (result: DropResult) => void = () => {};
-        jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd, key }: any) => {
+        jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
           if (children.props.droppableId === 'options') {
             onDragEndHandler = onDragEnd;
           }

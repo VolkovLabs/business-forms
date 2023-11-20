@@ -121,6 +121,7 @@ export const SliderDefault: SliderOptions = {
 export const CodeDefault: CodeOptions = {
   height: CodeEditorHeight,
   language: CodeLanguage.JAVASCRIPT,
+  value: '',
 };
 
 /**

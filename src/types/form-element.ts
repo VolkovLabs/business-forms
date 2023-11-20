@@ -144,7 +144,7 @@ export interface CodeOptions {
    *
    * @type {string}
    */
-  value?: string;
+  value: string;
 }
 
 /**
@@ -296,7 +296,7 @@ export interface DateTimeOptions {
    *
    * @type {string}
    */
-  value: string;
+  value?: string;
 }
 
 /**

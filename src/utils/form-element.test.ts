@@ -1,5 +1,6 @@
-import { Reorder, ConvertToElementValue } from './form-element';
+import { ConvertToElementValue, GetButtonVariant, Reorder } from './form-element';
 import { FormElementType } from '../constants';
+import { ButtonVariant } from '../types';
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -121,6 +122,22 @@ describe('Utils', () => {
           },
         ],
       },
+      {
+        name: 'Should convert value for datetime element',
+        element: {
+          type: FormElementType.DATETIME,
+        },
+        testCases: [
+          {
+            original: 'abc',
+            expected: 'abc',
+          },
+          {
+            original: 123,
+            expected: undefined,
+          },
+        ],
+      },
     ])('$name', ({ element, testCases }) => {
       testCases.forEach(({ original, expected }) => {
         expect(ConvertToElementValue(element as never, original)).toEqual({
@@ -128,6 +145,19 @@ describe('Utils', () => {
           value: expected,
         });
       });
+    });
+  });
+
+  describe('GetButtonVariant', () => {
+    it('Should return allowed variants', () => {
+      expect(GetButtonVariant(ButtonVariant.DESTRUCTIVE)).toEqual(ButtonVariant.DESTRUCTIVE);
+      expect(GetButtonVariant(ButtonVariant.PRIMARY)).toEqual(ButtonVariant.PRIMARY);
+      expect(GetButtonVariant(ButtonVariant.SECONDARY)).toEqual(ButtonVariant.SECONDARY);
+    });
+
+    it('Should filter not allowed variant', () => {
+      expect(GetButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
+      expect(GetButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
     });
   });
 });

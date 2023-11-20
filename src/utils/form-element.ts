@@ -1,4 +1,5 @@
 import { InterpolateFunction, SelectableValue } from '@grafana/data';
+import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -85,7 +86,6 @@ export const GetElementWithNewType = (
       return {
         ...baseValues,
         ...CodeDefault,
-        value: typeof baseValues.value === 'string' ? baseValues.value : '',
         type: newType,
       };
     }
@@ -115,22 +115,17 @@ export const GetElementWithNewType = (
     case FormElementType.FILE: {
       return {
         ...baseValues,
-        value: baseValues.value as File[] | null,
+        value: [],
         accept: '',
         type: newType,
       };
     }
-    case FormElementType.DATETIME: {
+    case FormElementType.DATETIME:
+    case FormElementType.PASSWORD:
+    case FormElementType.SECRET: {
       return {
         ...baseValues,
-        value: typeof baseValues.value === 'string' ? baseValues.value : '',
-        type: newType,
-      };
-    }
-    case FormElementType.PASSWORD: {
-      return {
-        ...baseValues,
-        value: typeof baseValues.value === 'string' ? baseValues.value : '',
+        value: '',
         type: newType,
       };
     }
@@ -138,13 +133,6 @@ export const GetElementWithNewType = (
       return {
         ...baseValues,
         value: false,
-        type: newType,
-      };
-    }
-    case FormElementType.SECRET: {
-      return {
-        ...baseValues,
-        value: typeof baseValues.value === 'string' ? baseValues.value : '',
         type: newType,
       };
     }
@@ -324,7 +312,7 @@ export const GetInitialValuesMap = (elements: LocalFormElement[]): Record<string
 /**
  * Get Button Variant
  */
-export const GetButtonVariant = (variant: ButtonVariant) => {
+export const GetButtonVariant = (variant: ButtonVariant): GrafanaButtonVariant | undefined => {
   switch (variant) {
     case ButtonVariant.DESTRUCTIVE:
     case ButtonVariant.PRIMARY:
@@ -358,7 +346,6 @@ export const ConvertToElementValue = (
   switch (element.type) {
     case FormElementType.STRING:
     case FormElementType.DISABLED_TEXTAREA:
-    case FormElementType.DATETIME:
     case FormElementType.CODE:
     case FormElementType.PASSWORD:
     case FormElementType.SECRET:
@@ -394,6 +381,12 @@ export const ConvertToElementValue = (
       return {
         ...element,
         value: !!value,
+      };
+    }
+    case FormElementType.DATETIME: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value : undefined,
       };
     }
     default: {
