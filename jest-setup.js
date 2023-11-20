@@ -2,6 +2,7 @@
 import './.config/jest-setup';
 
 import { TextDecoder, TextEncoder } from 'util';
+import ResizeObserver from 'resize-observer-polyfill';
 
 /**
  * Fetch
@@ -13,15 +14,11 @@ global.fetch = jest.fn(() =>
 );
 
 /**
+ * Mock ResizeObserver
+ */
+global.ResizeObserver = ResizeObserver;
+
+/**
  * Assign Text Decoder and Encoder which are required in @grafana/ui
  */
 Object.assign(global, { TextDecoder, TextEncoder });
-
-/**
- * Mock Resize Observer
- */
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
