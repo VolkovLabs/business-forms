@@ -5,7 +5,6 @@ import React from 'react';
 
 import {
   CodeEditorHeight,
-  CodeLanguage,
   FormElementDefault,
   FormElementOptionDefault,
   FormElementType,
@@ -15,6 +14,7 @@ import {
   SelectDefaults,
   SliderDefault,
 } from '../../constants';
+import { CodeLanguage } from '../../types';
 import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
 

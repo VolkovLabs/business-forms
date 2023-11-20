@@ -11,6 +11,7 @@ import {
   TextareaDefault,
 } from '../constants';
 import {
+  ButtonVariant,
   FormElement,
   FormElementByType,
   GetOptionsHelper,
@@ -84,6 +85,7 @@ export const GetElementWithNewType = (
       return {
         ...baseValues,
         ...CodeDefault,
+        value: typeof baseValues.value === 'string' ? baseValues.value : '',
         type: newType,
       };
     }
@@ -113,13 +115,36 @@ export const GetElementWithNewType = (
     case FormElementType.FILE: {
       return {
         ...baseValues,
+        value: baseValues.value as File[] | null,
         accept: '',
         type: newType,
       };
     }
-    default: {
+    case FormElementType.DATETIME: {
       return {
         ...baseValues,
+        value: typeof baseValues.value === 'string' ? baseValues.value : '',
+        type: newType,
+      };
+    }
+    case FormElementType.PASSWORD: {
+      return {
+        ...baseValues,
+        value: typeof baseValues.value === 'string' ? baseValues.value : '',
+        type: newType,
+      };
+    }
+    case FormElementType.BOOLEAN: {
+      return {
+        ...baseValues,
+        value: false,
+        type: newType,
+      };
+    }
+    case FormElementType.SECRET: {
+      return {
+        ...baseValues,
+        value: typeof baseValues.value === 'string' ? baseValues.value : '',
         type: newType,
       };
     }
@@ -294,4 +319,31 @@ export const GetInitialValuesMap = (elements: LocalFormElement[]): Record<string
     }),
     {}
   );
+};
+
+/**
+ * Get Button Variant
+ */
+export const GetButtonVariant = (variant: ButtonVariant) => {
+  switch (variant) {
+    case ButtonVariant.DESTRUCTIVE:
+    case ButtonVariant.PRIMARY:
+    case ButtonVariant.SECONDARY: {
+      return variant;
+    }
+
+    default: {
+      return;
+    }
+  }
+};
+
+/**
+ * Is Form Element Type
+ */
+export const IsFormElementType = <T extends FormElementType>(
+  element: LocalFormElement,
+  type: T
+): element is LocalFormElement & { type: T } => {
+  return element.type === type;
 };

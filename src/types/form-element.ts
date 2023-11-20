@@ -1,7 +1,11 @@
 import { InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 
-import { CodeLanguage, FormElementType, OptionsSource } from '../constants';
+import { FormElementType, OptionsSource } from '../constants';
+import { CodeLanguage } from '../types';
 
+/**
+ * Query Field
+ */
 export type QueryField = SelectableValue<string> & {
   refId?: string;
 };
@@ -76,9 +80,9 @@ export interface FormElementBase {
   /**
    * Value
    *
-   * @type {any}
+   * @type {unknown}
    */
-  value?: any;
+  value?: unknown;
 
   /**
    * Show If
@@ -134,6 +138,13 @@ export interface CodeOptions {
    * @type {CodeLanguage}
    */
   language: CodeLanguage;
+
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value?: string;
 }
 
 /**
@@ -205,6 +216,13 @@ export interface TextareaOptions {
    * @type {number}
    */
   rows: number;
+
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value: string;
 }
 
 /**
@@ -299,6 +317,42 @@ export interface FileOptions {
 }
 
 /**
+ * Password Options
+ */
+export interface PasswordOptions {
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value: string;
+}
+
+/**
+ * Boolean Options
+ */
+export interface BooleanOptions {
+  /**
+   * Value
+   *
+   * @type {boolean}
+   */
+  value: boolean;
+}
+
+/**
+ * Secret Options
+ */
+export interface SecretOptions {
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value: string;
+}
+
+/**
  * Form Element
  */
 export type FormElement = FormElementBase &
@@ -313,10 +367,10 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.RADIO } & SelectOptions)
     | ({ type: FormElementType.DISABLED } & SelectOptions)
     | ({ type: FormElementType.DISABLED_TEXTAREA } & TextareaOptions)
-    | { type: FormElementType.PASSWORD }
+    | ({ type: FormElementType.PASSWORD } & PasswordOptions)
     | ({ type: FormElementType.DATETIME } & DateTimeOptions)
-    | { type: FormElementType.SECRET }
-    | { type: FormElementType.BOOLEAN }
+    | ({ type: FormElementType.SECRET } & SecretOptions)
+    | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
   );
 

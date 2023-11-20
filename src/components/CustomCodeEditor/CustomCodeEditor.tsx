@@ -7,12 +7,13 @@ import { CodeEditor, CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } fr
 import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback } from 'react';
 
-import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage, TestIds } from '../../constants';
+import { CodeEditorHeight, CodeEditorSuggestions, TestIds } from '../../constants';
+import { CodeEditorSettings, CodeLanguage } from '../../types';
 
 /**
  * Properties
  */
-type Props = StandardEditorProps<string, any, any>;
+type Props = StandardEditorProps<string, CodeEditorSettings, null>;
 
 /**
  * Custom Code Editor

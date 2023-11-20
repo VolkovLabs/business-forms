@@ -17,10 +17,10 @@ import { NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 
-import { BooleanElementOptions, CodeEditorHeight, CodeLanguage, FormElementType, TestIds } from '../../constants';
+import { BooleanElementOptions, CodeEditorHeight, FormElementType, TestIds } from '../../constants';
 import { Styles } from '../../styles';
-import { LocalFormElement } from '../../types';
-import { ApplyWidth, FormatNumberValue } from '../../utils';
+import { CodeLanguage, LocalFormElement } from '../../types';
+import { ApplyWidth, FormatNumberValue, IsFormElementType } from '../../utils';
 
 /**
  * Properties
@@ -116,7 +116,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
-      {element.type === FormElementType.PASSWORD && (
+      {IsFormElementType(element, FormElementType.PASSWORD) && (
         <InlineField
           label={element.title}
           grow={!element.width}
@@ -140,7 +140,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
-      {element.type === FormElementType.DISABLED && (
+      {IsFormElementType(element, FormElementType.DISABLED) && (
         <InlineField
           label={element.title}
           grow={!element.width}
@@ -151,7 +151,9 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         >
           <Input
             value={
-              !options.length ? element.value || '' : options.find((option) => option.value === element.value)?.label
+              !options.length
+                ? element.value?.toString() || ''
+                : options.find((option) => option.value === element.value)?.label
             }
             type="text"
             width={ApplyWidth(element.width)}
@@ -160,7 +162,31 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
-      {(element.type === FormElementType.TEXTAREA || element.type === FormElementType.DISABLED_TEXTAREA) && (
+      {IsFormElementType(element, FormElementType.TEXTAREA) && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={ApplyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+        >
+          <TextArea
+            value={element.value || ''}
+            onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+              onChange<typeof element>({
+                ...element,
+                value: event.target.value,
+              });
+            }}
+            className={highlightClass(element)}
+            cols={ApplyWidth(element.width)}
+            rows={element.rows}
+            data-testid={TestIds.formElements.fieldTextarea}
+          />
+        </InlineField>
+      )}
+
+      {IsFormElementType(element, FormElementType.DISABLED_TEXTAREA) && (
         <InlineField
           label={element.title}
           grow={!element.width}
@@ -185,7 +211,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
-      {element.type === FormElementType.CODE && (
+      {IsFormElementType(element, FormElementType.CODE) && (
         <InlineField
           label={element.title}
           grow={!element.width}
@@ -196,7 +222,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           <CodeEditor
             language={element.language || CodeLanguage.JAVASCRIPT}
             showLineNumbers={true}
-            showMiniMap={(element.value && element.value.length) > 100}
+            showMiniMap={(element.value?.length || 0) > 100}
             value={element.value || ''}
             height={element.height || `${CodeEditorHeight}px`}
             width={ApplyWidth(element.width)}
@@ -212,7 +238,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
-      {element.type === FormElementType.BOOLEAN && (
+      {IsFormElementType(element, FormElementType.BOOLEAN) && (
         <InlineField
           label={element.title}
           grow={!element.width}
@@ -373,7 +399,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             onFileRemove={(removedItem) => {
               onChange<typeof element>({
                 ...element,
-                value: element.value.filter((item: File) => item.name !== removedItem.file.name),
+                value: element.value?.filter((item: File) => item.name !== removedItem.file.name) || [],
               });
             }}
             data-testid={TestIds.formElements.fieldFile}

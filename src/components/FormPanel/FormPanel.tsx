@@ -9,7 +9,14 @@ import {
   Field,
   PanelProps,
 } from '@grafana/data';
-import { getAppEvents, getTemplateSrv, locationService, RefreshEvent, toDataQueryResponse } from '@grafana/runtime';
+import {
+  FetchResponse,
+  getAppEvents,
+  getTemplateSrv,
+  locationService,
+  RefreshEvent,
+  toDataQueryResponse,
+} from '@grafana/runtime';
 import {
   Alert,
   Button,
@@ -23,7 +30,6 @@ import {
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
-  ButtonVariant,
   ContentType,
   FormElementType,
   LayoutOrientation,
@@ -36,15 +42,22 @@ import {
 } from '../../constants';
 import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
-import { FormElement, LocalFormElement, PanelOptions } from '../../types';
-import { GetFieldValues, GetInitialValuesMap, GetPayloadForRequest, ToFormData, ToJSON } from '../../utils';
+import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../../types';
+import {
+  GetButtonVariant,
+  GetFieldValues,
+  GetInitialValuesMap,
+  GetPayloadForRequest,
+  ToFormData,
+  ToJSON,
+} from '../../utils';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
 
 /**
  * Properties
  */
-type Props = PanelProps<PanelOptions>
+type Props = PanelProps<PanelOptions>;
 
 /**
  * Panel
@@ -61,7 +74,7 @@ export const FormPanel: React.FC<Props> = ({
   const [loading, setLoading] = useState<LoadingMode>(LoadingMode.INITIAL);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
-  const [initial, setInitial] = useState<{ [id: string]: any }>({});
+  const [initial, setInitial] = useState<{ [id: string]: unknown }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
 
   /**
@@ -123,11 +136,11 @@ export const FormPanel: React.FC<Props> = ({
    * On Change Elements With Field Values
    */
   const getElementsWithFieldValues = useCallback(
-    (frames: DataFrame[], sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE) => {
+    (frames: DataFrame[], sourceType: RequestMethod.QUERY | RequestMethod.DATASOURCE): LocalFormElement[] => {
       /**
        * Get elements values
        */
-      return elements.map((element) => {
+      return elements.map((element): LocalFormElement => {
         const fieldConfig = sourceType === RequestMethod.QUERY ? element.queryField : { value: element.fieldName };
         const field = frames
           .filter((frame) => (fieldConfig?.refId ? frame.refId === fieldConfig.refId : true))
@@ -147,7 +160,7 @@ export const FormPanel: React.FC<Props> = ({
 
           return {
             ...element,
-            value: values[values.length - 1],
+            value: values[values.length - 1] as any,
           };
         }
 
@@ -168,8 +181,8 @@ export const FormPanel: React.FC<Props> = ({
     currentElements,
   }: {
     code: string;
-    initial: any;
-    response?: Response | void;
+    initial: unknown;
+    response?: FetchResponse | Response | null;
     initialRequest?: () => void;
     currentElements?: LocalFormElement[];
   }) => {
@@ -243,8 +256,10 @@ export const FormPanel: React.FC<Props> = ({
           },
         }
       );
-    } catch (error: any) {
-      setError(error.toString());
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.toString());
+      }
     }
   };
 
@@ -295,8 +310,8 @@ export const FormPanel: React.FC<Props> = ({
       return;
     }
 
-    let response: any;
-    let json: any = null;
+    let response: Response | FetchResponse | null;
+    let json: { [id: string]: unknown } = {};
 
     /**
      * Data Source
@@ -330,20 +345,29 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
       }).catch((error: DataQueryError) => {
         setError(JSON.stringify(error));
+        return null;
       });
 
       if (response && response.ok) {
         /**
          * Change Elements With Data Source Values
          */
-        const queryResponse = toDataQueryResponse(response);
+        const queryResponse = toDataQueryResponse(response as FetchResponse);
         currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
 
         /**
          * Update Elements and Initial Values
          */
         onChangeElements(currentElements);
-        setInitial(currentElements);
+        setInitial(
+          currentElements.reduce(
+            (acc, element) => ({
+              ...acc,
+              [element.id]: element.value,
+            }),
+            {}
+          )
+        );
       }
     } else {
       if (!options.initial.url) {
@@ -385,6 +409,7 @@ export const FormPanel: React.FC<Props> = ({
         headers,
       }).catch((error: Error) => {
         setError(error.toString());
+        return null;
       });
 
       /**
@@ -411,10 +436,12 @@ export const FormPanel: React.FC<Props> = ({
             };
           }, {}) || {};
 
-        currentElements = elements.map(({ value, ...rest }) => ({
-          ...rest,
-          value: valuesMap[rest.id],
-        }));
+        currentElements = elements.map(
+          ({ value, ...rest }): LocalFormElement => ({
+            ...rest,
+            value: valuesMap[rest.id] as any,
+          })
+        );
 
         onChangeElements(currentElements);
 
@@ -496,7 +523,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Response
      */
-    let response: any;
+    let response: Response | FetchResponse | null;
 
     /**
      * Datasource query
@@ -508,6 +535,7 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
       }).catch((error: DataQueryError) => {
         setError(JSON.stringify(error));
+        return null;
       });
     } else {
       /**
@@ -552,6 +580,7 @@ export const FormPanel: React.FC<Props> = ({
         body,
       }).catch((error: Error) => {
         setError(error.toString());
+        return null;
       });
 
       /**
@@ -701,7 +730,7 @@ export const FormPanel: React.FC<Props> = ({
               <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
                 <Button
                   className={cx(styles.margin)}
-                  variant={options.submit.variant as any}
+                  variant={GetButtonVariant(options.submit.variant)}
                   icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
                   title={title}
                   style={
@@ -731,7 +760,7 @@ export const FormPanel: React.FC<Props> = ({
                 {options.reset.variant !== ButtonVariant.HIDDEN && (
                   <Button
                     className={cx(styles.margin)}
-                    variant={options.reset.variant as any}
+                    variant={GetButtonVariant(options.reset.variant)}
                     icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
                     style={
                       options.reset.variant === ButtonVariant.CUSTOM
@@ -755,7 +784,7 @@ export const FormPanel: React.FC<Props> = ({
                 {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
                   <Button
                     className={cx(styles.margin)}
-                    variant={options.saveDefault.variant as any}
+                    variant={GetButtonVariant(options.saveDefault.variant)}
                     icon={options.saveDefault.icon}
                     disabled={!!loading}
                     onClick={onSaveUpdates}

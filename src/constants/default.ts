@@ -1,4 +1,5 @@
 import {
+  CodeLanguage,
   CodeOptions,
   FormElement,
   ModalOptions,
@@ -7,7 +8,7 @@ import {
   SliderOptions,
   TextareaOptions,
 } from '../types';
-import { CodeEditorHeight, CodeLanguage } from './code-editor';
+import { CodeEditorHeight } from './code-editor';
 import { FormElementType, OptionsSource } from './form-element';
 
 /**
@@ -127,6 +128,7 @@ export const CodeDefault: CodeOptions = {
  */
 export const TextareaDefault: TextareaOptions = {
   rows: 10,
+  value: '',
 };
 
 /**

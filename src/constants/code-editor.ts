@@ -1,18 +1,12 @@
 import { SelectableValue } from '@grafana/data';
 import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
 
+import { CodeLanguage } from '../types';
+
 /**
  * Code Editor
  */
 export const CodeEditorHeight = 200;
-
-/**
- * Supported Languages
- */
-export const enum CodeLanguage {
-  JAVASCRIPT = 'javascript',
-  JSON = 'json',
-}
 
 /**
  * Code Language Options

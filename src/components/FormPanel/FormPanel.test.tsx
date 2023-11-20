@@ -5,8 +5,6 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import React from 'react';
 
 import {
-  ButtonOrientation,
-  ButtonVariant,
   ConfirmModalDefault,
   ContentType,
   FormElementDefault,
@@ -18,7 +16,7 @@ import {
   ResetActionMode,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
-import { LocalFormElement } from '../../types';
+import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement } from '../../types';
 import { getPanelSelectors, ToLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
@@ -1454,14 +1452,14 @@ describe('Panel', () => {
         title: 'Field',
         value: '123',
         uid: 'test123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const elementWithInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'string',
         title: 'Field 2',
         value: '',
         uid: 'string123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
@@ -1482,8 +1480,8 @@ describe('Panel', () => {
 
       return {
         triggerChangeElement,
-        elementWithoutInitialValue,
-        elementWithInitialValue,
+        elementWithoutInitialValue: elementWithoutInitialValue as LocalFormElement & { type: FormElementType.STRING },
+        elementWithInitialValue: elementWithInitialValue as LocalFormElement & { type: FormElementType.STRING },
         initialValues,
       };
     };
@@ -1598,14 +1596,14 @@ describe('Panel', () => {
         title: 'Field',
         value: '123',
         uid: 'test123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const elementWithInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'string',
         title: 'Field 2',
         value: '',
         uid: 'string123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
@@ -1638,7 +1636,7 @@ describe('Panel', () => {
         triggerChangeElement({
           ...elementWithoutInitialValue,
           value: '111',
-        })
+        } as LocalFormElement & { type: FormElementType.STRING })
       );
 
       expect(selectors.buttonSaveDefault()).toBeInTheDocument();

@@ -10,15 +10,11 @@ import {
   LayoutSectionsEditor,
 } from './components';
 import {
-  ButtonOrientation,
   ButtonOrientationOptions,
-  ButtonSize,
   ButtonSizeOptions,
-  ButtonVariant,
   ButtonVariantHiddenOption,
   ButtonVariantOptions,
   CodeInitialDefault,
-  CodeLanguage,
   CodeResetDefault,
   CodeUpdateDefault,
   ConfirmModalDefault,
@@ -49,7 +45,7 @@ import {
   SubmitIconDefault,
   SubmitTextDefault,
 } from './constants';
-import { PanelOptions, RequestOptions } from './types';
+import { ButtonOrientation, ButtonSize, ButtonVariant, CodeLanguage, PanelOptions, RequestOptions } from './types';
 
 /**
  * Panel Plugin
