@@ -347,3 +347,60 @@ export const IsFormElementType = <T extends FormElementType>(
 ): element is LocalFormElement & { type: T } => {
   return element.type === type;
 };
+
+/**
+ * Convert To Element Value
+ */
+export const ConvertToElementValue = (
+  element: LocalFormElement,
+  value: unknown
+): FormElementByType<LocalFormElement, typeof element.type> => {
+  switch (element.type) {
+    case FormElementType.STRING:
+    case FormElementType.DISABLED_TEXTAREA:
+    case FormElementType.DATETIME:
+    case FormElementType.CODE:
+    case FormElementType.PASSWORD:
+    case FormElementType.SECRET:
+    case FormElementType.TEXTAREA: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value : value?.toString() ?? '',
+      };
+    }
+    case FormElementType.NUMBER:
+    case FormElementType.SLIDER: {
+      let newValue = typeof value === 'number' ? value : 0;
+
+      if (typeof value === 'string') {
+        newValue = Number(value);
+
+        if (Number.isNaN(newValue)) {
+          newValue = 0;
+        }
+      }
+      return {
+        ...element,
+        value: newValue,
+      };
+    }
+    case FormElementType.FILE: {
+      return {
+        ...element,
+        value: [],
+      };
+    }
+    case FormElementType.BOOLEAN: {
+      return {
+        ...element,
+        value: !!value,
+      };
+    }
+    default: {
+      return {
+        ...element,
+        value,
+      };
+    }
+  }
+};

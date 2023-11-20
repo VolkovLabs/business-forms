@@ -44,6 +44,7 @@ import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { Styles } from '../../styles';
 import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../../types';
 import {
+  ConvertToElementValue,
   GetButtonVariant,
   GetFieldValues,
   GetInitialValuesMap,
@@ -158,10 +159,7 @@ export const FormPanel: React.FC<Props> = ({
            */
           const values = GetFieldValues(field);
 
-          return {
-            ...element,
-            value: values[values.length - 1] as any,
-          };
+          return ConvertToElementValue(element, values[values.length - 1]);
         }
 
         return element;
@@ -437,10 +435,7 @@ export const FormPanel: React.FC<Props> = ({
           }, {}) || {};
 
         currentElements = elements.map(
-          ({ value, ...rest }): LocalFormElement => ({
-            ...rest,
-            value: valuesMap[rest.id] as any,
-          })
+          (element): LocalFormElement => ConvertToElementValue(element, valuesMap[element.id])
         );
 
         onChangeElements(currentElements);
