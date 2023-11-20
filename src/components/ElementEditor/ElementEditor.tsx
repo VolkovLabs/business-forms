@@ -13,7 +13,6 @@ import React, { ChangeEvent } from 'react';
 
 import {
   CodeEditorHeight,
-  CodeLanguage,
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
@@ -23,7 +22,7 @@ import {
   StringElementOptions,
   TestIds,
 } from '../../constants';
-import { LocalFormElement, QueryField } from '../../types';
+import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';

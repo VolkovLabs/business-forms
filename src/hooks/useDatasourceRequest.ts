@@ -13,7 +13,7 @@ export const useDatasourceRequest = () => {
       datasource,
       replaceVariables,
     }: {
-      query: any;
+      query: unknown;
       datasource: string;
       replaceVariables: InterpolateFunction;
     }) => {

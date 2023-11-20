@@ -121,7 +121,9 @@ const useTheme2 = () => ({
   typography: {},
   spacing: jest.fn(),
   shape: {
-    borderRadius: jest.fn(),
+    radius: {
+      default: 0,
+    },
   },
   visualization: {
     getColorByName: (color: unknown) => color,

@@ -5,8 +5,6 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import React from 'react';
 
 import {
-  ButtonOrientation,
-  ButtonVariant,
   ConfirmModalDefault,
   ContentType,
   FormElementDefault,
@@ -18,7 +16,7 @@ import {
   ResetActionMode,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
-import { LocalFormElement } from '../../types';
+import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement } from '../../types';
 import { getPanelSelectors, ToLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
@@ -116,7 +114,7 @@ describe('Panel', () => {
   });
 
   it('Should find component with Elements', async () => {
-    await act(() => render(getComponent()));
+    await act(async () => render(getComponent()));
     expect(selectors.root()).toBeInTheDocument();
   });
 
@@ -132,7 +130,7 @@ describe('Panel', () => {
    * Single Layout
    */
   it('Should render single layout', async () => {
-    await act(() => render(getComponent()));
+    await act(async () => render(getComponent()));
     expect(selectors.singleLayoutContent()).toBeInTheDocument();
   });
 
@@ -140,7 +138,7 @@ describe('Panel', () => {
    * Split Layout
    */
   it('Should render split layout', async () => {
-    await act(() =>
+    await act(async () =>
       render(
         getComponent({
           options: {
@@ -160,7 +158,7 @@ describe('Panel', () => {
    * Split Vertical Layout
    */
   it('Should render split vertical layout', async () => {
-    await act(() =>
+    await act(async () =>
       render(
         getComponent({
           options: {
@@ -181,7 +179,7 @@ describe('Panel', () => {
    * Buttons
    */
   it('Should render buttons ', async () => {
-    await act(() => render(getComponent()));
+    await act(async () => render(getComponent()));
 
     expect(selectors.buttonSubmit()).toBeInTheDocument();
     expect(selectors.buttonReset()).toBeInTheDocument();
@@ -203,7 +201,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             props: {},
@@ -239,6 +237,31 @@ describe('Panel', () => {
       expect(within(selectors.errorMessage()).getByText('Error: message')).toBeInTheDocument();
     });
 
+    it('Should show error if error while execution', async () => {
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: `throw new Error('execution error')`,
+              },
+            },
+            props: {},
+          })
+        )
+      );
+
+      /**
+       * Check if execution error message shown
+       */
+      expect(selectors.errorMessage()).toBeInTheDocument();
+      expect(within(selectors.errorMessage()).getByText('Error: execution error')).toBeInTheDocument();
+    });
+
     it('Should make initial datasource request', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
@@ -250,7 +273,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             options: {
@@ -434,7 +457,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             options: {
@@ -513,7 +536,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             options: {
@@ -592,7 +615,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             props: {
@@ -622,7 +645,7 @@ describe('Panel', () => {
       /**
        * Render
        */
-      await act(() => render(getComponent()));
+      await act(async () => render(getComponent()));
 
       /**
        * Check if cors error message is shown
@@ -654,7 +677,7 @@ describe('Panel', () => {
             ),
           }) as any
       );
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             options: {
@@ -670,7 +693,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             options: {
@@ -715,7 +738,7 @@ describe('Panel', () => {
       /**
        * Run update request
        */
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -751,7 +774,7 @@ describe('Panel', () => {
             ),
           }) as any
       );
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             options: {
@@ -767,7 +790,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             options: {
@@ -815,7 +838,7 @@ describe('Panel', () => {
       /**
        * Run update request
        */
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -837,12 +860,12 @@ describe('Panel', () => {
       /**
        * Render
        */
-      const { rerender } = await act(() => render(getComponent()));
+      const { rerender } = await act(async () => render(getComponent()));
 
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             props: {
@@ -864,7 +887,7 @@ describe('Panel', () => {
       /**
        * Run update request
        */
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -898,7 +921,7 @@ describe('Panel', () => {
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
 
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             options: {
@@ -913,7 +936,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             options: {
@@ -942,7 +965,7 @@ describe('Panel', () => {
       /**
        * Run update request
        */
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -979,7 +1002,7 @@ describe('Panel', () => {
       );
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
 
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             options: {
@@ -994,7 +1017,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             options: {
@@ -1034,12 +1057,12 @@ describe('Panel', () => {
       /**
        * Render
        */
-      const { rerender } = await act(() => render(getComponent()));
+      const { rerender } = await act(async () => render(getComponent()));
 
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             options: {
@@ -1088,7 +1111,7 @@ describe('Panel', () => {
             ),
           }) as any
       );
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             options: {
@@ -1107,7 +1130,7 @@ describe('Panel', () => {
       /**
        * Trigger element updates
        */
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             options: {
@@ -1153,7 +1176,7 @@ describe('Panel', () => {
       /**
        * Run update confirmation
        */
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -1161,7 +1184,7 @@ describe('Panel', () => {
        * Confirm update
        */
       expect(selectors.buttonConfirmUpdate()).toBeInTheDocument();
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonConfirmUpdate());
       });
 
@@ -1198,7 +1221,7 @@ describe('Panel', () => {
             publish,
           }) as any
       );
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             props: {
@@ -1250,7 +1273,7 @@ describe('Panel', () => {
           code: 'notifySuccess("success"); notifyError("error");',
         },
       };
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             props: {
@@ -1261,7 +1284,7 @@ describe('Panel', () => {
         )
       );
 
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             props: {
@@ -1282,7 +1305,7 @@ describe('Panel', () => {
       jest.mocked(publish).mockClear();
 
       expect(selectors.buttonSubmit()).not.toBeDisabled();
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonSubmit());
       });
 
@@ -1323,7 +1346,7 @@ describe('Panel', () => {
           code: 'notifyError("error");',
         },
       };
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             props: {
@@ -1334,7 +1357,7 @@ describe('Panel', () => {
         )
       );
 
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             props: {
@@ -1355,7 +1378,7 @@ describe('Panel', () => {
       jest.mocked(publish).mockClear();
 
       expect(selectors.buttonReset()).not.toBeDisabled();
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonReset());
       });
 
@@ -1390,7 +1413,7 @@ describe('Panel', () => {
           code: 'notifySuccess("success");',
         },
       };
-      const { rerender } = await act(() =>
+      const { rerender } = await act(async () =>
         render(
           getComponent({
             props: {
@@ -1401,7 +1424,7 @@ describe('Panel', () => {
         )
       );
 
-      await act(() =>
+      await act(async () =>
         rerender(
           getComponent({
             props: {
@@ -1422,7 +1445,7 @@ describe('Panel', () => {
       jest.mocked(publish).mockClear();
 
       expect(selectors.buttonReset()).not.toBeDisabled();
-      await act(() => {
+      await act(async () => {
         fireEvent.click(selectors.buttonReset());
       });
 
@@ -1454,14 +1477,14 @@ describe('Panel', () => {
         title: 'Field',
         value: '123',
         uid: 'test123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const elementWithInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'string',
         title: 'Field 2',
         value: '',
         uid: 'string123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
@@ -1472,7 +1495,7 @@ describe('Panel', () => {
         } as any);
       });
 
-      await act(() =>
+      await act(async () =>
         render(
           getComponent({
             options: { elements: [elementWithInitialValue, elementWithoutInitialValue], update: { confirm: true } },
@@ -1482,8 +1505,8 @@ describe('Panel', () => {
 
       return {
         triggerChangeElement,
-        elementWithoutInitialValue,
-        elementWithInitialValue,
+        elementWithoutInitialValue: elementWithoutInitialValue as LocalFormElement & { type: FormElementType.STRING },
+        elementWithInitialValue: elementWithInitialValue as LocalFormElement & { type: FormElementType.STRING },
         initialValues,
       };
     };
@@ -1498,7 +1521,7 @@ describe('Panel', () => {
       /**
        * Trigger field change
        */
-      await act(() =>
+      await act(async () =>
         triggerChangeElement({
           ...elementWithInitialValue,
           value: '111',
@@ -1513,7 +1536,7 @@ describe('Panel', () => {
       /**
        * Open confirm modal
        */
-      await act(() => fireEvent.click(selectors.buttonSubmit()));
+      await act(async () => fireEvent.click(selectors.buttonSubmit()));
 
       /**
        * Check confirm modal presence
@@ -1543,7 +1566,7 @@ describe('Panel', () => {
       /**
        * Trigger field change
        */
-      await act(() =>
+      await act(async () =>
         triggerChangeElement({
           ...elementWithoutInitialValue,
           value: '111',
@@ -1558,7 +1581,7 @@ describe('Panel', () => {
       /**
        * Open confirm modal
        */
-      await act(() => fireEvent.click(selectors.buttonSubmit()));
+      await act(async () => fireEvent.click(selectors.buttonSubmit()));
 
       /**
        * Check confirm modal presence
@@ -1598,14 +1621,14 @@ describe('Panel', () => {
         title: 'Field',
         value: '123',
         uid: 'test123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const elementWithInitialValue = ToLocalFormElement({
         ...FormElementDefault,
         id: 'string',
         title: 'Field 2',
         value: '',
         uid: 'string123',
-      });
+      } as FormElement & { type: FormElementType.STRING });
       const initialValues = {
         [elementWithInitialValue.id]: 'abc',
       };
@@ -1616,7 +1639,7 @@ describe('Panel', () => {
         } as any);
       });
 
-      await act(() =>
+      await act(async () =>
         render(
           <PanelContextProvider value={{ canAddAnnotations: () => true } as any}>
             {getComponent({
@@ -1634,11 +1657,11 @@ describe('Panel', () => {
         )
       );
 
-      await act(() =>
+      await act(async () =>
         triggerChangeElement({
           ...elementWithoutInitialValue,
           value: '111',
-        })
+        } as LocalFormElement & { type: FormElementType.STRING })
       );
 
       expect(selectors.buttonSaveDefault()).toBeInTheDocument();
@@ -1648,7 +1671,7 @@ describe('Panel', () => {
       /**
        * Save Default values
        */
-      await act(() => fireEvent.click(selectors.buttonSaveDefault()));
+      await act(async () => fireEvent.click(selectors.buttonSaveDefault()));
 
       expect(onOptionsChange).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -1667,7 +1690,7 @@ describe('Panel', () => {
     });
 
     it('Should not show save default button if can not update dashboard', async () => {
-      await act(() =>
+      await act(async () =>
         render(
           <PanelContextProvider value={{ canAddAnnotations: () => false } as any}>
             {getComponent({

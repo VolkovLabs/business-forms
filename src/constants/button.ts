@@ -1,22 +1,13 @@
 import { SelectableValue } from '@grafana/data';
 
+import { ButtonOrientation, ButtonSize, ButtonVariant } from '../types';
+
 /**
  * Capitalize First Letter
  */
 export const CapitalizeFirstLetter = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-
-/**
- * Button Variants
- */
-export const enum ButtonVariant {
-  CUSTOM = 'custom',
-  DESTRUCTIVE = 'destructive',
-  HIDDEN = 'hidden',
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-}
 
 /**
  * Button Variant Hidden
@@ -51,15 +42,6 @@ export const ButtonVariantOptions: SelectableValue[] = [
 ];
 
 /**
- * Button Orientations
- */
-export const enum ButtonOrientation {
-  LEFT = 'left',
-  CENTER = 'center',
-  RIGHT = 'right',
-}
-
-/**
  * Button Orientation Options
  */
 export const ButtonOrientationOptions: SelectableValue[] = [
@@ -76,15 +58,6 @@ export const ButtonOrientationOptions: SelectableValue[] = [
     label: CapitalizeFirstLetter(ButtonOrientation.RIGHT),
   },
 ];
-
-/**
- * Button Size
- */
-export const enum ButtonSize {
-  SMALL = 'sm',
-  MEDIUM = 'md',
-  LARGE = 'lg',
-}
 
 /**
  * Button Size Options

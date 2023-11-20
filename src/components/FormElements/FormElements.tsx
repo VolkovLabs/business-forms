@@ -32,9 +32,9 @@ interface Props {
   /**
    * Initial values
    *
-   * @type {[id: string]: any}
+   * @type {[id: string]: unknown}
    */
-  initial: { [id: string]: any };
+  initial: { [id: string]: unknown };
 
   /**
    * Section

@@ -7,12 +7,13 @@ import { CodeEditor, CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } fr
 import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback } from 'react';
 
-import { CodeEditorHeight, CodeEditorSuggestions, CodeLanguage, TestIds } from '../../constants';
+import { CodeEditorHeight, CodeEditorSuggestions, TestIds } from '../../constants';
+import { CodeEditorSettings, CodeLanguage } from '../../types';
 
 /**
  * Properties
  */
-type Props = StandardEditorProps<string, any, any>
+type Props = StandardEditorProps<string, CodeEditorSettings, null>;
 
 /**
  * Custom Code Editor
@@ -69,7 +70,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
       <CodeEditor
         language={language}
         showLineNumbers={true}
-        showMiniMap={(value && value.length) > 100}
+        showMiniMap={!!value && value.length > 100}
         value={value}
         height={`${CodeEditorHeight}px`}
         onBlur={onChange}

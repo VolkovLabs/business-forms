@@ -38,6 +38,7 @@ export const TestIds = {
     fieldPassword: 'data-testid form-elements field-password',
     fieldDisabled: 'data-testid form-elements field-disabled',
     fieldTextarea: 'data-testid form-elements field-textarea',
+    fieldDisabledTextarea: 'data-testid form-elements field-disabled-textarea',
     /**
      * Default Code Editor aria label selector
      * https://github.com/grafana/grafana/blob/6a12673f8b0e07bc2aeeed70defc461fdf93bca8/packages/grafana-ui/src/components/Monaco/CodeEditor.tsx#L148

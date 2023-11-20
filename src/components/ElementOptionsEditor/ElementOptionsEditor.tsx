@@ -120,6 +120,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                   className={styles.removeButton}
                                   data-testid={TestIds.formElementsEditor.buttonRemoveOption}
                                   onClick={() => onChange(options?.filter((o) => o.id !== option.id))}
+                                  aria-label="Remove"
                                 />
                                 <Icon
                                   title="Drag and drop to reorder"

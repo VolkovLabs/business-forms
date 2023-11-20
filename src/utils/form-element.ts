@@ -1,4 +1,5 @@
 import { InterpolateFunction, SelectableValue } from '@grafana/data';
+import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -11,6 +12,7 @@ import {
   TextareaDefault,
 } from '../constants';
 import {
+  ButtonVariant,
   FormElement,
   FormElementByType,
   GetOptionsHelper,
@@ -113,13 +115,24 @@ export const GetElementWithNewType = (
     case FormElementType.FILE: {
       return {
         ...baseValues,
+        value: [],
         accept: '',
         type: newType,
       };
     }
-    default: {
+    case FormElementType.DATETIME:
+    case FormElementType.PASSWORD:
+    case FormElementType.SECRET: {
       return {
         ...baseValues,
+        value: '',
+        type: newType,
+      };
+    }
+    case FormElementType.BOOLEAN: {
+      return {
+        ...baseValues,
+        value: false,
         type: newType,
       };
     }
@@ -294,4 +307,93 @@ export const GetInitialValuesMap = (elements: LocalFormElement[]): Record<string
     }),
     {}
   );
+};
+
+/**
+ * Get Button Variant
+ */
+export const GetButtonVariant = (variant: ButtonVariant): GrafanaButtonVariant | undefined => {
+  switch (variant) {
+    case ButtonVariant.DESTRUCTIVE:
+    case ButtonVariant.PRIMARY:
+    case ButtonVariant.SECONDARY: {
+      return variant;
+    }
+
+    default: {
+      return;
+    }
+  }
+};
+
+/**
+ * Is Form Element Type
+ */
+export const IsFormElementType = <T extends FormElementType>(
+  element: LocalFormElement,
+  type: T
+): element is LocalFormElement & { type: T } => {
+  return element.type === type;
+};
+
+/**
+ * Convert To Element Value
+ */
+export const ConvertToElementValue = (
+  element: LocalFormElement,
+  value: unknown
+): FormElementByType<LocalFormElement, typeof element.type> => {
+  switch (element.type) {
+    case FormElementType.STRING:
+    case FormElementType.DISABLED_TEXTAREA:
+    case FormElementType.CODE:
+    case FormElementType.PASSWORD:
+    case FormElementType.SECRET:
+    case FormElementType.TEXTAREA: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value : value?.toString() ?? '',
+      };
+    }
+    case FormElementType.NUMBER:
+    case FormElementType.SLIDER: {
+      let newValue = typeof value === 'number' ? value : 0;
+
+      if (typeof value === 'string') {
+        newValue = Number(value);
+
+        if (Number.isNaN(newValue)) {
+          newValue = 0;
+        }
+      }
+      return {
+        ...element,
+        value: newValue,
+      };
+    }
+    case FormElementType.FILE: {
+      return {
+        ...element,
+        value: [],
+      };
+    }
+    case FormElementType.BOOLEAN: {
+      return {
+        ...element,
+        value: !!value,
+      };
+    }
+    case FormElementType.DATETIME: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value : undefined,
+      };
+    }
+    default: {
+      return {
+        ...element,
+        value,
+      };
+    }
+  }
 };
