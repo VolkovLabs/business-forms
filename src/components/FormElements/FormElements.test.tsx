@@ -5,6 +5,7 @@ import React from 'react';
 import { FormElementDefault, FormElementType, OptionsSource } from '../../constants';
 import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
+import { LinkTarget } from '../../types';
 
 /**
  * Mock timers
@@ -86,6 +87,21 @@ describe('Form Elements', () => {
         { id: 'file', type: FormElementType.FILE },
         { id: 'highlighted', type: FormElementType.STRING, value: 'hello' },
         { id: 'disabledTextarea', type: FormElementType.DISABLED_TEXTAREA, value: 'hello' },
+        {
+          id: 'externalLink',
+          type: FormElementType.LINK,
+          value: 'https://123',
+          target: LinkTarget.NEW_TAB,
+          linkText: 'My Link',
+          width: 10,
+        },
+        {
+          id: 'internalLink',
+          type: FormElementType.LINK,
+          value: 'https://domain.com',
+          target: LinkTarget.SELF_TAB,
+          linkText: '',
+        },
       ],
     };
 
@@ -141,6 +157,30 @@ describe('Form Elements', () => {
 
     it('Should render file field', () => {
       expect(selectors.fieldFile()).toBeInTheDocument();
+    });
+
+    it('Should render external link', () => {
+      const elementOption = findElementById('externalLink');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.link()).toBeInTheDocument();
+      expect(elementSelectors.link()).toHaveTextContent('My Link');
+      expect(elementSelectors.link()).toHaveProperty('target', '_blank');
+    });
+
+    it('Should render internal link', () => {
+      const elementOption = findElementById('internalLink');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.link()).toBeInTheDocument();
+      expect(elementSelectors.link()).toHaveTextContent('https://domain.com');
+      expect(elementSelectors.link()).toHaveProperty('target', '_self');
     });
 
     it('Should render disabled field', () => {

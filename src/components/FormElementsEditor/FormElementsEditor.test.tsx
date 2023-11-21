@@ -14,7 +14,7 @@ import {
   SelectDefaults,
   SliderDefault,
 } from '../../constants';
-import { CodeLanguage } from '../../types';
+import { CodeLanguage, LinkTarget } from '../../types';
 import { getFormElementsEditorSelectors } from '../../utils';
 import { FormElementsEditor } from './FormElementsEditor';
 
@@ -817,6 +817,25 @@ describe('Form Elements Editor', () => {
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.BOOLEAN);
       });
 
+      it('Should update type to link', async () => {
+        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const elements = [element];
+
+        render(getComponent({ value: elements, onChange }));
+
+        /**
+         * Open id element
+         */
+        const elementSelectors = openElement(element.id, element.type);
+
+        /**
+         * Change type
+         */
+        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.LINK } }));
+
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.LINK);
+      });
+
       it('Should not update Type if element with the same id and type exists', async () => {
         const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
         const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
@@ -1462,6 +1481,48 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldFromQueryPicker(), { target: { value: '' } }));
 
       expect(elementSelectors.fieldFromQueryPicker()).toHaveValue('');
+    });
+
+    it('Should update field target', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.LINK }];
+      const context = {
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.LINK);
+
+      /**
+       * Change target
+       */
+      await act(() => fireEvent.click(elementSelectors.linkTargetOption(false, LinkTarget.NEW_TAB)));
+
+      expect(elementSelectors.linkTargetOption(false, LinkTarget.NEW_TAB)).toBeChecked();
+    });
+
+    it('Should update field link text', async () => {
+      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.LINK, linkText: 'abc' }];
+      const context = {
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.LINK);
+
+      /**
+       * Change link text
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldLinkText(), { target: { value: '123' } }));
+
+      expect(elementSelectors.fieldLinkText()).toHaveValue('123');
     });
 
     it('Should update showIf', async () => {

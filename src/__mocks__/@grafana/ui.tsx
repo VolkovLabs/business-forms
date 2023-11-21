@@ -130,6 +130,15 @@ const useTheme2 = () => ({
   },
 });
 
+/**
+ * Text Link
+ */
+const TextLink = jest.fn(({ children, href, external, ...restProps }) => (
+  <a href={href} target={external ? '_blank' : '_self'} {...restProps}>
+    {children}
+  </a>
+));
+
 module.exports = {
   ...actual,
   useTheme2,
@@ -137,4 +146,5 @@ module.exports = {
   DateTimePicker,
   Select,
   FileDropzone,
+  TextLink,
 };

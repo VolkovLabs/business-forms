@@ -56,6 +56,7 @@ export const TestIds = {
     fieldSelect: 'form-elements field-select-container',
     booleanOption: (name: string) => `form-elements boolean-${name}`,
     unit: 'data-testid form-elements unit',
+    link: 'data-testid form elements link',
   },
   formElementsEditor: {
     addElementError: 'data-testid form-elements-editor add-element-error',
@@ -110,6 +111,7 @@ export const TestIds = {
     sectionNewLabel: 'data-testid form-elements-editor section-new-label',
     buttonSetDate: 'data-testid form-elements-editor button-set-date',
     buttonRemoveDate: 'data-testid form-elements-editor button-remove-date',
+    fieldLinkText: 'data-testid form-elements-editor field-link-text',
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',

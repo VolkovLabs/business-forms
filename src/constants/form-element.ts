@@ -200,6 +200,6 @@ export const LinkTargetOptions = [
   {
     label: 'New Tab',
     value: LinkTarget.NEW_TAB,
-    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(LinkTarget.NEW_TAB),
+    ariaLabel: TestIds.formElementsEditor.linkTargetOption(LinkTarget.NEW_TAB),
   },
 ];

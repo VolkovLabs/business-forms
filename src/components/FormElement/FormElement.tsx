@@ -415,7 +415,11 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
         >
           <div className={styles.link} style={{ width: element.width ? theme.spacing(element.width) : 'auto' }}>
-            <TextLink href={element.value} external={element.target === LinkTarget.NEW_TAB}>
+            <TextLink
+              href={element.value}
+              external={element.target === LinkTarget.NEW_TAB}
+              data-testid={TestIds.formElements.link}
+            >
               {element.linkText || element.value}
             </TextLink>
           </div>
