@@ -1,18 +1,8 @@
 import { DataFrame, SelectableValue } from '@grafana/data';
-import {
-  CodeEditor,
-  Field,
-  InlineField,
-  InlineFieldRow,
-  Input,
-  RadioButtonGroup,
-  Select,
-  useStyles2,
-} from '@grafana/ui';
+import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent } from 'react';
 
 import {
-  CodeEditorHeight,
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
@@ -24,6 +14,7 @@ import {
 } from '../../constants';
 import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
 import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
+import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
 import { ElementQueryOptionsEditor } from '../ElementQueryOptionsEditor';
@@ -525,10 +516,9 @@ export const ElementEditor: React.FC<Props> = ({
       )}
 
       <Field label="Show if returned value is true">
-        <CodeEditor
+        <AutosizeCodeEditor
           value={element.showIf || ''}
           language={CodeLanguage.JAVASCRIPT}
-          height={`${CodeEditorHeight}px`}
           onBlur={(code) => {
             onChange({
               ...element,

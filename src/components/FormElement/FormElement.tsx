@@ -1,7 +1,6 @@
 import { cx } from '@emotion/css';
 import { DateTime, dateTime, PanelData } from '@grafana/data';
 import {
-  CodeEditor,
   DateTimePicker,
   FileDropzone,
   InlineField,
@@ -17,10 +16,11 @@ import { NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 
-import { BooleanElementOptions, CodeEditorHeight, FormElementType, TestIds } from '../../constants';
+import { BooleanElementOptions, FormElementType, TestIds } from '../../constants';
 import { Styles } from '../../styles';
 import { CodeLanguage, LocalFormElement } from '../../types';
 import { ApplyWidth, FormatNumberValue, IsFormElementType } from '../../utils';
+import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 
 /**
  * Properties
@@ -215,12 +215,12 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
         >
-          <CodeEditor
+          <AutosizeCodeEditor
             language={element.language || CodeLanguage.JAVASCRIPT}
             showLineNumbers={true}
             showMiniMap={(element.value?.length || 0) > 100}
             value={element.value || ''}
-            height={element.height || `${CodeEditorHeight}px`}
+            height={element.height}
             width={ApplyWidth(element.width)}
             onBlur={(code) => {
               onChange<typeof element>({

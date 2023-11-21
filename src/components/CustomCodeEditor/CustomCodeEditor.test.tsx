@@ -34,7 +34,7 @@ describe('Custom Code Editor', () => {
    * @param item
    * @param restProps
    */
-  const getComponent = ({ value = [], item = {}, ...restProps }: any) => {
+  const getComponent = ({ value = '', item = {}, ...restProps }: any) => {
     return <CustomCodeEditor {...restProps} value={value} item={item} />;
   };
 
@@ -166,7 +166,7 @@ describe('Custom Code Editor', () => {
       () =>
         ({
           getVariables: jest.fn().mockImplementation(() => variables),
-        } as any)
+        }) as any
     );
 
     /**
@@ -220,7 +220,7 @@ describe('Custom Code Editor', () => {
       () =>
         ({
           getVariables: jest.fn().mockImplementation(() => variables),
-        } as any)
+        }) as any
     );
 
     /**

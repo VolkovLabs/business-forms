@@ -1,14 +1,15 @@
 import { StandardEditorProps } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { CodeEditor, CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
+import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
 /**
  * Monaco
  */
 import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback } from 'react';
 
-import { CodeEditorHeight, CodeEditorSuggestions, TestIds } from '../../constants';
+import { CodeEditorSuggestions, TestIds } from '../../constants';
 import { CodeEditorSettings, CodeLanguage } from '../../types';
+import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 
 /**
  * Properties
@@ -67,12 +68,11 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
    */
   return (
     <div data-testid={TestIds.customCodeEditor.root}>
-      <CodeEditor
+      <AutosizeCodeEditor
         language={language}
         showLineNumbers={true}
         showMiniMap={!!value && value.length > 100}
         value={value}
-        height={`${CodeEditorHeight}px`}
         onBlur={onChange}
         onSave={onChange}
         monacoOptions={{ formatOnPaste: true, formatOnType: true }}
