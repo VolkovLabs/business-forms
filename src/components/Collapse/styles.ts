@@ -8,7 +8,7 @@ export const Styles = (theme: GrafanaTheme2) => {
   return {
     header: css`
       padding: ${theme.spacing(0.5, 0.5)};
-      border-radius: ${theme.shape.radius.default};
+      border-radius: ${theme.shape.radius?.default};
       background: ${theme.colors.background.secondary};
       min-height: ${theme.spacing(4)};
       display: flex;

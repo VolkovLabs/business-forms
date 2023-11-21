@@ -19,10 +19,10 @@ import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 
 import { BooleanElementOptions, FormElementType, TestIds } from '../../constants';
-import { Styles } from '../../styles';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
 import { ApplyWidth, FormatNumberValue, IsFormElementType } from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
+import { Styles } from './FormElement.styles';
 
 /**
  * Properties
