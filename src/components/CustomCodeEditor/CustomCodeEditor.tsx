@@ -75,7 +75,7 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
         value={value}
         onBlur={onChange}
         onSave={onChange}
-        monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+        monacoOptions={{ formatOnPaste: true, formatOnType: true, scrollBeyondLastLine: false }}
         onEditorDidMount={onEditorMount}
         getSuggestions={getSuggestions}
       />
