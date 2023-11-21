@@ -4,7 +4,7 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import React from 'react';
 
 import {
-  CodeEditorHeight,
+  CodeEditorConfig,
   FormElementDefault,
   FormElementOptionDefault,
   FormElementType,
@@ -228,7 +228,7 @@ describe('Form Elements Editor', () => {
        */
       const elementSelectors = openElement(newElementId, newElementType);
 
-      expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorHeight);
+      expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorConfig.height.min);
       expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
     });
 
@@ -1606,7 +1606,7 @@ describe('Form Elements Editor', () => {
 
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.CODE);
         expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
-        expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorHeight);
+        expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorConfig.height.min);
       });
 
       it('Should set default Textarea options if NewType=TEXTAREA', async () => {

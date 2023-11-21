@@ -13,6 +13,8 @@
 - Use Grafana Access Policy to sign plugin (#292)
 - Update to Grafana 10.2.1 (#292)
 - Update ESLint configuration (#294)
+- Add Autosize Code Editor (#295)
+- Add Data Source option for Reset button (#296)
 
 ### Bugfixes
 

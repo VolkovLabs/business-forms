@@ -266,5 +266,22 @@ describe('plugin', () => {
 
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['resetAction.code']));
     });
+
+    it('Should show reset payload if reset action is data source', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation(
+          {
+            reset: { variant: ButtonVariant.CUSTOM } as any,
+            resetAction: { mode: ResetActionMode.DATASOURCE, datasource: '123' } as any,
+          },
+          shownOptionsPaths
+        )
+      );
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['resetAction.getPayload']));
+    });
   });
 });

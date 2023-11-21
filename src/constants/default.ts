@@ -8,7 +8,7 @@ import {
   SliderOptions,
   TextareaOptions,
 } from '../types';
-import { CodeEditorHeight } from './code-editor';
+import { CodeEditorConfig } from './code-editor';
 import { FormElementType, OptionsSource } from './form-element';
 
 /**
@@ -119,7 +119,7 @@ export const SliderDefault: SliderOptions = {
  * Code Defaults
  */
 export const CodeDefault: CodeOptions = {
-  height: CodeEditorHeight,
+  height: CodeEditorConfig.height.min,
   language: CodeLanguage.JAVASCRIPT,
   value: '',
 };
