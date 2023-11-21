@@ -118,6 +118,6 @@ export const enum ResetActionMode {
  */
 export const ResetActionOptions = [
   { label: 'Custom Code', value: ResetActionMode.CUSTOM },
-  { label: 'Initial request', value: ResetActionMode.INITIAL },
+  { label: 'Initial Request', value: ResetActionMode.INITIAL },
   { label: 'Data Source', value: ResetActionMode.DATASOURCE },
 ];

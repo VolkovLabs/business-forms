@@ -459,6 +459,11 @@ export const FormPanel: React.FC<Props> = ({
    * Reset Request
    */
   const resetRequest = async () => {
+    /**
+     * Clear Error
+     */
+    setError('');
+
     if (options.resetAction.mode === ResetActionMode.INITIAL) {
       /**
        * Use Initial Request
