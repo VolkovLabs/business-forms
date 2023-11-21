@@ -1,6 +1,7 @@
 import { SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
 
+import { LinkTarget } from '../types';
 import { TestIds } from './tests';
 
 /**
@@ -13,6 +14,7 @@ export const enum FormElementType {
   DISABLED = 'disabled',
   DISABLED_TEXTAREA = 'disabledTextarea',
   FILE = 'file',
+  LINK = 'link',
   MULTISELECT = 'multiselect',
   NUMBER = 'number',
   PASSWORD = 'password',
@@ -39,6 +41,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.FILE,
     label: 'File',
+  },
+  {
+    value: FormElementType.LINK,
+    label: 'Link',
   },
   {
     value: FormElementType.MULTISELECT,
@@ -179,5 +185,22 @@ export const OptionsSourceOptions = [
     label: 'Custom',
     value: OptionsSource.Custom,
     ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.Custom),
+  },
+];
+
+/**
+ * Link Target Options
+ */
+export const LinkTargetOptions = [
+  {
+    label: 'Same Tab',
+    value: LinkTarget.SELF_TAB,
+    ariaLabel: TestIds.formElementsEditor.linkTargetOption(LinkTarget.SELF_TAB),
+  },
+  {
+    label: 'New Tab',
+    value: LinkTarget.NEW_TAB,
+    ariaLabel: TestIds.formElementsEditor.linkTargetOption(LinkTarget.NEW_TAB),
+    icon: 'external-link-alt',
   },
 ];

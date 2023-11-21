@@ -41,7 +41,6 @@ import {
   TestIds,
 } from '../../constants';
 import { useDatasourceRequest, useFormElements } from '../../hooks';
-import { Styles } from '../../styles';
 import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../../types';
 import {
   ConvertToElementValue,
@@ -54,6 +53,7 @@ import {
 } from '../../utils';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
+import { Styles } from './FormPanel.styles';
 
 /**
  * Properties

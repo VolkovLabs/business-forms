@@ -17,6 +17,7 @@ import {
   FormElementByType,
   GetOptionsHelper,
   LayoutSection,
+  LinkTarget,
   LocalFormElement,
   ShowIfHelper,
 } from '../types';
@@ -133,6 +134,15 @@ export const GetElementWithNewType = (
       return {
         ...baseValues,
         value: false,
+        type: newType,
+      };
+    }
+    case FormElementType.LINK: {
+      return {
+        ...baseValues,
+        value: '',
+        target: LinkTarget.SELF_TAB,
+        linkText: '',
         type: newType,
       };
     }
@@ -349,7 +359,8 @@ export const ConvertToElementValue = (
     case FormElementType.CODE:
     case FormElementType.PASSWORD:
     case FormElementType.SECRET:
-    case FormElementType.TEXTAREA: {
+    case FormElementType.TEXTAREA:
+    case FormElementType.LINK: {
       return {
         ...element,
         value: typeof value === 'string' ? value : value?.toString() ?? '',

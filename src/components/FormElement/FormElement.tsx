@@ -10,17 +10,19 @@ import {
   RadioButtonGroup,
   Select,
   TextArea,
+  TextLink,
   useStyles2,
+  useTheme2,
 } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 
 import { BooleanElementOptions, FormElementType, TestIds } from '../../constants';
-import { Styles } from '../../styles';
-import { CodeLanguage, LocalFormElement } from '../../types';
+import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
 import { ApplyWidth, FormatNumberValue, IsFormElementType } from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
+import { Styles } from './FormElement.styles';
 
 /**
  * Properties
@@ -54,8 +56,9 @@ interface Props {
  */
 export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass, data }) => {
   /**
-   * Styles
+   * Styles and Theme
    */
+  const theme = useTheme2();
   const styles = useStyles2(Styles);
 
   /**
@@ -400,6 +403,26 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             }}
             data-testid={TestIds.formElements.fieldFile}
           />
+        </InlineField>
+      )}
+
+      {element.type === FormElementType.LINK && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={ApplyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+        >
+          <div className={styles.link} style={{ width: element.width ? theme.spacing(element.width) : 'auto' }}>
+            <TextLink
+              href={element.value}
+              external={element.target === LinkTarget.NEW_TAB}
+              data-testid={TestIds.formElements.link}
+            >
+              {element.linkText || element.value}
+            </TextLink>
+          </div>
         </InlineField>
       )}
 

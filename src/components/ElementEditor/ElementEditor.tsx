@@ -6,6 +6,7 @@ import {
   CodeLanguageOptions,
   FormElementType,
   FormElementTypeOptions,
+  LinkTargetOptions,
   OptionsSource,
   OptionsSourceOptions,
   RequestMethod,
@@ -13,7 +14,7 @@ import {
   TestIds,
 } from '../../constants';
 import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
-import { FormatNumberValue, GetElementWithNewType, ToNumberValue } from '../../utils';
+import { FormatNumberValue, GetElementWithNewType, IsFormElementType, ToNumberValue } from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
@@ -461,6 +462,36 @@ export const ElementEditor: React.FC<Props> = ({
                 });
               }}
               data-testid={TestIds.formElementsEditor.fieldAccept}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      )}
+
+      {IsFormElementType(element, FormElementType.LINK) && (
+        <InlineFieldRow>
+          <InlineField grow={true} label="Link Text" labelWidth={14}>
+            <Input
+              value={element.linkText}
+              onChange={(event) => {
+                onChange({
+                  ...element,
+                  linkText: event.currentTarget.value,
+                });
+              }}
+              placeholder="Link address will be used"
+              data-testid={TestIds.formElementsEditor.fieldLinkText}
+            />
+          </InlineField>
+          <InlineField grow={true} label="Open in" labelWidth={14}>
+            <RadioButtonGroup
+              value={element.target}
+              onChange={(value) => {
+                onChange({
+                  ...element,
+                  target: value,
+                });
+              }}
+              options={LinkTargetOptions}
             />
           </InlineField>
         </InlineFieldRow>
