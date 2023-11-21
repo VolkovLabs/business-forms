@@ -13,7 +13,7 @@ type Props = React.ComponentProps<typeof CodeEditor>;
  * @param value
  */
 const getHeightByValue = (value: string) => {
-  const height = value.split('\n').length * 18;
+  const height = value.split('\n').length * CodeEditorConfig.lineHeight;
 
   if (height < CodeEditorConfig.height.min) {
     return CodeEditorConfig.height.min;
