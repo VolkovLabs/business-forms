@@ -1,6 +1,7 @@
 import { SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
 
+import { LinkTarget } from '../types';
 import { TestIds } from './tests';
 
 /**
@@ -22,6 +23,7 @@ export const enum FormElementType {
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
+  LINK = 'link',
 }
 
 /**
@@ -83,6 +85,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.TEXTAREA,
     label: 'Text Area',
+  },
+  {
+    value: FormElementType.LINK,
+    label: 'Link',
   },
 ];
 
@@ -179,5 +185,21 @@ export const OptionsSourceOptions = [
     label: 'Custom',
     value: OptionsSource.Custom,
     ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.Custom),
+  },
+];
+
+/**
+ * Link Target Options
+ */
+export const LinkTargetOptions = [
+  {
+    label: 'Same Tab',
+    value: LinkTarget.SELF_TAB,
+    ariaLabel: TestIds.formElementsEditor.linkTargetOption(LinkTarget.SELF_TAB),
+  },
+  {
+    label: 'New Tab',
+    value: LinkTarget.NEW_TAB,
+    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(LinkTarget.NEW_TAB),
   },
 ];

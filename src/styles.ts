@@ -85,5 +85,10 @@ export const Styles = (theme: GrafanaTheme2) => {
     hidden: css`
       display: none;
     `,
+    link: css`
+      min-height: ${theme.spacing(4)};
+      display: flex;
+      align-items: center;
+    `,
   };
 };

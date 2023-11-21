@@ -96,6 +96,7 @@ export const TestIds = {
     fieldMinDate: 'data-testid form-elements-editor field-min-date',
     fieldMaxDate: 'data-testid form-elements-editor field-max-date',
     optionsSourceOption: (value: unknown) => `form-elements-editor options-source-option-${value}`,
+    linkTargetOption: (value: unknown) => `form-elements-editor link-target-option-${value}`,
     fieldQueryOptionsValue: 'form-elements-editor field-query-options-value',
     fieldQueryOptionsLabel: 'form-elements-editor field-query-options-label',
     newElementId: 'data-testid form-elements-editor new-element-id',

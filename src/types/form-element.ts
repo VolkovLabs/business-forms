@@ -353,6 +353,40 @@ export interface SecretOptions {
 }
 
 /**
+ * Link Target
+ */
+export enum LinkTarget {
+  NEW_TAB = '_blank',
+  SELF_TAB = '_self',
+}
+
+/**
+ * Link Options
+ */
+export interface LinkOptions {
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value: string;
+
+  /**
+   * Target
+   *
+   * @type {LinkTarget}
+   */
+  target: LinkTarget;
+
+  /**
+   * Link Text
+   *
+   * @type {string}
+   */
+  linkText: string;
+}
+
+/**
  * Form Element
  */
 export type FormElement = FormElementBase &
@@ -372,6 +406,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.SECRET } & SecretOptions)
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
+    | ({ type: FormElementType.LINK } & LinkOptions)
   );
 
 /**
