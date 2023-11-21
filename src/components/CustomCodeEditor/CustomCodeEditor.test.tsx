@@ -87,6 +87,7 @@ describe('Custom Code Editor', () => {
         monacoOptions: {
           formatOnPaste: true,
           formatOnType: true,
+          scrollBeyondLastLine: false,
         },
       }),
       expect.anything()
