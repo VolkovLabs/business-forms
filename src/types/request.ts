@@ -107,4 +107,18 @@ export interface ResetAction {
    * @type {string}
    */
   code: string;
+
+  /**
+   * Data Source
+   *
+   * @type {string}
+   */
+  datasource: string;
+
+  /**
+   * Get Payload
+   *
+   * @type {string}
+   */
+  getPayload: string;
 }

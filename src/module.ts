@@ -593,7 +593,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     .addRadio({
       path: 'resetAction.mode',
       name: 'Reset Action',
-      category: ['Reset request'],
+      category: ['Reset Request'],
       description: 'What action should be called by clicking on reset button.',
       settings: {
         options: ResetActionOptions,
@@ -607,14 +607,52 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Custom Code',
       description: 'Custom code to execute reset request.',
       editor: CustomCodeEditor,
-      category: ['Reset request'],
+      category: ['Reset Request'],
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: CodeResetDefault,
       showIf: (config) =>
         config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.CUSTOM,
+    })
+    .addCustomEditor({
+      id: 'resetAction.datasource',
+      path: 'resetAction.datasource',
+      name: 'Data Source',
+      category: ['Reset Request'],
+      editor: DatasourceEditor,
+      showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE,
+    })
+    .addCustomEditor({
+      id: 'resetAction.code',
+      path: 'resetAction.code',
+      name: 'Custom Code',
+      description: 'Custom code to execute after reset request.',
+      editor: CustomCodeEditor,
+      category: ['Reset Request'],
+      settings: {
+        language: CodeLanguage.JAVASCRIPT,
+      },
+      defaultValue: CodeUpdateDefault,
+      showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE,
     });
+
+  /**
+   * Reset Request Payload
+   */
+  builder.addCustomEditor({
+    id: 'resetAction.getPayload',
+    path: 'resetAction.getPayload',
+    name: 'Create Payload',
+    description: 'Custom code to create payload for the reset data source request.',
+    editor: CustomCodeEditor,
+    category: ['Reset Request Payload'],
+    settings: {
+      language: CodeLanguage.JAVASCRIPT,
+    },
+    defaultValue: PayloadInitialDefault,
+    showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE && !!config.resetAction.datasource,
+  });
 
   /**
    * Save Defaults Button
