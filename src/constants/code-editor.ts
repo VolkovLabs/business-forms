@@ -9,7 +9,7 @@ import { CodeLanguage } from '../types';
 export const CodeEditorConfig = {
   height: {
     min: 200,
-    max: 2000,
+    max: 1000,
   },
   lineHeight: 18,
 };
