@@ -4,9 +4,15 @@ import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana
 import { CodeLanguage } from '../types';
 
 /**
- * Code Editor
+ * Code Editor Config
  */
-export const CodeEditorHeight = 200;
+export const CodeEditorConfig = {
+  height: {
+    min: 200,
+    max: 1000,
+  },
+  lineHeight: 18,
+};
 
 /**
  * Code Language Options
