@@ -110,6 +110,7 @@ export const PayloadModeOptions = [
 export const enum ResetActionMode {
   INITIAL = 'initial',
   CUSTOM = 'custom',
+  DATASOURCE = 'datasource',
 }
 
 /**
@@ -118,4 +119,5 @@ export const enum ResetActionMode {
 export const ResetActionOptions = [
   { label: 'Custom Code', value: ResetActionMode.CUSTOM },
   { label: 'Initial request', value: ResetActionMode.INITIAL },
+  { label: 'Data Source', value: ResetActionMode.DATASOURCE },
 ];

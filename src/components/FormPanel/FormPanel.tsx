@@ -467,15 +467,86 @@ export const FormPanel: React.FC<Props> = ({
       return;
     }
 
+    if (options.resetAction.mode === ResetActionMode.CUSTOM) {
+      /**
+       * Loading
+       */
+      setLoading(LoadingMode.RESET);
+
+      /**
+       * Execute Custom Code and reset Loading
+       */
+      await executeCustomCode({ code: options.resetAction.code, initial });
+      setLoading(LoadingMode.NONE);
+    }
+
     /**
      * Loading
      */
     setLoading(LoadingMode.RESET);
 
+    if (!options.resetAction.datasource) {
+      /**
+       * Show No Data Source Error and Reset Loading
+       */
+      setError('Please select Data Source for Reset Request.');
+      setLoading(LoadingMode.NONE);
+
+      return;
+    }
+
+    /**
+     * Set payload
+     */
+    const payload = GetPayloadForRequest({
+      request: {
+        datasource: options.resetAction.datasource,
+        payloadMode: PayloadMode.CUSTOM,
+        method: RequestMethod.NONE,
+        url: '',
+        header: [],
+        getPayload: options.resetAction.getPayload,
+        contentType: ContentType.PLAIN,
+        code: options.resetAction.code,
+        highlight: false,
+        highlightColor: '',
+        confirm: false,
+        updatedOnly: false,
+      },
+      elements,
+      initial,
+    });
+
+    /**
+     * Datasource query
+     */
+    const response: FetchResponse | null = await datasourceRequest({
+      query: payload,
+      datasource: options.resetAction.datasource,
+      replaceVariables,
+    }).catch((error: DataQueryError) => {
+      setError(JSON.stringify(error));
+      return null;
+    });
+
+    let currentElements = elements;
+    if (response && response.ok) {
+      /**
+       * Change Elements With Data Source Values
+       */
+      const queryResponse = toDataQueryResponse(response as FetchResponse);
+      currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+
+      /**
+       * Update Elements
+       */
+      onChangeElements(currentElements);
+    }
+
     /**
      * Execute Custom Code and reset Loading
      */
-    await executeCustomCode({ code: options.resetAction.code, initial });
+    await executeCustomCode({ code: options.resetAction.code, initial, response, currentElements });
     setLoading(LoadingMode.NONE);
   };
 

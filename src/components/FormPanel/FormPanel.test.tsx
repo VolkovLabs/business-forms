@@ -1461,6 +1461,163 @@ describe('Panel', () => {
 
       jest.mocked(getAppEvents).mockClear();
     });
+
+    it('Should run reset datasource request', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          message: 'hello',
+          ok: true,
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+      /**
+       * Trigger element updates
+       */
+      await act(async () =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              resetAction: {
+                datasource: 'abc',
+                mode: ResetActionMode.DATASOURCE,
+                payloadMode: PayloadMode.CUSTOM,
+                getPayload: `return { key1: 'value' }`,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if Reset can be run
+       */
+      expect(selectors.buttonReset()).toBeInTheDocument();
+      expect(selectors.buttonReset()).not.toBeDisabled();
+
+      /**
+       * Run reset request
+       */
+      await act(async () => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      expect(datasourceRequestMock).toHaveBeenCalledWith({
+        datasource: 'abc',
+        query: {
+          key1: 'value',
+        },
+        replaceVariables: expect.any(Function),
+      });
+    });
+
+    it('Should show reset datasource request error', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.reject({
+          message: 'hello',
+        })
+      );
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+      /**
+       * Trigger element updates
+       */
+      await act(async () =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FormElementDefault, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              resetAction: {
+                datasource: 'abc',
+                mode: ResetActionMode.DATASOURCE,
+                payloadMode: PayloadMode.CUSTOM,
+                getPayload: `return { key1: 'value' }`,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if Reset can be run
+       */
+      expect(selectors.buttonReset()).toBeInTheDocument();
+      expect(selectors.buttonReset()).not.toBeDisabled();
+
+      /**
+       * Run reset request
+       */
+      await act(async () => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      await waitFor(() => expect(selectors.errorMessage()).toBeInTheDocument());
+    });
   });
 
   describe('Confirm changes', () => {
