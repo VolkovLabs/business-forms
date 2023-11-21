@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.3.0 (IN PROGRESS)
+## 3.3.0 (2023-11-21)
 
 ### Features / Enhancements
 
@@ -15,6 +15,7 @@
 - Update ESLint configuration (#294)
 - Add Autosize Code Editor (#295)
 - Add Data Source option for Reset button (#296)
+- Add Link Element (#297)
 
 ### Bugfixes
 

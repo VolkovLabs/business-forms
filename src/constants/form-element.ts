@@ -14,6 +14,7 @@ export const enum FormElementType {
   DISABLED = 'disabled',
   DISABLED_TEXTAREA = 'disabledTextarea',
   FILE = 'file',
+  LINK = 'link',
   MULTISELECT = 'multiselect',
   NUMBER = 'number',
   PASSWORD = 'password',
@@ -23,7 +24,6 @@ export const enum FormElementType {
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
-  LINK = 'link',
 }
 
 /**
@@ -41,6 +41,10 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.FILE,
     label: 'File',
+  },
+  {
+    value: FormElementType.LINK,
+    label: 'Link',
   },
   {
     value: FormElementType.MULTISELECT,
@@ -85,10 +89,6 @@ export const FormElementTypeOptions: SelectableValue[] = [
   {
     value: FormElementType.TEXTAREA,
     label: 'Text Area',
-  },
-  {
-    value: FormElementType.LINK,
-    label: 'Link',
   },
 ];
 
@@ -201,5 +201,6 @@ export const LinkTargetOptions = [
     label: 'New Tab',
     value: LinkTarget.NEW_TAB,
     ariaLabel: TestIds.formElementsEditor.linkTargetOption(LinkTarget.NEW_TAB),
+    icon: 'external-link-alt',
   },
 ];
