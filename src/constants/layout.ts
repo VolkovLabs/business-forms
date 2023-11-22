@@ -35,6 +35,7 @@ export const LayoutVariantOptions: SelectableValue[] = [
     value: LayoutVariant.SPLIT,
     description: 'Elements split in separate sections.',
     label: 'Sections',
+    icon: 'columns',
   },
 ];
 
