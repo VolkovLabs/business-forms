@@ -1,4 +1,4 @@
-import { AppEvents, FieldType, toDataFrame } from '@grafana/data';
+import { AppEvents, FieldType, LoadingState, toDataFrame } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
@@ -62,6 +62,7 @@ describe('Panel', () => {
    */
   const getComponent = ({ props = {}, options = {} } = {}) => {
     const finalOptions: any = {
+      sync: true,
       submit: {},
       initial: {
         url: 'some-url',
@@ -93,6 +94,9 @@ describe('Panel', () => {
     };
 
     const finalProps: any = {
+      data: {
+        state: LoadingState.Done,
+      },
       eventBus: {
         getStream: jest.fn().mockImplementation(() => ({
           subscribe: jest.fn().mockImplementation(() => ({
@@ -109,8 +113,9 @@ describe('Panel', () => {
   };
 
   beforeEach(() => {
-    jest.mocked(useDatasourceRequest).mockRestore();
+    jest.mocked(useDatasourceRequest).mockClear();
     jest.mocked(FormElements).mockClear();
+    jest.mocked(fetch).mockClear();
   });
 
   it('Should find component with Elements', async () => {
@@ -189,7 +194,7 @@ describe('Panel', () => {
    * Initial Request
    */
   describe('Initial request', () => {
-    it('Should make initial request', async () => {
+    it('Should make initial request once', async () => {
       let fetchCalledOptions: any = {};
       jest.mocked(fetch).mockImplementationOnce((url, options) => {
         fetchCalledOptions = options;
@@ -212,7 +217,50 @@ describe('Panel', () => {
       /**
        * Check if fetch is called
        */
-      expect(fetch).toHaveBeenCalled();
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(fetch).toHaveBeenCalledWith(
+        'some-url',
+        expect.objectContaining({
+          method: RequestMethod.POST,
+        })
+      );
+      expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
+    });
+
+    it('Should make initial request once if sync disabled', async () => {
+      let fetchCalledOptions: any = {};
+      jest.mocked(fetch).mockImplementationOnce((url, options) => {
+        fetchCalledOptions = options;
+        return Promise.resolve({
+          json: Promise.resolve({}),
+        } as any);
+      });
+
+      /**
+       * Render
+       */
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            options: {
+              sync: false,
+            },
+          })
+        )
+      );
+
+      rerender(
+        getComponent({
+          options: {
+            sync: false,
+          },
+        })
+      );
+
+      /**
+       * Check if fetch is called
+       */
+      expect(fetch).toHaveBeenCalledTimes(1);
       expect(fetch).toHaveBeenCalledWith(
         'some-url',
         expect.objectContaining({
@@ -324,6 +372,7 @@ describe('Panel', () => {
             },
             props: {
               data: {
+                state: LoadingState.Done,
                 series: [
                   toDataFrame({
                     fields: [
@@ -654,6 +703,138 @@ describe('Panel', () => {
       expect(
         within(selectors.errorMessage()).getByText('CORS prevents access to the response for Initial values.')
       ).toBeInTheDocument();
+    });
+
+    it('Should make initial request on data change', async () => {
+      /**
+       * Render
+       */
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            props: {
+              data: {
+                state: LoadingState.Done,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if fetch is called
+       */
+      expect(fetch).toHaveBeenCalledTimes(1);
+
+      await act(async () =>
+        rerender(
+          getComponent({
+            props: {
+              data: {
+                state: LoadingState.Done,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if fetch is called again
+       */
+      expect(fetch).toHaveBeenCalledTimes(2);
+    });
+
+    describe('Dashboard Refresh', () => {
+      /**
+       * Event Bus
+       */
+      let callbacks: Array<() => {}> = [];
+      const eventBus = {
+        getStream: jest.fn(() => ({
+          subscribe: jest.fn((callback) => {
+            callbacks.push(callback);
+            return {
+              unsubscribe: () => (callbacks = callbacks.filter((item) => item !== callback)),
+            };
+          }),
+        })),
+        publish: () => {
+          callbacks.forEach((cb) => cb());
+        },
+      };
+
+      it('Should make initial request on dashboard refresh', async () => {
+        /**
+         * Render
+         */
+        await act(async () =>
+          render(
+            getComponent({
+              props: {
+                data: {
+                  state: LoadingState.Done,
+                },
+                eventBus,
+              },
+            })
+          )
+        );
+
+        /**
+         * Check if fetch is called
+         */
+        expect(fetch).toHaveBeenCalledTimes(1);
+
+        /**
+         * Simulate Dashboard Refresh
+         */
+        await act(async () => {
+          eventBus.publish();
+        });
+
+        /**
+         * Check if fetch is called again
+         */
+        expect(fetch).toHaveBeenCalledTimes(2);
+      });
+
+      it('Should not make initial request on dashboard refresh if sync disabled', async () => {
+        /**
+         * Render
+         */
+        await act(async () =>
+          render(
+            getComponent({
+              props: {
+                data: {
+                  state: LoadingState.Done,
+                },
+                eventBus,
+              },
+              options: {
+                sync: false,
+              },
+            })
+          )
+        );
+
+        /**
+         * Check if fetch is called
+         */
+        expect(fetch).toHaveBeenCalledTimes(1);
+
+        /**
+         * Simulate Dashboard Refresh
+         */
+        await act(async () => {
+          eventBus.publish();
+        });
+
+        /**
+         * Check if fetch is not called again
+         */
+        expect(fetch).toHaveBeenCalledTimes(1);
+      });
     });
   });
 

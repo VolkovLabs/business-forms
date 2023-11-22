@@ -10,6 +10,7 @@ import {
   LayoutSectionsEditor,
 } from './components';
 import {
+  BooleanOptions,
   ButtonOrientationOptions,
   ButtonSizeOptions,
   ButtonVariantHiddenOption,
@@ -70,6 +71,20 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       request.method !== RequestMethod.QUERY
     );
   };
+
+  /**
+   * Sync
+   */
+  builder.addRadio({
+    path: 'sync',
+    name: 'Sync with data',
+    description: 'Keeps the panel synced with the dashboard data',
+    category: ['Sync'],
+    settings: {
+      options: BooleanOptions,
+    },
+    defaultValue: true,
+  });
 
   /**
    * Layout
@@ -238,16 +253,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Some elements are not supporting highlighting.',
       category: ['Highlight Changes'],
       settings: {
-        options: [
-          {
-            value: true,
-            label: 'Enabled',
-          },
-          {
-            value: false,
-            label: 'Disabled',
-          },
-        ],
+        options: BooleanOptions,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
@@ -377,16 +383,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Ask to confirm updated values.',
       category: ['Confirmation Window'],
       settings: {
-        options: [
-          {
-            value: true,
-            label: 'Enabled',
-          },
-          {
-            value: false,
-            label: 'Disabled',
-          },
-        ],
+        options: BooleanOptions,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
