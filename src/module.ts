@@ -74,20 +74,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
   };
 
   /**
-   * Sync
-   */
-  builder.addRadio({
-    path: 'sync',
-    name: 'Sync with data',
-    description: 'Keeps the panel synced with the dashboard data',
-    category: ['Sync'],
-    settings: {
-      options: DataSyncOptions,
-    },
-    defaultValue: true,
-  });
-
-  /**
    * Layout
    */
   builder
@@ -145,6 +131,20 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     description: 'Form Elements',
     editor: FormElementsEditor,
     showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
+  });
+
+  /**
+   * Sync
+   */
+  builder.addRadio({
+    path: 'sync',
+    name: 'Synchronize with data',
+    description: 'Keeps the panel synched with the dashboard data',
+    category: ['Data'],
+    settings: {
+      options: DataSyncOptions,
+    },
+    defaultValue: true,
   });
 
   /**
