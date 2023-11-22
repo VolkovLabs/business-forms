@@ -309,7 +309,7 @@ describe('Form Elements', () => {
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'select', type: FormElementType.SELECT, optionsSource: OptionsSource.Query }],
+        elements: [{ id: 'select', type: FormElementType.SELECT, optionsSource: OptionsSource.QUERY }],
       };
 
       render(getComponent({ options, onChangeElement }));
@@ -331,7 +331,7 @@ describe('Form Elements', () => {
           {
             id: 'select',
             type: FormElementType.SELECT,
-            optionsSource: OptionsSource.Query,
+            optionsSource: OptionsSource.QUERY,
             queryOptions: {
               source: 'A',
               value: 'Value',
@@ -360,7 +360,7 @@ describe('Form Elements', () => {
           {
             id: 'select',
             type: FormElementType.SELECT,
-            optionsSource: OptionsSource.Query,
+            optionsSource: OptionsSource.QUERY,
             queryOptions: {
               source: 'A',
               value: 'Value',
@@ -597,7 +597,7 @@ describe('Form Elements', () => {
             type: FormElementType.SELECT,
             value: '111',
             options: [],
-            optionsSource: OptionsSource.Query,
+            optionsSource: OptionsSource.QUERY,
             queryOptions: {
               source: 'A',
               value: 'Value',

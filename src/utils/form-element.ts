@@ -237,7 +237,7 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
     element.type === FormElementType.MULTISELECT ||
     element.type === FormElementType.RADIO
   ) {
-    if (element.optionsSource === OptionsSource.Query) {
+    if (element.optionsSource === OptionsSource.QUERY) {
       getOptions = ({ data }) => {
         const { queryOptions } = element;
 

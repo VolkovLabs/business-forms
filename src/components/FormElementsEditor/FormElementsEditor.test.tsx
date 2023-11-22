@@ -720,7 +720,7 @@ describe('Form Elements Editor', () => {
           id: 'id',
           type: FormElementType.STRING,
           options: [],
-          optionsSource: OptionsSource.Custom,
+          optionsSource: OptionsSource.CUSTOM,
         };
         const elements = [element];
 
@@ -866,7 +866,7 @@ describe('Form Elements Editor', () => {
           ...FormElementDefault,
           id: 'id',
           type: FormElementType.SELECT,
-          optionsSource: OptionsSource.Query,
+          optionsSource: OptionsSource.QUERY,
           queryOptions: {
             source: 'A',
             value: 'Value',
@@ -1412,7 +1412,7 @@ describe('Form Elements Editor', () => {
 
     it('Should update file options source', async () => {
       const elements = [
-        { ...FormElementDefault, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.Custom },
+        { ...FormElementDefault, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.CUSTOM },
       ];
       const context = {
         data: [],
@@ -1429,7 +1429,7 @@ describe('Form Elements Editor', () => {
       /**
        * Change field name
        */
-      const sourceOption = elementSelectors.optionsSourceOption(false, OptionsSource.Query);
+      const sourceOption = elementSelectors.optionsSourceOption(false, OptionsSource.QUERY);
       await act(() => fireEvent.click(sourceOption));
 
       expect(sourceOption).toBeChecked();
@@ -2138,7 +2138,7 @@ describe('Form Elements Editor', () => {
         ...FormElementDefault,
         id: 'select',
         type: FormElementType.SELECT,
-        optionsSource: OptionsSource.Query,
+        optionsSource: OptionsSource.QUERY,
       };
       const elements = [element];
 
@@ -2161,7 +2161,7 @@ describe('Form Elements Editor', () => {
         ...FormElementDefault,
         id: 'select',
         type: FormElementType.SELECT,
-        optionsSource: OptionsSource.Query,
+        optionsSource: OptionsSource.QUERY,
         queryOptions: {
           source: 'A',
           value: 'Time',
@@ -2195,7 +2195,7 @@ describe('Form Elements Editor', () => {
         ...FormElementDefault,
         id: 'select',
         type: FormElementType.SELECT,
-        optionsSource: OptionsSource.Query,
+        optionsSource: OptionsSource.QUERY,
         queryOptions: {
           source: 'A',
           value: 'Time',
@@ -2227,7 +2227,7 @@ describe('Form Elements Editor', () => {
         ...FormElementDefault,
         id: 'select',
         type: FormElementType.SELECT,
-        optionsSource: OptionsSource.Query,
+        optionsSource: OptionsSource.QUERY,
         queryOptions: {
           source: 'A',
           value: 'Time',
@@ -2261,7 +2261,7 @@ describe('Form Elements Editor', () => {
         ...FormElementDefault,
         id: 'select',
         type: FormElementType.SELECT,
-        optionsSource: OptionsSource.Query,
+        optionsSource: OptionsSource.QUERY,
         queryOptions: {
           source: 'A',
           value: 'Time',

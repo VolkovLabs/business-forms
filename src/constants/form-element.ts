@@ -168,8 +168,8 @@ export const IconOptions = getAvailableIcons().map((name) => ({
  * Options Source
  */
 export enum OptionsSource {
-  Query = 'Query',
-  Custom = 'Custom',
+  QUERY = 'Query',
+  CUSTOM = 'Custom',
 }
 
 /**
@@ -178,13 +178,13 @@ export enum OptionsSource {
 export const OptionsSourceOptions = [
   {
     label: 'Query',
-    value: OptionsSource.Query,
-    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.Query),
+    value: OptionsSource.QUERY,
+    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.QUERY),
   },
   {
     label: 'Custom',
-    value: OptionsSource.Custom,
-    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.Custom),
+    value: OptionsSource.CUSTOM,
+    ariaLabel: TestIds.formElementsEditor.optionsSourceOption(OptionsSource.CUSTOM),
   },
 ];
 

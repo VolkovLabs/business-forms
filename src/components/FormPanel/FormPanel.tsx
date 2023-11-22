@@ -48,7 +48,7 @@ import {
   GetButtonVariant,
   getFieldValues,
   GetInitialValuesMap,
-  GetPayloadForRequest,
+  getPayloadForRequest,
   ToFormData,
   ToJSON,
 } from '../../utils';
@@ -330,7 +330,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Run Datasource Query
        */
-      const body = GetPayloadForRequest({
+      const body = getPayloadForRequest({
         request: {
           ...options.initial,
           payloadMode: PayloadMode.CUSTOM,
@@ -505,7 +505,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const payload = GetPayloadForRequest({
+    const payload = getPayloadForRequest({
       request: {
         datasource: options.resetAction.datasource,
         payloadMode: PayloadMode.CUSTOM,
@@ -587,7 +587,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const payload = GetPayloadForRequest({
+    const payload = getPayloadForRequest({
       request: options.update,
       elements,
       initial,

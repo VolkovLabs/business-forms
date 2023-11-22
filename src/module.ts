@@ -10,7 +10,7 @@ import {
   LayoutSectionsEditor,
 } from './components';
 import {
-  BooleanOptions,
+  BOOLEAN_OPTIONS,
   ButtonOrientationOptions,
   ButtonSizeOptions,
   ButtonVariantHiddenOption,
@@ -254,7 +254,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Some elements are not supporting highlighting.',
       category: ['Highlight Changes'],
       settings: {
-        options: BooleanOptions,
+        options: BOOLEAN_OPTIONS,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
@@ -384,7 +384,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Ask to confirm updated values.',
       category: ['Confirmation Window'],
       settings: {
-        options: BooleanOptions,
+        options: BOOLEAN_OPTIONS,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,

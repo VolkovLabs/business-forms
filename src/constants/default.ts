@@ -136,7 +136,7 @@ export const TextareaDefault: TextareaOptions = {
  * Select Defaults
  */
 export const SelectDefaults: SelectOptions = {
-  optionsSource: OptionsSource.Custom,
+  optionsSource: OptionsSource.CUSTOM,
 };
 
 /**

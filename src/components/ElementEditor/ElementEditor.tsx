@@ -506,7 +506,7 @@ export const ElementEditor: React.FC<Props> = ({
             <InlineField label="Options Source" labelWidth={14}>
               <RadioButtonGroup
                 options={OptionsSourceOptions}
-                value={element.optionsSource || OptionsSource.Custom}
+                value={element.optionsSource || OptionsSource.CUSTOM}
                 onChange={(value) => {
                   onChange({
                     ...element,
@@ -516,7 +516,7 @@ export const ElementEditor: React.FC<Props> = ({
               />
             </InlineField>
           </InlineFieldRow>
-          {element.optionsSource === OptionsSource.Query ? (
+          {element.optionsSource === OptionsSource.QUERY ? (
             <ElementQueryOptionsEditor
               value={element.queryOptions}
               onChange={(queryOptions) => {

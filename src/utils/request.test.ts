@@ -1,5 +1,5 @@
 import { FormElementType, PayloadMode } from '../constants';
-import { GetPayloadForRequest, ToFormData, ToJSON } from './request';
+import { getPayloadForRequest, ToFormData, ToJSON } from './request';
 
 describe('Request Utils', () => {
   const replaceVariables = jest.fn((str) => str);
@@ -31,7 +31,7 @@ describe('Request Utils', () => {
 
     it('Should return values for all elements', () => {
       expect(
-        GetPayloadForRequest({
+        getPayloadForRequest({
           elements,
           initial: {},
           request: {
@@ -47,7 +47,7 @@ describe('Request Utils', () => {
 
     it('Should return values for updated elements', () => {
       expect(
-        GetPayloadForRequest({
+        getPayloadForRequest({
           elements,
           initial: {
             age: 30,
@@ -63,7 +63,7 @@ describe('Request Utils', () => {
 
     it('Should return values for updated elements with deprecated option', () => {
       expect(
-        GetPayloadForRequest({
+        getPayloadForRequest({
           elements,
           initial: {
             age: 30,
@@ -79,7 +79,7 @@ describe('Request Utils', () => {
 
     it('Should return values from getPayload execution', () => {
       expect(
-        GetPayloadForRequest({
+        getPayloadForRequest({
           elements,
           initial: {
             role: 'admin',

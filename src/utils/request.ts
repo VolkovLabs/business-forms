@@ -6,7 +6,7 @@ import { LocalFormElement, RequestOptions } from '../types';
 /**
  * Get Payload For Request
  */
-export const GetPayloadForRequest = ({
+export const getPayloadForRequest = ({
   request,
   elements,
   initial,
@@ -110,7 +110,7 @@ export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunc
 /**
  * Get Form Data Value
  */
-const GetFormDataValue = (value: unknown, replaceVariables: InterpolateFunction): string | Blob => {
+const getFormDataValue = (value: unknown, replaceVariables: InterpolateFunction): string | Blob => {
   if (typeof value === 'string') {
     return replaceVariables(value);
   }
@@ -131,11 +131,11 @@ export const ToFormData = (payload: object, replaceVariables: InterpolateFunctio
   Object.entries(payload).forEach(([elementKey, elementValue]) => {
     if (Array.isArray(elementValue)) {
       elementValue.forEach((value, index) => {
-        formData.set(`${elementKey}[${index}]`, GetFormDataValue(value, replaceVariables));
+        formData.set(`${elementKey}[${index}]`, getFormDataValue(value, replaceVariables));
       });
       return;
     }
-    formData.set(elementKey, GetFormDataValue(elementValue, replaceVariables));
+    formData.set(elementKey, getFormDataValue(elementValue, replaceVariables));
   });
 
   return formData;
