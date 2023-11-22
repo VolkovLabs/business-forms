@@ -19,7 +19,7 @@ import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
 import { ElementQueryOptionsEditor } from '../ElementQueryOptionsEditor';
-import { Styles } from './ElementEditor.styles';
+import { getStyles } from './ElementEditor.styles';
 
 /**
  * Properties
@@ -87,7 +87,7 @@ export const ElementEditor: React.FC<Props> = ({
   /**
    * Styles
    */
-  const styles = useStyles2(Styles);
+  const styles = useStyles2(getStyles);
 
   /**
    * Return

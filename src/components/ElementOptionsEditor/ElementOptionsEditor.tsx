@@ -1,11 +1,11 @@
 import { SelectableValue } from '@grafana/data';
 import { Button, Icon, IconButton, InlineField, InlineFieldRow, Input, Label, Select, useStyles2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
+import { Collapse } from '@volkovlabs/components';
 import React, { ChangeEvent, useCallback, useState } from 'react';
 
 import { FormElementOptionDefault, FormElementType, IconOptions, SelectElementOptions, TestIds } from '../../constants';
 import { Reorder } from '../../utils';
-import { Collapse } from '../Collapse';
 import { Styles } from './ElementOptionsEditor.styles';
 
 /**

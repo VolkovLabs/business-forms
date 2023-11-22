@@ -22,7 +22,7 @@ import { BooleanElementOptions, FormElementType, TestIds } from '../../constants
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
 import { ApplyWidth, FormatNumberValue, IsFormElementType } from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
-import { Styles } from './FormElement.styles';
+import { getStyles } from './FormElement.styles';
 
 /**
  * Properties
@@ -59,7 +59,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
    * Styles and Theme
    */
   const theme = useTheme2();
-  const styles = useStyles2(Styles);
+  const styles = useStyles2(getStyles);
 
   /**
    * Options

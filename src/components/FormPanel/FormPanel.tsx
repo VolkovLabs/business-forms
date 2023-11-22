@@ -46,7 +46,7 @@ import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../.
 import {
   ConvertToElementValue,
   GetButtonVariant,
-  GetFieldValues,
+  getFieldValues,
   GetInitialValuesMap,
   GetPayloadForRequest,
   ToFormData,
@@ -159,7 +159,7 @@ export const FormPanel: React.FC<Props> = ({
           /**
            * Update with initial value
            */
-          const values = GetFieldValues(field);
+          const values = getFieldValues(field);
 
           return ConvertToElementValue(element, values[values.length - 1]);
         }

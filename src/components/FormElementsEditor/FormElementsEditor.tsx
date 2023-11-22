@@ -1,13 +1,13 @@
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
+import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { RequestMethod, TestIds } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { GetElementUniqueId, GetLayoutUniqueId, Reorder } from '../../utils';
-import { Collapse } from '../Collapse';
 import { ElementEditor } from '../ElementEditor';
 import { NewElement } from '../NewElement';
 import { Styles } from './styles';

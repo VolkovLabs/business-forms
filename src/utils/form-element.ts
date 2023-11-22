@@ -21,7 +21,7 @@ import {
   LocalFormElement,
   ShowIfHelper,
 } from '../types';
-import { GetFieldValues } from './grafana';
+import { getFieldValues } from './grafana';
 
 /**
  * Reorder
@@ -252,11 +252,11 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
           return [];
         }
 
-        const labelValues = GetFieldValues(
+        const labelValues = getFieldValues(
           frame?.fields.find((field) => field.name === queryOptions.label) || valueField
         );
 
-        return GetFieldValues(valueField).map((value, index) => ({
+        return getFieldValues(valueField).map((value, index) => ({
           value,
           label: labelValues[index] as string,
         }));
