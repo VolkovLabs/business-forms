@@ -1,13 +1,15 @@
 /**
- * Boolean Options
+ * Data Sync Options
  */
-export const BooleanOptions = [
+export const DataSyncOptions = [
   {
     value: true,
     label: 'Enabled',
+    icon: 'sync',
   },
   {
     value: false,
     label: 'Disabled',
+    icon: 'sync-slash',
   },
 ];

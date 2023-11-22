@@ -21,6 +21,7 @@ import {
   ConfirmModalDefault,
   ContentType,
   ContentTypeOptions,
+  DataSyncOptions,
   InitialHighlightColorDefault,
   LayoutOrientation,
   LayoutOrientationOptions,
@@ -81,7 +82,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     description: 'Keeps the panel synced with the dashboard data',
     category: ['Sync'],
     settings: {
-      options: BooleanOptions,
+      options: DataSyncOptions,
     },
     defaultValue: true,
   });
