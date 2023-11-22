@@ -27,6 +27,7 @@ export const RequestMethodInitialOptions: SelectableValue[] = [
   {
     value: RequestMethod.DATASOURCE,
     label: 'Data Source',
+    icon: 'database',
   },
   {
     value: RequestMethod.QUERY,
@@ -49,6 +50,7 @@ export const RequestMethodUpdateOptions: SelectableValue[] = [
   {
     value: RequestMethod.DATASOURCE,
     label: 'Data Source',
+    icon: 'database',
   },
   {
     value: RequestMethod.DELETE,
@@ -119,5 +121,5 @@ export const enum ResetActionMode {
 export const ResetActionOptions = [
   { label: 'Custom Code', value: ResetActionMode.CUSTOM },
   { label: 'Initial Request', value: ResetActionMode.INITIAL },
-  { label: 'Data Source', value: ResetActionMode.DATASOURCE },
+  { label: 'Data Source', value: ResetActionMode.DATASOURCE, icon: 'database' },
 ];
