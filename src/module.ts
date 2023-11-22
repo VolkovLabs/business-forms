@@ -10,6 +10,7 @@ import {
   LayoutSectionsEditor,
 } from './components';
 import {
+  BooleanOptions,
   ButtonOrientationOptions,
   ButtonSizeOptions,
   ButtonVariantHiddenOption,
@@ -20,6 +21,7 @@ import {
   ConfirmModalDefault,
   ContentType,
   ContentTypeOptions,
+  DataSyncOptions,
   InitialHighlightColorDefault,
   LayoutOrientation,
   LayoutOrientationOptions,
@@ -132,6 +134,20 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
   });
 
   /**
+   * Sync
+   */
+  builder.addRadio({
+    path: 'sync',
+    name: 'Synchronize with data',
+    description: 'Keeps the panel synched with the dashboard data',
+    category: ['Data'],
+    settings: {
+      options: DataSyncOptions,
+    },
+    defaultValue: true,
+  });
+
+  /**
    * Initial Request
    */
   builder
@@ -238,16 +254,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Some elements are not supporting highlighting.',
       category: ['Highlight Changes'],
       settings: {
-        options: [
-          {
-            value: true,
-            label: 'Enabled',
-          },
-          {
-            value: false,
-            label: 'Disabled',
-          },
-        ],
+        options: BooleanOptions,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
@@ -377,16 +384,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Ask to confirm updated values.',
       category: ['Confirmation Window'],
       settings: {
-        options: [
-          {
-            value: true,
-            label: 'Enabled',
-          },
-          {
-            value: false,
-            label: 'Disabled',
-          },
-        ],
+        options: BooleanOptions,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,

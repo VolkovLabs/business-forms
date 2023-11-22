@@ -7,6 +7,7 @@ import {
   DataQueryError,
   dateTime,
   Field,
+  LoadingState,
   PanelProps,
 } from '@grafana/data';
 import {
@@ -77,6 +78,7 @@ export const FormPanel: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: unknown }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
+  const [isInitialized, setInitialized] = useState(false);
 
   /**
    * Use Datasource Request
@@ -670,26 +672,37 @@ export const FormPanel: React.FC<Props> = ({
   };
 
   /**
-   * Execute Initial Request on options.initial or data updates
+   * Execute Initial Request on dashboard or data update
    */
   useEffect(() => {
     /**
      * On Load
      */
-    initialRequest();
+    if (data.state === LoadingState.Done && (options.sync || !isInitialized)) {
+      initialRequest();
+
+      /**
+       * Set Initialized only when sync disabled to prevent unnecessary re-render
+       */
+      if (!options.sync) {
+        setInitialized(true);
+      }
+    }
 
     /**
      * On Refresh
      */
     const subscriber = eventBus.getStream(RefreshEvent).subscribe(() => {
-      initialRequest();
+      if (options.sync) {
+        initialRequest();
+      }
     });
 
     return () => {
       subscriber.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.initial, data]);
+  }, [options.initial, data, options.sync, isInitialized, eventBus]);
 
   /**
    * Check updated values

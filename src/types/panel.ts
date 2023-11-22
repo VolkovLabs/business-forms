@@ -9,6 +9,12 @@ import { RequestOptions, ResetAction } from './request';
  */
 export interface PanelOptions {
   /**
+   * Sync
+   * @type {boolean}
+   */
+  sync: boolean;
+
+  /**
    * Initial Values
    *
    * @type {RequestOptions}

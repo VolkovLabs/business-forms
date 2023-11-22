@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.4.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add ability to disable panel syncing (#298)
+
 ## 3.3.0 (2023-11-21)
 
 ### Features / Enhancements
