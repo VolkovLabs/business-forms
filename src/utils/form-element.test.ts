@@ -1,6 +1,6 @@
-import { convertToElementValue, getButtonVariant, reorder } from './form-element';
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
+import { convertToElementValue, getButtonVariant, reorder } from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {

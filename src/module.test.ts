@@ -2,7 +2,7 @@ import { PanelPlugin } from '@grafana/data';
 
 import { LayoutVariant, PayloadMode, RequestMethod, ResetActionMode } from './constants';
 import { plugin } from './module';
-import { PanelOptions, ButtonVariant } from './types';
+import { ButtonVariant, PanelOptions } from './types';
 
 /*
  Plugin

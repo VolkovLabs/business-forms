@@ -3,9 +3,9 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
 import { FORM_ELEMENT_DEFAULT, FormElementType, OptionsSource } from '../../constants';
+import { LinkTarget } from '../../types';
 import { getFormElementsSelectors, normalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
-import { LinkTarget } from '../../types';
 
 /**
  * Mock timers

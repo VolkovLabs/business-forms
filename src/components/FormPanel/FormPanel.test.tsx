@@ -748,7 +748,7 @@ describe('Panel', () => {
       /**
        * Event Bus
        */
-      let callbacks: Array<() => {}> = [];
+      let callbacks: Array<() => void> = [];
       const eventBus = {
         getStream: jest.fn(() => ({
           subscribe: jest.fn((callback) => {

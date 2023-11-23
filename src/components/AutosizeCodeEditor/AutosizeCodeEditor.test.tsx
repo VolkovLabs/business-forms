@@ -1,8 +1,9 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
-import { AutosizeCodeEditor } from './AutosizeCodeEditor';
+import React from 'react';
+
 import { CODE_EDITOR_CONFIG } from '../../constants';
+import { AutosizeCodeEditor } from './AutosizeCodeEditor';
 
 /**
  * Properties
@@ -58,7 +59,7 @@ describe('AutosizeCodeEditor', () => {
     render(getComponent({}));
 
     const valueIn20Rows = Array.from(new Array(20))
-      .map((_, index) => index)
+      .map((value, index) => index)
       .join('\n');
 
     fireEvent.change(selectors.field(), { target: { value: valueIn20Rows } });
@@ -72,7 +73,7 @@ describe('AutosizeCodeEditor', () => {
     expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.min}px`);
 
     const valueIn20Rows = Array.from(new Array(20))
-      .map((_, index) => index)
+      .map((value, index) => index)
       .join('\n');
 
     rerender(getComponent({ value: valueIn20Rows }));
@@ -82,7 +83,7 @@ describe('AutosizeCodeEditor', () => {
 
   it('Should apply max height', () => {
     const valueIn1000Rows = Array.from(new Array(1000))
-      .map((_, index) => index)
+      .map((value, index) => index)
       .join('\n');
 
     render(getComponent({ value: valueIn1000Rows }));
