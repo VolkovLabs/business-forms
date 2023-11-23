@@ -2,13 +2,13 @@ import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
 import React, { ChangeEvent } from 'react';
 
-import { TestIds } from '../../constants';
+import { TEST_IDS } from '../../constants';
 import { HeaderParameter } from '../../types';
 
 /**
  * Properties
  */
-type Props = StandardEditorProps<HeaderParameter[]>
+type Props = StandardEditorProps<HeaderParameter[]>;
 
 /**
  * Header Parameters Editor
@@ -22,9 +22,9 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
    * Return
    */
   return (
-    <div data-testid={TestIds.headerParametersEditor.root}>
+    <div data-testid={TEST_IDS.headerParametersEditor.root}>
       {parameters.map((parameter, id) => (
-        <InlineFieldRow key={id} data-testid={TestIds.headerParametersEditor.parameter(parameter.name)}>
+        <InlineFieldRow key={id} data-testid={TEST_IDS.headerParametersEditor.parameter(parameter.name)}>
           <InlineField label="Name" labelWidth={8} invalid={parameter.name === ''}>
             <Input
               placeholder="name"
@@ -33,7 +33,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
                 onChange(parameters);
               }}
               value={parameter.name}
-              data-testid={TestIds.headerParametersEditor.fieldName}
+              data-testid={TEST_IDS.headerParametersEditor.fieldName}
             />
           </InlineField>
           <InlineField label="Value" labelWidth={8} grow>
@@ -45,7 +45,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
               }}
               type="password"
               value={parameter.value}
-              data-testid={TestIds.headerParametersEditor.fieldValue}
+              data-testid={TEST_IDS.headerParametersEditor.fieldValue}
             />
           </InlineField>
           <Button
@@ -55,7 +55,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
               onChange(parameters);
             }}
             icon="trash-alt"
-            data-testid={TestIds.headerParametersEditor.buttonRemove}
+            data-testid={TEST_IDS.headerParametersEditor.buttonRemove}
           />
         </InlineFieldRow>
       ))}
@@ -67,7 +67,7 @@ export const HeaderParametersEditor: React.FC<Props> = ({ value: parameters, onC
           onChange(parameters);
         }}
         icon="plus"
-        data-testid={TestIds.headerParametersEditor.buttonAdd}
+        data-testid={TEST_IDS.headerParametersEditor.buttonAdd}
       >
         Add Parameter
       </Button>

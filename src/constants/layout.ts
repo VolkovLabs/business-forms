@@ -20,7 +20,7 @@ export const enum LayoutOrientation {
 /**
  * Layout Variant Options
  */
-export const LayoutVariantOptions: SelectableValue[] = [
+export const LAYOUT_VARIANT_OPTIONS: SelectableValue[] = [
   {
     value: LayoutVariant.SINGLE,
     description: 'All elements together.',
@@ -42,7 +42,7 @@ export const LayoutVariantOptions: SelectableValue[] = [
 /**
  * Layout Orientation Options
  */
-export const LayoutOrientationOptions: SelectableValue[] = [
+export const LAYOUT_ORIENTATION_OPTIONS: SelectableValue[] = [
   {
     value: LayoutOrientation.HORIZONTAL,
     description: 'Horizontal Orientation',

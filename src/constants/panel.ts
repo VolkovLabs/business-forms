@@ -1,7 +1,7 @@
 /**
  * Boolean Options
  */
-export const BooleanOptions = [
+export const BOOLEAN_OPTIONS = [
   {
     value: true,
     label: 'Enabled',

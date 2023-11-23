@@ -4,7 +4,7 @@ import { Field } from '@grafana/data';
  * Get Field Values
  * @param field
  */
-export const GetFieldValues = (field?: Field): unknown[] => {
+export const getFieldValues = (field?: Field): unknown[] => {
   if (!field) {
     return [];
   }

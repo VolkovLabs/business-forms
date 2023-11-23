@@ -6,7 +6,7 @@ import { LocalFormElement, RequestOptions } from '../types';
 /**
  * Get Payload For Request
  */
-export const GetPayloadForRequest = ({
+export const getPayloadForRequest = ({
   request,
   elements,
   initial,
@@ -69,7 +69,7 @@ export const GetPayloadForRequest = ({
  * @param file
  * @constructor
  */
-const FileToBase64 = (file: File): Promise<string> => {
+const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
 
@@ -87,7 +87,7 @@ const FileToBase64 = (file: File): Promise<string> => {
 /**
  * To JSON
  */
-export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunction): Promise<string> => {
+export const toJson = async (payload: unknown, replaceVariables: InterpolateFunction): Promise<string> => {
   if (typeof payload !== 'object' || Array.isArray(payload) || payload === null) {
     return replaceVariables(JSON.stringify(payload));
   }
@@ -98,7 +98,7 @@ export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunc
       /**
        * Read Files
        */
-      result[elementKey] = await Promise.all(elementValue.map((file) => FileToBase64(file)));
+      result[elementKey] = await Promise.all(elementValue.map((file) => fileToBase64(file)));
     } else {
       result[elementKey] = elementValue;
     }
@@ -110,7 +110,7 @@ export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunc
 /**
  * Get Form Data Value
  */
-const GetFormDataValue = (value: unknown, replaceVariables: InterpolateFunction): string | Blob => {
+const getFormDataValue = (value: unknown, replaceVariables: InterpolateFunction): string | Blob => {
   if (typeof value === 'string') {
     return replaceVariables(value);
   }
@@ -125,17 +125,17 @@ const GetFormDataValue = (value: unknown, replaceVariables: InterpolateFunction)
 /**
  * To Form Data
  */
-export const ToFormData = (payload: object, replaceVariables: InterpolateFunction): FormData => {
+export const toFormData = (payload: object, replaceVariables: InterpolateFunction): FormData => {
   const formData = new FormData();
 
   Object.entries(payload).forEach(([elementKey, elementValue]) => {
     if (Array.isArray(elementValue)) {
       elementValue.forEach((value, index) => {
-        formData.set(`${elementKey}[${index}]`, GetFormDataValue(value, replaceVariables));
+        formData.set(`${elementKey}[${index}]`, getFormDataValue(value, replaceVariables));
       });
       return;
     }
-    formData.set(elementKey, GetFormDataValue(elementValue, replaceVariables));
+    formData.set(elementKey, getFormDataValue(elementValue, replaceVariables));
   });
 
   return formData;

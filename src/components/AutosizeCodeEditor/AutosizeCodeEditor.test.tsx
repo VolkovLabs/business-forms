@@ -1,8 +1,9 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import React from 'react';
+
+import { CODE_EDITOR_CONFIG } from '../../constants';
 import { AutosizeCodeEditor } from './AutosizeCodeEditor';
-import { CodeEditorConfig } from '../../constants';
 
 /**
  * Properties
@@ -51,14 +52,14 @@ describe('AutosizeCodeEditor', () => {
   it('Should apply min height if empty value', () => {
     render(getComponent({}));
 
-    expect(selectors.field()).toHaveStyle(`height: ${CodeEditorConfig.height.min}px`);
+    expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.min}px`);
   });
 
   it('Should update height on change', () => {
     render(getComponent({}));
 
     const valueIn20Rows = Array.from(new Array(20))
-      .map((_, index) => index)
+      .map((value, index) => index)
       .join('\n');
 
     fireEvent.change(selectors.field(), { target: { value: valueIn20Rows } });
@@ -69,10 +70,10 @@ describe('AutosizeCodeEditor', () => {
   it('Should update height if props changed', () => {
     const { rerender } = render(getComponent({}));
 
-    expect(selectors.field()).toHaveStyle(`height: ${CodeEditorConfig.height.min}px`);
+    expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.min}px`);
 
     const valueIn20Rows = Array.from(new Array(20))
-      .map((_, index) => index)
+      .map((value, index) => index)
       .join('\n');
 
     rerender(getComponent({ value: valueIn20Rows }));
@@ -82,11 +83,11 @@ describe('AutosizeCodeEditor', () => {
 
   it('Should apply max height', () => {
     const valueIn1000Rows = Array.from(new Array(1000))
-      .map((_, index) => index)
+      .map((value, index) => index)
       .join('\n');
 
     render(getComponent({ value: valueIn1000Rows }));
 
-    expect(selectors.field()).toHaveStyle(`height: ${CodeEditorConfig.height.max}px`);
+    expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.max}px`);
   });
 });

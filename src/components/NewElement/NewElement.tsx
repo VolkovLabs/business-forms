@@ -2,9 +2,9 @@ import { SelectableValue } from '@grafana/data';
 import { Alert, Button, CollapsableSection, InlineField, Input, Select } from '@grafana/ui';
 import React, { ChangeEvent, useCallback, useState } from 'react';
 
-import { FormElementDefault, FormElementTypeOptions, TestIds } from '../../constants';
+import { FORM_ELEMENT_DEFAULT, FORM_ELEMENT_TYPE_OPTIONS, TEST_IDS } from '../../constants';
 import { FormElement, LocalFormElement } from '../../types';
-import { GetElementWithNewType, IsElementConflict, ToLocalFormElement } from '../../utils';
+import { getElementWithNewType, isElementConflict, toLocalFormElement } from '../../utils';
 
 /**
  * Properties
@@ -28,7 +28,7 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
   /**
    * States
    */
-  const [newElement, setNewElement] = useState(FormElementDefault);
+  const [newElement, setNewElement] = useState(FORM_ELEMENT_DEFAULT);
   const [addElementError, setAddElementError] = useState<string | null>(null);
 
   /**
@@ -43,7 +43,7 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
    * Add Elements
    */
   const onElementAdd = useCallback(() => {
-    if (IsElementConflict(elements, newElement)) {
+    if (isElementConflict(elements, newElement)) {
       setAddElementError('Element with the same Id and Type already exists');
       return;
     }
@@ -51,20 +51,20 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
     /**
      * Save Element
      */
-    onSave(GetElementWithNewType(ToLocalFormElement(newElement), newElement.type));
+    onSave(getElementWithNewType(toLocalFormElement(newElement), newElement.type));
 
     /**
      * Reset input values
      */
-    setNewElement(FormElementDefault);
+    setNewElement(FORM_ELEMENT_DEFAULT);
   }, [elements, newElement, onSave]);
 
   return (
     <CollapsableSection
       label="New Element"
       isOpen={true}
-      headerDataTestId={TestIds.formElementsEditor.sectionNewLabel}
-      contentDataTestId={TestIds.formElementsEditor.sectionNewContent}
+      headerDataTestId={TEST_IDS.formElementsEditor.sectionNewLabel}
+      contentDataTestId={TEST_IDS.formElementsEditor.sectionNewContent}
     >
       <InlineField label="Id" grow labelWidth={8} invalid={newElement.id === ''}>
         <Input
@@ -73,7 +73,7 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
             onChangeNewElement({ ...newElement, id: event.target.value });
           }}
           value={newElement.id}
-          data-testid={TestIds.formElementsEditor.newElementId}
+          data-testid={TEST_IDS.formElementsEditor.newElementId}
         />
       </InlineField>
 
@@ -84,23 +84,23 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
             onChangeNewElement({ ...newElement, title: event.target.value });
           }}
           value={newElement.title}
-          data-testid={TestIds.formElementsEditor.newElementLabel}
+          data-testid={TEST_IDS.formElementsEditor.newElementLabel}
         />
       </InlineField>
 
       <InlineField label="Type" grow labelWidth={8}>
         <Select
-          aria-label={TestIds.formElementsEditor.newElementType}
-          options={FormElementTypeOptions}
+          aria-label={TEST_IDS.formElementsEditor.newElementType}
+          options={FORM_ELEMENT_TYPE_OPTIONS}
           onChange={(event?: SelectableValue) => {
             onChangeNewElement({ ...newElement, type: event?.value });
           }}
-          value={FormElementTypeOptions.find((type) => type.value === newElement.type)}
+          value={FORM_ELEMENT_TYPE_OPTIONS.find((type) => type.value === newElement.type)}
         />
       </InlineField>
 
       {!!addElementError && (
-        <Alert data-testid={TestIds.formElementsEditor.addElementError} severity="error" title="Add Element">
+        <Alert data-testid={TEST_IDS.formElementsEditor.addElementError} severity="error" title="Add Element">
           {addElementError}
         </Alert>
       )}
@@ -110,7 +110,7 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
         onClick={onElementAdd}
         disabled={!newElement.id || !newElement.type || !!addElementError}
         icon="plus"
-        data-testid={TestIds.formElementsEditor.buttonAddElement}
+        data-testid={TEST_IDS.formElementsEditor.buttonAddElement}
       >
         Add Element
       </Button>

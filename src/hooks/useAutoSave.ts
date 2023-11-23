@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 
-import { AutoSaveTimeout } from '../constants';
+import { AUTO_SAVE_TIMEOUT } from '../constants';
 
 /**
  * Auto Save
@@ -27,7 +27,7 @@ export const useAutoSave = () => {
       autoSaveTimer.current = setTimeout(() => {
         handler();
         autoSaveTimer.current = null;
-      }, AutoSaveTimeout);
+      }, AUTO_SAVE_TIMEOUT);
     },
     [removeTimer]
   );

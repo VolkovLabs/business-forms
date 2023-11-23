@@ -39,22 +39,22 @@ import {
   PayloadMode,
   RequestMethod,
   ResetActionMode,
-  TestIds,
+  TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../../types';
 import {
-  ConvertToElementValue,
-  GetButtonVariant,
-  GetFieldValues,
-  GetInitialValuesMap,
-  GetPayloadForRequest,
-  ToFormData,
-  ToJSON,
+  convertToElementValue,
+  getButtonVariant,
+  getFieldValues,
+  getInitialValuesMap,
+  getPayloadForRequest,
+  toFormData,
+  toJson,
 } from '../../utils';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
-import { Styles } from './FormPanel.styles';
+import { getStyles } from './FormPanel.styles';
 
 /**
  * Properties
@@ -119,7 +119,7 @@ export const FormPanel: React.FC<Props> = ({
    * Theme and Styles
    */
   const theme = useTheme2();
-  const styles = useStyles2(Styles);
+  const styles = useStyles2(getStyles);
 
   /**
    * Template Service
@@ -159,9 +159,9 @@ export const FormPanel: React.FC<Props> = ({
           /**
            * Update with initial value
            */
-          const values = GetFieldValues(field);
+          const values = getFieldValues(field);
 
-          return ConvertToElementValue(element, values[values.length - 1]);
+          return convertToElementValue(element, values[values.length - 1]);
         }
 
         return element;
@@ -295,7 +295,7 @@ export const FormPanel: React.FC<Props> = ({
        * Update Elements and Initial values
        */
       onChangeElements(currentElements);
-      setInitial(GetInitialValuesMap(currentElements));
+      setInitial(getInitialValuesMap(currentElements));
 
       /**
        * No method specified
@@ -330,7 +330,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Run Datasource Query
        */
-      const body = GetPayloadForRequest({
+      const body = getPayloadForRequest({
         request: {
           ...options.initial,
           payloadMode: PayloadMode.CUSTOM,
@@ -437,7 +437,7 @@ export const FormPanel: React.FC<Props> = ({
           }, {}) || {};
 
         currentElements = elements.map(
-          (element): LocalFormElement => ConvertToElementValue(element, valuesMap[element.id])
+          (element): LocalFormElement => convertToElementValue(element, valuesMap[element.id])
         );
 
         onChangeElements(currentElements);
@@ -505,7 +505,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const payload = GetPayloadForRequest({
+    const payload = getPayloadForRequest({
       request: {
         datasource: options.resetAction.datasource,
         payloadMode: PayloadMode.CUSTOM,
@@ -587,7 +587,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const payload = GetPayloadForRequest({
+    const payload = getPayloadForRequest({
       request: options.update,
       elements,
       initial,
@@ -636,12 +636,12 @@ export const FormPanel: React.FC<Props> = ({
         /**
          * Form Data
          */
-        body = ToFormData(payload, replaceVariables);
+        body = toFormData(payload, replaceVariables);
       } else {
         /**
          * JSON or Text Plain
          */
-        body = await ToJSON(payload, replaceVariables);
+        body = await toJson(payload, replaceVariables);
       }
 
       /**
@@ -722,7 +722,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   return (
     <div
-      data-testid={TestIds.panel.root}
+      data-testid={TEST_IDS.panel.root}
       className={cx(
         styles.wrapper,
         css`
@@ -733,13 +733,13 @@ export const FormPanel: React.FC<Props> = ({
       )}
     >
       {loading === LoadingMode.INITIAL && (
-        <div className={styles.loadingBar} data-testid={TestIds.panel.loadingBar}>
+        <div className={styles.loadingBar} data-testid={TEST_IDS.panel.loadingBar}>
           <LoadingBar width={width} />
         </div>
       )}
 
       {!elements.length && options.layout.variant !== LayoutVariant.NONE && (
-        <Alert data-testid={TestIds.panel.infoMessage} severity="info" title="Form Elements">
+        <Alert data-testid={TEST_IDS.panel.infoMessage} severity="info" title="Form Elements">
           Please add elements in Panel Options or Custom Code.
         </Alert>
       )}
@@ -748,7 +748,7 @@ export const FormPanel: React.FC<Props> = ({
         <tbody>
           {options.layout.variant === LayoutVariant.SINGLE && (
             <tr>
-              <td data-testid={TestIds.panel.singleLayoutContent}>
+              <td data-testid={TEST_IDS.panel.singleLayoutContent}>
                 <FormElements
                   data={data}
                   options={options}
@@ -767,7 +767,7 @@ export const FormPanel: React.FC<Props> = ({
               <tr>
                 {options.layout?.sections?.map((section, id) => {
                   return (
-                    <td className={styles.td} key={id} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
+                    <td className={styles.td} key={id} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
                       <FieldSet label={section.name}>
                         <FormElements
                           data={data}
@@ -791,7 +791,7 @@ export const FormPanel: React.FC<Props> = ({
                 {options.layout?.sections?.map((section, id) => {
                   return (
                     <tr key={id}>
-                      <td className={styles.td} data-testid={TestIds.panel.splitLayoutContent(section.name)}>
+                      <td className={styles.td} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
                         <FieldSet label={section.name}>
                           <FormElements
                             options={options}
@@ -814,7 +814,7 @@ export const FormPanel: React.FC<Props> = ({
               <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
                 <Button
                   className={cx(styles.margin)}
-                  variant={GetButtonVariant(options.submit.variant)}
+                  variant={getButtonVariant(options.submit.variant)}
                   icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
                   title={title}
                   style={
@@ -836,7 +836,7 @@ export const FormPanel: React.FC<Props> = ({
                       : updateRequest
                   }
                   size={options.buttonGroup.size}
-                  data-testid={TestIds.panel.buttonSubmit}
+                  data-testid={TEST_IDS.panel.buttonSubmit}
                 >
                   {options.submit.text}
                 </Button>
@@ -844,7 +844,7 @@ export const FormPanel: React.FC<Props> = ({
                 {options.reset.variant !== ButtonVariant.HIDDEN && (
                   <Button
                     className={cx(styles.margin)}
-                    variant={GetButtonVariant(options.reset.variant)}
+                    variant={getButtonVariant(options.reset.variant)}
                     icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
                     style={
                       options.reset.variant === ButtonVariant.CUSTOM
@@ -859,7 +859,7 @@ export const FormPanel: React.FC<Props> = ({
                     disabled={!!loading}
                     onClick={resetRequest}
                     size={options.buttonGroup.size}
-                    data-testid={TestIds.panel.buttonReset}
+                    data-testid={TEST_IDS.panel.buttonReset}
                   >
                     {options.reset.text}
                   </Button>
@@ -868,12 +868,12 @@ export const FormPanel: React.FC<Props> = ({
                 {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
                   <Button
                     className={cx(styles.margin)}
-                    variant={GetButtonVariant(options.saveDefault.variant)}
+                    variant={getButtonVariant(options.saveDefault.variant)}
                     icon={options.saveDefault.icon}
                     disabled={!!loading}
                     onClick={onSaveUpdates}
                     size={options.buttonGroup.size}
-                    data-testid={TestIds.panel.buttonSaveDefault}
+                    data-testid={TEST_IDS.panel.buttonSaveDefault}
                     title="Save values in the dashboard. Requires to Save dashboard."
                   >
                     {options.saveDefault.text}
@@ -886,7 +886,7 @@ export const FormPanel: React.FC<Props> = ({
       </table>
 
       {error && (
-        <Alert data-testid={TestIds.panel.errorMessage} severity="error" title="Request">
+        <Alert data-testid={TEST_IDS.panel.errorMessage} severity="error" title="Request">
           {error}
         </Alert>
       )}
@@ -895,7 +895,7 @@ export const FormPanel: React.FC<Props> = ({
         isOpen={updateConfirmation}
         title={options.confirmModal.title}
         body={
-          <div data-testid={TestIds.panel.confirmModalContent}>
+          <div data-testid={TEST_IDS.panel.confirmModalContent}>
             <h4>{options.confirmModal.body}</h4>
             <table className={styles.confirmTable}>
               <thead>
@@ -932,18 +932,18 @@ export const FormPanel: React.FC<Props> = ({
                       <tr
                         className={styles.confirmTable}
                         key={element.id}
-                        data-testid={TestIds.panel.confirmModalField(element.id)}
+                        data-testid={TEST_IDS.panel.confirmModalField(element.id)}
                       >
-                        <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldTitle}>
+                        <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
                           {element.title || element.tooltip}
                         </td>
                         <td
                           className={styles.confirmTableTd}
-                          data-testid={TestIds.panel.confirmModalFieldPreviousValue}
+                          data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
                         >
                           *********
                         </td>
-                        <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldValue}>
+                        <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
                           *********
                         </td>
                       </tr>
@@ -962,15 +962,15 @@ export const FormPanel: React.FC<Props> = ({
                     <tr
                       className={styles.confirmTable}
                       key={element.id}
-                      data-testid={TestIds.panel.confirmModalField(element.id)}
+                      data-testid={TEST_IDS.panel.confirmModalField(element.id)}
                     >
-                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldTitle}>
+                      <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
                         {element.title || element.tooltip}
                       </td>
-                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldPreviousValue}>
+                      <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}>
                         {initial[element.id] === undefined ? '' : String(initial[element.id])}
                       </td>
-                      <td className={styles.confirmTableTd} data-testid={TestIds.panel.confirmModalFieldValue}>
+                      <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
                         {currentValue === undefined ? '' : String(currentValue)}
                       </td>
                     </tr>

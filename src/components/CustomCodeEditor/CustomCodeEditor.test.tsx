@@ -3,7 +3,7 @@ import { CodeEditor, CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { CodeEditorSuggestions } from '../../constants';
+import { CODE_EDITOR_SUGGESTIONS } from '../../constants';
 import { getCustomCodeEditorSelectors } from '../../utils';
 import { CustomCodeEditor } from './CustomCodeEditor';
 
@@ -186,7 +186,7 @@ describe('Custom Code Editor', () => {
     /**
      * Check if suggestions are correct
      */
-    expect(suggestionsResult).toEqual(expect.arrayContaining(CodeEditorSuggestions));
+    expect(suggestionsResult).toEqual(expect.arrayContaining(CODE_EDITOR_SUGGESTIONS));
     expect(suggestionsResult).toEqual(
       expect.arrayContaining([
         {

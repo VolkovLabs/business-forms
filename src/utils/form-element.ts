@@ -3,13 +3,13 @@ import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-  CodeDefault,
+  CODE_DEFAULT,
   FormElementType,
-  NumberDefault,
+  NUMBER_DEFAULT,
   OptionsSource,
-  SelectDefaults,
-  SliderDefault,
-  TextareaDefault,
+  SELECT_DEFAULT,
+  SLIDER_DEFAULT,
+  TEXTAREA_DEFAULT,
 } from '../constants';
 import {
   ButtonVariant,
@@ -21,7 +21,7 @@ import {
   LocalFormElement,
   ShowIfHelper,
 } from '../types';
-import { GetFieldValues } from './grafana';
+import { getFieldValues } from './grafana';
 
 /**
  * Reorder
@@ -29,7 +29,7 @@ import { GetFieldValues } from './grafana';
  * @param startIndex
  * @param endIndex
  */
-export const Reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
+export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -42,7 +42,7 @@ export const Reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
  * @param element
  * @param newType
  */
-export const GetElementWithNewType = (
+export const getElementWithNewType = (
   element: LocalFormElement,
   newType: FormElementType
 ): FormElementByType<LocalFormElement, typeof newType> => {
@@ -72,21 +72,21 @@ export const GetElementWithNewType = (
     case FormElementType.SLIDER: {
       return {
         ...baseValues,
-        ...SliderDefault,
+        ...SLIDER_DEFAULT,
         type: newType,
       };
     }
     case FormElementType.NUMBER: {
       return {
         ...baseValues,
-        ...NumberDefault,
+        ...NUMBER_DEFAULT,
         type: newType,
       };
     }
     case FormElementType.CODE: {
       return {
         ...baseValues,
-        ...CodeDefault,
+        ...CODE_DEFAULT,
         type: newType,
       };
     }
@@ -94,7 +94,7 @@ export const GetElementWithNewType = (
     case FormElementType.DISABLED_TEXTAREA: {
       return {
         ...baseValues,
-        ...TextareaDefault,
+        ...TEXTAREA_DEFAULT,
         type: newType,
       };
     }
@@ -107,8 +107,8 @@ export const GetElementWithNewType = (
         options: 'options' in element ? element.options || [] : [],
         optionsSource:
           'optionsSource' in element
-            ? element.optionsSource || SelectDefaults.optionsSource
-            : SelectDefaults.optionsSource,
+            ? element.optionsSource || SELECT_DEFAULT.optionsSource
+            : SELECT_DEFAULT.optionsSource,
         queryOptions: 'queryOptions' in element ? element.queryOptions : undefined,
         type: newType,
       };
@@ -154,7 +154,7 @@ export const GetElementWithNewType = (
  * @params elements<FormElement[]>
  * @params element<FormElement>
  */
-export const IsElementConflict = (elements: FormElement[], element: FormElement) => {
+export const isElementConflict = (elements: FormElement[], element: FormElement) => {
   return elements.some((item) => item.id === element.id && item.type === element.type);
 };
 
@@ -164,7 +164,7 @@ export const IsElementConflict = (elements: FormElement[], element: FormElement)
  * @params option<SelectableValue>
  * @constructor
  */
-export const IsElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {
+export const isElementOptionConflict = (options: SelectableValue[], option: SelectableValue) => {
   return options.some((item) => item.value.toString() === option.value.toString());
 };
 
@@ -173,7 +173,7 @@ export const IsElementOptionConflict = (options: SelectableValue[], option: Sele
  * @param value
  * @constructor
  */
-export const ToNumberValue = (value: string): number | null => {
+export const toNumberValue = (value: string): number | null => {
   return value.trim().length > 0 ? Number(value) : null;
 };
 
@@ -182,7 +182,7 @@ export const ToNumberValue = (value: string): number | null => {
  * @param value
  * @constructor
  */
-export const FormatNumberValue = (value: unknown): string | number => {
+export const formatNumberValue = (value: unknown): string | number => {
   return typeof value === 'number' ? value : '';
 };
 
@@ -191,36 +191,36 @@ export const FormatNumberValue = (value: unknown): string | number => {
  * @param value
  * @constructor
  */
-export const ApplyWidth = (value: number | null): undefined | number => {
+export const applyWidth = (value: number | null): undefined | number => {
   return typeof value === 'number' ? value : undefined;
 };
 
 /**
  * Get Element Unique Id
  */
-export const GetElementUniqueId = (element: FormElement) => element.uid || uuidv4();
+export const getElementUniqueId = (element: FormElement) => element.uid || uuidv4();
 
 /**
  * Get Layout Unique Id
  */
-export const GetLayoutUniqueId = (section: LayoutSection) => (section.id !== undefined ? section.id : section.name);
+export const getLayoutUniqueId = (section: LayoutSection) => (section.id !== undefined ? section.id : section.name);
 
 /**
  * Get Option Unique Id
  */
-export const GetOptionUniqueId = (option: SelectableValue) => (option.id !== undefined ? option.id : option.value);
+export const getOptionUniqueId = (option: SelectableValue) => (option.id !== undefined ? option.id : option.value);
 
 /**
  * Is Section Collision Exists
  */
-export const IsSectionCollisionExists = (sections: LayoutSection[], compareWith: LayoutSection) => {
+export const isSectionCollisionExists = (sections: LayoutSection[], compareWith: LayoutSection) => {
   return sections.some((section) => section.id === compareWith.id);
 };
 
 /**
  * To Local Form Element
  */
-export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
+export const toLocalFormElement = (element: FormElement): LocalFormElement => {
   const showIf = element.showIf;
 
   let showIfFn: ShowIfHelper = () => true;
@@ -237,7 +237,7 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
     element.type === FormElementType.MULTISELECT ||
     element.type === FormElementType.RADIO
   ) {
-    if (element.optionsSource === OptionsSource.Query) {
+    if (element.optionsSource === OptionsSource.QUERY) {
       getOptions = ({ data }) => {
         const { queryOptions } = element;
 
@@ -252,11 +252,11 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
           return [];
         }
 
-        const labelValues = GetFieldValues(
+        const labelValues = getFieldValues(
           frame?.fields.find((field) => field.name === queryOptions.label) || valueField
         );
 
-        return GetFieldValues(valueField).map((value, index) => ({
+        return getFieldValues(valueField).map((value, index) => ({
           value,
           label: labelValues[index] as string,
         }));
@@ -272,7 +272,7 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
       ? {
           options: element.options?.map((option) => ({
             ...option,
-            id: GetOptionUniqueId(option),
+            id: getOptionUniqueId(option),
           })),
         }
       : {}),
@@ -280,16 +280,16 @@ export const ToLocalFormElement = (element: FormElement): LocalFormElement => {
       showIf: showIfFn,
       getOptions,
     },
-    uid: GetElementUniqueId(element),
+    uid: getElementUniqueId(element),
   };
 };
 
 /**
  * Normalize Elements for Local State
  */
-export const NormalizeElementsForLocalState = (elements?: FormElement[]): LocalFormElement[] => {
+export const normalizeElementsForLocalState = (elements?: FormElement[]): LocalFormElement[] => {
   if (elements && Array.isArray(elements)) {
-    return elements.map<LocalFormElement>((element) => ToLocalFormElement(element));
+    return elements.map<LocalFormElement>((element) => toLocalFormElement(element));
   }
 
   return [];
@@ -298,7 +298,7 @@ export const NormalizeElementsForLocalState = (elements?: FormElement[]): LocalF
 /**
  * Normalize Elements for Dashboard
  */
-export const NormalizeElementsForDashboard = (elements: LocalFormElement[]): FormElement[] => {
+export const normalizeElementsForDashboard = (elements: LocalFormElement[]): FormElement[] => {
   return elements.map<FormElement>(({ helpers, ...restElement }) => {
     return restElement;
   });
@@ -309,7 +309,7 @@ export const NormalizeElementsForDashboard = (elements: LocalFormElement[]): For
  * @param elements
  * @constructor
  */
-export const GetInitialValuesMap = (elements: LocalFormElement[]): Record<string, unknown> => {
+export const getInitialValuesMap = (elements: LocalFormElement[]): Record<string, unknown> => {
   return elements.reduce(
     (acc, element) => ({
       ...acc,
@@ -322,7 +322,7 @@ export const GetInitialValuesMap = (elements: LocalFormElement[]): Record<string
 /**
  * Get Button Variant
  */
-export const GetButtonVariant = (variant: ButtonVariant): GrafanaButtonVariant | undefined => {
+export const getButtonVariant = (variant: ButtonVariant): GrafanaButtonVariant | undefined => {
   switch (variant) {
     case ButtonVariant.DESTRUCTIVE:
     case ButtonVariant.PRIMARY:
@@ -339,7 +339,7 @@ export const GetButtonVariant = (variant: ButtonVariant): GrafanaButtonVariant |
 /**
  * Is Form Element Type
  */
-export const IsFormElementType = <T extends FormElementType>(
+export const isFormElementType = <T extends FormElementType>(
   element: LocalFormElement,
   type: T
 ): element is LocalFormElement & { type: T } => {
@@ -349,7 +349,7 @@ export const IsFormElementType = <T extends FormElementType>(
 /**
  * Convert To Element Value
  */
-export const ConvertToElementValue = (
+export const convertToElementValue = (
   element: LocalFormElement,
   value: unknown
 ): FormElementByType<LocalFormElement, typeof element.type> => {

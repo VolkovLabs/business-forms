@@ -1,20 +1,20 @@
-import { ConvertToElementValue, GetButtonVariant, Reorder } from './form-element';
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
+import { convertToElementValue, getButtonVariant, reorder } from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {
     it('Should move element up', () => {
-      expect(Reorder([1, 2, 3], 0, 1)).toEqual([2, 1, 3]);
+      expect(reorder([1, 2, 3], 0, 1)).toEqual([2, 1, 3]);
     });
 
     it('Should move element down', () => {
-      expect(Reorder([1, 2, 3], 2, 1)).toEqual([1, 3, 2]);
+      expect(reorder([1, 2, 3], 2, 1)).toEqual([1, 3, 2]);
     });
 
     it('Should not mutate original array', () => {
       const array = [1, 2, 3];
-      const result = Reorder(array, 2, 1);
+      const result = reorder(array, 2, 1);
 
       expect(array !== result).toBeTruthy();
     });
@@ -140,7 +140,7 @@ describe('Utils', () => {
       },
     ])('$name', ({ element, testCases }) => {
       testCases.forEach(({ original, expected }) => {
-        expect(ConvertToElementValue(element as never, original)).toEqual({
+        expect(convertToElementValue(element as never, original)).toEqual({
           ...element,
           value: expected,
         });
@@ -150,14 +150,14 @@ describe('Utils', () => {
 
   describe('GetButtonVariant', () => {
     it('Should return allowed variants', () => {
-      expect(GetButtonVariant(ButtonVariant.DESTRUCTIVE)).toEqual(ButtonVariant.DESTRUCTIVE);
-      expect(GetButtonVariant(ButtonVariant.PRIMARY)).toEqual(ButtonVariant.PRIMARY);
-      expect(GetButtonVariant(ButtonVariant.SECONDARY)).toEqual(ButtonVariant.SECONDARY);
+      expect(getButtonVariant(ButtonVariant.DESTRUCTIVE)).toEqual(ButtonVariant.DESTRUCTIVE);
+      expect(getButtonVariant(ButtonVariant.PRIMARY)).toEqual(ButtonVariant.PRIMARY);
+      expect(getButtonVariant(ButtonVariant.SECONDARY)).toEqual(ButtonVariant.SECONDARY);
     });
 
     it('Should filter not allowed variant', () => {
-      expect(GetButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
-      expect(GetButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
+      expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
+      expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
     });
   });
 });

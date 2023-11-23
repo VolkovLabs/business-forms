@@ -2,10 +2,10 @@ import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
-import { FormElementDefault, FormElementType, OptionsSource } from '../../constants';
-import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
-import { FormElements } from './FormElements';
+import { FORM_ELEMENT_DEFAULT, FormElementType, OptionsSource } from '../../constants';
 import { LinkTarget } from '../../types';
+import { getFormElementsSelectors, normalizeElementsForLocalState } from '../../utils';
+import { FormElements } from './FormElements';
 
 /**
  * Mock timers
@@ -34,7 +34,7 @@ describe('Form Elements', () => {
    */
   const getComponent = ({ options = {}, ...restProps }: any) => {
     return (
-      <FormElements options={options} elements={NormalizeElementsForLocalState(options.elements)} {...restProps} />
+      <FormElements options={options} elements={normalizeElementsForLocalState(options.elements)} {...restProps} />
     );
   };
 
@@ -45,7 +45,7 @@ describe('Form Elements', () => {
       update: {},
       reset: {},
       elements: [
-        { ...FormElementDefault, id: 'string' },
+        { ...FORM_ELEMENT_DEFAULT, id: 'string' },
         { id: 'password', type: FormElementType.PASSWORD },
         { id: 'number', type: FormElementType.NUMBER },
         { id: 'textarea', type: FormElementType.TEXTAREA },
@@ -309,7 +309,7 @@ describe('Form Elements', () => {
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'select', type: FormElementType.SELECT, optionsSource: OptionsSource.Query }],
+        elements: [{ id: 'select', type: FormElementType.SELECT, optionsSource: OptionsSource.QUERY }],
       };
 
       render(getComponent({ options, onChangeElement }));
@@ -331,7 +331,7 @@ describe('Form Elements', () => {
           {
             id: 'select',
             type: FormElementType.SELECT,
-            optionsSource: OptionsSource.Query,
+            optionsSource: OptionsSource.QUERY,
             queryOptions: {
               source: 'A',
               value: 'Value',
@@ -360,7 +360,7 @@ describe('Form Elements', () => {
           {
             id: 'select',
             type: FormElementType.SELECT,
-            optionsSource: OptionsSource.Query,
+            optionsSource: OptionsSource.QUERY,
             queryOptions: {
               source: 'A',
               value: 'Value',
@@ -597,7 +597,7 @@ describe('Form Elements', () => {
             type: FormElementType.SELECT,
             value: '111',
             options: [],
-            optionsSource: OptionsSource.Query,
+            optionsSource: OptionsSource.QUERY,
             queryOptions: {
               source: 'A',
               value: 'Value',

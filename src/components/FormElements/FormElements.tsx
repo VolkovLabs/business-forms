@@ -3,9 +3,9 @@ import { InterpolateFunction, PanelData } from '@grafana/data';
 import { useTheme2 } from '@grafana/ui';
 import React, { useCallback, useMemo } from 'react';
 
-import { InitialHighlightColorDefault, TestIds } from '../../constants';
+import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '../../constants';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { GetLayoutUniqueId } from '../../utils';
+import { getLayoutUniqueId } from '../../utils';
 import { FormElement } from '../FormElement';
 
 /**
@@ -73,7 +73,7 @@ export const FormElements: React.FC<Props> = ({
    * Highlight Color
    */
   const highlightColor = theme.visualization.getColorByName(
-    options.initial.highlightColor || InitialHighlightColorDefault
+    options.initial.highlightColor || INITIAL_HIGHLIGHT_COLOR_DEFAULT
   );
 
   /**
@@ -102,12 +102,12 @@ export const FormElements: React.FC<Props> = ({
   }, [elements, replaceVariables]);
 
   return (
-    <div data-testid={TestIds.formElements.root}>
+    <div data-testid={TEST_IDS.formElements.root}>
       {visibleElements.map((element, index) => {
         /**
          * Skip Hidden Elements
          */
-        if (section && element.section !== GetLayoutUniqueId(section)) {
+        if (section && element.section !== getLayoutUniqueId(section)) {
           return;
         }
 

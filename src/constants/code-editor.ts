@@ -6,7 +6,7 @@ import { CodeLanguage } from '../types';
 /**
  * Code Editor Config
  */
-export const CodeEditorConfig = {
+export const CODE_EDITOR_CONFIG = {
   height: {
     min: 200,
     max: 1000,
@@ -17,7 +17,7 @@ export const CodeEditorConfig = {
 /**
  * Code Language Options
  */
-export const CodeLanguageOptions: SelectableValue[] = [
+export const CODE_LANGUAGE_OPTIONS: SelectableValue[] = [
   {
     value: CodeLanguage.JAVASCRIPT,
     label: 'Javascript',
@@ -31,7 +31,7 @@ export const CodeLanguageOptions: SelectableValue[] = [
 /**
  * Suggestions
  */
-export const CodeEditorSuggestions: CodeEditorSuggestionItem[] = [
+export const CODE_EDITOR_SUGGESTIONS: CodeEditorSuggestionItem[] = [
   {
     label: 'options',
     kind: CodeEditorSuggestionItemKind.Property,

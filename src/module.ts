@@ -10,42 +10,35 @@ import {
   LayoutSectionsEditor,
 } from './components';
 import {
-  BooleanOptions,
-  ButtonOrientationOptions,
-  ButtonSizeOptions,
-  ButtonVariantHiddenOption,
-  ButtonVariantOptions,
-  CodeInitialDefault,
-  CodeResetDefault,
-  CodeUpdateDefault,
-  ConfirmModalDefault,
+  BOOLEAN_OPTIONS,
+  BUTTON_ORIENTATION_OPTIONS,
+  BUTTON_SIZE_OPTIONS,
+  BUTTON_VARIANT_HIDDEN_OPTIONS,
+  BUTTON_VARIANT_OPTIONS,
+  CONFIRM_MODAL_DEFAULT,
+  CONTENT_TYPE_OPTIONS,
   ContentType,
-  ContentTypeOptions,
-  DataSyncOptions,
-  InitialHighlightColorDefault,
+  DATA_SYNC_OPTIONS,
+  INITIAL_CODE_DEFAULT,
+  INITIAL_HIGHLIGHT_COLOR_DEFAULT,
+  INITIAL_PAYLOAD_DEFAULT,
+  INITIAL_REQUEST_METHOD_OPTIONS,
+  LAYOUT_ORIENTATION_OPTIONS,
+  LAYOUT_VARIANT_OPTIONS,
   LayoutOrientation,
-  LayoutOrientationOptions,
   LayoutVariant,
-  LayoutVariantOptions,
-  PayloadInitialDefault,
+  PAYLOAD_MODE_OPTIONS,
   PayloadMode,
-  PayloadModeOptions,
-  PayloadUpdateDefault,
   RequestMethod,
-  RequestMethodInitialOptions,
-  RequestMethodUpdateOptions,
+  RESET_ACTION_OPTIONS,
+  RESET_BUTTON_DEFAULT,
+  RESET_CODE_DEFAULT,
   ResetActionMode,
-  ResetActionOptions,
-  ResetBackgroundColorDefault,
-  ResetForegroundColorDefault,
-  ResetIconDefault,
-  ResetTextDefault,
-  SaveDefaultIconDefault,
-  SaveDefaultTextDefault,
-  SubmitBackgroundColorDefault,
-  SubmitForegroundColorDefault,
-  SubmitIconDefault,
-  SubmitTextDefault,
+  SAVE_DEFAULT_BUTTON_DEFAULT,
+  SUBMIT_BUTTON_DEFAULT,
+  UPDATE_CODE_DEFAULT,
+  UPDATE_PAYLOAD_DEFAULT,
+  UPDATE_REQUEST_METHOD_OPTIONS,
 } from './constants';
 import { ButtonOrientation, ButtonSize, ButtonVariant, CodeLanguage, PanelOptions, RequestOptions } from './types';
 
@@ -82,7 +75,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Layout',
       category: ['Layout'],
       settings: {
-        options: LayoutVariantOptions,
+        options: LAYOUT_VARIANT_OPTIONS,
       },
       defaultValue: LayoutVariant.SINGLE,
     })
@@ -114,7 +107,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Orientation',
       category: ['Sections'],
       settings: {
-        options: LayoutOrientationOptions,
+        options: LAYOUT_ORIENTATION_OPTIONS,
       },
       defaultValue: LayoutOrientation.HORIZONTAL,
       showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
@@ -142,7 +135,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     description: 'Keeps the panel synched with the dashboard data',
     category: ['Data'],
     settings: {
-      options: DataSyncOptions,
+      options: DATA_SYNC_OPTIONS,
     },
     defaultValue: true,
   });
@@ -156,7 +149,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Initial Request',
       category: ['Initial Request'],
       settings: {
-        options: RequestMethodInitialOptions,
+        options: INITIAL_REQUEST_METHOD_OPTIONS,
       },
       defaultValue: RequestMethod.NONE,
     })
@@ -194,7 +187,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       defaultValue: ContentType.JSON,
       settings: {
         allowCustomValue: true,
-        options: ContentTypeOptions,
+        options: CONTENT_TYPE_OPTIONS,
       },
       showIf: (config) => config.initial.method === RequestMethod.POST,
     })
@@ -209,7 +202,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         language: CodeLanguage.JAVASCRIPT,
         suggestions: true,
       },
-      defaultValue: CodeInitialDefault,
+      defaultValue: INITIAL_CODE_DEFAULT,
       showIf: (config) => !isRequestConfigured(config.initial),
     })
     .addCustomEditor({
@@ -223,7 +216,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
         language: CodeLanguage.JAVASCRIPT,
         suggestions: true,
       },
-      defaultValue: CodeInitialDefault,
+      defaultValue: INITIAL_CODE_DEFAULT,
       showIf: (config) => isRequestConfigured(config.initial),
     });
 
@@ -240,7 +233,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     settings: {
       language: CodeLanguage.JAVASCRIPT,
     },
-    defaultValue: PayloadInitialDefault,
+    defaultValue: INITIAL_PAYLOAD_DEFAULT,
     showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
   });
 
@@ -254,7 +247,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Some elements are not supporting highlighting.',
       category: ['Highlight Changes'],
       settings: {
-        options: BooleanOptions,
+        options: BOOLEAN_OPTIONS,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
@@ -263,7 +256,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       path: 'initial.highlightColor',
       name: 'Color',
       category: ['Highlight Changes'],
-      defaultValue: InitialHighlightColorDefault,
+      defaultValue: INITIAL_HIGHLIGHT_COLOR_DEFAULT,
       settings: {
         disableNamedColors: true,
       },
@@ -279,7 +272,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Update Request',
       category: ['Update Request'],
       settings: {
-        options: RequestMethodUpdateOptions,
+        options: UPDATE_REQUEST_METHOD_OPTIONS,
       },
       defaultValue: RequestMethod.NONE,
     })
@@ -317,7 +310,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       defaultValue: ContentType.JSON,
       settings: {
         allowCustomValue: true,
-        options: ContentTypeOptions,
+        options: CONTENT_TYPE_OPTIONS,
       },
       showIf: (config) => isRequestConfigured(config.update) && isRestApiRequest(config.update),
     })
@@ -331,7 +324,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeUpdateDefault,
+      defaultValue: UPDATE_CODE_DEFAULT,
       showIf: (config) => isRequestConfigured(config.update),
     })
     .addCustomEditor({
@@ -344,7 +337,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeUpdateDefault,
+      defaultValue: UPDATE_CODE_DEFAULT,
       showIf: (config) => !isRequestConfigured(config.update),
     });
 
@@ -358,7 +351,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Choose what values will be included in payload.',
       category: ['Update Request Payload'],
       settings: {
-        options: PayloadModeOptions,
+        options: PAYLOAD_MODE_OPTIONS,
       },
       defaultValue: PayloadMode.ALL,
       showIf: (config) => isRequestConfigured(config.update) && config.layout.variant !== LayoutVariant.NONE,
@@ -373,7 +366,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: PayloadUpdateDefault,
+      defaultValue: UPDATE_PAYLOAD_DEFAULT,
       showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
     });
 
@@ -384,7 +377,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       description: 'Ask to confirm updated values.',
       category: ['Confirmation Window'],
       settings: {
-        options: BooleanOptions,
+        options: BOOLEAN_OPTIONS,
       },
       defaultValue: false,
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
@@ -393,35 +386,35 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       path: 'confirmModal.title',
       name: 'Title',
       category: ['Confirmation Window'],
-      defaultValue: ConfirmModalDefault.title,
+      defaultValue: CONFIRM_MODAL_DEFAULT.title,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
       path: 'confirmModal.body',
       name: 'Text',
       category: ['Confirmation Window'],
-      defaultValue: ConfirmModalDefault.body,
+      defaultValue: CONFIRM_MODAL_DEFAULT.body,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
       path: 'confirmModal.columns.name',
       name: 'Label column',
       category: ['Confirmation Window'],
-      defaultValue: ConfirmModalDefault.columns.name,
+      defaultValue: CONFIRM_MODAL_DEFAULT.columns.name,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
       path: 'confirmModal.columns.oldValue',
       name: 'Old value column',
       category: ['Confirmation Window'],
-      defaultValue: ConfirmModalDefault.columns.oldValue,
+      defaultValue: CONFIRM_MODAL_DEFAULT.columns.oldValue,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
       path: 'confirmModal.columns.newValue',
       name: 'New value column',
       category: ['Confirmation Window'],
-      defaultValue: ConfirmModalDefault.columns.newValue,
+      defaultValue: CONFIRM_MODAL_DEFAULT.columns.newValue,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
@@ -429,7 +422,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Confirm button',
       category: ['Confirmation Window'],
       description: 'The text on the confirm button.',
-      defaultValue: ConfirmModalDefault.confirm,
+      defaultValue: CONFIRM_MODAL_DEFAULT.confirm,
       showIf: (config) => config.update.confirm,
     })
     .addTextInput({
@@ -437,7 +430,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Cancel button',
       category: ['Confirmation Window'],
       description: 'The text on the cancel button.',
-      defaultValue: ConfirmModalDefault.cancel,
+      defaultValue: CONFIRM_MODAL_DEFAULT.cancel,
       showIf: (config) => config.update.confirm,
     });
 
@@ -451,7 +444,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Buttons'],
       description: 'Buttons orientation on the form',
       settings: {
-        options: ButtonOrientationOptions,
+        options: BUTTON_ORIENTATION_OPTIONS,
       },
       defaultValue: ButtonOrientation.CENTER,
     })
@@ -461,7 +454,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Buttons'],
       description: 'Buttons size on the form',
       settings: {
-        options: ButtonSizeOptions,
+        options: BUTTON_SIZE_OPTIONS,
       },
       defaultValue: ButtonSize.MEDIUM,
     });
@@ -476,16 +469,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Submit Button'],
       description: 'Button variant',
       settings: {
-        options: ButtonVariantOptions,
+        options: BUTTON_VARIANT_OPTIONS,
       },
-      defaultValue: ButtonVariant.PRIMARY,
+      defaultValue: SUBMIT_BUTTON_DEFAULT.variant,
     })
     .addColorPicker({
       path: 'submit.foregroundColor',
       name: 'Foreground Color',
       category: ['Submit Button'],
       description: 'Foreground color of the button',
-      defaultValue: SubmitForegroundColorDefault,
+      defaultValue: SUBMIT_BUTTON_DEFAULT.foregroundColor,
       settings: {
         disableNamedColors: true,
       },
@@ -496,7 +489,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Background Color',
       category: ['Submit Button'],
       description: 'Background color of the button',
-      defaultValue: SubmitBackgroundColorDefault,
+      defaultValue: SUBMIT_BUTTON_DEFAULT.backgroundColor,
       settings: {
         disableNamedColors: true,
       },
@@ -514,14 +507,14 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
           };
         }),
       },
-      defaultValue: SubmitIconDefault,
+      defaultValue: SUBMIT_BUTTON_DEFAULT.icon,
     })
     .addTextInput({
       path: 'submit.text',
       name: 'Text',
       category: ['Submit Button'],
       description: 'The text on the button',
-      defaultValue: SubmitTextDefault,
+      defaultValue: SUBMIT_BUTTON_DEFAULT.text,
     });
 
   /**
@@ -534,16 +527,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Reset Button'],
       description: 'Button variant',
       settings: {
-        options: [...ButtonVariantHiddenOption, ...ButtonVariantOptions],
+        options: [...BUTTON_VARIANT_HIDDEN_OPTIONS, ...BUTTON_VARIANT_OPTIONS],
       },
-      defaultValue: ButtonVariant.HIDDEN,
+      defaultValue: RESET_BUTTON_DEFAULT.variant,
     })
     .addColorPicker({
       path: 'reset.foregroundColor',
       name: 'Foreground Color',
       category: ['Reset Button'],
       description: 'Foreground color of the button',
-      defaultValue: ResetForegroundColorDefault,
+      defaultValue: RESET_BUTTON_DEFAULT.foregroundColor,
       settings: {
         disableNamedColors: true,
       },
@@ -554,7 +547,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Background Color',
       category: ['Reset Button'],
       description: 'Background color of the button',
-      defaultValue: ResetBackgroundColorDefault,
+      defaultValue: RESET_BUTTON_DEFAULT.backgroundColor,
       settings: {
         disableNamedColors: true,
       },
@@ -572,7 +565,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
           };
         }),
       },
-      defaultValue: ResetIconDefault,
+      defaultValue: RESET_BUTTON_DEFAULT.icon,
       showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
     })
     .addTextInput({
@@ -580,7 +573,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Text',
       category: ['Reset Button'],
       description: 'The text on the button',
-      defaultValue: ResetTextDefault,
+      defaultValue: RESET_BUTTON_DEFAULT.text,
       showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
     });
 
@@ -594,7 +587,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Reset Request'],
       description: 'What action should be called by clicking on reset button.',
       settings: {
-        options: ResetActionOptions,
+        options: RESET_ACTION_OPTIONS,
       },
       defaultValue: ResetActionMode.INITIAL,
       showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
@@ -609,7 +602,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeResetDefault,
+      defaultValue: RESET_CODE_DEFAULT,
       showIf: (config) =>
         config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.CUSTOM,
     })
@@ -631,7 +624,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       settings: {
         language: CodeLanguage.JAVASCRIPT,
       },
-      defaultValue: CodeUpdateDefault,
+      defaultValue: UPDATE_CODE_DEFAULT,
       showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE,
     });
 
@@ -648,7 +641,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
     settings: {
       language: CodeLanguage.JAVASCRIPT,
     },
-    defaultValue: PayloadInitialDefault,
+    defaultValue: INITIAL_PAYLOAD_DEFAULT,
     showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE && !!config.resetAction.datasource,
   });
 
@@ -662,9 +655,9 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       category: ['Save Default Button'],
       description: 'Button variant',
       settings: {
-        options: [...ButtonVariantHiddenOption, { value: ButtonVariant.SECONDARY, label: 'Auto' }],
+        options: [...BUTTON_VARIANT_HIDDEN_OPTIONS, { value: ButtonVariant.SECONDARY, label: 'Auto' }],
       },
-      defaultValue: ButtonVariant.HIDDEN,
+      defaultValue: SAVE_DEFAULT_BUTTON_DEFAULT.variant,
     })
     .addSelect({
       path: 'saveDefault.icon',
@@ -678,7 +671,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
           };
         }),
       },
-      defaultValue: SaveDefaultIconDefault,
+      defaultValue: SAVE_DEFAULT_BUTTON_DEFAULT.icon,
       showIf: (config) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
     })
     .addTextInput({
@@ -686,7 +679,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel).setNoPadding().se
       name: 'Text',
       category: ['Save Default Button'],
       description: 'The text on the button',
-      defaultValue: SaveDefaultTextDefault,
+      defaultValue: SAVE_DEFAULT_BUTTON_DEFAULT.text,
       showIf: (config) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
     });
 

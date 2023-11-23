@@ -1,4 +1,6 @@
 import {
+  ButtonOptions,
+  ButtonVariant,
   CodeLanguage,
   CodeOptions,
   FormElement,
@@ -8,13 +10,13 @@ import {
   SliderOptions,
   TextareaOptions,
 } from '../types';
-import { CodeEditorConfig } from './code-editor';
+import { CODE_EDITOR_CONFIG } from './code-editor';
 import { FormElementType, OptionsSource } from './form-element';
 
 /**
  * Initial Request
  */
-export const CodeInitialDefault = `console.log(data, response, initial, elements);
+export const INITIAL_CODE_DEFAULT = `console.log(data, response, initial, elements);
 
 return;
 
@@ -28,7 +30,7 @@ console.log(dataQuery);`;
 /**
  * Update Request
  */
-export const CodeUpdateDefault = `if (response && response.ok) {
+export const UPDATE_CODE_DEFAULT = `if (response && response.ok) {
   notifySuccess(['Update', 'Values updated successfully.']);
   locationService.reload();
 } else {
@@ -38,12 +40,12 @@ export const CodeUpdateDefault = `if (response && response.ok) {
 /**
  * Reset Request
  */
-export const CodeResetDefault = `console.log(data, response, initial, elements);`;
+export const RESET_CODE_DEFAULT = `console.log(data, response, initial, elements);`;
 
 /**
  * Initial Payload
  */
-export const PayloadInitialDefault = `return {
+export const INITIAL_PAYLOAD_DEFAULT = `return {
   rawSql: '',
   format: 'table',
 }`;
@@ -51,7 +53,7 @@ export const PayloadInitialDefault = `return {
 /**
  * Update Payload
  */
-export const PayloadUpdateDefault = `const payload = {};
+export const UPDATE_PAYLOAD_DEFAULT = `const payload = {};
 
 elements.forEach((element) => {
   if (!element.value) {
@@ -74,41 +76,52 @@ return {
 /**
  * Initial Request
  */
-export const InitialHighlightColorDefault = 'red';
+export const INITIAL_HIGHLIGHT_COLOR_DEFAULT = 'red';
 
 /**
  * Submit Button
  */
-export const SubmitIconDefault = 'cloud-upload';
-export const SubmitBackgroundColorDefault = 'purple';
-export const SubmitForegroundColorDefault = 'yellow';
-export const SubmitTextDefault = 'Submit';
+export const SUBMIT_BUTTON_DEFAULT: ButtonOptions = {
+  icon: 'cloud-upload',
+  backgroundColor: 'purple',
+  foregroundColor: 'yellow',
+  text: 'Submit',
+  variant: ButtonVariant.PRIMARY,
+};
 
 /**
  * Reset Button
  */
-export const ResetIconDefault = 'process';
-export const ResetBackgroundColorDefault = 'purple';
-export const ResetForegroundColorDefault = 'yellow';
-export const ResetTextDefault = 'Reset';
+export const RESET_BUTTON_DEFAULT: ButtonOptions = {
+  icon: 'process',
+  backgroundColor: 'purple',
+  foregroundColor: 'yellow',
+  text: 'Reset',
+  variant: ButtonVariant.HIDDEN,
+};
 
 /**
  * Save Default Button
  */
-export const SaveDefaultIconDefault = 'save';
-export const SaveDefaultTextDefault = 'Save Default';
+export const SAVE_DEFAULT_BUTTON_DEFAULT: ButtonOptions = {
+  icon: 'save',
+  backgroundColor: 'purple',
+  foregroundColor: 'yellow',
+  text: 'Save Default',
+  variant: ButtonVariant.HIDDEN,
+};
 
 /**
  * Number Defaults
  */
-export const NumberDefault: NumberOptions = {
+export const NUMBER_DEFAULT: NumberOptions = {
   value: 0,
 };
 
 /**
  * Slider Defaults
  */
-export const SliderDefault: SliderOptions = {
+export const SLIDER_DEFAULT: SliderOptions = {
   min: 0,
   max: 10,
   step: 1,
@@ -118,8 +131,8 @@ export const SliderDefault: SliderOptions = {
 /**
  * Code Defaults
  */
-export const CodeDefault: CodeOptions = {
-  height: CodeEditorConfig.height.min,
+export const CODE_DEFAULT: CodeOptions = {
+  height: CODE_EDITOR_CONFIG.height.min,
   language: CodeLanguage.JAVASCRIPT,
   value: '',
 };
@@ -127,7 +140,7 @@ export const CodeDefault: CodeOptions = {
 /**
  * Textarea Defaults
  */
-export const TextareaDefault: TextareaOptions = {
+export const TEXTAREA_DEFAULT: TextareaOptions = {
   rows: 10,
   value: '',
 };
@@ -135,14 +148,14 @@ export const TextareaDefault: TextareaOptions = {
 /**
  * Select Defaults
  */
-export const SelectDefaults: SelectOptions = {
-  optionsSource: OptionsSource.Custom,
+export const SELECT_DEFAULT: SelectOptions = {
+  optionsSource: OptionsSource.CUSTOM,
 };
 
 /**
  * Form Element
  */
-export const FormElementDefault: FormElement = {
+export const FORM_ELEMENT_DEFAULT: FormElement = {
   uid: '',
   id: '',
   title: '',
@@ -159,7 +172,7 @@ export const FormElementDefault: FormElement = {
 /**
  * Form Element Option
  */
-export const FormElementOptionDefault = {
+export const FORM_ELEMENT_OPTION_DEFAULT = {
   id: '_',
   type: FormElementType.NUMBER,
   label: '',
@@ -169,7 +182,7 @@ export const FormElementOptionDefault = {
 /**
  * Confirm Modal
  */
-export const ConfirmModalDefault: ModalOptions = {
+export const CONFIRM_MODAL_DEFAULT: ModalOptions = {
   title: 'Confirm update request',
   body: 'Please confirm to update changed values',
   columns: {

@@ -5,5 +5,13 @@
     "ecmaVersion": "latest",
     "project": "./tsconfig.json",
     "sourceType": "module"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.tsx", "**/*.test.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

@@ -1,6 +1,8 @@
 import { Input } from '@grafana/ui';
 import React, { ChangeEvent, useCallback } from 'react';
 
+const actual = jest.requireActual('@volkovlabs/components');
+
 /**
  * Properties
  */
@@ -43,7 +45,7 @@ interface Props extends Omit<React.ComponentProps<typeof Input>, 'onChange' | 'v
 /**
  * Number Input
  */
-export const NumberInput: React.FC<Props> = ({ value, onChange, min, max, step, ...restProps }) => {
+const NumberInput: React.FC<Props> = ({ value, onChange, min, max, step, ...restProps }) => {
   /**
    * Number Value
    */
@@ -76,4 +78,9 @@ export const NumberInput: React.FC<Props> = ({ value, onChange, min, max, step, 
   );
 
   return <Input {...restProps} type="number" value={numberValue} onChange={onSaveValue} />;
+};
+
+module.exports = {
+  ...actual,
+  NumberInput,
 };

@@ -1,12 +1,18 @@
 import { SelectableValue } from '@grafana/data';
 import { Button, Icon, IconButton, InlineField, InlineFieldRow, Input, Label, Select, useStyles2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
+import { Collapse } from '@volkovlabs/components';
 import React, { ChangeEvent, useCallback, useState } from 'react';
 
-import { FormElementOptionDefault, FormElementType, IconOptions, SelectElementOptions, TestIds } from '../../constants';
-import { Reorder } from '../../utils';
-import { Collapse } from '../Collapse';
-import { Styles } from './ElementOptionsEditor.styles';
+import {
+  FORM_ELEMENT_OPTION_DEFAULT,
+  FormElementType,
+  ICON_OPTIONS,
+  SELECT_ELEMENT_OPTIONS,
+  TEST_IDS,
+} from '../../constants';
+import { reorder } from '../../utils';
+import { getStyles } from './ElementOptionsEditor.styles';
 
 /**
  * Get Item Style
@@ -45,7 +51,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
   /**
    * Styles
    */
-  const styles = useStyles2(Styles);
+  const styles = useStyles2(getStyles);
 
   /**
    * States
@@ -64,7 +70,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
         return;
       }
 
-      onChange(Reorder(options, result.source.index, result.destination.index));
+      onChange(reorder(options, result.source.index, result.destination.index));
     },
     [options, onChange]
   );
@@ -102,8 +108,9 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                           className={styles.item}
                         >
                           <Collapse
-                            headerTestId={TestIds.formElementsEditor.optionLabel(option.id)}
-                            contentTestId={TestIds.formElementsEditor.optionContent(option.id)}
+                            fill="solid"
+                            headerTestId={TEST_IDS.formElementsEditor.optionLabel(option.id)}
+                            contentTestId={TEST_IDS.formElementsEditor.optionContent(option.id)}
                             isOpen={isOpen}
                             onToggle={() => onToggleVisibility(option.id)}
                             title={
@@ -118,7 +125,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                   variant="secondary"
                                   size="sm"
                                   className={styles.removeButton}
-                                  data-testid={TestIds.formElementsEditor.buttonRemoveOption}
+                                  data-testid={TEST_IDS.formElementsEditor.buttonRemoveOption}
                                   onClick={() => onChange(options?.filter((o) => o.id !== option.id))}
                                   aria-label="Remove"
                                 />
@@ -136,7 +143,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                               <InlineFieldRow>
                                 <InlineField label="Type" labelWidth={6}>
                                   <Select
-                                    options={SelectElementOptions}
+                                    options={SELECT_ELEMENT_OPTIONS}
                                     onChange={(event: SelectableValue) => {
                                       const newValue =
                                         event?.value === FormElementType.NUMBER
@@ -155,7 +162,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                     }}
                                     width={12}
                                     value={option.type}
-                                    aria-label={TestIds.formElementsEditor.fieldOptionType}
+                                    aria-label={TEST_IDS.formElementsEditor.fieldOptionType}
                                   />
                                 </InlineField>
                                 <InlineField label="Value" labelWidth={6} grow={true}>
@@ -176,7 +183,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                       );
                                     }}
                                     onBlur={() => {
-                                      const newId = option.value?.toString() || FormElementOptionDefault.id;
+                                      const newId = option.value?.toString() || FORM_ELEMENT_OPTION_DEFAULT.id;
                                       onChangeItem(
                                         {
                                           ...option,
@@ -186,7 +193,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                       );
                                     }}
                                     value={option.value}
-                                    data-testid={TestIds.formElementsEditor.fieldOptionValue}
+                                    data-testid={TEST_IDS.formElementsEditor.fieldOptionValue}
                                   />
                                 </InlineField>
                               </InlineFieldRow>
@@ -199,11 +206,11 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                         icon: event?.value,
                                       });
                                     }}
-                                    options={IconOptions}
+                                    options={ICON_OPTIONS}
                                     isClearable={true}
                                     value={option.icon}
                                     width={12}
-                                    aria-label={TestIds.formElementsEditor.fieldOptionIcon}
+                                    aria-label={TEST_IDS.formElementsEditor.fieldOptionIcon}
                                   />
                                 </InlineField>
                                 <InlineField label="Label" labelWidth={6} grow={true} shrink={true}>
@@ -216,7 +223,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                       });
                                     }}
                                     value={option.label}
-                                    data-testid={TestIds.formElementsEditor.fieldOptionLabel}
+                                    data-testid={TEST_IDS.formElementsEditor.fieldOptionLabel}
                                   />
                                 </InlineField>
                               </InlineFieldRow>
@@ -237,15 +244,15 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
           variant="secondary"
           onClick={() => {
             const newOption = {
-              ...FormElementOptionDefault,
+              ...FORM_ELEMENT_OPTION_DEFAULT,
             };
 
             onChange(options.concat(newOption));
           }}
           icon="plus"
-          data-testid={TestIds.formElementsEditor.buttonAddOption}
+          data-testid={TEST_IDS.formElementsEditor.buttonAddOption}
           size="sm"
-          disabled={options.some((option) => option.id === FormElementOptionDefault.id)}
+          disabled={options.some((option) => option.id === FORM_ELEMENT_OPTION_DEFAULT.id)}
         >
           Add Option
         </Button>

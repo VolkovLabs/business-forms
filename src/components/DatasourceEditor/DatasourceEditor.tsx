@@ -2,13 +2,13 @@ import { StandardEditorProps } from '@grafana/data';
 import { Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { TestIds } from '../../constants';
+import { TEST_IDS } from '../../constants';
 import { useDatasources } from '../../hooks';
 
 /**
  * Properties
  */
-type Props = Pick<StandardEditorProps<string>, 'value' | 'onChange'>
+type Props = Pick<StandardEditorProps<string>, 'value' | 'onChange'>;
 
 /**
  * Data Source Editor
@@ -39,7 +39,7 @@ export const DatasourceEditor: React.FC<Props> = ({ value, onChange }) => {
       }}
       options={datasourceOptions}
       value={value}
-      aria-label={TestIds.datasourceEditor.fieldSelect}
+      aria-label={TEST_IDS.datasourceEditor.fieldSelect}
     />
   );
 };
