@@ -578,7 +578,7 @@ describe('Form Elements Editor', () => {
    */
   describe('Element order', () => {
     it('Should reorder items', async () => {
-      let onDragEndHandler: (result: DropResult) => void = () => {};
+      let onDragEndHandler: (result: DropResult) => void = () => null;
       jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
         onDragEndHandler = onDragEnd;
         return children;
@@ -617,7 +617,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should not reorder items if drop outside the list', async () => {
-      let onDragEndHandler: (result: DropResult) => void = () => {};
+      let onDragEndHandler: (result: DropResult) => void = () => null;
       jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
         onDragEndHandler = onDragEnd;
         return children;
@@ -840,7 +840,7 @@ describe('Form Elements Editor', () => {
         const elementOne = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elementTwo = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.NUMBER };
         const elements = [elementOne, elementTwo];
-        jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
+        jest.spyOn(window, 'alert').mockImplementationOnce(() => null);
 
         render(getComponent({ value: elements, onChange }));
 
@@ -2027,7 +2027,7 @@ describe('Form Elements Editor', () => {
         options: [option1, option2],
       };
       const elements = [element];
-      jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
+      jest.spyOn(window, 'alert').mockImplementationOnce(() => null);
 
       render(getComponent({ value: elements, onChange }));
 
@@ -2068,7 +2068,7 @@ describe('Form Elements Editor', () => {
      */
     describe('Option order', () => {
       it('Should reorder items', async () => {
-        let onDragEndHandler: (result: DropResult) => void = () => {};
+        let onDragEndHandler: (result: DropResult) => void = () => null;
         jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
           if (children.props.droppableId === 'options') {
             onDragEndHandler = onDragEnd;
@@ -2121,7 +2121,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should not reorder items if drop outside the list', async () => {
-        let onDragEndHandler: (result: DropResult) => void = () => {};
+        let onDragEndHandler: (result: DropResult) => void = () => null;
         jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
           if (children.props.droppableId === 'options') {
             onDragEndHandler = onDragEnd;
