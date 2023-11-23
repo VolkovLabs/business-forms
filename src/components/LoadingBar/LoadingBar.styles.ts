@@ -3,7 +3,7 @@ import { css, keyframes } from '@emotion/css';
 /**
  * Styles
  */
-export const Styles = () => {
+export const getStyles = () => {
   return {
     animation: keyframes({
       '0%': {

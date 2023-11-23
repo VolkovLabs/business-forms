@@ -1,7 +1,7 @@
 import { useStyles2 } from '@grafana/ui';
 import React, { CSSProperties } from 'react';
 
-import { Styles } from './LoadingBar.styles';
+import { getStyles } from './LoadingBar.styles';
 
 /**
  * Properties
@@ -30,7 +30,7 @@ const maxDurationMs = 4000;
  * Not available in Grafana 9
  */
 export const LoadingBar = ({ width, ariaLabel = 'Loading bar' }: LoadingBarProps) => {
-  const styles = useStyles2(Styles);
+  const styles = useStyles2(getStyles);
   const durationMs = Math.min(Math.max(Math.round(width * msPerPixel), minDurationMs), maxDurationMs);
 
   /**
