@@ -1,6 +1,6 @@
 import { SelectableValue } from '@grafana/data';
 
-import { CapitalizeFirstLetter } from './button';
+import { capitalizeFirstLetter } from '../utils';
 
 /**
  * Request Methods
@@ -19,7 +19,7 @@ export const enum RequestMethod {
 /**
  * Initial Request Method
  */
-export const RequestMethodInitialOptions: SelectableValue[] = [
+export const INITIAL_REQUEST_METHOD_OPTIONS: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
     label: 'Custom Code',
@@ -42,7 +42,7 @@ export const RequestMethodInitialOptions: SelectableValue[] = [
 /**
  * Update Request Method
  */
-export const RequestMethodUpdateOptions: SelectableValue[] = [
+export const UPDATE_REQUEST_METHOD_OPTIONS: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
     label: 'Custom Code',
@@ -82,10 +82,10 @@ export const enum ContentType {
 /**
  * Content Type Options
  */
-export const ContentTypeOptions: SelectableValue[] = [
-  { label: CapitalizeFirstLetter(ContentType.JSON), value: ContentType.JSON },
-  { label: CapitalizeFirstLetter(ContentType.PLAIN), value: ContentType.PLAIN },
-  { label: CapitalizeFirstLetter(ContentType.FORMDATA), value: ContentType.FORMDATA },
+export const CONTENT_TYPE_OPTIONS: SelectableValue[] = [
+  { label: capitalizeFirstLetter(ContentType.JSON), value: ContentType.JSON },
+  { label: capitalizeFirstLetter(ContentType.PLAIN), value: ContentType.PLAIN },
+  { label: capitalizeFirstLetter(ContentType.FORMDATA), value: ContentType.FORMDATA },
 ];
 
 /**
@@ -100,7 +100,7 @@ export const enum PayloadMode {
 /**
  * Payload Mode Options
  */
-export const PayloadModeOptions = [
+export const PAYLOAD_MODE_OPTIONS = [
   { label: 'All Elements', value: PayloadMode.ALL },
   { label: 'Updated Only', value: PayloadMode.UPDATED },
   { label: 'Custom Code', value: PayloadMode.CUSTOM },
@@ -118,7 +118,7 @@ export const enum ResetActionMode {
 /**
  * Reset Action Options
  */
-export const ResetActionOptions = [
+export const RESET_ACTION_OPTIONS = [
   { label: 'Custom Code', value: ResetActionMode.CUSTOM },
   { label: 'Initial Request', value: ResetActionMode.INITIAL },
   { label: 'Data Source', value: ResetActionMode.DATASOURCE, icon: 'database' },

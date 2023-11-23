@@ -5,9 +5,9 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import React from 'react';
 
 import {
-  ConfirmModalDefault,
+  CONFIRM_MODAL_DEFAULT,
   ContentType,
-  FormElementDefault,
+  FORM_ELEMENT_DEFAULT,
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
@@ -17,7 +17,7 @@ import {
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
 import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement } from '../../types';
-import { getPanelSelectors, ToLocalFormElement } from '../../utils';
+import { getPanelSelectors, toLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -88,8 +88,8 @@ describe('Panel', () => {
       saveDefault: {},
       layout: { variant: LayoutVariant.SINGLE },
       buttonGroup: { orientation: ButtonOrientation.CENTER },
-      elements: [{ ...FormElementDefault, id: 'test' }],
-      confirmModal: ConfirmModalDefault,
+      elements: [{ ...FORM_ELEMENT_DEFAULT, id: 'test' }],
+      confirmModal: CONFIRM_MODAL_DEFAULT,
       ...options,
     };
 
@@ -356,7 +356,7 @@ describe('Panel', () => {
               },
               elements: [
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'mapped',
                   queryField: {
                     refId: 'A',
@@ -364,7 +364,7 @@ describe('Panel', () => {
                   },
                 },
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'unmapped',
                   queryField: undefined,
                 },
@@ -432,13 +432,13 @@ describe('Panel', () => {
               },
               elements: [
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'mapped',
                   queryFieldName: 'metric',
                   value: '123',
                 },
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'unmapped',
                   queryFieldName: '',
                 },
@@ -517,12 +517,12 @@ describe('Panel', () => {
               },
               elements: [
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'mapped',
                   fieldName: 'metric',
                 },
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'unmapped',
                   fieldName: '',
                 },
@@ -596,13 +596,13 @@ describe('Panel', () => {
               },
               elements: [
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'mapped',
                   fieldName: 'metric',
                   value: '123',
                 },
                 {
-                  ...FormElementDefault,
+                  ...FORM_ELEMENT_DEFAULT,
                   id: 'unmapped',
                   fieldName: '',
                 },
@@ -863,7 +863,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
             },
@@ -879,7 +879,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -960,7 +960,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
             },
@@ -976,7 +976,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -1053,7 +1053,7 @@ describe('Panel', () => {
               replaceVariables: () => null,
             },
             options: {
-              elements: [{ ...FormElementDefault, id: 'test', value: '123' }],
+              elements: [{ ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' }],
             },
           })
         )
@@ -1107,7 +1107,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
             },
@@ -1122,7 +1122,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -1188,7 +1188,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
             },
@@ -1203,7 +1203,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -1247,7 +1247,7 @@ describe('Panel', () => {
         rerender(
           getComponent({
             options: {
-              elements: [{ ...FormElementDefault, id: 'test', value: '123' }],
+              elements: [{ ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' }],
             },
           })
         )
@@ -1297,7 +1297,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
               update: {
@@ -1316,7 +1316,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -1673,7 +1673,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
             },
@@ -1688,7 +1688,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -1754,7 +1754,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 123 },
               ],
             },
@@ -1769,7 +1769,7 @@ describe('Panel', () => {
           getComponent({
             options: {
               elements: [
-                { ...FormElementDefault, id: 'test', value: '123' },
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
                 { type: FormElementType.NUMBER, id: 'number', value: 111 },
                 { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
               ],
@@ -1809,15 +1809,15 @@ describe('Panel', () => {
         return null;
       });
 
-      const elementWithoutInitialValue = ToLocalFormElement({
-        ...FormElementDefault,
+      const elementWithoutInitialValue = toLocalFormElement({
+        ...FORM_ELEMENT_DEFAULT,
         id: 'test',
         title: 'Field',
         value: '123',
         uid: 'test123',
       } as FormElement & { type: FormElementType.STRING });
-      const elementWithInitialValue = ToLocalFormElement({
-        ...FormElementDefault,
+      const elementWithInitialValue = toLocalFormElement({
+        ...FORM_ELEMENT_DEFAULT,
         id: 'string',
         title: 'Field 2',
         value: '',
@@ -1953,15 +1953,15 @@ describe('Panel', () => {
         return null;
       });
 
-      const elementWithoutInitialValue = ToLocalFormElement({
-        ...FormElementDefault,
+      const elementWithoutInitialValue = toLocalFormElement({
+        ...FORM_ELEMENT_DEFAULT,
         id: 'test',
         title: 'Field',
         value: '123',
         uid: 'test123',
       } as FormElement & { type: FormElementType.STRING });
-      const elementWithInitialValue = ToLocalFormElement({
-        ...FormElementDefault,
+      const elementWithInitialValue = toLocalFormElement({
+        ...FORM_ELEMENT_DEFAULT,
         id: 'string',
         title: 'Field 2',
         value: '',

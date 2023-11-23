@@ -3,7 +3,7 @@ import { selectors } from '@grafana/e2e-selectors';
 /**
  * Tests Identifiers
  */
-export const TestIds = {
+export const TEST_IDS = {
   panel: {
     root: 'data-testid panel',
     loadingBar: 'data-testid panel loading-bar',

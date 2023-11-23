@@ -2,7 +2,7 @@ import { dateTime } from '@grafana/data';
 import { Button, DateTimePicker, InlineField, InlineFieldRow } from '@grafana/ui';
 import React from 'react';
 
-import { TestIds } from '../../constants';
+import { TEST_IDS } from '../../constants';
 
 /**
  * Properties
@@ -32,6 +32,7 @@ interface Props {
   /**
    * Data Test id
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'data-testid': string;
 }
 
@@ -48,7 +49,7 @@ export const ElementDateEditor: React.FC<Props> = ({ value, onChange, label, ...
               onChange(dateTime.toISOString());
             }}
             date={dateTime(value)}
-            data-testid={TestIds.formElementsEditor.fieldDateTime}
+            data-testid={TEST_IDS.formElementsEditor.fieldDateTime}
           />
         </InlineField>
         <Button
@@ -57,7 +58,7 @@ export const ElementDateEditor: React.FC<Props> = ({ value, onChange, label, ...
             onChange('');
           }}
           variant="secondary"
-          data-testid={TestIds.formElementsEditor.buttonRemoveDate}
+          data-testid={TEST_IDS.formElementsEditor.buttonRemoveDate}
         />
       </>
     ) : (
@@ -68,7 +69,7 @@ export const ElementDateEditor: React.FC<Props> = ({ value, onChange, label, ...
             onChange(new Date().toISOString());
           }}
           variant="secondary"
-          data-testid={TestIds.formElementsEditor.buttonSetDate}
+          data-testid={TEST_IDS.formElementsEditor.buttonSetDate}
         >
           Set {label} Date
         </Button>

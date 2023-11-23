@@ -4,13 +4,13 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { RequestMethod, TestIds } from '../../constants';
+import { RequestMethod, TEST_IDS } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { GetElementUniqueId, GetLayoutUniqueId, Reorder } from '../../utils';
+import { getElementUniqueId, getLayoutUniqueId, reorder } from '../../utils';
 import { ElementEditor } from '../ElementEditor';
 import { NewElement } from '../NewElement';
-import { Styles } from './styles';
+import { getStyles } from './FormElementsEditor.styles';
 
 /**
  * Get Item Style
@@ -35,7 +35,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
    * Styles and Theme
    */
   const theme = useTheme2();
-  const styles = Styles(theme);
+  const styles = getStyles(theme);
 
   /**
    * States
@@ -83,7 +83,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
         return;
       }
 
-      onChangeElements(Reorder(elements, result.source.index, result.destination.index));
+      onChangeElements(reorder(elements, result.source.index, result.destination.index));
     },
     [elements, onChangeElements]
   );
@@ -94,7 +94,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   const layoutSectionOptions: SelectableValue[] = useMemo(() => {
     return (
       context.options?.layout?.sections?.map((section: LayoutSection) => {
-        return { value: GetLayoutUniqueId(section), label: GetLayoutUniqueId(section) };
+        return { value: getLayoutUniqueId(section), label: getLayoutUniqueId(section) };
       }) || []
     );
   }, [context.options?.layout?.sections]);
@@ -113,7 +113,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
    * Return
    */
   return (
-    <div data-testid={TestIds.formElementsEditor.root}>
+    <div data-testid={TEST_IDS.formElementsEditor.root}>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="elements">
           {(provided) => (
@@ -130,8 +130,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                         className={styles.item}
                       >
                         <Collapse
-                          headerTestId={TestIds.formElementsEditor.sectionLabel(element.id, element.type)}
-                          contentTestId={TestIds.formElementsEditor.sectionContent(element.id, element.type)}
+                          headerTestId={TEST_IDS.formElementsEditor.sectionLabel(element.id, element.type)}
+                          contentTestId={TEST_IDS.formElementsEditor.sectionContent(element.id, element.type)}
                           isOpen={isOpen}
                           onToggle={() => onToggleElement(element.uid)}
                           title={
@@ -146,8 +146,8 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                                 variant="secondary"
                                 size="sm"
                                 className={styles.removeButton}
-                                data-testid={TestIds.formElementsEditor.buttonRemoveElement}
-                                onClick={() => onElementRemove(GetElementUniqueId(element))}
+                                data-testid={TEST_IDS.formElementsEditor.buttonRemoveElement}
+                                onClick={() => onElementRemove(getElementUniqueId(element))}
                                 aria-label="Remove"
                               />
                               <Icon
@@ -183,7 +183,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
       </DragDropContext>
 
       {isChanged && (
-        <Button onClick={onSaveUpdates} data-testid={TestIds.formElementsEditor.buttonSaveChanges}>
+        <Button onClick={onSaveUpdates} data-testid={TEST_IDS.formElementsEditor.buttonSaveChanges}>
           Save changes
         </Button>
       )}

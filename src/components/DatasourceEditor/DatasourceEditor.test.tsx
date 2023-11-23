@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TestIds } from '../../constants';
+import { TEST_IDS } from '../../constants';
 import { useDatasources } from '../../hooks';
 import { DatasourceEditor } from './DatasourceEditor';
 
@@ -19,7 +19,7 @@ describe('Select Datasource Editor', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TestIds.datasourceEditor);
+  const getSelectors = getJestSelectors(TEST_IDS.datasourceEditor);
   const selectors = getSelectors(screen);
 
   /**

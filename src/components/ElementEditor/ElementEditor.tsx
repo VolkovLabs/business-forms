@@ -3,18 +3,18 @@ import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, us
 import React, { ChangeEvent } from 'react';
 
 import {
-  CodeLanguageOptions,
+  CODE_LANGUAGE_OPTIONS,
+  FORM_ELEMENT_TYPE_OPTIONS,
   FormElementType,
-  FormElementTypeOptions,
-  LinkTargetOptions,
+  LINK_TARGET_OPTIONS,
+  OPTIONS_SOURCE_OPTIONS,
   OptionsSource,
-  OptionsSourceOptions,
   RequestMethod,
-  StringElementOptions,
-  TestIds,
+  STRING_ELEMENT_OPTIONS,
+  TEST_IDS,
 } from '../../constants';
 import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
-import { FormatNumberValue, GetElementWithNewType, IsFormElementType, ToNumberValue } from '../../utils';
+import { formatNumberValue, getElementWithNewType, isFormElementType, toNumberValue } from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
@@ -108,14 +108,14 @@ export const ElementEditor: React.FC<Props> = ({
               );
             }}
             value={element.id}
-            data-testid={TestIds.formElementsEditor.fieldId}
+            data-testid={TEST_IDS.formElementsEditor.fieldId}
           />
         </InlineField>
 
         {element.type === FormElementType.STRING && (
-          <InlineField data-testid={TestIds.formElementsEditor.fieldVisibility}>
+          <InlineField data-testid={TEST_IDS.formElementsEditor.fieldVisibility}>
             <RadioButtonGroup
-              options={StringElementOptions}
+              options={STRING_ELEMENT_OPTIONS}
               value={!!element.hidden}
               onChange={(value) => {
                 onChange({
@@ -131,12 +131,12 @@ export const ElementEditor: React.FC<Props> = ({
       <InlineFieldRow>
         <InlineField label="Type" grow labelWidth={8}>
           <Select
-            options={FormElementTypeOptions}
+            options={FORM_ELEMENT_TYPE_OPTIONS}
             onChange={(event: SelectableValue) => {
-              onChange(GetElementWithNewType(element, event?.value), true);
+              onChange(getElementWithNewType(element, event?.value), true);
             }}
-            value={FormElementTypeOptions.find((type) => type.value === element.type)}
-            aria-label={TestIds.formElementsEditor.fieldType}
+            value={FORM_ELEMENT_TYPE_OPTIONS.find((type) => type.value === element.type)}
+            aria-label={TEST_IDS.formElementsEditor.fieldType}
           />
         </InlineField>
 
@@ -150,13 +150,13 @@ export const ElementEditor: React.FC<Props> = ({
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               onChange({
                 ...element,
-                width: ToNumberValue(event.target.value),
+                width: toNumberValue(event.target.value),
               });
             }}
-            value={FormatNumberValue(element.width)}
+            value={formatNumberValue(element.width)}
             min={0}
             type="number"
-            data-testid={TestIds.formElementsEditor.fieldWidth}
+            data-testid={TEST_IDS.formElementsEditor.fieldWidth}
           />
         </InlineField>
       </InlineFieldRow>
@@ -171,7 +171,7 @@ export const ElementEditor: React.FC<Props> = ({
               });
             }}
             value={element.title}
-            data-testid={TestIds.formElementsEditor.fieldLabel}
+            data-testid={TEST_IDS.formElementsEditor.fieldLabel}
           />
         </InlineField>
 
@@ -181,12 +181,12 @@ export const ElementEditor: React.FC<Props> = ({
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               onChange({
                 ...element,
-                labelWidth: ToNumberValue(event.target.value),
+                labelWidth: toNumberValue(event.target.value),
               });
             }}
-            value={FormatNumberValue(element.labelWidth)}
+            value={formatNumberValue(element.labelWidth)}
             type="number"
-            data-testid={TestIds.formElementsEditor.fieldLabelWidth}
+            data-testid={TEST_IDS.formElementsEditor.fieldLabelWidth}
           />
         </InlineField>
       </InlineFieldRow>
@@ -202,7 +202,7 @@ export const ElementEditor: React.FC<Props> = ({
               });
             }}
             value={element.tooltip}
-            data-testid={TestIds.formElementsEditor.fieldTooltip}
+            data-testid={TEST_IDS.formElementsEditor.fieldTooltip}
           />
         </InlineField>
 
@@ -216,7 +216,7 @@ export const ElementEditor: React.FC<Props> = ({
               });
             }}
             value={element.unit}
-            data-testid={TestIds.formElementsEditor.fieldUnit}
+            data-testid={TEST_IDS.formElementsEditor.fieldUnit}
           />
         </InlineField>
       </InlineFieldRow>
@@ -233,7 +233,7 @@ export const ElementEditor: React.FC<Props> = ({
                 });
               }}
               value={layoutSectionOptions.find((section) => section.value === element.section)}
-              aria-label={TestIds.formElementsEditor.fieldSection}
+              aria-label={TEST_IDS.formElementsEditor.fieldSection}
             />
           </InlineField>
         </InlineFieldRow>
@@ -253,7 +253,7 @@ export const ElementEditor: React.FC<Props> = ({
               type="number"
               width={10}
               value={element.min}
-              data-testid={TestIds.formElementsEditor.fieldSliderMin}
+              data-testid={TEST_IDS.formElementsEditor.fieldSliderMin}
             />
           </InlineField>
           <InlineField label="Max" labelWidth={8}>
@@ -268,7 +268,7 @@ export const ElementEditor: React.FC<Props> = ({
               type="number"
               width={10}
               value={element.max}
-              data-testid={TestIds.formElementsEditor.fieldSliderMax}
+              data-testid={TEST_IDS.formElementsEditor.fieldSliderMax}
             />
           </InlineField>
           <InlineField label="Step" labelWidth={8}>
@@ -283,7 +283,7 @@ export const ElementEditor: React.FC<Props> = ({
               type="number"
               width={10}
               value={element.step}
-              data-testid={TestIds.formElementsEditor.fieldSliderStep}
+              data-testid={TEST_IDS.formElementsEditor.fieldSliderStep}
             />
           </InlineField>
         </InlineFieldRow>
@@ -302,8 +302,8 @@ export const ElementEditor: React.FC<Props> = ({
               }}
               type="number"
               width={10}
-              value={FormatNumberValue(element.min)}
-              data-testid={TestIds.formElementsEditor.fieldNumberMin}
+              value={formatNumberValue(element.min)}
+              data-testid={TEST_IDS.formElementsEditor.fieldNumberMin}
             />
           </InlineField>
           <InlineField label="Max" labelWidth={8}>
@@ -317,8 +317,8 @@ export const ElementEditor: React.FC<Props> = ({
               }}
               type="number"
               width={10}
-              value={FormatNumberValue(element.max)}
-              data-testid={TestIds.formElementsEditor.fieldNumberMax}
+              value={formatNumberValue(element.max)}
+              data-testid={TEST_IDS.formElementsEditor.fieldNumberMax}
             />
           </InlineField>
         </InlineFieldRow>
@@ -335,7 +335,7 @@ export const ElementEditor: React.FC<Props> = ({
               })
             }
             value={element.min}
-            data-testid={TestIds.formElementsEditor.fieldMinDate}
+            data-testid={TEST_IDS.formElementsEditor.fieldMinDate}
           />
           <ElementDateEditor
             label="Max"
@@ -346,7 +346,7 @@ export const ElementEditor: React.FC<Props> = ({
               })
             }
             value={element.max}
-            data-testid={TestIds.formElementsEditor.fieldMaxDate}
+            data-testid={TEST_IDS.formElementsEditor.fieldMaxDate}
           />
         </>
       )}
@@ -366,7 +366,7 @@ export const ElementEditor: React.FC<Props> = ({
               width={10}
               value={element.rows}
               min={2}
-              data-testid={TestIds.formElementsEditor.fieldTextareaRows}
+              data-testid={TEST_IDS.formElementsEditor.fieldTextareaRows}
             />
           </InlineField>
         </InlineFieldRow>
@@ -376,15 +376,15 @@ export const ElementEditor: React.FC<Props> = ({
         <InlineFieldRow>
           <InlineField label="Language" grow labelWidth={10}>
             <Select
-              options={CodeLanguageOptions}
+              options={CODE_LANGUAGE_OPTIONS}
               onChange={(event: SelectableValue) => {
                 onChange({
                   ...element,
                   language: event?.value,
                 });
               }}
-              value={CodeLanguageOptions.find((language) => language.value === element.language)}
-              aria-label={TestIds.formElementsEditor.fieldCodeLanguage}
+              value={CODE_LANGUAGE_OPTIONS.find((language) => language.value === element.language)}
+              aria-label={TEST_IDS.formElementsEditor.fieldCodeLanguage}
             />
           </InlineField>
           <InlineField label="Height" labelWidth={12} tooltip="Code Editor height in px">
@@ -399,7 +399,7 @@ export const ElementEditor: React.FC<Props> = ({
               type="number"
               value={element.height}
               min={0}
-              data-testid={TestIds.formElementsEditor.fieldCodeHeight}
+              data-testid={TEST_IDS.formElementsEditor.fieldCodeHeight}
             />
           </InlineField>
         </InlineFieldRow>
@@ -421,7 +421,7 @@ export const ElementEditor: React.FC<Props> = ({
                   fieldName: event.target.value,
                 });
               }}
-              data-testid={TestIds.formElementsEditor.fieldNamePicker}
+              data-testid={TEST_IDS.formElementsEditor.fieldNamePicker}
             />
           </InlineField>
         </InlineFieldRow>
@@ -438,7 +438,7 @@ export const ElementEditor: React.FC<Props> = ({
                   queryField: item,
                 });
               }}
-              aria-label={TestIds.formElementsEditor.fieldFromQueryPicker}
+              aria-label={TEST_IDS.formElementsEditor.fieldFromQueryPicker}
               isClearable={true}
             />
           </InlineField>
@@ -461,13 +461,13 @@ export const ElementEditor: React.FC<Props> = ({
                   accept: event.target.value,
                 });
               }}
-              data-testid={TestIds.formElementsEditor.fieldAccept}
+              data-testid={TEST_IDS.formElementsEditor.fieldAccept}
             />
           </InlineField>
         </InlineFieldRow>
       )}
 
-      {IsFormElementType(element, FormElementType.LINK) && (
+      {isFormElementType(element, FormElementType.LINK) && (
         <InlineFieldRow>
           <InlineField grow={true} label="Link Text" labelWidth={14}>
             <Input
@@ -479,7 +479,7 @@ export const ElementEditor: React.FC<Props> = ({
                 });
               }}
               placeholder="Link address will be used"
-              data-testid={TestIds.formElementsEditor.fieldLinkText}
+              data-testid={TEST_IDS.formElementsEditor.fieldLinkText}
             />
           </InlineField>
           <InlineField grow={true} label="Open in" labelWidth={14}>
@@ -491,7 +491,7 @@ export const ElementEditor: React.FC<Props> = ({
                   target: value,
                 });
               }}
-              options={LinkTargetOptions}
+              options={LINK_TARGET_OPTIONS}
             />
           </InlineField>
         </InlineFieldRow>
@@ -505,7 +505,7 @@ export const ElementEditor: React.FC<Props> = ({
           <InlineFieldRow>
             <InlineField label="Options Source" labelWidth={14}>
               <RadioButtonGroup
-                options={OptionsSourceOptions}
+                options={OPTIONS_SOURCE_OPTIONS}
                 value={element.optionsSource || OptionsSource.CUSTOM}
                 onChange={(value) => {
                   onChange({
@@ -528,7 +528,7 @@ export const ElementEditor: React.FC<Props> = ({
               data={data}
             />
           ) : (
-            <div className={styles.optionsContainer} data-testid={TestIds.formElementsEditor.options}>
+            <div className={styles.optionsContainer} data-testid={TEST_IDS.formElementsEditor.options}>
               <ElementOptionsEditor
                 options={element.options}
                 onChange={(options) =>
@@ -558,7 +558,7 @@ export const ElementEditor: React.FC<Props> = ({
           }}
           monacoOptions={{ formatOnPaste: true, formatOnType: true }}
           showLineNumbers={true}
-          aria-label={TestIds.formElementsEditor.fieldShowIf}
+          aria-label={TEST_IDS.formElementsEditor.fieldShowIf}
         />
       </Field>
     </>

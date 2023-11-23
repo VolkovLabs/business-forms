@@ -2,14 +2,14 @@ import { StandardEditorProps } from '@grafana/data';
 import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
 import React, { ChangeEvent, useCallback, useMemo } from 'react';
 
-import { TestIds } from '../../constants';
+import { TEST_IDS } from '../../constants';
 import { LayoutSection } from '../../types';
-import { GetLayoutUniqueId, IsSectionCollisionExists } from '../../utils';
+import { getLayoutUniqueId, isSectionCollisionExists } from '../../utils';
 
 /**
  * Properties
  */
-type Props = StandardEditorProps<LayoutSection[] | undefined>
+type Props = StandardEditorProps<LayoutSection[] | undefined>;
 
 /**
  * Layout Section Editor
@@ -22,7 +22,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
     if (Array.isArray(value)) {
       return value.map((section) => ({
         ...section,
-        id: GetLayoutUniqueId(section),
+        id: getLayoutUniqueId(section),
       }));
     }
     return [];
@@ -59,9 +59,9 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
    * Return
    */
   return (
-    <div data-testid={TestIds.layoutSectionsEditor.root}>
+    <div data-testid={TEST_IDS.layoutSectionsEditor.root}>
       {sections.map((section, id) => (
-        <InlineFieldRow key={id} data-testid={TestIds.layoutSectionsEditor.section(section.id)}>
+        <InlineFieldRow key={id} data-testid={TEST_IDS.layoutSectionsEditor.section(section.id)}>
           <InlineField label="Id" grow labelWidth={8} invalid={section.id === ''}>
             <Input
               placeholder="id"
@@ -70,14 +70,14 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
                   ...section,
                   id: event.target.value || '',
                 };
-                const isValid = !IsSectionCollisionExists(sections, updatedSection);
+                const isValid = !isSectionCollisionExists(sections, updatedSection);
 
                 if (isValid) {
                   onChangeSection(updatedSection, section.id);
                 }
               }}
               value={section.id}
-              data-testid={TestIds.layoutSectionsEditor.fieldId}
+              data-testid={TEST_IDS.layoutSectionsEditor.fieldId}
             />
           </InlineField>
           <InlineField label="Name" grow labelWidth={8}>
@@ -90,7 +90,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
                 });
               }}
               value={section.name}
-              data-testid={TestIds.layoutSectionsEditor.fieldName}
+              data-testid={TEST_IDS.layoutSectionsEditor.fieldName}
             />
           </InlineField>
           <Button
@@ -99,7 +99,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
               onRemoveSection(section);
             }}
             icon="trash-alt"
-            data-testid={TestIds.layoutSectionsEditor.buttonRemove}
+            data-testid={TEST_IDS.layoutSectionsEditor.buttonRemove}
           />
         </InlineFieldRow>
       ))}
@@ -115,7 +115,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
           );
         }}
         icon="plus"
-        data-testid={TestIds.layoutSectionsEditor.buttonAdd}
+        data-testid={TEST_IDS.layoutSectionsEditor.buttonAdd}
         disabled={isAddingDisabled}
       >
         Add Section

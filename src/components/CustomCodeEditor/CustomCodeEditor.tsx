@@ -7,7 +7,7 @@ import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana
 import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { useCallback } from 'react';
 
-import { CodeEditorSuggestions, TestIds } from '../../constants';
+import { CODE_EDITOR_SUGGESTIONS, TEST_IDS } from '../../constants';
 import { CodeEditorSettings, CodeLanguage } from '../../types';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 
@@ -60,14 +60,14 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
       };
     });
 
-    return [...CodeEditorSuggestions, ...suggestions];
+    return [...CODE_EDITOR_SUGGESTIONS, ...suggestions];
   }, [templateSrv, item.settings?.suggestions]);
 
   /**
    * Return
    */
   return (
-    <div data-testid={TestIds.customCodeEditor.root}>
+    <div data-testid={TEST_IDS.customCodeEditor.root}>
       <AutosizeCodeEditor
         language={language}
         showLineNumbers={true}

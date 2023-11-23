@@ -1,33 +1,33 @@
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 
-import { TestIds } from '../constants';
+import { TEST_IDS } from '../constants';
 
 /**
  * Get Custom Code Editor Selectors
  */
-export const getCustomCodeEditorSelectors = getJestSelectors(TestIds.customCodeEditor);
+export const getCustomCodeEditorSelectors = getJestSelectors(TEST_IDS.customCodeEditor);
 
 /**
  * Get Form Elements Selectors
  */
-export const getFormElementsSelectors = getJestSelectors(TestIds.formElements, ['fieldDateTime']);
+export const getFormElementsSelectors = getJestSelectors(TEST_IDS.formElements, ['fieldDateTime']);
 
 /**
  * Get Form Elements Editor Selectors
  */
-export const getFormElementsEditorSelectors = getJestSelectors(TestIds.formElementsEditor, ['fieldDateTime']);
+export const getFormElementsEditorSelectors = getJestSelectors(TEST_IDS.formElementsEditor, ['fieldDateTime']);
 
 /**
  * Get Panel Selectors
  */
-export const getPanelSelectors = getJestSelectors(TestIds.panel);
+export const getPanelSelectors = getJestSelectors(TEST_IDS.panel);
 
 /**
  * Get Header Parameters Editor Selectors
  */
-export const getHeaderParametersEditorSelectors = getJestSelectors(TestIds.headerParametersEditor);
+export const getHeaderParametersEditorSelectors = getJestSelectors(TEST_IDS.headerParametersEditor);
 
 /**
  * Get Layout Sections Editor Selectors
  */
-export const getLayoutSectionsEditorSelectors = getJestSelectors(TestIds.layoutSectionsEditor);
+export const getLayoutSectionsEditorSelectors = getJestSelectors(TEST_IDS.layoutSectionsEditor);

@@ -1,7 +1,7 @@
 import { CodeEditor } from '@grafana/ui';
 import React, { useEffect, useState } from 'react';
 
-import { CodeEditorConfig } from '../../constants';
+import { CODE_EDITOR_CONFIG } from '../../constants';
 
 /**
  * Properties
@@ -13,14 +13,14 @@ type Props = React.ComponentProps<typeof CodeEditor>;
  * @param value
  */
 const getHeightByValue = (value: string) => {
-  const height = value.split('\n').length * CodeEditorConfig.lineHeight;
+  const height = value.split('\n').length * CODE_EDITOR_CONFIG.lineHeight;
 
-  if (height < CodeEditorConfig.height.min) {
-    return CodeEditorConfig.height.min;
+  if (height < CODE_EDITOR_CONFIG.height.min) {
+    return CODE_EDITOR_CONFIG.height.min;
   }
 
-  if (height > CodeEditorConfig.height.max) {
-    return CodeEditorConfig.height.max;
+  if (height > CODE_EDITOR_CONFIG.height.max) {
+    return CODE_EDITOR_CONFIG.height.max;
   }
 
   return height;

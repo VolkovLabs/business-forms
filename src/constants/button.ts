@@ -1,68 +1,62 @@
 import { SelectableValue } from '@grafana/data';
 
 import { ButtonOrientation, ButtonSize, ButtonVariant } from '../types';
-
-/**
- * Capitalize First Letter
- */
-export const CapitalizeFirstLetter = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+import { capitalizeFirstLetter } from '../utils';
 
 /**
  * Button Variant Hidden
  */
-export const ButtonVariantHiddenOption: SelectableValue[] = [
+export const BUTTON_VARIANT_HIDDEN_OPTIONS: SelectableValue[] = [
   {
     value: ButtonVariant.HIDDEN,
-    label: CapitalizeFirstLetter(ButtonVariant.HIDDEN),
+    label: capitalizeFirstLetter(ButtonVariant.HIDDEN),
   },
 ];
 
 /**
  * Button Variant
  */
-export const ButtonVariantOptions: SelectableValue[] = [
+export const BUTTON_VARIANT_OPTIONS: SelectableValue[] = [
   {
     value: ButtonVariant.PRIMARY,
-    label: CapitalizeFirstLetter(ButtonVariant.PRIMARY),
+    label: capitalizeFirstLetter(ButtonVariant.PRIMARY),
   },
   {
     value: ButtonVariant.SECONDARY,
-    label: CapitalizeFirstLetter(ButtonVariant.SECONDARY),
+    label: capitalizeFirstLetter(ButtonVariant.SECONDARY),
   },
   {
     value: ButtonVariant.DESTRUCTIVE,
-    label: CapitalizeFirstLetter(ButtonVariant.DESTRUCTIVE),
+    label: capitalizeFirstLetter(ButtonVariant.DESTRUCTIVE),
   },
   {
     value: ButtonVariant.CUSTOM,
-    label: CapitalizeFirstLetter(ButtonVariant.CUSTOM),
+    label: capitalizeFirstLetter(ButtonVariant.CUSTOM),
   },
 ];
 
 /**
  * Button Orientation Options
  */
-export const ButtonOrientationOptions: SelectableValue[] = [
+export const BUTTON_ORIENTATION_OPTIONS: SelectableValue[] = [
   {
     value: ButtonOrientation.LEFT,
-    label: CapitalizeFirstLetter(ButtonOrientation.LEFT),
+    label: capitalizeFirstLetter(ButtonOrientation.LEFT),
   },
   {
     value: ButtonOrientation.CENTER,
-    label: CapitalizeFirstLetter(ButtonOrientation.CENTER),
+    label: capitalizeFirstLetter(ButtonOrientation.CENTER),
   },
   {
     value: ButtonOrientation.RIGHT,
-    label: CapitalizeFirstLetter(ButtonOrientation.RIGHT),
+    label: capitalizeFirstLetter(ButtonOrientation.RIGHT),
   },
 ];
 
 /**
  * Button Size Options
  */
-export const ButtonSizeOptions: SelectableValue[] = [
+export const BUTTON_SIZE_OPTIONS: SelectableValue[] = [
   {
     value: ButtonSize.SMALL,
     label: 'Small',

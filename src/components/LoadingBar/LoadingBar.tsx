@@ -21,9 +21,9 @@ export interface LoadingBarProps {
 /**
  * Constants
  */
-const MILLISECONDS_PER_PIXEL = 2.4;
-const MIN_DURATION_MS = 500;
-const MAX_DURATION_MS = 4000;
+const msPerPixel = 2.4;
+const minDurationMs = 500;
+const maxDurationMs = 4000;
 
 /**
  * Loading Bar
@@ -31,7 +31,7 @@ const MAX_DURATION_MS = 4000;
  */
 export const LoadingBar = ({ width, ariaLabel = 'Loading bar' }: LoadingBarProps) => {
   const styles = useStyles2(Styles);
-  const durationMs = Math.min(Math.max(Math.round(width * MILLISECONDS_PER_PIXEL), MIN_DURATION_MS), MAX_DURATION_MS);
+  const durationMs = Math.min(Math.max(Math.round(width * msPerPixel), minDurationMs), maxDurationMs);
 
   /**
    * Style

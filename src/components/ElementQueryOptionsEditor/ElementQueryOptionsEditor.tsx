@@ -2,7 +2,7 @@ import { DataFrame, SelectableValue } from '@grafana/data';
 import { InlineField, InlineFieldRow, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { TestIds } from '../../constants';
+import { TEST_IDS } from '../../constants';
 import { QueryOptionsMapper } from '../../types';
 
 /**
@@ -85,7 +85,7 @@ export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, da
                 label: value?.source !== option.source ? null : value?.label || null,
               })
             }
-            aria-label={TestIds.formElementsEditor.fieldQueryOptionsValue}
+            aria-label={TEST_IDS.formElementsEditor.fieldQueryOptionsValue}
           />
         </InlineField>
       </InlineFieldRow>
@@ -101,7 +101,7 @@ export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, da
                   label: option.fieldName,
                 })
               }
-              aria-label={TestIds.formElementsEditor.fieldQueryOptionsLabel}
+              aria-label={TEST_IDS.formElementsEditor.fieldQueryOptionsLabel}
             />
           </InlineField>
         </InlineFieldRow>

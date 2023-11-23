@@ -2,8 +2,8 @@ import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
-import { FormElementDefault, FormElementType, OptionsSource } from '../../constants';
-import { getFormElementsSelectors, NormalizeElementsForLocalState } from '../../utils';
+import { FORM_ELEMENT_DEFAULT, FormElementType, OptionsSource } from '../../constants';
+import { getFormElementsSelectors, normalizeElementsForLocalState } from '../../utils';
 import { FormElements } from './FormElements';
 import { LinkTarget } from '../../types';
 
@@ -34,7 +34,7 @@ describe('Form Elements', () => {
    */
   const getComponent = ({ options = {}, ...restProps }: any) => {
     return (
-      <FormElements options={options} elements={NormalizeElementsForLocalState(options.elements)} {...restProps} />
+      <FormElements options={options} elements={normalizeElementsForLocalState(options.elements)} {...restProps} />
     );
   };
 
@@ -45,7 +45,7 @@ describe('Form Elements', () => {
       update: {},
       reset: {},
       elements: [
-        { ...FormElementDefault, id: 'string' },
+        { ...FORM_ELEMENT_DEFAULT, id: 'string' },
         { id: 'password', type: FormElementType.PASSWORD },
         { id: 'number', type: FormElementType.NUMBER },
         { id: 'textarea', type: FormElementType.TEXTAREA },

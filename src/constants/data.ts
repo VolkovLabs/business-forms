@@ -1,7 +1,7 @@
 /**
  * Data Sync Options
  */
-export const DataSyncOptions = [
+export const DATA_SYNC_OPTIONS = [
   {
     value: true,
     label: 'Enabled',

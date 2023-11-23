@@ -18,9 +18,9 @@ import { NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
 import React, { ChangeEvent, useMemo } from 'react';
 
-import { BooleanElementOptions, FormElementType, TestIds } from '../../constants';
+import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
-import { ApplyWidth, FormatNumberValue, IsFormElementType } from '../../utils';
+import { applyWidth, formatNumberValue, isFormElementType } from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { getStyles } from './FormElement.styles';
 
@@ -67,17 +67,17 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
   const options = useMemo(() => element.helpers.getOptions({ data }), [data, element.helpers]);
 
   return (
-    <InlineFieldRow data-testid={TestIds.formElements.element(element.id, element.type)}>
+    <InlineFieldRow data-testid={TEST_IDS.formElements.element(element.id, element.type)}>
       {element.type === FormElementType.NUMBER && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
           <NumberInput
-            value={FormatNumberValue(element.value)}
+            value={formatNumberValue(element.value)}
             onChange={(value: number) => {
               onChange<typeof element>({
                 ...element,
@@ -86,10 +86,10 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             }}
             type="number"
             className={highlightClass(element)}
-            width={ApplyWidth(element.width)}
+            width={applyWidth(element.width)}
             min={element.min}
             max={element.max}
-            data-testid={TestIds.formElements.fieldNumber}
+            data-testid={TEST_IDS.formElements.fieldNumber}
           />
         </InlineField>
       )}
@@ -98,7 +98,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
           className={cx({
@@ -114,18 +114,18 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               });
             }}
             className={highlightClass(element)}
-            width={ApplyWidth(element.width)}
+            width={applyWidth(element.width)}
             type="text"
-            data-testid={TestIds.formElements.fieldString}
+            data-testid={TEST_IDS.formElements.fieldString}
           />
         </InlineField>
       )}
 
-      {IsFormElementType(element, FormElementType.PASSWORD) && (
+      {isFormElementType(element, FormElementType.PASSWORD) && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
@@ -138,18 +138,18 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               });
             }}
             className={highlightClass(element)}
-            width={ApplyWidth(element.width)}
+            width={applyWidth(element.width)}
             type="password"
-            data-testid={TestIds.formElements.fieldPassword}
+            data-testid={TEST_IDS.formElements.fieldPassword}
           />
         </InlineField>
       )}
 
-      {IsFormElementType(element, FormElementType.DISABLED) && (
+      {isFormElementType(element, FormElementType.DISABLED) && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           disabled
           transparent={!element.title}
@@ -161,17 +161,17 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
                 : options.find((option) => option.value === element.value)?.label
             }
             type="text"
-            width={ApplyWidth(element.width)}
-            data-testid={TestIds.formElements.fieldDisabled}
+            width={applyWidth(element.width)}
+            data-testid={TEST_IDS.formElements.fieldDisabled}
           />
         </InlineField>
       )}
 
-      {IsFormElementType(element, FormElementType.TEXTAREA) && (
+      {isFormElementType(element, FormElementType.TEXTAREA) && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
@@ -184,18 +184,18 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               });
             }}
             className={highlightClass(element)}
-            cols={ApplyWidth(element.width)}
+            cols={applyWidth(element.width)}
             rows={element.rows}
-            data-testid={TestIds.formElements.fieldTextarea}
+            data-testid={TEST_IDS.formElements.fieldTextarea}
           />
         </InlineField>
       )}
 
-      {IsFormElementType(element, FormElementType.DISABLED_TEXTAREA) && (
+      {isFormElementType(element, FormElementType.DISABLED_TEXTAREA) && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.type === FormElementType.DISABLED_TEXTAREA}
@@ -203,18 +203,18 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           <TextArea
             value={element.value}
             className={highlightClass(element)}
-            cols={ApplyWidth(element.width)}
+            cols={applyWidth(element.width)}
             rows={element.rows}
-            data-testid={TestIds.formElements.fieldDisabledTextarea}
+            data-testid={TEST_IDS.formElements.fieldDisabledTextarea}
           />
         </InlineField>
       )}
 
-      {IsFormElementType(element, FormElementType.CODE) && (
+      {isFormElementType(element, FormElementType.CODE) && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
@@ -224,7 +224,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             showMiniMap={(element.value?.length || 0) > 100}
             value={element.value || ''}
             height={element.height}
-            width={ApplyWidth(element.width)}
+            width={applyWidth(element.width)}
             onBlur={(code) => {
               onChange<typeof element>({
                 ...element,
@@ -232,19 +232,19 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               });
             }}
             monacoOptions={{ formatOnPaste: true, formatOnType: true }}
-            aria-label={TestIds.formElements.fieldCode}
+            aria-label={TEST_IDS.formElements.fieldCode}
           />
         </InlineField>
       )}
 
-      {IsFormElementType(element, FormElementType.BOOLEAN) && (
+      {isFormElementType(element, FormElementType.BOOLEAN) && (
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
-          data-testid={TestIds.formElements.fieldBooleanContainer}
+          data-testid={TEST_IDS.formElements.fieldBooleanContainer}
         >
           <RadioButtonGroup
             value={element.value}
@@ -256,7 +256,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             }}
             className={highlightClass(element)}
             fullWidth={!element.width}
-            options={BooleanElementOptions}
+            options={BOOLEAN_ELEMENT_OPTIONS}
           />
         </InlineField>
       )}
@@ -265,7 +265,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
@@ -279,7 +279,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
                 value: dateTime.toISOString(),
               });
             }}
-            data-testid={TestIds.formElements.fieldDateTime}
+            data-testid={TEST_IDS.formElements.fieldDateTime}
           />
         </InlineField>
       )}
@@ -289,7 +289,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           <InlineField
             label={element.title}
             grow={!element.width}
-            labelWidth={ApplyWidth(element.labelWidth)}
+            labelWidth={applyWidth(element.labelWidth)}
             tooltip={element.tooltip}
             transparent={!element.title}
             className={cx(styles.slider)}
@@ -305,7 +305,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               min={element.min || 0}
               max={element.max || 0}
               step={element.step || 0}
-              ariaLabelForHandle={TestIds.formElements.fieldSlider}
+              ariaLabelForHandle={TEST_IDS.formElements.fieldSlider}
             />
           </InlineField>
           <InlineField className={cx(styles.sliderInput)}>
@@ -321,7 +321,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
                   value: Math.max(element.min || 0, Math.min(element.max || 0, Number(e.currentTarget.value))),
                 });
               }}
-              data-testid={TestIds.formElements.fieldSliderInput}
+              data-testid={TEST_IDS.formElements.fieldSliderInput}
             />
           </InlineField>
         </>
@@ -331,10 +331,10 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
-          data-testid={TestIds.formElements.fieldRadioContainer}
+          data-testid={TEST_IDS.formElements.fieldRadioContainer}
         >
           <RadioButtonGroup
             value={element.value}
@@ -355,13 +355,13 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
           <Select
             isMulti={element.type === FormElementType.MULTISELECT}
-            aria-label={TestIds.formElements.fieldSelect}
+            aria-label={TEST_IDS.formElements.fieldSelect}
             value={element.value !== undefined ? element.value : null}
             onChange={(event) => {
               onChange<typeof element>({
@@ -369,7 +369,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
                 value: Array.isArray(event) ? event.map(({ value }) => value) : event.value,
               });
             }}
-            width={ApplyWidth(element.width)}
+            width={applyWidth(element.width)}
             options={options}
             className={highlightClass(element)}
           />
@@ -380,7 +380,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
@@ -401,7 +401,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
                 value: element.value?.filter((item: File) => item.name !== removedItem.file.name) || [],
               });
             }}
-            data-testid={TestIds.formElements.fieldFile}
+            data-testid={TEST_IDS.formElements.fieldFile}
           />
         </InlineField>
       )}
@@ -410,7 +410,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         <InlineField
           label={element.title}
           grow={!element.width}
-          labelWidth={ApplyWidth(element.labelWidth)}
+          labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
         >
@@ -418,7 +418,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             <TextLink
               href={element.value}
               external={element.target === LinkTarget.NEW_TAB}
-              data-testid={TestIds.formElements.link}
+              data-testid={TEST_IDS.formElements.link}
             >
               {element.linkText || element.value}
             </TextLink>
@@ -427,7 +427,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
       )}
 
       {element.unit && (
-        <InlineLabel data-testid={TestIds.formElements.unit} transparent width={4}>
+        <InlineLabel data-testid={TEST_IDS.formElements.unit} transparent width={4}>
           {element.unit}
         </InlineLabel>
       )}

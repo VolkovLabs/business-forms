@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import { AutosizeCodeEditor } from './AutosizeCodeEditor';
-import { CodeEditorConfig } from '../../constants';
+import { CODE_EDITOR_CONFIG } from '../../constants';
 
 /**
  * Properties
@@ -51,7 +51,7 @@ describe('AutosizeCodeEditor', () => {
   it('Should apply min height if empty value', () => {
     render(getComponent({}));
 
-    expect(selectors.field()).toHaveStyle(`height: ${CodeEditorConfig.height.min}px`);
+    expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.min}px`);
   });
 
   it('Should update height on change', () => {
@@ -69,7 +69,7 @@ describe('AutosizeCodeEditor', () => {
   it('Should update height if props changed', () => {
     const { rerender } = render(getComponent({}));
 
-    expect(selectors.field()).toHaveStyle(`height: ${CodeEditorConfig.height.min}px`);
+    expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.min}px`);
 
     const valueIn20Rows = Array.from(new Array(20))
       .map((_, index) => index)
@@ -87,6 +87,6 @@ describe('AutosizeCodeEditor', () => {
 
     render(getComponent({ value: valueIn1000Rows }));
 
-    expect(selectors.field()).toHaveStyle(`height: ${CodeEditorConfig.height.max}px`);
+    expect(selectors.field()).toHaveStyle(`height: ${CODE_EDITOR_CONFIG.height.max}px`);
   });
 });

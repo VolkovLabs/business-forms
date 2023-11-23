@@ -69,7 +69,7 @@ export const getPayloadForRequest = ({
  * @param file
  * @constructor
  */
-const FileToBase64 = (file: File): Promise<string> => {
+const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
 
@@ -87,7 +87,7 @@ const FileToBase64 = (file: File): Promise<string> => {
 /**
  * To JSON
  */
-export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunction): Promise<string> => {
+export const toJson = async (payload: unknown, replaceVariables: InterpolateFunction): Promise<string> => {
   if (typeof payload !== 'object' || Array.isArray(payload) || payload === null) {
     return replaceVariables(JSON.stringify(payload));
   }
@@ -98,7 +98,7 @@ export const ToJSON = async (payload: unknown, replaceVariables: InterpolateFunc
       /**
        * Read Files
        */
-      result[elementKey] = await Promise.all(elementValue.map((file) => FileToBase64(file)));
+      result[elementKey] = await Promise.all(elementValue.map((file) => fileToBase64(file)));
     } else {
       result[elementKey] = elementValue;
     }
@@ -125,7 +125,7 @@ const getFormDataValue = (value: unknown, replaceVariables: InterpolateFunction)
 /**
  * To Form Data
  */
-export const ToFormData = (payload: object, replaceVariables: InterpolateFunction): FormData => {
+export const toFormData = (payload: object, replaceVariables: InterpolateFunction): FormData => {
   const formData = new FormData();
 
   Object.entries(payload).forEach(([elementKey, elementValue]) => {

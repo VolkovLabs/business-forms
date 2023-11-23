@@ -1,5 +1,5 @@
 import { FormElementType, PayloadMode } from '../constants';
-import { getPayloadForRequest, ToFormData, ToJSON } from './request';
+import { getPayloadForRequest, toFormData, toJson } from './request';
 
 describe('Request Utils', () => {
   const replaceVariables = jest.fn((str) => str);
@@ -105,7 +105,7 @@ describe('Request Utils', () => {
 
   describe('To JSON', () => {
     it('Should work for array', async () => {
-      const result = await ToJSON([1, 2, 3], replaceVariables);
+      const result = await toJson([1, 2, 3], replaceVariables);
 
       expect(result).toEqual(expect.any(String));
       expect(JSON.parse(result)).toEqual([1, 2, 3]);
@@ -117,7 +117,7 @@ describe('Request Utils', () => {
         file: [image, pdf],
       };
 
-      const result = await ToJSON(payload, replaceVariables);
+      const result = await toJson(payload, replaceVariables);
 
       expect(result).toEqual(expect.any(String));
       expect(JSON.parse(result)).toEqual({
@@ -135,7 +135,7 @@ describe('Request Utils', () => {
         file: [image, pdf],
       };
 
-      const result = ToFormData(payload, replaceVariables);
+      const result = toFormData(payload, replaceVariables);
 
       expect(result.get('name')).toEqual(payload.name);
       /**

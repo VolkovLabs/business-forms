@@ -4,15 +4,15 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import React from 'react';
 
 import {
-  CodeEditorConfig,
-  FormElementDefault,
-  FormElementOptionDefault,
+  CODE_EDITOR_CONFIG,
+  FORM_ELEMENT_DEFAULT,
+  FORM_ELEMENT_OPTION_DEFAULT,
   FormElementType,
-  NumberDefault,
+  NUMBER_DEFAULT,
   OptionsSource,
   RequestMethod,
-  SelectDefaults,
-  SliderDefault,
+  SELECT_DEFAULT,
+  SLIDER_DEFAULT,
 } from '../../constants';
 import { CodeLanguage, LinkTarget } from '../../types';
 import { getFormElementsEditorSelectors } from '../../utils';
@@ -88,7 +88,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should add new element and reset form', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
       render(getComponent({ value: elements, onChange }));
 
       /**
@@ -132,7 +132,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should add Slider element with default parameters', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
@@ -161,13 +161,13 @@ describe('Form Elements Editor', () => {
 
       const elementSelectors = openElement(newElementId, newElementType);
 
-      expect(elementSelectors.fieldSliderStep()).toHaveValue(SliderDefault.step);
-      expect(elementSelectors.fieldSliderMin()).toHaveValue(SliderDefault.min);
-      expect(elementSelectors.fieldSliderMax()).toHaveValue(SliderDefault.max);
+      expect(elementSelectors.fieldSliderStep()).toHaveValue(SLIDER_DEFAULT.step);
+      expect(elementSelectors.fieldSliderMin()).toHaveValue(SLIDER_DEFAULT.min);
+      expect(elementSelectors.fieldSliderMax()).toHaveValue(SLIDER_DEFAULT.max);
     });
 
     it('Should add Number element with default parameters', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
@@ -200,7 +200,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should add Code element with default parameters', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
@@ -228,18 +228,18 @@ describe('Form Elements Editor', () => {
        */
       const elementSelectors = openElement(newElementId, newElementType);
 
-      expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorConfig.height.min);
+      expect(elementSelectors.fieldCodeHeight()).toHaveValue(CODE_EDITOR_CONFIG.height.min);
       expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
     });
 
     it('Should not add element if element with the same id and type exists', async () => {
-      const element = { ...FormElementDefault, id: 'id' };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id' };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
 
       const newElementId = 'id';
-      const newElementType = FormElementDefault.type;
+      const newElementType = FORM_ELEMENT_DEFAULT.type;
 
       /**
        * Check if section exists
@@ -284,17 +284,17 @@ describe('Form Elements Editor', () => {
    * Id Element
    */
   it('Should find component with Id Element', () => {
-    const elements = [{ ...FormElementDefault, id: 'id' }];
+    const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
     render(getComponent({ value: elements, onChange }));
     expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.sectionLabel(false, 'id', FormElementDefault.type)).toBeInTheDocument();
-    expect(selectors.sectionContent(true, 'id', FormElementDefault.type)).not.toBeInTheDocument();
+    expect(selectors.sectionLabel(false, 'id', FORM_ELEMENT_DEFAULT.type)).toBeInTheDocument();
+    expect(selectors.sectionContent(true, 'id', FORM_ELEMENT_DEFAULT.type)).not.toBeInTheDocument();
 
     /**
      * Make Id Element is opened
      */
-    const elementSelectors = openElement('id', FormElementDefault.type);
+    const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
     expect(elementSelectors.fieldId()).toBeInTheDocument();
     expect(elementSelectors.fieldWidth()).toBeInTheDocument();
@@ -317,7 +317,7 @@ describe('Form Elements Editor', () => {
    * Slider
    */
   it('Should find component with Slider', () => {
-    const elements = [{ ...FormElementDefault, id: 'slider', type: FormElementType.SLIDER }];
+    const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'slider', type: FormElementType.SLIDER }];
 
     render(getComponent({ value: elements, onChange }));
     expect(selectors.root()).toBeInTheDocument();
@@ -336,7 +336,7 @@ describe('Form Elements Editor', () => {
    * Number
    */
   it('Should find component with Number', () => {
-    const elements = [{ ...FormElementDefault, id: 'number', type: FormElementType.NUMBER }];
+    const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'number', type: FormElementType.NUMBER }];
 
     render(getComponent({ value: elements, onChange }));
     expect(selectors.root()).toBeInTheDocument();
@@ -354,7 +354,7 @@ describe('Form Elements Editor', () => {
    * TextArea
    */
   it('Should find component with TextArea', () => {
-    const elements = [{ ...FormElementDefault, id: 'textarea', type: FormElementType.TEXTAREA }];
+    const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'textarea', type: FormElementType.TEXTAREA }];
 
     render(getComponent({ value: elements, onChange }));
     expect(selectors.root()).toBeInTheDocument();
@@ -371,7 +371,7 @@ describe('Form Elements Editor', () => {
    * Code Editor
    */
   it('Should find component with Code Editor', () => {
-    const elements = [{ ...FormElementDefault, id: 'code', type: FormElementType.CODE }];
+    const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'code', type: FormElementType.CODE }];
 
     render(getComponent({ value: elements, onChange }));
     expect(selectors.root()).toBeInTheDocument();
@@ -391,7 +391,7 @@ describe('Form Elements Editor', () => {
   it('Should find component with Select', () => {
     const elements = [
       {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         options: [{ id: 'id', label: 'label', type: FormElementType.NUMBER }],
@@ -416,7 +416,7 @@ describe('Form Elements Editor', () => {
   it('Should find component with Multi Select', () => {
     const elements = [
       {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.MULTISELECT,
         options: [{ id: 'id', label: 'label', type: FormElementType.NUMBER }],
@@ -441,7 +441,7 @@ describe('Form Elements Editor', () => {
   it('Should find component with File', () => {
     const elements = [
       {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'file',
         type: FormElementType.FILE,
       },
@@ -465,7 +465,7 @@ describe('Form Elements Editor', () => {
   it('Should not allow to select field name if initial method is not Datasource', () => {
     const elements = [
       {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'element',
         type: FormElementType.STRING,
       },
@@ -500,7 +500,7 @@ describe('Form Elements Editor', () => {
   it('Should not allow to select query field name if initial method is not Query', () => {
     const elements = [
       {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'element',
         type: FormElementType.STRING,
       },
@@ -533,7 +533,7 @@ describe('Form Elements Editor', () => {
    * Two elements
    */
   it('Should find component with Two Elements', () => {
-    const numberElement = { ...FormElementDefault, id: 'number' };
+    const numberElement = { ...FORM_ELEMENT_DEFAULT, id: 'number' };
     const textElement = { id: 'text', type: FormElementType.TEXTAREA };
     const elements = [numberElement, textElement];
 
@@ -548,7 +548,7 @@ describe('Form Elements Editor', () => {
    * Remove element
    */
   it('Should remove element', () => {
-    const numberElement = { ...FormElementDefault, id: 'number' };
+    const numberElement = { ...FORM_ELEMENT_DEFAULT, id: 'number' };
     const textElement = { id: 'text', type: FormElementType.TEXTAREA };
     const elements = [numberElement, textElement];
 
@@ -584,7 +584,7 @@ describe('Form Elements Editor', () => {
         return children;
       });
 
-      const elementString = { ...FormElementDefault, id: 'number', uid: 'number123' };
+      const elementString = { ...FORM_ELEMENT_DEFAULT, id: 'number', uid: 'number123' };
       const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA, uid: 'text123' };
       let elements = [elementString, elementTextarea];
       const onChange = jest.fn().mockImplementation((updatedElements) => (elements = updatedElements));
@@ -623,7 +623,7 @@ describe('Form Elements Editor', () => {
         return children;
       });
 
-      const elementString = { ...FormElementDefault, id: 'number' };
+      const elementString = { ...FORM_ELEMENT_DEFAULT, id: 'number' };
       const elementTextarea = { id: 'text', type: FormElementType.TEXTAREA };
       const elements = [elementString, elementTextarea];
 
@@ -653,14 +653,14 @@ describe('Form Elements Editor', () => {
    */
   describe('Fields interaction', () => {
     it('Should update Id', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change id
@@ -674,14 +674,14 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Hidden', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id', hidden: false }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', hidden: false }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Choose hidden option
@@ -696,7 +696,7 @@ describe('Form Elements Editor', () => {
 
     describe('Type updates', () => {
       it('Should update type to number', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -716,7 +716,7 @@ describe('Form Elements Editor', () => {
 
       it('Should update type to select', async () => {
         const element = {
-          ...FormElementDefault,
+          ...FORM_ELEMENT_DEFAULT,
           id: 'id',
           type: FormElementType.STRING,
           options: [],
@@ -740,7 +740,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should update type to radio', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -759,7 +759,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should update type to file', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -778,7 +778,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should update type to date time', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -799,7 +799,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should update type to boolean', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -818,7 +818,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should update type to link', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -837,8 +837,8 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should not update Type if element with the same id and type exists', async () => {
-        const elementOne = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
-        const elementTwo = { ...FormElementDefault, id: 'id', type: FormElementType.NUMBER };
+        const elementOne = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
+        const elementTwo = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.NUMBER };
         const elements = [elementOne, elementTwo];
         jest.spyOn(window, 'alert').mockImplementationOnce(() => {});
 
@@ -863,7 +863,7 @@ describe('Form Elements Editor', () => {
 
       it('Should keep optionsSource and queryOptions', async () => {
         const element = {
-          ...FormElementDefault,
+          ...FORM_ELEMENT_DEFAULT,
           id: 'id',
           type: FormElementType.SELECT,
           optionsSource: OptionsSource.QUERY,
@@ -918,7 +918,7 @@ describe('Form Elements Editor', () => {
 
       it('Should use default optionsSource', async () => {
         const element = {
-          ...FormElementDefault,
+          ...FORM_ELEMENT_DEFAULT,
           id: 'id',
           type: FormElementType.SELECT,
           optionsSource: undefined,
@@ -947,19 +947,19 @@ describe('Form Elements Editor', () => {
 
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
 
-        expect(elementSelectors.optionsSourceOption(false, SelectDefaults.optionsSource)).toBeChecked();
+        expect(elementSelectors.optionsSourceOption(false, SELECT_DEFAULT.optionsSource)).toBeChecked();
       });
     });
 
     it('Should update Width', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id', width: 100 }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change width
@@ -970,14 +970,14 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Label', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change label
@@ -988,14 +988,14 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Label Width', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change labelWidth
@@ -1006,14 +1006,14 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Tooltip', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change tooltip
@@ -1024,14 +1024,14 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Unit', async () => {
-      const elements = [{ ...FormElementDefault, unit: '', id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, unit: '', id: 'id' }];
 
       render(getComponent({ value: elements, onChange }));
 
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change tooltip
@@ -1042,7 +1042,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Slider Min', async () => {
-      const element = { ...FormElementDefault, ...SliderDefault, id: 'id', type: FormElementType.SLIDER };
+      const element = { ...FORM_ELEMENT_DEFAULT, ...SLIDER_DEFAULT, id: 'id', type: FormElementType.SLIDER };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1061,7 +1061,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Slider Max', async () => {
-      const element = { ...FormElementDefault, ...SliderDefault, id: 'id', type: FormElementType.SLIDER };
+      const element = { ...FORM_ELEMENT_DEFAULT, ...SLIDER_DEFAULT, id: 'id', type: FormElementType.SLIDER };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1080,7 +1080,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Slider Step', async () => {
-      const element = { ...FormElementDefault, ...SliderDefault, id: 'id', type: FormElementType.SLIDER };
+      const element = { ...FORM_ELEMENT_DEFAULT, ...SLIDER_DEFAULT, id: 'id', type: FormElementType.SLIDER };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1099,7 +1099,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Number Min', async () => {
-      const element = { ...FormElementDefault, ...NumberDefault, id: 'id', type: FormElementType.NUMBER };
+      const element = { ...FORM_ELEMENT_DEFAULT, ...NUMBER_DEFAULT, id: 'id', type: FormElementType.NUMBER };
       const elements = [element];
       const onChange = jest.fn();
 
@@ -1139,7 +1139,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Number Max', async () => {
-      const element = { ...FormElementDefault, ...NumberDefault, id: 'id', type: FormElementType.NUMBER };
+      const element = { ...FORM_ELEMENT_DEFAULT, ...NUMBER_DEFAULT, id: 'id', type: FormElementType.NUMBER };
       const elements = [element];
       const onChange = jest.fn();
 
@@ -1179,7 +1179,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update date max', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.DATETIME, max: '' };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.DATETIME, max: '' };
       const elements = [element];
       const onChange = jest.fn();
 
@@ -1241,7 +1241,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update date min', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.DATETIME, min: '' };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.DATETIME, min: '' };
       const elements = [element];
       const onChange = jest.fn();
 
@@ -1304,7 +1304,7 @@ describe('Form Elements Editor', () => {
 
     it('Should update Code Language', async () => {
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'id',
         type: FormElementType.CODE,
         language: CodeLanguage.JAVASCRIPT,
@@ -1327,7 +1327,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Code Height', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.CODE, height: 100 };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.CODE, height: 100 };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1346,7 +1346,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update Textarea rows', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1365,7 +1365,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update field name', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
       const context = {
         options: {
           initial: {
@@ -1379,7 +1379,7 @@ describe('Form Elements Editor', () => {
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change field name
@@ -1390,7 +1390,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update field accept', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.FILE }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.FILE }];
       const context = {
         options: {},
       };
@@ -1412,7 +1412,7 @@ describe('Form Elements Editor', () => {
 
     it('Should update file options source', async () => {
       const elements = [
-        { ...FormElementDefault, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.CUSTOM },
+        { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.CUSTOM },
       ];
       const context = {
         data: [],
@@ -1437,7 +1437,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update query field name', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
       const context = {
         options: {
           initial: {
@@ -1466,7 +1466,7 @@ describe('Form Elements Editor', () => {
        * Open id element
        */
 
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change query field name
@@ -1484,7 +1484,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update field target', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.LINK }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.LINK }];
       const context = {
         options: {},
       };
@@ -1505,7 +1505,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update field link text', async () => {
-      const elements = [{ ...FormElementDefault, id: 'id', type: FormElementType.LINK, linkText: 'abc' }];
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.LINK, linkText: 'abc' }];
       const context = {
         options: {},
       };
@@ -1526,7 +1526,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update showIf', async () => {
-      const element = { ...FormElementDefault, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1546,7 +1546,7 @@ describe('Form Elements Editor', () => {
 
     describe('Apply default element options', () => {
       it('Should set default Slider options if NewType=SLIDER', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -1562,13 +1562,13 @@ describe('Form Elements Editor', () => {
         await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.SLIDER } }));
 
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.SLIDER);
-        expect(elementSelectors.fieldSliderMin()).toHaveValue(SliderDefault.min);
-        expect(elementSelectors.fieldSliderMax()).toHaveValue(SliderDefault.max);
-        expect(elementSelectors.fieldSliderStep()).toHaveValue(SliderDefault.step);
+        expect(elementSelectors.fieldSliderMin()).toHaveValue(SLIDER_DEFAULT.min);
+        expect(elementSelectors.fieldSliderMax()).toHaveValue(SLIDER_DEFAULT.max);
+        expect(elementSelectors.fieldSliderStep()).toHaveValue(SLIDER_DEFAULT.step);
       });
 
       it('Should set default Number options if NewType=NUMBER', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -1589,7 +1589,7 @@ describe('Form Elements Editor', () => {
       });
 
       it('Should set default Code options if NewType=CODE', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -1606,11 +1606,11 @@ describe('Form Elements Editor', () => {
 
         expect(elementSelectors.fieldType()).toHaveValue(FormElementType.CODE);
         expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
-        expect(elementSelectors.fieldCodeHeight()).toHaveValue(CodeEditorConfig.height.min);
+        expect(elementSelectors.fieldCodeHeight()).toHaveValue(CODE_EDITOR_CONFIG.height.min);
       });
 
       it('Should set default Textarea options if NewType=TEXTAREA', async () => {
-        const element = { ...FormElementDefault, id: 'id', type: FormElementType.STRING };
+        const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };
         const elements = [element];
 
         render(getComponent({ value: elements, onChange }));
@@ -1661,7 +1661,7 @@ describe('Form Elements Editor', () => {
     };
 
     it('Should add option to element', async () => {
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'select', type: FormElementType.SELECT };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1679,13 +1679,18 @@ describe('Form Elements Editor', () => {
       /**
        * Added option should be opened
        */
-      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
-      expect(elementSelectors.optionContent(false, FormElementOptionDefault.id)).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, FORM_ELEMENT_OPTION_DEFAULT.id)).toBeInTheDocument();
+      expect(elementSelectors.optionContent(false, FORM_ELEMENT_OPTION_DEFAULT.id)).toBeInTheDocument();
     });
 
     it('Should add option to existing element options', async () => {
       const originalOption = { label: 'label', type: FormElementType.NUMBER, value: '111', id: '111' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1701,12 +1706,17 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.click(elementSelectors.buttonAddOption()));
 
       expect(elementSelectors.optionLabel(false, originalOption.id)).toBeInTheDocument();
-      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, FORM_ELEMENT_OPTION_DEFAULT.id)).toBeInTheDocument();
     });
 
     it('Should update option type to number and convert value', async () => {
       const originalOption = { label: 'label', type: FormElementType.STRING, value: '123', id: '123' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1737,7 +1747,12 @@ describe('Form Elements Editor', () => {
 
     it('Should update option type to number and use default value if NaN', async () => {
       const originalOption = { label: 'label', type: FormElementType.STRING, value: 'abc', id: 'abc' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1770,7 +1785,12 @@ describe('Form Elements Editor', () => {
 
     it('Should update option type to string and convert value', async () => {
       const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 123, id: '123' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1801,7 +1821,12 @@ describe('Form Elements Editor', () => {
 
     it('Should update option value for STRING option', async () => {
       const originalOption = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1830,7 +1855,12 @@ describe('Form Elements Editor', () => {
 
     it('Should update option value for NUMBER option', async () => {
       const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, id: '0' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1862,7 +1892,12 @@ describe('Form Elements Editor', () => {
 
     it('Should use default option id if empty value', async () => {
       const originalOption = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1886,12 +1921,17 @@ describe('Form Elements Editor', () => {
        */
       await act(() => fireEvent.blur(optionSelectors.fieldOptionValue()));
 
-      expect(elementSelectors.optionLabel(false, FormElementOptionDefault.id)).toBeInTheDocument();
+      expect(elementSelectors.optionLabel(false, FORM_ELEMENT_OPTION_DEFAULT.id)).toBeInTheDocument();
     });
 
     it('Should update option label', async () => {
       const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, id: '0' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1916,7 +1956,12 @@ describe('Form Elements Editor', () => {
 
     it('Should update option icon', async () => {
       const originalOption = { label: 'label', type: FormElementType.NUMBER, value: 0, icon: undefined, id: '0' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1941,7 +1986,12 @@ describe('Form Elements Editor', () => {
 
     it('Should remove option', async () => {
       const originalOption = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
-      const element = { ...FormElementDefault, id: 'select', type: FormElementType.SELECT, options: [originalOption] };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [originalOption],
+      };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -1971,7 +2021,7 @@ describe('Form Elements Editor', () => {
       const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
       const option2 = { label: 'label', type: FormElementType.STRING, value: '100', id: '100' };
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         options: [option1, option2],
@@ -2029,7 +2079,7 @@ describe('Form Elements Editor', () => {
         const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
         const option2 = { label: 'label', type: FormElementType.STRING, value: '100', id: '100' };
         const element = {
-          ...FormElementDefault,
+          ...FORM_ELEMENT_DEFAULT,
           id: 'select',
           type: FormElementType.SELECT,
           options: [option1, option2],
@@ -2082,7 +2132,7 @@ describe('Form Elements Editor', () => {
         const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
         const option2 = { label: 'label', type: FormElementType.STRING, value: '100', id: '100' };
         const element = {
-          ...FormElementDefault,
+          ...FORM_ELEMENT_DEFAULT,
           id: 'select',
           type: FormElementType.SELECT,
           options: [option1, option2],
@@ -2135,7 +2185,7 @@ describe('Form Elements Editor', () => {
 
     it('Should change queryOptions value', async () => {
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         optionsSource: OptionsSource.QUERY,
@@ -2158,7 +2208,7 @@ describe('Form Elements Editor', () => {
 
     it('Should keep label if the same source', async () => {
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         optionsSource: OptionsSource.QUERY,
@@ -2192,7 +2242,7 @@ describe('Form Elements Editor', () => {
 
     it('Should use default label if the same source', async () => {
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         optionsSource: OptionsSource.QUERY,
@@ -2224,7 +2274,7 @@ describe('Form Elements Editor', () => {
 
     it('Should reset label if different source', async () => {
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         optionsSource: OptionsSource.QUERY,
@@ -2258,7 +2308,7 @@ describe('Form Elements Editor', () => {
 
     it('Should update label', async () => {
       const element = {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'select',
         type: FormElementType.SELECT,
         optionsSource: OptionsSource.QUERY,
@@ -2297,7 +2347,7 @@ describe('Form Elements Editor', () => {
     const sections = [{ name: 'section' }, { name: 'section 2' }];
     const elements = [
       {
-        ...FormElementDefault,
+        ...FORM_ELEMENT_DEFAULT,
         id: 'id',
       },
     ];
@@ -2308,7 +2358,7 @@ describe('Form Elements Editor', () => {
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Check section field presence
@@ -2322,7 +2372,7 @@ describe('Form Elements Editor', () => {
       /**
        * Open id element
        */
-      const elementSelectors = openElement('id', FormElementDefault.type);
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
 
       /**
        * Change section
@@ -2338,7 +2388,7 @@ describe('Form Elements Editor', () => {
    */
   describe('Auto Save', () => {
     it('Should call auto save changes if no changes on timeout', async () => {
-      const element = { ...FormElementDefault, id: 'string', width: 0 };
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'string', width: 0 };
       const elements = [element];
       const onChange = jest.fn();
 
@@ -2378,7 +2428,7 @@ describe('Form Elements Editor', () => {
   });
 
   it('Should update local elements if prop elements is changed', async () => {
-    const element = { ...FormElementDefault, id: 'string' };
+    const element = { ...FORM_ELEMENT_DEFAULT, id: 'string' };
     const elements = [element];
 
     const { rerender } = render(getComponent({ value: elements, onChange }));
@@ -2391,7 +2441,7 @@ describe('Form Elements Editor', () => {
     /**
      * Rerender with new elements
      */
-    const updatedElement = { ...FormElementDefault, id: 'select' };
+    const updatedElement = { ...FORM_ELEMENT_DEFAULT, id: 'select' };
     const updatedElements = [updatedElement];
 
     await act(() => rerender(getComponent({ value: updatedElements, onChange })));

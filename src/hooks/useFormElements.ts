@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { FormElement, LocalFormElement } from '../types';
 import {
-  IsElementConflict,
-  IsElementOptionConflict,
-  NormalizeElementsForDashboard,
-  NormalizeElementsForLocalState,
+  isElementConflict,
+  isElementOptionConflict,
+  normalizeElementsForDashboard,
+  normalizeElementsForLocalState,
 } from '../utils';
 import { useAutoSave } from './useAutoSave';
 
@@ -24,7 +24,7 @@ export const useFormElements = (
   /**
    * States
    */
-  const [elements, setElements] = useState<LocalFormElement[]>(NormalizeElementsForLocalState(value));
+  const [elements, setElements] = useState<LocalFormElement[]>(normalizeElementsForLocalState(value));
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -32,7 +32,7 @@ export const useFormElements = (
    * Save Updates
    */
   const onSaveUpdates = useCallback(() => {
-    onChange(NormalizeElementsForDashboard(elements));
+    onChange(normalizeElementsForDashboard(elements));
     setIsChanged(false);
   }, [elements, onChange]);
 
@@ -49,7 +49,7 @@ export const useFormElements = (
    */
   const onChangeElement = useCallback(
     (updatedElement: LocalFormElement, checkConflict = false) => {
-      if (checkConflict && IsElementConflict(elements, updatedElement)) {
+      if (checkConflict && isElementConflict(elements, updatedElement)) {
         alert('Element with the same id and type exists.');
         return;
       }
@@ -70,7 +70,7 @@ export const useFormElements = (
       checkConflict = false
     ): boolean => {
       if ('options' in element) {
-        if (checkConflict && IsElementOptionConflict(element.options || [], updatedOption)) {
+        if (checkConflict && isElementOptionConflict(element.options || [], updatedOption)) {
           alert('Option with the same value exists');
           return false;
         }
@@ -108,7 +108,7 @@ export const useFormElements = (
    * Update local elements
    */
   useEffect(() => {
-    setElements(NormalizeElementsForLocalState(value));
+    setElements(normalizeElementsForLocalState(value));
     setIsChanged(false);
   }, [value]);
 
