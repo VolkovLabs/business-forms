@@ -108,6 +108,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                           className={styles.item}
                         >
                           <Collapse
+                            fill="solid"
                             headerTestId={TEST_IDS.formElementsEditor.optionLabel(option.id)}
                             contentTestId={TEST_IDS.formElementsEditor.optionContent(option.id)}
                             isOpen={isOpen}

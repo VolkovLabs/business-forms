@@ -130,6 +130,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                         className={styles.item}
                       >
                         <Collapse
+                          fill="solid"
                           headerTestId={TEST_IDS.formElementsEditor.sectionLabel(element.id, element.type)}
                           contentTestId={TEST_IDS.formElementsEditor.sectionContent(element.id, element.type)}
                           isOpen={isOpen}
