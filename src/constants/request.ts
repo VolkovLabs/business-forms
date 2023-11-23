@@ -1,7 +1,5 @@
 import { SelectableValue } from '@grafana/data';
 
-import { capitalizeFirstLetter } from '../utils';
-
 /**
  * Request Methods
  */
@@ -83,9 +81,9 @@ export const enum ContentType {
  * Content Type Options
  */
 export const CONTENT_TYPE_OPTIONS: SelectableValue[] = [
-  { label: capitalizeFirstLetter(ContentType.JSON), value: ContentType.JSON },
-  { label: capitalizeFirstLetter(ContentType.PLAIN), value: ContentType.PLAIN },
-  { label: capitalizeFirstLetter(ContentType.FORMDATA), value: ContentType.FORMDATA },
+  { label: 'Application/json', value: ContentType.JSON },
+  { label: 'Text/plain', value: ContentType.PLAIN },
+  { label: 'Multipart/form-data', value: ContentType.FORMDATA },
 ];
 
 /**

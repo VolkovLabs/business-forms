@@ -1,7 +1,6 @@
 import { SelectableValue } from '@grafana/data';
 
 import { ButtonOrientation, ButtonSize, ButtonVariant } from '../types';
-import { capitalizeFirstLetter } from '../utils';
 
 /**
  * Button Variant Hidden
@@ -9,7 +8,7 @@ import { capitalizeFirstLetter } from '../utils';
 export const BUTTON_VARIANT_HIDDEN_OPTIONS: SelectableValue[] = [
   {
     value: ButtonVariant.HIDDEN,
-    label: capitalizeFirstLetter(ButtonVariant.HIDDEN),
+    label: 'Hidden',
   },
 ];
 
@@ -19,19 +18,19 @@ export const BUTTON_VARIANT_HIDDEN_OPTIONS: SelectableValue[] = [
 export const BUTTON_VARIANT_OPTIONS: SelectableValue[] = [
   {
     value: ButtonVariant.PRIMARY,
-    label: capitalizeFirstLetter(ButtonVariant.PRIMARY),
+    label: 'Primary',
   },
   {
     value: ButtonVariant.SECONDARY,
-    label: capitalizeFirstLetter(ButtonVariant.SECONDARY),
+    label: 'Secondary',
   },
   {
     value: ButtonVariant.DESTRUCTIVE,
-    label: capitalizeFirstLetter(ButtonVariant.DESTRUCTIVE),
+    label: 'Destructive',
   },
   {
     value: ButtonVariant.CUSTOM,
-    label: capitalizeFirstLetter(ButtonVariant.CUSTOM),
+    label: 'Custom',
   },
 ];
 
@@ -41,15 +40,15 @@ export const BUTTON_VARIANT_OPTIONS: SelectableValue[] = [
 export const BUTTON_ORIENTATION_OPTIONS: SelectableValue[] = [
   {
     value: ButtonOrientation.LEFT,
-    label: capitalizeFirstLetter(ButtonOrientation.LEFT),
+    label: 'Left',
   },
   {
     value: ButtonOrientation.CENTER,
-    label: capitalizeFirstLetter(ButtonOrientation.CENTER),
+    label: 'Center',
   },
   {
     value: ButtonOrientation.RIGHT,
-    label: capitalizeFirstLetter(ButtonOrientation.RIGHT),
+    label: 'Right',
   },
 ];
 
