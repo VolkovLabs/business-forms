@@ -239,6 +239,8 @@ export const FormPanel: React.FC<Props> = ({
             notifyError,
             notifySuccess,
             notifyWarning,
+            eventBus,
+            appEvents,
           },
           panel: {
             options,
