@@ -7,6 +7,7 @@
 - Add ability to disable panel syncing (#298)
 - Update ESLint configuration and refactor (#299)
 - Update Collapse from @volkovlabs/components (#299)
+- Add EventBus and AppEvents to Context (#307)
 
 ## 3.3.0 (2023-11-21)
 

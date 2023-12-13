@@ -102,11 +102,19 @@ export const CODE_EDITOR_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Method,
     detail: 'Parse the results from /api/ds/query.',
   },
+
+  /**
+   * Context
+   */
   {
     label: 'context',
     kind: CodeEditorSuggestionItemKind.Constant,
     detail: 'All passed possible properties and methods.',
   },
+
+  /**
+   * Panel
+   */
   {
     label: 'context.panel',
     kind: CodeEditorSuggestionItemKind.Property,
@@ -152,9 +160,63 @@ export const CODE_EDITOR_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Property,
     detail: 'Response object.',
   },
+
+  /**
+   * Grafana
+   */
   {
     label: 'context.grafana',
     kind: CodeEditorSuggestionItemKind.Property,
     detail: 'Grafana properties and methods.',
+  },
+  {
+    label: 'context.grafana.locationService',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Location service.',
+  },
+  {
+    label: 'context.grafana.templateService',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Template variables service.',
+  },
+  {
+    label: 'context.grafana.notifyError',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Show error notification.',
+  },
+  {
+    label: 'context.grafana.notifySuccess',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Show success notification.',
+  },
+  {
+    label: 'context.grafana.notifyWarning',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Show warning notification.',
+  },
+  {
+    label: 'context.grafana.eventBus',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Panels events.',
+  },
+  {
+    label: 'context.grafana.appEvents',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Application events.',
+  },
+  {
+    label: 'context.grafana.refresh',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Refresh dashboard.',
+  },
+  {
+    label: 'context.utils',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Utils/helpers functions.',
+  },
+  {
+    label: 'context.utils.toDataQueryResponse',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Parse the results from /api/ds/query.',
   },
 ];

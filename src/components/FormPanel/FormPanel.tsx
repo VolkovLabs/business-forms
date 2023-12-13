@@ -239,6 +239,9 @@ export const FormPanel: React.FC<Props> = ({
             notifyError,
             notifySuccess,
             notifyWarning,
+            eventBus,
+            appEvents,
+            refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
           },
           panel: {
             options,
