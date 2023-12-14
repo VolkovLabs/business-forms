@@ -151,13 +151,14 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                                 onClick={() => onElementRemove(getElementUniqueId(element))}
                                 aria-label="Remove"
                               />
-                              <Icon
-                                title="Drag and drop to reorder"
-                                name="draggabledots"
-                                size="lg"
-                                className={styles.dragIcon}
-                                {...provided.dragHandleProps}
-                              />
+                              <div className={styles.dragHandle} {...provided.dragHandleProps}>
+                                <Icon
+                                  title="Drag and drop to reorder"
+                                  name="draggabledots"
+                                  size="lg"
+                                  className={styles.dragIcon}
+                                />
+                              </div>
                             </>
                           }
                         >
