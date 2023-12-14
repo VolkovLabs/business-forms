@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.4.0 (2023-12-13)
+## 3.4.0 (2023-12-14)
 
 ### Features / Enhancements
 
@@ -9,6 +9,7 @@
 - Update Collapse from @volkovlabs/components (#299)
 - Add EventBus and AppEvents to Context (#307)
 - Add replacing variables in Payload functions (#309)
+- Update to Grafana 10.2.2 and Volkov labs packages (#313)
 
 ## 3.3.0 (2023-11-21)
 
