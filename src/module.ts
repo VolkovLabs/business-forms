@@ -131,26 +131,22 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
     });
 
     /**
-     * Sync
-     */
-    builder.addRadio({
-      path: 'sync',
-      name: 'Synchronize with data',
-      description: 'Keeps the panel synched with the dashboard data',
-      category: ['Data'],
-      settings: {
-        options: DATA_SYNC_OPTIONS,
-      },
-      defaultValue: true,
-    });
-
-    /**
      * Initial Request
      */
     builder
       .addRadio({
+        path: 'sync',
+        name: 'Synchronize with data',
+        description: 'Keeps the panel synched with the dashboard data',
+        category: ['Initial Request'],
+        settings: {
+          options: DATA_SYNC_OPTIONS,
+        },
+        defaultValue: true,
+      })
+      .addRadio({
         path: 'initial.method',
-        name: 'Initial Request',
+        name: 'Initial Action',
         category: ['Initial Request'],
         settings: {
           options: INITIAL_REQUEST_METHOD_OPTIONS,
@@ -273,7 +269,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
     builder
       .addRadio({
         path: 'update.method',
-        name: 'Update Request',
+        name: 'Update Action',
         category: ['Update Request'],
         settings: {
           options: UPDATE_REQUEST_METHOD_OPTIONS,
