@@ -137,7 +137,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       .addRadio({
         path: 'sync',
         name: 'Synchronize with data',
-        description: 'Keeps the panel synched with the dashboard data',
+        description: 'Keeps the panel synched with the dashboard updates',
         category: ['Initial Request'],
         settings: {
           options: DATA_SYNC_OPTIONS,
