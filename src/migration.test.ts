@@ -55,5 +55,28 @@ describe('Migration', () => {
         },
       });
     });
+
+    it('Should normalize layout.sections', () => {
+      expect(
+        getMigratedOptions({
+          options: {
+            initial: {},
+            update: {},
+            layout: {
+              sections: [{ name: 'section1' }, { id: 'sectionId', name: 'section2' }],
+            },
+          },
+        } as any)
+      ).toEqual({
+        initial: {},
+        update: {},
+        layout: {
+          sections: [
+            { id: 'section1', name: 'section1' },
+            { id: 'sectionId', name: 'section2' },
+          ],
+        },
+      });
+    });
   });
 });

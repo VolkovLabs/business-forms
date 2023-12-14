@@ -2344,7 +2344,10 @@ describe('Form Elements Editor', () => {
    * Layout Section
    */
   describe('Layout Section', () => {
-    const sections = [{ name: 'section' }, { name: 'section 2' }];
+    const sections = [
+      { id: 'section', name: 'section' },
+      { id: 'section 2', name: 'section 2' },
+    ];
     const elements = [
       {
         ...FORM_ELEMENT_DEFAULT,

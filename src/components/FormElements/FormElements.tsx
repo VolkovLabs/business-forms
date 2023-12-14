@@ -5,7 +5,6 @@ import React, { useCallback, useMemo } from 'react';
 
 import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '../../constants';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { getLayoutUniqueId } from '../../utils';
 import { FormElement } from '../FormElement';
 
 /**
@@ -107,7 +106,7 @@ export const FormElements: React.FC<Props> = ({
         /**
          * Skip Hidden Elements
          */
-        if (section && element.section !== getLayoutUniqueId(section)) {
+        if (section && element.section !== section.id) {
           return;
         }
 

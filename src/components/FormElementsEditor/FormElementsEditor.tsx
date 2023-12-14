@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { RequestMethod, TEST_IDS } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { getElementUniqueId, getLayoutUniqueId, reorder } from '../../utils';
+import { getElementUniqueId, reorder } from '../../utils';
 import { ElementEditor } from '../ElementEditor';
 import { NewElement } from '../NewElement';
 import { getStyles } from './FormElementsEditor.styles';
@@ -94,7 +94,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   const layoutSectionOptions: SelectableValue[] = useMemo(() => {
     return (
       context.options?.layout?.sections?.map((section: LayoutSection) => {
-        return { value: getLayoutUniqueId(section), label: getLayoutUniqueId(section) };
+        return { value: section.id, label: section.id };
       }) || []
     );
   }, [context.options?.layout?.sections]);
