@@ -424,7 +424,7 @@ describe('Form Elements', () => {
       elements: [{ id: 'select', type: FormElementType.SELECT }],
     };
 
-    render(getComponent({ options, onChangeElement, section: { name: 'left' } }));
+    render(getComponent({ options, onChangeElement, section: { id: 'left', name: 'left' } }));
     expect(selectors.root()).toBeInTheDocument();
 
     /**

@@ -67,23 +67,6 @@ describe('Request Utils', () => {
       });
     });
 
-    it('Should return values for updated elements with deprecated option', () => {
-      expect(
-        getPayloadForRequest({
-          elements,
-          initial: {
-            age: 30,
-          },
-          request: {
-            updatedOnly: true,
-          } as any,
-          replaceVariables,
-        })
-      ).toEqual({
-        name: 'John',
-      });
-    });
-
     it('Should return values from getPayload execution', () => {
       expect(
         getPayloadForRequest({

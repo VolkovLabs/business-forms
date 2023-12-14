@@ -522,7 +522,6 @@ export const FormPanel: React.FC<Props> = ({
         highlight: false,
         highlightColor: '',
         confirm: false,
-        updatedOnly: false,
       },
       elements,
       initial,

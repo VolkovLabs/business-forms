@@ -902,7 +902,7 @@ describe('Panel', () => {
               update: {
                 url: 'update-url',
                 method: RequestMethod.POST,
-                updatedOnly: true,
+                payloadMode: PayloadMode.UPDATED,
               },
             },
           })
@@ -999,7 +999,7 @@ describe('Panel', () => {
               update: {
                 url: 'update-url',
                 method: RequestMethod.POST,
-                updatedOnly: true,
+                payloadMode: PayloadMode.UPDATED,
                 contentType: ContentType.FORMDATA,
               },
             },
@@ -1339,7 +1339,7 @@ describe('Panel', () => {
               update: {
                 url: 'update-url',
                 method: RequestMethod.POST,
-                updatedOnly: true,
+                payloadMode: PayloadMode.UPDATED,
                 confirm: true,
               },
             },

@@ -28,7 +28,10 @@ describe('Layout Sections Editor', () => {
    * Sections
    */
   it('Should find component with sections', async () => {
-    const sections = [{ name: 'Section' }, { name: 'Section 2' }];
+    const sections = [
+      { id: 'Section', name: 'Section' },
+      { id: 'Section 2', name: 'Section 2' },
+    ];
 
     render(getComponent({ value: sections, onChange }));
 
@@ -172,7 +175,7 @@ describe('Layout Sections Editor', () => {
    * Change value
    */
   it('Should change name value', () => {
-    const sections = [{ name: 'Section' }];
+    const sections = [{ id: 'Section', name: 'Section' }];
     const onChange = jest.fn();
 
     /**
@@ -208,7 +211,10 @@ describe('Layout Sections Editor', () => {
    * Remove section
    */
   it('Should remove section', () => {
-    let sections = [{ name: 'Section 1' }, { name: 'Section 2' }];
+    let sections = [
+      { id: 'Section 1', name: 'Section 1' },
+      { id: 'Section 2', name: 'Section 2' },
+    ];
     const onChange = jest.fn((updatedSections) => (sections = updatedSections));
 
     /**
@@ -244,7 +250,7 @@ describe('Layout Sections Editor', () => {
    * Add section
    */
   it('Should add section', () => {
-    let sections = [{ name: 'Section 1' }];
+    let sections = [{ id: 'Section 1', name: 'Section 1' }];
     const onChange = jest.fn((updatedSections) => (sections = updatedSections));
 
     /**

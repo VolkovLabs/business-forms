@@ -201,11 +201,6 @@ export const applyWidth = (value: number | null): undefined | number => {
 export const getElementUniqueId = (element: FormElement) => element.uid || uuidv4();
 
 /**
- * Get Layout Unique Id
- */
-export const getLayoutUniqueId = (section: LayoutSection) => (section.id !== undefined ? section.id : section.name);
-
-/**
  * Get Option Unique Id
  */
 export const getOptionUniqueId = (option: SelectableValue) => (option.id !== undefined ? option.id : option.value);

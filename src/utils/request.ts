@@ -27,10 +27,9 @@ export const getPayloadForRequest = ({
   }
 
   /**
-   * Use deprecated property for backward compatibility
+   * Send only updated values
    */
-  const updatedOnly =
-    request.payloadMode === undefined ? request.updatedOnly : request.payloadMode === PayloadMode.UPDATED;
+  const updatedOnly = request.payloadMode === PayloadMode.UPDATED;
 
   /**
    * Payload

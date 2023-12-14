@@ -10,6 +10,7 @@
 - Add EventBus and AppEvents to Context (#307)
 - Add replacing variables in Payload functions (#309)
 - Update to Grafana 10.2.2 and Volkov labs packages (#313)
+- Add options migration (#315)
 
 ### Bugfixes
 

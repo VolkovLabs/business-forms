@@ -4,7 +4,7 @@ import React, { ChangeEvent, useCallback, useMemo } from 'react';
 
 import { TEST_IDS } from '../../constants';
 import { LayoutSection } from '../../types';
-import { getLayoutUniqueId, isSectionCollisionExists } from '../../utils';
+import { isSectionCollisionExists } from '../../utils';
 
 /**
  * Properties
@@ -20,10 +20,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
    */
   const sections = useMemo(() => {
     if (Array.isArray(value)) {
-      return value.map((section) => ({
-        ...section,
-        id: getLayoutUniqueId(section),
-      }));
+      return value;
     }
     return [];
   }, [value]);
