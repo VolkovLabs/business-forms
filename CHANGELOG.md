@@ -10,6 +10,10 @@
 - Add EventBus and AppEvents to Context (#307)
 - Add replacing variables in Payload functions (#309)
 
+### Bugfixes
+
+- Fix draggable control to support upcoming Grafana changes (#314)
+
 ## 3.3.0 (2023-11-21)
 
 ### Features / Enhancements
