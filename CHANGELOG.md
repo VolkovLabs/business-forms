@@ -11,6 +11,10 @@
 - Add replacing variables in Payload functions (#309)
 - Update to Grafana 10.2.2 and Volkov labs packages (#313)
 
+### Bugfixes
+
+- Fix draggable control to support upcoming Grafana changes (#314)
+
 ## 3.3.0 (2023-11-21)
 
 ### Features / Enhancements

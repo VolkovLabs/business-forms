@@ -129,13 +129,14 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                   onClick={() => onChange(options?.filter((o) => o.id !== option.id))}
                                   aria-label="Remove"
                                 />
-                                <Icon
-                                  title="Drag and drop to reorder"
-                                  name="draggabledots"
-                                  size="lg"
-                                  className={styles.dragIcon}
-                                  {...provided.dragHandleProps}
-                                />
+                                <div className={styles.dragHandle} {...provided.dragHandleProps}>
+                                  <Icon
+                                    title="Drag and drop to reorder"
+                                    name="draggabledots"
+                                    size="lg"
+                                    className={styles.dragIcon}
+                                  />
+                                </div>
                               </>
                             }
                           >
