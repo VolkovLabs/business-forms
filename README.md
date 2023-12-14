@@ -46,13 +46,16 @@ grafana-cli plugins install volkovlabs-form-panel
 
 ## Documentation
 
-| Section                                                                           | Description                                                                               |
-| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/) | Explains the Architecture and how to use Grafana and API behind NGINX.                    |
-| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/)          | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
-| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)         | Demonstrates panel features.                                                              |
-| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)           | Demonstrates various server API implementations                                           |
-| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)     | Stay up to date with the latest features and updates.                                     |
+| Section                                                                             | Description                                                                               |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/)   | Explains the Architecture and how to use Grafana and API behind NGINX.                    |
+| [Data Flow](https://volkovlabs.io/plugins/volkovlabs-form-panel/data-flow/)         | Explains the data flow and its specifics.                                                 |
+| [Form Elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/form-elements/) | Explains the specifics of form elements.                                                  |
+| [REST API](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/)       | Explains the REST API architecture and how to use NGINX.                                  |
+| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/)            | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
+| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)           | Demonstrates panel features.                                                              |
+| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)             | Demonstrates various server API implementations                                           |
+| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)       | Stay up to date with the latest features and updates.                                     |
 
 ## Feedback
 
