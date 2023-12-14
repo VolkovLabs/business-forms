@@ -10,16 +10,18 @@ export const getPayloadForRequest = ({
   request,
   elements,
   initial,
+  replaceVariables,
 }: {
   request: RequestOptions;
   elements: LocalFormElement[];
   initial: Record<string, unknown>;
+  replaceVariables: InterpolateFunction;
 }) => {
   if (request.payloadMode === PayloadMode.CUSTOM) {
     /**
      * Get Payload Code Execution
      */
-    const getPayloadFn = new Function('elements', 'initial', request.getPayload);
+    const getPayloadFn = new Function('elements', 'initial', replaceVariables(request.getPayload));
 
     return getPayloadFn(elements, initial) as unknown;
   }

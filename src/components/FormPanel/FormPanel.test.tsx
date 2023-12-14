@@ -56,6 +56,11 @@ describe('Panel', () => {
   const selectors = getPanelSelectors(screen);
 
   /**
+   * Replace variables
+   */
+  const replaceVariables = jest.fn((code: string) => code);
+
+  /**
    * Get Tested Component
    * @param props
    * @param options
@@ -104,7 +109,7 @@ describe('Panel', () => {
           })),
         })),
       },
-      replaceVariables: (code: string) => code,
+      replaceVariables,
       onOptionsChange: jest.fn(),
       ...props,
     };
@@ -116,6 +121,7 @@ describe('Panel', () => {
     jest.mocked(useDatasourceRequest).mockClear();
     jest.mocked(FormElements).mockClear();
     jest.mocked(fetch).mockClear();
+    replaceVariables.mockClear();
   });
 
   it('Should find component with Elements', async () => {
@@ -341,6 +347,11 @@ describe('Panel', () => {
         query: { key1: 'value' },
         replaceVariables: expect.any(Function),
       });
+
+      /**
+       * Check if replace variables called for get payload function
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(1);
     });
 
     it('Should update elements with query result', async () => {
@@ -549,6 +560,11 @@ describe('Panel', () => {
         }),
         expect.anything()
       );
+
+      /**
+       * Check if replace variables called for get payload function
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(1);
     });
 
     it('Should not update elements if datasource is unspecified', async () => {
@@ -1710,6 +1726,11 @@ describe('Panel', () => {
       expect(selectors.buttonReset()).not.toBeDisabled();
 
       /**
+       * Reset replaceVariables calls count
+       */
+      replaceVariables.mockClear();
+
+      /**
        * Run reset request
        */
       await act(async () => {
@@ -1723,6 +1744,11 @@ describe('Panel', () => {
         },
         replaceVariables: expect.any(Function),
       });
+
+      /**
+       * Check if replace variables called for get payload function
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(1);
     });
 
     it('Should show reset datasource request error', async () => {

@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.4.0 (IN PROGRESS)
+## 3.4.0 (2023-12-13)
 
 ### Features / Enhancements
 
@@ -8,6 +8,7 @@
 - Update ESLint configuration and refactor (#299)
 - Update Collapse from @volkovlabs/components (#299)
 - Add EventBus and AppEvents to Context (#307)
+- Add replacing variables in Payload functions (#309)
 
 ## 3.3.0 (2023-11-21)
 

@@ -340,6 +340,7 @@ export const FormPanel: React.FC<Props> = ({
         },
         elements,
         initial,
+        replaceVariables,
       });
 
       response = await datasourceRequest({
@@ -525,6 +526,7 @@ export const FormPanel: React.FC<Props> = ({
       },
       elements,
       initial,
+      replaceVariables,
     });
 
     /**
@@ -594,6 +596,7 @@ export const FormPanel: React.FC<Props> = ({
       request: options.update,
       elements,
       initial,
+      replaceVariables,
     });
 
     /**

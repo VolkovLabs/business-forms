@@ -10,6 +10,10 @@ describe('Request Utils', () => {
   const image = new File(['(⌐□_□)'], 'chucknorris.png', { type: 'image/png' });
   const pdf = new File(['(⌐□_□)'], 'chucknorris.pdf', { type: 'application/pdf' });
 
+  beforeEach(() => {
+    replaceVariables.mockClear();
+  });
+
   describe('GetPayloadForRequest', () => {
     const elements: any[] = [
       {
@@ -37,6 +41,7 @@ describe('Request Utils', () => {
           request: {
             payloadMode: PayloadMode.ALL,
           } as any,
+          replaceVariables,
         })
       ).toEqual({
         name: 'John',
@@ -55,6 +60,7 @@ describe('Request Utils', () => {
           request: {
             payloadMode: PayloadMode.UPDATED,
           } as any,
+          replaceVariables,
         })
       ).toEqual({
         name: 'John',
@@ -71,6 +77,7 @@ describe('Request Utils', () => {
           request: {
             updatedOnly: true,
           } as any,
+          replaceVariables,
         })
       ).toEqual({
         name: 'John',
@@ -93,6 +100,7 @@ describe('Request Utils', () => {
               }), initial)
               `,
           } as any,
+          replaceVariables,
         })
       ).toEqual({
         name: 'John',
@@ -100,6 +108,8 @@ describe('Request Utils', () => {
         password: '123',
         role: 'admin',
       });
+
+      expect(replaceVariables).toHaveBeenCalled();
     });
   });
 
