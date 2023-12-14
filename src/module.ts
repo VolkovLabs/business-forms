@@ -137,7 +137,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       .addRadio({
         path: 'sync',
         name: 'Synchronize with data',
-        description: 'Keeps the panel synched with the dashboard updates',
+        description: 'Keeps the panel synched with the dashboard updates.',
         category: ['Initial Request'],
         settings: {
           options: DATA_SYNC_OPTIONS,
@@ -183,7 +183,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'initial.contentType',
         name: 'Content-Type',
         category: ['Initial Request'],
-        description: 'Content-Type of the payload',
+        description: 'Content-Type of the payload.',
         defaultValue: ContentType.JSON,
         settings: {
           allowCustomValue: true,
@@ -280,7 +280,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'update.url',
         name: 'URL',
         category: ['Update Request'],
-        description: 'The URL to call',
+        description: 'The URL to call.',
         settings: {
           placeholder: 'http://',
         },
@@ -306,7 +306,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'update.contentType',
         name: 'Content-Type',
         category: ['Update Request'],
-        description: 'Content-Type of the payload',
+        description: 'Content-Type of the payload.',
         defaultValue: ContentType.JSON,
         settings: {
           allowCustomValue: true,
@@ -442,7 +442,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'buttonGroup.orientation',
         name: 'Orientation',
         category: ['Buttons'],
-        description: 'Buttons orientation on the form',
+        description: 'Buttons orientation on the form.',
         settings: {
           options: BUTTON_ORIENTATION_OPTIONS,
         },
@@ -452,7 +452,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'buttonGroup.size',
         name: 'Size',
         category: ['Buttons'],
-        description: 'Buttons size on the form',
+        description: 'Buttons size on the form.',
         settings: {
           options: BUTTON_SIZE_OPTIONS,
         },
@@ -467,7 +467,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'submit.variant',
         name: 'Submit Button',
         category: ['Submit Button'],
-        description: 'Button variant',
+        description: 'Button variant.',
         settings: {
           options: BUTTON_VARIANT_OPTIONS,
         },
@@ -477,7 +477,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'submit.foregroundColor',
         name: 'Foreground Color',
         category: ['Submit Button'],
-        description: 'Foreground color of the button',
+        description: 'Foreground color of the button.',
         defaultValue: SUBMIT_BUTTON_DEFAULT.foregroundColor,
         settings: {
           disableNamedColors: true,
@@ -488,7 +488,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'submit.backgroundColor',
         name: 'Background Color',
         category: ['Submit Button'],
-        description: 'Background color of the button',
+        description: 'Background color of the button.',
         defaultValue: SUBMIT_BUTTON_DEFAULT.backgroundColor,
         settings: {
           disableNamedColors: true,
@@ -513,7 +513,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'submit.text',
         name: 'Text',
         category: ['Submit Button'],
-        description: 'The text on the button',
+        description: 'The text on the button.',
         defaultValue: SUBMIT_BUTTON_DEFAULT.text,
       });
 
@@ -525,7 +525,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'reset.variant',
         name: 'Reset Button',
         category: ['Reset Button'],
-        description: 'Button variant',
+        description: 'Button variant.',
         settings: {
           options: [...BUTTON_VARIANT_HIDDEN_OPTIONS, ...BUTTON_VARIANT_OPTIONS],
         },
@@ -535,7 +535,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'reset.foregroundColor',
         name: 'Foreground Color',
         category: ['Reset Button'],
-        description: 'Foreground color of the button',
+        description: 'Foreground color of the button.',
         defaultValue: RESET_BUTTON_DEFAULT.foregroundColor,
         settings: {
           disableNamedColors: true,
@@ -546,7 +546,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'reset.backgroundColor',
         name: 'Background Color',
         category: ['Reset Button'],
-        description: 'Background color of the button',
+        description: 'Background color of the button.',
         defaultValue: RESET_BUTTON_DEFAULT.backgroundColor,
         settings: {
           disableNamedColors: true,
@@ -572,7 +572,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'reset.text',
         name: 'Text',
         category: ['Reset Button'],
-        description: 'The text on the button',
+        description: 'The text on the button.',
         defaultValue: RESET_BUTTON_DEFAULT.text,
         showIf: (config) => config.reset.variant !== ButtonVariant.HIDDEN,
       });
@@ -653,7 +653,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'saveDefault.variant',
         name: 'Save Default Button',
         category: ['Save Default Button'],
-        description: 'Button variant',
+        description: 'Button variant.',
         settings: {
           options: [...BUTTON_VARIANT_HIDDEN_OPTIONS, { value: ButtonVariant.SECONDARY, label: 'Auto' }],
         },
@@ -678,7 +678,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'saveDefault.text',
         name: 'Text',
         category: ['Save Default Button'],
-        description: 'The text on the button',
+        description: 'The text on the button.',
         defaultValue: SAVE_DEFAULT_BUTTON_DEFAULT.text,
         showIf: (config) => config.saveDefault.variant !== ButtonVariant.HIDDEN,
       });
