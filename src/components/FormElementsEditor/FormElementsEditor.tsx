@@ -53,7 +53,10 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     onChangeElement,
     onChangeElementOption,
     onElementRemove,
-  } = useFormElements(onChange, value);
+  } = useFormElements({
+    onChange,
+    value,
+  });
 
   /**
    * Query Fields

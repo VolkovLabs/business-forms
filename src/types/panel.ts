@@ -83,4 +83,9 @@ export interface PanelOptions {
    * @type {ModalOptions}
    */
   confirmModal: ModalOptions;
+
+  /**
+   * Element Value Changed Code
+   */
+  elementValueChanged: string;
 }

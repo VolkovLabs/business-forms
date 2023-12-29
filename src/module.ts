@@ -131,6 +131,20 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
     });
 
     /**
+     * Element value changed
+     */
+    builder.addCustomEditor({
+      id: 'elementValueChanged',
+      path: 'elementValueChanged',
+      name: 'Element Value Changed',
+      category: ['Form Events'],
+      description: 'Code to run when element value changed',
+      editor: CustomCodeEditor,
+      showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
+      defaultValue: '',
+    });
+
+    /**
      * Initial Request
      */
     builder

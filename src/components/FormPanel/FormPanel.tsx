@@ -51,6 +51,7 @@ import {
   getPayloadForRequest,
   toFormData,
   toJson,
+  ValueChangedEvent,
 } from '../../utils';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
@@ -81,6 +82,13 @@ export const FormPanel: React.FC<Props> = ({
   const [isInitialized, setInitialized] = useState(false);
 
   /**
+   * Controlled form state
+   */
+  const [resetEnabled, setResetEnabled] = useState(true);
+  const [submitEnabled, setSubmitEnabled] = useState(true);
+  const [saveDefaultEnabled, setSaveDefaultEnabled] = useState(true);
+
+  /**
    * Use Datasource Request
    */
   const datasourceRequest = useDatasourceRequest();
@@ -109,11 +117,17 @@ export const FormPanel: React.FC<Props> = ({
   /**
    * Form Elements
    */
-  const { elements, onChangeElement, onChangeElements, onSaveUpdates } = useFormElements(
-    onChangeOptions,
-    options.elements,
-    false
-  );
+  const {
+    elements,
+    onChangeElement,
+    onChangeElements,
+    onSaveUpdates,
+    eventBus: elementsEventBus,
+  } = useFormElements({
+    onChange: onChangeOptions,
+    value: options.elements,
+    isAutoSave: false,
+  });
 
   /**
    * Theme and Styles
@@ -130,10 +144,18 @@ export const FormPanel: React.FC<Props> = ({
    * Events
    */
   const appEvents = getAppEvents();
-  const notifySuccess = (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload });
-  const notifyError = (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload });
-  const notifyWarning = (payload: AlertErrorPayload) =>
-    appEvents.publish({ type: AppEvents.alertWarning.name, payload });
+  const notifySuccess = useCallback(
+    (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload }),
+    [appEvents]
+  );
+  const notifyError = useCallback(
+    (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload }),
+    [appEvents]
+  );
+  const notifyWarning = useCallback(
+    (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertWarning.name, payload }),
+    [appEvents]
+  );
 
   /**
    * On Change Elements With Field Values
@@ -723,6 +745,73 @@ export const FormPanel: React.FC<Props> = ({
   }, [elements, initial]);
 
   /**
+   * On Element Value Changed
+   */
+  const onElementValueChanged = useCallback(
+    ({ elements, element }: { elements: LocalFormElement[]; element: LocalFormElement }) => {
+      const fn = new Function('context', options.elementValueChanged);
+
+      fn({
+        element,
+        grafana: {
+          locationService,
+          templateService: templateSrv,
+          notifyError,
+          notifySuccess,
+          notifyWarning,
+          eventBus,
+          appEvents,
+          refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+        },
+        panel: {
+          options,
+          data,
+          onOptionsChange,
+          elements,
+          onChangeElements,
+          initial,
+          setError,
+          enableReset: () => setResetEnabled(true),
+          disableReset: () => setResetEnabled(false),
+          enableSubmit: () => setSubmitEnabled(true),
+          disableSubmit: () => setSubmitEnabled(false),
+          enableSaveDefault: () => setSaveDefaultEnabled(true),
+          disableSaveDefault: () => setSaveDefaultEnabled(false),
+        },
+        utils: {
+          toDataQueryResponse,
+        },
+      });
+    },
+    [
+      appEvents,
+      data,
+      eventBus,
+      initial,
+      notifyError,
+      notifySuccess,
+      notifyWarning,
+      onChangeElements,
+      onOptionsChange,
+      options,
+      templateSrv,
+    ]
+  );
+
+  /**
+   * Subscribe on change value event
+   */
+  useEffect(() => {
+    const subscription = elementsEventBus.subscribe(ValueChangedEvent, (event) => {
+      onElementValueChanged(event.payload);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [elementsEventBus, eventBus, onElementValueChanged]);
+
+  /**
    * Return
    */
   return (
@@ -832,7 +921,9 @@ export const FormPanel: React.FC<Props> = ({
                         }
                       : {}
                   }
-                  disabled={!!loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE)}
+                  disabled={
+                    !!loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE) || !submitEnabled
+                  }
                   onClick={
                     options.update.confirm
                       ? () => {
@@ -861,7 +952,7 @@ export const FormPanel: React.FC<Props> = ({
                           }
                         : {}
                     }
-                    disabled={!!loading}
+                    disabled={!!loading || !resetEnabled}
                     onClick={resetRequest}
                     size={options.buttonGroup.size}
                     data-testid={TEST_IDS.panel.buttonReset}
@@ -875,7 +966,7 @@ export const FormPanel: React.FC<Props> = ({
                     className={cx(styles.margin)}
                     variant={getButtonVariant(options.saveDefault.variant)}
                     icon={options.saveDefault.icon}
-                    disabled={!!loading}
+                    disabled={!!loading || !saveDefaultEnabled}
                     onClick={onSaveUpdates}
                     size={options.buttonGroup.size}
                     data-testid={TEST_IDS.panel.buttonSaveDefault}
