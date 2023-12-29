@@ -83,7 +83,7 @@ export const useFormElements = ({
         );
       }
     },
-    [elements, eventBus, onChangeElements]
+    [elements, onChangeElements]
   );
 
   /**

@@ -749,7 +749,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   const onElementValueChanged = useCallback(
     ({ elements, element }: { elements: LocalFormElement[]; element: LocalFormElement }) => {
-      const fn = new Function('context', options.elementValueChanged);
+      const fn = new Function('context', replaceVariables(options.elementValueChanged));
 
       fn({
         element,
@@ -794,6 +794,7 @@ export const FormPanel: React.FC<Props> = ({
       onChangeElements,
       onOptionsChange,
       options,
+      replaceVariables,
       templateSrv,
     ]
   );
