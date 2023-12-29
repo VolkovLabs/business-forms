@@ -112,6 +112,7 @@ export const TEST_IDS = {
     buttonSetDate: 'data-testid form-elements-editor button-set-date',
     buttonRemoveDate: 'data-testid form-elements-editor button-remove-date',
     fieldLinkText: 'data-testid form-elements-editor field-link-text',
+    fieldGetOptions: 'form-elements-editor field-get-options',
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',

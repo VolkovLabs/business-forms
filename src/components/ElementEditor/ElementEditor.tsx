@@ -516,7 +516,7 @@ export const ElementEditor: React.FC<Props> = ({
               />
             </InlineField>
           </InlineFieldRow>
-          {element.optionsSource === OptionsSource.QUERY ? (
+          {element.optionsSource === OptionsSource.QUERY && (
             <ElementQueryOptionsEditor
               value={element.queryOptions}
               onChange={(queryOptions) => {
@@ -527,22 +527,41 @@ export const ElementEditor: React.FC<Props> = ({
               }}
               data={data}
             />
-          ) : (
-            <div className={styles.optionsContainer} data-testid={TEST_IDS.formElementsEditor.options}>
-              <ElementOptionsEditor
-                options={element.options}
-                onChange={(options) =>
+          )}
+          {element.optionsSource === OptionsSource.CODE && (
+            <Field label="Get Options Code" description="Must return array with {label,value} objects">
+              <AutosizeCodeEditor
+                value={element.getOptions || ''}
+                language={CodeLanguage.JAVASCRIPT}
+                onBlur={(code) => {
                   onChange({
                     ...element,
-                    options,
-                  })
-                }
-                onChangeItem={(updated, original, checkConflict) => {
-                  return onChangeOption(element, updated, original, checkConflict);
+                    getOptions: code,
+                  });
                 }}
+                monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+                showLineNumbers={true}
+                aria-label={TEST_IDS.formElementsEditor.fieldGetOptions}
               />
-            </div>
+            </Field>
           )}
+          {element.optionsSource === OptionsSource.CUSTOM ||
+            (!element.optionsSource && (
+              <div className={styles.optionsContainer} data-testid={TEST_IDS.formElementsEditor.options}>
+                <ElementOptionsEditor
+                  options={element.options}
+                  onChange={(options) =>
+                    onChange({
+                      ...element,
+                      options,
+                    })
+                  }
+                  onChangeItem={(updated, original, checkConflict) => {
+                    return onChangeOption(element, updated, original, checkConflict);
+                  }}
+                />
+              </div>
+            ))}
         </>
       )}
 

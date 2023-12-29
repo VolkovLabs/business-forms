@@ -270,7 +270,14 @@ export interface SelectOptions {
    *
    * @type {SelectableValue[]}
    */
-  options?: SelectableValue[];
+  options: SelectableValue[];
+
+  /**
+   * Get Options
+   *
+   * @type {string}
+   */
+  getOptions?: string;
 }
 
 /**
@@ -412,7 +419,11 @@ export type FormElement = FormElementBase &
 /**
  * Get Options Helper
  */
-export type GetOptionsHelper = (params: { data: PanelData }) => SelectableValue[];
+export type GetOptionsHelper = (params: {
+  data: PanelData;
+  elements: LocalFormElement[];
+  replaceVariables: InterpolateFunction;
+}) => SelectableValue[];
 
 /**
  * Show If Helper

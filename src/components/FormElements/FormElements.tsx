@@ -95,10 +95,15 @@ export const FormElements: React.FC<Props> = ({
    * Visible Elements
    */
   const visibleElements = useMemo(() => {
-    return elements.filter((element) => {
-      return element.helpers.showIf({ elements, replaceVariables });
-    });
-  }, [elements, replaceVariables]);
+    return elements
+      .filter((element) => {
+        return element.helpers.showIf({ elements, replaceVariables });
+      })
+      .map((element) => ({
+        ...element,
+        options: element.helpers.getOptions({ elements, replaceVariables, data }),
+      }));
+  }, [data, elements, replaceVariables]);
 
   return (
     <div data-testid={TEST_IDS.formElements.root}>
@@ -113,15 +118,7 @@ export const FormElements: React.FC<Props> = ({
         /**
          * Return
          */
-        return (
-          <FormElement
-            key={index}
-            element={element}
-            onChange={onChangeElement}
-            highlightClass={highlightClass}
-            data={data}
-          />
-        );
+        return <FormElement key={index} element={element} onChange={onChangeElement} highlightClass={highlightClass} />;
       })}
     </div>
   );
