@@ -101,6 +101,7 @@ export const FormElements: React.FC<Props> = ({
       })
       .map((element) => ({
         ...element,
+        disabled: element.helpers.disableIf({ elements, replaceVariables }),
         options: element.helpers.getOptions({ elements, replaceVariables, data }),
       }));
   }, [data, elements, replaceVariables]);

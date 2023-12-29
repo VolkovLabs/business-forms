@@ -92,6 +92,13 @@ export interface FormElementBase {
   showIf?: string;
 
   /**
+   * Disable If
+   *
+   * @type {string}
+   */
+  disableIf?: string;
+
+  /**
    * Field Name
    */
   fieldName?: string;
@@ -434,9 +441,22 @@ export type ShowIfHelper = (params: {
 }) => boolean | undefined;
 
 /**
+ * Disable If Helper
+ */
+export type DisableIfHelper = (params: {
+  elements: FormElement[];
+  replaceVariables: InterpolateFunction;
+}) => boolean | undefined;
+
+/**
  * Local Form Element
  */
 export type LocalFormElement = FormElement & {
+  /**
+   * Disabled
+   */
+  disabled?: boolean;
+
   /**
    * Helpers
    */
@@ -447,6 +467,13 @@ export type LocalFormElement = FormElement & {
      * @type {ShowIfHelper}
      */
     showIf: ShowIfHelper;
+
+    /**
+     * Disable If Function
+     *
+     * @type {DisableIfHelper}
+     */
+    disableIf: DisableIfHelper;
 
     /**
      * Get Options Function

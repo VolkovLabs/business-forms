@@ -1,6 +1,7 @@
 import { cx } from '@emotion/css';
 import { DateTime, dateTime } from '@grafana/data';
 import {
+  DatePickerWithInput,
   DateTimePicker,
   FileDropzone,
   InlineField,
@@ -65,6 +66,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
           <NumberInput
             value={formatNumberValue(element.value)}
@@ -94,6 +96,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           className={cx({
             [styles.hidden]: element.hidden,
           })}
+          disabled={element.disabled}
         >
           <Input
             value={element.value || ''}
@@ -118,6 +121,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
           <Input
             value={element.value || ''}
@@ -164,6 +168,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
           <TextArea
             value={element.value}
@@ -207,6 +212,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
           <AutosizeCodeEditor
             language={element.language || CodeLanguage.JAVASCRIPT}
@@ -223,6 +229,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             }}
             monacoOptions={{ formatOnPaste: true, formatOnType: true }}
             aria-label={TEST_IDS.formElements.fieldCode}
+            readOnly={element.disabled}
           />
         </InlineField>
       )}
@@ -235,6 +242,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           data-testid={TEST_IDS.formElements.fieldBooleanContainer}
+          disabled={element.disabled}
         >
           <RadioButtonGroup
             value={element.value}
@@ -258,19 +266,28 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
-          <DateTimePicker
-            minDate={element.min ? new Date(element.min) : undefined}
-            maxDate={element.max ? new Date(element.max) : undefined}
-            date={dateTime(element.value)}
-            onChange={(dateTime: DateTime) => {
-              onChange<typeof element>({
-                ...element,
-                value: dateTime.toISOString(),
-              });
-            }}
-            data-testid={TEST_IDS.formElements.fieldDateTime}
-          />
+          {element.disabled ? (
+            <DatePickerWithInput
+              onChange={undefined as never}
+              value={element.value}
+              data-testid={TEST_IDS.formElements.fieldDateTime}
+            />
+          ) : (
+            <DateTimePicker
+              minDate={element.min ? new Date(element.min) : undefined}
+              maxDate={element.max ? new Date(element.max) : undefined}
+              date={dateTime(element.value)}
+              onChange={(dateTime: DateTime) => {
+                onChange<typeof element>({
+                  ...element,
+                  value: dateTime.toISOString(),
+                });
+              }}
+              data-testid={TEST_IDS.formElements.fieldDateTime}
+            />
+          )}
         </InlineField>
       )}
 
@@ -283,6 +300,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             tooltip={element.tooltip}
             transparent={!element.title}
             className={cx(styles.slider)}
+            disabled={element.disabled}
           >
             <Slider
               value={element.value || 0}
@@ -298,7 +316,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               ariaLabelForHandle={TEST_IDS.formElements.fieldSlider}
             />
           </InlineField>
-          <InlineField className={cx(styles.sliderInput)}>
+          <InlineField className={cx(styles.sliderInput)} disabled={element.disabled}>
             <Input
               type="number"
               width={8}
@@ -325,6 +343,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           data-testid={TEST_IDS.formElements.fieldRadioContainer}
+          disabled={element.disabled}
         >
           <RadioButtonGroup
             value={element.value}
@@ -348,6 +367,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
           <Select
             isMulti={element.type === FormElementType.MULTISELECT}
@@ -373,6 +393,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          disabled={element.disabled}
         >
           <FileDropzone
             options={{

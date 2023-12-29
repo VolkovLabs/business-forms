@@ -580,6 +580,26 @@ export const ElementEditor: React.FC<Props> = ({
           aria-label={TEST_IDS.formElementsEditor.fieldShowIf}
         />
       </Field>
+
+      {element.type !== FormElementType.DISABLED_TEXTAREA &&
+        element.type !== FormElementType.DISABLED &&
+        element.type !== FormElementType.LINK && (
+          <Field label="Disable if returned value is true">
+            <AutosizeCodeEditor
+              value={element.disableIf || ''}
+              language={CodeLanguage.JAVASCRIPT}
+              onBlur={(code) => {
+                onChange({
+                  ...element,
+                  disableIf: code,
+                });
+              }}
+              monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+              showLineNumbers={true}
+              aria-label={TEST_IDS.formElementsEditor.fieldDisableIf}
+            />
+          </Field>
+        )}
     </>
   );
 };
