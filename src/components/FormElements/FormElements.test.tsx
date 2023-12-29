@@ -284,6 +284,30 @@ describe('Form Elements', () => {
     expect(selectors.fieldSelect()).toBeInTheDocument();
   });
 
+  it('Should find component with disabled DateTime', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [
+        {
+          id: 'dateTime',
+          type: FormElementType.DATETIME,
+          value: new Date('10-10-10').toISOString(),
+          disableIf: 'return true;',
+        },
+      ],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * Date Time
+     */
+    expect(selectors.fieldDateTime()).toBeInTheDocument();
+  });
+
   it('Should find component with Select and unset value', async () => {
     const options = {
       submit: {},
