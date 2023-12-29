@@ -2144,6 +2144,44 @@ describe('Panel', () => {
       expect(selectors.buttonSubmit()).toBeDisabled();
     });
 
+    it('Should allow to refresh dashboard', async () => {
+      const publish = jest.fn();
+      jest.mocked(getAppEvents).mockImplementation(
+        () =>
+          ({
+            publish,
+          }) as any
+      );
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                {
+                  ...element,
+                  value: '1',
+                },
+              ],
+              elementValueChanged: `
+                context.grafana.refresh();
+              `,
+            },
+          })
+        )
+      );
+
+      /**
+       * Change value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Dashboard should be refreshed
+       */
+      expect(publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
+    });
+
     it('Should allow to manage submit button', async () => {
       await act(async () =>
         render(
