@@ -644,7 +644,10 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: INITIAL_PAYLOAD_DEFAULT,
-      showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE && !!config.resetAction.datasource,
+      showIf: (config) =>
+        config.reset.variant !== ButtonVariant.HIDDEN &&
+        config.resetAction.mode === ResetActionMode.DATASOURCE &&
+        !!config.resetAction.datasource,
     });
 
     /**
