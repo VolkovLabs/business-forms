@@ -13,6 +13,7 @@ import {
 } from '../constants';
 import {
   ButtonVariant,
+  DisableIfHelper,
   FormElement,
   FormElementByType,
   GetOptionsHelper,
@@ -225,6 +226,20 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
       fn(elements, replaceVariables);
   }
 
+  const disableIf = element.disableIf;
+
+  let disableIfFn: DisableIfHelper = () => false;
+  if (disableIf || disableIf?.trim()) {
+    const fn = new Function('elements', 'replaceVariables', disableIf);
+    disableIfFn = ({
+      elements,
+      replaceVariables,
+    }: {
+      elements: FormElement[];
+      replaceVariables: InterpolateFunction;
+    }) => fn(elements, replaceVariables);
+  }
+
   let getOptions: GetOptionsHelper = () => [];
   if (
     element.type === FormElementType.DISABLED ||
@@ -273,6 +288,7 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
       : {}),
     helpers: {
       showIf: showIfFn,
+      disableIf: disableIfFn,
       getOptions,
     },
     uid: getElementUniqueId(element),

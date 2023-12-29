@@ -1544,6 +1544,25 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldShowIf()).toHaveValue('123');
     });
 
+    it('Should update disableIf', async () => {
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.TEXTAREA, rows: 2 };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Change textarea rows
+       */
+      await act(() => fireEvent.blur(elementSelectors.fieldDisableIf(), { target: { value: '123' } }));
+
+      expect(elementSelectors.fieldDisableIf()).toHaveValue('123');
+    });
+
     describe('Apply default element options', () => {
       it('Should set default Slider options if NewType=SLIDER', async () => {
         const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };

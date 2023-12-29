@@ -95,9 +95,14 @@ export const FormElements: React.FC<Props> = ({
    * Visible Elements
    */
   const visibleElements = useMemo(() => {
-    return elements.filter((element) => {
-      return element.helpers.showIf({ elements, replaceVariables });
-    });
+    return elements
+      .filter((element) => {
+        return element.helpers.showIf({ elements, replaceVariables });
+      })
+      .map((element) => ({
+        ...element,
+        disabled: element.helpers.disableIf({ elements, replaceVariables }),
+      }));
   }, [elements, replaceVariables]);
 
   return (
