@@ -1,4 +1,4 @@
-import { InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
+import { BusEventBase, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -430,3 +430,16 @@ export const convertToElementValue = (
     }
   }
 };
+
+/**
+ * Value Changed Event
+ */
+export class ValueChangedEvent extends BusEventBase {
+  static type = 'value-changed';
+  payload: { elements: LocalFormElement[]; element: LocalFormElement };
+
+  constructor(payload: { elements: LocalFormElement[]; element: LocalFormElement }) {
+    super();
+    this.payload = payload;
+  }
+}

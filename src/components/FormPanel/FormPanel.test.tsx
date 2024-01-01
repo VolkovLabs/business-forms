@@ -14,10 +14,11 @@ import {
   PayloadMode,
   RequestMethod,
   ResetActionMode,
+  TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
 import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement } from '../../types';
-import { getPanelSelectors, toLocalFormElement } from '../../utils';
+import { getFormElementsSelectors, getPanelSelectors, toLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -54,6 +55,11 @@ describe('Panel', () => {
    * Panel Selectors
    */
   const selectors = getPanelSelectors(screen);
+
+  /**
+   * Elements Selectors
+   */
+  const elementsSelectors = getFormElementsSelectors(screen);
 
   /**
    * Replace variables
@@ -2069,6 +2075,242 @@ describe('Panel', () => {
       );
 
       expect(selectors.buttonSaveDefault(true)).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Value Changed Code', () => {
+    const element = {
+      ...FORM_ELEMENT_DEFAULT,
+      id: 'value',
+    };
+
+    beforeEach(() => {
+      jest.mocked(FormElements).mockImplementation(({ onChangeElement, elements }) => {
+        return (
+          <input
+            data-testid={TEST_IDS.formElements.fieldString}
+            value={elements[0].value as string}
+            onChange={(event) => {
+              onChangeElement({
+                ...elements[0],
+                value: event.currentTarget.value,
+              } as any);
+            }}
+          />
+        );
+      });
+    });
+
+    it('Should trigger if value changed', async () => {
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                {
+                  ...element,
+                  value: '1',
+                },
+              ],
+              elementValueChanged: `
+                context.panel.disableSubmit();
+              `,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Change to same value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '1' } }));
+
+      /**
+       * Value changed should not be called
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Change to new value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Should be enabled
+       */
+      expect(selectors.buttonSubmit()).toBeDisabled();
+    });
+
+    it('Should allow to refresh dashboard', async () => {
+      const publish = jest.fn();
+      jest.mocked(getAppEvents).mockImplementation(
+        () =>
+          ({
+            publish,
+          }) as any
+      );
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                {
+                  ...element,
+                  value: '1',
+                },
+              ],
+              elementValueChanged: `
+                context.grafana.refresh();
+              `,
+            },
+          })
+        )
+      );
+
+      /**
+       * Change value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Dashboard should be refreshed
+       */
+      expect(publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
+    });
+
+    it('Should allow to manage submit button', async () => {
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [element],
+              elementValueChanged: `
+                if (context.element.value === '11') {
+                  context.panel.enableSubmit();
+                } else {
+                  context.panel.disableSubmit();
+                }
+              `,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Change to invalid value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '1' } }));
+
+      /**
+       * Still should be disabled due to invalid value
+       */
+      expect(selectors.buttonSubmit()).toBeDisabled();
+
+      /**
+       * Change to valid value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Should be enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+    });
+
+    it('Should allow to manage reset button', async () => {
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [element],
+              elementValueChanged: `
+                if (context.element.value === '11') {
+                  context.panel.enableReset();
+                } else {
+                  context.panel.disableReset();
+                }
+              `,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonReset()).toBeInTheDocument();
+      expect(selectors.buttonReset()).not.toBeDisabled();
+
+      /**
+       * Change to invalid value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '1' } }));
+
+      /**
+       * Still should be disabled due to invalid value
+       */
+      expect(selectors.buttonReset()).toBeDisabled();
+
+      /**
+       * Change to valid value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Should be enabled
+       */
+      expect(selectors.buttonReset()).not.toBeDisabled();
+    });
+
+    it('Should allow to manage save default button', async () => {
+      await act(async () =>
+        render(
+          <PanelContextProvider value={{ canAddAnnotations: () => true } as any}>
+            {getComponent({
+              options: {
+                elements: [element],
+                saveDefault: {
+                  variant: ButtonVariant.SECONDARY,
+                },
+                elementValueChanged: `
+                if (context.element.value === '11') {
+                  context.panel.enableSaveDefault();
+                } else {
+                  context.panel.disableSaveDefault();
+                }
+              `,
+              },
+            })}
+          </PanelContextProvider>
+        )
+      );
+
+      expect(selectors.buttonSaveDefault()).toBeInTheDocument();
+      expect(selectors.buttonSaveDefault()).not.toBeDisabled();
+
+      /**
+       * Change to invalid value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '1' } }));
+
+      /**
+       * Still should be disabled due to invalid value
+       */
+      expect(selectors.buttonSaveDefault()).toBeDisabled();
+
+      /**
+       * Change to valid value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Should be enabled
+       */
+      expect(selectors.buttonSaveDefault()).not.toBeDisabled();
     });
   });
 });

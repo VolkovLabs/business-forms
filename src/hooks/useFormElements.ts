@@ -1,5 +1,5 @@
-import { SelectableValue } from '@grafana/data';
-import { useCallback, useEffect, useState } from 'react';
+import { EventBusSrv, SelectableValue } from '@grafana/data';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FormElement, LocalFormElement } from '../types';
 import {
@@ -7,6 +7,7 @@ import {
   isElementOptionConflict,
   normalizeElementsForDashboard,
   normalizeElementsForLocalState,
+  ValueChangedEvent,
 } from '../utils';
 import { useAutoSave } from './useAutoSave';
 
@@ -15,12 +16,19 @@ import { useAutoSave } from './useAutoSave';
  * @param onChange
  * @param value
  * @param isAutoSave
+ * @param onItemChange
  */
-export const useFormElements = (
-  onChange: (elements: FormElement[]) => void,
-  value?: FormElement[],
-  isAutoSave = true
-) => {
+export const useFormElements = ({
+  onChange,
+  value,
+  isAutoSave = true,
+}: {
+  onChange: (elements: FormElement[]) => void;
+  value?: FormElement[];
+  isAutoSave?: boolean;
+}) => {
+  const eventBus = useRef(new EventBusSrv());
+
   /**
    * States
    */
@@ -54,7 +62,26 @@ export const useFormElements = (
         return;
       }
 
-      onChangeElements(elements.map((element) => (element.uid === updatedElement.uid ? updatedElement : element)));
+      let isValueChanged = false;
+
+      const updatedElements = elements.map((element) => {
+        if (element.uid === updatedElement.uid) {
+          isValueChanged = updatedElement.value !== element.value;
+          return updatedElement;
+        }
+        return element;
+      });
+
+      onChangeElements(updatedElements);
+
+      if (isValueChanged) {
+        eventBus.current.publish(
+          new ValueChangedEvent({
+            elements: updatedElements,
+            element: updatedElement,
+          })
+        );
+      }
     },
     [elements, onChangeElements]
   );
@@ -138,5 +165,6 @@ export const useFormElements = (
     onChangeElement,
     onChangeElementOption,
     onElementRemove,
+    eventBus: eventBus.current,
   };
 };
