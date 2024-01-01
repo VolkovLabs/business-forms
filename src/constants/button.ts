@@ -41,14 +41,17 @@ export const BUTTON_ORIENTATION_OPTIONS: SelectableValue[] = [
   {
     value: ButtonOrientation.LEFT,
     label: 'Left',
+    icon: 'horizontal-align-left',
   },
   {
     value: ButtonOrientation.CENTER,
     label: 'Center',
+    icon: 'horizontal-align-center',
   },
   {
     value: ButtonOrientation.RIGHT,
     label: 'Right',
+    icon: 'horizontal-align-right',
   },
 ];
 

@@ -102,8 +102,9 @@ export const FormElements: React.FC<Props> = ({
       .map((element) => ({
         ...element,
         disabled: element.helpers.disableIf({ elements, replaceVariables }),
+        options: element.helpers.getOptions({ elements, replaceVariables, data }),
       }));
-  }, [elements, replaceVariables]);
+  }, [data, elements, replaceVariables]);
 
   return (
     <div data-testid={TEST_IDS.formElements.root}>
@@ -118,15 +119,7 @@ export const FormElements: React.FC<Props> = ({
         /**
          * Return
          */
-        return (
-          <FormElement
-            key={index}
-            element={element}
-            onChange={onChangeElement}
-            highlightClass={highlightClass}
-            data={data}
-          />
-        );
+        return <FormElement key={index} element={element} onChange={onChangeElement} highlightClass={highlightClass} />;
       })}
     </div>
   );

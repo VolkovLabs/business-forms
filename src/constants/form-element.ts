@@ -170,6 +170,7 @@ export const ICON_OPTIONS = getAvailableIcons().map((name) => ({
 export enum OptionsSource {
   QUERY = 'Query',
   CUSTOM = 'Custom',
+  CODE = 'Code',
 }
 
 /**
@@ -185,6 +186,13 @@ export const OPTIONS_SOURCE_OPTIONS = [
     label: 'Custom',
     value: OptionsSource.CUSTOM,
     ariaLabel: TEST_IDS.formElementsEditor.optionsSourceOption(OptionsSource.CUSTOM),
+    icon: 'keyboard',
+  },
+  {
+    label: 'Code',
+    value: OptionsSource.CODE,
+    ariaLabel: TEST_IDS.formElementsEditor.optionsSourceOption(OptionsSource.CODE),
+    icon: 'calculator-alt',
   },
 ];
 

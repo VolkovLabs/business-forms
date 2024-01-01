@@ -1,4 +1,4 @@
-import { BusEventBase, InterpolateFunction, SelectableValue } from '@grafana/data';
+import { BusEventBase, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -271,6 +271,17 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
           label: labelValues[index] as string,
         }));
       };
+    } else if (element.optionsSource === OptionsSource.CODE) {
+      const fn = new Function('data', 'elements', 'replaceVariables', element.getOptions || 'return []');
+      getOptions = ({
+        data,
+        elements,
+        replaceVariables,
+      }: {
+        data: PanelData;
+        elements: FormElement[];
+        replaceVariables: InterpolateFunction;
+      }) => fn(data, elements, replaceVariables);
     } else {
       getOptions = () => element.options || [];
     }

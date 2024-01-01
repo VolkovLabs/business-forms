@@ -25,11 +25,13 @@ export const LAYOUT_VARIANT_OPTIONS: SelectableValue[] = [
     value: LayoutVariant.SINGLE,
     description: 'All elements together.',
     label: 'Basic',
+    icon: 'bars',
   },
   {
     value: LayoutVariant.NONE,
     description: 'Buttons only.',
     label: 'Buttons only',
+    icon: 'apps',
   },
   {
     value: LayoutVariant.SPLIT,
@@ -47,10 +49,12 @@ export const LAYOUT_ORIENTATION_OPTIONS: SelectableValue[] = [
     value: LayoutOrientation.HORIZONTAL,
     description: 'Horizontal Orientation',
     label: 'Horizontal',
+    icon: 'horizontal-align-center',
   },
   {
     value: LayoutOrientation.VERTICAL,
     description: 'Vertical Orientation',
     label: 'Vertical',
+    icon: 'vertical-align-center',
   },
 ];

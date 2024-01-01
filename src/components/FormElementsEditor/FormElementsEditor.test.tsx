@@ -2360,6 +2360,35 @@ describe('Form Elements Editor', () => {
   });
 
   /**
+   * Get Options Code
+   */
+  describe('Get Options Code', () => {
+    it('Should update getOptions code value', async () => {
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.CODE,
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Change Get Options Field
+       */
+      await act(async () => fireEvent.change(elementSelectors.fieldGetOptions(), { target: { value: '123' } }));
+
+      expect(elementSelectors.fieldGetOptions()).toHaveValue('123');
+    });
+  });
+
+  /**
    * Layout Section
    */
   describe('Layout Section', () => {

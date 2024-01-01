@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { DateTime, dateTime, PanelData } from '@grafana/data';
+import { DateTime, dateTime } from '@grafana/data';
 import {
   DatePickerWithInput,
   DateTimePicker,
@@ -17,7 +17,7 @@ import {
 } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
-import React, { ChangeEvent, useMemo } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
@@ -45,27 +45,17 @@ interface Props {
    * Highlight Class
    */
   highlightClass: (element: LocalFormElement) => string;
-
-  /**
-   * Data
-   */
-  data: PanelData;
 }
 
 /**
  * Form Element
  */
-export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass, data }) => {
+export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass }) => {
   /**
    * Styles and Theme
    */
   const theme = useTheme2();
   const styles = useStyles2(getStyles);
-
-  /**
-   * Options
-   */
-  const options = useMemo(() => element.helpers.getOptions({ data }), [data, element.helpers]);
 
   return (
     <InlineFieldRow data-testid={TEST_IDS.formElements.element(element.id, element.type)}>
@@ -160,9 +150,9 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         >
           <Input
             value={
-              !options.length
+              !element.options?.length
                 ? element.value?.toString() || ''
-                : options.find((option) => option.value === element.value)?.label
+                : element.options?.find((option) => option.value === element.value)?.label
             }
             type="text"
             width={applyWidth(element.width)}
@@ -364,7 +354,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               });
             }}
             fullWidth={!element.width}
-            options={options}
+            options={element.options}
             className={highlightClass(element)}
           />
         </InlineField>
@@ -390,7 +380,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               });
             }}
             width={applyWidth(element.width)}
-            options={options}
+            options={element.options}
             className={highlightClass(element)}
           />
         </InlineField>

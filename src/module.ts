@@ -626,7 +626,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         name: 'Data Source',
         category: ['Reset Request'],
         editor: DatasourceEditor,
-        showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE,
+        showIf: (config) =>
+          config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.DATASOURCE,
       })
       .addCustomEditor({
         id: 'resetAction.code',
@@ -639,7 +640,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
           language: CodeLanguage.JAVASCRIPT,
         },
         defaultValue: UPDATE_CODE_DEFAULT,
-        showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE,
+        showIf: (config) =>
+          config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.DATASOURCE,
       });
 
     /**
@@ -656,7 +658,10 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         language: CodeLanguage.JAVASCRIPT,
       },
       defaultValue: INITIAL_PAYLOAD_DEFAULT,
-      showIf: (config) => config.resetAction.mode === ResetActionMode.DATASOURCE && !!config.resetAction.datasource,
+      showIf: (config) =>
+        config.reset.variant !== ButtonVariant.HIDDEN &&
+        config.resetAction.mode === ResetActionMode.DATASOURCE &&
+        !!config.resetAction.datasource,
     });
 
     /**
