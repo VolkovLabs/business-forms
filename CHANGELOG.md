@@ -6,6 +6,7 @@
 
 - Add disable if code (#321)
 - Update reset request visibility if reset button is hidden (#322)
+- Add code options source for select element (#323)
 
 ## 3.4.0 (2023-12-14)
 

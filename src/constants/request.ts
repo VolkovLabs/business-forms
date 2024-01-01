@@ -20,7 +20,8 @@ export const enum RequestMethod {
 export const INITIAL_REQUEST_METHOD_OPTIONS: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
-    label: 'Custom Code',
+    label: 'Code',
+    icon: 'calculator-alt',
   },
   {
     value: RequestMethod.DATASOURCE,
@@ -43,7 +44,8 @@ export const INITIAL_REQUEST_METHOD_OPTIONS: SelectableValue[] = [
 export const UPDATE_REQUEST_METHOD_OPTIONS: SelectableValue[] = [
   {
     value: RequestMethod.NONE,
-    label: 'Custom Code',
+    label: 'Code',
+    icon: 'calculator-alt',
   },
   {
     value: RequestMethod.DATASOURCE,
@@ -101,7 +103,7 @@ export const enum PayloadMode {
 export const PAYLOAD_MODE_OPTIONS = [
   { label: 'All Elements', value: PayloadMode.ALL },
   { label: 'Updated Only', value: PayloadMode.UPDATED },
-  { label: 'Custom Code', value: PayloadMode.CUSTOM },
+  { label: 'Code', value: PayloadMode.CUSTOM, icon: 'calculator-alt' },
 ];
 
 /**
@@ -117,7 +119,7 @@ export const enum ResetActionMode {
  * Reset Action Options
  */
 export const RESET_ACTION_OPTIONS = [
-  { label: 'Custom Code', value: ResetActionMode.CUSTOM },
+  { label: 'Code', value: ResetActionMode.CUSTOM, icon: 'calculator-alt' },
   { label: 'Initial Request', value: ResetActionMode.INITIAL },
   { label: 'Data Source', value: ResetActionMode.DATASOURCE, icon: 'database' },
 ];
