@@ -87,6 +87,7 @@ export const TEST_IDS = {
     fieldTooltip: 'data-testid form-elements-editor field-tooltip',
     fieldType: 'form-elements-editor field-type',
     fieldShowIf: 'form-elements-editor field-show-if',
+    fieldDisableIf: 'form-elements-editor field-disable-if',
     fieldUnit: 'data-testid form-elements-editor field-unit',
     fieldVisibility: 'data-testid form-elements-editor field-visibility',
     fieldWidth: 'data-testid form-elements-editor field-width',
