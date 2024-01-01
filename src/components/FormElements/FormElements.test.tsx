@@ -422,6 +422,39 @@ describe('Form Elements', () => {
     });
   });
 
+  describe('Get Options Code', () => {
+    it('Should use options from code', async () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          {
+            id: 'select',
+            type: FormElementType.SELECT,
+            optionsSource: OptionsSource.CODE,
+            getOptions: `return [{ value: 1, label: '1' }]`,
+          },
+        ],
+      };
+
+      render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Select
+       */
+      expect(selectors.fieldSelect()).toBeInTheDocument();
+
+      /**
+       * Change value
+       */
+      await act(async () => fireEvent.change(selectors.fieldSelect(), { target: { value: 1 } }));
+
+      expect(selectors.fieldSelect()).toHaveValue('1');
+    });
+  });
+
   it('Should find unit element', async () => {
     const options = {
       submit: {},
