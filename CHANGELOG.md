@@ -8,6 +8,7 @@
 - Update reset request visibility if reset button is hidden (#322)
 - Add code options source for select element (#323)
 - Add value changed code (#324)
+- Update to Node 20 (#326)
 
 ## 3.4.0 (2023-12-14)
 
