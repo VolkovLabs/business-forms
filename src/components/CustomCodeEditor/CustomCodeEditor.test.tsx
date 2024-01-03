@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { CODE_EDITOR_SUGGESTIONS } from '../../constants';
+import { CodeEditorType } from '../../types';
 import { getCustomCodeEditorSelectors } from '../../utils';
 import { CustomCodeEditor } from './CustomCodeEditor';
 
@@ -177,7 +178,8 @@ describe('Custom Code Editor', () => {
       getComponent({
         item: {
           settings: {
-            suggestions: true,
+            type: CodeEditorType.REQUEST,
+            variablesSuggestions: true,
           },
         },
       })
@@ -186,7 +188,7 @@ describe('Custom Code Editor', () => {
     /**
      * Check if suggestions are correct
      */
-    expect(suggestionsResult).toEqual(expect.arrayContaining(CODE_EDITOR_SUGGESTIONS));
+    expect(suggestionsResult).toEqual(expect.arrayContaining(CODE_EDITOR_SUGGESTIONS.request));
     expect(suggestionsResult).toEqual(
       expect.arrayContaining([
         {

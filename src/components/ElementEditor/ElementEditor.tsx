@@ -3,6 +3,7 @@ import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, us
 import React, { ChangeEvent } from 'react';
 
 import {
+  CODE_EDITOR_SUGGESTIONS,
   CODE_LANGUAGE_OPTIONS,
   FORM_ELEMENT_TYPE_OPTIONS,
   FormElementType,
@@ -542,6 +543,7 @@ export const ElementEditor: React.FC<Props> = ({
                 monacoOptions={{ formatOnPaste: true, formatOnType: true }}
                 showLineNumbers={true}
                 aria-label={TEST_IDS.formElementsEditor.fieldGetOptions}
+                getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementGetOptions}
               />
             </Field>
           )}
@@ -578,6 +580,7 @@ export const ElementEditor: React.FC<Props> = ({
           monacoOptions={{ formatOnPaste: true, formatOnType: true }}
           showLineNumbers={true}
           aria-label={TEST_IDS.formElementsEditor.fieldShowIf}
+          getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementShowIf}
         />
       </Field>
 
@@ -597,6 +600,7 @@ export const ElementEditor: React.FC<Props> = ({
               monacoOptions={{ formatOnPaste: true, formatOnType: true }}
               showLineNumbers={true}
               aria-label={TEST_IDS.formElementsEditor.fieldDisableIf}
+              getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementDisableIf}
             />
           </Field>
         )}
