@@ -209,7 +209,7 @@ describe('Custom Code Editor', () => {
     );
   });
 
-  it('Should skip adding suggestions', () => {
+  it('Should not add suggestions', () => {
     let suggestionsResult;
     const variableWithDescription = { name: 'var1', description: 'Var description', label: 'Var Label' };
     const variableWithoutDescription = { name: 'var2', description: '', label: 'Var 2' };
@@ -231,7 +231,9 @@ describe('Custom Code Editor', () => {
      */
     render(
       getComponent({
-        item: {},
+        item: {
+          settings: {},
+        },
       })
     );
 
