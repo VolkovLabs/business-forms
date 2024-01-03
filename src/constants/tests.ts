@@ -39,11 +39,7 @@ export const TEST_IDS = {
     fieldDisabled: 'data-testid form-elements field-disabled',
     fieldTextarea: 'data-testid form-elements field-textarea',
     fieldDisabledTextarea: 'data-testid form-elements field-disabled-textarea',
-    /**
-     * Default Code Editor aria label selector
-     * https://github.com/grafana/grafana/blob/6a12673f8b0e07bc2aeeed70defc461fdf93bca8/packages/grafana-ui/src/components/Monaco/CodeEditor.tsx#L148
-     */
-    fieldCode: selectors.components.CodeEditor.container,
+    fieldCode: 'Code editor container',
     fieldBooleanContainer: 'data-testid form-elements field-boolean-container',
     /**
      * We should use default value for date-time-picker without data-testid prefix
