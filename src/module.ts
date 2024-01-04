@@ -368,7 +368,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
     builder
       .addRadio({
         path: 'update.payloadMode',
-        name: 'Update Request Payload',
+        name: 'Request Payload',
         description: 'Choose what values will be included in payload.',
         category: ['Update Request Payload'],
         settings: {
@@ -397,52 +397,51 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'update.confirm',
         name: 'Confirmation Window',
         description: 'Ask to confirm updated values.',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         settings: {
           options: BOOLEAN_OPTIONS,
         },
         defaultValue: false,
-        showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
       })
       .addTextInput({
         path: 'confirmModal.title',
         name: 'Title',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.title,
         showIf: (config) => config.update.confirm,
       })
       .addTextInput({
         path: 'confirmModal.body',
         name: 'Text',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.body,
         showIf: (config) => config.update.confirm,
       })
       .addTextInput({
         path: 'confirmModal.columns.name',
         name: 'Label column',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.name,
         showIf: (config) => config.update.confirm,
       })
       .addTextInput({
         path: 'confirmModal.columns.oldValue',
         name: 'Old value column',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.oldValue,
         showIf: (config) => config.update.confirm,
       })
       .addTextInput({
         path: 'confirmModal.columns.newValue',
         name: 'New value column',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.newValue,
         showIf: (config) => config.update.confirm,
       })
       .addTextInput({
         path: 'confirmModal.confirm',
         name: 'Confirm button',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         description: 'The text on the confirm button.',
         defaultValue: CONFIRM_MODAL_DEFAULT.confirm,
         showIf: (config) => config.update.confirm,
@@ -450,7 +449,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       .addTextInput({
         path: 'confirmModal.cancel',
         name: 'Cancel button',
-        category: ['Confirmation Window'],
+        category: ['Update Confirmation Window'],
         description: 'The text on the cancel button.',
         defaultValue: CONFIRM_MODAL_DEFAULT.cancel,
         showIf: (config) => config.update.confirm,
@@ -662,7 +661,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
           options: BOOLEAN_OPTIONS,
         },
         defaultValue: false,
-        showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
       });
 
     /**
