@@ -1,7 +1,7 @@
 import { SelectableValue } from '@grafana/data';
 import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
 
-import { CodeLanguage } from '../types';
+import { CodeEditorType, CodeLanguage } from '../types';
 
 /**
  * Code Editor Config
@@ -29,9 +29,9 @@ export const CODE_LANGUAGE_OPTIONS: SelectableValue[] = [
 ];
 
 /**
- * Suggestions
+ * Request Code Suggestions
  */
-export const CODE_EDITOR_SUGGESTIONS: CodeEditorSuggestionItem[] = [
+const REQUEST_CODE_SUGGESTIONS: CodeEditorSuggestionItem[] = [
   {
     label: 'options',
     kind: CodeEditorSuggestionItemKind.Property,
@@ -102,7 +102,12 @@ export const CODE_EDITOR_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Method,
     detail: 'Parse the results from /api/ds/query.',
   },
+];
 
+/**
+ * Base Context Suggestions
+ */
+const BASE_CONTEXT_SUGGESTIONS: CodeEditorSuggestionItem[] = [
   /**
    * Context
    */
@@ -220,3 +225,129 @@ export const CODE_EDITOR_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     detail: 'Parse the results from /api/ds/query.',
   },
 ];
+
+/**
+ * Suggestions
+ */
+export const CODE_EDITOR_SUGGESTIONS: Record<CodeEditorType, CodeEditorSuggestionItem[]> = {
+  /**
+   * Initial, update or reset request
+   */
+  [CodeEditorType.REQUEST]: [...REQUEST_CODE_SUGGESTIONS, ...BASE_CONTEXT_SUGGESTIONS],
+
+  /**
+   * Get data source payload
+   */
+  [CodeEditorType.GET_PAYLOAD]: [
+    {
+      label: 'elements',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Form Elements.',
+    },
+    {
+      label: 'initial',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Parsed values from the Initial Request.',
+    },
+  ],
+
+  /**
+   * Element value changed
+   */
+  [CodeEditorType.ELEMENT_VALUE_CHANGED]: [
+    ...BASE_CONTEXT_SUGGESTIONS,
+    {
+      label: 'context.element',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Form Element which value has been changed.',
+    },
+    {
+      label: 'context.panel.setError',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Set panel error.',
+    },
+    {
+      label: 'context.panel.enableReset',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Enable reset button.',
+    },
+    {
+      label: 'context.panel.disableReset',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Disable reset button.',
+    },
+    {
+      label: 'context.panel.enableSubmit',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Enable submit button.',
+    },
+    {
+      label: 'context.panel.disableSubmit',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Disable submit button.',
+    },
+    {
+      label: 'context.panel.enableSaveDefault',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Enable save default button.',
+    },
+    {
+      label: 'context.panel.disableSaveDefault',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Disable save default button.',
+    },
+  ],
+
+  /**
+   * Element disable if
+   */
+  [CodeEditorType.ELEMENT_DISABLE_IF]: [
+    {
+      label: 'elements',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Form Elements.',
+    },
+    {
+      label: 'replaceVariables',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Interpolate variables.',
+    },
+  ],
+
+  /**
+   * Element show if
+   */
+  [CodeEditorType.ELEMENT_SHOW_IF]: [
+    {
+      label: 'elements',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Form Elements.',
+    },
+    {
+      label: 'replaceVariables',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Interpolate variables.',
+    },
+  ],
+
+  /**
+   * Element get options
+   */
+  [CodeEditorType.ELEMENT_GET_OPTIONS]: [
+    {
+      label: 'data',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Result set of panel queries.',
+    },
+    {
+      label: 'elements',
+      kind: CodeEditorSuggestionItemKind.Property,
+      detail: 'Form Elements.',
+    },
+    {
+      label: 'replaceVariables',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Interpolate variables.',
+    },
+  ],
+};

@@ -45,23 +45,23 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
    * Will skip adding suggestions if settings are not defined to avoid duplicates
    */
   const getSuggestions = useCallback((): CodeEditorSuggestionItem[] => {
-    if (!item.settings?.suggestions) {
-      return [];
-    }
-
     /**
      * Add Variables
      */
-    const suggestions = templateSrv.getVariables().map((variable) => {
-      return {
-        label: `\$\{${variable.name}\}`,
-        kind: CodeEditorSuggestionItemKind.Property,
-        detail: variable.description ? variable.description : variable.label,
-      };
-    });
+    const variablesSuggestions = item.settings?.variablesSuggestions
+      ? templateSrv.getVariables().map((variable) => {
+          return {
+            label: `\$\{${variable.name}\}`,
+            kind: CodeEditorSuggestionItemKind.Property,
+            detail: variable.description ? variable.description : variable.label,
+          };
+        })
+      : [];
 
-    return [...CODE_EDITOR_SUGGESTIONS, ...suggestions];
-  }, [templateSrv, item.settings?.suggestions]);
+    return item.settings?.type
+      ? CODE_EDITOR_SUGGESTIONS[item.settings.type].concat(variablesSuggestions)
+      : variablesSuggestions;
+  }, [item.settings, templateSrv]);
 
   /**
    * Return

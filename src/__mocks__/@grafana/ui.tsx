@@ -6,11 +6,12 @@ const actual = jest.requireActual('@grafana/ui');
 /**
  * Mock Code Editor
  */
-const CodeEditor = jest.fn(({ onBlur, ...restProps }) => {
+const CodeEditor = jest.fn(({ onBlur, getSuggestions, ...restProps }) => {
   return (
     <input
       aria-label={restProps['aria-label']}
       value={restProps.value}
+      autoComplete={getSuggestions?.()}
       onChange={(event) => {
         if (onBlur) {
           onBlur(event.target.value);
