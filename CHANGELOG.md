@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.5.0 (IN PROGRESS)
+## 3.5.0 (2023-01-04)
 
 ### Features / Enhancements
 
@@ -9,6 +9,8 @@
 - Add code options source for select element (#323)
 - Add value changed code (#324)
 - Update to Node 20 (#326)
+- Add suggestions for code editors (#327)
+- Add reset button confirmation (#328)
 
 ## 3.4.0 (2023-12-14)
 

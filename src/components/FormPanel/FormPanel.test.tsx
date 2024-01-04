@@ -1831,6 +1831,79 @@ describe('Panel', () => {
 
       await waitFor(() => expect(selectors.errorMessage()).toBeInTheDocument());
     });
+
+    it('Should ask to confirm', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+      const publish = jest.fn();
+      jest.mocked(getAppEvents).mockImplementation(
+        () =>
+          ({
+            publish,
+          }) as any
+      );
+      const defaultOptions = {
+        initial: {
+          code: `notifySuccess("success");`,
+        },
+        update: {},
+        resetAction: {
+          mode: ResetActionMode.CUSTOM,
+          code: 'notifySuccess("success");',
+          confirm: true,
+        },
+      };
+
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: defaultOptions,
+          })
+        )
+      );
+
+      await act(async () =>
+        rerender(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              ...defaultOptions,
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+            },
+          })
+        )
+      );
+
+      jest.mocked(replaceVariables).mockClear();
+      jest.mocked(publish).mockClear();
+
+      expect(selectors.buttonReset()).not.toBeDisabled();
+      await act(async () => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      /**
+       * Check if confirmation shown
+       */
+      expect(selectors.resetConfirmModal()).toBeInTheDocument();
+
+      /**
+       * Confirm reset
+       */
+      await act(async () => fireEvent.click(selectors.buttonConfirmReset()));
+
+      expect(publish).toHaveBeenCalled();
+    });
   });
 
   describe('Confirm changes', () => {

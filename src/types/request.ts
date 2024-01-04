@@ -114,4 +114,11 @@ export interface ResetAction {
    * @type {string}
    */
   getPayload: string;
+
+  /**
+   * Ask for confirmation
+   *
+   * @type {boolean}
+   */
+  confirm: boolean;
 }

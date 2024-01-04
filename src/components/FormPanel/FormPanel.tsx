@@ -79,6 +79,7 @@ export const FormPanel: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: unknown }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
+  const [resetConfirmation, setResetConfirmation] = useState(false);
   const [isInitialized, setInitialized] = useState(false);
 
   /**
@@ -954,7 +955,14 @@ export const FormPanel: React.FC<Props> = ({
                         : {}
                     }
                     disabled={!!loading || !resetEnabled}
-                    onClick={resetRequest}
+                    onClick={() => {
+                      if (options.resetAction.confirm) {
+                        setResetConfirmation(true);
+                        return;
+                      }
+
+                      resetRequest();
+                    }}
                     size={options.buttonGroup.size}
                     data-testid={TEST_IDS.panel.buttonReset}
                   >
@@ -994,37 +1002,68 @@ export const FormPanel: React.FC<Props> = ({
         body={
           <div data-testid={TEST_IDS.panel.confirmModalContent}>
             <h4>{options.confirmModal.body}</h4>
-            <table className={styles.confirmTable}>
-              <thead>
-                <tr className={styles.confirmTable}>
-                  <td className={styles.confirmTableTd}>
-                    <b>{options.confirmModal.columns.name}</b>
-                  </td>
-                  <td className={styles.confirmTableTd}>
-                    <b>{options.confirmModal.columns.oldValue}</b>
-                  </td>
-                  <td className={styles.confirmTableTd}>
-                    <b>{options.confirmModal.columns.newValue}</b>
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                {elements.map((element: FormElement) => {
-                  if (element.value === initial[element.id]) {
-                    return;
-                  }
+            {options.layout.variant !== LayoutVariant.NONE && (
+              <table className={styles.confirmTable}>
+                <thead>
+                  <tr className={styles.confirmTable}>
+                    <td className={styles.confirmTableTd}>
+                      <b>{options.confirmModal.columns.name}</b>
+                    </td>
+                    <td className={styles.confirmTableTd}>
+                      <b>{options.confirmModal.columns.oldValue}</b>
+                    </td>
+                    <td className={styles.confirmTableTd}>
+                      <b>{options.confirmModal.columns.newValue}</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {elements.map((element: FormElement) => {
+                    if (element.value === initial[element.id]) {
+                      return;
+                    }
 
-                  /**
-                   * Skip Disabled elements, which can be updated in the custom code as previous values
-                   */
-                  if (element.type === FormElementType.DISABLED) {
-                    return;
-                  }
+                    /**
+                     * Skip Disabled elements, which can be updated in the custom code as previous values
+                     */
+                    if (element.type === FormElementType.DISABLED) {
+                      return;
+                    }
 
-                  /**
-                   * Skip Password elements
-                   */
-                  if (element.type === FormElementType.PASSWORD) {
+                    /**
+                     * Skip Password elements
+                     */
+                    if (element.type === FormElementType.PASSWORD) {
+                      return (
+                        <tr
+                          className={styles.confirmTable}
+                          key={element.id}
+                          data-testid={TEST_IDS.panel.confirmModalField(element.id)}
+                        >
+                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
+                            {element.title || element.tooltip}
+                          </td>
+                          <td
+                            className={styles.confirmTableTd}
+                            data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
+                          >
+                            *********
+                          </td>
+                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
+                            *********
+                          </td>
+                        </tr>
+                      );
+                    }
+
+                    let currentValue = element.value;
+                    /**
+                     * Convert DateTime object to ISO string
+                     */
+                    if (element.type === FormElementType.DATETIME) {
+                      currentValue = dateTime(element.value).toISOString();
+                    }
+
                     return (
                       <tr
                         className={styles.confirmTable}
@@ -1038,43 +1077,17 @@ export const FormPanel: React.FC<Props> = ({
                           className={styles.confirmTableTd}
                           data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
                         >
-                          *********
+                          {initial[element.id] === undefined ? '' : String(initial[element.id])}
                         </td>
                         <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                          *********
+                          {currentValue === undefined ? '' : String(currentValue)}
                         </td>
                       </tr>
                     );
-                  }
-
-                  let currentValue = element.value;
-                  /**
-                   * Convert DateTime object to ISO string
-                   */
-                  if (element.type === FormElementType.DATETIME) {
-                    currentValue = dateTime(element.value).toISOString();
-                  }
-
-                  return (
-                    <tr
-                      className={styles.confirmTable}
-                      key={element.id}
-                      data-testid={TEST_IDS.panel.confirmModalField(element.id)}
-                    >
-                      <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
-                        {element.title || element.tooltip}
-                      </td>
-                      <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}>
-                        {initial[element.id] === undefined ? '' : String(initial[element.id])}
-                      </td>
-                      <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                        {currentValue === undefined ? '' : String(currentValue)}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  })}
+                </tbody>
+              </table>
+            )}
           </div>
         }
         confirmText={options.confirmModal.confirm}
@@ -1084,6 +1097,18 @@ export const FormPanel: React.FC<Props> = ({
         }}
         onDismiss={() => setUpdateConfirmation(false)}
         dismissText={options.confirmModal.cancel}
+      />
+
+      <ConfirmModal
+        isOpen={resetConfirmation}
+        title="Confirm reset values"
+        body={<div data-testid={TEST_IDS.panel.resetConfirmModal}>Please confirm to reset values</div>}
+        confirmText="Confirm"
+        onConfirm={() => {
+          resetRequest();
+          setResetConfirmation(false);
+        }}
+        onDismiss={() => setResetConfirmation(false)}
       />
     </div>
   );

@@ -24,6 +24,8 @@ export const TEST_IDS = {
     confirmModalFieldTitle: `data-testid panel confirm-modal-content field field-title`,
     confirmModalFieldPreviousValue: `data-testid panel confirm-modal-content field field-previous-value`,
     confirmModalFieldValue: `data-testid panel confirm-modal-content field field-value`,
+    resetConfirmModal: 'data-testid panel reset-confirm-modal',
+    buttonConfirmReset: selectors.pages.ConfirmModal.delete,
   },
   customCodeEditor: {
     root: 'data-testid custom-code-editor',
