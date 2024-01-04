@@ -642,6 +642,17 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         defaultValue: UPDATE_CODE_DEFAULT,
         showIf: (config) =>
           config.reset.variant !== ButtonVariant.HIDDEN && config.resetAction.mode === ResetActionMode.DATASOURCE,
+      })
+      .addRadio({
+        path: 'resetAction.confirm',
+        name: 'Confirmation Window',
+        description: 'Ask to reset values.',
+        category: ['Reset Request'],
+        settings: {
+          options: BOOLEAN_OPTIONS,
+        },
+        defaultValue: false,
+        showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
       });
 
     /**

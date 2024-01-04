@@ -79,6 +79,7 @@ export const FormPanel: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [initial, setInitial] = useState<{ [id: string]: unknown }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
+  const [resetConfirmation, setResetConfirmation] = useState(false);
   const [isInitialized, setInitialized] = useState(false);
 
   /**
@@ -954,7 +955,14 @@ export const FormPanel: React.FC<Props> = ({
                         : {}
                     }
                     disabled={!!loading || !resetEnabled}
-                    onClick={resetRequest}
+                    onClick={() => {
+                      if (options.resetAction.confirm) {
+                        setResetConfirmation(true);
+                        return;
+                      }
+
+                      resetRequest();
+                    }}
                     size={options.buttonGroup.size}
                     data-testid={TEST_IDS.panel.buttonReset}
                   >
@@ -1084,6 +1092,18 @@ export const FormPanel: React.FC<Props> = ({
         }}
         onDismiss={() => setUpdateConfirmation(false)}
         dismissText={options.confirmModal.cancel}
+      />
+
+      <ConfirmModal
+        isOpen={resetConfirmation}
+        title="Confirm reset values"
+        body={<div data-testid={TEST_IDS.panel.resetConfirmModal}>Please confirm to reset values</div>}
+        confirmText="Confirm"
+        onConfirm={() => {
+          resetRequest();
+          setResetConfirmation(false);
+        }}
+        onDismiss={() => setResetConfirmation(false)}
       />
     </div>
   );
