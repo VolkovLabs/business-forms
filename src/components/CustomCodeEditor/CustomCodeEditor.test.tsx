@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { CODE_EDITOR_SUGGESTIONS } from '../../constants';
+import { CodeEditorType } from '../../types';
 import { getCustomCodeEditorSelectors } from '../../utils';
 import { CustomCodeEditor } from './CustomCodeEditor';
 
@@ -177,7 +178,8 @@ describe('Custom Code Editor', () => {
       getComponent({
         item: {
           settings: {
-            suggestions: true,
+            type: CodeEditorType.REQUEST,
+            variablesSuggestions: true,
           },
         },
       })
@@ -186,7 +188,7 @@ describe('Custom Code Editor', () => {
     /**
      * Check if suggestions are correct
      */
-    expect(suggestionsResult).toEqual(expect.arrayContaining(CODE_EDITOR_SUGGESTIONS));
+    expect(suggestionsResult).toEqual(expect.arrayContaining(CODE_EDITOR_SUGGESTIONS.request));
     expect(suggestionsResult).toEqual(
       expect.arrayContaining([
         {
@@ -207,7 +209,7 @@ describe('Custom Code Editor', () => {
     );
   });
 
-  it('Should skip adding suggestions', () => {
+  it('Should not add suggestions', () => {
     let suggestionsResult;
     const variableWithDescription = { name: 'var1', description: 'Var description', label: 'Var Label' };
     const variableWithoutDescription = { name: 'var2', description: '', label: 'Var 2' };
@@ -229,7 +231,9 @@ describe('Custom Code Editor', () => {
      */
     render(
       getComponent({
-        item: {},
+        item: {
+          settings: {},
+        },
       })
     );
 

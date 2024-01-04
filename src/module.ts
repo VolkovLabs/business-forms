@@ -41,7 +41,7 @@ import {
   UPDATE_REQUEST_METHOD_OPTIONS,
 } from './constants';
 import { getMigratedOptions } from './migration';
-import { ButtonOrientation, ButtonSize, ButtonVariant, CodeLanguage, PanelOptions, RequestOptions } from './types';
+import { ButtonOrientation, ButtonSize, ButtonVariant, CodeEditorType, PanelOptions, RequestOptions } from './types';
 
 /**
  * Panel Plugin
@@ -140,6 +140,10 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       category: ['Form Events'],
       description: 'Code to run when element value changed',
       editor: CustomCodeEditor,
+      settings: {
+        type: CodeEditorType.ELEMENT_VALUE_CHANGED,
+        variablesSuggestions: true,
+      },
       showIf: (config) => config.layout.variant !== LayoutVariant.NONE,
       defaultValue: '',
     });
@@ -213,8 +217,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Initial Request'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
-          suggestions: true,
+          type: CodeEditorType.REQUEST,
+          variablesSuggestions: true,
         },
         defaultValue: INITIAL_CODE_DEFAULT,
         showIf: (config) => !isRequestConfigured(config.initial),
@@ -227,8 +231,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Initial Request'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
-          suggestions: true,
+          type: CodeEditorType.REQUEST,
+          variablesSuggestions: true,
         },
         defaultValue: INITIAL_CODE_DEFAULT,
         showIf: (config) => isRequestConfigured(config.initial),
@@ -245,7 +249,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       editor: CustomCodeEditor,
       category: ['Initial Request Payload'],
       settings: {
-        language: CodeLanguage.JAVASCRIPT,
+        type: CodeEditorType.GET_PAYLOAD,
+        variablesSuggestions: true,
       },
       defaultValue: INITIAL_PAYLOAD_DEFAULT,
       showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
@@ -336,7 +341,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Update Request'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
+          type: CodeEditorType.REQUEST,
+          variablesSuggestions: true,
         },
         defaultValue: UPDATE_CODE_DEFAULT,
         showIf: (config) => isRequestConfigured(config.update),
@@ -349,7 +355,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Update Request'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
+          type: CodeEditorType.REQUEST,
+          variablesSuggestions: true,
         },
         defaultValue: UPDATE_CODE_DEFAULT,
         showIf: (config) => !isRequestConfigured(config.update),
@@ -378,7 +385,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Update Request Payload'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
+          type: CodeEditorType.GET_PAYLOAD,
+          variablesSuggestions: true,
         },
         defaultValue: UPDATE_PAYLOAD_DEFAULT,
         showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
@@ -614,7 +622,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Reset Request'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
+          type: CodeEditorType.REQUEST,
+          variablesSuggestions: true,
         },
         defaultValue: RESET_CODE_DEFAULT,
         showIf: (config) =>
@@ -637,7 +646,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         editor: CustomCodeEditor,
         category: ['Reset Request'],
         settings: {
-          language: CodeLanguage.JAVASCRIPT,
+          type: CodeEditorType.REQUEST,
+          variablesSuggestions: true,
         },
         defaultValue: UPDATE_CODE_DEFAULT,
         showIf: (config) =>
@@ -666,7 +676,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       editor: CustomCodeEditor,
       category: ['Reset Request Payload'],
       settings: {
-        language: CodeLanguage.JAVASCRIPT,
+        type: CodeEditorType.GET_PAYLOAD,
+        variablesSuggestions: true,
       },
       defaultValue: INITIAL_PAYLOAD_DEFAULT,
       showIf: (config) =>
