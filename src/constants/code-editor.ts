@@ -175,6 +175,11 @@ const BASE_CONTEXT_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     detail: 'Grafana properties and methods.',
   },
   {
+    label: 'context.grafana.backendService',
+    kind: CodeEditorSuggestionItemKind.Property,
+    detail: 'Backend service.',
+  },
+  {
     label: 'context.grafana.locationService',
     kind: CodeEditorSuggestionItemKind.Property,
     detail: 'Location service.',
@@ -224,6 +229,11 @@ const BASE_CONTEXT_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Method,
     detail: 'Parse the results from /api/ds/query.',
   },
+  {
+    label: 'context.utils.fileToBase64',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Converts File to Base64 string.',
+  },
 ];
 
 /**
@@ -248,6 +258,11 @@ export const CODE_EDITOR_SUGGESTIONS: Record<CodeEditorType, CodeEditorSuggestio
       label: 'initial',
       kind: CodeEditorSuggestionItemKind.Property,
       detail: 'Parsed values from the Initial Request.',
+    },
+    {
+      label: 'fileToBase64',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Converts File to Base64 string.',
     },
   ],
 
