@@ -259,11 +259,12 @@ export const CODE_EDITOR_SUGGESTIONS: Record<CodeEditorType, CodeEditorSuggestio
       kind: CodeEditorSuggestionItemKind.Property,
       detail: 'Parsed values from the Initial Request.',
     },
-    {
-      label: 'fileToBase64',
-      kind: CodeEditorSuggestionItemKind.Method,
-      detail: 'Converts File to Base64 string.',
-    },
+    /**
+     * Context
+     */
+    ...BASE_CONTEXT_SUGGESTIONS.filter((item) =>
+      ['context', 'context.panel.elements', 'context.panel.initial', 'context.utils.fileToBase64'].includes(item.label)
+    ),
   ],
 
   /**
@@ -327,6 +328,16 @@ export const CODE_EDITOR_SUGGESTIONS: Record<CodeEditorType, CodeEditorSuggestio
       kind: CodeEditorSuggestionItemKind.Method,
       detail: 'Interpolate variables.',
     },
+
+    /**
+     * Context
+     */
+    ...BASE_CONTEXT_SUGGESTIONS.filter((item) => ['context', 'context.panel.elements'].includes(item.label)),
+    {
+      label: 'context.grafana.replaceVariables',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Interpolate variables.',
+    },
   ],
 
   /**
@@ -340,6 +351,16 @@ export const CODE_EDITOR_SUGGESTIONS: Record<CodeEditorType, CodeEditorSuggestio
     },
     {
       label: 'replaceVariables',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Interpolate variables.',
+    },
+
+    /**
+     * Context
+     */
+    ...BASE_CONTEXT_SUGGESTIONS.filter((item) => ['context', 'context.panel.elements'].includes(item.label)),
+    {
+      label: 'context.grafana.replaceVariables',
       kind: CodeEditorSuggestionItemKind.Method,
       detail: 'Interpolate variables.',
     },
@@ -361,6 +382,14 @@ export const CODE_EDITOR_SUGGESTIONS: Record<CodeEditorType, CodeEditorSuggestio
     },
     {
       label: 'replaceVariables',
+      kind: CodeEditorSuggestionItemKind.Method,
+      detail: 'Interpolate variables.',
+    },
+    ...BASE_CONTEXT_SUGGESTIONS.filter((item) =>
+      ['context', 'context.panel.data', 'context.panel.elements'].includes(item.label)
+    ),
+    {
+      label: 'context.grafana.replaceVariables',
       kind: CodeEditorSuggestionItemKind.Method,
       detail: 'Interpolate variables.',
     },

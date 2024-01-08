@@ -21,9 +21,17 @@ export const getPayloadForRequest = async ({
     /**
      * Get Payload Code Execution
      */
-    const getPayloadFn = new Function('elements', 'initial', 'fileToBase64', replaceVariables(request.getPayload));
+    const getPayloadFn = new Function('elements', 'initial', 'context', replaceVariables(request.getPayload));
 
-    return getPayloadFn(elements, initial, fileToBase64) as unknown;
+    return getPayloadFn(elements, initial, {
+      panel: {
+        elements,
+        initial,
+      },
+      utils: {
+        fileToBase64,
+      },
+    }) as unknown;
   }
 
   /**
