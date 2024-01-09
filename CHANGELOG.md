@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.6.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add backend service to custom code (#331)
+- Add support for file base64 encoding in payload (#331)
+
 ## 3.5.0 (2023-01-04)
 
 ### Features / Enhancements
