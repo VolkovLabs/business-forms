@@ -13,6 +13,7 @@ import {
 import {
   FetchResponse,
   getAppEvents,
+  getBackendSrv,
   getTemplateSrv,
   locationService,
   RefreshEvent,
@@ -45,6 +46,7 @@ import { useDatasourceRequest, useFormElements } from '../../hooks';
 import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../../types';
 import {
   convertToElementValue,
+  fileToBase64,
   getButtonVariant,
   getFieldValues,
   getInitialValuesMap,
@@ -265,6 +267,7 @@ export const FormPanel: React.FC<Props> = ({
             eventBus,
             appEvents,
             refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+            backendService: getBackendSrv(),
           },
           panel: {
             options,
@@ -279,6 +282,7 @@ export const FormPanel: React.FC<Props> = ({
           },
           utils: {
             toDataQueryResponse,
+            fileToBase64,
           },
         }
       );
@@ -356,7 +360,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Run Datasource Query
        */
-      const body = getPayloadForRequest({
+      const body = await getPayloadForRequest({
         request: {
           ...options.initial,
           payloadMode: PayloadMode.CUSTOM,
@@ -532,7 +536,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const payload = getPayloadForRequest({
+    const payload = await getPayloadForRequest({
       request: {
         datasource: options.resetAction.datasource,
         payloadMode: PayloadMode.CUSTOM,
@@ -614,7 +618,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Set payload
      */
-    const payload = getPayloadForRequest({
+    const payload = await getPayloadForRequest({
       request: options.update,
       elements,
       initial,

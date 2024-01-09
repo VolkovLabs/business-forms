@@ -221,23 +221,38 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
 
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = new Function('elements', 'replaceVariables', showIf);
+    const fn = new Function('elements', 'replaceVariables', 'context', showIf);
     showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
-      fn(elements, replaceVariables);
+      fn(elements, replaceVariables, {
+        panel: {
+          elements,
+        },
+        grafana: {
+          replaceVariables,
+        },
+      });
   }
 
   const disableIf = element.disableIf;
 
   let disableIfFn: DisableIfHelper = () => false;
   if (disableIf || disableIf?.trim()) {
-    const fn = new Function('elements', 'replaceVariables', disableIf);
+    const fn = new Function('elements', 'replaceVariables', 'context', disableIf);
     disableIfFn = ({
       elements,
       replaceVariables,
     }: {
       elements: FormElement[];
       replaceVariables: InterpolateFunction;
-    }) => fn(elements, replaceVariables);
+    }) =>
+      fn(elements, replaceVariables, {
+        panel: {
+          elements,
+        },
+        grafana: {
+          replaceVariables,
+        },
+      });
   }
 
   let getOptions: GetOptionsHelper = () => [];
@@ -272,7 +287,7 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         }));
       };
     } else if (element.optionsSource === OptionsSource.CODE) {
-      const fn = new Function('data', 'elements', 'replaceVariables', element.getOptions || 'return []');
+      const fn = new Function('data', 'elements', 'replaceVariables', 'context', element.getOptions || 'return []');
       getOptions = ({
         data,
         elements,
@@ -281,7 +296,16 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         data: PanelData;
         elements: FormElement[];
         replaceVariables: InterpolateFunction;
-      }) => fn(data, elements, replaceVariables);
+      }) =>
+        fn(data, elements, replaceVariables, {
+          panel: {
+            data,
+            elements,
+          },
+          grafana: {
+            replaceVariables,
+          },
+        });
     } else {
       getOptions = () => element.options || [];
     }

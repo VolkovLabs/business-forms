@@ -6,7 +6,7 @@ import { LocalFormElement, RequestOptions } from '../types';
 /**
  * Get Payload For Request
  */
-export const getPayloadForRequest = ({
+export const getPayloadForRequest = async ({
   request,
   elements,
   initial,
@@ -21,9 +21,17 @@ export const getPayloadForRequest = ({
     /**
      * Get Payload Code Execution
      */
-    const getPayloadFn = new Function('elements', 'initial', replaceVariables(request.getPayload));
+    const getPayloadFn = new Function('elements', 'initial', 'context', replaceVariables(request.getPayload));
 
-    return getPayloadFn(elements, initial) as unknown;
+    return getPayloadFn(elements, initial, {
+      panel: {
+        elements,
+        initial,
+      },
+      utils: {
+        fileToBase64,
+      },
+    }) as unknown;
   }
 
   /**
@@ -70,7 +78,7 @@ export const getPayloadForRequest = ({
  * @param file
  * @constructor
  */
-const fileToBase64 = (file: File): Promise<string> => {
+export const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
 

@@ -33,9 +33,9 @@ describe('Request Utils', () => {
       },
     ];
 
-    it('Should return values for all elements', () => {
+    it('Should return values for all elements', async () => {
       expect(
-        getPayloadForRequest({
+        await getPayloadForRequest({
           elements,
           initial: {},
           request: {
@@ -50,9 +50,9 @@ describe('Request Utils', () => {
       });
     });
 
-    it('Should return values for updated elements', () => {
+    it('Should return values for updated elements', async () => {
       expect(
-        getPayloadForRequest({
+        await getPayloadForRequest({
           elements,
           initial: {
             age: 30,
@@ -67,9 +67,9 @@ describe('Request Utils', () => {
       });
     });
 
-    it('Should return values from getPayload execution', () => {
+    it('Should return values from getPayload execution', async () => {
       expect(
-        getPayloadForRequest({
+        await getPayloadForRequest({
           elements,
           initial: {
             role: 'admin',
