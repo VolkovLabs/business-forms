@@ -10,7 +10,7 @@
 
 ### Bugfixes
 
-- Fix element custom options source ()
+- Fix element custom options source (#334)
 
 ## 3.5.0 (2023-01-04)
 
