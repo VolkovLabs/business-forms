@@ -8,6 +8,10 @@
 - Add support for file base64 encoding in payload (#331)
 - Add Context parameter to Payload (#331)
 
+### Bugfixes
+
+- Fix element custom options source ()
+
 ## 3.5.0 (2023-01-04)
 
 ### Features / Enhancements

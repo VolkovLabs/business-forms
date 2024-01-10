@@ -547,23 +547,22 @@ export const ElementEditor: React.FC<Props> = ({
               />
             </Field>
           )}
-          {element.optionsSource === OptionsSource.CUSTOM ||
-            (!element.optionsSource && (
-              <div className={styles.optionsContainer} data-testid={TEST_IDS.formElementsEditor.options}>
-                <ElementOptionsEditor
-                  options={element.options}
-                  onChange={(options) =>
-                    onChange({
-                      ...element,
-                      options,
-                    })
-                  }
-                  onChangeItem={(updated, original, checkConflict) => {
-                    return onChangeOption(element, updated, original, checkConflict);
-                  }}
-                />
-              </div>
-            ))}
+          {(element.optionsSource === OptionsSource.CUSTOM || !element.optionsSource) && (
+            <div className={styles.optionsContainer} data-testid={TEST_IDS.formElementsEditor.options}>
+              <ElementOptionsEditor
+                options={element.options}
+                onChange={(options) =>
+                  onChange({
+                    ...element,
+                    options,
+                  })
+                }
+                onChangeItem={(updated, original, checkConflict) => {
+                  return onChangeOption(element, updated, original, checkConflict);
+                }}
+              />
+            </div>
+          )}
         </>
       )}
 
