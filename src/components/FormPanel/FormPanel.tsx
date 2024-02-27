@@ -43,7 +43,7 @@ import {
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest, useFormElements } from '../../hooks';
-import { ButtonVariant, FormElement, LocalFormElement, PanelOptions } from '../../types';
+import { ButtonVariant, FormElement, LocalFormElement, PanelOptions, UpdateEnabledMode } from '../../types';
 import {
   convertToElementValue,
   fileToBase64,
@@ -88,7 +88,7 @@ export const FormPanel: React.FC<Props> = ({
    * Controlled form state
    */
   const [resetEnabled, setResetEnabled] = useState(true);
-  const [submitEnabled, setSubmitEnabled] = useState(true);
+  const [submitEnabled, setSubmitEnabled] = useState(false);
   const [saveDefaultEnabled, setSaveDefaultEnabled] = useState(true);
 
   /**
@@ -279,6 +279,8 @@ export const FormPanel: React.FC<Props> = ({
             initial,
             initialRequest,
             response,
+            enableSubmit: () => setSubmitEnabled(true),
+            disableSubmit: () => setSubmitEnabled(false),
           },
           utils: {
             toDataQueryResponse,
@@ -750,6 +752,21 @@ export const FormPanel: React.FC<Props> = ({
   }, [elements, initial]);
 
   /**
+   * Is Submit Disabled
+   */
+  const isSubmitDisabled = useMemo(() => {
+    if (loading) {
+      return true;
+    }
+
+    if (options.updateEnabled === UpdateEnabledMode.AUTO) {
+      return !isUpdated && options.layout.variant !== LayoutVariant.NONE;
+    }
+
+    return !submitEnabled;
+  }, [isUpdated, loading, options.layout.variant, options.updateEnabled, submitEnabled]);
+
+  /**
    * On Element Value Changed
    */
   const onElementValueChanged = useCallback(
@@ -912,36 +929,36 @@ export const FormPanel: React.FC<Props> = ({
           <tr>
             <td colSpan={options.layout?.sections?.length}>
               <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
-                <Button
-                  className={cx(styles.margin)}
-                  variant={getButtonVariant(options.submit.variant)}
-                  icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
-                  title={title}
-                  style={
-                    options.submit.variant === ButtonVariant.CUSTOM
-                      ? {
-                          background: 'none',
-                          border: 'none',
-                          backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
-                          color: theme.visualization.getColorByName(options.submit.foregroundColor),
-                        }
-                      : {}
-                  }
-                  disabled={
-                    !!loading || (!isUpdated && options.layout.variant !== LayoutVariant.NONE) || !submitEnabled
-                  }
-                  onClick={
-                    options.update.confirm
-                      ? () => {
-                          setUpdateConfirmation(true);
-                        }
-                      : updateRequest
-                  }
-                  size={options.buttonGroup.size}
-                  data-testid={TEST_IDS.panel.buttonSubmit}
-                >
-                  {options.submit.text}
-                </Button>
+                {options.updateEnabled !== UpdateEnabledMode.DISABLED && (
+                  <Button
+                    className={cx(styles.margin)}
+                    variant={getButtonVariant(options.submit.variant)}
+                    icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
+                    title={title}
+                    style={
+                      options.submit.variant === ButtonVariant.CUSTOM
+                        ? {
+                            background: 'none',
+                            border: 'none',
+                            backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
+                            color: theme.visualization.getColorByName(options.submit.foregroundColor),
+                          }
+                        : {}
+                    }
+                    disabled={isSubmitDisabled}
+                    onClick={
+                      options.update.confirm
+                        ? () => {
+                            setUpdateConfirmation(true);
+                          }
+                        : updateRequest
+                    }
+                    size={options.buttonGroup.size}
+                    data-testid={TEST_IDS.panel.buttonSubmit}
+                  >
+                    {options.submit.text}
+                  </Button>
+                )}
 
                 {options.reset.variant !== ButtonVariant.HIDDEN && (
                   <Button

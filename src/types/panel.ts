@@ -5,6 +5,15 @@ import { ModalOptions } from './modal';
 import { RequestOptions, ResetAction } from './request';
 
 /**
+ * Update Enabled Mode
+ */
+export enum UpdateEnabledMode {
+  DISABLED = 'disabled',
+  AUTO = 'auto',
+  MANUAL = 'manual',
+}
+
+/**
  * Panel Options
  */
 export interface PanelOptions {
@@ -20,6 +29,13 @@ export interface PanelOptions {
    * @type {RequestOptions}
    */
   initial: RequestOptions;
+
+  /**
+   * Update Enabled
+   *
+   * @type {UpdateEnabledMode}
+   */
+  updateEnabled: UpdateEnabledMode;
 
   /**
    * Update Values

@@ -37,11 +37,20 @@ import {
   SAVE_DEFAULT_BUTTON_DEFAULT,
   SUBMIT_BUTTON_DEFAULT,
   UPDATE_CODE_DEFAULT,
+  UPDATE_ENABLED_OPTIONS,
   UPDATE_PAYLOAD_DEFAULT,
   UPDATE_REQUEST_METHOD_OPTIONS,
 } from './constants';
 import { getMigratedOptions } from './migration';
-import { ButtonOrientation, ButtonSize, ButtonVariant, CodeEditorType, PanelOptions, RequestOptions } from './types';
+import {
+  ButtonOrientation,
+  ButtonSize,
+  ButtonVariant,
+  CodeEditorType,
+  PanelOptions,
+  RequestOptions,
+  UpdateEnabledMode,
+} from './types';
 
 /**
  * Panel Plugin
@@ -286,6 +295,15 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
      * Update Request
      */
     builder
+      .addRadio({
+        path: 'updateEnabled',
+        name: 'Enable Update',
+        category: ['Update Request'],
+        settings: {
+          options: UPDATE_ENABLED_OPTIONS,
+        },
+        defaultValue: UpdateEnabledMode.AUTO,
+      })
       .addRadio({
         path: 'update.method',
         name: 'Update Action',
