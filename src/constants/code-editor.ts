@@ -165,6 +165,16 @@ const BASE_CONTEXT_SUGGESTIONS: CodeEditorSuggestionItem[] = [
     kind: CodeEditorSuggestionItemKind.Property,
     detail: 'Response object.',
   },
+  {
+    label: 'context.panel.enableSubmit',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Enable submit button.',
+  },
+  {
+    label: 'context.panel.disableSubmit',
+    kind: CodeEditorSuggestionItemKind.Method,
+    detail: 'Disable submit button.',
+  },
 
   /**
    * Grafana
