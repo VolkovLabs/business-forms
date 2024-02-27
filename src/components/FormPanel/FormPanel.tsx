@@ -42,7 +42,7 @@ import {
   ResetActionMode,
   TEST_IDS,
 } from '../../constants';
-import { useDatasourceRequest, useFormElements } from '../../hooks';
+import { useDatasourceRequest, useFormElements, useMutableState } from '../../hooks';
 import { ButtonVariant, FormElement, LocalFormElement, PanelOptions, UpdateEnabledMode } from '../../types';
 import {
   convertToElementValue,
@@ -79,7 +79,7 @@ export const FormPanel: React.FC<Props> = ({
   const [loading, setLoading] = useState<LoadingMode>(LoadingMode.INITIAL);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
-  const [initial, setInitial] = useState<{ [id: string]: unknown }>({});
+  const [initial, setInitial, initialRef] = useMutableState<{ [id: string]: unknown }>({});
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
   const [resetConfirmation, setResetConfirmation] = useState(false);
   const [isInitialized, setInitialized] = useState(false);
@@ -126,6 +126,7 @@ export const FormPanel: React.FC<Props> = ({
     onChangeElements,
     onSaveUpdates,
     eventBus: elementsEventBus,
+    elementsRef,
   } = useFormElements({
     onChange: onChangeOptions,
     value: options.elements,
@@ -168,7 +169,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Get elements values
        */
-      return elements.map((element): LocalFormElement => {
+      return elementsRef.current.map((element): LocalFormElement => {
         const fieldConfig = sourceType === RequestMethod.QUERY ? element.queryField : { value: element.fieldName };
         const field = frames
           .filter((frame) => (fieldConfig?.refId ? frame.refId === fieldConfig.refId : true))
@@ -192,113 +193,131 @@ export const FormPanel: React.FC<Props> = ({
         return element;
       });
     },
-    [elements]
+    [elementsRef]
   );
 
   /**
    * Execute Custom Code
    */
-  const executeCustomCode = async ({
-    code,
-    initial,
-    response,
-    initialRequest,
-    currentElements,
-  }: {
-    code: string;
-    initial: unknown;
-    response?: FetchResponse | Response | null;
-    initialRequest?: () => void;
-    currentElements?: LocalFormElement[];
-  }) => {
-    if (!code) {
-      return;
-    }
-
-    /**
-     * Function
-     */
-    const f = new Function(
-      'options',
-      'data',
-      'response',
-      'elements',
-      'onChange',
-      'locationService',
-      'templateService',
-      'onOptionsChange',
-      'initialRequest',
-      'setInitial',
-      'json',
-      'initial',
-      'notifyError',
-      'notifySuccess',
-      'notifyWarning',
-      'toDataQueryResponse',
-      'context',
-      replaceVariables(code)
-    );
-
-    try {
-      await f(
-        options,
-        data,
-        response,
-        currentElements || elements,
-        onChangeElements,
-        locationService,
-        templateSrv,
-        onOptionsChange,
-        initialRequest,
-        setInitial,
-        initial,
-        initial,
-        notifyError,
-        notifySuccess,
-        notifyWarning,
-        toDataQueryResponse,
-        {
-          grafana: {
-            locationService,
-            templateService: templateSrv,
-            notifyError,
-            notifySuccess,
-            notifyWarning,
-            eventBus,
-            appEvents,
-            refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
-            backendService: getBackendSrv(),
-          },
-          panel: {
-            options,
-            data,
-            onOptionsChange,
-            elements: currentElements || elements,
-            onChangeElements,
-            setInitial,
-            initial,
-            initialRequest,
-            response,
-            enableSubmit: () => setSubmitEnabled(true),
-            disableSubmit: () => setSubmitEnabled(false),
-          },
-          utils: {
-            toDataQueryResponse,
-            fileToBase64,
-          },
-        }
-      );
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.toString());
+  const executeCustomCode = useCallback(
+    async ({
+      code,
+      initial,
+      response,
+      initialRequest,
+      currentElements,
+    }: {
+      code: string;
+      initial: unknown;
+      response?: FetchResponse | Response | null;
+      initialRequest?: () => void;
+      currentElements?: LocalFormElement[];
+    }) => {
+      if (!code) {
+        return;
       }
-    }
-  };
+
+      /**
+       * Function
+       */
+      const f = new Function(
+        'options',
+        'data',
+        'response',
+        'elements',
+        'onChange',
+        'locationService',
+        'templateService',
+        'onOptionsChange',
+        'initialRequest',
+        'setInitial',
+        'json',
+        'initial',
+        'notifyError',
+        'notifySuccess',
+        'notifyWarning',
+        'toDataQueryResponse',
+        'context',
+        replaceVariables(code)
+      );
+
+      try {
+        await f(
+          options,
+          data,
+          response,
+          currentElements || elementsRef.current,
+          onChangeElements,
+          locationService,
+          templateSrv,
+          onOptionsChange,
+          initialRequest,
+          setInitial,
+          initialRef.current,
+          initialRef.current,
+          notifyError,
+          notifySuccess,
+          notifyWarning,
+          toDataQueryResponse,
+          {
+            grafana: {
+              locationService,
+              templateService: templateSrv,
+              notifyError,
+              notifySuccess,
+              notifyWarning,
+              eventBus,
+              appEvents,
+              refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+              backendService: getBackendSrv(),
+            },
+            panel: {
+              options,
+              data,
+              onOptionsChange,
+              elements: currentElements || elementsRef.current,
+              onChangeElements,
+              setInitial,
+              initial,
+              initialRequest,
+              response,
+              enableSubmit: () => setSubmitEnabled(true),
+              disableSubmit: () => setSubmitEnabled(false),
+            },
+            utils: {
+              toDataQueryResponse,
+              fileToBase64,
+            },
+          }
+        );
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.toString());
+        }
+      }
+    },
+    [
+      replaceVariables,
+      options,
+      data,
+      elementsRef,
+      onChangeElements,
+      templateSrv,
+      onOptionsChange,
+      setInitial,
+      initialRef,
+      notifyError,
+      notifySuccess,
+      notifyWarning,
+      eventBus,
+      appEvents,
+    ]
+  );
 
   /**
    * Initial Request
    */
-  const initialRequest = async () => {
+  const initialRequest = useCallback(async () => {
     /**
      * Clear Error
      */
@@ -309,10 +328,10 @@ export const FormPanel: React.FC<Props> = ({
      */
     setLoading(LoadingMode.INITIAL);
 
-    let currentElements = elements;
+    let currentElements = elementsRef.current;
 
     if (
-      !elements.length ||
+      !elementsRef.current.length ||
       options.initial.method === RequestMethod.NONE ||
       options.initial.method === RequestMethod.QUERY
     ) {
@@ -332,7 +351,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * No method specified
        */
-      await executeCustomCode({ code: options.initial.code, initial, currentElements });
+      await executeCustomCode({ code: options.initial.code, initial: initialRef.current, currentElements });
 
       /**
        * Reset Loading
@@ -367,8 +386,8 @@ export const FormPanel: React.FC<Props> = ({
           ...options.initial,
           payloadMode: PayloadMode.CUSTOM,
         },
-        elements,
-        initial,
+        elements: elementsRef.current,
+        initial: initialRef.current,
         replaceVariables,
       });
 
@@ -469,7 +488,7 @@ export const FormPanel: React.FC<Props> = ({
             };
           }, {}) || {};
 
-        currentElements = elements.map(
+        currentElements = elementsRef.current.map(
           (element): LocalFormElement => convertToElementValue(element, valuesMap[element.id])
         );
 
@@ -488,12 +507,24 @@ export const FormPanel: React.FC<Props> = ({
      */
     await executeCustomCode({ code: options.initial.code, initial: json, response, currentElements });
     setLoading(LoadingMode.NONE);
-  };
+  }, [
+    data.series,
+    datasourceRequest,
+    elementsRef,
+    executeCustomCode,
+    getElementsWithFieldValues,
+    initialRef,
+    onChangeElements,
+    options.elements,
+    options.initial,
+    replaceVariables,
+    setInitial,
+  ]);
 
   /**
    * Reset Request
    */
-  const resetRequest = async () => {
+  const resetRequest = useCallback(async () => {
     /**
      * Clear Error
      */
@@ -516,7 +547,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Execute Custom Code and reset Loading
        */
-      await executeCustomCode({ code: options.resetAction.code, initial });
+      await executeCustomCode({ code: options.resetAction.code, initial: initialRef.current });
       setLoading(LoadingMode.NONE);
     }
 
@@ -552,8 +583,8 @@ export const FormPanel: React.FC<Props> = ({
         highlightColor: '',
         confirm: false,
       },
-      elements,
-      initial,
+      elements: elementsRef.current,
+      initial: initialRef.current,
       replaceVariables,
     });
 
@@ -569,7 +600,7 @@ export const FormPanel: React.FC<Props> = ({
       return null;
     });
 
-    let currentElements = elements;
+    let currentElements = elementsRef.current;
     if (response && response.ok) {
       /**
        * Change Elements With Data Source Values
@@ -586,14 +617,27 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    await executeCustomCode({ code: options.resetAction.code, initial, response, currentElements });
+    await executeCustomCode({ code: options.resetAction.code, initial: initialRef.current, response, currentElements });
     setLoading(LoadingMode.NONE);
-  };
+  }, [
+    datasourceRequest,
+    elementsRef,
+    executeCustomCode,
+    getElementsWithFieldValues,
+    initialRef,
+    initialRequest,
+    onChangeElements,
+    options.resetAction.code,
+    options.resetAction.datasource,
+    options.resetAction.getPayload,
+    options.resetAction.mode,
+    replaceVariables,
+  ]);
 
   /**
    * Update Request
    */
-  const updateRequest = async () => {
+  const updateRequest = useCallback(async () => {
     /**
      * Clear Error
      */
@@ -611,7 +655,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Execute Custom Code and reset Loading
        */
-      await executeCustomCode({ code: options.update.code, initial, initialRequest });
+      await executeCustomCode({ code: options.update.code, initial: initialRef.current, initialRequest });
       setLoading(LoadingMode.NONE);
 
       return;
@@ -623,7 +667,7 @@ export const FormPanel: React.FC<Props> = ({
     const payload = await getPayloadForRequest({
       request: options.update,
       elements,
-      initial,
+      initial: initialRef.current,
       replaceVariables,
     });
 
@@ -701,9 +745,9 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Execute Custom Code and reset Loading
      */
-    await executeCustomCode({ code: options.update.code, initial, response, initialRequest });
+    await executeCustomCode({ code: options.update.code, initial: initialRef.current, response, initialRequest });
     setLoading(LoadingMode.NONE);
-  };
+  }, [datasourceRequest, elements, executeCustomCode, initialRef, initialRequest, options.update, replaceVariables]);
 
   /**
    * Execute Initial Request on dashboard or data update
@@ -735,8 +779,7 @@ export const FormPanel: React.FC<Props> = ({
     return () => {
       subscriber.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options.initial, data, options.sync, isInitialized, eventBus]);
+  }, [options.initial, options.sync, eventBus, data.state, isInitialized, initialRequest]);
 
   /**
    * Check updated values
@@ -791,7 +834,7 @@ export const FormPanel: React.FC<Props> = ({
           onOptionsChange,
           elements,
           onChangeElements,
-          initial,
+          initial: initialRef.current,
           setError,
           enableReset: () => setResetEnabled(true),
           disableReset: () => setResetEnabled(false),
@@ -809,7 +852,7 @@ export const FormPanel: React.FC<Props> = ({
       appEvents,
       data,
       eventBus,
-      initial,
+      initialRef,
       notifyError,
       notifySuccess,
       notifyWarning,
