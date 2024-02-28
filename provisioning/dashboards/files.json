@@ -299,9 +299,10 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "Screenshot 2024-02-27 at 13.43.21.png",
-          "value": "Screenshot 2024-02-27 at 13.43.21.png"
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "grafana-postgresql-datasource",
@@ -330,6 +331,6 @@
   "timezone": "",
   "title": "Files",
   "uid": "eaad38e5-abc9-4388-b061-97ef9f6d600b",
-  "version": 7,
+  "version": 8,
   "weekStart": ""
 }
