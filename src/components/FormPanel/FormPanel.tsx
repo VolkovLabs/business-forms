@@ -647,7 +647,13 @@ export const FormPanel: React.FC<Props> = ({
        * Set Content Type
        */
       const headers: HeadersInit = new Headers();
-      headers.set('Content-Type', options.update.contentType);
+
+      /**
+       * Browser should add header itself for form data content
+       */
+      if (options.update.contentType !== ContentType.FORMDATA) {
+        headers.set('Content-Type', options.update.contentType);
+      }
 
       /**
        * Set Header
