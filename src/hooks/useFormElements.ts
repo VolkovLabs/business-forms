@@ -10,6 +10,7 @@ import {
   ValueChangedEvent,
 } from '../utils';
 import { useAutoSave } from './useAutoSave';
+import { useMutableState } from './useMutableState';
 
 /**
  * Form Elements
@@ -32,7 +33,9 @@ export const useFormElements = ({
   /**
    * States
    */
-  const [elements, setElements] = useState<LocalFormElement[]>(normalizeElementsForLocalState(value));
+  const [elements, setElements, elementsRef] = useMutableState<LocalFormElement[]>(
+    normalizeElementsForLocalState(value)
+  );
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -47,16 +50,20 @@ export const useFormElements = ({
   /**
    * Change Elements
    */
-  const onChangeElements = useCallback((newElements: LocalFormElement[]) => {
-    setElements(newElements);
-    setIsChanged(true);
-  }, []);
+  const onChangeElements = useCallback(
+    (newElements: LocalFormElement[]) => {
+      setElements(newElements);
+      setIsChanged(true);
+    },
+    [setElements]
+  );
 
   /**
    * Change Element
    */
   const onChangeElement = useCallback(
     (updatedElement: LocalFormElement, checkConflict = false) => {
+      const elements = elementsRef.current;
       if (checkConflict && isElementConflict(elements, updatedElement)) {
         alert('Element with the same id and type exists.');
         return;
@@ -83,7 +90,7 @@ export const useFormElements = ({
         );
       }
     },
-    [elements, onChangeElements]
+    [elementsRef, onChangeElements]
   );
 
   /**
@@ -121,6 +128,7 @@ export const useFormElements = ({
    */
   const onElementRemove = useCallback(
     (uid: string) => {
+      const elements = elementsRef.current;
       const updated = elements.filter((e) => e.uid !== uid);
 
       /**
@@ -128,7 +136,7 @@ export const useFormElements = ({
        */
       onChangeElements(updated);
     },
-    [elements, onChangeElements]
+    [elementsRef, onChangeElements]
   );
 
   /**
@@ -137,7 +145,7 @@ export const useFormElements = ({
   useEffect(() => {
     setElements(normalizeElementsForLocalState(value));
     setIsChanged(false);
-  }, [value]);
+  }, [setElements, value]);
 
   /**
    * Auto Save Timer
@@ -166,5 +174,6 @@ export const useFormElements = ({
     onChangeElementOption,
     onElementRemove,
     eventBus: eventBus.current,
+    elementsRef,
   };
 };

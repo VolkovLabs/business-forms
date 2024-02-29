@@ -1,0 +1,762 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "if (context.element.id === 'facility') {\n  context.grafana.locationService.partial({\n    'var-facility': context.element.value,\n  });\n}\n\nif (context.element.id === 'room') {\n  context.grafana.locationService.partial({\n    'var-room': context.element.value,\n  });\n}\n\nif (context.element.id === 'bench') {\n  context.grafana.locationService.partial({\n    'var-bench': context.element.value,\n  });\n}\n\ncontext.panel.enableSubmit();",
+        "elements": [
+          {
+            "getOptions": "",
+            "id": "facility",
+            "labelWidth": 20,
+            "options": [],
+            "optionsSource": "Query",
+            "queryField": {
+              "label": "Initial Values:facility",
+              "refId": "Initial Values",
+              "value": "facility"
+            },
+            "queryOptions": {
+              "label": "label",
+              "source": "Facility Options",
+              "value": "value"
+            },
+            "section": "",
+            "showIf": "",
+            "title": "Facility Name",
+            "tooltip": "",
+            "type": "select",
+            "uid": "5b149377-ab7f-401a-be7c-f3aabf7ff7d2",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "room",
+            "labelWidth": 20,
+            "options": [],
+            "optionsSource": "Query",
+            "queryField": {
+              "label": "Initial Values:room",
+              "refId": "Initial Values",
+              "value": "room"
+            },
+            "queryOptions": {
+              "label": "label",
+              "source": "Room Options",
+              "value": "value"
+            },
+            "section": "",
+            "title": "Room Name",
+            "tooltip": "",
+            "type": "select",
+            "uid": "3faf7e1d-90a4-4269-9555-97d18abed23f",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "bench",
+            "labelWidth": 20,
+            "options": [],
+            "optionsSource": "Query",
+            "queryField": {
+              "label": "Initial Values:bench",
+              "refId": "Initial Values",
+              "value": "bench"
+            },
+            "queryOptions": {
+              "label": "label",
+              "source": "Bench Options",
+              "value": "value"
+            },
+            "section": "",
+            "title": "Bench Name",
+            "tooltip": "",
+            "type": "select",
+            "uid": "29b3bbbd-d00c-45b4-a8f9-1883b416af3b",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "",
+          "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query"
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "-",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "manual"
+      },
+      "pluginVersion": "3.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "facility1",
+                  "facility2",
+                  "facility3"
+                ]
+              },
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "facility1",
+                  "facility2",
+                  "facility3"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "facilities"
+          },
+          "hide": false,
+          "refId": "Facility Options"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "$facility-room1",
+                  "$facility-room2"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "$facility-room1",
+                  "$facility-room2"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "rooms"
+          },
+          "refId": "Room Options"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "$room-bench1",
+                  "$room-bench2"
+                ]
+              },
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "$room-bench1",
+                  "$room-bench2"
+                ]
+              }
+            ],
+            "meta": {}
+          },
+          "hide": false,
+          "refId": "Bench Options"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "facility",
+                "type": "string",
+                "values": [
+                  "$facility"
+                ]
+              },
+              {
+                "config": {},
+                "name": "room",
+                "type": "string",
+                "values": [
+                  "$room"
+                ]
+              },
+              {
+                "config": {},
+                "name": "bench",
+                "type": "string",
+                "values": [
+                  "$bench"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "values"
+          },
+          "hide": false,
+          "refId": "Initial Values"
+        }
+      ],
+      "title": "Variables only",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "if (context.element.id === 'facility') {\n  context.grafana.locationService.partial({\n    'var-facility': context.element.value,\n  });\n}\n\nif (context.element.id === 'room') {\n  context.grafana.locationService.partial({\n    'var-room': context.element.value,\n  });\n}\n\nif (context.element.id === 'bench') {\n  context.grafana.locationService.partial({\n    'var-bench': context.element.value,\n  });\n}\n\ncontext.panel.enableSubmit();",
+        "elements": [
+          {
+            "getOptions": "",
+            "id": "facility",
+            "labelWidth": 20,
+            "options": [],
+            "optionsSource": "Query",
+            "queryField": {
+              "label": "Initial Values:facility",
+              "refId": "Initial Values",
+              "value": "facility"
+            },
+            "queryOptions": {
+              "label": "label",
+              "source": "Facility Options",
+              "value": "value"
+            },
+            "section": "",
+            "showIf": "",
+            "title": "Facility Name",
+            "tooltip": "",
+            "type": "select",
+            "uid": "5b149377-ab7f-401a-be7c-f3aabf7ff7d2",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "room",
+            "labelWidth": 20,
+            "options": [],
+            "optionsSource": "Query",
+            "queryField": {
+              "label": "Initial Values:room",
+              "refId": "Initial Values",
+              "value": "room"
+            },
+            "queryOptions": {
+              "label": "label",
+              "source": "Room Options",
+              "value": "value"
+            },
+            "section": "",
+            "title": "Room Name",
+            "tooltip": "",
+            "type": "select",
+            "uid": "3faf7e1d-90a4-4269-9555-97d18abed23f",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "bench",
+            "labelWidth": 20,
+            "options": [],
+            "optionsSource": "Query",
+            "queryField": {
+              "label": "Initial Values:bench",
+              "refId": "Initial Values",
+              "value": "bench"
+            },
+            "queryOptions": {
+              "label": "label",
+              "source": "Bench Options",
+              "value": "value"
+            },
+            "section": "",
+            "title": "Bench Name",
+            "tooltip": "",
+            "type": "select",
+            "uid": "29b3bbbd-d00c-45b4-a8f9-1883b416af3b",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "comment",
+            "labelWidth": 20,
+            "rows": 4,
+            "section": "",
+            "title": "Comment",
+            "tooltip": "",
+            "type": "textarea",
+            "uid": "0084c822-3745-4775-8172-392ca4d8daeb",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "",
+          "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query"
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "-",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "manual"
+      },
+      "pluginVersion": "3.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "facility1",
+                  "facility2",
+                  "facility3"
+                ]
+              },
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "facility1",
+                  "facility2",
+                  "facility3"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "facilities"
+          },
+          "hide": false,
+          "refId": "Facility Options"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "$facility-room1",
+                  "$facility-room2"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "$facility-room1",
+                  "$facility-room2"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "rooms"
+          },
+          "refId": "Room Options"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "$room-bench1",
+                  "$room-bench2"
+                ]
+              },
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "$room-bench1",
+                  "$room-bench2"
+                ]
+              }
+            ],
+            "meta": {}
+          },
+          "hide": false,
+          "refId": "Bench Options"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "facility",
+                "type": "string",
+                "values": [
+                  "$facility"
+                ]
+              },
+              {
+                "config": {},
+                "name": "room",
+                "type": "string",
+                "values": [
+                  "$room"
+                ]
+              },
+              {
+                "config": {},
+                "name": "bench",
+                "type": "string",
+                "values": [
+                  "$bench"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "values"
+          },
+          "hide": false,
+          "refId": "Initial Values"
+        }
+      ],
+      "title": "With additional fields",
+      "type": "volkovlabs-form-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "facility2",
+          "value": "facility2"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "facility",
+        "options": [
+          {
+            "selected": false,
+            "text": "facility1",
+            "value": "facility1"
+          },
+          {
+            "selected": true,
+            "text": "facility2",
+            "value": "facility2"
+          },
+          {
+            "selected": false,
+            "text": "facility3",
+            "value": "facility3"
+          }
+        ],
+        "query": "facility1, facility2, facility3",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "facility2-room2",
+          "value": "facility2-room2"
+        },
+        "datasource": {
+          "type": "marcusolsson-static-datasource",
+          "uid": "P1D2C73DC01F2359B"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "room",
+        "options": [],
+        "query": {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "$facility-room1",
+                  "$facility-room2"
+                ]
+              },
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "$facility-room1",
+                  "$facility-room2"
+                ]
+              }
+            ],
+            "meta": {}
+          }
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "facility2-room2-bench2",
+          "value": "facility2-room2-bench2"
+        },
+        "datasource": {
+          "type": "marcusolsson-static-datasource",
+          "uid": "P1D2C73DC01F2359B"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "bench",
+        "options": [],
+        "query": {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "$room-bench1",
+                  "$room-bench2"
+                ]
+              },
+              {
+                "config": {},
+                "name": "label",
+                "type": "string",
+                "values": [
+                  "$room-bench1",
+                  "$room-bench2"
+                ]
+              }
+            ],
+            "meta": {}
+          }
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Variables",
+  "uid": "c63788ef-96f5-4d2b-a52d-e18c91053233",
+  "version": 18,
+  "weekStart": ""
+}
