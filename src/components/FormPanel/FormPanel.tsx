@@ -845,6 +845,7 @@ export const FormPanel: React.FC<Props> = ({
             disableSubmit: () => setSubmitEnabled(false),
             enableSaveDefault: () => setSaveDefaultEnabled(true),
             disableSaveDefault: () => setSaveDefaultEnabled(false),
+            initialRequest,
           },
           utils: {
             toDataQueryResponse,
@@ -857,6 +858,7 @@ export const FormPanel: React.FC<Props> = ({
       data,
       eventBus,
       initialRef,
+      initialRequest,
       notifyError,
       notifySuccess,
       notifyWarning,

@@ -100,6 +100,10 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
+        initialRequest: new CodeParameterItem<(() => Promise<void>) | undefined>(
+          'Run Initial Request.',
+          CodeEditorSuggestionItemKind.Method
+        ),
         enableSubmit: new CodeParameterItem<() => void>('Enable submit button.', CodeEditorSuggestionItemKind.Method),
         disableSubmit: new CodeParameterItem<() => void>('Disable submit button.', CodeEditorSuggestionItemKind.Method),
         setError: new CodeParameterItem<(error: string) => void>(
