@@ -2,6 +2,7 @@ import { InterpolateFunction } from '@grafana/data';
 
 import { FormElementType, PayloadMode } from '../constants';
 import { LocalFormElement, RequestOptions } from '../types';
+import { getPayloadCodeParameters } from './code-parameters';
 
 /**
  * Get Payload For Request
@@ -23,15 +24,19 @@ export const getPayloadForRequest = async ({
      */
     const getPayloadFn = new Function('elements', 'initial', 'context', replaceVariables(request.getPayload));
 
-    return getPayloadFn(elements, initial, {
-      panel: {
-        elements,
-        initial,
-      },
-      utils: {
-        fileToBase64,
-      },
-    }) as unknown;
+    return getPayloadFn(
+      elements,
+      initial,
+      getPayloadCodeParameters.create({
+        panel: {
+          elements,
+          initial,
+        },
+        utils: {
+          fileToBase64,
+        },
+      })
+    ) as unknown;
   }
 
   /**

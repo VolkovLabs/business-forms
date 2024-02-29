@@ -22,6 +22,7 @@ import {
   LocalFormElement,
   ShowIfHelper,
 } from '../types';
+import { disableIfCodeParameters, getOptionsCodeParameters, showIfCodeParameters } from './code-parameters';
 import { getFieldValues } from './grafana';
 
 /**
@@ -223,14 +224,18 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
   if (showIf || showIf?.trim()) {
     const fn = new Function('elements', 'replaceVariables', 'context', showIf);
     showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
-      fn(elements, replaceVariables, {
-        panel: {
-          elements,
-        },
-        grafana: {
-          replaceVariables,
-        },
-      });
+      fn(
+        elements,
+        replaceVariables,
+        showIfCodeParameters.create({
+          panel: {
+            elements,
+          },
+          grafana: {
+            replaceVariables,
+          },
+        })
+      );
   }
 
   const disableIf = element.disableIf;
@@ -245,14 +250,18 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
       elements: FormElement[];
       replaceVariables: InterpolateFunction;
     }) =>
-      fn(elements, replaceVariables, {
-        panel: {
-          elements,
-        },
-        grafana: {
-          replaceVariables,
-        },
-      });
+      fn(
+        elements,
+        replaceVariables,
+        disableIfCodeParameters.create({
+          panel: {
+            elements,
+          },
+          grafana: {
+            replaceVariables,
+          },
+        })
+      );
   }
 
   let getOptions: GetOptionsHelper = () => [];
@@ -297,15 +306,20 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         elements: FormElement[];
         replaceVariables: InterpolateFunction;
       }) =>
-        fn(data, elements, replaceVariables, {
-          panel: {
-            data,
-            elements,
-          },
-          grafana: {
-            replaceVariables,
-          },
-        });
+        fn(
+          data,
+          elements,
+          replaceVariables,
+          getOptionsCodeParameters.create({
+            panel: {
+              data,
+              elements,
+            },
+            grafana: {
+              replaceVariables,
+            },
+          })
+        );
     } else {
       getOptions = () => element.options || [];
     }
