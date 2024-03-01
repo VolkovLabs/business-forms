@@ -7,3 +7,4 @@ export * from './FormPanel';
 export * from './HeaderParametersEditor';
 export * from './LayoutSectionsEditor';
 export * from './NewElement';
+export * from './PayloadEditor';

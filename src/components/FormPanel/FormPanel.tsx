@@ -382,7 +382,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Run Datasource Query
        */
-      const body = await getPayloadForRequest({
+      const payload = await getPayloadForRequest({
         request: {
           ...options.initial,
           payloadMode: PayloadMode.CUSTOM,
@@ -393,9 +393,10 @@ export const FormPanel: React.FC<Props> = ({
       });
 
       response = await datasourceRequest({
-        query: body,
+        query: options.initial.payload,
         datasource: options.initial.datasource,
         replaceVariables,
+        payload,
       }).catch((error: DataQueryError) => {
         setError(JSON.stringify(error));
         return null;
@@ -582,6 +583,7 @@ export const FormPanel: React.FC<Props> = ({
         highlight: false,
         highlightColor: '',
         confirm: false,
+        payload: options.resetAction.payload,
       },
       elements: elementsRef.current,
       initial: initialRef.current,
@@ -592,9 +594,10 @@ export const FormPanel: React.FC<Props> = ({
      * Datasource query
      */
     const response = await datasourceRequest({
-      query: payload,
+      query: options.resetAction.payload,
       datasource: options.resetAction.datasource,
       replaceVariables,
+      payload,
     }).catch((error: DataQueryError) => {
       setError(JSON.stringify(error));
       return null;
@@ -630,6 +633,7 @@ export const FormPanel: React.FC<Props> = ({
     options.resetAction.datasource,
     options.resetAction.getPayload,
     options.resetAction.mode,
+    options.resetAction.payload,
     replaceVariables,
   ]);
 
@@ -680,9 +684,10 @@ export const FormPanel: React.FC<Props> = ({
      */
     if (options.update.method === RequestMethod.DATASOURCE) {
       response = await datasourceRequest({
-        query: payload,
+        query: options.update.payload,
         datasource: options.update.datasource,
         replaceVariables,
+        payload,
       }).catch((error: DataQueryError) => {
         setError(JSON.stringify(error));
         return null;
