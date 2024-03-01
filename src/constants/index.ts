@@ -1,5 +1,6 @@
 export * from './button';
 export * from './code-editor';
+export * from './confirm-modal';
 export * from './data';
 export * from './default';
 export * from './form-element';

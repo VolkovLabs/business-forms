@@ -17,7 +17,15 @@ import {
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
-import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement, UpdateEnabledMode } from '../../types';
+import {
+  ButtonOrientation,
+  ButtonVariant,
+  FormElement,
+  LocalFormElement,
+  ModalColumnName,
+  PanelOptions,
+  UpdateEnabledMode,
+} from '../../types';
 import { getFormElementsSelectors, getPanelSelectors, toLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
@@ -1968,7 +1976,7 @@ describe('Panel', () => {
   });
 
   describe('Confirm changes', () => {
-    const prepareComponent = async () => {
+    const prepareComponent = async (options?: Partial<PanelOptions>) => {
       let triggerChangeElement: (element: LocalFormElement) => void = jest.fn();
       jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
         triggerChangeElement = onChangeElement;
@@ -2002,7 +2010,11 @@ describe('Panel', () => {
       await act(async () =>
         render(
           getComponent({
-            options: { elements: [elementWithInitialValue, elementWithoutInitialValue], update: { confirm: true } },
+            options: {
+              elements: [elementWithInitialValue, elementWithoutInitialValue],
+              update: { confirm: true },
+              ...options,
+            },
           })
         )
       );
@@ -2107,6 +2119,95 @@ describe('Panel', () => {
         elementWithoutInitialValue.value
       );
       expect(updatedFieldSelectors.confirmModalFieldValue()).toHaveTextContent('111');
+    });
+
+    it('Should show only included columns', async () => {
+      const { triggerChangeElement, elementWithInitialValue } = await prepareComponent({
+        confirmModal: {
+          columns: {
+            include: [ModalColumnName.NEW_VALUE],
+          },
+        } as any,
+      });
+
+      /**
+       * Trigger field change
+       */
+      await act(async () =>
+        triggerChangeElement({
+          ...elementWithInitialValue,
+          value: '111',
+        })
+      );
+
+      /**
+       * Check if submit button is enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Open confirm modal
+       */
+      await act(async () => fireEvent.click(selectors.buttonSubmit()));
+
+      /**
+       * Check confirm modal presence
+       */
+      expect(selectors.confirmModalContent()).toBeInTheDocument();
+
+      /**
+       * Check updated field presence in confirm modal
+       */
+      const updatedField = selectors.confirmModalField(false, elementWithInitialValue.id);
+      expect(updatedField).toBeInTheDocument();
+
+      /**
+       * Check if only included columns are shown
+       */
+      const updatedFieldSelectors = getPanelSelectors(within(updatedField));
+      expect(updatedFieldSelectors.confirmModalFieldTitle(true)).not.toBeInTheDocument();
+      expect(updatedFieldSelectors.confirmModalFieldPreviousValue(true)).not.toBeInTheDocument();
+      expect(updatedFieldSelectors.confirmModalFieldValue()).toBeInTheDocument();
+    });
+
+    it('Should not show table if no included columns', async () => {
+      const { triggerChangeElement, elementWithInitialValue } = await prepareComponent({
+        confirmModal: {
+          columns: {
+            include: [],
+          },
+        } as any,
+      });
+
+      /**
+       * Trigger field change
+       */
+      await act(async () =>
+        triggerChangeElement({
+          ...elementWithInitialValue,
+          value: '111',
+        })
+      );
+
+      /**
+       * Check if submit button is enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Open confirm modal
+       */
+      await act(async () => fireEvent.click(selectors.buttonSubmit()));
+
+      /**
+       * Check confirm modal presence
+       */
+      expect(selectors.confirmModalContent()).toBeInTheDocument();
+
+      /**
+       * Check no columns are show
+       */
+      expect(selectors.confirmModalField(true, elementWithInitialValue.id)).not.toBeInTheDocument();
     });
   });
 

@@ -43,7 +43,14 @@ import {
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest, useFormElements, useMutableState } from '../../hooks';
-import { ButtonVariant, FormElement, LocalFormElement, PanelOptions, UpdateEnabledMode } from '../../types';
+import {
+  ButtonVariant,
+  FormElement,
+  LocalFormElement,
+  ModalColumnName,
+  PanelOptions,
+  UpdateEnabledMode,
+} from '../../types';
 import {
   convertToElementValue,
   fileToBase64,
@@ -1066,19 +1073,25 @@ export const FormPanel: React.FC<Props> = ({
         body={
           <div data-testid={TEST_IDS.panel.confirmModalContent}>
             <h4>{options.confirmModal.body}</h4>
-            {options.layout.variant !== LayoutVariant.NONE && (
+            {options.layout.variant !== LayoutVariant.NONE && options.confirmModal.columns.include.length > 0 && (
               <table className={styles.confirmTable}>
                 <thead>
                   <tr className={styles.confirmTable}>
-                    <td className={styles.confirmTableTd}>
-                      <b>{options.confirmModal.columns.name}</b>
-                    </td>
-                    <td className={styles.confirmTableTd}>
-                      <b>{options.confirmModal.columns.oldValue}</b>
-                    </td>
-                    <td className={styles.confirmTableTd}>
-                      <b>{options.confirmModal.columns.newValue}</b>
-                    </td>
+                    {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
+                      <td className={styles.confirmTableTd}>
+                        <b>{options.confirmModal.columns.name}</b>
+                      </td>
+                    )}
+                    {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
+                      <td className={styles.confirmTableTd}>
+                        <b>{options.confirmModal.columns.oldValue}</b>
+                      </td>
+                    )}
+                    {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
+                      <td className={styles.confirmTableTd}>
+                        <b>{options.confirmModal.columns.newValue}</b>
+                      </td>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -1104,18 +1117,24 @@ export const FormPanel: React.FC<Props> = ({
                           key={element.id}
                           data-testid={TEST_IDS.panel.confirmModalField(element.id)}
                         >
-                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
-                            {element.title || element.tooltip}
-                          </td>
-                          <td
-                            className={styles.confirmTableTd}
-                            data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
-                          >
-                            *********
-                          </td>
-                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                            *********
-                          </td>
+                          {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
+                            <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
+                              {element.title || element.tooltip}
+                            </td>
+                          )}
+                          {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
+                            <td
+                              className={styles.confirmTableTd}
+                              data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
+                            >
+                              *********
+                            </td>
+                          )}
+                          {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
+                            <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
+                              *********
+                            </td>
+                          )}
                         </tr>
                       );
                     }
@@ -1134,18 +1153,24 @@ export const FormPanel: React.FC<Props> = ({
                         key={element.id}
                         data-testid={TEST_IDS.panel.confirmModalField(element.id)}
                       >
-                        <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
-                          {element.title || element.tooltip}
-                        </td>
-                        <td
-                          className={styles.confirmTableTd}
-                          data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
-                        >
-                          {initial[element.id] === undefined ? '' : String(initial[element.id])}
-                        </td>
-                        <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                          {currentValue === undefined ? '' : String(currentValue)}
-                        </td>
+                        {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
+                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
+                            {element.title || element.tooltip}
+                          </td>
+                        )}
+                        {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
+                          <td
+                            className={styles.confirmTableTd}
+                            data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
+                          >
+                            {initial[element.id] === undefined ? '' : String(initial[element.id])}
+                          </td>
+                        )}
+                        {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
+                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
+                            {currentValue === undefined ? '' : String(currentValue)}
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
