@@ -44,7 +44,12 @@ jest.mock('@grafana/runtime', () => ({
 /**
  * Mock hooks
  */
-const datasourceRequestMock = jest.fn(() => Promise.resolve());
+const datasourceRequestMock = jest.fn(() =>
+  Promise.resolve({
+    data: [],
+    state: LoadingState.Done,
+  })
+);
 
 jest.mock('../../hooks', () => ({
   ...jest.requireActual('../../hooks'),
@@ -343,7 +348,8 @@ describe('Panel', () => {
     it('Should make initial datasource request', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Done,
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -510,30 +516,18 @@ describe('Panel', () => {
     it('Should update elements with initial datasource result', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          ok: true,
-          data: {
-            results: {
-              A: {
-                frames: [
-                  {
-                    data: {
-                      values: [['metric1', 'metric2']],
-                    },
-                    schema: {
-                      fields: [
-                        {
-                          name: 'metric',
-                          type: FieldType.string,
-                        },
-                      ],
-                    },
-                  },
-                ],
-                refId: 'A',
-                status: 200,
-              },
-            },
-          },
+          state: LoadingState.Done,
+          data: [
+            toDataFrame({
+              fields: [
+                {
+                  name: 'metric',
+                  type: FieldType.string,
+                  values: ['metric1', 'metric2'],
+                },
+              ],
+            }),
+          ],
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -594,30 +588,18 @@ describe('Panel', () => {
     it('Should not update elements if datasource is unspecified', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          ok: true,
-          data: {
-            results: {
-              A: {
-                frames: [
-                  {
-                    data: {
-                      values: [['metric1', 'metric2']],
-                    },
-                    schema: {
-                      fields: [
-                        {
-                          name: 'metric',
-                          type: FieldType.string,
-                        },
-                      ],
-                    },
-                  },
-                ],
-                refId: 'A',
-                status: 200,
-              },
-            },
-          },
+          state: LoadingState.Done,
+          data: [
+            toDataFrame({
+              fields: [
+                {
+                  name: 'metric',
+                  type: FieldType.string,
+                  values: ['metric1', 'metric2'],
+                },
+              ],
+            }),
+          ],
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
@@ -674,7 +656,8 @@ describe('Panel', () => {
     it('Should show initial datasource request error', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.reject({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Error,
         })
       );
       jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
@@ -1216,7 +1199,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Done,
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1297,7 +1281,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.reject({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Error,
         })
       );
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1751,8 +1736,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          message: 'hello',
-          ok: true,
+          data: [],
+          state: LoadingState.Done,
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1843,7 +1828,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.reject({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Error,
         })
       );
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);

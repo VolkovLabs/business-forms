@@ -600,8 +600,6 @@ export const FormPanel: React.FC<Props> = ({
       return null;
     });
 
-    console.log('response', response);
-
     let currentElements = elementsRef.current;
     if (response && response.state === LoadingState.Done) {
       /**
@@ -689,7 +687,6 @@ export const FormPanel: React.FC<Props> = ({
         setError(JSON.stringify(error));
         return null;
       });
-      console.log('response', response);
     } else {
       /**
        * Set Content Type
