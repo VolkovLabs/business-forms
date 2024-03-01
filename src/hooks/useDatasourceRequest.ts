@@ -1,5 +1,5 @@
 import { DataQueryResponse, InterpolateFunction } from '@grafana/data';
-import { getBackendSrv, getDataSourceSrv } from '@grafana/runtime';
+import { getDataSourceSrv } from '@grafana/runtime';
 import { useCallback } from 'react';
 import { lastValueFrom } from 'rxjs';
 
@@ -16,28 +16,16 @@ export const useDatasourceRequest = () => {
       query: unknown;
       datasource: string;
       replaceVariables: InterpolateFunction;
-    }) => {
+    }): Promise<DataQueryResponse> => {
       const ds = await getDataSourceSrv().get(datasource);
       const payload = JSON.parse(replaceVariables(JSON.stringify(query)));
+      const response = ds.query(payload);
 
-      /**
-       * Fetch
-       */
-      return lastValueFrom(
-        getBackendSrv().fetch<DataQueryResponse>({
-          method: 'POST',
-          url: 'api/ds/query',
-          data: {
-            queries: [
-              {
-                datasourceId: ds.id,
-                refId: 'A',
-                ...payload,
-              },
-            ],
-          },
-        })
-      );
+      if (response instanceof Promise) {
+        return await response;
+      }
+
+      return await lastValueFrom(response);
     },
     []
   );

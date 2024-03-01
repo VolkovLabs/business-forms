@@ -5,6 +5,7 @@ import {
   AppEvents,
   DataFrame,
   DataQueryError,
+  DataQueryResponse,
   dateTime,
   Field,
   LoadingState,
@@ -209,7 +210,7 @@ export const FormPanel: React.FC<Props> = ({
     }: {
       code: string;
       initial: unknown;
-      response?: FetchResponse | Response | null;
+      response?: FetchResponse | Response | DataQueryResponse | null;
       initialRequest?: () => void;
       currentElements?: LocalFormElement[];
     }) => {
@@ -361,7 +362,7 @@ export const FormPanel: React.FC<Props> = ({
       return;
     }
 
-    let response: Response | FetchResponse | null;
+    let response: Response | FetchResponse | DataQueryResponse | null;
     let json: { [id: string]: unknown } = {};
 
     /**
@@ -400,12 +401,11 @@ export const FormPanel: React.FC<Props> = ({
         return null;
       });
 
-      if (response && response.ok) {
+      if (response && response.state === LoadingState.Done) {
         /**
          * Change Elements With Data Source Values
          */
-        const queryResponse = toDataQueryResponse(response as FetchResponse);
-        currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+        currentElements = getElementsWithFieldValues(response.data, RequestMethod.DATASOURCE);
 
         /**
          * Update Elements and Initial Values
@@ -591,7 +591,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Datasource query
      */
-    const response: FetchResponse | null = await datasourceRequest({
+    const response = await datasourceRequest({
       query: payload,
       datasource: options.resetAction.datasource,
       replaceVariables,
@@ -600,13 +600,14 @@ export const FormPanel: React.FC<Props> = ({
       return null;
     });
 
+    console.log('response', response);
+
     let currentElements = elementsRef.current;
-    if (response && response.ok) {
+    if (response && response.state === LoadingState.Done) {
       /**
        * Change Elements With Data Source Values
        */
-      const queryResponse = toDataQueryResponse(response as FetchResponse);
-      currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+      currentElements = getElementsWithFieldValues(response.data, RequestMethod.DATASOURCE);
 
       /**
        * Update Elements
@@ -674,7 +675,7 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Response
      */
-    let response: Response | FetchResponse | null;
+    let response: Response | FetchResponse | DataQueryResponse | null;
 
     /**
      * Datasource query
@@ -688,6 +689,7 @@ export const FormPanel: React.FC<Props> = ({
         setError(JSON.stringify(error));
         return null;
       });
+      console.log('response', response);
     } else {
       /**
        * Set Content Type
