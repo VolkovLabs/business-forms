@@ -365,6 +365,9 @@ describe('Panel', () => {
                 method: RequestMethod.DATASOURCE,
                 datasource: '123',
                 getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
               },
             },
             props: {},
@@ -374,8 +377,11 @@ describe('Panel', () => {
 
       expect(datasourceRequestMock).toHaveBeenCalledWith({
         datasource: '123',
-        query: { key1: 'value' },
+        payload: { key1: 'value' },
         replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
       });
 
       /**
@@ -1234,6 +1240,9 @@ describe('Panel', () => {
                 method: RequestMethod.DATASOURCE,
                 payloadMode: PayloadMode.CUSTOM,
                 getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
               },
             },
           })
@@ -1255,10 +1264,13 @@ describe('Panel', () => {
 
       expect(datasourceRequestMock).toHaveBeenCalledWith({
         datasource: 'abc',
-        query: {
+        payload: {
           key1: 'value',
         },
         replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
       });
     });
 
@@ -1771,6 +1783,9 @@ describe('Panel', () => {
                 mode: ResetActionMode.DATASOURCE,
                 payloadMode: PayloadMode.CUSTOM,
                 getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
               },
             },
           })
@@ -1797,10 +1812,13 @@ describe('Panel', () => {
 
       expect(datasourceRequestMock).toHaveBeenCalledWith({
         datasource: 'abc',
-        query: {
+        payload: {
           key1: 'value',
         },
         replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
       });
 
       /**

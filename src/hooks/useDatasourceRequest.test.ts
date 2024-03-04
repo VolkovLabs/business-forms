@@ -50,6 +50,7 @@ describe('Use Datasource Request', () => {
       },
       datasource: 'abc',
       replaceVariables: jest.fn((str) => str),
+      payload: {},
     });
 
     /**
@@ -60,7 +61,9 @@ describe('Use Datasource Request', () => {
     /**
      * Should pass query
      */
-    expect(dataSourceSrv.query).toHaveBeenCalledWith({ key1: 'value1', key2: 'value2' });
+    expect(dataSourceSrv.query).toHaveBeenCalledWith({
+      targets: [{ key1: 'value1', key2: 'value2' }],
+    });
 
     /**
      * Should return result
@@ -99,6 +102,7 @@ describe('Use Datasource Request', () => {
       },
       datasource: 'abc',
       replaceVariables: jest.fn((str) => str),
+      payload: {},
     });
 
     /**
@@ -109,7 +113,9 @@ describe('Use Datasource Request', () => {
     /**
      * Should pass query
      */
-    expect(dataSourceSrv.query).toHaveBeenCalledWith({ key1: 'value1', key2: 'value2' });
+    expect(dataSourceSrv.query).toHaveBeenCalledWith({
+      targets: [{ key1: 'value1', key2: 'value2' }],
+    });
 
     /**
      * Should return result
