@@ -4,11 +4,11 @@ import { getAvailableIcons } from '@grafana/ui';
 import {
   CustomCodeEditor,
   DatasourceEditor,
+  DatasourcePayloadEditor,
   FormElementsEditor,
   FormPanel,
   HeaderParametersEditor,
   LayoutSectionsEditor,
-  PayloadEditor,
 } from './components';
 import {
   BOOLEAN_OPTIONS,
@@ -271,7 +271,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'initial.payload',
         name: 'Query Editor',
         description: 'Configure query for the selected data source. ${payload} variable contains all passed values.',
-        editor: PayloadEditor,
+        editor: DatasourcePayloadEditor,
         category: ['Initial Request Payload'],
         settings: {
           datasourceKey: 'initial.datasource',
@@ -429,7 +429,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'update.payload',
         name: 'Query Editor',
         description: 'Configure query for the selected data source. ${payload} variable contains all passed values.',
-        editor: PayloadEditor,
+        editor: DatasourcePayloadEditor,
         category: ['Update Request Payload'],
         settings: {
           datasourceKey: 'update.datasource',
@@ -738,7 +738,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         path: 'resetAction.payload',
         name: 'Query Editor',
         description: 'Configure query for the selected data source. ${payload} variable contains all passed values.',
-        editor: PayloadEditor,
+        editor: DatasourcePayloadEditor,
         category: ['Reset Request Payload'],
         settings: {
           datasourceKey: 'resetAction.datasource',

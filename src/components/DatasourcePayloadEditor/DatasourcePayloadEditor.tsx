@@ -1,8 +1,11 @@
-import { DataSourceApi, QueryEditorProps, StandardEditorProps } from '@grafana/data';
+import { DataSourceApi, StandardEditorProps } from '@grafana/data';
 import { getDataSourceSrv } from '@grafana/runtime';
+import { DataQuery } from '@grafana/schema';
+import { Alert, LoadingPlaceholder } from '@grafana/ui';
 import { get } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
+import { TEST_IDS } from '../../constants';
 import { useAutoSave } from '../../hooks';
 import { PanelOptions } from '../../types';
 
@@ -12,17 +15,23 @@ import { PanelOptions } from '../../types';
 type Props = StandardEditorProps<unknown, { datasourceKey: string }, PanelOptions>;
 
 /**
- * On Run query
- */
-const onRunQuery = () => null;
-
-/**
  * Payload Editor
  */
-export const PayloadEditor: React.FC<Props> = ({ context, value, onChange, item }) => {
+export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onChange, item }) => {
+  /**
+   * Data Source Service
+   */
   const dataSourceService = getDataSourceSrv();
+
+  /**
+   * Data Source
+   */
   const [datasource, setDatasource] = useState<DataSourceApi>();
-  const queryEditor = useRef<React.ComponentType<QueryEditorProps<DataSourceApi<any, any>, any, any>>>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  /**
+   * Query Auto Save
+   */
   const { startTimer, removeTimer } = useAutoSave();
   const [query, setQuery] = useState(value);
   const [isChanged, setIsChanged] = useState(false);
@@ -34,6 +43,11 @@ export const PayloadEditor: React.FC<Props> = ({ context, value, onChange, item 
     setQuery(query);
     setIsChanged(true);
   }, []);
+
+  /**
+   * On Run query
+   */
+  const onRunQuery = useCallback(() => null, []);
 
   /**
    * Save Updates
@@ -50,12 +64,12 @@ export const PayloadEditor: React.FC<Props> = ({ context, value, onChange, item 
     const datasourceName = get(context.options, item.settings?.datasourceKey || '');
 
     const getDataSource = async () => {
+      setIsLoading(true);
+
       const ds = await dataSourceService.get(datasourceName);
 
-      if (ds && ds.components?.QueryEditor) {
-        setDatasource(ds);
-        queryEditor.current = ds.components.QueryEditor;
-      }
+      setDatasource(ds);
+      setIsLoading(false);
     };
 
     /**
@@ -68,7 +82,7 @@ export const PayloadEditor: React.FC<Props> = ({ context, value, onChange, item 
     /**
      * Load data source
      */
-    if (datasource?.id !== datasourceName) {
+    if (datasourceName && (!datasource || datasource.name !== datasourceName)) {
       getDataSource();
     }
   }, [context.options, dataSourceService, datasource, item.settings?.datasourceKey, onChangeQuery]);
@@ -88,17 +102,25 @@ export const PayloadEditor: React.FC<Props> = ({ context, value, onChange, item 
     };
   }, [startTimer, isChanged, onSaveUpdates, removeTimer]);
 
+  if (isLoading) {
+    return (
+      <Alert severity="info" title="Please Wait" data-testid={TEST_IDS.payloadEditor.loadingMessage}>
+        <LoadingPlaceholder text="Loading..." />
+      </Alert>
+    );
+  }
+
   /**
    * No editor or data source
    */
-  if (!queryEditor.current || !datasource) {
-    return 'No query editor';
+  if (!datasource || !datasource.components?.QueryEditor) {
+    return <Alert title="No Query Editor" severity="error" data-testid={TEST_IDS.payloadEditor.errorMessage} />;
   }
 
   /**
    * Query Editor
    */
-  const Editor = queryEditor.current;
+  const Editor = datasource.components.QueryEditor;
 
-  return <Editor datasource={datasource} query={query} onChange={onChangeQuery} onRunQuery={onRunQuery} />;
+  return <Editor datasource={datasource} query={query as DataQuery} onChange={onChangeQuery} onRunQuery={onRunQuery} />;
 };
