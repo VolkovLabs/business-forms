@@ -44,14 +44,23 @@ import {
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest, useFormElements, useMutableState } from '../../hooks';
-import { ButtonVariant, FormElement, LocalFormElement, PanelOptions, UpdateEnabledMode } from '../../types';
+import {
+  ButtonVariant,
+  FormElement,
+  LocalFormElement,
+  ModalColumnName,
+  PanelOptions,
+  UpdateEnabledMode,
+} from '../../types';
 import {
   convertToElementValue,
+  elementValueChangedCodeParameters,
   fileToBase64,
   getButtonVariant,
   getFieldValues,
   getInitialValuesMap,
   getPayloadForRequest,
+  requestCodeParameters,
   toFormData,
   toJson,
   ValueChangedEvent,
@@ -211,7 +220,7 @@ export const FormPanel: React.FC<Props> = ({
       code: string;
       initial: unknown;
       response?: FetchResponse | Response | DataQueryResponse | null;
-      initialRequest?: () => void;
+      initialRequest?: () => Promise<void>;
       currentElements?: LocalFormElement[];
     }) => {
       if (!code) {
@@ -260,7 +269,7 @@ export const FormPanel: React.FC<Props> = ({
           notifySuccess,
           notifyWarning,
           toDataQueryResponse,
-          {
+          requestCodeParameters.create({
             grafana: {
               locationService,
               templateService: templateSrv,
@@ -289,7 +298,7 @@ export const FormPanel: React.FC<Props> = ({
               toDataQueryResponse,
               fileToBase64,
             },
-          }
+          })
         );
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -697,7 +706,13 @@ export const FormPanel: React.FC<Props> = ({
        * Set Content Type
        */
       const headers: HeadersInit = new Headers();
-      headers.set('Content-Type', options.update.contentType);
+
+      /**
+       * Browser should add header itself for form data content
+       */
+      if (options.update.contentType !== ContentType.FORMDATA) {
+        headers.set('Content-Type', options.update.contentType);
+      }
 
       /**
        * Set Header
@@ -820,43 +835,47 @@ export const FormPanel: React.FC<Props> = ({
     ({ elements, element }: { elements: LocalFormElement[]; element: LocalFormElement }) => {
       const fn = new Function('context', replaceVariables(options.elementValueChanged));
 
-      fn({
-        element,
-        grafana: {
-          locationService,
-          templateService: templateSrv,
-          notifyError,
-          notifySuccess,
-          notifyWarning,
-          eventBus,
-          appEvents,
-          refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
-        },
-        panel: {
-          options,
-          data,
-          onOptionsChange,
-          elements,
-          onChangeElements,
-          initial: initialRef.current,
-          setError,
-          enableReset: () => setResetEnabled(true),
-          disableReset: () => setResetEnabled(false),
-          enableSubmit: () => setSubmitEnabled(true),
-          disableSubmit: () => setSubmitEnabled(false),
-          enableSaveDefault: () => setSaveDefaultEnabled(true),
-          disableSaveDefault: () => setSaveDefaultEnabled(false),
-        },
-        utils: {
-          toDataQueryResponse,
-        },
-      });
+      fn(
+        elementValueChangedCodeParameters.create({
+          element,
+          grafana: {
+            locationService,
+            templateService: templateSrv,
+            notifyError,
+            notifySuccess,
+            notifyWarning,
+            eventBus,
+            appEvents,
+            refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+          },
+          panel: {
+            options,
+            data,
+            onOptionsChange,
+            elements,
+            onChangeElements,
+            initial: initialRef.current,
+            setError,
+            enableReset: () => setResetEnabled(true),
+            disableReset: () => setResetEnabled(false),
+            enableSubmit: () => setSubmitEnabled(true),
+            disableSubmit: () => setSubmitEnabled(false),
+            enableSaveDefault: () => setSaveDefaultEnabled(true),
+            disableSaveDefault: () => setSaveDefaultEnabled(false),
+            initialRequest,
+          },
+          utils: {
+            toDataQueryResponse,
+          },
+        })
+      );
     },
     [
       appEvents,
       data,
       eventBus,
       initialRef,
+      initialRequest,
       notifyError,
       notifySuccess,
       notifyWarning,
@@ -1070,19 +1089,25 @@ export const FormPanel: React.FC<Props> = ({
         body={
           <div data-testid={TEST_IDS.panel.confirmModalContent}>
             <h4>{options.confirmModal.body}</h4>
-            {options.layout.variant !== LayoutVariant.NONE && (
+            {options.layout.variant !== LayoutVariant.NONE && options.confirmModal.columns.include.length > 0 && (
               <table className={styles.confirmTable}>
                 <thead>
                   <tr className={styles.confirmTable}>
-                    <td className={styles.confirmTableTd}>
-                      <b>{options.confirmModal.columns.name}</b>
-                    </td>
-                    <td className={styles.confirmTableTd}>
-                      <b>{options.confirmModal.columns.oldValue}</b>
-                    </td>
-                    <td className={styles.confirmTableTd}>
-                      <b>{options.confirmModal.columns.newValue}</b>
-                    </td>
+                    {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
+                      <td className={styles.confirmTableTd}>
+                        <b>{options.confirmModal.columns.name}</b>
+                      </td>
+                    )}
+                    {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
+                      <td className={styles.confirmTableTd}>
+                        <b>{options.confirmModal.columns.oldValue}</b>
+                      </td>
+                    )}
+                    {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
+                      <td className={styles.confirmTableTd}>
+                        <b>{options.confirmModal.columns.newValue}</b>
+                      </td>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -1108,18 +1133,24 @@ export const FormPanel: React.FC<Props> = ({
                           key={element.id}
                           data-testid={TEST_IDS.panel.confirmModalField(element.id)}
                         >
-                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
-                            {element.title || element.tooltip}
-                          </td>
-                          <td
-                            className={styles.confirmTableTd}
-                            data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
-                          >
-                            *********
-                          </td>
-                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                            *********
-                          </td>
+                          {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
+                            <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
+                              {element.title || element.tooltip}
+                            </td>
+                          )}
+                          {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
+                            <td
+                              className={styles.confirmTableTd}
+                              data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
+                            >
+                              *********
+                            </td>
+                          )}
+                          {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
+                            <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
+                              *********
+                            </td>
+                          )}
                         </tr>
                       );
                     }
@@ -1138,18 +1169,24 @@ export const FormPanel: React.FC<Props> = ({
                         key={element.id}
                         data-testid={TEST_IDS.panel.confirmModalField(element.id)}
                       >
-                        <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
-                          {element.title || element.tooltip}
-                        </td>
-                        <td
-                          className={styles.confirmTableTd}
-                          data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
-                        >
-                          {initial[element.id] === undefined ? '' : String(initial[element.id])}
-                        </td>
-                        <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                          {currentValue === undefined ? '' : String(currentValue)}
-                        </td>
+                        {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
+                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
+                            {element.title || element.tooltip}
+                          </td>
+                        )}
+                        {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
+                          <td
+                            className={styles.confirmTableTd}
+                            data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
+                          >
+                            {initial[element.id] === undefined ? '' : String(initial[element.id])}
+                          </td>
+                        )}
+                        {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
+                          <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
+                            {currentValue === undefined ? '' : String(currentValue)}
+                          </td>
+                        )}
                       </tr>
                     );
                   })}

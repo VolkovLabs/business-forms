@@ -1,4 +1,13 @@
 /**
+ * Modal Column Name
+ */
+export enum ModalColumnName {
+  NAME = 'name',
+  OLD_VALUE = 'oldValue',
+  NEW_VALUE = 'newValue',
+}
+
+/**
  * Modal Options
  */
 export interface ModalOptions {
@@ -20,6 +29,13 @@ export interface ModalOptions {
    * Columns
    */
   columns: {
+    /**
+     * Include
+     *
+     * @type {ModalColumnName[]}
+     */
+    include: ModalColumnName[];
+
     /**
      * Name
      *

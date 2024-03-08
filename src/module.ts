@@ -16,6 +16,7 @@ import {
   BUTTON_SIZE_OPTIONS,
   BUTTON_VARIANT_HIDDEN_OPTIONS,
   BUTTON_VARIANT_OPTIONS,
+  CONFIRM_MODAL_COLUMNS_INCLUDE_OPTIONS,
   CONFIRM_MODAL_DEFAULT,
   CONTENT_TYPE_OPTIONS,
   ContentType,
@@ -48,6 +49,7 @@ import {
   ButtonSize,
   ButtonVariant,
   CodeEditorType,
+  ModalColumnName,
   PanelOptions,
   RequestOptions,
   UpdateEnabledMode,
@@ -466,26 +468,37 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         defaultValue: CONFIRM_MODAL_DEFAULT.body,
         showIf: (config) => config.update.confirm,
       })
+      .addMultiSelect({
+        path: 'confirmModal.columns.include',
+        name: 'Include columns',
+        category: ['Update Confirmation Window'],
+        defaultValue: CONFIRM_MODAL_DEFAULT.columns.include as unknown,
+        showIf: (config) => config.update.confirm,
+        settings: {
+          options: CONFIRM_MODAL_COLUMNS_INCLUDE_OPTIONS,
+        },
+      })
       .addTextInput({
         path: 'confirmModal.columns.name',
         name: 'Label column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.name,
-        showIf: (config) => config.update.confirm,
+        showIf: (config) => config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NAME),
       })
       .addTextInput({
         path: 'confirmModal.columns.oldValue',
         name: 'Old value column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.oldValue,
-        showIf: (config) => config.update.confirm,
+        showIf: (config) =>
+          config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE),
       })
       .addTextInput({
         path: 'confirmModal.columns.newValue',
         name: 'New value column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.newValue,
-        showIf: (config) => config.update.confirm,
+        showIf: (config) => config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NAME),
       })
       .addTextInput({
         path: 'confirmModal.confirm',
