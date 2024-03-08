@@ -20,16 +20,25 @@ describe('Request Utils', () => {
         id: 'name',
         type: FormElementType.STRING,
         value: 'John',
+        helpers: {
+          showIf: () => true,
+        },
       },
       {
         id: 'age',
         type: FormElementType.NUMBER,
         value: 30,
+        helpers: {
+          showIf: () => true,
+        },
       },
       {
         id: 'password',
         type: FormElementType.DISABLED,
         value: '123',
+        helpers: {
+          showIf: () => true,
+        },
       },
     ];
 
@@ -58,7 +67,9 @@ describe('Request Utils', () => {
             elements[1],
             {
               ...elements[2],
-              hidden: true,
+              helpers: {
+                showIf: () => false,
+              },
             },
           ],
           initial: {},

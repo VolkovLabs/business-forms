@@ -56,7 +56,7 @@ export const getPayloadForRequest = async ({
     /**
      * Skip hidden elements
      */
-    if ('hidden' in element && element.hidden) {
+    if (!element.helpers.showIf({ elements, replaceVariables })) {
       return;
     }
 
