@@ -2,12 +2,16 @@
 
 ## 3.7.0 (IN PROGRESS)
 
+### Breaking changes
+
+- Requires Grafana 9.2 and Grafana 10
+
 ### Features / Enhancements
 
 - Add files upload examples and fix form data header (#357)
 - Add code parameters with builder and add initial request to element value changed code (#358)
 - Allow to disable columns in confirmation modal (#360)
-- Updated dependencies and Actions ()
+- Updated dependencies and Actions (#368)
 
 ## 3.6.0 (2023-01-10)
 
