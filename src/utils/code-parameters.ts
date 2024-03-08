@@ -64,7 +64,7 @@ export const requestCodeParameters = new CodeParametersBuilder({
       },
     },
     utils: {
-      detail: 'Utils/helpers functions.',
+      detail: 'Utils and helpers functions.',
       items: {
         toDataQueryResponse: new CodeParameterItem<typeof toDataQueryResponse>(
           'Parse the results from /api/ds/query.',
@@ -145,7 +145,7 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
       },
     },
     utils: {
-      detail: 'Utils/helpers functions.',
+      detail: 'Utils and helpers functions.',
       items: {
         toDataQueryResponse: new CodeParameterItem<typeof toDataQueryResponse>(
           'Parse the results from /api/ds/query.',
@@ -244,7 +244,7 @@ export const getPayloadCodeParameters = new CodeParametersBuilder({
       },
     },
     utils: {
-      detail: 'Utils/helpers functions.',
+      detail: 'Utils and helpers functions.',
       items: {
         fileToBase64: new CodeParameterItem<typeof fileToBase64>(
           'Converts File to Base64 string.',
