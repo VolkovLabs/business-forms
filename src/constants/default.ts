@@ -4,6 +4,7 @@ import {
   CodeLanguage,
   CodeOptions,
   FormElement,
+  ModalColumnName,
   ModalOptions,
   NumberOptions,
   SelectOptions,
@@ -187,6 +188,7 @@ export const CONFIRM_MODAL_DEFAULT: ModalOptions = {
   title: 'Confirm update request',
   body: 'Please confirm to update changed values',
   columns: {
+    include: [ModalColumnName.NAME, ModalColumnName.OLD_VALUE, ModalColumnName.NEW_VALUE],
     name: 'Label',
     oldValue: 'Old Value',
     newValue: 'New Value',
