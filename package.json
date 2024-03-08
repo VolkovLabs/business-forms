@@ -6,7 +6,7 @@
     "@grafana/runtime": "^10.2.3",
     "@grafana/ui": "^10.2.2",
     "@hello-pangea/dnd": "^16.5.0",
-    "@volkovlabs/components": "^1.2.1",
+    "@volkovlabs/components": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tslib": "^2.6.2",

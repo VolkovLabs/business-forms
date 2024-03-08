@@ -46,11 +46,13 @@ import { useDatasourceRequest, useFormElements, useMutableState } from '../../ho
 import { ButtonVariant, FormElement, LocalFormElement, PanelOptions, UpdateEnabledMode } from '../../types';
 import {
   convertToElementValue,
+  elementValueChangedCodeParameters,
   fileToBase64,
   getButtonVariant,
   getFieldValues,
   getInitialValuesMap,
   getPayloadForRequest,
+  requestCodeParameters,
   toFormData,
   toJson,
   ValueChangedEvent,
@@ -210,7 +212,7 @@ export const FormPanel: React.FC<Props> = ({
       code: string;
       initial: unknown;
       response?: FetchResponse | Response | null;
-      initialRequest?: () => void;
+      initialRequest?: () => Promise<void>;
       currentElements?: LocalFormElement[];
     }) => {
       if (!code) {
@@ -259,7 +261,7 @@ export const FormPanel: React.FC<Props> = ({
           notifySuccess,
           notifyWarning,
           toDataQueryResponse,
-          {
+          requestCodeParameters.create({
             grafana: {
               locationService,
               templateService: templateSrv,
@@ -288,7 +290,7 @@ export const FormPanel: React.FC<Props> = ({
               toDataQueryResponse,
               fileToBase64,
             },
-          }
+          })
         );
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -822,43 +824,47 @@ export const FormPanel: React.FC<Props> = ({
     ({ elements, element }: { elements: LocalFormElement[]; element: LocalFormElement }) => {
       const fn = new Function('context', replaceVariables(options.elementValueChanged));
 
-      fn({
-        element,
-        grafana: {
-          locationService,
-          templateService: templateSrv,
-          notifyError,
-          notifySuccess,
-          notifyWarning,
-          eventBus,
-          appEvents,
-          refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
-        },
-        panel: {
-          options,
-          data,
-          onOptionsChange,
-          elements,
-          onChangeElements,
-          initial: initialRef.current,
-          setError,
-          enableReset: () => setResetEnabled(true),
-          disableReset: () => setResetEnabled(false),
-          enableSubmit: () => setSubmitEnabled(true),
-          disableSubmit: () => setSubmitEnabled(false),
-          enableSaveDefault: () => setSaveDefaultEnabled(true),
-          disableSaveDefault: () => setSaveDefaultEnabled(false),
-        },
-        utils: {
-          toDataQueryResponse,
-        },
-      });
+      fn(
+        elementValueChangedCodeParameters.create({
+          element,
+          grafana: {
+            locationService,
+            templateService: templateSrv,
+            notifyError,
+            notifySuccess,
+            notifyWarning,
+            eventBus,
+            appEvents,
+            refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+          },
+          panel: {
+            options,
+            data,
+            onOptionsChange,
+            elements,
+            onChangeElements,
+            initial: initialRef.current,
+            setError,
+            enableReset: () => setResetEnabled(true),
+            disableReset: () => setResetEnabled(false),
+            enableSubmit: () => setSubmitEnabled(true),
+            disableSubmit: () => setSubmitEnabled(false),
+            enableSaveDefault: () => setSaveDefaultEnabled(true),
+            disableSaveDefault: () => setSaveDefaultEnabled(false),
+            initialRequest,
+          },
+          utils: {
+            toDataQueryResponse,
+          },
+        })
+      );
     },
     [
       appEvents,
       data,
       eventBus,
       initialRef,
+      initialRequest,
       notifyError,
       notifySuccess,
       notifyWarning,

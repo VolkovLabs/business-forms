@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Add files upload examples and fix form data header (#357)
+- Add code parameters with builder and add initial request to element value changed code (#358)
 
 ## 3.6.0 (2023-01-10)
 
