@@ -10,7 +10,7 @@ import { fileToBase64 } from './request';
  * Request Code Parameters
  */
 export const requestCodeParameters = new CodeParametersBuilder({
-  detail: 'All passed possible properties and methods.',
+  detail: 'All properties and methods.',
   items: {
     panel: {
       detail: 'Panel instance properties.',
@@ -83,7 +83,7 @@ export const requestCodeParameters = new CodeParametersBuilder({
  * Element Value Changed Code Parameters
  */
 export const elementValueChangedCodeParameters = new CodeParametersBuilder({
-  detail: 'All passed possible properties and methods.',
+  detail: 'All properties and methods.',
   items: {
     panel: {
       detail: 'Panel instance properties.',
@@ -161,7 +161,7 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
  * Show If Code Parameters
  */
 export const showIfCodeParameters = new CodeParametersBuilder({
-  detail: 'All passed possible properties and methods.',
+  detail: 'All properties and methods.',
   items: {
     panel: {
       detail: 'Panel instance properties.',
@@ -185,7 +185,7 @@ export const showIfCodeParameters = new CodeParametersBuilder({
  * Disable If Code Parameters
  */
 export const disableIfCodeParameters = new CodeParametersBuilder({
-  detail: 'All passed possible properties and methods.',
+  detail: 'All properties and methods.',
   items: {
     panel: {
       detail: 'Panel instance properties.',
@@ -209,7 +209,7 @@ export const disableIfCodeParameters = new CodeParametersBuilder({
  * Get Options Code Parameters
  */
 export const getOptionsCodeParameters = new CodeParametersBuilder({
-  detail: 'All passed possible properties and methods.',
+  detail: 'All properties and methods.',
   items: {
     panel: {
       detail: 'Panel instance properties.',
@@ -234,7 +234,7 @@ export const getOptionsCodeParameters = new CodeParametersBuilder({
  * Get Payload Code Parameters
  */
 export const getPayloadCodeParameters = new CodeParametersBuilder({
-  detail: 'All passed possible properties and methods.',
+  detail: 'All properties and methods.',
   items: {
     panel: {
       detail: 'Panel instance properties.',
