@@ -1,5 +1,7 @@
 const http = require('http');
+const fs = require('fs');
 const { Client } = require('pg');
+const multiparty = require('multiparty');
 
 /**
  * Server Port
@@ -19,7 +21,7 @@ client.connect();
 /**
  * Create Server
  */
-const server = http.createServer(async function (req, res) {
+const server = http.createServer(async function (req: any, res: any) {
   /**
    * Set CORS headers
    */
@@ -54,11 +56,45 @@ const server = http.createServer(async function (req, res) {
   }
 
   /**
+   * Upload File
+   */
+  if (req.url === '/upload' && req.method === 'POST') {
+    const form = new multiparty.Form({ autoFiles: true });
+
+    form.parse(req, async function (err: any, fields: any, files: any) {
+      if (!files) {
+        res.writeHead(200, { 'content-type': 'text/plain' });
+        res.write('Incorrect request');
+        res.end();
+        return;
+      }
+
+      const filesArray = Object.values(files).reduce((acc: any[], files) => acc.concat(files), []);
+
+      /**
+       * Insert files to database
+       */
+      await Promise.all(
+        filesArray.map(async (file) => {
+          const base64 = await fs.readFileSync(file.path, { encoding: 'base64' });
+          await client.query('INSERT INTO files(name, file) VALUES($1, $2)', [file.originalFilename, base64]);
+        })
+      );
+
+      res.writeHead(200, { 'content-type': 'text/plain' });
+      res.write('Files uploaded');
+      res.end();
+    });
+
+    return;
+  }
+
+  /**
    * POST, PUT or PATCH
    */
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
     let body = '';
-    req.on('data', function (chunk) {
+    req.on('data', function (chunk: string) {
       body += chunk;
     });
 
