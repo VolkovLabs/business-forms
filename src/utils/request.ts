@@ -53,6 +53,13 @@ export const getPayloadForRequest = async ({
    * Get payload
    */
   elements.forEach((element) => {
+    /**
+     * Skip hidden elements
+     */
+    if ('hidden' in element && element.hidden) {
+      return;
+    }
+
     if (!updatedOnly) {
       body[element.id] = element.value;
       return;

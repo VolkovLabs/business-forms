@@ -50,6 +50,29 @@ describe('Request Utils', () => {
       });
     });
 
+    it('Should return values for visible elements', async () => {
+      expect(
+        await getPayloadForRequest({
+          elements: [
+            elements[0],
+            elements[1],
+            {
+              ...elements[2],
+              hidden: true,
+            },
+          ],
+          initial: {},
+          request: {
+            payloadMode: PayloadMode.ALL,
+          } as any,
+          replaceVariables,
+        })
+      ).toEqual({
+        name: 'John',
+        age: 30,
+      });
+    });
+
     it('Should return values for updated elements', async () => {
       expect(
         await getPayloadForRequest({
