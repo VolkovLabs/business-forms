@@ -1,5 +1,7 @@
 import { SelectableValue } from '@grafana/data';
 
+import { UpdateEnabledMode } from '../types';
+
 /**
  * Request Methods
  */
@@ -122,4 +124,24 @@ export const RESET_ACTION_OPTIONS = [
   { label: 'Code', value: ResetActionMode.CUSTOM, icon: 'calculator-alt' },
   { label: 'Initial Request', value: ResetActionMode.INITIAL },
   { label: 'Data Source', value: ResetActionMode.DATASOURCE, icon: 'database' },
+];
+
+/**
+ * Update Enabled Options
+ */
+export const UPDATE_ENABLED_OPTIONS = [
+  {
+    value: UpdateEnabledMode.DISABLED,
+    label: 'Disabled',
+  },
+  {
+    value: UpdateEnabledMode.AUTO,
+    label: 'If Changed',
+    description: 'Enabled if value is changed from initial.',
+  },
+  {
+    value: UpdateEnabledMode.MANUAL,
+    label: 'Manual',
+    description: 'Disabled by default. Control through the code.',
+  },
 ];

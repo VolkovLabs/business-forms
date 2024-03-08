@@ -17,7 +17,7 @@ import {
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
-import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement } from '../../types';
+import { ButtonOrientation, ButtonVariant, FormElement, LocalFormElement, UpdateEnabledMode } from '../../types';
 import { getFormElementsSelectors, getPanelSelectors, toLocalFormElement } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
@@ -32,19 +32,23 @@ jest.mock('../FormElements', () => ({
 /**
  * Mock @grafana/runtime
  */
+const appEventsMock = {
+  publish: jest.fn(),
+};
+
 jest.mock('@grafana/runtime', () => ({
   ...jest.requireActual('@grafana/runtime'),
-  getAppEvents: jest.fn().mockImplementation(() => ({
-    publish: jest.fn(),
-  })),
+  getAppEvents: jest.fn(() => appEventsMock),
 }));
 
 /**
  * Mock hooks
  */
+const datasourceRequestMock = jest.fn(() => Promise.resolve());
+
 jest.mock('../../hooks', () => ({
   ...jest.requireActual('../../hooks'),
-  useDatasourceRequest: jest.fn(() => jest.fn()),
+  useDatasourceRequest: jest.fn(() => datasourceRequestMock),
 }));
 
 /**
@@ -95,12 +99,14 @@ describe('Panel', () => {
           },
         ],
       },
+      updateEnabled: UpdateEnabledMode.AUTO,
       reset: {},
       saveDefault: {},
       layout: { variant: LayoutVariant.SINGLE },
       buttonGroup: { orientation: ButtonOrientation.CENTER },
       elements: [{ ...FORM_ELEMENT_DEFAULT, id: 'test' }],
       confirmModal: CONFIRM_MODAL_DEFAULT,
+      resetAction: {},
       ...options,
     };
 
@@ -124,10 +130,22 @@ describe('Panel', () => {
   };
 
   beforeEach(() => {
-    jest.mocked(useDatasourceRequest).mockClear();
+    /**
+     * Use datasource request
+     */
+    jest.mocked(useDatasourceRequest).mockReset();
+    jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequestMock as any);
+
     jest.mocked(FormElements).mockClear();
     jest.mocked(fetch).mockClear();
     replaceVariables.mockClear();
+
+    /**
+     * App Events
+     */
+    jest.mocked(getAppEvents).mockReset();
+    jest.mocked(getAppEvents).mockReturnValue(appEventsMock as any);
+    appEventsMock.publish.mockReset();
   });
 
   it('Should find component with Elements', async () => {
@@ -328,7 +346,7 @@ describe('Panel', () => {
           message: 'hello',
         })
       ) as any;
-      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
 
       /**
        * Render
@@ -518,7 +536,7 @@ describe('Panel', () => {
           },
         })
       ) as any;
-      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
 
       /**
        * Render
@@ -766,6 +784,81 @@ describe('Panel', () => {
       expect(fetch).toHaveBeenCalledTimes(2);
     });
 
+    it('Should make initial request once', async () => {
+      let fetchCalledOptions: any = {};
+      jest.mocked(fetch).mockImplementationOnce((url, options) => {
+        fetchCalledOptions = options;
+        return Promise.resolve({
+          json: Promise.resolve({}),
+        } as any);
+      });
+
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            props: {},
+          })
+        )
+      );
+
+      /**
+       * Check if fetch is called
+       */
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(fetch).toHaveBeenCalledWith(
+        'some-url',
+        expect.objectContaining({
+          method: RequestMethod.POST,
+        })
+      );
+      expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
+    });
+
+    it('Should enable submit from code', async () => {
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.enableSubmit()`,
+              },
+              updateEnabled: UpdateEnabledMode.MANUAL,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+    });
+
+    it('Should disable submit from code', async () => {
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.disableSubmit()`,
+              },
+              updateEnabled: UpdateEnabledMode.MANUAL,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeDisabled();
+    });
+
     describe('Dashboard Refresh', () => {
       /**
        * Event Bus
@@ -786,6 +879,10 @@ describe('Panel', () => {
       };
 
       it('Should make initial request on dashboard refresh', async () => {
+        const data = {
+          state: LoadingState.Done,
+        };
+
         /**
          * Render
          */
@@ -793,9 +890,7 @@ describe('Panel', () => {
           render(
             getComponent({
               props: {
-                data: {
-                  state: LoadingState.Done,
-                },
+                data,
                 eventBus,
               },
             })
@@ -821,6 +916,10 @@ describe('Panel', () => {
       });
 
       it('Should not make initial request on dashboard refresh if sync disabled', async () => {
+        const data = {
+          state: LoadingState.Done,
+        };
+
         /**
          * Render
          */
@@ -828,9 +927,7 @@ describe('Panel', () => {
           render(
             getComponent({
               props: {
-                data: {
-                  state: LoadingState.Done,
-                },
+                data,
                 eventBus,
               },
               options: {
@@ -1417,13 +1514,7 @@ describe('Panel', () => {
        * Render
        */
       const replaceVariables = jest.fn((code) => code);
-      const publish = jest.fn();
-      jest.mocked(getAppEvents).mockImplementationOnce(
-        () =>
-          ({
-            publish,
-          }) as any
-      );
+
       await act(async () =>
         render(
           getComponent({
@@ -1443,15 +1534,15 @@ describe('Panel', () => {
       expect(replaceVariables).toHaveBeenCalledWith(
         'notifySuccess("success"); notifyError("error"); notifyWarning("warning");'
       );
-      expect(publish).toHaveBeenCalledWith({
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
       });
-      expect(publish).toHaveBeenCalledWith({
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertError.name,
         payload: 'error',
       });
-      expect(publish).toHaveBeenCalledWith({
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertWarning.name,
         payload: 'warning',
       });
@@ -1462,13 +1553,7 @@ describe('Panel', () => {
        * Render
        */
       const replaceVariables = jest.fn((code) => code);
-      const publish = jest.fn();
-      jest.mocked(getAppEvents).mockImplementation(
-        () =>
-          ({
-            publish,
-          }) as any
-      );
+
       const defaultOptions = {
         initial: {},
         update: {
@@ -1505,7 +1590,7 @@ describe('Panel', () => {
       );
 
       jest.mocked(replaceVariables).mockClear();
-      jest.mocked(publish).mockClear();
+      jest.mocked(appEventsMock.publish).mockClear();
 
       expect(selectors.buttonSubmit()).not.toBeDisabled();
       await act(async () => {
@@ -1513,16 +1598,14 @@ describe('Panel', () => {
       });
 
       expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.update.code);
-      expect(publish).toHaveBeenCalledWith({
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
       });
-      expect(publish).toHaveBeenCalledWith({
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertError.name,
         payload: 'error',
       });
-
-      jest.mocked(getAppEvents).mockClear();
     });
   });
 
@@ -1532,13 +1615,7 @@ describe('Panel', () => {
        * Render
        */
       const replaceVariables = jest.fn((code) => code);
-      const publish = jest.fn();
-      jest.mocked(getAppEvents).mockImplementation(
-        () =>
-          ({
-            publish,
-          }) as any
-      );
+
       const defaultOptions = {
         initial: {
           code: `notifySuccess("success");`,
@@ -1578,7 +1655,7 @@ describe('Panel', () => {
       );
 
       jest.mocked(replaceVariables).mockClear();
-      jest.mocked(publish).mockClear();
+      jest.mocked(appEventsMock.publish).mockClear();
 
       expect(selectors.buttonReset()).not.toBeDisabled();
       await act(async () => {
@@ -1590,8 +1667,6 @@ describe('Panel', () => {
        */
       expect(selectors.errorMessage()).toBeInTheDocument();
       expect(within(selectors.errorMessage()).getByText('Please select URL for Initial Request.')).toBeInTheDocument();
-
-      jest.mocked(getAppEvents).mockClear();
     });
 
     it('Should execute custom reset code', async () => {
@@ -1599,13 +1674,7 @@ describe('Panel', () => {
        * Render
        */
       const replaceVariables = jest.fn((code) => code);
-      const publish = jest.fn();
-      jest.mocked(getAppEvents).mockImplementation(
-        () =>
-          ({
-            publish,
-          }) as any
-      );
+
       const defaultOptions = {
         initial: {
           code: `notifyError("error");`,
@@ -1645,7 +1714,7 @@ describe('Panel', () => {
       );
 
       jest.mocked(replaceVariables).mockClear();
-      jest.mocked(publish).mockClear();
+      jest.mocked(appEventsMock.publish).mockClear();
 
       expect(selectors.buttonReset()).not.toBeDisabled();
       await act(async () => {
@@ -1653,16 +1722,14 @@ describe('Panel', () => {
       });
 
       expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.resetAction.code);
-      expect(publish).toHaveBeenCalledWith({
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
       });
-      expect(publish).not.toHaveBeenCalledWith({
+      expect(appEventsMock.publish).not.toHaveBeenCalledWith({
         type: AppEvents.alertError.name,
         payload: 'error',
       });
-
-      jest.mocked(getAppEvents).mockClear();
     });
 
     it('Should run reset datasource request', async () => {
@@ -1837,13 +1904,7 @@ describe('Panel', () => {
        * Render
        */
       const replaceVariables = jest.fn((code) => code);
-      const publish = jest.fn();
-      jest.mocked(getAppEvents).mockImplementation(
-        () =>
-          ({
-            publish,
-          }) as any
-      );
+
       const defaultOptions = {
         initial: {
           code: `notifySuccess("success");`,
@@ -1885,7 +1946,7 @@ describe('Panel', () => {
       );
 
       jest.mocked(replaceVariables).mockClear();
-      jest.mocked(publish).mockClear();
+      jest.mocked(appEventsMock.publish).mockClear();
 
       expect(selectors.buttonReset()).not.toBeDisabled();
       await act(async () => {
@@ -1902,7 +1963,7 @@ describe('Panel', () => {
        */
       await act(async () => fireEvent.click(selectors.buttonConfirmReset()));
 
-      expect(publish).toHaveBeenCalled();
+      expect(appEventsMock.publish).toHaveBeenCalled();
     });
   });
 
@@ -2214,18 +2275,10 @@ describe('Panel', () => {
       /**
        * Should be enabled
        */
-      expect(selectors.buttonSubmit()).toBeDisabled();
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
     });
 
     it('Should allow to refresh dashboard', async () => {
-      const publish = jest.fn();
-      jest.mocked(getAppEvents).mockImplementation(
-        () =>
-          ({
-            publish,
-          }) as any
-      );
-
       await act(async () =>
         render(
           getComponent({
@@ -2252,7 +2305,7 @@ describe('Panel', () => {
       /**
        * Dashboard should be refreshed
        */
-      expect(publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
+      expect(appEventsMock.publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
     });
 
     it('Should allow to manage submit button', async () => {
@@ -2268,13 +2321,14 @@ describe('Panel', () => {
                   context.panel.disableSubmit();
                 }
               `,
+              updateEnabled: UpdateEnabledMode.MANUAL,
             },
           })
         )
       );
 
       expect(selectors.buttonSubmit()).toBeInTheDocument();
-      expect(selectors.buttonSubmit()).not.toBeDisabled();
+      expect(selectors.buttonSubmit()).toBeDisabled();
 
       /**
        * Change to invalid value
