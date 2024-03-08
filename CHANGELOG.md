@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.7.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add files upload examples and fix form data header (#357)
+
 ## 3.6.0 (2023-01-10)
 
 ### Features / Enhancements
