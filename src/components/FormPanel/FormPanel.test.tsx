@@ -2125,6 +2125,80 @@ describe('Panel', () => {
       expect(updatedFieldSelectors.confirmModalFieldValue()).toHaveTextContent('111');
     });
 
+    it('Should not show hidden elements', async () => {
+      let triggerChangeElement: (element: LocalFormElement) => void = jest.fn();
+      jest.mocked(FormElements).mockImplementation(({ onChangeElement }) => {
+        triggerChangeElement = onChangeElement;
+        return null;
+      });
+
+      const elements = [
+        toLocalFormElement({
+          ...FORM_ELEMENT_DEFAULT,
+          id: 'visible',
+          title: 'Field',
+          value: '1',
+          uid: '1',
+        } as FormElement & { type: FormElementType.STRING }),
+        toLocalFormElement({
+          ...FORM_ELEMENT_DEFAULT,
+          id: 'hidden',
+          title: 'Field',
+          value: '2',
+          uid: '2',
+          hidden: true,
+        } as FormElement & { type: FormElementType.STRING }),
+        toLocalFormElement({
+          ...FORM_ELEMENT_DEFAULT,
+          id: 'hiddenByCode',
+          title: 'Field',
+          value: '3',
+          uid: '3',
+          hidden: true,
+        } as FormElement & { type: FormElementType.STRING }),
+      ];
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements,
+              update: {
+                confirm: true,
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Trigger field change
+       */
+      await act(async () => triggerChangeElement(elements[0]));
+
+      /**
+       * Check if submit button is enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+
+      /**
+       * Open confirm modal
+       */
+      await act(async () => fireEvent.click(selectors.buttonSubmit()));
+
+      /**
+       * Check confirm modal presence
+       */
+      expect(selectors.confirmModalContent()).toBeInTheDocument();
+
+      /**
+       * Check only visible field is shown
+       */
+      expect(selectors.confirmModalField(false, elements[0].id)).toBeInTheDocument();
+      expect(selectors.confirmModalField(true, elements[1].id)).not.toBeInTheDocument();
+      expect(selectors.confirmModalField(true, elements[2].id)).not.toBeInTheDocument();
+    });
+
     it('Should show only included columns', async () => {
       const { triggerChangeElement, elementWithInitialValue } = await prepareComponent({
         confirmModal: {

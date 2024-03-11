@@ -2,7 +2,7 @@
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-10.2-orange)
+![Grafana](https://img.shields.io/badge/Grafana-10.4-orange)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 ![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/E2E/badge.svg)
@@ -17,7 +17,7 @@ The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the 
 
 ## Requirements
 
-- **Grafana 9** and **Grafana 10** are required for major version 3.
+- **Grafana 9.2** and **Grafana 10** are required for major version 3.
 - **Grafana 8.5** and **Grafana 9** are required for major version 2.
 - **Grafana 8** is required for major version 1.
 

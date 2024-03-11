@@ -20,16 +20,25 @@ describe('Request Utils', () => {
         id: 'name',
         type: FormElementType.STRING,
         value: 'John',
+        helpers: {
+          showIf: () => true,
+        },
       },
       {
         id: 'age',
         type: FormElementType.NUMBER,
         value: 30,
+        helpers: {
+          showIf: () => true,
+        },
       },
       {
         id: 'password',
         type: FormElementType.DISABLED,
         value: '123',
+        helpers: {
+          showIf: () => true,
+        },
       },
     ];
 
@@ -47,6 +56,31 @@ describe('Request Utils', () => {
         name: 'John',
         age: 30,
         password: '123',
+      });
+    });
+
+    it('Should return values for visible elements', async () => {
+      expect(
+        await getPayloadForRequest({
+          elements: [
+            elements[0],
+            elements[1],
+            {
+              ...elements[2],
+              helpers: {
+                showIf: () => false,
+              },
+            },
+          ],
+          initial: {},
+          request: {
+            payloadMode: PayloadMode.ALL,
+          } as any,
+          replaceVariables,
+        })
+      ).toEqual({
+        name: 'John',
+        age: 30,
       });
     });
 
