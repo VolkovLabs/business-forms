@@ -2,6 +2,10 @@
 
 ## 3.7.0 (2024-03-10)
 
+### Breaking changes
+
+- Requires Grafana 9.2 and Grafana 10
+
 ### Features / Enhancements
 
 - Added update enabled option and variables examples, fix sync option (#356)
