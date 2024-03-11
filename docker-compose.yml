@@ -51,7 +51,7 @@ services:
     build: ./nginx
     restart: always
     environment:
-      - GRAFANA_HOST=host.docker.internal
+      - GRAFANA_HOST=postgres
     ports:
       - 80:80/tcp
       - 443:443/tcp

@@ -1107,7 +1107,10 @@ export const FormPanel: React.FC<Props> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {elements.map((element: FormElement) => {
+                  {elements.map((element) => {
+                    /**
+                     * Skip not changed element
+                     */
                     if (element.value === initial[element.id]) {
                       return;
                     }
@@ -1116,6 +1119,16 @@ export const FormPanel: React.FC<Props> = ({
                      * Skip Disabled elements, which can be updated in the custom code as previous values
                      */
                     if (element.type === FormElementType.DISABLED) {
+                      return;
+                    }
+
+                    /**
+                     * Skip hidden element
+                     */
+                    if (
+                      ('hidden' in element && element.hidden) ||
+                      !element.helpers.showIf({ elements, replaceVariables })
+                    ) {
                       return;
                     }
 
