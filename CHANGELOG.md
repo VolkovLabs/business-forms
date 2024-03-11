@@ -1,36 +1,39 @@
 # Change Log
 
-## 3.7.0 (IN PROGRESS)
+## 3.7.0 (2024-03-10)
 
 ### Features / Enhancements
 
-- Add files upload examples and fix form data header (#357)
-- Add code parameters with builder and add initial request to element value changed code (#358)
-- Allow to disable columns in confirmation modal (#360)
+- Added update enabled option and variables examples, fix sync option (#356)
+- Added files upload examples and fix form data header (#357)
+- Added code parameters with builder and add initial request to element value changed code (#358)
+- Allowed to disable columns in confirmation modal (#360)
+- Removed elements hidden using Show If from update payload (#369)
+- Updated to Grafana 10.2.1 (#369)
 
 ## 3.6.0 (2023-01-10)
 
 ### Features / Enhancements
 
-- Add backend service to custom code (#331)
-- Add support for file base64 encoding in payload (#331)
-- Add Context parameter to Payload (#331)
+- Added backend service to custom code (#331)
+- Added support for file base64 encoding in payload (#331)
+- Added Context parameter to Payload (#331)
 
 ### Bugfixes
 
-- Fix element custom options source (#334)
+- Fixed element custom options source (#334)
 
 ## 3.5.0 (2023-01-04)
 
 ### Features / Enhancements
 
-- Add disable if code (#321)
-- Update reset request visibility if reset button is hidden (#322)
-- Add code options source for select element (#323)
-- Add value changed code (#324)
-- Update to Node 20 (#326)
-- Add suggestions for code editors (#327)
-- Add reset button confirmation (#328)
+- Added disable if code (#321)
+- Updated reset request visibility if reset button is hidden (#322)
+- Added code options source for select element (#323)
+- Added value changed code (#324)
+- Updated to Node 20 (#326)
+- Added suggestions for code editors (#327)
+- Added reset button confirmation (#328)
 
 ## 3.4.0 (2023-12-14)
 
