@@ -12,8 +12,8 @@
 - Added files upload examples and fix form data header (#357)
 - Added code parameters with builder and add initial request to element value changed code (#358)
 - Allowed to disable columns in confirmation modal (#360)
+- Updated dependencies and Actions (#368)
 - Removed elements hidden using Show If from update payload (#369)
-- Updated to Grafana 10.2.1 (#369)
 
 ## 3.6.0 (2023-01-10)
 

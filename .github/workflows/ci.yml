@@ -64,11 +64,12 @@ jobs:
           echo "checksum=$(cat ./${{ steps.metadata.outputs.archive-checksum }} | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           directory: ./coverage/
           files: ./coverage/lcov.info
           env_vars: OS,PYTHON
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
       - name: Upload artifact

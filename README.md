@@ -2,7 +2,7 @@
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-10.2-orange)
+![Grafana](https://img.shields.io/badge/Grafana-10.4-orange)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 ![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/E2E/badge.svg)
