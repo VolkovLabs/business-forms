@@ -3,6 +3,7 @@ import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, us
 import React, { ChangeEvent } from 'react';
 
 import {
+  BOOLEAN_OPTIONS,
   CODE_EDITOR_SUGGESTIONS,
   CODE_LANGUAGE_OPTIONS,
   FORM_ELEMENT_TYPE_OPTIONS,
@@ -15,7 +16,13 @@ import {
   TEST_IDS,
 } from '../../constants';
 import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
-import { formatNumberValue, getElementWithNewType, isFormElementType, toNumberValue } from '../../utils';
+import {
+  formatNumberValue,
+  getElementWithNewType,
+  getOptionsWithTestId,
+  isFormElementType,
+  toNumberValue,
+} from '../../utils';
 import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
@@ -448,10 +455,22 @@ export const ElementEditor: React.FC<Props> = ({
 
       {element.type === FormElementType.FILE && (
         <InlineFieldRow>
+          <InlineField label="Single" labelWidth={10} tooltip="Allows to select only one file">
+            <RadioButtonGroup
+              options={getOptionsWithTestId(BOOLEAN_OPTIONS, TEST_IDS.formElementsEditor.fileSingleOption)}
+              value={element.single ?? false}
+              onChange={(single) => {
+                onChange({
+                  ...element,
+                  single,
+                });
+              }}
+            />
+          </InlineField>
           <InlineField
             grow={true}
             label="Accept"
-            labelWidth={14}
+            labelWidth={10}
             tooltip="Specify comma-separated file extensions or keep blank to allow any file"
           >
             <Input

@@ -121,6 +121,7 @@ export const getElementWithNewType = (
         value: [],
         accept: '',
         type: newType,
+        single: true,
       };
     }
     case FormElementType.DATETIME:
