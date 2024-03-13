@@ -1429,7 +1429,7 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fileMultipleOption(false, true)).not.toBeChecked();
 
       /**
-       * Change field single
+       * Change field multiple
        */
       await act(() => fireEvent.click(elementSelectors.fileMultipleOption(false, true)));
 
