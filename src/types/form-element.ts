@@ -326,8 +326,17 @@ export interface FileOptions {
 
   /**
    * Accept
+   *
+   * @type {string}
    */
   accept: string;
+
+  /**
+   * Multiple files
+   *
+   * @type {boolean}
+   */
+  multiple: boolean;
 }
 
 /**

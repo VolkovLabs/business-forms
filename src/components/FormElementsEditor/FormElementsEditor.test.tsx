@@ -1410,6 +1410,32 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldAccept()).toHaveValue('.png');
     });
 
+    it('Should update file field multiple', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.FILE }];
+      const context = {
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.FILE);
+
+      /**
+       * Check initial value
+       */
+      expect(elementSelectors.fileMultipleOption(false, true)).not.toBeChecked();
+
+      /**
+       * Change field multiple
+       */
+      await act(() => fireEvent.click(elementSelectors.fileMultipleOption(false, true)));
+
+      expect(elementSelectors.fileMultipleOption(false, true)).toBeChecked();
+    });
+
     it('Should update file options source', async () => {
       const elements = [
         { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.SELECT, optionsSource: OptionsSource.CUSTOM },

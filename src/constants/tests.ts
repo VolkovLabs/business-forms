@@ -112,6 +112,7 @@ export const TEST_IDS = {
     buttonRemoveDate: 'data-testid form-elements-editor button-remove-date',
     fieldLinkText: 'data-testid form-elements-editor field-link-text',
     fieldGetOptions: 'form-elements-editor field-get-options',
+    fileMultipleOption: (name: unknown) => `form-elements-editor file-multiple-option-${name}`,
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',
