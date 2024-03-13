@@ -14,6 +14,7 @@
 - Allowed to disable columns in confirmation modal (#360)
 - Updated dependencies and Actions (#368)
 - Added skipping elements hidden using Show If from update payload (#369)
+- Add file single option (#375)
 
 ## 3.6.0 (2023-01-10)
 

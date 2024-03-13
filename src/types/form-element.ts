@@ -332,11 +332,11 @@ export interface FileOptions {
   accept: string;
 
   /**
-   * Single file
+   * Multiple files
    *
    * @type {boolean}
    */
-  single: boolean;
+  multiple: boolean;
 }
 
 /**

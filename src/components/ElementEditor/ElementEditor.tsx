@@ -455,18 +455,6 @@ export const ElementEditor: React.FC<Props> = ({
 
       {element.type === FormElementType.FILE && (
         <InlineFieldRow>
-          <InlineField label="Single" labelWidth={10} tooltip="Allows to select only one file">
-            <RadioButtonGroup
-              options={getOptionsWithTestId(BOOLEAN_OPTIONS, TEST_IDS.formElementsEditor.fileSingleOption)}
-              value={element.single ?? false}
-              onChange={(single) => {
-                onChange({
-                  ...element,
-                  single,
-                });
-              }}
-            />
-          </InlineField>
           <InlineField
             grow={true}
             label="Accept"
@@ -482,6 +470,18 @@ export const ElementEditor: React.FC<Props> = ({
                 });
               }}
               data-testid={TEST_IDS.formElementsEditor.fieldAccept}
+            />
+          </InlineField>
+          <InlineField label="Multi" labelWidth={12} tooltip="Allows to select multiple files">
+            <RadioButtonGroup
+              options={getOptionsWithTestId(BOOLEAN_OPTIONS, TEST_IDS.formElementsEditor.fileSingleOption)}
+              value={element.multiple ?? false}
+              onChange={(multiple) => {
+                onChange({
+                  ...element,
+                  multiple,
+                });
+              }}
             />
           </InlineField>
         </InlineFieldRow>

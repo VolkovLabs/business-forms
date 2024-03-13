@@ -398,7 +398,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           <FileDropzone
             options={{
               accept: element.accept || undefined,
-              multiple: !element.single,
+              multiple: element.multiple,
               onDrop: (files: File[]) => {
                 onChange<typeof element>({
                   ...element,
