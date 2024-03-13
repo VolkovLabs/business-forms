@@ -1410,7 +1410,7 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldAccept()).toHaveValue('.png');
     });
 
-    it('Should update file field single', async () => {
+    it('Should update file field multiple', async () => {
       const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.FILE }];
       const context = {
         options: {},
@@ -1426,14 +1426,14 @@ describe('Form Elements Editor', () => {
       /**
        * Check initial value
        */
-      expect(elementSelectors.fileSingleOption(false, true)).not.toBeChecked();
+      expect(elementSelectors.fileMultipleOption(false, true)).not.toBeChecked();
 
       /**
        * Change field single
        */
-      await act(() => fireEvent.click(elementSelectors.fileSingleOption(false, true)));
+      await act(() => fireEvent.click(elementSelectors.fileMultipleOption(false, true)));
 
-      expect(elementSelectors.fileSingleOption(false, true)).toBeChecked();
+      expect(elementSelectors.fileMultipleOption(false, true)).toBeChecked();
     });
 
     it('Should update file options source', async () => {

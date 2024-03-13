@@ -472,9 +472,9 @@ export const ElementEditor: React.FC<Props> = ({
               data-testid={TEST_IDS.formElementsEditor.fieldAccept}
             />
           </InlineField>
-          <InlineField label="Multi" labelWidth={12} tooltip="Allows to select multiple files">
+          <InlineField label="Multiple" labelWidth={12} tooltip="Allows to select multiple files">
             <RadioButtonGroup
-              options={getOptionsWithTestId(BOOLEAN_OPTIONS, TEST_IDS.formElementsEditor.fileSingleOption)}
+              options={getOptionsWithTestId(BOOLEAN_OPTIONS, TEST_IDS.formElementsEditor.fileMultipleOption)}
               value={element.multiple ?? false}
               onChange={(multiple) => {
                 onChange({
