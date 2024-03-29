@@ -458,7 +458,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
                 data-testid={TEST_IDS.formElements.fieldCheckboxListAllCheckbox}
                 onChange={() => {
                   const currentValue = Array.isArray(element.value)
-                    ? element.value && element.value.length === element.options.length
+                    ? element.value.length === element.options.length
                       ? []
                       : element.options.map((option) => option.value)
                     : element.options.map((option) => option.value);
