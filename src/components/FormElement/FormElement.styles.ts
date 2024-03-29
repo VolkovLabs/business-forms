@@ -49,5 +49,18 @@ export const getStyles = (theme: GrafanaTheme2) => {
       display: flex;
       align-items: center;
     `,
+    checkboxWrap: css`
+      width: 100%;
+      & > div {
+        flex: auto;
+      }
+    `,
+    checkboxRow: css`
+      display: flex;
+      flex-wrap: wrap;
+    `,
+    checkbox: css`
+      padding: ${theme.spacing(1)};
+    `,
   };
 };

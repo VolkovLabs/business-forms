@@ -103,7 +103,8 @@ export const getElementWithNewType = (
     case FormElementType.SELECT:
     case FormElementType.MULTISELECT:
     case FormElementType.DISABLED:
-    case FormElementType.RADIO: {
+    case FormElementType.RADIO:
+    case FormElementType.CHECKBOX_LIST: {
       return {
         ...baseValues,
         options: 'options' in element ? element.options || [] : [],
@@ -270,7 +271,8 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
     element.type === FormElementType.DISABLED ||
     element.type === FormElementType.SELECT ||
     element.type === FormElementType.MULTISELECT ||
-    element.type === FormElementType.RADIO
+    element.type === FormElementType.RADIO ||
+    element.type === FormElementType.CHECKBOX_LIST
   ) {
     if (element.optionsSource === OptionsSource.QUERY) {
       getOptions = ({ data }) => {

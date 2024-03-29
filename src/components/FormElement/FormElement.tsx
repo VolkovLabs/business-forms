@@ -1,6 +1,7 @@
 import { cx } from '@emotion/css';
 import { DateTime, dateTime } from '@grafana/data';
 import {
+  Checkbox,
   DatePickerWithInput,
   DateTimePicker,
   FileDropzone,
@@ -433,6 +434,60 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             >
               {element.linkText || element.value}
             </TextLink>
+          </div>
+        </InlineField>
+      )}
+
+      {element.type === FormElementType.CHECKBOX_LIST && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={applyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+          disabled={element.disabled}
+          className={styles.checkboxWrap}
+        >
+          <div style={{ width: element.width ? theme.spacing(element.width) : 'auto' }} className={styles.checkboxRow}>
+            {element.options.length > 1 && (
+              <Checkbox
+                className={styles.checkbox}
+                value={Array.isArray(element.value) && element.value.length === element.options.length}
+                label="All"
+                onChange={() => {
+                  const currentValue = Array.isArray(element.value)
+                    ? element.value.length === element.options.length
+                      ? []
+                      : element.options.map((option) => option.value)
+                    : element.options.map((option) => option.value);
+
+                  onChange<typeof element>({
+                    ...element,
+                    value: currentValue,
+                  });
+                }}
+              />
+            )}
+            {!!element.options.length &&
+              element.options.map((option) => (
+                <Checkbox
+                  className={styles.checkbox}
+                  key={option.id}
+                  value={Array.isArray(element.value) && element.value.some((val) => val === option.value)}
+                  label={option.value}
+                  onChange={() => {
+                    const currentValue = Array.isArray(element.value)
+                      ? element.value.some((val) => val === option.value)
+                        ? element.value.filter((val) => val !== option.value)
+                        : [...element.value, option.value]
+                      : [option.value];
+                    onChange<typeof element>({
+                      ...element,
+                      value: currentValue,
+                    });
+                  }}
+                />
+              ))}
           </div>
         </InlineField>
       )}

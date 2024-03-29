@@ -430,6 +430,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
     | ({ type: FormElementType.LINK } & LinkOptions)
+    | ({ type: FormElementType.CHECKBOX_LIST } & SelectOptions)
   );
 
 /**
