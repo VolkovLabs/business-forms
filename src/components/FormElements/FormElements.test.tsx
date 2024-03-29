@@ -53,6 +53,7 @@ describe('Form Elements', () => {
         { id: 'boolean', type: FormElementType.BOOLEAN },
         { id: 'datetime', type: FormElementType.DATETIME },
         { id: 'radioGroup', type: FormElementType.RADIO },
+        { id: 'checkboxList', type: FormElementType.CHECKBOX_LIST },
         { id: 'disabled', type: FormElementType.DISABLED },
         {
           id: 'disabledWithOptions',
@@ -149,6 +150,10 @@ describe('Form Elements', () => {
 
     it('Should render radio field', () => {
       expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+    });
+
+    it('Should render checkboxList field', () => {
+      expect(selectors.fieldCheckboxListContainer()).toBeInTheDocument();
     });
 
     it('Should render dateTime field', () => {
@@ -265,6 +270,99 @@ describe('Form Elements', () => {
      * Radio
      */
     expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+  });
+
+  it('Should find component with CheckboxList', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [{ id: 'checkboxList', type: FormElementType.CHECKBOX_LIST }],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * CheckboxList
+     */
+    expect(selectors.fieldCheckboxListContainer()).toBeInTheDocument();
+  });
+
+  it('Should render "All" checkbox in CheckboxList', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [
+        {
+          id: 'checkboxList',
+          type: FormElementType.CHECKBOX_LIST,
+          width: 25,
+          options: [
+            {
+              id: 'Check box 1',
+              label: 'Check box 1',
+              type: 'string',
+              value: 'Check box 1',
+            },
+            {
+              id: 'Checkbox 2',
+              label: 'Checkbox 2',
+              type: 'string',
+              value: 'Checkbox 2',
+            },
+          ],
+        },
+      ],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * CheckboxList with "All" checkbox
+     */
+    expect(selectors.fieldCheckboxListAllCheckbox()).toBeInTheDocument();
+  });
+
+  it('Should render checked "All" checkbox in CheckboxList', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [
+        {
+          id: 'checkboxList',
+          type: FormElementType.CHECKBOX_LIST,
+          width: 25,
+          options: [
+            {
+              id: 'Check box 1',
+              label: 'Check box 1',
+              type: 'string',
+              value: 'Check box 1',
+            },
+            {
+              id: 'Checkbox 2',
+              label: 'Checkbox 2',
+              type: 'string',
+              value: 'Checkbox 2',
+            },
+          ],
+          value: ['Check box 1', 'Check box 2'],
+        },
+      ],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * CheckboxList with "All" checkbox
+     */
+    expect(selectors.fieldCheckboxListAllCheckbox()).toBeInTheDocument();
+    expect(selectors.fieldCheckboxListAllCheckbox()).toBeChecked();
   });
 
   it('Should find component with Select', async () => {
@@ -1005,6 +1103,201 @@ describe('Form Elements', () => {
 
       expect(radioInput).toBeInTheDocument();
       expect(radioInput).toBeChecked();
+    });
+
+    /**
+     * CheckboxList
+     */
+    it('Should update the CheckboxList value via "ALL" checkbox if the value of the element is an array', async () => {
+      const elementOption1 = {
+        id: 'Check box 1',
+        label: 'Check box 1',
+        type: 'string',
+        value: 'Check box 1',
+      };
+      const elementOption2 = {
+        id: 'Checkbox 2',
+        label: 'Checkbox 2',
+        type: 'string',
+        value: 'Checkbox 2',
+      };
+      const element = {
+        id: 'checkboxList',
+        type: FormElementType.CHECKBOX_LIST,
+        width: 25,
+        options: [elementOption1, elementOption2],
+        value: ['Check box 1'],
+      };
+      let appliedElements = [element];
+
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      expect(selectors.fieldCheckboxListAllCheckbox()).toBeInTheDocument();
+      expect(selectors.fieldCheckboxListAllCheckbox()).not.toBeChecked();
+
+      await act(() => fireEvent.click(selectors.fieldCheckboxListAllCheckbox()));
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(selectors.fieldCheckboxListAllCheckbox()).toBeInTheDocument();
+      expect(selectors.fieldCheckboxListAllCheckbox()).toBeChecked();
+    });
+
+    it('Should update the CheckboxList value via "ALL" checkbox if the value of the element is empty', async () => {
+      const elementOption1 = {
+        id: 'Check box 1',
+        label: 'Check box 1',
+        type: 'string',
+        value: 'Check box 1',
+      };
+      const elementOption2 = {
+        id: 'Checkbox 2',
+        label: 'Checkbox 2',
+        type: 'string',
+        value: 'Checkbox 2',
+      };
+
+      const element = {
+        id: 'checkboxList',
+        type: FormElementType.CHECKBOX_LIST,
+        width: 25,
+        options: [elementOption1, elementOption2],
+        value: '',
+      };
+      let appliedElements = [element];
+
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      expect(selectors.fieldCheckboxListAllCheckbox()).toBeInTheDocument();
+      expect(selectors.fieldCheckboxListAllCheckbox()).not.toBeChecked();
+
+      await act(() => fireEvent.click(selectors.fieldCheckboxListAllCheckbox()));
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(selectors.fieldCheckboxListAllCheckbox()).toBeInTheDocument();
+      expect(selectors.fieldCheckboxListAllCheckbox()).toBeChecked();
+    });
+
+    it('Should update the CheckboxList value via checkbox if the value of the element is empty', async () => {
+      const elementOption1 = {
+        id: 'Check box 1',
+        label: 'Check box 1',
+        type: 'string',
+        value: 'Check box 1',
+      };
+      const elementOption2 = {
+        id: 'Checkbox 2',
+        label: 'Checkbox 2',
+        type: 'string',
+        value: 'Checkbox 2',
+      };
+      const element = {
+        id: 'checkboxList',
+        type: FormElementType.CHECKBOX_LIST,
+        width: 25,
+        options: [elementOption1, elementOption2],
+        value: '',
+      };
+      let appliedElements = [element];
+
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      const checkboxContainer = within(selectors.fieldCheckboxListContainer());
+
+      await act(() => fireEvent.click(checkboxContainer.getByText('Check box 1')));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      const checkboxes = checkboxContainer.getAllByRole('checkbox');
+      const checkedCheckbox = checkboxes[1];
+
+      expect(checkedCheckbox).toBeInTheDocument();
+      expect(checkedCheckbox).toBeChecked();
+
+      await act(() => fireEvent.click(checkboxContainer.getByText('Check box 1')));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(checkedCheckbox).toBeInTheDocument();
+      expect(checkedCheckbox).not.toBeChecked();
     });
   });
 
