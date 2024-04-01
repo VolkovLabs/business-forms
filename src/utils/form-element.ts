@@ -103,28 +103,32 @@ export const getElementWithNewType = (
     case FormElementType.SELECT:
     case FormElementType.MULTISELECT:
     case FormElementType.DISABLED:
-    case FormElementType.RADIO: {
-      return {
-        ...baseValues,
-        options: 'options' in element ? element.options || [] : [],
-        optionsSource:
-          'optionsSource' in element
-            ? element.optionsSource || SELECT_DEFAULT.optionsSource
-            : SELECT_DEFAULT.optionsSource,
-        queryOptions: 'queryOptions' in element ? element.queryOptions : undefined,
-        type: newType,
-      };
-    }
+    case FormElementType.RADIO:
     case FormElementType.CHECKBOX_LIST: {
-      return {
-        ...baseValues,
-        value: [],
+      const selectOptions = {
         options: 'options' in element ? element.options || [] : [],
         optionsSource:
           'optionsSource' in element
             ? element.optionsSource || SELECT_DEFAULT.optionsSource
             : SELECT_DEFAULT.optionsSource,
         queryOptions: 'queryOptions' in element ? element.queryOptions : undefined,
+      };
+
+      /**
+       * Pass value array to checkbox list
+       */
+      if (newType === FormElementType.CHECKBOX_LIST) {
+        return {
+          ...baseValues,
+          ...selectOptions,
+          type: newType,
+          value: Array.isArray(baseValues) ? baseValues : [],
+        };
+      }
+
+      return {
+        ...baseValues,
+        ...selectOptions,
         type: newType,
       };
     }
