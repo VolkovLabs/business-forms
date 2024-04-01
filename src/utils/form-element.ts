@@ -103,10 +103,22 @@ export const getElementWithNewType = (
     case FormElementType.SELECT:
     case FormElementType.MULTISELECT:
     case FormElementType.DISABLED:
-    case FormElementType.RADIO:
+    case FormElementType.RADIO: {
+      return {
+        ...baseValues,
+        options: 'options' in element ? element.options || [] : [],
+        optionsSource:
+          'optionsSource' in element
+            ? element.optionsSource || SELECT_DEFAULT.optionsSource
+            : SELECT_DEFAULT.optionsSource,
+        queryOptions: 'queryOptions' in element ? element.queryOptions : undefined,
+        type: newType,
+      };
+    }
     case FormElementType.CHECKBOX_LIST: {
       return {
         ...baseValues,
+        value: [],
         options: 'options' in element ? element.options || [] : [],
         optionsSource:
           'optionsSource' in element
@@ -461,6 +473,12 @@ export const convertToElementValue = (
       return {
         ...element,
         value: typeof value === 'string' ? value : undefined,
+      };
+    }
+    case FormElementType.CHECKBOX_LIST: {
+      return {
+        ...element,
+        value: Array.isArray(value) ? value : [],
       };
     }
     default: {

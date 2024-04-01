@@ -450,47 +450,22 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           data-testid={TEST_IDS.formElements.fieldCheckboxListContainer}
         >
           <div style={{ width: element.width ? theme.spacing(element.width) : 'auto' }} className={styles.checkboxRow}>
-            {element.options.length > 1 && (
+            {element.options.map((option) => (
               <Checkbox
                 className={styles.checkbox}
-                value={Array.isArray(element.value) && element.value.length === element.options.length}
-                label="All"
-                data-testid={TEST_IDS.formElements.fieldCheckboxListAllCheckbox}
-                onChange={() => {
-                  const currentValue = Array.isArray(element.value)
-                    ? element.value.length === element.options.length
-                      ? []
-                      : element.options.map((option) => option.value)
-                    : element.options.map((option) => option.value);
-
+                key={option.id}
+                value={element.value.some((val) => val === option.value)}
+                label={option.label}
+                onChange={(event) => {
                   onChange<typeof element>({
                     ...element,
-                    value: currentValue,
+                    value: event.currentTarget.checked
+                      ? element.value.concat(option.value)
+                      : element.value.filter((value) => value !== option.value),
                   });
                 }}
               />
-            )}
-            {!!element.options.length &&
-              element.options.map((option) => (
-                <Checkbox
-                  className={styles.checkbox}
-                  key={option.id}
-                  value={Array.isArray(element.value) && element.value.some((val) => val === option.value)}
-                  label={option.value}
-                  onChange={() => {
-                    const currentValue = Array.isArray(element.value)
-                      ? element.value.some((val) => val === option.value)
-                        ? element.value.filter((val) => val !== option.value)
-                        : [...element.value, option.value]
-                      : [option.value];
-
-                    onChange<typeof element>({
-                      ...element,
-                      value: currentValue,
-                    });
-                  }}
-                />
-              ))}
+            ))}
           </div>
         </InlineField>
       )}

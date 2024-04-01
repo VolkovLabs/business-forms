@@ -580,6 +580,7 @@ export const ElementEditor: React.FC<Props> = ({
                 onChangeItem={(updated, original, checkConflict) => {
                   return onChangeOption(element, updated, original, checkConflict);
                 }}
+                iconEnabled={element.type !== FormElementType.CHECKBOX_LIST}
               />
             </div>
           )}
