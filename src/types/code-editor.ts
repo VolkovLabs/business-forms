@@ -2,20 +2,20 @@
  * Supported Languages
  */
 export const enum CodeLanguage {
+  C = 'c',
+  CPP = 'cpp',
+  CSHARP = 'csharp',
+  GO = 'go',
+  JAVA = 'java',
   JAVASCRIPT = 'javascript',
   JSON = 'json',
-  SQL = 'sql',
-  PYTHON = 'python',
-  JAVA = 'java',
-  PHP = 'php',
-  GO = 'go',
-  CPP = 'cpp',
   MYSQL = 'mysql',
+  PHP = 'php',
   PGSQL = 'pgsql',
-  CSHARP = 'csharp',
+  PYTHON = 'python',
   RUBY = 'ruby',
+  SQL = 'sql',
   TYPESCRIPT = 'typescript',
-  C = 'c',
 }
 
 /**
