@@ -9,6 +9,7 @@
 
 ### Features / Enhancements
 
+- Add Checkbox List element (#382)
 - Add support frontend datasources (#361)
 
 ## 3.7.0 (2024-03-10)
@@ -25,6 +26,7 @@
 - Allowed to disable columns in confirmation modal (#360)
 - Updated dependencies and Actions (#368)
 - Added skipping elements hidden using Show If from update payload (#369)
+- Add multiple files option (#375)
 
 ## 3.6.0 (2023-01-10)
 

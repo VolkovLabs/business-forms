@@ -51,6 +51,7 @@ export const TEST_IDS = {
     fieldSlider: 'form-elements field-slider',
     fieldSliderInput: 'data-testid form-elements field-slider-input',
     fieldRadioContainer: 'data-testid form-elements field-radio-container',
+    fieldCheckboxListContainer: 'data-testid form-elements field-checkboxList-container',
     fieldSelect: 'form-elements field-select-container',
     booleanOption: (name: string) => `form-elements boolean-${name}`,
     unit: 'data-testid form-elements unit',
@@ -112,6 +113,7 @@ export const TEST_IDS = {
     buttonRemoveDate: 'data-testid form-elements-editor button-remove-date',
     fieldLinkText: 'data-testid form-elements-editor field-link-text',
     fieldGetOptions: 'form-elements-editor field-get-options',
+    fileMultipleOption: (name: unknown) => `form-elements-editor file-multiple-option-${name}`,
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',

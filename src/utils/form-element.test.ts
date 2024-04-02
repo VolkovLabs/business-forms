@@ -138,6 +138,30 @@ describe('Utils', () => {
           },
         ],
       },
+      {
+        name: 'Should keep original array value for checkbox list element',
+        element: {
+          type: FormElementType.CHECKBOX_LIST,
+        },
+        testCases: [
+          {
+            original: [true],
+            expected: [true],
+          },
+        ],
+      },
+      {
+        name: 'Should convert no array value for checkbox list element',
+        element: {
+          type: FormElementType.CHECKBOX_LIST,
+        },
+        testCases: [
+          {
+            original: true,
+            expected: [],
+          },
+        ],
+      },
     ])('$name', ({ element, testCases }) => {
       testCases.forEach(({ original, expected }) => {
         expect(convertToElementValue(element as never, original)).toEqual({

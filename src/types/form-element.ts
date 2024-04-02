@@ -326,8 +326,17 @@ export interface FileOptions {
 
   /**
    * Accept
+   *
+   * @type {string}
    */
   accept: string;
+
+  /**
+   * Multiple files
+   *
+   * @type {boolean}
+   */
+  multiple: boolean;
 }
 
 /**
@@ -401,6 +410,18 @@ export interface LinkOptions {
 }
 
 /**
+ * Checkbox List Options
+ */
+export interface CheckboxListOptions extends SelectOptions {
+  /**
+   * Value
+   *
+   * @type {unknown[]}
+   */
+  value: unknown[];
+}
+
+/**
  * Form Element
  */
 export type FormElement = FormElementBase &
@@ -421,6 +442,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
     | ({ type: FormElementType.LINK } & LinkOptions)
+    | ({ type: FormElementType.CHECKBOX_LIST } & CheckboxListOptions)
   );
 
 /**

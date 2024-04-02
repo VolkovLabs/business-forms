@@ -42,12 +42,19 @@ interface Props {
    * On Change Item
    */
   onChangeItem: (updated: SelectableValue, original?: SelectableValue, checkConflict?: boolean) => boolean;
+
+  /**
+   * Icon Enabled
+   *
+   * @type {boolean}
+   */
+  iconEnabled?: boolean;
 }
 
 /**
  * Element Options Editor
  */
-export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, onChangeItem }) => {
+export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, onChangeItem, iconEnabled = true }) => {
   /**
    * Styles
    */
@@ -199,21 +206,23 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                 </InlineField>
                               </InlineFieldRow>
                               <InlineFieldRow>
-                                <InlineField label="Icon" labelWidth={6}>
-                                  <Select
-                                    onChange={(event) => {
-                                      onChangeItem({
-                                        ...option,
-                                        icon: event?.value,
-                                      });
-                                    }}
-                                    options={ICON_OPTIONS}
-                                    isClearable={true}
-                                    value={option.icon}
-                                    width={12}
-                                    aria-label={TEST_IDS.formElementsEditor.fieldOptionIcon}
-                                  />
-                                </InlineField>
+                                {iconEnabled && (
+                                  <InlineField label="Icon" labelWidth={6}>
+                                    <Select
+                                      onChange={(event) => {
+                                        onChangeItem({
+                                          ...option,
+                                          icon: event?.value,
+                                        });
+                                      }}
+                                      options={ICON_OPTIONS}
+                                      isClearable={true}
+                                      value={option.icon}
+                                      width={12}
+                                      aria-label={TEST_IDS.formElementsEditor.fieldOptionIcon}
+                                    />
+                                  </InlineField>
+                                )}
                                 <InlineField label="Label" labelWidth={6} grow={true} shrink={true}>
                                   <Input
                                     placeholder="label"

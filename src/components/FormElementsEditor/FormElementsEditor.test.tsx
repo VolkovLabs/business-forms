@@ -232,6 +232,38 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
     });
 
+    it('Should add Checkbox List element', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      const newElementId = 'newCheckbox';
+      const newElementType = FormElementType.CHECKBOX_LIST;
+      /**
+       * Check if section is missing
+       */
+      expect(selectors.sectionLabel(true, newElementId, newElementType)).not.toBeInTheDocument();
+
+      /**
+       * Fill new element form
+       */
+      fireEvent.change(selectors.newElementId(), { target: { value: newElementId } });
+      fireEvent.change(selectors.newElementLabel(), { target: { value: 'New Checkbox' } });
+      fireEvent.change(selectors.newElementType(), { target: { value: newElementType } });
+
+      /**
+       * Create new element
+       */
+      fireEvent.click(selectors.buttonAddElement());
+
+      /**
+       * Check if new element exists
+       */
+      const elementSelectors = openElement(newElementId, newElementType);
+
+      expect(elementSelectors.options()).toBeInTheDocument();
+    });
+
     it('Should not add element if element with the same id and type exists', async () => {
       const element = { ...FORM_ELEMENT_DEFAULT, id: 'id' };
       const elements = [element];
@@ -1408,6 +1440,32 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldAccept(), { target: { value: '.png' } }));
 
       expect(elementSelectors.fieldAccept()).toHaveValue('.png');
+    });
+
+    it('Should update file field multiple', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.FILE }];
+      const context = {
+        options: {},
+      };
+
+      render(getComponent({ value: elements, onChange, context }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FormElementType.FILE);
+
+      /**
+       * Check initial value
+       */
+      expect(elementSelectors.fileMultipleOption(false, true)).not.toBeChecked();
+
+      /**
+       * Change field multiple
+       */
+      await act(() => fireEvent.click(elementSelectors.fileMultipleOption(false, true)));
+
+      expect(elementSelectors.fileMultipleOption(false, true)).toBeChecked();
     });
 
     it('Should update file options source', async () => {
