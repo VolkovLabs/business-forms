@@ -32,12 +32,16 @@ export const enum FormElementType {
  */
 export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   {
+    value: FormElementType.CHECKBOX_LIST,
+    label: 'Checkbox list with custom options',
+  },
+  {
     value: FormElementType.CODE,
     label: 'Code Editor',
   },
   {
     value: FormElementType.DATETIME,
-    label: 'Date and Time',
+    label: 'Date and time',
   },
   {
     value: FormElementType.FILE,
@@ -49,27 +53,27 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   },
   {
     value: FormElementType.MULTISELECT,
-    label: 'Multi Select with Custom options',
+    label: 'Multi select with custom options',
   },
   {
     value: FormElementType.NUMBER,
-    label: 'Number Input',
+    label: 'Number input',
   },
   {
     value: FormElementType.SLIDER,
-    label: 'Number Slider',
+    label: 'Number slider',
   },
   {
     value: FormElementType.PASSWORD,
-    label: 'Password Input',
+    label: 'Password input',
   },
   {
     value: FormElementType.BOOLEAN,
-    label: 'Radio Group with Boolean options',
+    label: 'Radio group with boolean options',
   },
   {
     value: FormElementType.RADIO,
-    label: 'Radio Group with Custom options',
+    label: 'Radio group with custom options',
   },
   {
     value: FormElementType.DISABLED,
@@ -77,23 +81,19 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   },
   {
     value: FormElementType.DISABLED_TEXTAREA,
-    label: 'Read-only Text Area',
+    label: 'Read-only text area',
   },
   {
     value: FormElementType.SELECT,
-    label: 'Select with Custom options',
+    label: 'Select with custom options',
   },
   {
     value: FormElementType.STRING,
-    label: 'String Input',
+    label: 'String input',
   },
   {
     value: FormElementType.TEXTAREA,
-    label: 'Text Area',
-  },
-  {
-    value: FormElementType.CHECKBOX_LIST,
-    label: 'Checkbox List with Custom options',
+    label: 'Text area',
   },
 ];
 
