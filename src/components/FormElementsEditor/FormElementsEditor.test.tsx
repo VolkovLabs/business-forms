@@ -232,6 +232,38 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldCodeLanguage()).toHaveValue(CodeLanguage.JAVASCRIPT);
     });
 
+    it('Should add Checkbox List element', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      const newElementId = 'newCheckbox';
+      const newElementType = FormElementType.CHECKBOX_LIST;
+      /**
+       * Check if section is missing
+       */
+      expect(selectors.sectionLabel(true, newElementId, newElementType)).not.toBeInTheDocument();
+
+      /**
+       * Fill new element form
+       */
+      fireEvent.change(selectors.newElementId(), { target: { value: newElementId } });
+      fireEvent.change(selectors.newElementLabel(), { target: { value: 'New Checkbox' } });
+      fireEvent.change(selectors.newElementType(), { target: { value: newElementType } });
+
+      /**
+       * Create new element
+       */
+      fireEvent.click(selectors.buttonAddElement());
+
+      /**
+       * Check if new element exists
+       */
+      const elementSelectors = openElement(newElementId, newElementType);
+
+      expect(elementSelectors.options()).toBeInTheDocument();
+    });
+
     it('Should not add element if element with the same id and type exists', async () => {
       const element = { ...FORM_ELEMENT_DEFAULT, id: 'id' };
       const elements = [element];
