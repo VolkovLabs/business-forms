@@ -4,6 +4,18 @@
 export const enum CodeLanguage {
   JAVASCRIPT = 'javascript',
   JSON = 'json',
+  SQL = 'sql',
+  PYTHON = 'python',
+  JAVA = 'java',
+  PHP = 'php',
+  GO = 'go',
+  CPP = 'cpp',
+  MYSQL = 'mysql',
+  PGSQL = 'pgsql',
+  CSHARP = 'csharp',
+  RUBY = 'ruby',
+  TYPESCRIPT = 'typescript',
+  C = 'c',
 }
 
 /**

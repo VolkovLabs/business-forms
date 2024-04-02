@@ -1,5 +1,6 @@
 import { DataFrame, SelectableValue } from '@grafana/data';
 import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, useStyles2 } from '@grafana/ui';
+import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
 import {
@@ -23,7 +24,6 @@ import {
   isFormElementType,
   toNumberValue,
 } from '../../utils';
-import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
 import { ElementQueryOptionsEditor } from '../ElementQueryOptionsEditor';

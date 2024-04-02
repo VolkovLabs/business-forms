@@ -31,8 +31,56 @@ export const CODE_LANGUAGE_OPTIONS: SelectableValue[] = [
     label: 'Javascript',
   },
   {
+    value: CodeLanguage.TYPESCRIPT,
+    label: 'TypeScript',
+  },
+  {
     value: CodeLanguage.JSON,
     label: 'JSON',
+  },
+  {
+    value: CodeLanguage.SQL,
+    label: 'SQL',
+  },
+  {
+    value: CodeLanguage.MYSQL,
+    label: 'MySQL',
+  },
+  {
+    value: CodeLanguage.PGSQL,
+    label: 'PostgreSQL',
+  },
+  {
+    value: CodeLanguage.PYTHON,
+    label: 'Python',
+  },
+  {
+    value: CodeLanguage.JAVA,
+    label: 'Java',
+  },
+  {
+    value: CodeLanguage.PHP,
+    label: 'PHP',
+  },
+  {
+    value: CodeLanguage.GO,
+    label: 'GO',
+  },
+  {
+    value: CodeLanguage.C,
+    label: 'C',
+  },
+  {
+    value: CodeLanguage.CPP,
+    label: 'C++',
+  },
+  {
+    value: CodeLanguage.CSHARP,
+    label: 'C#',
+  },
+  {
+    value: CodeLanguage.RUBY,
+    label: 'Ruby',
   },
 ];
 
