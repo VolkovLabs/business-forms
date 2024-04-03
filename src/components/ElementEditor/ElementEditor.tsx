@@ -520,7 +520,8 @@ export const ElementEditor: React.FC<Props> = ({
       {(element.type === FormElementType.RADIO ||
         element.type === FormElementType.SELECT ||
         element.type === FormElementType.MULTISELECT ||
-        element.type === FormElementType.DISABLED) && (
+        element.type === FormElementType.DISABLED ||
+        element.type === FormElementType.CHECKBOX_LIST) && (
         <>
           <InlineFieldRow>
             <InlineField label="Options Source" labelWidth={14}>
@@ -579,6 +580,7 @@ export const ElementEditor: React.FC<Props> = ({
                 onChangeItem={(updated, original, checkConflict) => {
                   return onChangeOption(element, updated, original, checkConflict);
                 }}
+                iconEnabled={element.type !== FormElementType.CHECKBOX_LIST}
               />
             </div>
           )}

@@ -103,15 +103,32 @@ export const getElementWithNewType = (
     case FormElementType.SELECT:
     case FormElementType.MULTISELECT:
     case FormElementType.DISABLED:
-    case FormElementType.RADIO: {
-      return {
-        ...baseValues,
+    case FormElementType.RADIO:
+    case FormElementType.CHECKBOX_LIST: {
+      const selectOptions = {
         options: 'options' in element ? element.options || [] : [],
         optionsSource:
           'optionsSource' in element
             ? element.optionsSource || SELECT_DEFAULT.optionsSource
             : SELECT_DEFAULT.optionsSource,
         queryOptions: 'queryOptions' in element ? element.queryOptions : undefined,
+      };
+
+      /**
+       * Pass value array to checkbox list
+       */
+      if (newType === FormElementType.CHECKBOX_LIST) {
+        return {
+          ...baseValues,
+          ...selectOptions,
+          type: newType,
+          value: Array.isArray(baseValues) ? baseValues : [],
+        };
+      }
+
+      return {
+        ...baseValues,
+        ...selectOptions,
         type: newType,
       };
     }
@@ -270,7 +287,8 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
     element.type === FormElementType.DISABLED ||
     element.type === FormElementType.SELECT ||
     element.type === FormElementType.MULTISELECT ||
-    element.type === FormElementType.RADIO
+    element.type === FormElementType.RADIO ||
+    element.type === FormElementType.CHECKBOX_LIST
   ) {
     if (element.optionsSource === OptionsSource.QUERY) {
       getOptions = ({ data }) => {
@@ -459,6 +477,12 @@ export const convertToElementValue = (
       return {
         ...element,
         value: typeof value === 'string' ? value : undefined,
+      };
+    }
+    case FormElementType.CHECKBOX_LIST: {
+      return {
+        ...element,
+        value: Array.isArray(value) ? value : [],
       };
     }
     default: {

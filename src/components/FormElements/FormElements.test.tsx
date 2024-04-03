@@ -53,6 +53,7 @@ describe('Form Elements', () => {
         { id: 'boolean', type: FormElementType.BOOLEAN },
         { id: 'datetime', type: FormElementType.DATETIME },
         { id: 'radioGroup', type: FormElementType.RADIO },
+        { id: 'checkboxList', type: FormElementType.CHECKBOX_LIST },
         { id: 'disabled', type: FormElementType.DISABLED },
         {
           id: 'disabledWithOptions',
@@ -149,6 +150,10 @@ describe('Form Elements', () => {
 
     it('Should render radio field', () => {
       expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+    });
+
+    it('Should render checkboxList field', () => {
+      expect(selectors.fieldCheckboxListContainer()).toBeInTheDocument();
     });
 
     it('Should render dateTime field', () => {
@@ -265,6 +270,23 @@ describe('Form Elements', () => {
      * Radio
      */
     expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+  });
+
+  it('Should find component with CheckboxList', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [{ id: 'checkboxList', type: FormElementType.CHECKBOX_LIST }],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * CheckboxList
+     */
+    expect(selectors.fieldCheckboxListContainer()).toBeInTheDocument();
   });
 
   it('Should find component with Select', async () => {
@@ -1005,6 +1027,117 @@ describe('Form Elements', () => {
 
       expect(radioInput).toBeInTheDocument();
       expect(radioInput).toBeChecked();
+    });
+
+    it('Should update the CheckboxList value via checkbox if the value of the element is empty', async () => {
+      const elementOption1 = {
+        id: 'Check box 1',
+        label: 'Check box 1',
+        type: 'string',
+        value: 'Check box 1',
+      };
+      const elementOption2 = {
+        id: 'Checkbox 2',
+        label: 'Checkbox 2',
+        type: 'string',
+        value: 'Checkbox 2',
+      };
+      const element = {
+        id: 'checkboxList',
+        type: FormElementType.CHECKBOX_LIST,
+        width: 25,
+        options: [elementOption1, elementOption2],
+        value: [],
+      };
+      let appliedElements = [element];
+
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      /**
+       * Render
+       */
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      const checkboxContainer = within(selectors.fieldCheckboxListContainer());
+
+      /**
+       * Select option 1
+       */
+      await act(() => fireEvent.click(checkboxContainer.getByText(elementOption1.value)));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      const checkboxes = checkboxContainer.getAllByRole('checkbox');
+
+      /**
+       * Option 1 selected
+       */
+      expect(checkboxes[0]).toBeInTheDocument();
+      expect(checkboxes[0]).toBeChecked();
+
+      /**
+       * Select option 2
+       */
+      await act(() => fireEvent.click(checkboxes[1]));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      /**
+       * Option 2 selected
+       */
+      expect(checkboxes[1]).toBeInTheDocument();
+      expect(checkboxes[1]).toBeChecked();
+
+      /**
+       * Unselect option 1
+       */
+      await act(() => fireEvent.click(checkboxContainer.getByText(elementOption1.value)));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(checkboxes[0]).toBeInTheDocument();
+      expect(checkboxes[0]).not.toBeChecked();
     });
   });
 

@@ -51,6 +51,7 @@ export const TEST_IDS = {
     fieldSlider: 'form-elements field-slider',
     fieldSliderInput: 'data-testid form-elements field-slider-input',
     fieldRadioContainer: 'data-testid form-elements field-radio-container',
+    fieldCheckboxListContainer: 'data-testid form-elements field-checkboxList-container',
     fieldSelect: 'form-elements field-select-container',
     booleanOption: (name: string) => `form-elements boolean-${name}`,
     unit: 'data-testid form-elements unit',
