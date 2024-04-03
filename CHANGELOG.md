@@ -10,6 +10,7 @@
 ### Features / Enhancements
 
 - Add Checkbox List element (#382)
+- Update syntax support in Code Editor (#383)
 - Add support frontend datasources (#361)
 
 ## 3.7.0 (2024-03-10)

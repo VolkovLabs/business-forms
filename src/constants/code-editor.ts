@@ -27,12 +27,60 @@ export const CODE_EDITOR_CONFIG = {
  */
 export const CODE_LANGUAGE_OPTIONS: SelectableValue[] = [
   {
+    value: CodeLanguage.C,
+    label: 'C',
+  },
+  {
+    value: CodeLanguage.CPP,
+    label: 'C++',
+  },
+  {
+    value: CodeLanguage.CSHARP,
+    label: 'C#',
+  },
+  {
+    value: CodeLanguage.GO,
+    label: 'GO',
+  },
+  {
+    value: CodeLanguage.JAVA,
+    label: 'Java',
+  },
+  {
     value: CodeLanguage.JAVASCRIPT,
     label: 'Javascript',
   },
   {
     value: CodeLanguage.JSON,
     label: 'JSON',
+  },
+  {
+    value: CodeLanguage.MYSQL,
+    label: 'MySQL',
+  },
+  {
+    value: CodeLanguage.PHP,
+    label: 'PHP',
+  },
+  {
+    value: CodeLanguage.PGSQL,
+    label: 'PostgreSQL',
+  },
+  {
+    value: CodeLanguage.PYTHON,
+    label: 'Python',
+  },
+  {
+    value: CodeLanguage.RUBY,
+    label: 'Ruby',
+  },
+  {
+    value: CodeLanguage.SQL,
+    label: 'SQL',
+  },
+  {
+    value: CodeLanguage.TYPESCRIPT,
+    label: 'TypeScript',
   },
 ];
 
