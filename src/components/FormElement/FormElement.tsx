@@ -16,14 +16,13 @@ import {
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
-import { NumberInput } from '@volkovlabs/components';
+import { AutosizeCodeEditor, NumberInput } from '@volkovlabs/components';
 import Slider from 'rc-slider';
 import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
 import { applyWidth, formatNumberValue, isFormElementType } from '../../utils';
-import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 import { getStyles } from './FormElement.styles';
 
 /**

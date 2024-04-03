@@ -1,6 +1,7 @@
 import { StandardEditorProps } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { CodeEditorSuggestionItem, CodeEditorSuggestionItemKind } from '@grafana/ui';
+import { AutosizeCodeEditor } from '@volkovlabs/components';
 /**
  * Monaco
  */
@@ -9,7 +10,6 @@ import React, { useCallback } from 'react';
 
 import { CODE_EDITOR_SUGGESTIONS, TEST_IDS } from '../../constants';
 import { CodeEditorSettings, CodeLanguage } from '../../types';
-import { AutosizeCodeEditor } from '../AutosizeCodeEditor';
 
 /**
  * Properties
