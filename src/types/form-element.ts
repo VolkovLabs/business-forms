@@ -340,6 +340,18 @@ export interface FileOptions {
 }
 
 /**
+ * Group Options
+ */
+export interface GroupOptions {
+  /**
+   * Value
+   *
+   * @type {unknown[]}
+   */
+  value: unknown[];
+}
+
+/**
  * Password Options
  */
 export interface PasswordOptions {
@@ -441,6 +453,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.SECRET } & SecretOptions)
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
+    | ({ type: FormElementType.GROUP } & GroupOptions)
     | ({ type: FormElementType.LINK } & LinkOptions)
     | ({ type: FormElementType.CHECKBOX_LIST } & CheckboxListOptions)
   );

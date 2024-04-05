@@ -119,7 +119,38 @@ export const ElementEditor: React.FC<Props> = ({
             data-testid={TEST_IDS.formElementsEditor.fieldId}
           />
         </InlineField>
+        <InlineFieldRow>
+          <InlineField label="Label" grow labelWidth={8} invalid={element.title === ''}>
+            <Input
+              placeholder="Label"
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                onChange({
+                  ...element,
+                  title: event.target.value,
+                });
+              }}
+              value={element.title}
+              data-testid={TEST_IDS.formElementsEditor.fieldLabel}
+            />
+          </InlineField>
 
+          {element.type !== FormElementType.GROUP && (
+            <InlineField label="Label Width" labelWidth={12}>
+              <Input
+                placeholder="auto"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  onChange({
+                    ...element,
+                    labelWidth: toNumberValue(event.target.value),
+                  });
+                }}
+                value={formatNumberValue(element.labelWidth)}
+                type="number"
+                data-testid={TEST_IDS.formElementsEditor.fieldLabelWidth}
+              />
+            </InlineField>
+          )}
+        </InlineFieldRow>
         {element.type === FormElementType.STRING && (
           <InlineField data-testid={TEST_IDS.formElementsEditor.fieldVisibility}>
             <RadioButtonGroup
@@ -136,99 +167,71 @@ export const ElementEditor: React.FC<Props> = ({
         )}
       </InlineFieldRow>
 
-      <InlineFieldRow>
-        <InlineField label="Type" grow labelWidth={8}>
-          <Select
-            options={FORM_ELEMENT_TYPE_OPTIONS}
-            onChange={(event: SelectableValue) => {
-              onChange(getElementWithNewType(element, event?.value), true);
-            }}
-            value={FORM_ELEMENT_TYPE_OPTIONS.find((type) => type.value === element.type)}
-            aria-label={TEST_IDS.formElementsEditor.fieldType}
-          />
-        </InlineField>
+      {element.type !== FormElementType.GROUP && (
+        <>
+          <InlineFieldRow>
+            <InlineField label="Type" grow labelWidth={8}>
+              <Select
+                options={FORM_ELEMENT_TYPE_OPTIONS}
+                onChange={(event: SelectableValue) => {
+                  onChange(getElementWithNewType(element, event?.value), true);
+                }}
+                value={FORM_ELEMENT_TYPE_OPTIONS.find((type) => type.value === element.type)}
+                aria-label={TEST_IDS.formElementsEditor.fieldType}
+              />
+            </InlineField>
 
-        <InlineField
-          label="Width"
-          labelWidth={12}
-          tooltip="Element will grow to max length if not specified. Some elements does not support adjusting width."
-        >
-          <Input
-            placeholder="auto"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChange({
-                ...element,
-                width: toNumberValue(event.target.value),
-              });
-            }}
-            value={formatNumberValue(element.width)}
-            min={0}
-            type="number"
-            data-testid={TEST_IDS.formElementsEditor.fieldWidth}
-          />
-        </InlineField>
-      </InlineFieldRow>
-      <InlineFieldRow>
-        <InlineField label="Label" grow labelWidth={8} invalid={element.title === ''}>
-          <Input
-            placeholder="Label"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChange({
-                ...element,
-                title: event.target.value,
-              });
-            }}
-            value={element.title}
-            data-testid={TEST_IDS.formElementsEditor.fieldLabel}
-          />
-        </InlineField>
+            <InlineField
+              label="Width"
+              labelWidth={12}
+              tooltip="Element will grow to max length if not specified. Some elements does not support adjusting width."
+            >
+              <Input
+                placeholder="auto"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  onChange({
+                    ...element,
+                    width: toNumberValue(event.target.value),
+                  });
+                }}
+                value={formatNumberValue(element.width)}
+                min={0}
+                type="number"
+                data-testid={TEST_IDS.formElementsEditor.fieldWidth}
+              />
+            </InlineField>
+          </InlineFieldRow>
+          <InlineFieldRow>
+            <InlineField label="Tooltip" grow labelWidth={8}>
+              <Input
+                placeholder="Tooltip"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  onChange({
+                    ...element,
+                    tooltip: event.target.value,
+                  });
+                }}
+                value={element.tooltip}
+                data-testid={TEST_IDS.formElementsEditor.fieldTooltip}
+              />
+            </InlineField>
 
-        <InlineField label="Label Width" labelWidth={12}>
-          <Input
-            placeholder="auto"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChange({
-                ...element,
-                labelWidth: toNumberValue(event.target.value),
-              });
-            }}
-            value={formatNumberValue(element.labelWidth)}
-            type="number"
-            data-testid={TEST_IDS.formElementsEditor.fieldLabelWidth}
-          />
-        </InlineField>
-      </InlineFieldRow>
-
-      <InlineFieldRow>
-        <InlineField label="Tooltip" grow labelWidth={8}>
-          <Input
-            placeholder="Tooltip"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChange({
-                ...element,
-                tooltip: event.target.value,
-              });
-            }}
-            value={element.tooltip}
-            data-testid={TEST_IDS.formElementsEditor.fieldTooltip}
-          />
-        </InlineField>
-
-        <InlineField label="Unit" labelWidth={12}>
-          <Input
-            placeholder="Unit"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChange({
-                ...element,
-                unit: event.target.value,
-              });
-            }}
-            value={element.unit}
-            data-testid={TEST_IDS.formElementsEditor.fieldUnit}
-          />
-        </InlineField>
-      </InlineFieldRow>
-
+            <InlineField label="Unit" labelWidth={12}>
+              <Input
+                placeholder="Unit"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  onChange({
+                    ...element,
+                    unit: event.target.value,
+                  });
+                }}
+                value={element.unit}
+                data-testid={TEST_IDS.formElementsEditor.fieldUnit}
+              />
+            </InlineField>
+          </InlineFieldRow>
+        </>
+      )}
       {layoutSectionOptions.length > 0 && (
         <InlineFieldRow>
           <InlineField label="Section" grow labelWidth={8}>
@@ -587,26 +590,29 @@ export const ElementEditor: React.FC<Props> = ({
         </>
       )}
 
-      <Field label="Show if returned value is true">
-        <AutosizeCodeEditor
-          value={element.showIf || ''}
-          language={CodeLanguage.JAVASCRIPT}
-          onBlur={(code) => {
-            onChange({
-              ...element,
-              showIf: code,
-            });
-          }}
-          monacoOptions={{ formatOnPaste: true, formatOnType: true }}
-          showLineNumbers={true}
-          aria-label={TEST_IDS.formElementsEditor.fieldShowIf}
-          getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementShowIf}
-        />
-      </Field>
+      {element.type !== FormElementType.GROUP && (
+        <Field label="Show if returned value is true">
+          <AutosizeCodeEditor
+            value={element.showIf || ''}
+            language={CodeLanguage.JAVASCRIPT}
+            onBlur={(code) => {
+              onChange({
+                ...element,
+                showIf: code,
+              });
+            }}
+            monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+            showLineNumbers={true}
+            aria-label={TEST_IDS.formElementsEditor.fieldShowIf}
+            getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementShowIf}
+          />
+        </Field>
+      )}
 
       {element.type !== FormElementType.DISABLED_TEXTAREA &&
         element.type !== FormElementType.DISABLED &&
-        element.type !== FormElementType.LINK && (
+        element.type !== FormElementType.LINK &&
+        element.type !== FormElementType.GROUP && (
           <Field label="Disable if returned value is true">
             <AutosizeCodeEditor
               value={element.disableIf || ''}

@@ -141,6 +141,13 @@ export const getElementWithNewType = (
         multiple: true,
       };
     }
+    case FormElementType.GROUP: {
+      return {
+        ...baseValues,
+        value: [],
+        type: newType,
+      };
+    }
     case FormElementType.DATETIME:
     case FormElementType.PASSWORD:
     case FormElementType.SECRET: {
@@ -462,6 +469,12 @@ export const convertToElementValue = (
       };
     }
     case FormElementType.FILE: {
+      return {
+        ...element,
+        value: [],
+      };
+    }
+    case FormElementType.GROUP: {
       return {
         ...element,
         value: [],

@@ -1,16 +1,14 @@
 import { SelectableValue, StandardEditorProps } from '@grafana/data';
 import { Button, Icon, IconButton, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
-import { Collapse } from '@volkovlabs/components';
+import { ElementsEditorList } from 'components/ElementsEditorList';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { RequestMethod, TEST_IDS } from '../../constants';
+import { FormElementType, RequestMethod, TEST_IDS } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
-import { getElementUniqueId, reorder } from '../../utils';
-import { ElementEditor } from '../ElementEditor';
+import { reorder } from '../../utils';
 import { NewElement } from '../NewElement';
-import { getStyles } from './FormElementsEditor.styles';
 
 /**
  * Get Item Style
@@ -34,13 +32,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   /**
    * Styles and Theme
    */
-  const theme = useTheme2();
-  const styles = getStyles(theme);
-
-  /**
-   * States
-   */
-  const [collapseState, setCollapseState] = useState<Record<string, boolean>>({});
 
   /**
    * Form Elements State
@@ -79,6 +70,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
    */
   const onDragEnd = useCallback(
     (result: DropResult) => {
+      console.log('console >>>>> onDragEnd result >>>', result);
       /**
        * Dropped outside the list
        */
@@ -103,22 +95,12 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
   }, [context.options?.layout?.sections]);
 
   /**
-   * Toggle collapse state for element
-   */
-  const onToggleElement = useCallback((uid: string) => {
-    setCollapseState((prev) => ({
-      ...prev,
-      [uid]: !prev[uid],
-    }));
-  }, []);
-
-  /**
    * Return
    */
   return (
     <div data-testid={TEST_IDS.formElementsEditor.root}>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="elements">
+        {/* <Droppable isCombineEnabled droppableId="elements" type="elements">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {elements.map((element, index) => {
@@ -133,13 +115,16 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                         className={styles.item}
                       >
                         <Collapse
-                          fill="solid"
+                          fill={element.type === FormElementType.GROUP ? 'outline' : 'solid'}
                           headerTestId={TEST_IDS.formElementsEditor.sectionLabel(element.id, element.type)}
                           contentTestId={TEST_IDS.formElementsEditor.sectionContent(element.id, element.type)}
                           isOpen={isOpen}
                           onToggle={() => onToggleElement(element.uid)}
                           title={
                             <>
+                              {element.type === FormElementType.GROUP && (
+                                <Icon title="Group" name="gf-layout-simple" size="lg" className={styles.dragIcon} />
+                              )}
                               {element.title} [{element.id}]
                             </>
                           }
@@ -165,16 +150,29 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             </>
                           }
                         >
-                          <ElementEditor
-                            element={element}
-                            onChange={onChangeElement}
-                            layoutSectionOptions={layoutSectionOptions}
-                            initialMethod={context.options?.initial?.method}
-                            onChangeOption={onChangeElementOption}
-                            queryFields={queryFields}
-                            isQueryFieldsEnabled={isQueryFieldsEnabled}
-                            data={context.data}
-                          />
+                          {element.type === FormElementType.GROUP ? (
+                            <GroupElementsEditor
+                              element={element}
+                              onChange={onChangeElement}
+                              layoutSectionOptions={layoutSectionOptions}
+                              initialMethod={context.options?.initial?.method}
+                              onChangeOption={onChangeElementOption}
+                              queryFields={queryFields}
+                              isQueryFieldsEnabled={isQueryFieldsEnabled}
+                              data={context.data}
+                            />
+                          ) : (
+                            <ElementEditor
+                              element={element}
+                              onChange={onChangeElement}
+                              layoutSectionOptions={layoutSectionOptions}
+                              initialMethod={context.options?.initial?.method}
+                              onChangeOption={onChangeElementOption}
+                              queryFields={queryFields}
+                              isQueryFieldsEnabled={isQueryFieldsEnabled}
+                              data={context.data}
+                            />
+                          )}
                         </Collapse>
                       </div>
                     )}
@@ -184,7 +182,18 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
               {provided.placeholder}
             </div>
           )}
-        </Droppable>
+        </Droppable> */}
+        <ElementsEditorList
+          elements={elements}
+          typeId="droppable"
+          onChangeElement={onChangeElement}
+          layoutSectionOptions={layoutSectionOptions}
+          context={context}
+          onChangeElementOption={onChangeElementOption}
+          queryFields={queryFields}
+          isQueryFieldsEnabled={isQueryFieldsEnabled}
+          onElementRemove={onElementRemove}
+        />
       </DragDropContext>
 
       {isChanged && (

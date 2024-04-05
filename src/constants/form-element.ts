@@ -14,6 +14,7 @@ export const enum FormElementType {
   DISABLED = 'disabled',
   DISABLED_TEXTAREA = 'disabledTextarea',
   FILE = 'file',
+  GROUP = 'group',
   LINK = 'link',
   MULTISELECT = 'multiselect',
   NUMBER = 'number',
@@ -46,6 +47,10 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   {
     value: FormElementType.FILE,
     label: 'File',
+  },
+  {
+    value: FormElementType.GROUP,
+    label: 'Group',
   },
   {
     value: FormElementType.LINK,
