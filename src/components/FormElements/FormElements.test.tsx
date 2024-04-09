@@ -1192,7 +1192,7 @@ describe('Form Elements', () => {
   describe('Form styles', () => {
     expect.extend(matchers);
 
-    it('Should render elemetnt with background', () => {
+    it('Should render element with background', () => {
       const options = {
         submit: {},
         initial: { highlightColor: false },
@@ -1210,7 +1210,7 @@ describe('Form Elements', () => {
       expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyleRule('background', 'red');
     });
 
-    it('Should render elemetnt with "max-content" width', () => {
+    it('Should render element with "max-content" width', () => {
       const options = {
         submit: {},
         initial: { highlightColor: false },
