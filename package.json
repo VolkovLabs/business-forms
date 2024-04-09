@@ -15,6 +15,7 @@
   "description": "Data Manipulation Panel",
   "devDependencies": {
     "@babel/core": "^7.24.0",
+    "@emotion/jest": "^11.11.0",
     "@grafana/e2e": "^10.4.0",
     "@grafana/e2e-selectors": "^10.4.0",
     "@grafana/eslint-config": "^7.0.0",

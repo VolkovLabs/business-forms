@@ -1,3 +1,4 @@
+import { matchers } from '@emotion/jest';
 import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
@@ -1185,6 +1186,48 @@ describe('Form Elements', () => {
     expect(selectors.element(false, updatedElement.id, updatedElement.type)).toBeInTheDocument();
   });
 
+  /**
+   * Apply styles for row
+   */
+  describe('Form styles', () => {
+    expect.extend(matchers);
+
+    it('Should render elemetnt with background', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [{ id: 'radio', type: FormElementType.RADIO, elementBackground: 'red' }],
+      };
+
+      render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Radio
+       */
+      expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyleRule('background', 'red');
+    });
+
+    it('Should render elemetnt with "max-content" width', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [{ id: 'radio', type: FormElementType.RADIO, section: 'Test-Section' }],
+      };
+
+      render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Radio
+       */
+      expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyleRule('width', 'max-content');
+    });
+  });
   afterAll(() => {
     jest.resetAllMocks();
   });

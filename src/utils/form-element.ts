@@ -514,7 +514,7 @@ export class ValueChangedEvent extends BusEventBase {
  * @param labelColor
  */
 export const applyLabelStyles = (labelBackground: string | undefined, labelColor: string | undefined): string => {
-  return css`
+  const style = css`
     ${labelBackground &&
     `
       & label:first-child {
@@ -528,4 +528,5 @@ export const applyLabelStyles = (labelBackground: string | undefined, labelColor
         } 
     `}
   `;
+  return style;
 };

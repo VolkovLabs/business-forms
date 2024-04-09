@@ -1,6 +1,14 @@
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
-import { convertToElementValue, getButtonVariant, reorder } from './form-element';
+import { applyLabelStyles, convertToElementValue, getButtonVariant, reorder } from './form-element';
+
+/**
+ * Mock @emotion/css
+ */
+jest.mock('@emotion/css', () => ({
+  css: jest.fn(() => 'css-test'),
+  keyframes: jest.fn((styles) => `keyframes-${styles}`),
+}));
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -182,6 +190,19 @@ describe('Utils', () => {
     it('Should filter not allowed variant', () => {
       expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
       expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
+    });
+  });
+
+  /**
+   * Test applyLabelStyles function
+   */
+  describe('applyLabelStyles', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+    it('should return the expected CSS styles', () => {
+      const result = applyLabelStyles('white', 'blue');
+      expect(result).toEqual('css-test');
     });
   });
 });

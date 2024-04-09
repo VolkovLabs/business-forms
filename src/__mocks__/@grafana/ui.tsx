@@ -44,6 +44,23 @@ const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
 });
 
 /**
+ * Mock ColorPickerInput component
+ */
+const ColorPickerInput = jest.fn(({ onChange, value, ...restProps }) => {
+  return (
+    <input
+      data-testid={restProps['data-testid']}
+      value={value}
+      onChange={(event) => {
+        if (onChange) {
+          onChange(event.target.value);
+        }
+      }}
+    />
+  );
+});
+
+/**
  * Mock Select component
  */
 const Select = jest.fn(({ options, onChange, value, isMulti, isClearable, ...restProps }) => (
@@ -148,4 +165,5 @@ module.exports = {
   Select,
   FileDropzone,
   TextLink,
+  ColorPickerInput,
 };

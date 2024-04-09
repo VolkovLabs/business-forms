@@ -1001,6 +1001,62 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldWidth()).toHaveValue(123);
     });
 
+    it('Should update Element background', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Change Element background
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldElementBackground(), { target: { value: '#ffffff' } }));
+
+      expect(elementSelectors.fieldElementBackground()).toHaveValue('#ffffff');
+    });
+
+    it('Should update Label background', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Change Label background
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldLabelBackground(), { target: { value: '#c1c1c1' } }));
+
+      expect(elementSelectors.fieldLabelBackground()).toHaveValue('#c1c1c1');
+    });
+
+    it('Should update Label Color', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Change Label Color
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldLabelColor(), { target: { value: '#c2c2c2' } }));
+
+      expect(elementSelectors.fieldLabelColor()).toHaveValue('#c2c2c2');
+    });
+
     it('Should update Label', async () => {
       const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
 
