@@ -1,12 +1,6 @@
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
-import {
-  convertTimeToCorrectDate,
-  convertToElementValue,
-  getButtonVariant,
-  reorder,
-  toNumberValue,
-} from './form-element';
+import { convertToElementValue, getButtonVariant, reorder, toNumberValue } from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -204,33 +198,6 @@ describe('Utils', () => {
     it('Should filter not allowed variant', () => {
       expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
       expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
-    });
-  });
-
-  describe('convertTimeToCorrectDate', () => {
-    it('should convert a time value to DateTime format', () => {
-      const value = '14:30';
-
-      /**
-       * Replace with the expected DateTime value for the given time
-       */
-      const expectedDateTime = '2022-01-01T14:30:00.000Z';
-
-      /**
-       * Fixed date for testing purposes
-       */
-      const mockDate = new Date('2022-01-01T00:00:00Z');
-      const originalDate = Date;
-      global.Date = jest.fn(() => mockDate) as any;
-
-      const result = convertTimeToCorrectDate(value);
-
-      expect(result).toEqual(expectedDateTime);
-
-      /**
-       * Restore the original implementation of Date
-       */
-      global.Date = originalDate;
     });
   });
 

@@ -513,26 +513,3 @@ export class ValueChangedEvent extends BusEventBase {
     this.payload = payload;
   }
 }
-
-/**
- * Convert Time value to "DateTime" type
- */
-
-export const convertTimeToCorrectDate = (value: string) => {
-  /**
-   * Get hours and minutes from value
-   */
-  const timeArray = value.split(':');
-  const currentDate = new Date();
-
-  /**
-   * Set the hours and minutes
-   */
-  currentDate.setHours(Number(timeArray[0]));
-  currentDate.setMinutes(Number(timeArray[1]));
-
-  /**
-   * Return "DateTime" format
-   */
-  return currentDate.toISOString();
-};

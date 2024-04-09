@@ -13,7 +13,6 @@ import {
   Select,
   TextArea,
   TextLink,
-  TimeOfDayPicker,
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
@@ -23,7 +22,7 @@ import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
-import { applyWidth, convertTimeToCorrectDate, formatNumberValue, isFormElementType } from '../../utils';
+import { applyWidth, formatNumberValue, isFormElementType } from '../../utils';
 import { getStyles } from './FormElement.styles';
 
 /**
@@ -300,22 +299,18 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={styles.timeInputWrap}
+          data-testid={TEST_IDS.formElements.fieldTime}
         >
-          <TimeOfDayPicker
-            value={
-              element.value ? dateTime(convertTimeToCorrectDate(element.value)) : dateTime(new Date().toISOString())
-            }
-            onChange={(time: DateTime) => {
-              /**
-               * Get the hours and minutes
-               */
-
-              const hours = new Date(time.valueOf()).getHours();
-              const minutes = new Date(time.valueOf()).getMinutes();
-
+          <input
+            type="time"
+            className={cx(styles.timeInput)}
+            value={element.value}
+            data-testid={TEST_IDS.formElements.fieldTimeInput}
+            onChange={(event) => {
               onChange<typeof element>({
                 ...element,
-                value: `${hours}:${minutes}`,
+                value: event.target.value,
               });
             }}
           />

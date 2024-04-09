@@ -160,7 +160,9 @@ describe('Form Elements', () => {
     it('Should render dateTime field', () => {
       expect(selectors.fieldDateTime()).toBeInTheDocument();
     });
-
+    it('Should render time field', () => {
+      expect(selectors.fieldTime()).toBeInTheDocument();
+    });
     it('Should render file field', () => {
       expect(selectors.fieldFile()).toBeInTheDocument();
     });
@@ -329,6 +331,29 @@ describe('Form Elements', () => {
      * Date Time
      */
     expect(selectors.fieldDateTime()).toBeInTheDocument();
+  });
+
+  it('Should find component Time', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [
+        {
+          id: 'elementTime',
+          type: FormElementType.TIME,
+          value: '19:25',
+        },
+      ],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * Time Element
+     */
+    expect(selectors.fieldTime()).toBeInTheDocument();
   });
 
   it('Should find component with Select and unset value', async () => {
@@ -806,6 +831,49 @@ describe('Form Elements', () => {
       fireEvent.change(selectors.fieldDateTime(), { target: { value: '2021-07-31 12:30:30' } });
 
       expect(selectors.fieldDateTime()).toHaveValue('2021-07-31 12:30:30');
+    });
+
+    it('should handle onChange event for time input', async () => {
+      let appliedElements = [{ id: 'timeElement', type: FormElementType.TIME, value: '1:30', disabled: false }];
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      /**
+       * Render Component
+       */
+      const { rerender } = render(getComponent({ options, onChangeElement }));
+
+      expect(selectors.fieldTimeInput()).toBeInTheDocument();
+
+      /**
+       * Change date time
+       */
+      await act(() => fireEvent.change(selectors.fieldTimeInput(), { target: { value: '12:30' } }));
+
+      await act(() =>
+        rerender(
+          getComponent({
+            options: {
+              ...options,
+              elements: appliedElements,
+            },
+            onChangeElement,
+          })
+        )
+      );
+
+      expect(onChangeElement).toHaveBeenCalled();
+      expect(selectors.fieldTimeInput()).toHaveValue('12:30');
     });
 
     /**
