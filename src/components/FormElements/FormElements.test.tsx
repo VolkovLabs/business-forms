@@ -52,6 +52,7 @@ describe('Form Elements', () => {
         { id: 'code', type: FormElementType.CODE },
         { id: 'boolean', type: FormElementType.BOOLEAN },
         { id: 'datetime', type: FormElementType.DATETIME },
+        { id: 'datetime', type: FormElementType.TIME },
         { id: 'radioGroup', type: FormElementType.RADIO },
         { id: 'checkboxList', type: FormElementType.CHECKBOX_LIST },
         { id: 'disabled', type: FormElementType.DISABLED },

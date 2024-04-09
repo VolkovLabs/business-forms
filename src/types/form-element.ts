@@ -233,6 +233,18 @@ export interface TextareaOptions {
 }
 
 /**
+ * Time Options
+ */
+export interface TimeOptions {
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value?: string;
+}
+
+/**
  * Query Options Mapper
  */
 export interface QueryOptionsMapper {
@@ -443,6 +455,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.FILE } & FileOptions)
     | ({ type: FormElementType.LINK } & LinkOptions)
     | ({ type: FormElementType.CHECKBOX_LIST } & CheckboxListOptions)
+    | ({ type: FormElementType.TIME } & TimeOptions)
   );
 
 /**

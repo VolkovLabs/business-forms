@@ -1,6 +1,12 @@
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
-import { convertToElementValue, getButtonVariant, reorder } from './form-element';
+import {
+  convertTimeToCorrectDate,
+  convertToElementValue,
+  getButtonVariant,
+  reorder,
+  toNumberValue,
+} from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -139,6 +145,22 @@ describe('Utils', () => {
         ],
       },
       {
+        name: 'Should convert value for TIME element',
+        element: {
+          type: FormElementType.TIME,
+        },
+        testCases: [
+          {
+            original: 'abc',
+            expected: 'abc',
+          },
+          {
+            original: 123,
+            expected: undefined,
+          },
+        ],
+      },
+      {
         name: 'Should keep original array value for checkbox list element',
         element: {
           type: FormElementType.CHECKBOX_LIST,
@@ -182,6 +204,48 @@ describe('Utils', () => {
     it('Should filter not allowed variant', () => {
       expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
       expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
+    });
+  });
+
+  describe('convertTimeToCorrectDate', () => {
+    it('should convert a time value to DateTime format', () => {
+      const value = '14:30';
+
+      /**
+       * Replace with the expected DateTime value for the given time
+       */
+      const expectedDateTime = '2022-01-01T14:30:00.000Z';
+
+      /**
+       * Fixed date for testing purposes
+       */
+      const mockDate = new Date('2022-01-01T00:00:00Z');
+      const originalDate = Date;
+      global.Date = jest.fn(() => mockDate) as any;
+
+      const result = convertTimeToCorrectDate(value);
+
+      expect(result).toEqual(expectedDateTime);
+
+      /**
+       * Restore the original implementation of Date
+       */
+      global.Date = originalDate;
+    });
+  });
+
+  /**
+   * Test toNumberValue function
+   */
+  describe('toNumberValue', () => {
+    it('should convert non-empty string to number', () => {
+      expect(toNumberValue('123')).toEqual(123);
+      expect(toNumberValue('0')).toEqual(0);
+      expect(toNumberValue('-456')).toEqual(-456);
+    });
+
+    it('should return null for empty string', () => {
+      expect(toNumberValue('')).toBeNull();
     });
   });
 });

@@ -13,6 +13,7 @@ import {
   Select,
   TextArea,
   TextLink,
+  TimeOfDayPicker,
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
@@ -22,7 +23,7 @@ import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
-import { applyWidth, formatNumberValue, isFormElementType } from '../../utils';
+import { applyWidth, convertTimeToCorrectDate, formatNumberValue, isFormElementType } from '../../utils';
 import { getStyles } from './FormElement.styles';
 
 /**
@@ -288,6 +289,36 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               data-testid={TEST_IDS.formElements.fieldDateTime}
             />
           )}
+        </InlineField>
+      )}
+
+      {element.type === FormElementType.TIME && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={applyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+          disabled={element.disabled}
+        >
+          <TimeOfDayPicker
+            value={
+              element.value ? dateTime(convertTimeToCorrectDate(element.value)) : dateTime(new Date().toISOString())
+            }
+            onChange={(time: DateTime) => {
+              /**
+               * Get the hours and minutes
+               */
+
+              const hours = new Date(time.valueOf()).getHours();
+              const minutes = new Date(time.valueOf()).getMinutes();
+
+              onChange<typeof element>({
+                ...element,
+                value: `${hours}:${minutes}`,
+              });
+            }}
+          />
         </InlineField>
       )}
 

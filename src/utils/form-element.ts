@@ -143,6 +143,7 @@ export const getElementWithNewType = (
     }
     case FormElementType.DATETIME:
     case FormElementType.PASSWORD:
+    case FormElementType.TIME:
     case FormElementType.SECRET: {
       return {
         ...baseValues,
@@ -479,6 +480,12 @@ export const convertToElementValue = (
         value: typeof value === 'string' ? value : undefined,
       };
     }
+    case FormElementType.TIME: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value : undefined,
+      };
+    }
     case FormElementType.CHECKBOX_LIST: {
       return {
         ...element,
@@ -506,3 +513,26 @@ export class ValueChangedEvent extends BusEventBase {
     this.payload = payload;
   }
 }
+
+/**
+ * Convert Time value to "DateTime" type
+ */
+
+export const convertTimeToCorrectDate = (value: string) => {
+  /**
+   * Get hours and minutes from value
+   */
+  const timeArray = value.split(':');
+  const currentDate = new Date();
+
+  /**
+   * Set the hours and minutes
+   */
+  currentDate.setHours(Number(timeArray[0]));
+  currentDate.setMinutes(Number(timeArray[1]));
+
+  /**
+   * Return "DateTime" format
+   */
+  return currentDate.toISOString();
+};
