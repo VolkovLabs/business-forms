@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import { BusEventBase, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
@@ -506,3 +507,25 @@ export class ValueChangedEvent extends BusEventBase {
     this.payload = payload;
   }
 }
+
+/**
+ * Apply Label styles
+ * @param labelBackground
+ * @param labelColor
+ */
+export const applyLabelStyles = (labelBackground: string | undefined, labelColor: string | undefined): string => {
+  return css`
+    ${labelBackground &&
+    `
+      & label:first-child {
+          background: ${labelBackground};
+        }
+    `}
+    ${labelColor &&
+    `
+      & label:first-child {
+          color: ${labelColor};
+        } 
+    `}
+  `;
+};

@@ -63,6 +63,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     checkbox: css`
       padding: ${theme.spacing(1)};
+      background: unset !important;
     `,
   };
 };

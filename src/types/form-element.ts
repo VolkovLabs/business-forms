@@ -100,13 +100,38 @@ export interface FormElementBase {
 
   /**
    * Field Name
+   *
+   * @type {string}
    */
   fieldName?: string;
 
   /**
    * Query Field
+   *
+   * @type {QueryField}
    */
   queryField?: QueryField;
+
+  /**
+   * Element Background
+   *
+   * @type {string}
+   */
+  elementBackground?: string;
+
+  /**
+   * Label Background
+   *
+   * @type {string}
+   */
+  labelBackground?: string;
+
+  /**
+   * Label Color
+   *
+   * @type {string}
+   */
+  labelColor?: string;
 }
 
 /**

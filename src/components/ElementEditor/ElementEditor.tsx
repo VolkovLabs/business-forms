@@ -1,5 +1,14 @@
 import { DataFrame, SelectableValue } from '@grafana/data';
-import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, useStyles2 } from '@grafana/ui';
+import {
+  ColorPickerInput,
+  Field,
+  InlineField,
+  InlineFieldRow,
+  Input,
+  RadioButtonGroup,
+  Select,
+  useStyles2,
+} from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
@@ -225,6 +234,45 @@ export const ElementEditor: React.FC<Props> = ({
             }}
             value={element.unit}
             data-testid={TEST_IDS.formElementsEditor.fieldUnit}
+          />
+        </InlineField>
+      </InlineFieldRow>
+
+      <InlineFieldRow>
+        <InlineField label="Element background" grow labelWidth={20}>
+          <ColorPickerInput
+            width={20}
+            value={element.elementBackground}
+            onChange={(color) => {
+              onChange({
+                ...element,
+                elementBackground: color,
+              });
+            }}
+          />
+        </InlineField>
+        <InlineField label="Label background" grow labelWidth={20}>
+          <ColorPickerInput
+            width={20}
+            value={element.labelBackground}
+            onChange={(color) => {
+              onChange({
+                ...element,
+                labelBackground: color,
+              });
+            }}
+          />
+        </InlineField>
+        <InlineField label="Foreground Label Color" grow labelWidth={20}>
+          <ColorPickerInput
+            width={20}
+            value={element.labelColor}
+            onChange={(color) => {
+              onChange({
+                ...element,
+                labelColor: color,
+              });
+            }}
           />
         </InlineField>
       </InlineFieldRow>
