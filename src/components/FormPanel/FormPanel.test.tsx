@@ -2701,5 +2701,31 @@ describe('Panel', () => {
        */
       expect(selectors.buttonSubmit()).not.toBeDisabled();
     });
+
+    it('Submit button should be disabled if element value is empty array', async () => {
+      const elements = [
+        { type: FormElementType.STRING, id: 'element-1', hidden: true, isRequired: true, value: '' },
+        { type: FormElementType.NUMBER, id: 'element-2', isRequired: false, value: 12 },
+        { type: FormElementType.CHECKBOX_LIST, id: 'element-3', isRequired: true, value: [] },
+      ];
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: elements,
+              updateEnabled: UpdateEnabledMode.AUTO,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+
+      /**
+       * Should be disabled
+       */
+      expect(selectors.buttonSubmit()).toBeDisabled();
+    });
   });
 });

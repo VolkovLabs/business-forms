@@ -912,7 +912,7 @@ export const FormPanel: React.FC<Props> = ({
         .filter((element) =>
           element.type === FormElementType.STRING ? !element.hidden && element.isRequired : element.isRequired
         )
-        .some((element) => !element.value);
+        .some((element) => (Array.isArray(element.value) ? !element.value.length : !element.value));
     }
 
     if (options.updateEnabled === UpdateEnabledMode.AUTO) {
