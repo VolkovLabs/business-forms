@@ -348,6 +348,28 @@ describe('Form Elements', () => {
     expect(selectors.fieldSelect()).toHaveDisplayValue([]);
   });
 
+  it('Should find required mark', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [{ id: 'checkboxList', isRequired: true, type: FormElementType.CHECKBOX_LIST }],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * CheckboxList
+     */
+    expect(selectors.fieldCheckboxListContainer()).toBeInTheDocument();
+
+    /**
+     * Required span
+     */
+    expect(selectors.required()).toBeInTheDocument();
+  });
+
   describe('Query Options', () => {
     it('Should render if no config', async () => {
       const options = {

@@ -64,5 +64,11 @@ export const getStyles = (theme: GrafanaTheme2) => {
     checkbox: css`
       padding: ${theme.spacing(1)};
     `,
+    required: css`
+      font-size: ${theme.typography.h4.fontSize};
+      padding: ${theme.spacing(0.25)} ${theme.spacing(0.25)} 0 0;
+      font-weight: ${theme.typography.h4.fontWeight};
+      color: ${theme.colors.warning.text};
+    `,
   };
 };

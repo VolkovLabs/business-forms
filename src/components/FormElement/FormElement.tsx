@@ -59,6 +59,11 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
 
   return (
     <InlineFieldRow data-testid={TEST_IDS.formElements.element(element.id, element.type)}>
+      {element.isRequired && (
+        <span data-testid={TEST_IDS.formElements.required} className={cx(styles.required)} title="Element is required">
+          !
+        </span>
+      )}
       {element.type === FormElementType.NUMBER && (
         <InlineField
           label={element.title}
