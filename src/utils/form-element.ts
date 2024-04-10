@@ -526,3 +526,14 @@ export const returnVisibleElements = (
       options: element.helpers.getOptions({ elements, replaceVariables, data }),
     }));
 };
+
+/**
+ * has Element Value
+ */
+
+export const hasElementValue = (element: FormElement) => {
+  if (typeof element.value === 'boolean') {
+    return true;
+  }
+  return Array.isArray(element.value) ? !!element.value.length : !!element.value;
+};

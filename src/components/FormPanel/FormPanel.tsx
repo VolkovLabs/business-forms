@@ -60,6 +60,7 @@ import {
   getFieldValues,
   getInitialValuesMap,
   getPayloadForRequest,
+  hasElementValue,
   requestCodeParameters,
   returnVisibleElements,
   toFormData,
@@ -912,7 +913,9 @@ export const FormPanel: React.FC<Props> = ({
         .filter((element) =>
           element.type === FormElementType.STRING ? !element.hidden && element.isRequired : element.isRequired
         )
-        .some((element) => (Array.isArray(element.value) ? !element.value.length : !element.value));
+        .some((element) => {
+          return !hasElementValue(element);
+        });
     }
 
     if (options.updateEnabled === UpdateEnabledMode.AUTO) {

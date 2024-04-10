@@ -1,6 +1,12 @@
 import { FormElementType } from '../constants';
 import { ButtonVariant, LocalFormElement } from '../types';
-import { convertToElementValue, getButtonVariant, reorder, returnVisibleElements } from './form-element';
+import {
+  convertToElementValue,
+  getButtonVariant,
+  hasElementValue,
+  reorder,
+  returnVisibleElements,
+} from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -264,6 +270,62 @@ describe('Utils', () => {
         disabled: false,
         options: [],
       });
+    });
+  });
+
+  describe('hasElementValue', () => {
+    it('should return true for boolean value', () => {
+      const element = {
+        value: true,
+      };
+
+      const result = hasElementValue(element as any);
+      expect(result).toBe(true);
+    });
+
+    it('should return false for empty array value', () => {
+      const element = {
+        value: [],
+      };
+
+      const result = hasElementValue(element as any);
+      expect(result).toBe(false);
+    });
+
+    it('should return true for non-empty array value', () => {
+      const element = {
+        value: [1, 2, 3],
+      };
+
+      const result = hasElementValue(element as any);
+      expect(result).toBe(true);
+    });
+
+    it('should return false for undefined value', () => {
+      const element = {
+        value: undefined,
+      };
+
+      const result = hasElementValue(element as any);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for null value', () => {
+      const element = {
+        value: null,
+      };
+
+      const result = hasElementValue(element as any);
+      expect(result).toBe(false);
+    });
+
+    it('should return true for non-array non-boolean value', () => {
+      const element = {
+        value: 'example',
+      };
+
+      const result = hasElementValue(element as any);
+      expect(result).toBe(true);
     });
   });
 });
