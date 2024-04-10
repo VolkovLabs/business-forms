@@ -169,6 +169,7 @@ export const FORM_ELEMENT_DEFAULT: FormElement = {
   hidden: false,
   unit: '',
   value: '',
+  isRequired: false,
 };
 
 /**

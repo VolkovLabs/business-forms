@@ -13,6 +13,7 @@ import {
   OPTIONS_SOURCE_OPTIONS,
   OptionsSource,
   RequestMethod,
+  REQUIRED_ELEMENT_OPTIONS,
   STRING_ELEMENT_OPTIONS,
   TEST_IDS,
 } from '../../constants';
@@ -134,6 +135,26 @@ export const ElementEditor: React.FC<Props> = ({
             />
           </InlineField>
         )}
+      </InlineFieldRow>
+
+      <InlineFieldRow>
+        <InlineField
+          label="Required"
+          tooltip="Value of element is required before the Submit/Update action"
+          labelWidth={12}
+          data-testid={TEST_IDS.formElementsEditor.fieldIsRequired}
+        >
+          <RadioButtonGroup
+            options={REQUIRED_ELEMENT_OPTIONS}
+            value={!!element.isRequired}
+            onChange={(value) => {
+              onChange({
+                ...element,
+                isRequired: value,
+              });
+            }}
+          />
+        </InlineField>
       </InlineFieldRow>
 
       <InlineFieldRow>

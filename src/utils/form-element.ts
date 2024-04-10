@@ -60,6 +60,7 @@ export const getElementWithNewType = (
     section: element.section,
     unit: element.unit,
     helpers: element.helpers,
+    isRequired: element.isRequired,
   };
 
   switch (newType) {

@@ -107,6 +107,13 @@ export interface FormElementBase {
    * Query Field
    */
   queryField?: QueryField;
+
+  /**
+   * Is Required
+   *
+   * @type {boolean}
+   */
+  isRequired: boolean;
 }
 
 /**

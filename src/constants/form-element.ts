@@ -146,6 +146,24 @@ export const STRING_ELEMENT_OPTIONS: SelectableValue[] = [
 ];
 
 /**
+ * Required Element Options
+ */
+export const REQUIRED_ELEMENT_OPTIONS: SelectableValue[] = [
+  {
+    ariaLabel: TEST_IDS.formElementsEditor.requiredOption('required-true'),
+    description: 'Required',
+    value: true,
+    label: 'Required',
+  },
+  {
+    ariaLabel: TEST_IDS.formElementsEditor.requiredOption('required-false'),
+    description: 'Not Required',
+    value: false,
+    label: 'Not Required',
+  },
+];
+
+/**
  * Auto Save timeout ms
  */
 export const AUTO_SAVE_TIMEOUT = 1000;

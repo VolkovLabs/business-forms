@@ -726,6 +726,30 @@ describe('Form Elements Editor', () => {
       expect(fieldVisibilitySelectors.radioOption(false, 'visibility-hidden')).toBeChecked();
     });
 
+    it('Should update Required', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id-req', isRequired: true }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id-req', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Choose Required option
+       */
+      const fieldIsRequiredSelectors = getFormElementsEditorSelectors(within(elementSelectors.fieldIsRequired()));
+      expect(fieldIsRequiredSelectors.requiredOption(false, 'required-false')).toBeInTheDocument();
+
+      await act(() => fireEvent.click(fieldIsRequiredSelectors.requiredOption(false, 'required-false')));
+
+      expect(fieldIsRequiredSelectors.requiredOption(false, 'required-false')).toBeChecked();
+
+      await act(() => fireEvent.click(fieldIsRequiredSelectors.requiredOption(false, 'required-true')));
+      expect(fieldIsRequiredSelectors.requiredOption(false, 'required-false')).not.toBeChecked();
+    });
+
     describe('Type updates', () => {
       it('Should update type to number', async () => {
         const element = { ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.STRING };

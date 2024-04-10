@@ -89,6 +89,7 @@ export const TEST_IDS = {
     fieldDisableIf: 'form-elements-editor field-disable-if',
     fieldUnit: 'data-testid form-elements-editor field-unit',
     fieldVisibility: 'data-testid form-elements-editor field-visibility',
+    fieldIsRequired: 'data-testid form-elements-editor field-required',
     fieldWidth: 'data-testid form-elements-editor field-width',
     fieldNamePicker: 'data-testid form-elements-editor field-name-picker',
     fieldAccept: 'data-testid form-elements-editor field-accept',
@@ -114,6 +115,7 @@ export const TEST_IDS = {
     fieldLinkText: 'data-testid form-elements-editor field-link-text',
     fieldGetOptions: 'form-elements-editor field-get-options',
     fileMultipleOption: (name: unknown) => `form-elements-editor file-multiple-option-${name}`,
+    requiredOption: (name: string) => `form-elements-editor option-${name}`,
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',
