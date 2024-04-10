@@ -59,11 +59,6 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
 
   return (
     <InlineFieldRow data-testid={TEST_IDS.formElements.element(element.id, element.type)}>
-      {element.isRequired && (
-        <span data-testid={TEST_IDS.formElements.required} className={cx(styles.required)} title="Element is required">
-          !
-        </span>
-      )}
       {element.type === FormElementType.NUMBER && (
         <InlineField
           label={element.title}
@@ -72,6 +67,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <NumberInput
             value={formatNumberValue(element.value)}
@@ -102,6 +98,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             [styles.hidden]: element.hidden,
           })}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <Input
             value={element.value || ''}
@@ -127,6 +124,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <Input
             value={element.value || ''}
@@ -174,6 +172,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <TextArea
             value={element.value}
@@ -218,6 +217,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <AutosizeCodeEditor
             language={element.language || CodeLanguage.JAVASCRIPT}
@@ -248,6 +248,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
           data-testid={TEST_IDS.formElements.fieldBooleanContainer}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <RadioButtonGroup
             value={element.value}
@@ -272,6 +273,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           {element.disabled ? (
             <DatePickerWithInput
@@ -306,6 +308,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             transparent={!element.title}
             className={cx(styles.slider)}
             disabled={element.disabled}
+            required={element.isRequired}
           >
             <Slider
               value={element.value || 0}
@@ -349,6 +352,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
           data-testid={TEST_IDS.formElements.fieldRadioContainer}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <RadioButtonGroup
             value={element.value}
@@ -373,6 +377,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <Select
             isMulti={element.type === FormElementType.MULTISELECT}
@@ -399,6 +404,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          required={element.isRequired}
         >
           <FileDropzone
             options={{
@@ -452,6 +458,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           disabled={element.disabled}
           className={styles.checkboxWrap}
           data-testid={TEST_IDS.formElements.fieldCheckboxListContainer}
+          required={element.isRequired}
         >
           <div style={{ width: element.width ? theme.spacing(element.width) : 'auto' }} className={styles.checkboxRow}>
             {element.options.map((option) => (

@@ -137,27 +137,29 @@ export const ElementEditor: React.FC<Props> = ({
         )}
       </InlineFieldRow>
 
-      {element.type !== FormElementType.LINK && (
-        <InlineFieldRow>
-          <InlineField
-            label="Required"
-            tooltip="Value of element is required before the Submit/Update action"
-            labelWidth={12}
-            data-testid={TEST_IDS.formElementsEditor.fieldIsRequired}
-          >
-            <RadioButtonGroup
-              options={REQUIRED_ELEMENT_OPTIONS}
-              value={!!element.isRequired}
-              onChange={(value) => {
-                onChange({
-                  ...element,
-                  isRequired: value,
-                });
-              }}
-            />
-          </InlineField>
-        </InlineFieldRow>
-      )}
+      {element.type !== FormElementType.LINK &&
+        element.type !== FormElementType.DISABLED_TEXTAREA &&
+        element.type !== FormElementType.DISABLED && (
+          <InlineFieldRow>
+            <InlineField
+              label="Required"
+              tooltip="Value of element is required before the Submit/Update action"
+              labelWidth={12}
+              data-testid={TEST_IDS.formElementsEditor.fieldIsRequired}
+            >
+              <RadioButtonGroup
+                options={REQUIRED_ELEMENT_OPTIONS}
+                value={!!element.isRequired}
+                onChange={(value) => {
+                  onChange({
+                    ...element,
+                    isRequired: value,
+                  });
+                }}
+              />
+            </InlineField>
+          </InlineFieldRow>
+        )}
 
       <InlineFieldRow>
         <InlineField label="Type" grow labelWidth={8}>

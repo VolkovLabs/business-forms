@@ -57,7 +57,6 @@ export const TEST_IDS = {
     booleanOption: (name: string) => `form-elements boolean-${name}`,
     unit: 'data-testid form-elements unit',
     link: 'data-testid form elements link',
-    required: 'data-testid form-elements required',
   },
   formElementsEditor: {
     addElementError: 'data-testid form-elements-editor add-element-error',
