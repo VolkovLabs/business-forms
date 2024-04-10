@@ -507,3 +507,22 @@ export class ValueChangedEvent extends BusEventBase {
     this.payload = payload;
   }
 }
+
+/**
+ * Return Visible Elements
+ */
+export const returnVisibleElements = (
+  elements: LocalFormElement[],
+  replaceVariables: InterpolateFunction,
+  data: PanelData
+) => {
+  return elements
+    .filter((element) => {
+      return element.helpers.showIf({ elements, replaceVariables });
+    })
+    .map((element) => ({
+      ...element,
+      disabled: element.helpers.disableIf({ elements, replaceVariables }),
+      options: element.helpers.getOptions({ elements, replaceVariables, data }),
+    }));
+};

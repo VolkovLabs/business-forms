@@ -1,6 +1,6 @@
 import { FormElementType } from '../constants';
-import { ButtonVariant } from '../types';
-import { convertToElementValue, getButtonVariant, reorder } from './form-element';
+import { ButtonVariant, LocalFormElement } from '../types';
+import { convertToElementValue, getButtonVariant, reorder, returnVisibleElements } from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -182,6 +182,88 @@ describe('Utils', () => {
     it('Should filter not allowed variant', () => {
       expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
       expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
+    });
+  });
+
+  describe('returnVisibleElements', () => {
+    const mockElement1: LocalFormElement = {
+      uid: 'element1-uid',
+      id: 'element1',
+      type: FormElementType.STRING,
+      labelWidth: 100,
+      width: 200,
+      value: '',
+      hidden: false,
+      title: 'Element 1',
+      tooltip: 'Tooltip for Element 1',
+      section: 'Section 1',
+      unit: 'Unit 1',
+      helpers: {
+        showIf: jest.fn().mockReturnValue(true),
+        disableIf: jest.fn().mockReturnValue(false),
+        getOptions: jest.fn().mockReturnValue([]),
+      },
+      isRequired: false,
+    };
+
+    const mockElement2: LocalFormElement = {
+      uid: 'element1-ui2',
+      id: 'element2',
+      type: FormElementType.STRING,
+      labelWidth: 100,
+      width: 200,
+      value: '',
+      hidden: false,
+      title: 'Element 2',
+      tooltip: 'Tooltip for Element 2',
+      section: 'Section 2',
+      unit: 'Unit 2',
+      helpers: {
+        showIf: jest.fn().mockReturnValue(false),
+        disableIf: jest.fn().mockReturnValue(true),
+        getOptions: jest.fn().mockReturnValue([]),
+      },
+      isRequired: false,
+    };
+
+    const mockElement3: LocalFormElement = {
+      uid: 'element1-ui3',
+      id: 'element3',
+      type: FormElementType.NUMBER,
+      labelWidth: 100,
+      width: 200,
+      value: 15,
+      title: 'Element 3',
+      tooltip: '',
+      section: '',
+      unit: 'Unit 3',
+      helpers: {
+        showIf: jest.fn().mockReturnValue(true),
+        disableIf: jest.fn().mockReturnValue(false),
+        getOptions: jest.fn().mockReturnValue([]),
+      },
+      isRequired: false,
+    };
+
+    const mockElements: LocalFormElement[] = [mockElement1, mockElement2, mockElement3];
+
+    const mockReplaceVariables = jest.fn();
+    const mockData: any = { series: [] };
+
+    it('should return visible elements', () => {
+      const visibleElements = returnVisibleElements(mockElements, mockReplaceVariables, mockData);
+
+      expect(visibleElements).toHaveLength(2);
+      expect(visibleElements).toContainEqual({
+        ...mockElement1,
+        disabled: false,
+        options: [],
+      });
+      expect(visibleElements).toContainEqual({
+        ...mockElement3,
+        disabled: false,
+        options: [],
+      });
     });
   });
 });

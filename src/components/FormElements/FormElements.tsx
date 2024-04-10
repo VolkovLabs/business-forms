@@ -5,6 +5,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '../../constants';
 import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
+import { returnVisibleElements } from '../../utils';
 import { FormElement } from '../FormElement';
 
 /**
@@ -95,15 +96,7 @@ export const FormElements: React.FC<Props> = ({
    * Visible Elements
    */
   const visibleElements = useMemo(() => {
-    return elements
-      .filter((element) => {
-        return element.helpers.showIf({ elements, replaceVariables });
-      })
-      .map((element) => ({
-        ...element,
-        disabled: element.helpers.disableIf({ elements, replaceVariables }),
-        options: element.helpers.getOptions({ elements, replaceVariables, data }),
-      }));
+    return returnVisibleElements(elements, replaceVariables, data);
   }, [data, elements, replaceVariables]);
 
   return (

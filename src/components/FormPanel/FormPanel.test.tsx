@@ -2615,4 +2615,91 @@ describe('Panel', () => {
       expect(selectors.buttonSaveDefault()).not.toBeDisabled();
     });
   });
+
+  describe('Should handle required fields', () => {
+    it('Submit button should be disabled', async () => {
+      const elements = [
+        { type: FormElementType.STRING, id: 'element-1', hidden: false, isRequired: true, value: '' },
+        { type: FormElementType.STRING, id: 'element-2', hidden: false, isRequired: false, value: 'some value' },
+      ];
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: elements,
+              updateEnabled: UpdateEnabledMode.AUTO,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+
+      /**
+       * Tooltip with message should be display
+       */
+      expect(selectors.requireTooltip()).toBeInTheDocument();
+
+      /**
+       * Should be disabled
+       */
+      expect(selectors.buttonSubmit()).toBeDisabled();
+    });
+
+    it('Submit button should be enabled', async () => {
+      const elements = [
+        { type: FormElementType.STRING, id: 'element-1', hidden: false, isRequired: true, value: 'some value 2' },
+        { type: FormElementType.STRING, id: 'element-2', hidden: false, isRequired: false, value: 'some value' },
+      ];
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: elements,
+              updateEnabled: UpdateEnabledMode.AUTO,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+
+      /**
+       * Tooltip with message should be display
+       */
+      expect(selectors.requireTooltip()).toBeInTheDocument();
+
+      /**
+       * Should be enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+    });
+
+    it('Submit button should be enabled if string element is hidden', async () => {
+      const elements = [
+        { type: FormElementType.STRING, id: 'element-1', hidden: true, isRequired: true, value: '' },
+        { type: FormElementType.NUMBER, id: 'element-2', isRequired: false, value: 12 },
+      ];
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: elements,
+              updateEnabled: UpdateEnabledMode.AUTO,
+            },
+          })
+        )
+      );
+
+      expect(selectors.buttonSubmit()).toBeInTheDocument();
+
+      /**
+       * Should be enabled
+       */
+      expect(selectors.buttonSubmit()).not.toBeDisabled();
+    });
+  });
 });
