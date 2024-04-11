@@ -506,3 +506,38 @@ export class ValueChangedEvent extends BusEventBase {
     this.payload = payload;
   }
 }
+
+/**
+ * Apply Accepted Files
+ */
+export const applyAcceptedFiles = (acceptFiles: string) => {
+  if (!acceptFiles) {
+    return undefined;
+  }
+
+  /**
+   * acceptFiles Convert to array
+   */
+  const filesArray = acceptFiles.split(',');
+
+  /**
+   * Convert to [key: string]: string[] view according to "Accept" type
+   */
+  const result = filesArray.reduce(
+    (acc, value) => {
+      const trimmedValue = value.trim();
+      const extension = trimmedValue.substring(1);
+
+      if (acc.hasOwnProperty(extension)) {
+        acc[extension] = [...acc[extension], trimmedValue];
+      } else {
+        acc[extension] = [trimmedValue];
+      }
+
+      return acc;
+    },
+    {} as Record<string, string[]>
+  );
+
+  return result;
+};
