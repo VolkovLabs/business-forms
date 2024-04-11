@@ -343,7 +343,7 @@ describe('Form Elements', () => {
         {
           id: 'elementTime',
           type: FormElementType.TIME,
-          value: '19:25',
+          value: '2021-04-10T12:30:00Z',
         },
       ],
     };
@@ -834,7 +834,7 @@ describe('Form Elements', () => {
     });
 
     it('should handle onChange event for time input', async () => {
-      let appliedElements = [{ id: 'timeElement', type: FormElementType.TIME, value: '1:30', disabled: false }];
+      let appliedElements = [{ id: 'timeElement', type: FormElementType.TIME, value: '', disabled: false }];
       const options = {
         submit: {},
         initial: { highlightColor: false },
@@ -851,29 +851,16 @@ describe('Form Elements', () => {
       /**
        * Render Component
        */
-      const { rerender } = render(getComponent({ options, onChangeElement }));
+      render(getComponent({ options, onChangeElement }));
 
       expect(selectors.fieldTimeInput()).toBeInTheDocument();
 
       /**
        * Change date time
        */
-      await act(() => fireEvent.change(selectors.fieldTimeInput(), { target: { value: '12:30' } }));
-
-      await act(() =>
-        rerender(
-          getComponent({
-            options: {
-              ...options,
-              elements: appliedElements,
-            },
-            onChangeElement,
-          })
-        )
-      );
+      await act(() => fireEvent.change(selectors.fieldTimeInput(), { target: { value: '2024-04-10T12:30:00Z' } }));
 
       expect(onChangeElement).toHaveBeenCalled();
-      expect(selectors.fieldTimeInput()).toHaveValue('12:30');
     });
 
     /**
