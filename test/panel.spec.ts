@@ -15,7 +15,7 @@ test.describe('Data Manipulation Panel', () => {
      */
     await expect(dashboardPage.getPanelByTitle('Single Form').locator).toBeVisible();
 
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2500);
     /**
      * Check and compare image
      */
