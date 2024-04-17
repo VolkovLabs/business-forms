@@ -2,7 +2,7 @@ import { test, expect } from '@grafana/plugin-e2e';
 import { TEST_IDS } from '../src/constants/tests';
 
 test.describe('Data Manipulation Panel', () => {
-  test('Should display a Form', async ({ gotoDashboardPage, dashboardPage }) => {
+  test('Should display a Form', async ({ gotoDashboardPage, dashboardPage, page }) => {
     /**
      * Go To E2E dashboard
      * return dashboardPage
@@ -15,6 +15,7 @@ test.describe('Data Manipulation Panel', () => {
      */
     await expect(dashboardPage.getPanelByTitle('Single Form').locator).toBeVisible();
 
+    await page.waitForTimeout(1500);
     /**
      * Check and compare image
      */
