@@ -150,7 +150,7 @@ describe('Utils', () => {
           },
           {
             original: 123,
-            expected: undefined,
+            expected: '',
           },
         ],
       },

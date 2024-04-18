@@ -483,7 +483,7 @@ export const convertToElementValue = (
     case FormElementType.TIME: {
       return {
         ...element,
-        value: typeof value === 'string' ? value : undefined,
+        value: typeof value === 'string' ? value : '',
       };
     }
     case FormElementType.CHECKBOX_LIST: {
