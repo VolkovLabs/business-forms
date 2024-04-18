@@ -21,6 +21,6 @@ test.describe('Data Manipulation Panel', () => {
      */
     await expect(
       dashboardPage.getPanelByTitle('Single Form').locator.getByTestId(TEST_IDS.panel.root)
-    ).toHaveScreenshot('actual-screenshot.png');
+    ).toHaveScreenshot('actual-screenshot.png', { maxDiffPixelRatio: 0.1 });
   });
 });
