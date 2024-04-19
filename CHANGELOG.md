@@ -2,22 +2,18 @@
 
 ## 4.0.0 (IN PROGRESS)
 
-### Breaking changes
-
-- Requires Grafana 10 and Grafana 11.
-- Payload for data source needs to be updated using the Query Editor.
-
 ### Features / Enhancements
 
 - Add Checkbox List element (#382)
 - Update syntax support in Code Editor (#383)
-- Add support frontend datasources (#361)
+- Add plugin e2e tests and remove cypress (#390)
+- Add support frontend data sources (#361)
 
 ## 3.7.0 (2024-03-10)
 
 ### Breaking changes
 
-- Requires Grafana 9.2 and Grafana 10.
+- Requires Grafana 9.2 and Grafana 10
 
 ### Features / Enhancements
 

@@ -103,7 +103,8 @@
             "labelWidth": 10,
             "title": "DateTime",
             "type": "datetime",
-            "uid": "69baa91c-9674-455e-896b-83e866a68b36"
+            "uid": "69baa91c-9674-455e-896b-83e866a68b36",
+            "value": "2024-04-17T11:00:00"
           },
           {
             "id": "radio",
