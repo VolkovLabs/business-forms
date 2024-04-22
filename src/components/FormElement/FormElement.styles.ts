@@ -64,13 +64,5 @@ export const getStyles = (theme: GrafanaTheme2) => {
     checkbox: css`
       padding: ${theme.spacing(1)};
     `,
-    timeInputWrap: css`
-      align-items: center;
-    `,
-    timeInput: css`
-      border: 1px solid ${theme.colors.border.medium};
-      margin-left: ${theme.spacing(0.5)};
-      padding: ${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} ${theme.spacing(1)};
-    `,
   };
 };

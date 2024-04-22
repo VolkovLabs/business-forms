@@ -300,7 +300,6 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
-          className={styles.timeInputWrap}
         >
           <TimeOfDayPicker
             data-testid={TEST_IDS.formElements.fieldTime}
