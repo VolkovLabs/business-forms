@@ -853,12 +853,12 @@ describe('Form Elements', () => {
        */
       render(getComponent({ options, onChangeElement }));
 
-      expect(selectors.fieldTimeInput()).toBeInTheDocument();
+      expect(selectors.fieldTime()).toBeInTheDocument();
 
       /**
        * Change date time
        */
-      await act(() => fireEvent.change(selectors.fieldTimeInput(), { target: { value: '2024-04-10T12:30:00Z' } }));
+      await act(() => fireEvent.change(selectors.fieldTime(), { target: { value: '2024-04-10T12:30:00Z' } }));
 
       expect(onChangeElement).toHaveBeenCalledWith(
         expect.objectContaining({

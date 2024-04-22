@@ -49,7 +49,6 @@ export const TEST_IDS = {
      */
     fieldDateTime: 'date-time-input',
     fieldTime: 'data-testid form-elements field-time',
-    fieldTimeInput: 'data-testid form-elements field-time-input',
     fieldSlider: 'form-elements field-slider',
     fieldSliderInput: 'data-testid form-elements field-slider-input',
     fieldRadioContainer: 'data-testid form-elements field-radio-container',

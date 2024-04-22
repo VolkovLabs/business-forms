@@ -301,10 +301,9 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
           disabled={element.disabled}
           className={styles.timeInputWrap}
-          data-testid={TEST_IDS.formElements.fieldTime}
         >
           <TimeOfDayPicker
-            data-testid={TEST_IDS.formElements.fieldTimeInput}
+            data-testid={TEST_IDS.formElements.fieldTime}
             value={element.value ? dateTime(element.value) : dateTime(new Date().toISOString())}
             onChange={(dateTime: DateTime) => {
               onChange<typeof element>({
