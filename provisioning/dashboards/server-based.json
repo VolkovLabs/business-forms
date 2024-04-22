@@ -1,0 +1,234 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "fecd2733-2fd2-42e5-88aa-93f4831faf5f"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "/**\n * Update device variable\n */\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
+        "elements": [
+          {
+            "id": "device",
+            "options": [
+              {
+                "id": "device1",
+                "label": "device1",
+                "type": "string",
+                "value": "device1"
+              },
+              {
+                "id": "device2",
+                "label": "device2",
+                "type": "string",
+                "value": "device2"
+              }
+            ],
+            "optionsSource": "Custom",
+            "title": "Device",
+            "type": "select",
+            "uid": "device",
+            "value": "device1"
+          },
+          {
+            "id": "device1Field",
+            "max": 10,
+            "min": 0,
+            "title": "Device 1 Field",
+            "type": "number",
+            "uid": "device1Field",
+            "value": 0
+          },
+          {
+            "id": "comment",
+            "title": "Comment",
+            "type": "textarea",
+            "uid": "comment",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeElements(formElements.map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}),\n);\n",
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query"
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "-",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.0.0",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "fecd2733-2fd2-42e5-88aa-93f4831faf5f"
+          },
+          "fields": [
+            {
+              "jsonPath": "$",
+              "language": "jsonpath",
+              "name": "elements"
+            }
+          ],
+          "method": "GET",
+          "params": [
+            [
+              "",
+              ""
+            ]
+          ],
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/form?device=$device"
+        }
+      ],
+      "title": "Server-based Elements",
+      "type": "volkovlabs-form-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "device1",
+          "value": "device1"
+        },
+        "datasource": {
+          "type": "marcusolsson-static-datasource",
+          "uid": "P1D2C73DC01F2359B"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "device",
+        "options": [],
+        "query": {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": [
+                  "device1",
+                  "device2"
+                ]
+              }
+            ],
+            "meta": {}
+          }
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Server-based",
+  "uid": "f430fe0c-2487-4a02-a495-941c85b1e21d",
+  "version": 5,
+  "weekStart": ""
+}
