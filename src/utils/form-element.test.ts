@@ -205,13 +205,13 @@ describe('Utils', () => {
    * Test toNumberValue function
    */
   describe('toNumberValue', () => {
-    it('should convert non-empty string to number', () => {
+    it('Should convert non-empty string to number', () => {
       expect(toNumberValue('123')).toEqual(123);
       expect(toNumberValue('0')).toEqual(0);
       expect(toNumberValue('-456')).toEqual(-456);
     });
 
-    it('should return null for empty string', () => {
+    it('Should return null for empty string', () => {
       expect(toNumberValue('')).toBeNull();
     });
   });

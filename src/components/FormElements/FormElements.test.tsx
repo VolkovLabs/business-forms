@@ -833,7 +833,7 @@ describe('Form Elements', () => {
       expect(selectors.fieldDateTime()).toHaveValue('2021-07-31 12:30:30');
     });
 
-    it('should handle onChange event for time input', async () => {
+    it('Should handle onChange event for time input', async () => {
       let appliedElements = [{ id: 'timeElement', type: FormElementType.TIME, value: '', disabled: false }];
       const options = {
         submit: {},
@@ -860,7 +860,11 @@ describe('Form Elements', () => {
        */
       await act(() => fireEvent.change(selectors.fieldTimeInput(), { target: { value: '2024-04-10T12:30:00Z' } }));
 
-      expect(onChangeElement).toHaveBeenCalled();
+      expect(onChangeElement).toHaveBeenCalledWith(
+        expect.objectContaining({
+          value: '2024-04-10T12:30:00.000Z',
+        })
+      );
     });
 
     /**

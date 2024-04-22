@@ -98,7 +98,7 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   },
   {
     value: FormElementType.TIME,
-    label: 'Time Input',
+    label: 'Time',
   },
 ];
 
