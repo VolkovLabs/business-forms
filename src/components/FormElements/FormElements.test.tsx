@@ -1258,7 +1258,7 @@ describe('Form Elements', () => {
         initial: { highlightColor: false },
         update: {},
         reset: {},
-        elements: [{ id: 'radio', type: FormElementType.RADIO, elementBackground: 'red' }],
+        elements: [{ id: 'radio', type: FormElementType.RADIO, background: 'red' }],
       };
 
       render(getComponent({ options, onChangeElement }));
