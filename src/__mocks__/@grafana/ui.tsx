@@ -27,6 +27,23 @@ const CodeEditor = jest.fn(({ onBlur, getSuggestions, ...restProps }) => {
 });
 
 /**
+ * Mock ColorPickerInput component
+ */
+const ColorPickerInput = jest.fn(({ onChange, value, ...restProps }) => {
+  return (
+    <input
+      data-testid={restProps['data-testid']}
+      value={value}
+      onChange={(event) => {
+        if (onChange) {
+          onChange(event.target.value);
+        }
+      }}
+    />
+  );
+});
+
+/**
  * Mock DatetimePicker component
  */
 const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
@@ -44,16 +61,16 @@ const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
 });
 
 /**
- * Mock ColorPickerInput component
+ * Mock TimeOfDayPicker component
  */
-const ColorPickerInput = jest.fn(({ onChange, value, ...restProps }) => {
+const TimeOfDayPicker = jest.fn(({ onChange, ...restProps }) => {
   return (
     <input
       data-testid={restProps['data-testid']}
-      value={value}
+      value={restProps.value}
       onChange={(event) => {
         if (onChange) {
-          onChange(event.target.value);
+          onChange(dateTime(event.target.value));
         }
       }}
     />
@@ -161,9 +178,10 @@ module.exports = {
   ...actual,
   useTheme2,
   CodeEditor,
+  ColorPickerInput,
   DateTimePicker,
   Select,
   FileDropzone,
   TextLink,
-  ColorPickerInput,
+  TimeOfDayPicker,
 };

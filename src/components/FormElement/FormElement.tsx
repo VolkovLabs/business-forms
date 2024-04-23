@@ -13,6 +13,7 @@ import {
   Select,
   TextArea,
   TextLink,
+  TimeOfDayPicker,
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
@@ -316,6 +317,28 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
+      {element.type === FormElementType.TIME && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={applyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+          disabled={element.disabled}
+        >
+          <TimeOfDayPicker
+            data-testid={TEST_IDS.formElements.fieldTime}
+            value={element.value ? dateTime(element.value) : dateTime(new Date().toISOString())}
+            onChange={(dateTime: DateTime) => {
+              onChange<typeof element>({
+                ...element,
+                value: dateTime.toISOString(),
+              });
+            }}
+          />
+        </InlineField>
+      )}
+
       {element.type === FormElementType.SLIDER && element.value != null && (
         <>
           <InlineField
@@ -397,6 +420,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <Select
+            key={element.id}
             isMulti={element.type === FormElementType.MULTISELECT}
             aria-label={TEST_IDS.formElements.fieldSelect}
             value={element.value !== undefined ? element.value : null}
