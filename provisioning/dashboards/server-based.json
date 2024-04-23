@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "marcusolsson-json-datasource",
-        "uid": "fecd2733-2fd2-42e5-88aa-93f4831faf5f"
+        "uid": "serverapi"
       },
       "gridPos": {
         "h": 8,
@@ -42,11 +42,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -151,7 +147,7 @@
           "cacheDurationSeconds": 300,
           "datasource": {
             "type": "marcusolsson-json-datasource",
-            "uid": "fecd2733-2fd2-42e5-88aa-93f4831faf5f"
+            "uid": "serverapi"
           },
           "fields": [
             {
@@ -161,12 +157,7 @@
             }
           ],
           "method": "GET",
-          "params": [
-            [
-              "",
-              ""
-            ]
-          ],
+          "params": [["", ""]],
           "queryParams": "",
           "refId": "A",
           "urlPath": "/form?device=$device"
@@ -204,10 +195,7 @@
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "device1",
-                  "device2"
-                ]
+                "values": ["device1", "device2"]
               }
             ],
             "meta": {}
