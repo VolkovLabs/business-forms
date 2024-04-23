@@ -113,11 +113,11 @@ export interface FormElementBase {
   queryField?: QueryField;
 
   /**
-   * Element Background
+   * Background
    *
    * @type {string}
    */
-  elementBackground?: string;
+  background?: string;
 
   /**
    * Label Background

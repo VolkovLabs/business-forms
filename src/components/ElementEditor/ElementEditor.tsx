@@ -239,20 +239,19 @@ export const ElementEditor: React.FC<Props> = ({
       </InlineFieldRow>
 
       <InlineFieldRow>
-        <InlineField label="Element background" grow labelWidth={20}>
+        <InlineField label="Background" grow labelWidth={20}>
           <ColorPickerInput
             data-testid={TEST_IDS.formElementsEditor.fieldElementBackground}
-            width={20}
-            value={element.elementBackground || ''}
+            color={element.background || ''}
             onChange={(color) => {
               onChange({
                 ...element,
-                elementBackground: color,
+                background: color,
               });
             }}
           />
         </InlineField>
-        <InlineField label="Label background" grow labelWidth={20}>
+        <InlineField label="Label Background" grow labelWidth={20}>
           <ColorPickerInput
             data-testid={TEST_IDS.formElementsEditor.fieldLabelBackground}
             width={20}
@@ -265,10 +264,9 @@ export const ElementEditor: React.FC<Props> = ({
             }}
           />
         </InlineField>
-        <InlineField label="Foreground Label Color" grow labelWidth={20}>
+        <InlineField label="Label Color" grow labelWidth={20}>
           <ColorPickerInput
             data-testid={TEST_IDS.formElementsEditor.fieldLabelColor}
-            width={20}
             value={element.labelColor || ''}
             onChange={(color) => {
               onChange({

@@ -61,9 +61,9 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
     <InlineFieldRow
       data-testid={TEST_IDS.formElements.element(element.id, element.type)}
       className={css`
-        ${element.elementBackground &&
+        ${element.background &&
         `
-          background: ${element.elementBackground};
+          background: ${element.background};
           padding: ${theme.spacing(0.5)} ${theme.spacing(0.25)} ${theme.spacing(0.25)} ${theme.spacing(0.5)};
           margin-bottom:${theme.spacing(0.5)};
         `}
