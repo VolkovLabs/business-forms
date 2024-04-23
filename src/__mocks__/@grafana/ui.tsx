@@ -29,7 +29,7 @@ const CodeEditor = jest.fn(({ onBlur, getSuggestions, ...restProps }) => {
 /**
  * Mock ColorPickerInput component
  */
-const ColorPickerInput = jest.fn(({ onChange, value, ...restProps }) => {
+const ColorPicker = jest.fn(({ onChange, value, ...restProps }) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -178,7 +178,7 @@ module.exports = {
   ...actual,
   useTheme2,
   CodeEditor,
-  ColorPickerInput,
+  ColorPicker,
   DateTimePicker,
   Select,
   FileDropzone,

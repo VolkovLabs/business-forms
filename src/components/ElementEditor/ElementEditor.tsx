@@ -1,6 +1,6 @@
 import { DataFrame, SelectableValue } from '@grafana/data';
 import {
-  ColorPickerInput,
+  ColorPicker,
   Field,
   InlineField,
   InlineFieldRow,
@@ -240,7 +240,7 @@ export const ElementEditor: React.FC<Props> = ({
 
       <InlineFieldRow>
         <InlineField label="Background" grow labelWidth={20}>
-          <ColorPickerInput
+          <ColorPicker
             data-testid={TEST_IDS.formElementsEditor.fieldElementBackground}
             color={element.background || ''}
             onChange={(color) => {
@@ -252,10 +252,9 @@ export const ElementEditor: React.FC<Props> = ({
           />
         </InlineField>
         <InlineField label="Label Background" grow labelWidth={20}>
-          <ColorPickerInput
+          <ColorPicker
             data-testid={TEST_IDS.formElementsEditor.fieldLabelBackground}
-            width={20}
-            value={element.labelBackground || ''}
+            color={element.labelBackground || ''}
             onChange={(color) => {
               onChange({
                 ...element,
@@ -265,9 +264,9 @@ export const ElementEditor: React.FC<Props> = ({
           />
         </InlineField>
         <InlineField label="Label Color" grow labelWidth={20}>
-          <ColorPickerInput
+          <ColorPicker
             data-testid={TEST_IDS.formElementsEditor.fieldLabelColor}
-            value={element.labelColor || ''}
+            color={element.labelColor || ''}
             onChange={(color) => {
               onChange({
                 ...element,
