@@ -218,6 +218,7 @@ describe('Utils', () => {
 
   describe('formatElementValue', () => {
     const date = new Date('2022-02-02');
+
     it.each([
       {
         element: {
