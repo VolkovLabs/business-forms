@@ -523,7 +523,7 @@ export const applyAcceptedFiles = (acceptFiles: string) => {
   /**
    * Convert to [key: string]: string[] view according to "Accept" type
    */
-  const result = filesArray.reduce(
+  return filesArray.reduce(
     (acc, value) => {
       const trimmedValue = value.trim();
       const extension = trimmedValue.substring(1);
@@ -538,6 +538,4 @@ export const applyAcceptedFiles = (acceptFiles: string) => {
     },
     {} as Record<string, string[]>
   );
-
-  return result;
 };
