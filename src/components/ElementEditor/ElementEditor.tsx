@@ -2,6 +2,7 @@ import { DataFrame, SelectableValue } from '@grafana/data';
 import {
   ColorPicker,
   Field,
+  IconButton,
   InlineField,
   InlineFieldRow,
   Input,
@@ -239,41 +240,89 @@ export const ElementEditor: React.FC<Props> = ({
       </InlineFieldRow>
 
       <InlineFieldRow>
-        <InlineField label="Background" grow labelWidth={20}>
-          <ColorPicker
-            data-testid={TEST_IDS.formElementsEditor.fieldElementBackground}
-            color={element.background || ''}
-            onChange={(color) => {
-              onChange({
-                ...element,
-                background: color,
-              });
-            }}
-          />
+        <InlineField className={styles.colorPickerContainer} label="Background" grow labelWidth={20}>
+          <div className={styles.colorPickerButtons}>
+            <ColorPicker
+              data-testid={TEST_IDS.formElementsEditor.fieldElementBackground}
+              color={element.background || ''}
+              onChange={(color) => {
+                onChange({
+                  ...element,
+                  background: color,
+                });
+              }}
+            />
+            {element.background && (
+              <IconButton
+                name="times"
+                size="md"
+                variant="destructive"
+                tooltip="Remove element background"
+                onClick={() =>
+                  onChange({
+                    ...element,
+                    background: '',
+                  })
+                }
+              />
+            )}
+          </div>
         </InlineField>
-        <InlineField label="Label Background" grow labelWidth={20}>
-          <ColorPicker
-            data-testid={TEST_IDS.formElementsEditor.fieldLabelBackground}
-            color={element.labelBackground || ''}
-            onChange={(color) => {
-              onChange({
-                ...element,
-                labelBackground: color,
-              });
-            }}
-          />
+        <InlineField className={styles.colorPickerContainer} label="Label Background" grow labelWidth={20}>
+          <div className={styles.colorPickerButtons}>
+            <ColorPicker
+              data-testid={TEST_IDS.formElementsEditor.fieldLabelBackground}
+              color={element.labelBackground || ''}
+              onChange={(color) => {
+                onChange({
+                  ...element,
+                  labelBackground: color,
+                });
+              }}
+            />
+            {element.labelBackground && (
+              <IconButton
+                name="times"
+                size="md"
+                variant="destructive"
+                tooltip="Remove element label background"
+                onClick={() =>
+                  onChange({
+                    ...element,
+                    labelBackground: '',
+                  })
+                }
+              />
+            )}
+          </div>
         </InlineField>
-        <InlineField label="Label Color" grow labelWidth={20}>
-          <ColorPicker
-            data-testid={TEST_IDS.formElementsEditor.fieldLabelColor}
-            color={element.labelColor || ''}
-            onChange={(color) => {
-              onChange({
-                ...element,
-                labelColor: color,
-              });
-            }}
-          />
+        <InlineField className={styles.colorPickerContainer} label="Label Color" grow labelWidth={20}>
+          <div className={styles.colorPickerButtons}>
+            <ColorPicker
+              data-testid={TEST_IDS.formElementsEditor.fieldLabelColor}
+              color={element.labelColor || ''}
+              onChange={(color) => {
+                onChange({
+                  ...element,
+                  labelColor: color,
+                });
+              }}
+            />
+            {element.labelColor && (
+              <IconButton
+                name="times"
+                size="md"
+                variant="destructive"
+                tooltip="Remove element label color"
+                onClick={() =>
+                  onChange({
+                    ...element,
+                    labelColor: '',
+                  })
+                }
+              />
+            )}
+          </div>
         </InlineField>
       </InlineFieldRow>
 

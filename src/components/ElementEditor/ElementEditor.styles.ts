@@ -9,5 +9,17 @@ export const getStyles = (theme: GrafanaTheme2) => {
     optionsContainer: css`
       margin: ${theme.spacing(1, 0)};
     `,
+    colorPickerContainer: css`
+      align-items: center;
+    `,
+    colorPickerButtons: css`
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      & button {
+        margin-left: ${theme.spacing(1)};
+      }
+    `,
   };
 };
