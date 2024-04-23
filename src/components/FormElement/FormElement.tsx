@@ -393,6 +393,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           disabled={element.disabled}
         >
           <Select
+            key={element.id}
             isMulti={element.type === FormElementType.MULTISELECT}
             aria-label={TEST_IDS.formElements.fieldSelect}
             value={element.value !== undefined ? element.value : null}
