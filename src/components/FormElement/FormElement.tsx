@@ -13,6 +13,7 @@ import {
   Select,
   TextArea,
   TextLink,
+  TimeOfDayPicker,
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
@@ -288,6 +289,28 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               data-testid={TEST_IDS.formElements.fieldDateTime}
             />
           )}
+        </InlineField>
+      )}
+
+      {element.type === FormElementType.TIME && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={applyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+          disabled={element.disabled}
+        >
+          <TimeOfDayPicker
+            data-testid={TEST_IDS.formElements.fieldTime}
+            value={element.value ? dateTime(element.value) : dateTime(new Date().toISOString())}
+            onChange={(dateTime: DateTime) => {
+              onChange<typeof element>({
+                ...element,
+                value: dateTime.toISOString(),
+              });
+            }}
+          />
         </InlineField>
       )}
 

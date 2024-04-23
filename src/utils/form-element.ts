@@ -1,4 +1,4 @@
-import { BusEventBase, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
+import { BusEventBase, dateTime, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -143,6 +143,7 @@ export const getElementWithNewType = (
     }
     case FormElementType.DATETIME:
     case FormElementType.PASSWORD:
+    case FormElementType.TIME:
     case FormElementType.SECRET: {
       return {
         ...baseValues,
@@ -479,6 +480,12 @@ export const convertToElementValue = (
         value: typeof value === 'string' ? value : undefined,
       };
     }
+    case FormElementType.TIME: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value : '',
+      };
+    }
     case FormElementType.CHECKBOX_LIST: {
       return {
         ...element,
@@ -506,3 +513,25 @@ export class ValueChangedEvent extends BusEventBase {
     this.payload = payload;
   }
 }
+
+/**
+ * Format Element Value
+ */
+export const formatElementValue = (element: LocalFormElement, value: unknown): string => {
+  switch (element.type) {
+    case FormElementType.PASSWORD: {
+      return '*********';
+    }
+    case FormElementType.DATETIME: {
+      return value && typeof value === 'string' ? dateTime(value).toISOString() : '';
+    }
+    case FormElementType.TIME: {
+      return value && typeof value === 'string'
+        ? new Date(value).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
+        : '';
+    }
+    default: {
+      return value === undefined ? '' : String(value);
+    }
+  }
+};

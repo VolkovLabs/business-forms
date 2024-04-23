@@ -4,10 +4,11 @@
 
 ### Features / Enhancements
 
-- Add Checkbox List element (#382)
-- Update syntax support in Code Editor (#383)
-- Add plugin e2e tests and remove cypress (#390)
-- Add server-based form elements example (#392)
+- Added Checkbox List element (#382)
+- Updated syntax support in Code Editor (#383)
+- Added plugin e2e tests and remove cypress (#390)
+- Added server-based form elements example (#392)
+- Added input type time (#385)
 
 ## 3.7.0 (2024-03-10)
 
