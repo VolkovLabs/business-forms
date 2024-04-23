@@ -1,6 +1,7 @@
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
 import {
+  applyAcceptedFiles,
   applyLabelStyles,
   convertToElementValue,
   formatElementValue,
@@ -213,6 +214,47 @@ describe('Utils', () => {
     it('Should filter not allowed variant', () => {
       expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
       expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
+    });
+  });
+
+  describe('applyAcceptedFiles', () => {
+    it('should return undefined if acceptFiles is empty', () => {
+      const result = applyAcceptedFiles('');
+      expect(result).toBeUndefined();
+    });
+
+    it('should convert acceptFiles string to an object with file extensions as keys and values as arrays', () => {
+      const acceptFiles = '.csv, .png, .txt, .json';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv'],
+        png: ['.png'],
+        txt: ['.txt'],
+        json: ['.json'],
+      });
+    });
+
+    it('should handle leading/trailing spaces in acceptFiles string', () => {
+      const acceptFiles = '  .csv, .png ,  .txt ,.json  ';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv'],
+        png: ['.png'],
+        txt: ['.txt'],
+        json: ['.json'],
+      });
+    });
+
+    it('should append trimmedValue to existing array when extension already exists', () => {
+      const acceptFiles = '.csv, .png, .csv';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv', '.csv'],
+        png: ['.png'],
+      });
     });
   });
 
