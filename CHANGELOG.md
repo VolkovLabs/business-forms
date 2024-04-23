@@ -9,6 +9,8 @@
 - Added plugin e2e tests and remove cypress (#390)
 - Added server-based form elements example (#392)
 - Added input type time (#385)
+- Updated hiding/show multi-select element (#389)
+- Updated allowed files for file type (#388)
 
 ## 3.7.0 (2024-03-10)
 

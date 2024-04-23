@@ -23,7 +23,7 @@ import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
-import { applyWidth, formatNumberValue, isFormElementType } from '../../utils';
+import { applyAcceptedFiles, applyWidth, formatNumberValue, isFormElementType } from '../../utils';
 import { getStyles } from './FormElement.styles';
 
 /**
@@ -421,7 +421,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         >
           <FileDropzone
             options={{
-              accept: element.accept || undefined,
+              accept: applyAcceptedFiles(element.accept),
               multiple: element.multiple,
               onDrop: (files: File[]) => {
                 onChange<typeof element>({
