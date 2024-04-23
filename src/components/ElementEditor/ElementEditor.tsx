@@ -254,6 +254,7 @@ export const ElementEditor: React.FC<Props> = ({
             />
             {element.background && (
               <IconButton
+                data-testid={TEST_IDS.formElementsEditor.buttonRemoveBackground}
                 name="times"
                 size="md"
                 variant="destructive"
@@ -282,6 +283,7 @@ export const ElementEditor: React.FC<Props> = ({
             />
             {element.labelBackground && (
               <IconButton
+                data-testid={TEST_IDS.formElementsEditor.buttonRemoveLabelBackground}
                 name="times"
                 size="md"
                 variant="destructive"
@@ -310,6 +312,7 @@ export const ElementEditor: React.FC<Props> = ({
             />
             {element.labelColor && (
               <IconButton
+                data-testid={TEST_IDS.formElementsEditor.buttonRemoveLabelColor}
                 name="times"
                 size="md"
                 variant="destructive"

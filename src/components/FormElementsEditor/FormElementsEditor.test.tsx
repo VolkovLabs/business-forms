@@ -1021,6 +1021,54 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldElementBackground()).toHaveValue('#ffffff');
     });
 
+    it('Should render "Remove Element background" button', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100, background: '#E02F44' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      expect(selectors.buttonRemoveBackground()).toBeInTheDocument();
+    });
+
+    it('Should remove element background', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100, background: '#E02F44' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Remove background button
+       */
+      const buttonElement = selectors.buttonRemoveBackground();
+
+      expect(buttonElement).toBeInTheDocument();
+
+      /**
+       * Change Element background
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldElementBackground(), { target: { value: '#ffffff' } }));
+      expect(elementSelectors.fieldElementBackground()).toHaveValue('#ffffff');
+
+      /**
+       * Remove Element background
+       */
+      await act(() => fireEvent.click(elementSelectors.buttonRemoveBackground()));
+
+      expect(buttonElement).not.toBeInTheDocument();
+    });
+
     it('Should update Label background', async () => {
       const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
 
@@ -1039,6 +1087,54 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldLabelBackground()).toHaveValue('#c1c1c1');
     });
 
+    it('Should render "Remove Label background" button', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100, labelBackground: '#E02F44' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      expect(selectors.buttonRemoveLabelBackground()).toBeInTheDocument();
+    });
+
+    it('Should remove element label background', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100, labelBackground: '#E02F44' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Remove label background button
+       */
+      const buttonElement = selectors.buttonRemoveLabelBackground();
+
+      expect(buttonElement).toBeInTheDocument();
+
+      /**
+       * Change label background
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldLabelBackground(), { target: { value: '#ffffff' } }));
+      expect(elementSelectors.fieldLabelBackground()).toHaveValue('#ffffff');
+
+      /**
+       * Remove label background
+       */
+      await act(() => fireEvent.click(elementSelectors.buttonRemoveLabelBackground()));
+
+      expect(buttonElement).not.toBeInTheDocument();
+    });
+
     it('Should update Label Color', async () => {
       const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
 
@@ -1055,6 +1151,54 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.change(elementSelectors.fieldLabelColor(), { target: { value: '#c2c2c2' } }));
 
       expect(elementSelectors.fieldLabelColor()).toHaveValue('#c2c2c2');
+    });
+
+    it('Should render "Remove Label Color" button', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100, labelColor: '#E02F44' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      expect(selectors.buttonRemoveLabelColor()).toBeInTheDocument();
+    });
+
+    it('Should remove element label color', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100, labelColor: '#E02F44' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
+
+      /**
+       * Remove label color button
+       */
+      const buttonElement = selectors.buttonRemoveLabelColor();
+
+      expect(buttonElement).toBeInTheDocument();
+
+      /**
+       * Change label color
+       */
+      await act(() => fireEvent.change(elementSelectors.fieldLabelColor(), { target: { value: '#ffffff' } }));
+      expect(elementSelectors.fieldLabelColor()).toHaveValue('#ffffff');
+
+      /**
+       * Remove label background
+       */
+      await act(() => fireEvent.click(elementSelectors.buttonRemoveLabelColor()));
+
+      expect(buttonElement).not.toBeInTheDocument();
     });
 
     it('Should update Label', async () => {
