@@ -30,3 +30,12 @@ datasources:
     orgId: 1
     version: 1
     editable: true
+  - name: Server API
+    uid: serverapi
+    type: marcusolsson-json-datasource
+    access: proxy
+    url: http://host.docker.internal:3001
+    isDefault: false
+    orgId: 1
+    version: 1
+    editable: true

@@ -24,6 +24,7 @@ export const enum FormElementType {
   SLIDER = 'slider',
   STRING = 'string',
   TEXTAREA = 'textarea',
+  TIME = 'time',
   CHECKBOX_LIST = 'checkboxList',
 }
 
@@ -94,6 +95,10 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   {
     value: FormElementType.TEXTAREA,
     label: 'Text area',
+  },
+  {
+    value: FormElementType.TIME,
+    label: 'Time',
   },
 ];
 
