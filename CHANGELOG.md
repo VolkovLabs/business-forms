@@ -1,12 +1,13 @@
 # Change Log
 
-## 4.0.0 (IN PROGRESS)
+## 3.8.0 (IN PROGRESS)
 
 ### Features / Enhancements
 
 - Add Checkbox List element (#382)
 - Update syntax support in Code Editor (#383)
 - Add plugin e2e tests and remove cypress (#390)
+- Add server-based form elements example (#392)
 
 ## 3.7.0 (2024-03-10)
 
