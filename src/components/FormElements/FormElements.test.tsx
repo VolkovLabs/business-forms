@@ -1264,7 +1264,9 @@ describe('Form Elements', () => {
        * Radio
        */
       expect(selectors.fieldRadioContainer()).toBeInTheDocument();
-      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyleRule('background', 'red');
+      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyle({
+        backgroundColor: 'red',
+      });
     });
 
     it('Should render element with "max-content" width', () => {
