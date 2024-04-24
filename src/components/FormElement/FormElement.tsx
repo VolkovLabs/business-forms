@@ -1,4 +1,4 @@
-import { css, cx } from '@emotion/css';
+import { cx } from '@emotion/css';
 import { DateTime, dateTime } from '@grafana/data';
 import {
   Checkbox,
@@ -61,18 +61,13 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
   return (
     <InlineFieldRow
       data-testid={TEST_IDS.formElements.element(element.id, element.type)}
-      className={css`
-        ${element.background &&
-        `
-          background: ${element.background};
-          padding: ${theme.spacing(0.5)} ${theme.spacing(0.25)} ${theme.spacing(0.25)} ${theme.spacing(0.5)};
-          margin-bottom:${theme.spacing(0.5)};
-        `}
-        ${element.section &&
-        `
-          width: max-content;
-        `}
-      `}
+      className={cx({
+        [styles.rootWithBackground]: !!element.background,
+        [styles.rootInSection]: !!element.section,
+      })}
+      style={{
+        backgroundColor: element.background || undefined,
+      }}
     >
       {element.type === FormElementType.NUMBER && (
         <InlineField

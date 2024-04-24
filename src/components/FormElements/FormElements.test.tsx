@@ -1,4 +1,3 @@
-import { matchers } from '@emotion/jest';
 import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
@@ -1250,8 +1249,6 @@ describe('Form Elements', () => {
    * Apply styles for row
    */
   describe('Form styles', () => {
-    expect.extend(matchers);
-
     it('Should render element with background', () => {
       const options = {
         submit: {},

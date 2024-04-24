@@ -575,8 +575,8 @@ export const formatElementValue = (element: LocalFormElement, value: unknown): s
  * @param labelBackground
  * @param labelColor
  */
-export const applyLabelStyles = (labelBackground: string | undefined, labelColor: string | undefined): string => {
-  const style = css`
+export const applyLabelStyles = (labelBackground?: string, labelColor?: string): string => {
+  return css`
     ${labelBackground &&
     `
       & label:first-child {
@@ -590,5 +590,4 @@ export const applyLabelStyles = (labelBackground: string | undefined, labelColor
         } 
     `}
   `;
-  return style;
 };

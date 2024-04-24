@@ -16,10 +16,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-
-      & button {
-        margin-left: ${theme.spacing(1)};
-      }
+      gap: ${theme.spacing(1)};
+      padding: ${theme.spacing(0, 1)};
     `,
   };
 };

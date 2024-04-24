@@ -240,11 +240,11 @@ export const ElementEditor: React.FC<Props> = ({
       </InlineFieldRow>
 
       <InlineFieldRow>
-        <InlineField className={styles.colorPickerContainer} label="Background" grow labelWidth={20}>
+        <InlineField className={styles.colorPickerContainer} label="Background" grow={true}>
           <div className={styles.colorPickerButtons}>
             <ColorPicker
               data-testid={TEST_IDS.formElementsEditor.fieldElementBackground}
-              color={element.background || ''}
+              color={element.background || 'transparent'}
               onChange={(color) => {
                 onChange({
                   ...element,
@@ -257,8 +257,8 @@ export const ElementEditor: React.FC<Props> = ({
                 data-testid={TEST_IDS.formElementsEditor.buttonRemoveBackground}
                 name="times"
                 size="md"
-                variant="destructive"
-                tooltip="Remove element background"
+                variant="secondary"
+                tooltip="Reset to default"
                 onClick={() =>
                   onChange({
                     ...element,
@@ -269,11 +269,11 @@ export const ElementEditor: React.FC<Props> = ({
             )}
           </div>
         </InlineField>
-        <InlineField className={styles.colorPickerContainer} label="Label Background" grow labelWidth={20}>
+        <InlineField className={styles.colorPickerContainer} label="Label Background" grow={true}>
           <div className={styles.colorPickerButtons}>
             <ColorPicker
               data-testid={TEST_IDS.formElementsEditor.fieldLabelBackground}
-              color={element.labelBackground || ''}
+              color={element.labelBackground || 'transparent'}
               onChange={(color) => {
                 onChange({
                   ...element,
@@ -286,8 +286,8 @@ export const ElementEditor: React.FC<Props> = ({
                 data-testid={TEST_IDS.formElementsEditor.buttonRemoveLabelBackground}
                 name="times"
                 size="md"
-                variant="destructive"
-                tooltip="Remove element label background"
+                variant="secondary"
+                tooltip="Reset to default"
                 onClick={() =>
                   onChange({
                     ...element,
@@ -298,11 +298,11 @@ export const ElementEditor: React.FC<Props> = ({
             )}
           </div>
         </InlineField>
-        <InlineField className={styles.colorPickerContainer} label="Label Color" grow labelWidth={20}>
+        <InlineField className={styles.colorPickerContainer} label="Label Color" grow>
           <div className={styles.colorPickerButtons}>
             <ColorPicker
               data-testid={TEST_IDS.formElementsEditor.fieldLabelColor}
-              color={element.labelColor || ''}
+              color={element.labelColor || 'transparent'}
               onChange={(color) => {
                 onChange({
                   ...element,
@@ -315,8 +315,8 @@ export const ElementEditor: React.FC<Props> = ({
                 data-testid={TEST_IDS.formElementsEditor.buttonRemoveLabelColor}
                 name="times"
                 size="md"
-                variant="destructive"
-                tooltip="Remove element label color"
+                variant="secondary"
+                tooltip="Reset to default"
                 onClick={() =>
                   onChange({
                     ...element,
