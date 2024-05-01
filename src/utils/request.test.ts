@@ -111,10 +111,10 @@ describe('Request Utils', () => {
           request: {
             payloadMode: PayloadMode.CUSTOM,
             getPayload: `
-              return elements.reduce((acc, element) => ({
+              return context.panel.elements.reduce((acc, element) => ({
                 ...acc,
                 [element.id]: element.value
-              }), initial)
+              }),  context.panel.initial)
               `,
           } as any,
           replaceVariables,

@@ -1532,7 +1532,7 @@ describe('Panel', () => {
             options: {
               initial: {
                 method: RequestMethod.NONE,
-                code: 'notifySuccess("success"); notifyError("error"); notifyWarning("warning");',
+                code: 'context.grafana.notifySuccess("success"); context.grafana.notifyError("error"); context.grafana.notifyWarning("warning");',
               },
             },
           })
@@ -1540,7 +1540,7 @@ describe('Panel', () => {
       );
 
       expect(replaceVariables).toHaveBeenCalledWith(
-        'notifySuccess("success"); notifyError("error"); notifyWarning("warning");'
+        'context.grafana.notifySuccess("success"); context.grafana.notifyError("error"); context.grafana.notifyWarning("warning");'
       );
       expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
@@ -1566,7 +1566,7 @@ describe('Panel', () => {
         initial: {},
         update: {
           method: RequestMethod.NONE,
-          code: 'notifySuccess("success"); notifyError("error");',
+          code: 'context.grafana.notifySuccess("success"); context.grafana.notifyError("error");',
         },
       };
       const { rerender } = await act(async () =>
@@ -1685,12 +1685,12 @@ describe('Panel', () => {
 
       const defaultOptions = {
         initial: {
-          code: `notifyError("error");`,
+          code: `context.grafana.notifyError("error");`,
         },
         update: {},
         resetAction: {
           mode: ResetActionMode.CUSTOM,
-          code: 'notifySuccess("success");',
+          code: 'context.grafana.notifySuccess("success");',
         },
       };
       const { rerender } = await act(async () =>
@@ -1915,12 +1915,12 @@ describe('Panel', () => {
 
       const defaultOptions = {
         initial: {
-          code: `notifySuccess("success");`,
+          code: `context.grafana.notifySuccess("success");`,
         },
         update: {},
         resetAction: {
           mode: ResetActionMode.CUSTOM,
-          code: 'notifySuccess("success");',
+          code: 'context.grafana.notifySuccess("success");',
           confirm: true,
         },
       };

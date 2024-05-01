@@ -229,45 +229,10 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Function
        */
-      const f = new Function(
-        'options',
-        'data',
-        'response',
-        'elements',
-        'onChange',
-        'locationService',
-        'templateService',
-        'onOptionsChange',
-        'initialRequest',
-        'setInitial',
-        'json',
-        'initial',
-        'notifyError',
-        'notifySuccess',
-        'notifyWarning',
-        'toDataQueryResponse',
-        'context',
-        replaceVariables(code)
-      );
+      const f = new Function('context', replaceVariables(code));
 
       try {
         await f(
-          options,
-          data,
-          response,
-          currentElements || elementsRef.current,
-          onChangeElements,
-          locationService,
-          templateSrv,
-          onOptionsChange,
-          initialRequest,
-          setInitial,
-          initialRef.current,
-          initialRef.current,
-          notifyError,
-          notifySuccess,
-          notifyWarning,
-          toDataQueryResponse,
           requestCodeParameters.create({
             grafana: {
               locationService,
@@ -314,7 +279,6 @@ export const FormPanel: React.FC<Props> = ({
       templateSrv,
       onOptionsChange,
       setInitial,
-      initialRef,
       notifyError,
       notifySuccess,
       notifyWarning,
