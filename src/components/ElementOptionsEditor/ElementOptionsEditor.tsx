@@ -255,7 +255,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
           onClick={() => {
             const newOption = {
               ...FORM_ELEMENT_OPTION_DEFAULT,
-              type: !!options.length ? options[options.length - 1].type : FORM_ELEMENT_OPTION_DEFAULT.type,
+              type: !!options.length ? options[0].type : FORM_ELEMENT_OPTION_DEFAULT.type,
             };
 
             onChange(options.concat(newOption));
