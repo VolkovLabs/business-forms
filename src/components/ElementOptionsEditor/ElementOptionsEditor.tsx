@@ -173,7 +173,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
                                     aria-label={TEST_IDS.formElementsEditor.fieldOptionType}
                                   />
                                 </InlineField>
-                                <InlineField label="Value" labelWidth={6} grow={true}>
+                                <InlineField invalid={!option.value} label="Value" labelWidth={6} grow={true}>
                                   <Input
                                     placeholder={option.type === FormElementType.NUMBER ? 'number' : 'string'}
                                     type={option.type === FormElementType.NUMBER ? 'number' : undefined}
@@ -255,6 +255,7 @@ export const ElementOptionsEditor: React.FC<Props> = ({ options = [], onChange, 
           onClick={() => {
             const newOption = {
               ...FORM_ELEMENT_OPTION_DEFAULT,
+              type: !!options.length ? options[options.length - 1].type : FORM_ELEMENT_OPTION_DEFAULT.type,
             };
 
             onChange(options.concat(newOption));
