@@ -2407,9 +2407,7 @@ describe('Form Elements Editor', () => {
       /**
        * Change Value Field
        */
-      await act(async () =>
-        fireEvent.change(elementSelectors.fieldQueryOptionsValue(), { target: { value: 'Clear' } })
-      );
+      await act(async () => fireEvent.change(elementSelectors.fieldQueryOptionsValue(), { target: { value: '' } }));
 
       expect(elementSelectors.fieldQueryOptionsValue()).toHaveValue('');
     });
