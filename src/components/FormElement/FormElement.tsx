@@ -283,7 +283,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               onChange={(dateTime: DateTime) => {
                 onChange<typeof element>({
                   ...element,
-                  value: dateTime.toISOString(),
+                  value: dateTime.toISOString(true),
                 });
               }}
               data-testid={TEST_IDS.formElements.fieldDateTime}

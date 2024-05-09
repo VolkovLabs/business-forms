@@ -282,7 +282,10 @@ describe('Utils', () => {
         },
         name: 'datetime',
         value: date.toISOString(),
-        expectedResult: date.toISOString(),
+        /**
+         * None UTC format
+         */
+        expectedResult: '2022-02-02T00:00:00.000+00:00',
       },
       {
         element: {
