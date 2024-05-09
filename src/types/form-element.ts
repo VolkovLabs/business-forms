@@ -323,6 +323,13 @@ export interface DateTimeOptions {
    * @type {string}
    */
   value?: string;
+
+  /**
+   * Is Transfrom to UTC
+   *
+   * @type {boolean}
+   */
+  isUseLocalTime: boolean;
 }
 
 /**

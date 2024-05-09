@@ -149,6 +149,7 @@ export const getElementWithNewType = (
         ...baseValues,
         value: '',
         type: newType,
+        isUseLocalTime: false,
       };
     }
     case FormElementType.BOOLEAN: {
@@ -556,7 +557,7 @@ export const formatElementValue = (element: LocalFormElement, value: unknown): s
       return '*********';
     }
     case FormElementType.DATETIME: {
-      return value && typeof value === 'string' ? dateTime(value).toISOString(true) : '';
+      return value && typeof value === 'string' ? dateTime(value).toISOString(element.isUseLocalTime) : '';
     }
     case FormElementType.TIME: {
       return value && typeof value === 'string'
