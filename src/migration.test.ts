@@ -1,4 +1,4 @@
-import { PayloadMode } from './constants';
+import { FormElementType, PayloadMode } from './constants';
 import { getMigratedOptions } from './migration';
 import { PanelOptions } from './types';
 
@@ -15,6 +15,39 @@ describe('Migration', () => {
         options: options as any,
       } as any)
     ).toEqual(options);
+  });
+
+  it('Should return panel options with updated DateTime element', () => {
+    const options: Partial<PanelOptions> = {
+      sync: true,
+      initial: {} as any,
+      update: {} as any,
+      elements: [
+        {
+          type: FormElementType.DATETIME,
+          id: 'date-time',
+          uid: 'uid-date-time',
+        },
+      ] as any,
+    };
+
+    expect(
+      getMigratedOptions({
+        options: options as any,
+      } as any)
+    ).toEqual({
+      sync: true,
+      initial: {},
+      update: {},
+      elements: [
+        {
+          type: 'datetime',
+          id: 'date-time',
+          uid: 'uid-date-time',
+          isUseLocalTime: false,
+        },
+      ],
+    });
   });
 
   describe('3.4.0', () => {
