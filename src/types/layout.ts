@@ -1,4 +1,4 @@
-import { LayoutOrientation, LayoutVariant } from '../constants';
+import { LayoutCollapse, LayoutOrientation, LayoutVariant } from '../constants';
 
 /**
  * Layout Section
@@ -50,4 +50,11 @@ export interface LayoutOptions {
    * @type {LayoutOrientation}
    */
   orientation: LayoutOrientation;
+
+  /**
+   * Collapse
+   *
+   * @type {LayoutCollapse}
+   */
+  collapse: LayoutCollapse;
 }

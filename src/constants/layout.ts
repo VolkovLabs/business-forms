@@ -18,6 +18,14 @@ export const enum LayoutOrientation {
 }
 
 /**
+ * Layout Collapse
+ */
+export const enum LayoutCollapse {
+  DEFAULT = 'default',
+  COLLAPSE = 'collapse',
+}
+
+/**
  * Layout Variant Options
  */
 export const LAYOUT_VARIANT_OPTIONS: SelectableValue[] = [
@@ -56,5 +64,23 @@ export const LAYOUT_ORIENTATION_OPTIONS: SelectableValue[] = [
     description: 'Vertical Orientation',
     label: 'Vertical',
     icon: 'vertical-align-center',
+  },
+];
+
+/**
+ * Layout Collapse Options
+ */
+export const LAYOUT_COLLAPSE_OPTIONS: SelectableValue[] = [
+  {
+    value: LayoutCollapse.DEFAULT,
+    description: 'Always open',
+    label: 'Always open',
+    icon: 'bars',
+  },
+  {
+    value: LayoutCollapse.COLLAPSE,
+    description: 'Collapsible',
+    label: 'Collapsible',
+    icon: 'arrows-v',
   },
 ];

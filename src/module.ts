@@ -24,8 +24,10 @@ import {
   INITIAL_HIGHLIGHT_COLOR_DEFAULT,
   INITIAL_PAYLOAD_DEFAULT,
   INITIAL_REQUEST_METHOD_OPTIONS,
+  LAYOUT_COLLAPSE_OPTIONS,
   LAYOUT_ORIENTATION_OPTIONS,
   LAYOUT_VARIANT_OPTIONS,
+  LayoutCollapse,
   LayoutOrientation,
   LayoutVariant,
   PAYLOAD_MODE_OPTIONS,
@@ -126,6 +128,17 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         },
         defaultValue: LayoutOrientation.HORIZONTAL,
         showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
+      })
+      .addRadio({
+        path: 'layout.collapse',
+        name: 'Collapse',
+        category: ['Sections'],
+        settings: {
+          options: LAYOUT_COLLAPSE_OPTIONS,
+        },
+        defaultValue: LayoutCollapse.DEFAULT,
+        showIf: (config) =>
+          config.layout.variant === LayoutVariant.SPLIT && config.layout.orientation === LayoutOrientation.VERTICAL,
       });
 
     /**

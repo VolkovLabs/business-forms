@@ -18,22 +18,12 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  ConfirmModal,
-  FieldSet,
-  usePanelContext,
-  useStyles2,
-  useTheme2,
-} from '@grafana/ui';
+import { Alert, Button, ButtonGroup, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   ContentType,
   FormElementType,
-  LayoutOrientation,
   LayoutVariant,
   LoadingMode,
   PayloadMode,
@@ -64,6 +54,7 @@ import {
   toJson,
   ValueChangedEvent,
 } from '../../utils';
+import { ElementSections } from '../ElementSections';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
 import { getStyles } from './FormPanel.styles';
@@ -136,6 +127,10 @@ export const FormPanel: React.FC<Props> = ({
     onSaveUpdates,
     eventBus: elementsEventBus,
     elementsRef,
+    expandSectionsState,
+    onToggleSection,
+    collapseSection,
+    expandSection,
   } = useFormElements({
     onChange: onChangeOptions,
     value: options.elements,
@@ -286,6 +281,9 @@ export const FormPanel: React.FC<Props> = ({
               onOptionsChange,
               elements: currentElements || elementsRef.current,
               onChangeElements,
+              toggleSection: onToggleSection,
+              collapseSection,
+              expandSection,
               setInitial,
               initial,
               initialRequest,
@@ -320,6 +318,9 @@ export const FormPanel: React.FC<Props> = ({
       notifyWarning,
       eventBus,
       appEvents,
+      onToggleSection,
+      collapseSection,
+      expandSection,
     ]
   );
 
@@ -850,6 +851,9 @@ export const FormPanel: React.FC<Props> = ({
             onOptionsChange,
             elements,
             onChangeElements,
+            toggleSection: onToggleSection,
+            collapseSection,
+            expandSection,
             initial: initialRef.current,
             setError,
             enableReset: () => setResetEnabled(true),
@@ -868,8 +872,10 @@ export const FormPanel: React.FC<Props> = ({
     },
     [
       appEvents,
+      collapseSection,
       data,
       eventBus,
+      expandSection,
       initialRef,
       initialRequest,
       notifyError,
@@ -877,6 +883,7 @@ export const FormPanel: React.FC<Props> = ({
       notifyWarning,
       onChangeElements,
       onOptionsChange,
+      onToggleSection,
       options,
       replaceVariables,
       templateSrv,
@@ -940,54 +947,16 @@ export const FormPanel: React.FC<Props> = ({
               </td>
             </tr>
           )}
-
-          {options.layout.variant === LayoutVariant.SPLIT &&
-            options.layout.orientation !== LayoutOrientation.VERTICAL && (
-              <tr>
-                {options.layout?.sections?.map((section, id) => {
-                  return (
-                    <td className={styles.td} key={id} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-                      <FieldSet label={section.name}>
-                        <FormElements
-                          data={data}
-                          options={options}
-                          elements={elements}
-                          onChangeElement={onChangeElement}
-                          initial={initial}
-                          section={section}
-                          replaceVariables={replaceVariables}
-                        />
-                      </FieldSet>
-                    </td>
-                  );
-                })}
-              </tr>
-            )}
-
-          {options.layout.variant === LayoutVariant.SPLIT &&
-            options.layout.orientation === LayoutOrientation.VERTICAL && (
-              <>
-                {options.layout?.sections?.map((section, id) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.td} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-                        <FieldSet label={section.name}>
-                          <FormElements
-                            options={options}
-                            elements={elements}
-                            onChangeElement={onChangeElement}
-                            initial={initial}
-                            section={section}
-                            replaceVariables={replaceVariables}
-                            data={data}
-                          />
-                        </FieldSet>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </>
-            )}
+          <ElementSections
+            data={data}
+            options={options}
+            elements={elements}
+            onChangeElement={onChangeElement}
+            initial={initial}
+            replaceVariables={replaceVariables}
+            expandSectionsState={expandSectionsState}
+            onToggleSection={onToggleSection}
+          />
           <tr>
             <td colSpan={options.layout?.sections?.length}>
               <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>

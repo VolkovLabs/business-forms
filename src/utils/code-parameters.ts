@@ -26,6 +26,18 @@ export const requestCodeParameters = new CodeParametersBuilder({
           'Update panel elements.',
           CodeEditorSuggestionItemKind.Method
         ),
+        toggleSection: new CodeParameterItem<(id: string) => void>(
+          'Toggle Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        collapseSection: new CodeParameterItem<(id: string) => void>(
+          'Collapse Sections',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        expandSection: new CodeParameterItem<(id: string) => void>(
+          'Expand Sections',
+          CodeEditorSuggestionItemKind.Method
+        ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
         setInitial: new CodeParameterItem<(value: { [id: string]: unknown }) => void>(
           'Allows to specify the initial values.',
@@ -97,6 +109,18 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
         elements: new CodeParameterItem<LocalFormElement[]>('Panel elements.'),
         onChangeElements: new CodeParameterItem<(elements: LocalFormElement[]) => void>(
           'Update panel elements.',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        toggleSection: new CodeParameterItem<(id: string) => void>(
+          'Toggle Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        collapseSection: new CodeParameterItem<(id: string) => void>(
+          'Collapse Sections',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        expandSection: new CodeParameterItem<(id: string) => void>(
+          'Expand Sections',
           CodeEditorSuggestionItemKind.Method
         ),
         initial: new CodeParameterItem<unknown>('Initial values.'),

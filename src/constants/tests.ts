@@ -116,6 +116,10 @@ export const TEST_IDS = {
     fieldGetOptions: 'form-elements-editor field-get-options',
     fileMultipleOption: (name: unknown) => `form-elements-editor file-multiple-option-${name}`,
   },
+  formElementsSection: {
+    sectionContent: (id: string, name: string) => `data-testid form-elements-section section-content-${id}-${name}`,
+    sectionLabel: (id: string, name: string) => `data-testid form-elements-section section-label-${id}-${name}`,
+  },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',
     buttonRemove: 'data-testid header-parameters-editor button-remove',

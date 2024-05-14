@@ -26,7 +26,12 @@ import {
   PanelOptions,
   UpdateEnabledMode,
 } from '../../types';
-import { getFormElementsSelectors, getPanelSelectors, toLocalFormElement } from '../../utils';
+import {
+  getFormElementsSectionSelectors,
+  getFormElementsSelectors,
+  getPanelSelectors,
+  toLocalFormElement,
+} from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -72,6 +77,11 @@ describe('Panel', () => {
    * Elements Selectors
    */
   const elementsSelectors = getFormElementsSelectors(screen);
+
+  /**
+   * Section Selectors
+   */
+  const sectionSelectors = getFormElementsSectionSelectors(screen);
 
   /**
    * Replace variables
@@ -216,6 +226,35 @@ describe('Panel', () => {
     );
     expect(selectors.splitLayoutContent(false, 'section1')).toBeInTheDocument();
     expect(selectors.splitLayoutContent(false, 'section2')).toBeInTheDocument();
+  });
+
+  /**
+   * Split Vertical Layout with collapsible
+   */
+  it('Should render split vertical layout with collapsible', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          options: {
+            elements: [{ ...FORM_ELEMENT_DEFAULT, section: 'section1', id: 'test' }],
+            layout: {
+              variant: LayoutVariant.SPLIT,
+              orientation: LayoutOrientation.VERTICAL,
+              collapse: 'collapse',
+              sections: [
+                { name: 'section1', id: 'section1' },
+                { name: 'section2', id: 'section2' },
+              ],
+            },
+          },
+        })
+      )
+    );
+
+    expect(selectors.splitLayoutContent(false, 'section1')).toBeInTheDocument();
+    expect(selectors.splitLayoutContent(false, 'section2')).toBeInTheDocument();
+
+    expect(sectionSelectors.sectionLabel(true, 'section1', 'section1')).toBeInTheDocument();
   });
 
   /**
@@ -1554,6 +1593,33 @@ describe('Panel', () => {
         type: AppEvents.alertWarning.name,
         payload: 'warning',
       });
+    });
+
+    it('Should execute code collapse/expand/toggle for sections', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: 'context.panel.toggleSection("section1"); context.panel.collapseSection("section1"); context.panel.expandSection("section1");',
+              },
+            },
+          })
+        )
+      );
+
+      expect(replaceVariables).toHaveBeenCalledWith(
+        'context.panel.toggleSection("section1"); context.panel.collapseSection("section1"); context.panel.expandSection("section1");'
+      );
     });
 
     it('Should execute code on update request', async () => {

@@ -36,6 +36,12 @@ export const useFormElements = ({
   const [elements, setElements, elementsRef] = useMutableState<LocalFormElement[]>(
     normalizeElementsForLocalState(value)
   );
+
+  /**
+   * Expand/Collapse State for Sections
+   */
+  const [expandSectionsState, setExpandSectionsState] = useState<Record<string, boolean>>({});
+
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -140,6 +146,36 @@ export const useFormElements = ({
   );
 
   /**
+   * Toggle collapse state for sections
+   */
+  const onToggleSection = useCallback((id: string) => {
+    setExpandSectionsState((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }, []);
+
+  /**
+   * Collapse Section
+   */
+  const collapseSection = useCallback((id: string) => {
+    setExpandSectionsState((prev) => ({
+      ...prev,
+      [id]: false,
+    }));
+  }, []);
+
+  /**
+   * Expand Section
+   */
+  const expandSection = useCallback((id: string) => {
+    setExpandSectionsState((prev) => ({
+      ...prev,
+      [id]: true,
+    }));
+  }, []);
+
+  /**
    * Update local elements
    */
   useEffect(() => {
@@ -175,5 +211,9 @@ export const useFormElements = ({
     onElementRemove,
     eventBus: eventBus.current,
     elementsRef,
+    expandSectionsState,
+    onToggleSection,
+    collapseSection,
+    expandSection,
   };
 };
