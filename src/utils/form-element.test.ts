@@ -1,4 +1,5 @@
-import { FormElementType } from '../constants';
+/* eslint-disable no-console */
+import { FormElementType, OptionsSource } from '../constants';
 import { ButtonVariant } from '../types';
 import {
   applyAcceptedFiles,
@@ -6,6 +7,7 @@ import {
   formatElementValue,
   getButtonVariant,
   reorder,
+  toLocalFormElement,
   toNumberValue,
 } from './form-element';
 
@@ -326,6 +328,55 @@ describe('Utils', () => {
       },
     ])('Should format value for $name', ({ element, expectedResult, value }) => {
       expect(formatElementValue(element as any, value)).toEqual(expectedResult);
+    });
+  });
+
+  describe('toLocalFormElement', () => {
+    console.error = jest.fn();
+    const logSpy = jest.spyOn(global.console, 'error');
+
+    it('Should log error messages when there is an error in showIf function', () => {
+      const element = {
+        showIf: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logSpy).toHaveBeenCalled();
+      expect(logSpy).toHaveBeenCalledWith('showIf new Function error :', expect.any(Error));
+    });
+
+    it('Should log error messages when there is an error in disableIf function', () => {
+      const element = {
+        disableIf: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logSpy).toHaveBeenCalled();
+      expect(logSpy).toHaveBeenCalledWith('disableIf new Function error :', expect.any(Error));
+    });
+
+    it('Should log error messages when there is an error in getOptions function', () => {
+      const element = {
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.CODE,
+        getOptions: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logSpy).toHaveBeenCalled();
+      expect(logSpy).toHaveBeenCalledWith('getOptions new Function error :', expect.any(Error));
     });
   });
 });
