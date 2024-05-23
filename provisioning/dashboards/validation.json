@@ -1,0 +1,218 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 14,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "let elements = context.panel.elements;\n\n/**\n * Reset room and bench values on facility change\n */\nif (context.element.id === 'facility') {\n  elements = elements.map((element) => {\n    if (element.id === 'room' || element.id === 'bench') {\n      return {\n        ...element,\n        value: null,\n      }\n    }\n\n    return element;\n  })\n}\n\n/**\n * Reset bench value on room change\n */\nif (context.element.id === 'room') {\n  elements = elements.map((element) => {\n    if (element.id === 'bench') {\n      return {\n        ...element,\n        value: null,\n      }\n    }\n\n    return element;\n  })\n}\n\n/**\n * Update form elements\n */\ncontext.panel.onChangeElements(elements);\n\n/**\n * Caclulate form validation state\n */\nconst isFormValid = elements.every((element) => !!element.value);\n\n/**\n * Enable/Disable submit button\n */\nif (isFormValid) {\n  context.panel.enableSubmit();\n} else {\n  context.panel.disableSubmit();\n}",
+        "elements": [
+          {
+            "disableIf": "",
+            "id": "facility",
+            "labelWidth": 10,
+            "options": [
+              {
+                "id": "1",
+                "label": "1",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "id": "2",
+                "label": "2",
+                "type": "number",
+                "value": 2
+              }
+            ],
+            "optionsSource": "Custom",
+            "section": "",
+            "showIf": "",
+            "title": "Facility",
+            "tooltip": "",
+            "type": "select",
+            "uid": "2ad76503-a1e2-4e30-99e4-c64cdf2e6049",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "disableIf": "const facility = context.panel.elements.find((element) => element.id === 'facility')\n\nreturn !facility?.value",
+            "id": "room",
+            "labelWidth": 10,
+            "options": [
+              {
+                "id": "1",
+                "label": "1",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "id": "2",
+                "label": "2",
+                "type": "number",
+                "value": 2
+              }
+            ],
+            "optionsSource": "Custom",
+            "section": "",
+            "title": "Room",
+            "tooltip": "",
+            "type": "select",
+            "uid": "d75e5ed9-9556-44e6-a238-a35bc0dceea2",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "disableIf": "const facility = context.panel.elements.find((element) => element.id === 'facility')\nconst room = context.panel.elements.find((element) => element.id === 'room')\n\nreturn !facility?.value || !room?.value",
+            "id": "bench",
+            "labelWidth": 10,
+            "options": [
+              {
+                "id": "1",
+                "label": "1",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "id": "2",
+                "label": "2",
+                "type": "number",
+                "value": 2
+              }
+            ],
+            "optionsSource": "Custom",
+            "section": "",
+            "title": "Bench",
+            "tooltip": "",
+            "type": "select",
+            "uid": "8b83267e-bca7-44ea-adb0-94f8cffcbb7a",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "console.log(data, response, initial, elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = toDataQueryResponse(response);\nconsole.log(dataQuery);",
+          "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-"
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "-",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "manual"
+      },
+      "pluginVersion": "3.8.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Form validation example",
+      "type": "volkovlabs-form-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Form validation example",
+  "uid": "b73e41bd-a0d8-4531-8d97-7bd764d76e6b",
+  "version": 6,
+  "weekStart": ""
+}
