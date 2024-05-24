@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { BusEventBase, dateTime, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
