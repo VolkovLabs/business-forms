@@ -195,7 +195,7 @@
           "refId": "A"
         }
       ],
-      "title": "Form validation example",
+      "title": "Reset and Validate Elements",
       "type": "volkovlabs-form-panel"
     }
   ],
@@ -211,7 +211,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Form validation example",
+  "title": "Form Validation Example",
   "uid": "b73e41bd-a0d8-4531-8d97-7bd764d76e6b",
   "version": 6,
   "weekStart": ""
