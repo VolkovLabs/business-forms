@@ -12,6 +12,30 @@ import {
 } from './form-element';
 
 describe('Utils', () => {
+  const logError = jest.fn();
+  const logInfo = jest.fn();
+
+  beforeAll(() => {
+    jest.spyOn(console, 'error');
+    jest.spyOn(console, 'log');
+
+    jest.mocked(console.error).mockImplementation(logError);
+    jest.mocked(console.log).mockImplementation(logInfo);
+  });
+
+  beforeEach(() => {
+    logError.mockClear();
+    logInfo.mockClear();
+  });
+
+  /**
+   * Restore original console
+   */
+  afterAll(() => {
+    jest.mocked(console.error).mockRestore();
+    jest.mocked(console.log).mockRestore();
+  });
+
   describe('Reorder', () => {
     it('Should move element up', () => {
       expect(reorder([1, 2, 3], 0, 1)).toEqual([2, 1, 3]);
@@ -332,9 +356,6 @@ describe('Utils', () => {
   });
 
   describe('toLocalFormElement', () => {
-    console.error = jest.fn();
-    const logSpy = jest.spyOn(global.console, 'error');
-
     it('Should log error messages when there is an error in showIf function', () => {
       const element = {
         showIf: `const newValue = 'string'
@@ -345,8 +366,8 @@ describe('Utils', () => {
       } as any;
 
       toLocalFormElement(element);
-      expect(logSpy).toHaveBeenCalled();
-      expect(logSpy).toHaveBeenCalledWith('showIf new Function error :', expect.any(Error));
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
 
     it('Should log error messages when there is an error in disableIf function', () => {
@@ -359,8 +380,8 @@ describe('Utils', () => {
       } as any;
 
       toLocalFormElement(element);
-      expect(logSpy).toHaveBeenCalled();
-      expect(logSpy).toHaveBeenCalledWith('disableIf new Function error :', expect.any(Error));
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
 
     it('Should log error messages when there is an error in getOptions function', () => {
@@ -375,8 +396,8 @@ describe('Utils', () => {
       } as any;
 
       toLocalFormElement(element);
-      expect(logSpy).toHaveBeenCalled();
-      expect(logSpy).toHaveBeenCalledWith('getOptions new Function error :', expect.any(Error));
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
   });
 });
