@@ -1,6 +1,6 @@
 import { PanelModel } from '@grafana/data';
 
-import { FormElementType, PayloadMode } from './constants';
+import { PayloadMode } from './constants';
 import { LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
 
 /**
@@ -57,14 +57,6 @@ const normalizeRequestOptions = ({ updatedOnly, payloadMode, ...actual }: Outdat
  */
 export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): PanelOptions => {
   const { ...options } = panel.options;
-
-  if (!!options.elements?.length) {
-    options.elements.forEach((element) => {
-      if (element.type === FormElementType.DATETIME && !element.hasOwnProperty('isUseLocalTime')) {
-        element.isUseLocalTime = false;
-      }
-    });
-  }
 
   /**
    * Normalize request options
