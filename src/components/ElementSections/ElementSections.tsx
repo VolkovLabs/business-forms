@@ -1,5 +1,6 @@
 import { InterpolateFunction, PanelData } from '@grafana/data';
-import { CollapsableSection, FieldSet, useTheme2 } from '@grafana/ui';
+import { FieldSet, useTheme2 } from '@grafana/ui';
+import { CollapsableSection } from '@volkovlabs/components';
 import React from 'react';
 
 import { LayoutOrientation, LayoutVariant, SectionVariant, TEST_IDS } from '../../constants';
