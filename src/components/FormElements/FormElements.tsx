@@ -110,7 +110,7 @@ export const FormElements: React.FC<Props> = ({
     <div data-testid={TEST_IDS.formElements.root}>
       {visibleElements.map((element, index) => {
         /**
-         * Skip Hidden Elements
+         * Skip elements from another groups
          */
         if (section && element.section !== section.id) {
           return;

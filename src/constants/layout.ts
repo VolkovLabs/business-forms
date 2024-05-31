@@ -68,9 +68,9 @@ export const LAYOUT_ORIENTATION_OPTIONS: SelectableValue[] = [
 ];
 
 /**
- * Layout Collapse Options
+ * Section Variant Options
  */
-export const LAYOUT_COLLAPSE_OPTIONS: SelectableValue[] = [
+export const SECTION_VARIANT_OPTIONS: SelectableValue[] = [
   {
     value: SectionVariant.DEFAULT,
     description: 'Always Open',

@@ -111,7 +111,7 @@ export const ElementSections: React.FC<Props> = ({
           <tr key={id}>
             <td className={styles.tdCollapse} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
               <CollapsableSection
-                headerDataTestId={TEST_IDS.formElementsSection.sectionLabel(section.id, section.name)}
+                headerDataTestId={TEST_IDS.formElementsSection.sectionHeader(section.id, section.name)}
                 contentDataTestId={TEST_IDS.formElementsSection.sectionContent(section.id, section.name)}
                 isOpen={isOpen}
                 onToggle={() => onChangeSectionExpandedState(section.id, !isOpen)}

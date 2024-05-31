@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 16,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -99,17 +98,17 @@
           }
         ],
         "initial": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "code": "",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
           "payloadMode": "all",
           "url": "http://localhost:3001"
         },
         "layout": {
-          "collapse": "collapse",
           "orientation": "vertical",
           "padding": 10,
           "sectionVariant": "collapsable",
@@ -138,7 +137,8 @@
           "code": "console.log(data, response, initial, elements);",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -154,11 +154,12 @@
         },
         "sync": true,
         "update": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "code": "",
           "confirm": true,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
           "url": "http://localhost:3001"
         },
@@ -183,6 +184,6 @@
   "timezone": "",
   "title": "Sections",
   "uid": "bf94d72f-2c14-4882-925e-989a96b2db74",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }

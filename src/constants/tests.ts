@@ -118,7 +118,7 @@ export const TEST_IDS = {
   },
   formElementsSection: {
     sectionContent: (id: string, name: string) => `data-testid form-elements-section section-content-${id}-${name}`,
-    sectionLabel: (id: string, name: string) => `data-testid form-elements-section section-label-${id}-${name}`,
+    sectionHeader: (id: string, name: string) => `data-testid form-elements-section section-header-${id}-${name}`,
   },
   headerParametersEditor: {
     buttonAdd: 'data-testid header-parameters-editor button-add',

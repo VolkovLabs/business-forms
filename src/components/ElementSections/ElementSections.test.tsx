@@ -91,7 +91,7 @@ describe('Form Elements', () => {
         })
       );
 
-      expect(sectionSelectors.sectionLabel(true, 'section1', 'section1')).toBeInTheDocument();
+      expect(sectionSelectors.sectionHeader(true, 'section1', 'section1')).toBeInTheDocument();
     });
 
     it('Should toggle sections', () => {
@@ -107,9 +107,9 @@ describe('Form Elements', () => {
         })
       );
 
-      expect(sectionSelectors.sectionLabel(true, 'section1', 'section1')).toBeInTheDocument();
+      expect(sectionSelectors.sectionHeader(true, 'section1', 'section1')).toBeInTheDocument();
 
-      fireEvent.click(sectionSelectors.sectionLabel(true, 'section1', 'section1'));
+      fireEvent.click(sectionSelectors.sectionHeader(true, 'section1', 'section1'));
 
       expect(onChangeSectionExpandedState).toHaveBeenCalledWith('section1', false);
     });

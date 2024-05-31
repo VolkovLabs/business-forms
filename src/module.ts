@@ -25,7 +25,6 @@ import {
   INITIAL_HIGHLIGHT_COLOR_DEFAULT,
   INITIAL_PAYLOAD_DEFAULT,
   INITIAL_REQUEST_METHOD_OPTIONS,
-  LAYOUT_COLLAPSE_OPTIONS,
   LAYOUT_ORIENTATION_OPTIONS,
   LAYOUT_VARIANT_OPTIONS,
   LayoutOrientation,
@@ -38,6 +37,7 @@ import {
   RESET_CODE_DEFAULT,
   ResetActionMode,
   SAVE_DEFAULT_BUTTON_DEFAULT,
+  SECTION_VARIANT_OPTIONS,
   SectionVariant,
   SUBMIT_BUTTON_DEFAULT,
   UPDATE_CODE_DEFAULT,
@@ -127,7 +127,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         name: 'Variant',
         category: ['Sections'],
         settings: {
-          options: LAYOUT_COLLAPSE_OPTIONS,
+          options: SECTION_VARIANT_OPTIONS,
         },
         defaultValue: SectionVariant.DEFAULT,
         showIf: (config) =>
