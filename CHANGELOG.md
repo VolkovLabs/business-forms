@@ -1,6 +1,18 @@
 # Change Log
 
-## 3.8.0 (IN PROGRESS)
+## 4.0.0 (IN PROGRESS)
+
+### Breaking changes
+
+- Requires Grafana 10 and Grafana 11
+- Data Source requests were updated to use Query Editor.
+
+### Features / Enhancements
+
+- Updated name to Business Forms Panel (#361)
+- Add support frontend data sources (#361)
+
+## 3.8.0 (2024-05-30)
 
 ### Features / Enhancements
 
@@ -11,6 +23,7 @@
 - Added input type time (#385)
 - Updated hiding/show multi-select element (#389)
 - Updated allowed files for file type (#388)
+- Added Form validation provisioning dashboard (#411)
 
 ## 3.7.0 (2024-03-10)
 
