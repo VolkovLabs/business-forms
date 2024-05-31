@@ -2,6 +2,11 @@
 
 ## 4.0.0 (IN PROGRESS)
 
+### Breaking changes
+
+- Requires Grafana 10 and Grafana 11
+- Data Source requests were updated to use Query Editor.
+
 ### Features / Enhancements
 
 - Add support frontend data sources (#361)
