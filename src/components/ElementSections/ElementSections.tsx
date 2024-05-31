@@ -1,9 +1,8 @@
 import { InterpolateFunction, PanelData } from '@grafana/data';
-import { FieldSet, useTheme2 } from '@grafana/ui';
-import { Collapse } from '@volkovlabs/components';
+import { CollapsableSection, FieldSet, useTheme2 } from '@grafana/ui';
 import React from 'react';
 
-import { LayoutCollapse, LayoutOrientation, LayoutVariant, TEST_IDS } from '../../constants';
+import { LayoutOrientation, LayoutVariant, SectionVariant, TEST_IDS } from '../../constants';
 import { LocalFormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
 import { getStyles } from './ElementSections.styles';
@@ -52,12 +51,12 @@ interface Props {
   /**
    * Collapse Sections
    */
-  expandSectionsState: Record<string, boolean>;
+  sectionsExpandedState: Record<string, boolean>;
 
   /**
-   * Toggle Sections
+   * On Change Section Expanded State
    */
-  onToggleSection: (id: string) => void;
+  onChangeSectionExpandedState: (id: string, isExpanded: boolean) => void;
 }
 
 /**
@@ -70,8 +69,8 @@ export const ElementSections: React.FC<Props> = ({
   initial,
   replaceVariables,
   data,
-  expandSectionsState,
-  onToggleSection,
+  sectionsExpandedState,
+  onChangeSectionExpandedState,
 }) => {
   /**
    * Theme and Styles
@@ -102,38 +101,35 @@ export const ElementSections: React.FC<Props> = ({
         );
       })}
     </tr>
-  ) : options.layout.collapse === LayoutCollapse.COLLAPSE ? (
+  ) : options.layout.sectionVariant === SectionVariant.COLLAPSABLE ? (
     <>
       {options.layout?.sections?.map((section, id) => {
-        const isOpen = expandSectionsState[section.id];
+        const isOpen = sectionsExpandedState[section.id];
 
         return (
           <tr key={id}>
             <td className={styles.tdCollapse} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-              <Collapse
-                fill="solid"
-                headerTestId={TEST_IDS.formElementsSection.sectionLabel(section.id, section.name)}
-                contentTestId={TEST_IDS.formElementsSection.sectionContent(section.id, section.name)}
+              <CollapsableSection
+                headerDataTestId={TEST_IDS.formElementsSection.sectionLabel(section.id, section.name)}
+                contentDataTestId={TEST_IDS.formElementsSection.sectionContent(section.id, section.name)}
                 isOpen={isOpen}
-                onToggle={() => onToggleSection(section.id)}
-                title={
+                onToggle={() => onChangeSectionExpandedState(section.id, !isOpen)}
+                label={
                   <>
                     {section.name} [{section.id}]
                   </>
                 }
               >
-                <FieldSet label={section.name}>
-                  <FormElements
-                    options={options}
-                    elements={elements}
-                    onChangeElement={onChangeElement}
-                    initial={initial}
-                    section={section}
-                    replaceVariables={replaceVariables}
-                    data={data}
-                  />
-                </FieldSet>
-              </Collapse>
+                <FormElements
+                  options={options}
+                  elements={elements}
+                  onChangeElement={onChangeElement}
+                  initial={initial}
+                  section={section}
+                  replaceVariables={replaceVariables}
+                  data={data}
+                />
+              </CollapsableSection>
             </td>
           </tr>
         );

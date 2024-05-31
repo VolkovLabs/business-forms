@@ -26,18 +26,6 @@ export const requestCodeParameters = new CodeParametersBuilder({
           'Update panel elements.',
           CodeEditorSuggestionItemKind.Method
         ),
-        toggleSection: new CodeParameterItem<(id: string) => void>(
-          'Toggle Section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        collapseSection: new CodeParameterItem<(id: string) => void>(
-          'Collapse Sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        expandSection: new CodeParameterItem<(id: string) => void>(
-          'Expand Sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
         setInitial: new CodeParameterItem<(value: { [id: string]: unknown }) => void>(
           'Allows to specify the initial values.',
@@ -50,6 +38,19 @@ export const requestCodeParameters = new CodeParametersBuilder({
         enableSubmit: new CodeParameterItem<() => void>('Enable submit button.', CodeEditorSuggestionItemKind.Method),
         disableSubmit: new CodeParameterItem<() => void>('Disable submit button.', CodeEditorSuggestionItemKind.Method),
         response: new CodeParameterItem<FetchResponse | Response | null | undefined>('Response object.'),
+        toggleSection: new CodeParameterItem<(id: string) => void>(
+          'Toggle Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        collapseSection: new CodeParameterItem<(id: string) => void>(
+          'Collapse Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        expandSection: new CodeParameterItem<(id: string) => void>(
+          'Expand Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
       },
     },
     grafana: {
@@ -111,18 +112,6 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           'Update panel elements.',
           CodeEditorSuggestionItemKind.Method
         ),
-        toggleSection: new CodeParameterItem<(id: string) => void>(
-          'Toggle Section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        collapseSection: new CodeParameterItem<(id: string) => void>(
-          'Collapse Sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        expandSection: new CodeParameterItem<(id: string) => void>(
-          'Expand Sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
         initialRequest: new CodeParameterItem<(() => Promise<void>) | undefined>(
           'Run Initial Request.',
@@ -144,6 +133,19 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           'Disable save default button.',
           CodeEditorSuggestionItemKind.Method
         ),
+        toggleSection: new CodeParameterItem<(id: string) => void>(
+          'Toggle Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        collapseSection: new CodeParameterItem<(id: string) => void>(
+          'Collapse Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        expandSection: new CodeParameterItem<(id: string) => void>(
+          'Expand Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
       },
     },
     grafana: {

@@ -1,4 +1,4 @@
-import { LayoutCollapse, LayoutOrientation, LayoutVariant } from '../constants';
+import { LayoutOrientation, LayoutVariant, SectionVariant } from '../constants';
 
 /**
  * Layout Section
@@ -17,6 +17,13 @@ export interface LayoutSection {
    * @type {string}
    */
   id: string;
+
+  /**
+   * Expanded
+   *
+   * @type {string}
+   */
+  expanded?: boolean;
 }
 
 /**
@@ -52,9 +59,9 @@ export interface LayoutOptions {
   orientation: LayoutOrientation;
 
   /**
-   * Collapse
+   * Section Variant
    *
-   * @type {LayoutCollapse}
+   * @type {SectionVariant}
    */
-  collapse: LayoutCollapse;
+  sectionVariant: SectionVariant;
 }

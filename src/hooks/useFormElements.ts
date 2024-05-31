@@ -1,7 +1,7 @@
 import { EventBusSrv, SelectableValue } from '@grafana/data';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FormElement, LocalFormElement } from '../types';
+import { FormElement, LayoutSection, LocalFormElement } from '../types';
 import {
   isElementConflict,
   isElementOptionConflict,
@@ -23,10 +23,12 @@ export const useFormElements = ({
   onChange,
   value,
   isAutoSave = true,
+  sections = [],
 }: {
   onChange: (elements: FormElement[]) => void;
   value?: FormElement[];
   isAutoSave?: boolean;
+  sections?: LayoutSection[];
 }) => {
   const eventBus = useRef(new EventBusSrv());
 
@@ -40,7 +42,25 @@ export const useFormElements = ({
   /**
    * Expand/Collapse State for Sections
    */
-  const [expandSectionsState, setExpandSectionsState] = useState<Record<string, boolean>>({});
+  const [sectionsExpandedState, setSectionsExpandedState] = useState<Record<string, boolean>>(
+    sections.reduce(
+      (acc, section) => ({
+        ...acc,
+        [section.id]: section.expanded,
+      }),
+      {}
+    )
+  );
+
+  /**
+   * On Change Section Expanded State
+   */
+  const onChangeSectionExpandedState = useCallback((name: string, isExpanded: boolean) => {
+    setSectionsExpandedState((prev) => ({
+      ...prev,
+      [name]: isExpanded,
+    }));
+  }, []);
 
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
@@ -146,36 +166,6 @@ export const useFormElements = ({
   );
 
   /**
-   * Toggle collapse state for sections
-   */
-  const onToggleSection = useCallback((id: string) => {
-    setExpandSectionsState((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  }, []);
-
-  /**
-   * Collapse Section
-   */
-  const collapseSection = useCallback((id: string) => {
-    setExpandSectionsState((prev) => ({
-      ...prev,
-      [id]: false,
-    }));
-  }, []);
-
-  /**
-   * Expand Section
-   */
-  const expandSection = useCallback((id: string) => {
-    setExpandSectionsState((prev) => ({
-      ...prev,
-      [id]: true,
-    }));
-  }, []);
-
-  /**
    * Update local elements
    */
   useEffect(() => {
@@ -211,9 +201,7 @@ export const useFormElements = ({
     onElementRemove,
     eventBus: eventBus.current,
     elementsRef,
-    expandSectionsState,
-    onToggleSection,
-    collapseSection,
-    expandSection,
+    sectionsExpandedState,
+    onChangeSectionExpandedState,
   };
 };

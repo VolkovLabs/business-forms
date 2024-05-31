@@ -18,11 +18,11 @@ export const enum LayoutOrientation {
 }
 
 /**
- * Layout Collapse
+ * Section Variant
  */
-export const enum LayoutCollapse {
+export const enum SectionVariant {
   DEFAULT = 'default',
-  COLLAPSE = 'collapse',
+  COLLAPSABLE = 'collapsable',
 }
 
 /**
@@ -72,15 +72,15 @@ export const LAYOUT_ORIENTATION_OPTIONS: SelectableValue[] = [
  */
 export const LAYOUT_COLLAPSE_OPTIONS: SelectableValue[] = [
   {
-    value: LayoutCollapse.DEFAULT,
-    description: 'Always open',
-    label: 'Always open',
+    value: SectionVariant.DEFAULT,
+    description: 'Always Open',
+    label: 'Always Open',
     icon: 'bars',
   },
   {
-    value: LayoutCollapse.COLLAPSE,
-    description: 'Collapsible',
-    label: 'Collapsible',
+    value: SectionVariant.COLLAPSABLE,
+    description: 'Collapsable',
+    label: 'Collapsable',
     icon: 'arrows-v',
   },
 ];

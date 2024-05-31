@@ -1,9 +1,21 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { FORM_ELEMENT_DEFAULT, FormElementType, LayoutOrientation, LayoutVariant } from '../../constants';
+import {
+  FORM_ELEMENT_DEFAULT,
+  FormElementType,
+  LayoutOrientation,
+  LayoutVariant,
+  SectionVariant,
+} from '../../constants';
+import { PanelOptions, UpdateEnabledMode } from '../../types';
 import { getFormElementsSectionSelectors, normalizeElementsForLocalState } from '../../utils';
 import { ElementSections } from './ElementSections';
+
+/**
+ * Props
+ */
+type Props = React.ComponentProps<typeof ElementSections>;
 
 /**
  * Mock @volkovlabs/components
@@ -25,14 +37,14 @@ describe('Form Elements', () => {
    * @param options
    * @param restProps
    */
-  const getComponent = ({ options = {}, ...restProps }: any) => {
+  const getComponent = ({ options = {} as any, ...restProps }: Partial<Props>) => {
     return (
       <table>
         <tbody>
           <ElementSections
             options={options}
             elements={normalizeElementsForLocalState(options.elements)}
-            {...restProps}
+            {...(restProps as any)}
           />
         </tbody>
       </table>
@@ -40,37 +52,42 @@ describe('Form Elements', () => {
   };
 
   describe('Render elements', () => {
-    const options = {
-      submit: {},
-      initial: { highlight: true },
-      update: {},
-      reset: {},
+    const options: PanelOptions = {
+      sync: true,
+      updateEnabled: UpdateEnabledMode.MANUAL,
+      resetAction: {} as any,
+      buttonGroup: {} as any,
+      saveDefault: {} as any,
+      confirmModal: {} as any,
+      elementValueChanged: '',
+      submit: {} as any,
+      initial: { highlight: true } as any,
+      update: {} as any,
+      reset: {} as any,
       layout: {
         variant: LayoutVariant.SPLIT,
         orientation: LayoutOrientation.VERTICAL,
-        collapse: 'collapse',
+        sectionVariant: SectionVariant.COLLAPSABLE,
         sections: [
-          { name: 'section1', id: 'section1' },
-          { name: 'section2', id: 'section2' },
+          { name: 'section1', id: 'section1', expanded: true },
+          { name: 'section2', id: 'section2', expanded: true },
         ],
+        padding: 0,
       },
       elements: [
         { ...FORM_ELEMENT_DEFAULT, id: 'string' },
-        { id: 'password', type: FormElementType.PASSWORD, section: 'section1' },
-        { id: 'number', type: FormElementType.NUMBER, section: 'section1' },
+        { id: 'password', type: FormElementType.PASSWORD, section: 'section1' } as any,
+        { id: 'number', type: FormElementType.NUMBER, section: 'section1' } as any,
       ],
     };
 
     it('Should render Sections', () => {
-      const onToggleSection = jest.fn();
-
       render(
         getComponent({
           options,
           onChangeElement,
-          onToggleSection,
           initial: { changed: 'bye' },
-          expandSectionsState: { section1: true },
+          sectionsExpandedState: { section1: true },
         })
       );
 
@@ -78,15 +95,15 @@ describe('Form Elements', () => {
     });
 
     it('Should toggle sections', () => {
-      const onToggleSection = jest.fn();
+      const onChangeSectionExpandedState = jest.fn();
 
       render(
         getComponent({
           options,
           onChangeElement,
-          onToggleSection,
+          onChangeSectionExpandedState,
           initial: { changed: 'bye' },
-          expandSectionsState: { section1: true },
+          sectionsExpandedState: { section1: true },
         })
       );
 
@@ -94,7 +111,7 @@ describe('Form Elements', () => {
 
       fireEvent.click(sectionSelectors.sectionLabel(true, 'section1', 'section1'));
 
-      expect(onToggleSection).toHaveBeenCalledWith('section1');
+      expect(onChangeSectionExpandedState).toHaveBeenCalledWith('section1', false);
     });
   });
 

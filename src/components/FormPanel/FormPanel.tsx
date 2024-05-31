@@ -127,14 +127,13 @@ export const FormPanel: React.FC<Props> = ({
     onSaveUpdates,
     eventBus: elementsEventBus,
     elementsRef,
-    expandSectionsState,
-    onToggleSection,
-    collapseSection,
-    expandSection,
+    sectionsExpandedState,
+    onChangeSectionExpandedState,
   } = useFormElements({
     onChange: onChangeOptions,
     value: options.elements,
     isAutoSave: false,
+    sections: options.layout.sections,
   });
 
   /**
@@ -281,15 +280,16 @@ export const FormPanel: React.FC<Props> = ({
               onOptionsChange,
               elements: currentElements || elementsRef.current,
               onChangeElements,
-              toggleSection: onToggleSection,
-              collapseSection,
-              expandSection,
               setInitial,
               initial,
               initialRequest,
               response,
               enableSubmit: () => setSubmitEnabled(true),
               disableSubmit: () => setSubmitEnabled(false),
+              collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
+              expandSection: (id: string) => onChangeSectionExpandedState(id, true),
+              toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
+              sectionsExpandedState,
             },
             utils: {
               toDataQueryResponse,
@@ -318,9 +318,8 @@ export const FormPanel: React.FC<Props> = ({
       notifyWarning,
       eventBus,
       appEvents,
-      onToggleSection,
-      collapseSection,
-      expandSection,
+      sectionsExpandedState,
+      onChangeSectionExpandedState,
     ]
   );
 
@@ -851,9 +850,10 @@ export const FormPanel: React.FC<Props> = ({
             onOptionsChange,
             elements,
             onChangeElements,
-            toggleSection: onToggleSection,
-            collapseSection,
-            expandSection,
+            collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
+            expandSection: (id: string) => onChangeSectionExpandedState(id, true),
+            toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
+            sectionsExpandedState,
             initial: initialRef.current,
             setError,
             enableReset: () => setResetEnabled(true),
@@ -872,20 +872,19 @@ export const FormPanel: React.FC<Props> = ({
     },
     [
       appEvents,
-      collapseSection,
       data,
       eventBus,
-      expandSection,
       initialRef,
       initialRequest,
       notifyError,
       notifySuccess,
       notifyWarning,
       onChangeElements,
+      onChangeSectionExpandedState,
       onOptionsChange,
-      onToggleSection,
       options,
       replaceVariables,
+      sectionsExpandedState,
       templateSrv,
     ]
   );
@@ -954,8 +953,8 @@ export const FormPanel: React.FC<Props> = ({
             onChangeElement={onChangeElement}
             initial={initial}
             replaceVariables={replaceVariables}
-            expandSectionsState={expandSectionsState}
-            onToggleSection={onToggleSection}
+            sectionsExpandedState={sectionsExpandedState}
+            onChangeSectionExpandedState={onChangeSectionExpandedState}
           />
           <tr>
             <td colSpan={options.layout?.sections?.length}>

@@ -1,8 +1,14 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
+import { LayoutOrientation, SectionVariant } from '../../constants';
 import { getLayoutSectionsEditorSelectors } from '../../utils';
 import { LayoutSectionsEditor } from './LayoutSectionsEditor';
+
+/**
+ * Props
+ */
+type Props = React.ComponentProps<typeof LayoutSectionsEditor>;
 
 /**
  * Layout Sections Editor
@@ -20,8 +26,8 @@ describe('Layout Sections Editor', () => {
    * @param value
    * @param restProps
    */
-  const getComponent = ({ value = [], ...restProps }: any) => {
-    return <LayoutSectionsEditor {...restProps} value={value} />;
+  const getComponent = ({ value = [], ...restProps }: Partial<Props>) => {
+    return <LayoutSectionsEditor value={value} context={{}} {...(restProps as any)} />;
   };
 
   /**
@@ -57,7 +63,7 @@ describe('Layout Sections Editor', () => {
    * No sections
    */
   it('Should find component without sections', async () => {
-    render(getComponent({ value: null, onChange }));
+    render(getComponent({ value: undefined, onChange }));
 
     expect(selectors.fieldName(true)).not.toBeInTheDocument();
     expect(selectors.buttonAdd()).toBeInTheDocument();
@@ -102,9 +108,6 @@ describe('Layout Sections Editor', () => {
     );
   });
 
-  /**
-   * Clean id
-   */
   it('Should clean id value', () => {
     const sections = [{ id: '1', name: 'Section' }];
     const onChange = jest.fn();
@@ -138,9 +141,6 @@ describe('Layout Sections Editor', () => {
     );
   });
 
-  /**
-   * Disallow change on already existing id
-   */
   it('Should not allow use already existing id', () => {
     const sections = [
       { id: '1', name: 'Section' },
@@ -171,9 +171,6 @@ describe('Layout Sections Editor', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  /**
-   * Change value
-   */
   it('Should change name value', () => {
     const sections = [{ id: 'Section', name: 'Section' }];
     const onChange = jest.fn();
@@ -207,9 +204,78 @@ describe('Layout Sections Editor', () => {
     );
   });
 
-  /**
-   * Remove section
-   */
+  it('Should change expanded value for collapsable section variable', () => {
+    const sections = [{ id: 'Section', name: 'Section', expanded: false }];
+    const onChange = jest.fn();
+
+    /**
+     * Render
+     */
+    render(
+      getComponent({
+        value: sections,
+        onChange,
+        context: {
+          options: { layout: { orientation: LayoutOrientation.VERTICAL, sectionVariant: SectionVariant.COLLAPSABLE } },
+        } as any,
+      })
+    );
+
+    /**
+     * Check section presence
+     */
+    const section = selectors.section(false, 'Section');
+    expect(section).toBeInTheDocument();
+
+    /**
+     * Change section name
+     */
+    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
+    expect(sectionSelectors.fieldExpanded()).toBeInTheDocument();
+    fireEvent.click(sectionSelectors.fieldExpanded());
+
+    /**
+     * Check if expanded is changed
+     */
+    expect(onChange).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          expanded: true,
+        }),
+      ])
+    );
+  });
+
+  it('Should hide expanded field if no collapsable variant', () => {
+    const sections = [{ id: 'Section', name: 'Section', expanded: false }];
+    const onChange = jest.fn();
+
+    /**
+     * Render
+     */
+    render(
+      getComponent({
+        value: sections,
+        onChange,
+        context: {
+          options: { layout: { orientation: LayoutOrientation.VERTICAL, sectionVariant: SectionVariant.DEFAULT } },
+        } as any,
+      })
+    );
+
+    /**
+     * Check section presence
+     */
+    const section = selectors.section(false, 'Section');
+    expect(section).toBeInTheDocument();
+
+    /**
+     * Change expanded hidden
+     */
+    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
+    expect(sectionSelectors.fieldExpanded(true)).not.toBeInTheDocument();
+  });
+
   it('Should remove section', () => {
     let sections = [
       { id: 'Section 1', name: 'Section 1' },
@@ -246,9 +312,6 @@ describe('Layout Sections Editor', () => {
     expect(selectors.section(true, 'Section 2')).not.toBeInTheDocument();
   });
 
-  /**
-   * Add section
-   */
   it('Should add section', () => {
     let sections = [{ id: 'Section 1', name: 'Section 1' }];
     const onChange = jest.fn((updatedSections) => (sections = updatedSections));

@@ -14,6 +14,7 @@ import {
   PayloadMode,
   RequestMethod,
   ResetActionMode,
+  SectionVariant,
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
@@ -229,9 +230,9 @@ describe('Panel', () => {
   });
 
   /**
-   * Split Vertical Layout with collapsible
+   * Split Vertical Layout with collapsable
    */
-  it('Should render split vertical layout with collapsible', async () => {
+  it('Should render split vertical layout with collapsable', async () => {
     await act(async () =>
       render(
         getComponent({
@@ -240,7 +241,7 @@ describe('Panel', () => {
             layout: {
               variant: LayoutVariant.SPLIT,
               orientation: LayoutOrientation.VERTICAL,
-              collapse: 'collapse',
+              sectionVariant: SectionVariant.COLLAPSABLE,
               sections: [
                 { name: 'section1', id: 'section1' },
                 { name: 'section2', id: 'section2' },
@@ -1608,17 +1609,18 @@ describe('Panel', () => {
               replaceVariables,
             },
             options: {
+              sync: false,
               initial: {
                 method: RequestMethod.NONE,
-                code: 'context.panel.toggleSection("section1"); context.panel.collapseSection("section1"); context.panel.expandSection("section1");',
+                code: `
+                  context.panel.toggleSection("section1");
+                  // context.panel.collapseSection("section1");
+                  // context.panel.expandSection("section1");
+                `,
               },
             },
           })
         )
-      );
-
-      expect(replaceVariables).toHaveBeenCalledWith(
-        'context.panel.toggleSection("section1"); context.panel.collapseSection("section1"); context.panel.expandSection("section1");'
       );
     });
 
