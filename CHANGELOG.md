@@ -31,6 +31,7 @@
 
 - Updated name to Business Forms Panel (#361)
 - Add support frontend data sources (#361)
+- Prepare for Grafana 11 (#399)
 
 ## 3.8.0 (2024-05-30)
 
