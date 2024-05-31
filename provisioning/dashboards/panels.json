@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -45,7 +46,7 @@
           "size": "md"
         },
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -66,7 +67,8 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "console.log(data, response, initial, elements);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -84,16 +86,17 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
           "payloadMode": "all",
           "updatedOnly": false,
           "url": "http://api.example.com/"
         }
       },
+      "pluginVersion": "4.0.0",
       "title": "No Elements",
       "type": "volkovlabs-form-panel"
     },
@@ -141,7 +144,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -162,7 +165,8 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "console.log(data, response, initial, elements);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -178,16 +182,16 @@
           "variant": "destructive"
         },
         "update": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
           "payloadMode": "all",
-          "updatedOnly": false,
           "url": "http://localhost:3001"
         }
       },
+      "pluginVersion": "4.0.0",
       "title": "Data Manipulation Form",
       "type": "volkovlabs-form-panel"
     },
@@ -209,7 +213,7 @@
           "size": "md"
         },
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -230,7 +234,8 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "console.log(data, response, initial, elements);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -248,16 +253,16 @@
           "variant": "destructive"
         },
         "update": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "DELETE",
           "payloadMode": "all",
-          "updatedOnly": false,
           "url": "http://api.example.com/"
         }
       },
+      "pluginVersion": "4.0.0",
       "title": "Buttons only",
       "type": "volkovlabs-form-panel"
     },
@@ -281,7 +286,7 @@
         "elements": [
           {
             "id": "amount",
-            "showIf": "const test = replaceVariables('$var');\nreturn test === 'test'",
+            "showIf": "const test = context.grafana.replaceVariables('$var');\nreturn test === 'test'",
             "title": "Amount",
             "type": "number",
             "uid": "16cf7be7-c7b0-4742-afa8-e069f5e06558",
@@ -378,7 +383,7 @@
         "height": 0,
         "heightMode": "auto",
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "header": [
@@ -406,7 +411,8 @@
           "variant": "secondary"
         },
         "resetAction": {
-          "code": "console.log(data, response, initial, elements);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -424,10 +430,10 @@
           "variant": "primary"
         },
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  initialRequest();\n} else {\n  notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${context.panel.response.status}`]);\n}",
           "confirm": true,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "header": [
             {
               "name": "X-Key",
@@ -442,6 +448,7 @@
         "width": 0,
         "widthMode": "auto"
       },
+      "pluginVersion": "4.0.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     },
@@ -501,7 +508,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "code": "console.log(context.panel.options, context.panel.data, context.panel.response, context.panel.elements, context.grafana.locationService, context.grafana.templateService)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -531,6 +538,7 @@
         },
         "resetAction": {
           "code": "console.log(data, response, initial, elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -546,16 +554,16 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "code": "console.log(context.panel.options, context.panel.data, context.panel.response, context.panel.elements, context.grafana.locationService, context.grafana.templateService)",
           "confirm": true,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
           "payloadMode": "all",
-          "updatedOnly": true,
           "url": "http://localhost:3001"
         }
       },
+      "pluginVersion": "4.0.0",
       "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
@@ -647,7 +655,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(options, data, response, elements, locationService, templateService)",
+          "code": "console.log(context.panel.options, context.panel.data, context.panel.response, context.panel.elements, context.grafana.locationService, context.grafana.templateService)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -676,7 +684,8 @@
           "variant": "destructive"
         },
         "resetAction": {
-          "code": "console.log(data, response, initial, elements);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -692,16 +701,17 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(initial)\n\n/**\n * Set body\n */\nconst body = {};\nelements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
+          "code": "console.log(context.panel.initial)\n\n/**\n * Set body\n */\nconst body = {};\ncontext.panel.elements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
           "confirm": true,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
           "payloadMode": "all",
           "updatedOnly": true,
           "url": "http://localhost:3001"
         }
       },
+      "pluginVersion": "4.0.0",
       "title": "Control Panel",
       "type": "volkovlabs-form-panel"
     },
@@ -730,7 +740,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -751,6 +761,7 @@
         },
         "resetAction": {
           "code": "console.log(data, response, initial, elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -768,7 +779,7 @@
           "variant": "custom"
         },
         "update": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
@@ -777,6 +788,7 @@
           "updatedOnly": false
         }
       },
+      "pluginVersion": "4.0.0",
       "title": "No Initial Request and Custom Button",
       "type": "volkovlabs-form-panel"
     },
@@ -888,7 +900,7 @@
         "height": 0,
         "heightMode": "auto",
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -923,7 +935,8 @@
           "variant": "secondary"
         },
         "resetAction": {
-          "code": "console.log(data, response, initial, elements);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
         },
         "saveDefault": {
@@ -941,10 +954,10 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}\n",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  location.reload();\n}\n",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
           "payloadMode": "all",
           "updatedOnly": false,
@@ -953,6 +966,7 @@
         "width": 0,
         "widthMode": "auto"
       },
+      "pluginVersion": "4.0.0",
       "title": "Split Form",
       "type": "volkovlabs-form-panel"
     }

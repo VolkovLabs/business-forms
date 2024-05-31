@@ -1,5 +1,6 @@
 export * from './CustomCodeEditor';
 export * from './DatasourceEditor';
+export * from './DatasourcePayloadEditor';
 export * from './ElementEditor';
 export * from './ElementSections';
 export * from './FormElements';

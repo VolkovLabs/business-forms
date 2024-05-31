@@ -150,8 +150,9 @@
         "height": 0,
         "heightMode": "auto",
         "initial": {
-          "code": "console.log(response)",
+          "code": "console.log(context.panel.response)\nconsole.log(context)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "header": [
             {
               "name": "X-Key",
@@ -191,9 +192,10 @@
           "variant": "primary"
         },
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  initialRequest();\n} else {\n  notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
           "confirm": true,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "header": [
             {
               "name": "X-Key",
@@ -207,6 +209,7 @@
         "width": 0,
         "widthMode": "auto"
       },
+      "pluginVersion": "4.0.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     }

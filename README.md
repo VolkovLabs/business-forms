@@ -1,4 +1,4 @@
-# Data Manipulation Panel for Grafana
+# Business Forms Panel for Grafana
 
 ![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
 
@@ -11,21 +11,22 @@
 
 ## Introduction
 
-The Data Manipulation Panel is a conceptually new plugin for Grafana. It is the first plugin that allows inserting and updating application data, as well as modifying configuration directly from your Grafana dashboard.
+The Business Forms Panel is a conceptually new plugin for Grafana. It is the first plugin that allows inserting and updating application data, as well as modifying configuration directly from your Grafana dashboard.
 
 [![Use REST API, Data Source and Queries to manipulate your data](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/tutorial.png)](https://youtu.be/hVy9NfFiI5U)
 
 ## Requirements
 
-- **Grafana 9.2** and **Grafana 10** are required for major version 3.
-- **Grafana 8.5** and **Grafana 9** are required for major version 2.
-- **Grafana 8** is required for major version 1.
+- Business Forms Panel 4.X requires **Grafana 10** or **Grafana 11**.
+- Data Manipulation Panel 3.X requires **Grafana 9** or **Grafana 10**.
+- Data Manipulation Panel 2.X requires **Grafana 9** or **Grafana 8.5**.
+- Data Manipulation Panel 1.X requires **Grafana 8**.
 
 ## Getting Started
 
-The Data Manipulation panel can be installed from the [Grafana Catalog](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or utilizing the Grafana command line tool.
+You can install the Business Forms Panel from the [Grafana Plugins [catalog](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or use the Grafana command line tool.
 
-For the latter, use the following command.
+For the latter, please use the following command:
 
 ```bash
 grafana-cli plugins install volkovlabs-form-panel
@@ -34,36 +35,35 @@ grafana-cli plugins install volkovlabs-form-panel
 ## Highlights
 
 - Provides functionality to create customizable forms.
-- Supports the Custom Code for the Initial and Update requests.
-- Allows specifying a `GET` request to get initial values and `DELETE`, `PATCH`, `POST`, and `PUT` requests to send values updated in the form.
-- Allows adding Header fields to the Initial and Update requests.
-- Allows customizing Submit, Reset buttons, and form layout.
+- Supports custom code for initial and update requests.
+- Supports API requests, including the `GET` request to get initial values and the `DELETE`, `PATCH`, `POST`, and `PUT` requests to send values updated in the form.
+- Allows adding request headers to initial and update requests.
+- Supports customization of the Submit and Reset buttons as well as the form layout.
 - Allows splitting form elements into sections.
-- Allows requesting confirmation before Update request.
-- Allows sending all or only updated elements in the Payload.
-- Allows displaying Success and Error notifications from the Custom Code.
-- Supports Code Editor suggestions for available parameters.
+- Allows requesting the user's confirmation before running an update request.
+- Allows sending all or only updated elements in the request payload.
+- Allows displaying success and error notifications through custom code.
+- Supports suggestions for available parameters when writing program code in the code editor.
 
 ## Documentation
 
-| Section                                                                             | Description                                                                               |
-| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Architecture](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/)   | Explains the Architecture and how to use Grafana and API behind NGINX.                    |
-| [Data Flow](https://volkovlabs.io/plugins/volkovlabs-form-panel/data-flow/)         | Explains the data flow and its specifics.                                                 |
-| [Form Elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/form-elements/) | Explains the specifics of form elements.                                                  |
-| [REST API](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/)       | Explains the REST API architecture and how to use NGINX.                                  |
-| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/)            | Demonstrates how to access panel options, API responses, form elements, Grafana services. |
-| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)           | Demonstrates panel features.                                                              |
-| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)             | Demonstrates various server API implementations                                           |
-| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)       | Stay up to date with the latest features and updates.                                     |
+| Section                                                                             | Description                                                                                |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [Data Flow](https://volkovlabs.io/plugins/volkovlabs-form-panel/data-flow/)         | Explains the data flow and its specifics.                                                  |
+| [Form Elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/form-elements/) | Explains the specifics of form elements.                                                   |
+| [REST API](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/)       | Explains the REST API architecture and how to use NGINX.                                   |
+| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/)            | Explains how to access plugin options, API responses, form elements, and Grafana services. |
+| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)           | Explains the plugin features.                                                              |
+| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)             | Provides examples of API server implementations.                                           |
+| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)       | Stay up to date with the latest features and updates.                                      |
 
 ## Feedback
 
-We love to hear from you. There are various ways to get in touch with us.
+We're looking forward to hearing from you. You can use different ways to get in touch with us.
 
-- Ask a question, request a new feature, and file a bug with [GitHub issues](https://github.com/volkovlabs/volkovlabs-form-panel/issues/new/choose).
-- Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and add a comment.
-- Sponsor our open-source plugins for Grafana with [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
+- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/volkovlabs-form-panel/issues).
+- Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and leave your comments.
+- Sponsor our open-source plugins for Grafana at [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
 - Star the repository to show your support.
 
 ## License
