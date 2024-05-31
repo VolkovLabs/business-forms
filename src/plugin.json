@@ -43,6 +43,6 @@
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
-  "name": "Data Manipulation",
+  "name": "Business Forms",
   "type": "panel"
 }

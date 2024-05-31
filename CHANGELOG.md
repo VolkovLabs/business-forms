@@ -9,6 +9,7 @@
 
 ### Features / Enhancements
 
+- Updated name to Business Forms Panel (#361)
 - Add support frontend data sources (#361)
 
 ## 3.8.0 (2024-05-30)
