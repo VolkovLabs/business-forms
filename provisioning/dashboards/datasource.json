@@ -192,11 +192,11 @@
         },
         "sync": true,
         "update": {
-          "code": "if (contet.panel.response && contet.panel.response.ok) {\n  contet.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  contet.panel.initialRequest();\n} else {\n  contet.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": true,
           "contentType": "application/json",
           "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\ncontet.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
           "method": "datasource",
           "payloadMode": "custom"
         }
@@ -359,11 +359,11 @@
           "variant": "primary"
         },
         "update": {
-          "code": "if (contet.panel.response && contet.panel.response.ok) {\n  contet.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  contet.panel.initialRequest();\n} else {\n  contet.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": true,
           "contentType": "application/json",
           "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\ncontet.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
           "method": "datasource",
           "payloadMode": "custom"
         }
