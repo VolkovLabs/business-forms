@@ -32,6 +32,8 @@
 - Updated name to Business Forms Panel (#361)
 - Add support frontend data sources (#361)
 - Prepare for Grafana 11 (#399)
+- Updated elected type for a new option (#402)
+- Added custom color/background color for elements (#386)
 
 ## 3.8.0 (2024-05-30)
 
