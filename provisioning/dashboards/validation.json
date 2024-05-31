@@ -137,12 +137,13 @@
           }
         ],
         "initial": {
-          "code": "console.log(data, response, initial, elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = toDataQueryResponse(response);\nconsole.log(dataQuery);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
-          "method": "-"
+          "method": "-",
+          "payload": {}
         },
         "layout": {
           "orientation": "horizontal",
@@ -157,10 +158,11 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -176,16 +178,17 @@
         },
         "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all"
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "3.8.0",
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {
@@ -211,7 +214,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Form Validation Example",
+  "title": "Form Validation",
   "uid": "b73e41bd-a0d8-4531-8d97-7bd764d76e6b",
   "version": 6,
   "weekStart": ""
