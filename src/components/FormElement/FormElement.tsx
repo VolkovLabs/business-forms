@@ -13,6 +13,7 @@ import {
   Select,
   TextArea,
   TextLink,
+  TimeOfDayPicker,
   useStyles2,
   useTheme2,
 } from '@grafana/ui';
@@ -22,7 +23,7 @@ import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
-import { applyWidth, formatNumberValue, isFormElementType } from '../../utils';
+import { applyAcceptedFiles, applyWidth, formatNumberValue, isFormElementType } from '../../utils';
 import { getStyles } from './FormElement.styles';
 
 /**
@@ -291,6 +292,28 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         </InlineField>
       )}
 
+      {element.type === FormElementType.TIME && (
+        <InlineField
+          label={element.title}
+          grow={!element.width}
+          labelWidth={applyWidth(element.labelWidth)}
+          tooltip={element.tooltip}
+          transparent={!element.title}
+          disabled={element.disabled}
+        >
+          <TimeOfDayPicker
+            data-testid={TEST_IDS.formElements.fieldTime}
+            value={element.value ? dateTime(element.value) : dateTime(new Date().toISOString())}
+            onChange={(dateTime: DateTime) => {
+              onChange<typeof element>({
+                ...element,
+                value: dateTime.toISOString(),
+              });
+            }}
+          />
+        </InlineField>
+      )}
+
       {element.type === FormElementType.SLIDER && element.value != null && (
         <>
           <InlineField
@@ -370,6 +393,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           disabled={element.disabled}
         >
           <Select
+            key={element.id}
             isMulti={element.type === FormElementType.MULTISELECT}
             aria-label={TEST_IDS.formElements.fieldSelect}
             value={element.value !== undefined ? element.value : null}
@@ -397,7 +421,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
         >
           <FileDropzone
             options={{
-              accept: element.accept || undefined,
+              accept: applyAcceptedFiles(element.accept),
               multiple: element.multiple,
               onDrop: (files: File[]) => {
                 onChange<typeof element>({

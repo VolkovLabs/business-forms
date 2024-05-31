@@ -52,6 +52,7 @@ describe('Form Elements', () => {
         { id: 'code', type: FormElementType.CODE },
         { id: 'boolean', type: FormElementType.BOOLEAN },
         { id: 'datetime', type: FormElementType.DATETIME },
+        { id: 'time', type: FormElementType.TIME },
         { id: 'radioGroup', type: FormElementType.RADIO },
         { id: 'checkboxList', type: FormElementType.CHECKBOX_LIST },
         { id: 'disabled', type: FormElementType.DISABLED },
@@ -159,7 +160,9 @@ describe('Form Elements', () => {
     it('Should render dateTime field', () => {
       expect(selectors.fieldDateTime()).toBeInTheDocument();
     });
-
+    it('Should render time field', () => {
+      expect(selectors.fieldTime()).toBeInTheDocument();
+    });
     it('Should render file field', () => {
       expect(selectors.fieldFile()).toBeInTheDocument();
     });
@@ -328,6 +331,29 @@ describe('Form Elements', () => {
      * Date Time
      */
     expect(selectors.fieldDateTime()).toBeInTheDocument();
+  });
+
+  it('Should find component Time', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [
+        {
+          id: 'elementTime',
+          type: FormElementType.TIME,
+          value: '2021-04-10T12:30:00Z',
+        },
+      ],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+
+    /**
+     * Time Element
+     */
+    expect(selectors.fieldTime()).toBeInTheDocument();
   });
 
   it('Should find component with Select and unset value', async () => {
@@ -805,6 +831,40 @@ describe('Form Elements', () => {
       fireEvent.change(selectors.fieldDateTime(), { target: { value: '2021-07-31 12:30:30' } });
 
       expect(selectors.fieldDateTime()).toHaveValue('2021-07-31 12:30:30');
+    });
+
+    it('Should handle onChange event for time input', async () => {
+      let appliedElements = [{ id: 'timeElement', type: FormElementType.TIME, value: '', disabled: false }];
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      /**
+       * Render Component
+       */
+      render(getComponent({ options, onChangeElement }));
+
+      expect(selectors.fieldTime()).toBeInTheDocument();
+
+      /**
+       * Change date time
+       */
+      await act(() => fireEvent.change(selectors.fieldTime(), { target: { value: '2024-04-10T12:30:00Z' } }));
+
+      expect(onChangeElement).toHaveBeenCalledWith(
+        expect.objectContaining({
+          value: '2024-04-10T12:30:00.000Z',
+        })
+      );
     });
 
     /**

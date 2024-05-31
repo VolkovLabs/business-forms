@@ -4,10 +4,20 @@
 
 ### Features / Enhancements
 
-- Add Checkbox List element (#382)
-- Update syntax support in Code Editor (#383)
-- Add plugin e2e tests and remove cypress (#390)
 - Add support frontend data sources (#361)
+
+## 3.8.0 (2024-05-30)
+
+### Features / Enhancements
+
+- Added Checkbox List element (#382)
+- Updated syntax support in Code Editor (#383)
+- Added plugin e2e tests and remove cypress (#390)
+- Added server-based form elements example (#392)
+- Added input type time (#385)
+- Updated hiding/show multi-select element (#389)
+- Updated allowed files for file type (#388)
+- Added Form validation provisioning dashboard (#411)
 
 ## 3.7.0 (2024-03-10)
 

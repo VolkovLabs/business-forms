@@ -6,7 +6,6 @@ import {
   DataFrame,
   DataQueryError,
   DataQueryResponse,
-  dateTime,
   Field,
   LoadingState,
   PanelProps,
@@ -56,6 +55,7 @@ import {
   convertToElementValue,
   elementValueChangedCodeParameters,
   fileToBase64,
+  formatElementValue,
   getButtonVariant,
   getFieldValues,
   getInitialValuesMap,
@@ -1136,46 +1136,6 @@ export const FormPanel: React.FC<Props> = ({
                       return;
                     }
 
-                    /**
-                     * Skip Password elements
-                     */
-                    if (element.type === FormElementType.PASSWORD) {
-                      return (
-                        <tr
-                          className={styles.confirmTable}
-                          key={element.id}
-                          data-testid={TEST_IDS.panel.confirmModalField(element.id)}
-                        >
-                          {options.confirmModal.columns.include.includes(ModalColumnName.NAME) && (
-                            <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldTitle}>
-                              {element.title || element.tooltip}
-                            </td>
-                          )}
-                          {options.confirmModal.columns.include.includes(ModalColumnName.OLD_VALUE) && (
-                            <td
-                              className={styles.confirmTableTd}
-                              data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
-                            >
-                              *********
-                            </td>
-                          )}
-                          {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
-                            <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                              *********
-                            </td>
-                          )}
-                        </tr>
-                      );
-                    }
-
-                    let currentValue = element.value;
-                    /**
-                     * Convert DateTime object to ISO string
-                     */
-                    if (element.type === FormElementType.DATETIME) {
-                      currentValue = dateTime(element.value).toISOString();
-                    }
-
                     return (
                       <tr
                         className={styles.confirmTable}
@@ -1192,12 +1152,12 @@ export const FormPanel: React.FC<Props> = ({
                             className={styles.confirmTableTd}
                             data-testid={TEST_IDS.panel.confirmModalFieldPreviousValue}
                           >
-                            {initial[element.id] === undefined ? '' : String(initial[element.id])}
+                            {formatElementValue(element, initial[element.id])}
                           </td>
                         )}
                         {options.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE) && (
                           <td className={styles.confirmTableTd} data-testid={TEST_IDS.panel.confirmModalFieldValue}>
-                            {currentValue === undefined ? '' : String(currentValue)}
+                            {formatElementValue(element, element.value)}
                           </td>
                         )}
                       </tr>

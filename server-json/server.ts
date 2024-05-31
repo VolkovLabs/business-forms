@@ -13,7 +13,7 @@ let values = { name: 'Name', amount: 30, updated: false, step: 4 };
 /**
  * Create Server
  */
-const server = http.createServer(function (req, res) {
+const server = http.createServer(function (req: any, res: any) {
   /**
    * Set CORS headers
    */
@@ -25,6 +25,84 @@ const server = http.createServer(function (req, res) {
     res.writeHead(200);
     res.end();
 
+    return;
+  }
+
+  /**
+   * Get form
+   */
+  const urlObject = new URL(`http://localhost${req.url}`);
+  if (urlObject.pathname === '/form') {
+    const device = urlObject.searchParams.get('device') || '';
+    const formElements: unknown[] = [
+      {
+        uid: 'device',
+        id: 'device',
+        title: 'Device',
+        type: 'select',
+        value: device,
+        options: [
+          {
+            id: 'device1',
+            label: 'device1',
+            type: 'string',
+            value: 'device1',
+          },
+          {
+            id: 'device2',
+            label: 'device2',
+            type: 'string',
+            value: 'device2',
+          },
+        ],
+        optionsSource: 'Custom',
+      },
+    ];
+
+    /**
+     * Add device1 elements
+     */
+    if (device === 'device1') {
+      formElements.push({
+        uid: 'device1Field',
+        id: 'device1Field',
+        title: 'Device 1 Field',
+        type: 'number',
+        value: 0,
+        min: 0,
+        max: 10,
+      });
+    }
+
+    /**
+     * Add device2 elements
+     */
+    if (device === 'device2') {
+      formElements.push({
+        uid: 'device2Field',
+        id: 'device2Field',
+        title: 'Device 2 Field',
+        type: 'number',
+        value: 0,
+        min: 0,
+        max: 10,
+      });
+    }
+
+    /**
+     * Add common elements
+     */
+    formElements.push({
+      uid: 'comment',
+      id: 'comment',
+      title: 'Comment',
+      type: 'textarea',
+      value: '',
+    });
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(JSON.stringify(formElements));
+    res.end();
     return;
   }
 
@@ -49,7 +127,7 @@ const server = http.createServer(function (req, res) {
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
     setTimeout(() => {
       let body = '';
-      req.on('data', function (chunk) {
+      req.on('data', function (chunk: any) {
         body += chunk;
       });
 

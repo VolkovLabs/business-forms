@@ -1,6 +1,13 @@
 import { FormElementType } from '../constants';
 import { ButtonVariant } from '../types';
-import { convertToElementValue, getButtonVariant, reorder } from './form-element';
+import {
+  applyAcceptedFiles,
+  convertToElementValue,
+  formatElementValue,
+  getButtonVariant,
+  reorder,
+  toNumberValue,
+} from './form-element';
 
 describe('Utils', () => {
   describe('Reorder', () => {
@@ -139,6 +146,22 @@ describe('Utils', () => {
         ],
       },
       {
+        name: 'Should convert value for TIME element',
+        element: {
+          type: FormElementType.TIME,
+        },
+        testCases: [
+          {
+            original: 'abc',
+            expected: 'abc',
+          },
+          {
+            original: 123,
+            expected: '',
+          },
+        ],
+      },
+      {
         name: 'Should keep original array value for checkbox list element',
         element: {
           type: FormElementType.CHECKBOX_LIST,
@@ -182,6 +205,127 @@ describe('Utils', () => {
     it('Should filter not allowed variant', () => {
       expect(getButtonVariant(ButtonVariant.CUSTOM)).toBeUndefined();
       expect(getButtonVariant(ButtonVariant.HIDDEN)).toBeUndefined();
+    });
+  });
+
+  describe('applyAcceptedFiles', () => {
+    it('should return undefined if acceptFiles is empty', () => {
+      const result = applyAcceptedFiles('');
+      expect(result).toBeUndefined();
+    });
+
+    it('should convert acceptFiles string to an object with file extensions as keys and values as arrays', () => {
+      const acceptFiles = '.csv, .png, .txt, .json';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv'],
+        png: ['.png'],
+        txt: ['.txt'],
+        json: ['.json'],
+      });
+    });
+
+    it('should handle leading/trailing spaces in acceptFiles string', () => {
+      const acceptFiles = '  .csv, .png ,  .txt ,.json  ';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv'],
+        png: ['.png'],
+        txt: ['.txt'],
+        json: ['.json'],
+      });
+    });
+
+    it('should append trimmedValue to existing array when extension already exists', () => {
+      const acceptFiles = '.csv, .png, .csv';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv', '.csv'],
+        png: ['.png'],
+      });
+    });
+  });
+
+  /**
+   * Test toNumberValue function
+   */
+  describe('toNumberValue', () => {
+    it('Should convert non-empty string to number', () => {
+      expect(toNumberValue('123')).toEqual(123);
+      expect(toNumberValue('0')).toEqual(0);
+      expect(toNumberValue('-456')).toEqual(-456);
+    });
+
+    it('Should return null for empty string', () => {
+      expect(toNumberValue('')).toBeNull();
+    });
+  });
+
+  describe('formatElementValue', () => {
+    const date = new Date('2022-02-02');
+
+    it.each([
+      {
+        element: {
+          type: FormElementType.PASSWORD,
+        },
+        name: 'password',
+        value: '123',
+        expectedResult: '*********',
+      },
+      {
+        element: {
+          type: FormElementType.DATETIME,
+        },
+        name: 'datetime',
+        value: date.toISOString(),
+        expectedResult: date.toISOString(),
+      },
+      {
+        element: {
+          type: FormElementType.DATETIME,
+        },
+        name: 'datetime with no value',
+        value: undefined,
+        expectedResult: '',
+      },
+      {
+        element: {
+          type: FormElementType.TIME,
+        },
+        name: 'time',
+        value: date.toISOString(),
+        expectedResult: date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }),
+      },
+      {
+        element: {
+          type: FormElementType.TIME,
+        },
+        name: 'time with no value',
+        value: undefined,
+        expectedResult: '',
+      },
+      {
+        element: {
+          type: FormElementType.NUMBER,
+        },
+        name: 'number',
+        value: 15,
+        expectedResult: '15',
+      },
+      {
+        element: {
+          type: FormElementType.NUMBER,
+        },
+        name: 'number with no value',
+        value: undefined,
+        expectedResult: '',
+      },
+    ])('Should format value for $name', ({ element, expectedResult, value }) => {
+      expect(formatElementValue(element as any, value)).toEqual(expectedResult);
     });
   });
 });
