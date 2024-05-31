@@ -124,7 +124,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
   const { ...options } = panel.options;
 
   /**
-   * Normalize non context code parameters before 6.0.0
+   * Normalize non context code parameters before 4.0.0
    */
   if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.0.0')) {
     options.initial.code = normalizeCodeOptions(options.initial.code);

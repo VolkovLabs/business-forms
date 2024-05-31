@@ -6,6 +6,26 @@
 
 - Requires Grafana 10 and Grafana 11
 - Data Source requests were updated to use Query Editor.
+- Removed non-context code parameters. Please update parameters to use `context`.
+
+### Code parameters migration guide
+
+- data -> context.panel.data
+- elements -> context.panel.elements
+- initial -> context.panel.initial
+- initialRequest -> context.panel.initialRequest
+- locationService -> context.grafana.locationService
+- notifyError -> context.grafana.notifyError
+- notifySuccess -> context.grafana.notifySuccess
+- notifyWarning -> context.grafana.notifyWarning
+- onChange -> context.panel.onChange
+- onOptionsChange -> context.panel.onOptionsChange
+- options -> context.panel.options
+- replaceVariables -> context.grafana.replaceVariables
+- response -> context.panel.response
+- setInitial -> context.panel.setInitial
+- templateService -> context.grafana.templateService
+- toDataQueryResponse -> context.utils.toDataQueryResponse
 
 ### Features / Enhancements
 
