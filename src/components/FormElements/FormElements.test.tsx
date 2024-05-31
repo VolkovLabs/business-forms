@@ -67,7 +67,7 @@ describe('Form Elements', () => {
           type: FormElementType.STRING,
           value: '123',
           showIf: `
-            const field = elements.find((element) => element.id === 'disabledWithOptions');
+            const field = context.panel.elements.find((element) => element.id === 'disabledWithOptions');
             
             if (field) {
               return field.value === 'option'
@@ -79,7 +79,7 @@ describe('Form Elements', () => {
           type: FormElementType.STRING,
           value: '123',
           showIf: `
-            const field = elements.find((element) => element.id === 'disabledWithOptions');
+            const field = context.panel.elements.find((element) => element.id === 'disabledWithOptions');
             
             if (field) {
               return field.value !== 'option'
