@@ -50,7 +50,7 @@
           "confirm": "Confirm",
           "title": "Confirm update request"
         },
-        "elementValueChanged": "/**\n * Update device variable\n */\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
+        "elementValueChanged": "/**\n * Update device variable\n */\n\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
         "elements": [
           {
             "id": "device",
@@ -92,7 +92,7 @@
           }
         ],
         "initial": {
-          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeElements(formElements.map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}),\n);\n",
+          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeElements([formElements].map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}),\n);\n",
           "contentType": "application/json",
           "datasource": "PostgreSQL",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
@@ -113,7 +113,7 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
@@ -132,10 +132,10 @@
         },
         "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
           "payloadMode": "all"
         },

@@ -241,12 +241,10 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
   const showIf = element.showIf;
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = createExecutionCode('elements', 'replaceVariables', 'context', showIf);
+    const fn = createExecutionCode('context', showIf);
 
     showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
       fn(
-        elements,
-        replaceVariables,
         showIfCodeParameters.create({
           panel: {
             elements,
@@ -262,7 +260,7 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
 
   let disableIfFn: DisableIfHelper = () => false;
   if (disableIf || disableIf?.trim()) {
-    const fn = createExecutionCode('elements', 'replaceVariables', 'context', disableIf);
+    const fn = createExecutionCode('context', disableIf);
 
     disableIfFn = ({
       elements,
@@ -272,8 +270,6 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
       replaceVariables: InterpolateFunction;
     }) =>
       fn(
-        elements,
-        replaceVariables,
         disableIfCodeParameters.create({
           panel: {
             elements,
@@ -318,13 +314,7 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         }));
       };
     } else if (element.optionsSource === OptionsSource.CODE) {
-      const fn = createExecutionCode(
-        'data',
-        'elements',
-        'replaceVariables',
-        'context',
-        element.getOptions || 'return []'
-      );
+      const fn = createExecutionCode('context', element.getOptions || 'return []');
 
       getOptions = ({
         data,
@@ -336,9 +326,6 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         replaceVariables: InterpolateFunction;
       }) =>
         fn(
-          data,
-          elements,
-          replaceVariables,
           getOptionsCodeParameters.create({
             panel: {
               data,

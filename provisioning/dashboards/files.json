@@ -65,7 +65,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(data, response, initial, elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = toDataQueryResponse(response);\nconsole.log(dataQuery);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -85,7 +85,7 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
@@ -104,16 +104,16 @@
         },
         "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "contentType": "application/json",
           "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconst toBase64 = (file) =>\n  new Promise((resolve, reject) => {\n    const reader = new FileReader();\n    reader.readAsDataURL(file);\n    reader.onload = () => resolve(reader.result);\n    reader.onerror = reject;\n  });\n\n\n/**\n * Data Source payload\n */\nconst getPayload = async () => {\n  const file = payload.file[0];\n  const base64 = await toBase64(file);\n\n  return {\n    rawSql: `INSERT INTO files (name, file)\nVALUES ('${file.name}', '${base64}');`,\n    format: 'table',\n  }\n}\n\nreturn getPayload();",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconst toBase64 = (file) =>\n  new Promise((resolve, reject) => {\n    const reader = new FileReader();\n    reader.readAsDataURL(file);\n    reader.onload = () => resolve(reader.result);\n    reader.onerror = reject;\n  });\n\n\n/**\n * Data Source payload\n */\nconst getPayload = async () => {\n  const file = payload.file[0];\n  const base64 = await toBase64(file);\n\n  return {\n    rawSql: `INSERT INTO files (name, file)\nVALUES ('${file.name}', '${base64}');`,\n    format: 'table',\n  }\n}\n\nreturn getPayload();",
           "method": "datasource",
           "payloadMode": "custom"
         }
       },
-      "pluginVersion": "3.6.0",
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {
@@ -229,7 +229,7 @@
           }
         ],
         "initial": {
-          "code": "console.log(data, response, initial, elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = toDataQueryResponse(response);\nconsole.log(dataQuery);",
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
           "contentType": "application/json",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
@@ -249,7 +249,7 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
@@ -268,17 +268,17 @@
         },
         "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "contentType": "multipart/form-data",
           "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconst toBase64 = (file) =>\n  new Promise((resolve, reject) => {\n    const reader = new FileReader();\n    reader.readAsDataURL(file);\n    reader.onload = () => resolve(reader.result);\n    reader.onerror = reject;\n  });\n\n\n/**\n * Data Source payload\n */\nconst getPayload = async () => {\n  const file = payload.file[0];\n  const base64 = await toBase64(file);\n\n  return {\n    rawSql: `INSERT INTO files (name, file)\nVALUES ('${file.name}', '${base64}');`,\n    format: 'table',\n  }\n}\n\nreturn getPayload();",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconst toBase64 = (file) =>\n  new Promise((resolve, reject) => {\n    const reader = new FileReader();\n    reader.readAsDataURL(file);\n    reader.onload = () => resolve(reader.result);\n    reader.onerror = reject;\n  });\n\n\n/**\n * Data Source payload\n */\nconst getPayload = async () => {\n  const file = payload.file[0];\n  const base64 = await toBase64(file);\n\n  return {\n    rawSql: `INSERT INTO files (name, file)\nVALUES ('${file.name}', '${base64}');`,\n    format: 'table',\n  }\n}\n\nreturn getPayload();",
           "method": "POST",
           "payloadMode": "all",
           "url": "http://localhost:3002/upload"
         }
       },
-      "pluginVersion": "3.6.0",
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {

@@ -5,6 +5,7 @@ import {
   AppEvents,
   DataFrame,
   DataQueryError,
+  DataQueryResponse,
   Field,
   LoadingState,
   PanelProps,
@@ -219,7 +220,7 @@ export const FormPanel: React.FC<Props> = ({
     }: {
       code: string;
       initial: unknown;
-      response?: FetchResponse | Response | null;
+      response?: FetchResponse | Response | DataQueryResponse | null;
       initialRequest?: () => Promise<void>;
       currentElements?: LocalFormElement[];
     }) => {
@@ -230,45 +231,10 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Function
        */
-      const f = createExecutionCode(
-        'options',
-        'data',
-        'response',
-        'elements',
-        'onChange',
-        'locationService',
-        'templateService',
-        'onOptionsChange',
-        'initialRequest',
-        'setInitial',
-        'json',
-        'initial',
-        'notifyError',
-        'notifySuccess',
-        'notifyWarning',
-        'toDataQueryResponse',
-        'context',
-        replaceVariables(code)
-      );
+      const f = createExecutionCode('context', replaceVariables(code));
 
       try {
         await f(
-          options,
-          data,
-          response,
-          currentElements || elementsRef.current,
-          onChangeElements,
-          locationService,
-          templateSrv,
-          onOptionsChange,
-          initialRequest,
-          setInitial,
-          initialRef.current,
-          initialRef.current,
-          notifyError,
-          notifySuccess,
-          notifyWarning,
-          toDataQueryResponse,
           requestCodeParameters.create({
             grafana: {
               locationService,
@@ -315,7 +281,6 @@ export const FormPanel: React.FC<Props> = ({
       templateSrv,
       onOptionsChange,
       setInitial,
-      initialRef,
       notifyError,
       notifySuccess,
       notifyWarning,
@@ -371,7 +336,7 @@ export const FormPanel: React.FC<Props> = ({
       return;
     }
 
-    let response: Response | FetchResponse | null;
+    let response: Response | FetchResponse | DataQueryResponse | null;
     let json: { [id: string]: unknown } = {};
 
     /**
@@ -391,7 +356,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Run Datasource Query
        */
-      const body = await getPayloadForRequest({
+      const payload = await getPayloadForRequest({
         request: {
           ...options.initial,
           payloadMode: PayloadMode.CUSTOM,
@@ -402,20 +367,20 @@ export const FormPanel: React.FC<Props> = ({
       });
 
       response = await datasourceRequest({
-        query: body,
+        query: options.initial.payload,
         datasource: options.initial.datasource,
         replaceVariables,
+        payload,
       }).catch((error: DataQueryError) => {
         setError(JSON.stringify(error));
         return null;
       });
 
-      if (response && response.ok) {
+      if (response && response.state === LoadingState.Done) {
         /**
          * Change Elements With Data Source Values
          */
-        const queryResponse = toDataQueryResponse(response as FetchResponse);
-        currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+        currentElements = getElementsWithFieldValues(response.data, RequestMethod.DATASOURCE);
 
         /**
          * Update Elements and Initial Values
@@ -592,6 +557,7 @@ export const FormPanel: React.FC<Props> = ({
         highlight: false,
         highlightColor: '',
         confirm: false,
+        payload: options.resetAction.payload,
       },
       elements: elementsRef.current,
       initial: initialRef.current,
@@ -601,22 +567,22 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Datasource query
      */
-    const response: FetchResponse | null = await datasourceRequest({
-      query: payload,
+    const response = await datasourceRequest({
+      query: options.resetAction.payload,
       datasource: options.resetAction.datasource,
       replaceVariables,
+      payload,
     }).catch((error: DataQueryError) => {
       setError(JSON.stringify(error));
       return null;
     });
 
     let currentElements = elementsRef.current;
-    if (response && response.ok) {
+    if (response && response.state === LoadingState.Done) {
       /**
        * Change Elements With Data Source Values
        */
-      const queryResponse = toDataQueryResponse(response as FetchResponse);
-      currentElements = getElementsWithFieldValues(queryResponse.data, RequestMethod.DATASOURCE);
+      currentElements = getElementsWithFieldValues(response.data, RequestMethod.DATASOURCE);
 
       /**
        * Update Elements
@@ -641,6 +607,7 @@ export const FormPanel: React.FC<Props> = ({
     options.resetAction.datasource,
     options.resetAction.getPayload,
     options.resetAction.mode,
+    options.resetAction.payload,
     replaceVariables,
   ]);
 
@@ -684,16 +651,17 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * Response
      */
-    let response: Response | FetchResponse | null;
+    let response: Response | FetchResponse | DataQueryResponse | null;
 
     /**
      * Datasource query
      */
     if (options.update.method === RequestMethod.DATASOURCE) {
       response = await datasourceRequest({
-        query: payload,
+        query: options.update.payload,
         datasource: options.update.datasource,
         replaceVariables,
+        payload,
       }).catch((error: DataQueryError) => {
         setError(JSON.stringify(error));
         return null;

@@ -22,11 +22,9 @@ export const getPayloadForRequest = async ({
     /**
      * Get Payload Code Execution
      */
-    const getPayloadFn = new Function('elements', 'initial', 'context', replaceVariables(request.getPayload));
+    const getPayloadFn = new Function('context', replaceVariables(request.getPayload));
 
     return getPayloadFn(
-      elements,
-      initial,
       getPayloadCodeParameters.create({
         panel: {
           elements,
