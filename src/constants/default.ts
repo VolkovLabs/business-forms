@@ -195,4 +195,5 @@ export const CONFIRM_MODAL_DEFAULT: ModalOptions = {
   },
   confirm: 'Confirm',
   cancel: 'Cancel',
+  displayedModalElements: 'modified',
 };

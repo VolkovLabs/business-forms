@@ -145,3 +145,19 @@ export const UPDATE_ENABLED_OPTIONS = [
     description: 'Disabled by default. Control through the code.',
   },
 ];
+
+/**
+ * Displayed Modal Elements
+ */
+export const enum DisplayedModalElements {
+  ALL = 'all',
+  MODIFIED = 'modified',
+}
+
+/**
+ * Modified modal elements Options
+ */
+export const DISPLAYED_MODAL_ELEMENTS_OPTIONS = [
+  { label: 'All Elements', value: DisplayedModalElements.ALL },
+  { label: 'Modified Elements', value: DisplayedModalElements.MODIFIED },
+];

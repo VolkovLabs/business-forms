@@ -71,4 +71,11 @@ export interface ModalOptions {
    * @type {string}
    */
   cancel: string;
+
+  /**
+   * Displayed modal elements
+   *
+   * @type {string}
+   */
+  displayedModalElements: string;
 }

@@ -33,6 +33,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   ContentType,
+  DisplayedModalElements,
   FormElementType,
   LayoutOrientation,
   LayoutVariant,
@@ -1079,7 +1080,10 @@ export const FormPanel: React.FC<Props> = ({
                     /**
                      * Skip not changed element
                      */
-                    if (element.value === initial[element.id]) {
+                    if (
+                      element.value === initial[element.id] &&
+                      options.confirmModal.displayedModalElements !== DisplayedModalElements.ALL
+                    ) {
                       return;
                     }
 
