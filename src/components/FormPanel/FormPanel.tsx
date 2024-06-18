@@ -523,6 +523,8 @@ export const FormPanel: React.FC<Props> = ({
        */
       await executeCustomCode({ code: options.resetAction.code, initial: initialRef.current });
       setLoading(LoadingMode.NONE);
+
+      return;
     }
 
     /**

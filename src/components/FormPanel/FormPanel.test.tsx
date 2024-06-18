@@ -1727,6 +1727,7 @@ describe('Panel', () => {
       });
 
       expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.resetAction.code);
+      expect(replaceVariables).toHaveBeenCalledTimes(1);
       expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
@@ -1833,6 +1834,95 @@ describe('Panel', () => {
        * Check if replace variables called for get payload function
        */
       expect(replaceVariables).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should not run reset datasource request if datasource not specified', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          data: [],
+          state: LoadingState.Done,
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+      /**
+       * Trigger element updates
+       */
+      await act(async () =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              resetAction: {
+                datasource: '',
+                mode: ResetActionMode.DATASOURCE,
+                payloadMode: PayloadMode.CUSTOM,
+                getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if Reset can be run
+       */
+      expect(selectors.buttonReset()).toBeInTheDocument();
+      expect(selectors.buttonReset()).not.toBeDisabled();
+
+      /**
+       * Reset replaceVariables calls count
+       */
+      replaceVariables.mockClear();
+
+      /**
+       * Run reset request
+       */
+      await act(async () => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      expect(datasourceRequestMock).not.toHaveBeenCalled();
+
+      /**
+       * Check if replace variables called for get payload function
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(0);
     });
 
     it('Should show reset datasource request error', async () => {
