@@ -464,14 +464,15 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         showIf: (config) => config.update.confirm,
       })
       .addRadio({
-        path: 'confirmModal.displayedModalElements',
+        path: 'confirmModal.elementDisplayMode',
         name: 'Display Values',
-        description: 'Choose what elements will be displayed in modal window.',
+        description: 'Which elements should be shown.',
         category: ['Update Confirmation Window'],
         settings: {
           options: CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
         },
         defaultValue: ConfirmationElementDisplayMode.MODIFIED,
+        showIf: (config) => config.update.confirm,
       })
       .addTextInput({
         path: 'confirmModal.body',
