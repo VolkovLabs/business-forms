@@ -147,17 +147,17 @@ export const UPDATE_ENABLED_OPTIONS = [
 ];
 
 /**
- * Displayed Modal Elements
+ * Confirmation Element Display Mode
  */
-export const enum DisplayedModalElements {
+export const enum ConfirmationElementDisplayMode {
   ALL = 'all',
   MODIFIED = 'modified',
 }
 
 /**
- * Modified modal elements Options
+ * Confirmation Element Display Mode Options
  */
-export const DISPLAYED_MODAL_ELEMENTS_OPTIONS = [
-  { label: 'All Elements', value: DisplayedModalElements.ALL },
-  { label: 'Modified Elements', value: DisplayedModalElements.MODIFIED },
+export const CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS = [
+  { label: 'All Elements', value: ConfirmationElementDisplayMode.ALL },
+  { label: 'Modified Elements', value: ConfirmationElementDisplayMode.MODIFIED },
 ];

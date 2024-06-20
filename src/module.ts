@@ -18,11 +18,11 @@ import {
   BUTTON_VARIANT_OPTIONS,
   CONFIRM_MODAL_COLUMNS_INCLUDE_OPTIONS,
   CONFIRM_MODAL_DEFAULT,
+  CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
+  ConfirmationElementDisplayMode,
   CONTENT_TYPE_OPTIONS,
   ContentType,
   DATA_SYNC_OPTIONS,
-  DISPLAYED_MODAL_ELEMENTS_OPTIONS,
-  DisplayedModalElements,
   INITIAL_CODE_DEFAULT,
   INITIAL_HIGHLIGHT_COLOR_DEFAULT,
   INITIAL_PAYLOAD_DEFAULT,
@@ -469,9 +469,9 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         description: 'Choose what elements will be displayed in modal window.',
         category: ['Update Confirmation Window'],
         settings: {
-          options: DISPLAYED_MODAL_ELEMENTS_OPTIONS,
+          options: CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
         },
-        defaultValue: DisplayedModalElements.MODIFIED,
+        defaultValue: ConfirmationElementDisplayMode.MODIFIED,
       })
       .addTextInput({
         path: 'confirmModal.body',
