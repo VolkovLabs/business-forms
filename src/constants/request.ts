@@ -145,3 +145,19 @@ export const UPDATE_ENABLED_OPTIONS = [
     description: 'Disabled by default. Control through the code.',
   },
 ];
+
+/**
+ * Confirmation Element Display Mode
+ */
+export const enum ConfirmationElementDisplayMode {
+  ALL = 'all',
+  MODIFIED = 'modified',
+}
+
+/**
+ * Confirmation Element Display Mode Options
+ */
+export const CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS = [
+  { label: 'All Elements', value: ConfirmationElementDisplayMode.ALL },
+  { label: 'Updated Only', value: ConfirmationElementDisplayMode.MODIFIED },
+];

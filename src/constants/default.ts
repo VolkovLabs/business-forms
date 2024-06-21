@@ -13,6 +13,7 @@ import {
 } from '../types';
 import { CODE_EDITOR_CONFIG } from './code-editor';
 import { FormElementType, OptionsSource } from './form-element';
+import { ConfirmationElementDisplayMode } from './request';
 
 /**
  * Initial Request
@@ -195,4 +196,5 @@ export const CONFIRM_MODAL_DEFAULT: ModalOptions = {
   },
   confirm: 'Confirm',
   cancel: 'Cancel',
+  elementDisplayMode: ConfirmationElementDisplayMode.MODIFIED,
 };
