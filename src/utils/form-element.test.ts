@@ -305,9 +305,25 @@ describe('Utils', () => {
       {
         element: {
           type: FormElementType.DATETIME,
+          isUseLocalTime: true,
         },
         name: 'datetime',
         value: date.toISOString(),
+        /**
+         * None UTC format
+         */
+        expectedResult: '2022-02-02T00:00:00.000+00:00',
+      },
+      {
+        element: {
+          type: FormElementType.DATETIME,
+          isUseLocalTime: false,
+        },
+        name: 'datetime',
+        value: date.toISOString(),
+        /**
+         * UTC format
+         */
         expectedResult: date.toISOString(),
       },
       {

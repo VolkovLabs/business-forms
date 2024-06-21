@@ -15,6 +15,7 @@ import {
   RequestMethod,
   STRING_ELEMENT_OPTIONS,
   TEST_IDS,
+  TIME_TRANSFORMATION_OPTIONS,
 } from '../../constants';
 import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
 import {
@@ -356,6 +357,18 @@ export const ElementEditor: React.FC<Props> = ({
             value={element.max}
             data-testid={TEST_IDS.formElementsEditor.fieldMaxDate}
           />
+          <InlineField label="Time Zone" data-testid={TEST_IDS.formElementsEditor.fieldTimeZone}>
+            <RadioButtonGroup
+              options={TIME_TRANSFORMATION_OPTIONS}
+              value={element.isUseLocalTime}
+              onChange={(value) => {
+                onChange({
+                  ...element,
+                  isUseLocalTime: value,
+                });
+              }}
+            />
+          </InlineField>
         </>
       )}
 

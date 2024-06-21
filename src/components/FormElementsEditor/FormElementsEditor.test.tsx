@@ -1334,6 +1334,29 @@ describe('Form Elements Editor', () => {
       expect(fieldSelectors.fieldMinDate(true)).not.toBeInTheDocument();
     });
 
+    it('Should update timeZone', async () => {
+      const element = { ...FORM_ELEMENT_DEFAULT, id: 'timeID', type: FormElementType.DATETIME, isUseLocalTime: false };
+      const elements = [element];
+      const onChange = jest.fn();
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      /**
+       * Choose hidden option
+       */
+      const fieldVisibilitySelectors = getFormElementsEditorSelectors(within(elementSelectors.fieldTimeZone()));
+      expect(fieldVisibilitySelectors.timeTransformationOption(false, 'time-utc')).toBeInTheDocument();
+
+      await act(() => fireEvent.click(fieldVisibilitySelectors.timeTransformationOption(true, 'time-local')));
+
+      expect(fieldVisibilitySelectors.timeTransformationOption(true, 'time-local')).toBeChecked();
+    });
+
     it('Should update Code Language', async () => {
       const element = {
         ...FORM_ELEMENT_DEFAULT,
