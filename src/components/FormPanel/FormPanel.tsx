@@ -23,6 +23,7 @@ import { Alert, Button, ButtonGroup, ConfirmModal, usePanelContext, useStyles2, 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
+  ConfirmationElementDisplayMode,
   ContentType,
   FormElementType,
   LayoutVariant,
@@ -43,6 +44,7 @@ import {
 } from '../../types';
 import {
   convertToElementValue,
+  createExecutionCode,
   elementValueChangedCodeParameters,
   fileToBase64,
   formatElementValue,
@@ -224,7 +226,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Function
        */
-      const f = new Function('context', replaceVariables(code));
+      const f = createExecutionCode('context', replaceVariables(code));
 
       try {
         await f(
@@ -523,6 +525,8 @@ export const FormPanel: React.FC<Props> = ({
        */
       await executeCustomCode({ code: options.resetAction.code, initial: initialRef.current });
       setLoading(LoadingMode.NONE);
+
+      return;
     }
 
     /**
@@ -797,7 +801,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   const onElementValueChanged = useCallback(
     ({ elements, element }: { elements: LocalFormElement[]; element: LocalFormElement }) => {
-      const fn = new Function('context', replaceVariables(options.elementValueChanged));
+      const fn = createExecutionCode('context', replaceVariables(options.elementValueChanged));
 
       fn(
         elementValueChangedCodeParameters.create({
@@ -1047,7 +1051,10 @@ export const FormPanel: React.FC<Props> = ({
                     /**
                      * Skip not changed element
                      */
-                    if (element.value === initial[element.id]) {
+                    if (
+                      element.value === initial[element.id] &&
+                      options.confirmModal.elementDisplayMode !== ConfirmationElementDisplayMode.ALL
+                    ) {
                       return;
                     }
 

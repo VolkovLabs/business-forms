@@ -18,6 +18,8 @@ import {
   BUTTON_VARIANT_OPTIONS,
   CONFIRM_MODAL_COLUMNS_INCLUDE_OPTIONS,
   CONFIRM_MODAL_DEFAULT,
+  CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
+  ConfirmationElementDisplayMode,
   CONTENT_TYPE_OPTIONS,
   ContentType,
   DATA_SYNC_OPTIONS,
@@ -474,6 +476,17 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         defaultValue: CONFIRM_MODAL_DEFAULT.title,
         showIf: (config) => config.update.confirm,
       })
+      .addRadio({
+        path: 'confirmModal.elementDisplayMode',
+        name: 'Display Values',
+        description: 'Which elements should be shown.',
+        category: ['Update Confirmation Window'],
+        settings: {
+          options: CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
+        },
+        defaultValue: ConfirmationElementDisplayMode.MODIFIED,
+        showIf: (config) => config.update.confirm,
+      })
       .addTextInput({
         path: 'confirmModal.body',
         name: 'Text',
@@ -493,7 +506,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       })
       .addTextInput({
         path: 'confirmModal.columns.name',
-        name: 'Label column',
+        name: 'Name (Label) column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.name,
         showIf: (config) => config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NAME),
@@ -511,7 +524,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         name: 'New value column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.newValue,
-        showIf: (config) => config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NAME),
+        showIf: (config) =>
+          config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE),
       })
       .addTextInput({
         path: 'confirmModal.confirm',
