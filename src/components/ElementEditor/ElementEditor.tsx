@@ -25,6 +25,7 @@ import {
   RequestMethod,
   STRING_ELEMENT_OPTIONS,
   TEST_IDS,
+  TIME_TRANSFORMATION_OPTIONS,
 } from '../../constants';
 import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
 import {
@@ -456,6 +457,18 @@ export const ElementEditor: React.FC<Props> = ({
             value={element.max}
             data-testid={TEST_IDS.formElementsEditor.fieldMaxDate}
           />
+          <InlineField label="Time Zone" data-testid={TEST_IDS.formElementsEditor.fieldTimeZone}>
+            <RadioButtonGroup
+              options={TIME_TRANSFORMATION_OPTIONS}
+              value={element.isUseLocalTime}
+              onChange={(value) => {
+                onChange({
+                  ...element,
+                  isUseLocalTime: value,
+                });
+              }}
+            />
+          </InlineField>
         </>
       )}
 
@@ -650,7 +663,10 @@ export const ElementEditor: React.FC<Props> = ({
             />
           )}
           {element.optionsSource === OptionsSource.CODE && (
-            <Field label="Get Options Code" description="Must return array with {label,value} objects">
+            <Field
+              label="Get Options Code"
+              description="Must return array with {label,value} objects. The code must be synchronous."
+            >
               <AutosizeCodeEditor
                 value={element.getOptions || ''}
                 language={CodeLanguage.JAVASCRIPT}

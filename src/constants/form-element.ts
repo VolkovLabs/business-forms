@@ -151,6 +151,24 @@ export const STRING_ELEMENT_OPTIONS: SelectableValue[] = [
 ];
 
 /**
+ * Options to Hide String element
+ */
+export const TIME_TRANSFORMATION_OPTIONS: SelectableValue[] = [
+  {
+    ariaLabel: TEST_IDS.formElementsEditor.timeTransformationOption('time-utc'),
+    description: 'UTC',
+    label: 'UTC',
+    value: false,
+  },
+  {
+    ariaLabel: TEST_IDS.formElementsEditor.timeTransformationOption('time-local'),
+    description: 'Local',
+    label: 'Local',
+    value: true,
+  },
+];
+
+/**
  * Auto Save timeout ms
  */
 export const AUTO_SAVE_TIMEOUT = 1000;

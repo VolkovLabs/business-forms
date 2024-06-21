@@ -1,4 +1,5 @@
-import { FormElementType } from '../constants';
+/* eslint-disable no-console */
+import { FormElementType, OptionsSource } from '../constants';
 import { ButtonVariant } from '../types';
 import {
   applyAcceptedFiles,
@@ -7,6 +8,7 @@ import {
   formatElementValue,
   getButtonVariant,
   reorder,
+  toLocalFormElement,
   toNumberValue,
 } from './form-element';
 
@@ -19,6 +21,30 @@ jest.mock('@emotion/css', () => ({
 }));
 
 describe('Utils', () => {
+  const logError = jest.fn();
+  const logInfo = jest.fn();
+
+  beforeAll(() => {
+    jest.spyOn(console, 'error');
+    jest.spyOn(console, 'log');
+
+    jest.mocked(console.error).mockImplementation(logError);
+    jest.mocked(console.log).mockImplementation(logInfo);
+  });
+
+  beforeEach(() => {
+    logError.mockClear();
+    logInfo.mockClear();
+  });
+
+  /**
+   * Restore original console
+   */
+  afterAll(() => {
+    jest.mocked(console.error).mockRestore();
+    jest.mocked(console.log).mockRestore();
+  });
+
   describe('Reorder', () => {
     it('Should move element up', () => {
       expect(reorder([1, 2, 3], 0, 1)).toEqual([2, 1, 3]);
@@ -288,9 +314,25 @@ describe('Utils', () => {
       {
         element: {
           type: FormElementType.DATETIME,
+          isUseLocalTime: true,
         },
         name: 'datetime',
         value: date.toISOString(),
+        /**
+         * None UTC format
+         */
+        expectedResult: '2022-02-02T00:00:00.000+00:00',
+      },
+      {
+        element: {
+          type: FormElementType.DATETIME,
+          isUseLocalTime: false,
+        },
+        name: 'datetime',
+        value: date.toISOString(),
+        /**
+         * UTC format
+         */
         expectedResult: date.toISOString(),
       },
       {
@@ -348,6 +390,52 @@ describe('Utils', () => {
     it('should return the expected CSS styles', () => {
       const result = applyLabelStyles('white', 'blue');
       expect(result).toEqual('css-test');
+    });
+  });
+
+  describe('toLocalFormElement', () => {
+    it('Should log error messages when there is an error in showIf function', () => {
+      const element = {
+        showIf: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
+    });
+
+    it('Should log error messages when there is an error in disableIf function', () => {
+      const element = {
+        disableIf: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
+    });
+
+    it('Should log error messages when there is an error in getOptions function', () => {
+      const element = {
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.CODE,
+        getOptions: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
   });
 });
