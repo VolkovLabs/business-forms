@@ -77,7 +77,7 @@ export interface ModalOptions {
   /**
    * Element Display Mode
    *
-   * @type {string}
+   * @type {ConfirmationElementDisplayMode}
    */
   elementDisplayMode: ConfirmationElementDisplayMode;
 }
