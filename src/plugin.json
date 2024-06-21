@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "dependencies": {
-    "grafanaDependency": ">=9.2.0",
+    "grafanaDependency": ">=10.0.0",
     "plugins": []
   },
   "id": "volkovlabs-form-panel",
@@ -43,6 +43,6 @@
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
-  "name": "Data Manipulation",
+  "name": "Business Forms",
   "type": "panel"
 }

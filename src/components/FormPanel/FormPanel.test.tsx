@@ -52,7 +52,12 @@ jest.mock('@grafana/runtime', () => ({
 /**
  * Mock hooks
  */
-const datasourceRequestMock = jest.fn(() => Promise.resolve());
+const datasourceRequestMock = jest.fn(() =>
+  Promise.resolve({
+    data: [],
+    state: LoadingState.Done,
+  })
+);
 
 jest.mock('../../hooks', () => ({
   ...jest.requireActual('../../hooks'),
@@ -351,7 +356,8 @@ describe('Panel', () => {
     it('Should make initial datasource request', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Done,
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -367,6 +373,9 @@ describe('Panel', () => {
                 method: RequestMethod.DATASOURCE,
                 datasource: '123',
                 getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
               },
             },
             props: {},
@@ -376,8 +385,11 @@ describe('Panel', () => {
 
       expect(datasourceRequestMock).toHaveBeenCalledWith({
         datasource: '123',
-        query: { key1: 'value' },
+        payload: { key1: 'value' },
         replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
       });
 
       /**
@@ -518,30 +530,18 @@ describe('Panel', () => {
     it('Should update elements with initial datasource result', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          ok: true,
-          data: {
-            results: {
-              A: {
-                frames: [
-                  {
-                    data: {
-                      values: [['metric1', 'metric2']],
-                    },
-                    schema: {
-                      fields: [
-                        {
-                          name: 'metric',
-                          type: FieldType.string,
-                        },
-                      ],
-                    },
-                  },
-                ],
-                refId: 'A',
-                status: 200,
-              },
-            },
-          },
+          state: LoadingState.Done,
+          data: [
+            toDataFrame({
+              fields: [
+                {
+                  name: 'metric',
+                  type: FieldType.string,
+                  values: ['metric1', 'metric2'],
+                },
+              ],
+            }),
+          ],
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -602,30 +602,18 @@ describe('Panel', () => {
     it('Should not update elements if datasource is unspecified', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          ok: true,
-          data: {
-            results: {
-              A: {
-                frames: [
-                  {
-                    data: {
-                      values: [['metric1', 'metric2']],
-                    },
-                    schema: {
-                      fields: [
-                        {
-                          name: 'metric',
-                          type: FieldType.string,
-                        },
-                      ],
-                    },
-                  },
-                ],
-                refId: 'A',
-                status: 200,
-              },
-            },
-          },
+          state: LoadingState.Done,
+          data: [
+            toDataFrame({
+              fields: [
+                {
+                  name: 'metric',
+                  type: FieldType.string,
+                  values: ['metric1', 'metric2'],
+                },
+              ],
+            }),
+          ],
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
@@ -682,7 +670,8 @@ describe('Panel', () => {
     it('Should show initial datasource request error', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.reject({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Error,
         })
       );
       jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
@@ -1224,7 +1213,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Done,
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1258,6 +1248,9 @@ describe('Panel', () => {
                 method: RequestMethod.DATASOURCE,
                 payloadMode: PayloadMode.CUSTOM,
                 getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
               },
             },
           })
@@ -1279,10 +1272,13 @@ describe('Panel', () => {
 
       expect(datasourceRequestMock).toHaveBeenCalledWith({
         datasource: 'abc',
-        query: {
+        payload: {
           key1: 'value',
         },
         replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
       });
     });
 
@@ -1305,7 +1301,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.reject({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Error,
         })
       );
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1532,7 +1529,7 @@ describe('Panel', () => {
             options: {
               initial: {
                 method: RequestMethod.NONE,
-                code: 'notifySuccess("success"); notifyError("error"); notifyWarning("warning");',
+                code: 'context.grafana.notifySuccess("success"); context.grafana.notifyError("error"); context.grafana.notifyWarning("warning");',
               },
             },
           })
@@ -1540,7 +1537,7 @@ describe('Panel', () => {
       );
 
       expect(replaceVariables).toHaveBeenCalledWith(
-        'notifySuccess("success"); notifyError("error"); notifyWarning("warning");'
+        'context.grafana.notifySuccess("success"); context.grafana.notifyError("error"); context.grafana.notifyWarning("warning");'
       );
       expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
@@ -1566,7 +1563,7 @@ describe('Panel', () => {
         initial: {},
         update: {
           method: RequestMethod.NONE,
-          code: 'notifySuccess("success"); notifyError("error");',
+          code: 'context.grafana.notifySuccess("success"); context.grafana.notifyError("error");',
         },
       };
       const { rerender } = await act(async () =>
@@ -1685,12 +1682,12 @@ describe('Panel', () => {
 
       const defaultOptions = {
         initial: {
-          code: `notifyError("error");`,
+          code: `context.grafana.notifyError("error");`,
         },
         update: {},
         resetAction: {
           mode: ResetActionMode.CUSTOM,
-          code: 'notifySuccess("success");',
+          code: 'context.grafana.notifySuccess("success");',
         },
       };
       const { rerender } = await act(async () =>
@@ -1730,6 +1727,7 @@ describe('Panel', () => {
       });
 
       expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.resetAction.code);
+      expect(replaceVariables).toHaveBeenCalledTimes(1);
       expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
@@ -1759,8 +1757,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
-          message: 'hello',
-          ok: true,
+          data: [],
+          state: LoadingState.Done,
         })
       ) as any;
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1794,6 +1792,9 @@ describe('Panel', () => {
                 mode: ResetActionMode.DATASOURCE,
                 payloadMode: PayloadMode.CUSTOM,
                 getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
               },
             },
           })
@@ -1820,16 +1821,108 @@ describe('Panel', () => {
 
       expect(datasourceRequestMock).toHaveBeenCalledWith({
         datasource: 'abc',
-        query: {
+        payload: {
           key1: 'value',
         },
         replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
       });
 
       /**
        * Check if replace variables called for get payload function
        */
       expect(replaceVariables).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should not run reset datasource request if datasource not specified', async () => {
+      /**
+       * Render
+       */
+      jest.mocked(fetch).mockImplementationOnce(
+        () =>
+          Promise.resolve({
+            ok: true,
+            json: jest.fn(() =>
+              Promise.resolve({
+                test: '123',
+                number: 123,
+              })
+            ),
+          }) as any
+      );
+
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          data: [],
+          state: LoadingState.Done,
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 123 },
+              ],
+            },
+          })
+        )
+      );
+      /**
+       * Trigger element updates
+       */
+      await act(async () =>
+        rerender(
+          getComponent({
+            options: {
+              elements: [
+                { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
+                { type: FormElementType.NUMBER, id: 'number', value: 111 },
+                { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              ],
+              resetAction: {
+                datasource: '',
+                mode: ResetActionMode.DATASOURCE,
+                payloadMode: PayloadMode.CUSTOM,
+                getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Check if Reset can be run
+       */
+      expect(selectors.buttonReset()).toBeInTheDocument();
+      expect(selectors.buttonReset()).not.toBeDisabled();
+
+      /**
+       * Reset replaceVariables calls count
+       */
+      replaceVariables.mockClear();
+
+      /**
+       * Run reset request
+       */
+      await act(async () => {
+        fireEvent.click(selectors.buttonReset());
+      });
+
+      expect(datasourceRequestMock).not.toHaveBeenCalled();
+
+      /**
+       * Check if replace variables called for get payload function
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(0);
     });
 
     it('Should show reset datasource request error', async () => {
@@ -1851,7 +1944,8 @@ describe('Panel', () => {
 
       const datasourceRequestMock = jest.fn(() =>
         Promise.reject({
-          message: 'hello',
+          data: [],
+          state: LoadingState.Error,
         })
       );
       jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
@@ -1915,12 +2009,12 @@ describe('Panel', () => {
 
       const defaultOptions = {
         initial: {
-          code: `notifySuccess("success");`,
+          code: `context.grafana.notifySuccess("success");`,
         },
         update: {},
         resetAction: {
           mode: ResetActionMode.CUSTOM,
-          code: 'notifySuccess("success");',
+          code: 'context.grafana.notifySuccess("success");',
           confirm: true,
         },
       };

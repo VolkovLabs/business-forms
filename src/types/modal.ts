@@ -1,3 +1,5 @@
+import { ConfirmationElementDisplayMode } from '../constants';
+
 /**
  * Modal Column Name
  */
@@ -71,4 +73,11 @@ export interface ModalOptions {
    * @type {string}
    */
   cancel: string;
+
+  /**
+   * Element Display Mode
+   *
+   * @type {ConfirmationElementDisplayMode}
+   */
+  elementDisplayMode: ConfirmationElementDisplayMode;
 }

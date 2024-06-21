@@ -144,7 +144,7 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
@@ -163,16 +163,16 @@
         },
         "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
           "payloadMode": "all"
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "3.6.0",
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {
@@ -185,21 +185,13 @@
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "facility1",
-                  "facility2",
-                  "facility3"
-                ]
+                "values": ["facility1", "facility2", "facility3"]
               },
               {
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "facility1",
-                  "facility2",
-                  "facility3"
-                ]
+                "values": ["facility1", "facility2", "facility3"]
               }
             ],
             "meta": {},
@@ -219,19 +211,13 @@
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "$facility-room1",
-                  "$facility-room2"
-                ]
+                "values": ["$facility-room1", "$facility-room2"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "$facility-room1",
-                  "$facility-room2"
-                ]
+                "values": ["$facility-room1", "$facility-room2"]
               }
             ],
             "meta": {},
@@ -250,19 +236,13 @@
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "$room-bench1",
-                  "$room-bench2"
-                ]
+                "values": ["$room-bench1", "$room-bench2"]
               },
               {
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "$room-bench1",
-                  "$room-bench2"
-                ]
+                "values": ["$room-bench1", "$room-bench2"]
               }
             ],
             "meta": {}
@@ -281,25 +261,19 @@
                 "config": {},
                 "name": "facility",
                 "type": "string",
-                "values": [
-                  "$facility"
-                ]
+                "values": ["$facility"]
               },
               {
                 "config": {},
                 "name": "room",
                 "type": "string",
-                "values": [
-                  "$room"
-                ]
+                "values": ["$room"]
               },
               {
                 "config": {},
                 "name": "bench",
                 "type": "string",
-                "values": [
-                  "$bench"
-                ]
+                "values": ["$bench"]
               }
             ],
             "meta": {},
@@ -447,7 +421,7 @@
           "variant": "hidden"
         },
         "resetAction": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial"
@@ -466,16 +440,16 @@
         },
         "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "contentType": "application/json",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
           "payloadMode": "all"
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "3.6.0",
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {
@@ -488,21 +462,13 @@
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "facility1",
-                  "facility2",
-                  "facility3"
-                ]
+                "values": ["facility1", "facility2", "facility3"]
               },
               {
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "facility1",
-                  "facility2",
-                  "facility3"
-                ]
+                "values": ["facility1", "facility2", "facility3"]
               }
             ],
             "meta": {},
@@ -522,19 +488,13 @@
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "$facility-room1",
-                  "$facility-room2"
-                ]
+                "values": ["$facility-room1", "$facility-room2"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "$facility-room1",
-                  "$facility-room2"
-                ]
+                "values": ["$facility-room1", "$facility-room2"]
               }
             ],
             "meta": {},
@@ -553,19 +513,13 @@
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "$room-bench1",
-                  "$room-bench2"
-                ]
+                "values": ["$room-bench1", "$room-bench2"]
               },
               {
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "$room-bench1",
-                  "$room-bench2"
-                ]
+                "values": ["$room-bench1", "$room-bench2"]
               }
             ],
             "meta": {}
@@ -584,25 +538,19 @@
                 "config": {},
                 "name": "facility",
                 "type": "string",
-                "values": [
-                  "$facility"
-                ]
+                "values": ["$facility"]
               },
               {
                 "config": {},
                 "name": "room",
                 "type": "string",
-                "values": [
-                  "$room"
-                ]
+                "values": ["$room"]
               },
               {
                 "config": {},
                 "name": "bench",
                 "type": "string",
-                "values": [
-                  "$bench"
-                ]
+                "values": ["$bench"]
               }
             ],
             "meta": {},
@@ -676,19 +624,13 @@
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "$facility-room1",
-                  "$facility-room2"
-                ]
+                "values": ["$facility-room1", "$facility-room2"]
               },
               {
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "$facility-room1",
-                  "$facility-room2"
-                ]
+                "values": ["$facility-room1", "$facility-room2"]
               }
             ],
             "meta": {}
@@ -723,19 +665,13 @@
                 "config": {},
                 "name": "value",
                 "type": "string",
-                "values": [
-                  "$room-bench1",
-                  "$room-bench2"
-                ]
+                "values": ["$room-bench1", "$room-bench2"]
               },
               {
                 "config": {},
                 "name": "label",
                 "type": "string",
-                "values": [
-                  "$room-bench1",
-                  "$room-bench2"
-                ]
+                "values": ["$room-bench1", "$room-bench2"]
               }
             ],
             "meta": {}
