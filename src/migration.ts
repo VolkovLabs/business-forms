@@ -1,6 +1,7 @@
 import { PanelModel } from '@grafana/data';
+import semver from 'semver';
 
-import { PayloadMode } from './constants';
+import { FormElementType, PayloadMode } from './constants';
 import { LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
 
 /**
@@ -52,11 +53,109 @@ const normalizeRequestOptions = ({ updatedOnly, payloadMode, ...actual }: Outdat
 };
 
 /**
+ * Normalize Code Options
+ */
+const normalizeCodeOptions = (code: string): string => {
+  const search =
+    /(options.|data.|response|elements.|onChange\(|locationService|templateService|onOptionsChange\(|initialRequest\(|setInitial\(|initial\.|notifyError\(|notifySuccess\(|notifyWarning\(|toDataQueryResponse\(|replaceVariables\()/gm;
+
+  return code.replace(search, (value) => {
+    switch (value) {
+      case 'options.': {
+        return 'context.panel.options.';
+      }
+      case 'data.': {
+        return 'context.panel.data.';
+      }
+      case 'response': {
+        return 'context.panel.response';
+      }
+      case 'elements.': {
+        return 'context.panel.elements.';
+      }
+      case 'onChange(': {
+        return 'context.panel.onChangeElements(';
+      }
+      case 'locationService': {
+        return 'context.grafana.locationService';
+      }
+      case 'templateService': {
+        return 'context.grafana.templateService';
+      }
+      case 'onOptionsChange(': {
+        return 'context.panel.onOptionsChange(';
+      }
+      case 'initialRequest(': {
+        return 'context.panel.initialRequest(';
+      }
+      case 'setInitial(': {
+        return 'context.panel.setInitial(';
+      }
+      case 'initial.': {
+        return 'context.panel.initial.';
+      }
+      case 'notifyError(': {
+        return 'context.grafana.notifyError(';
+      }
+      case 'notifySuccess(': {
+        return 'context.grafana.notifySuccess(';
+      }
+      case 'notifyWarning(': {
+        return 'context.grafana.notifyWarning(';
+      }
+      case 'toDataQueryResponse(': {
+        return 'context.utils.toDataQueryResponse(';
+      }
+      case 'replaceVariables(': {
+        return 'context.grafana.replaceVariables(';
+      }
+      default: {
+        return value;
+      }
+    }
+  });
+};
+
+/**
  * Get Migrated Options
  * @param panel
  */
 export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): PanelOptions => {
   const { ...options } = panel.options;
+
+  /**
+   * Normalize non context code parameters before 4.0.0
+   */
+  if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.0.0')) {
+    options.initial.code = normalizeCodeOptions(options.initial.code);
+    options.resetAction.code = normalizeCodeOptions(options.resetAction.code);
+    options.update.code = normalizeCodeOptions(options.update.code);
+
+    options.initial.getPayload = normalizeCodeOptions(options.initial.getPayload);
+    options.resetAction.getPayload = normalizeCodeOptions(options.resetAction.getPayload);
+    options.update.getPayload = normalizeCodeOptions(options.update.getPayload);
+
+    if (options.elements && options.elements.length > 0) {
+      options.elements.forEach((element) => {
+        if (element.showIf) {
+          element.showIf = normalizeCodeOptions(element.showIf);
+        }
+        if (element.disableIf) {
+          element.disableIf = normalizeCodeOptions(element.disableIf);
+        }
+        if (
+          (element.type === FormElementType.DISABLED ||
+            element.type === FormElementType.SELECT ||
+            element.type === FormElementType.MULTISELECT ||
+            element.type === FormElementType.RADIO ||
+            element.type === FormElementType.CHECKBOX_LIST) &&
+          element.getOptions
+        ) {
+          element.getOptions = normalizeCodeOptions(element.getOptions);
+        }
+      });
+    }
+  }
 
   /**
    * Normalize request options

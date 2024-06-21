@@ -563,7 +563,10 @@ export const ElementEditor: React.FC<Props> = ({
             />
           )}
           {element.optionsSource === OptionsSource.CODE && (
-            <Field label="Get Options Code" description="Must return array with {label,value} objects">
+            <Field
+              label="Get Options Code"
+              description="Must return array with {label,value} objects. The code must be synchronous."
+            >
               <AutosizeCodeEditor
                 value={element.getOptions || ''}
                 language={CodeLanguage.JAVASCRIPT}

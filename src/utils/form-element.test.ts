@@ -1,4 +1,5 @@
-import { FormElementType } from '../constants';
+/* eslint-disable no-console */
+import { FormElementType, OptionsSource } from '../constants';
 import { ButtonVariant } from '../types';
 import {
   applyAcceptedFiles,
@@ -6,10 +7,35 @@ import {
   formatElementValue,
   getButtonVariant,
   reorder,
+  toLocalFormElement,
   toNumberValue,
 } from './form-element';
 
 describe('Utils', () => {
+  const logError = jest.fn();
+  const logInfo = jest.fn();
+
+  beforeAll(() => {
+    jest.spyOn(console, 'error');
+    jest.spyOn(console, 'log');
+
+    jest.mocked(console.error).mockImplementation(logError);
+    jest.mocked(console.log).mockImplementation(logInfo);
+  });
+
+  beforeEach(() => {
+    logError.mockClear();
+    logInfo.mockClear();
+  });
+
+  /**
+   * Restore original console
+   */
+  afterAll(() => {
+    jest.mocked(console.error).mockRestore();
+    jest.mocked(console.log).mockRestore();
+  });
+
   describe('Reorder', () => {
     it('Should move element up', () => {
       expect(reorder([1, 2, 3], 0, 1)).toEqual([2, 1, 3]);
@@ -342,6 +368,52 @@ describe('Utils', () => {
       },
     ])('Should format value for $name', ({ element, expectedResult, value }) => {
       expect(formatElementValue(element as any, value)).toEqual(expectedResult);
+    });
+  });
+
+  describe('toLocalFormElement', () => {
+    it('Should log error messages when there is an error in showIf function', () => {
+      const element = {
+        showIf: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
+    });
+
+    it('Should log error messages when there is an error in disableIf function', () => {
+      const element = {
+        disableIf: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
+    });
+
+    it('Should log error messages when there is an error in getOptions function', () => {
+      const element = {
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.CODE,
+        getOptions: `const newValue = 'string'
+
+        if (newValue && ) {
+
+        } `,
+      } as any;
+
+      toLocalFormElement(element);
+      expect(logError).toHaveBeenCalled();
+      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
   });
 });

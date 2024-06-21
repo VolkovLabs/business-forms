@@ -4,6 +4,7 @@ import { getAvailableIcons } from '@grafana/ui';
 import {
   CustomCodeEditor,
   DatasourceEditor,
+  DatasourcePayloadEditor,
   FormElementsEditor,
   FormPanel,
   HeaderParametersEditor,
@@ -17,6 +18,8 @@ import {
   BUTTON_VARIANT_OPTIONS,
   CONFIRM_MODAL_COLUMNS_INCLUDE_OPTIONS,
   CONFIRM_MODAL_DEFAULT,
+  CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
+  ConfirmationElementDisplayMode,
   CONTENT_TYPE_OPTIONS,
   ContentType,
   DATA_SYNC_OPTIONS,
@@ -252,20 +255,34 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
     /**
      * Initial Payload For Data Source
      */
-    builder.addCustomEditor({
-      id: 'initial.getPayload',
-      path: 'initial.getPayload',
-      name: 'Create Payload',
-      description: 'Custom code to create payload for the initial data source request.',
-      editor: CustomCodeEditor,
-      category: ['Initial Request Payload'],
-      settings: {
-        type: CodeEditorType.GET_PAYLOAD,
-        variablesSuggestions: true,
-      },
-      defaultValue: INITIAL_PAYLOAD_DEFAULT,
-      showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
-    });
+    builder
+      .addCustomEditor({
+        id: 'initial.getPayload',
+        path: 'initial.getPayload',
+        name: 'Create Payload',
+        description: 'Custom code to create payload for the initial data source request.',
+        editor: CustomCodeEditor,
+        category: ['Initial Request Payload'],
+        settings: {
+          type: CodeEditorType.GET_PAYLOAD,
+          variablesSuggestions: true,
+        },
+        defaultValue: INITIAL_PAYLOAD_DEFAULT,
+        showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
+      })
+      .addCustomEditor({
+        id: 'initial.payload',
+        path: 'initial.payload',
+        name: 'Query Editor',
+        description: 'Configure query for the selected data source. ${payload} variable contains all passed values.',
+        editor: DatasourcePayloadEditor,
+        category: ['Initial Request Payload'],
+        settings: {
+          datasourceKey: 'initial.datasource',
+        },
+        defaultValue: {},
+        showIf: (config) => config.initial.method === RequestMethod.DATASOURCE && !!config.initial.datasource,
+      });
 
     /**
      * Highlight
@@ -410,6 +427,22 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         },
         defaultValue: UPDATE_PAYLOAD_DEFAULT,
         showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
+      })
+      .addCustomEditor({
+        id: 'update.payload',
+        path: 'update.payload',
+        name: 'Query Editor',
+        description: 'Configure query for the selected data source. ${payload} variable contains all passed values.',
+        editor: DatasourcePayloadEditor,
+        category: ['Update Request Payload'],
+        settings: {
+          datasourceKey: 'update.datasource',
+        },
+        defaultValue: UPDATE_PAYLOAD_DEFAULT,
+        showIf: (config) =>
+          isRequestConfigured(config.update) &&
+          config.update.method === RequestMethod.DATASOURCE &&
+          !!config.update.datasource,
       });
 
     builder
@@ -428,6 +461,17 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         name: 'Title',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.title,
+        showIf: (config) => config.update.confirm,
+      })
+      .addRadio({
+        path: 'confirmModal.elementDisplayMode',
+        name: 'Display Values',
+        description: 'Which elements should be shown.',
+        category: ['Update Confirmation Window'],
+        settings: {
+          options: CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS,
+        },
+        defaultValue: ConfirmationElementDisplayMode.MODIFIED,
         showIf: (config) => config.update.confirm,
       })
       .addTextInput({
@@ -449,7 +493,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
       })
       .addTextInput({
         path: 'confirmModal.columns.name',
-        name: 'Label column',
+        name: 'Name (Label) column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.name,
         showIf: (config) => config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NAME),
@@ -467,7 +511,8 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         name: 'New value column',
         category: ['Update Confirmation Window'],
         defaultValue: CONFIRM_MODAL_DEFAULT.columns.newValue,
-        showIf: (config) => config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NAME),
+        showIf: (config) =>
+          config.update.confirm && config.confirmModal.columns.include.includes(ModalColumnName.NEW_VALUE),
       })
       .addTextInput({
         path: 'confirmModal.confirm',
@@ -697,23 +742,40 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
     /**
      * Reset Request Payload
      */
-    builder.addCustomEditor({
-      id: 'resetAction.getPayload',
-      path: 'resetAction.getPayload',
-      name: 'Create Payload',
-      description: 'Custom code to create payload for the reset data source request.',
-      editor: CustomCodeEditor,
-      category: ['Reset Request Payload'],
-      settings: {
-        type: CodeEditorType.GET_PAYLOAD,
-        variablesSuggestions: true,
-      },
-      defaultValue: INITIAL_PAYLOAD_DEFAULT,
-      showIf: (config) =>
-        config.reset.variant !== ButtonVariant.HIDDEN &&
-        config.resetAction.mode === ResetActionMode.DATASOURCE &&
-        !!config.resetAction.datasource,
-    });
+    builder
+      .addCustomEditor({
+        id: 'resetAction.getPayload',
+        path: 'resetAction.getPayload',
+        name: 'Create Payload',
+        description: 'Custom code to create payload for the reset data source request.',
+        editor: CustomCodeEditor,
+        category: ['Reset Request Payload'],
+        settings: {
+          type: CodeEditorType.GET_PAYLOAD,
+          variablesSuggestions: true,
+        },
+        defaultValue: INITIAL_PAYLOAD_DEFAULT,
+        showIf: (config) =>
+          config.reset.variant !== ButtonVariant.HIDDEN &&
+          config.resetAction.mode === ResetActionMode.DATASOURCE &&
+          !!config.resetAction.datasource,
+      })
+      .addCustomEditor({
+        id: 'resetAction.payload',
+        path: 'resetAction.payload',
+        name: 'Query Editor',
+        description: 'Configure query for the selected data source. ${payload} variable contains all passed values.',
+        editor: DatasourcePayloadEditor,
+        category: ['Reset Request Payload'],
+        settings: {
+          datasourceKey: 'resetAction.datasource',
+        },
+        defaultValue: {},
+        showIf: (config) =>
+          config.reset.variant !== ButtonVariant.HIDDEN &&
+          config.resetAction.mode === ResetActionMode.DATASOURCE &&
+          !!config.resetAction.datasource,
+      });
 
     /**
      * Save Defaults Button

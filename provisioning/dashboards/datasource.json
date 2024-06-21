@@ -148,7 +148,7 @@
           }
         ],
         "initial": {
-          "code": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconsole.log(payload);\nsetInitial(payload);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = toDataQueryResponse(response);\nconsole.log(dataQuery);",
+          "code": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconsole.log(payload);\ncontext.panel.setInitial(payload);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(response);\nconsole.log(dataQuery);",
           "contentType": "application/json",
           "datasource": "PostgreSQL",
           "getPayload": "return {\n  rawSql: \"select * from configuration where name ='$device';\",\n  format: 'table',\n}",
@@ -172,8 +172,17 @@
           "text": "Reset",
           "variant": "secondary"
         },
-        "resetAction": { "code": "console.log(data, response, initial, elements);", "mode": "initial" },
-        "saveDefault": { "icon": "save", "text": "Save Default", "variant": "hidden" },
+        "resetAction": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -181,16 +190,18 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  initialRequest();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": true,
           "contentType": "application/json",
           "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
           "method": "datasource",
           "payloadMode": "custom"
         }
       },
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
@@ -331,8 +342,15 @@
           "text": "Reset",
           "variant": "secondary"
         },
-        "resetAction": { "code": "console.log(data, response, initial, elements);", "mode": "initial" },
-        "saveDefault": { "icon": "save", "text": "Save Default", "variant": "hidden" },
+        "resetAction": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -341,15 +359,16 @@
           "variant": "primary"
         },
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  initialRequest();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": true,
           "contentType": "application/json",
           "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
           "method": "datasource",
           "payloadMode": "custom"
         }
       },
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
@@ -370,8 +389,7 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [

@@ -384,8 +384,9 @@
           }
         ],
         "initial": {
-          "code": "console.log(elements)",
+          "code": "console.log(context.panel.elements)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
@@ -409,7 +410,7 @@
           "variant": "primary"
         },
         "update": {
-          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}\n",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}\n",
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
@@ -417,6 +418,7 @@
           "url": "http://localhost:3002"
         }
       },
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {
@@ -483,7 +485,7 @@
           }
         ],
         "initial": {
-          "code": "const feedback = data.series.find((serie) => serie.refId === 'Feedback');\nconst typeOptions = data.series.find((serie) => serie.refId === 'Types');\n\nif (feedback?.fields.length) {\n  const ids = feedback.fields.find((f) => f.name === 'id').values.buffer;\n  const titles = feedback.fields.find((f) => f.name === 'title').values.buffer;\n  const types = feedback.fields.find((f) => f.name === 'type').values.buffer;\n\n  /**\n   * Set Elements\n   */\n  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });\n\n  /**\n   * Find Type element\n   */\n  const typeSelect = elements.find((element) => element.id === 'type');\n  if (typeSelect && typeOptions?.fields.length) {\n    const labels = typeOptions.fields.find((f) => f.name === 'label').values.buffer;\n    const values = typeOptions.fields.find((f) => f.name === 'value').values.buffer;\n\n    /**\n     * Update Types\n     */\n    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });\n  }\n\n  /**\n   * Update Panel Options\n   */\n  onOptionsChange({ ...options, elements });\n}",
+          "code": "const feedback = context.panel.data.series.find((serie) => serie.refId === 'Feedback');\nconst typeOptions = context.panel.data.series.find((serie) => serie.refId === 'Types');\n\nif (feedback?.fields.length) {\n  const ids = feedback.fields.find((f) => f.name === 'id').values.buffer;\n  const titles = feedback.fields.find((f) => f.name === 'title').values.buffer;\n  const types = feedback.fields.find((f) => f.name === 'type').values.buffer;\n\n  /**\n   * Set Elements\n   */\n  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });\n\n  /**\n   * Find Type element\n   */\n  const typeSelect = elements.find((element) => element.id === 'type');\n  if (typeSelect && typeOptions?.fields.length) {\n    const labels = typeOptions.fields.find((f) => f.name === 'label').values.buffer;\n    const values = typeOptions.fields.find((f) => f.name === 'value').values.buffer;\n\n    /**\n     * Update Types\n     */\n    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });\n  }\n\n  /**\n   * Update Panel Options\n   */\n  context.panel.onOptionsChange({ ...context.panel.options, elements });\n}",
           "contentType": "application/json",
           "highlight": false,
           "highlightColor": "red",
@@ -507,7 +509,7 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response);\nif (response && response.ok) {\n  location.reload();\n}",
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  location.reload();\n}",
           "confirm": false,
           "contentType": "application/json",
           "method": "POST",
@@ -515,6 +517,7 @@
           "url": "http://localhost:3002"
         }
       },
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {

@@ -149,7 +149,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.1",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -388,8 +388,9 @@
           }
         ],
         "initial": {
-          "code": "console.log(elements)",
+          "code": "console.log(context.panel.elements)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
           "method": "-"
@@ -412,9 +413,10 @@
           "variant": "primary"
         },
         "update": {
-          "code": "console.log(response);\n\nif (response && response.ok) {\n  location.reload();\n} else {\n  alert(`Error: ${response.status}`);\n}\n",
+          "code": "console.log(context.panel.response);\n\nif (context.panel.response && context.panel.response.ok) {\n  location.reload();\n} else {\n  alert(`Error: ${context.panel.response.status}`);\n}\n",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "header": [
             {
               "name": "Authorization",
@@ -429,6 +431,7 @@
           "url": "https://volkovlabs-feedback.deno.dev"
         }
       },
+      "pluginVersion": "4.0.0",
       "targets": [
         {
           "datasource": {
