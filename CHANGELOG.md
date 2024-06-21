@@ -30,8 +30,10 @@
 ### Features / Enhancements
 
 - Updated name to Business Forms Panel (#361)
-- Add support frontend data sources (#361)
-- Prepare for Grafana 11 (#399)
+- Added support frontend data sources (#361)
+- Prepared for Grafana 11 (#399)
+- Updated Reset button handler (#422)
+- Updated Confirmation Window (#420)
 
 ## 3.8.0 (2024-05-30)
 
