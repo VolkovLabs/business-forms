@@ -158,6 +158,6 @@ export const enum ConfirmationElementDisplayMode {
  * Confirmation Element Display Mode Options
  */
 export const CONFIRMATION_ELEMENT_DISPLAY_MODE_OPTIONS = [
-  { label: 'All', value: ConfirmationElementDisplayMode.ALL },
-  { label: 'Only updated', value: ConfirmationElementDisplayMode.MODIFIED },
+  { label: 'All Elements', value: ConfirmationElementDisplayMode.ALL },
+  { label: 'Updated Only', value: ConfirmationElementDisplayMode.MODIFIED },
 ];
