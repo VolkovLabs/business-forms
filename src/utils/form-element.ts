@@ -22,6 +22,7 @@ import {
   LocalFormElement,
   ShowIfHelper,
 } from '../types';
+import { createExecutionCode } from './code';
 import { disableIfCodeParameters, getOptionsCodeParameters, showIfCodeParameters } from './code-parameters';
 import { getFieldValues } from './grafana';
 
@@ -238,10 +239,10 @@ export const isSectionCollisionExists = (sections: LayoutSection[], compareWith:
  */
 export const toLocalFormElement = (element: FormElement): LocalFormElement => {
   const showIf = element.showIf;
-
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = new Function('context', showIf);
+    const fn = createExecutionCode('context', showIf);
+
     showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
       fn(
         showIfCodeParameters.create({
@@ -259,7 +260,8 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
 
   let disableIfFn: DisableIfHelper = () => false;
   if (disableIf || disableIf?.trim()) {
-    const fn = new Function('context', disableIf);
+    const fn = createExecutionCode('context', disableIf);
+
     disableIfFn = ({
       elements,
       replaceVariables,
@@ -312,7 +314,8 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         }));
       };
     } else if (element.optionsSource === OptionsSource.CODE) {
-      const fn = new Function('context', element.getOptions || 'return []');
+      const fn = createExecutionCode('context', element.getOptions || 'return []');
+
       getOptions = ({
         data,
         elements,

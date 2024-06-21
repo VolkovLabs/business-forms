@@ -54,6 +54,7 @@ import {
 } from '../../types';
 import {
   convertToElementValue,
+  createExecutionCode,
   elementValueChangedCodeParameters,
   fileToBase64,
   formatElementValue,
@@ -231,7 +232,7 @@ export const FormPanel: React.FC<Props> = ({
       /**
        * Function
        */
-      const f = new Function('context', replaceVariables(code));
+      const f = createExecutionCode('context', replaceVariables(code));
 
       try {
         await f(
@@ -800,7 +801,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   const onElementValueChanged = useCallback(
     ({ elements, element }: { elements: LocalFormElement[]; element: LocalFormElement }) => {
-      const fn = new Function('context', replaceVariables(options.elementValueChanged));
+      const fn = createExecutionCode('context', replaceVariables(options.elementValueChanged));
 
       fn(
         elementValueChangedCodeParameters.create({
