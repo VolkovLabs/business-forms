@@ -35,6 +35,7 @@
 - Updated Reset button handler (#422)
 - Updated Confirmation Window (#420)
 - Updated Error handling in code editors showIf, disableIf, getOptions (#410)
+- Updated description for Get Options Code (#404)
 
 ## 3.8.0 (2024-05-30)
 

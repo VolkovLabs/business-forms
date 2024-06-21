@@ -19,7 +19,7 @@ interface Props {
   /**
    * On Change
    */
-  onChange: (value: QueryOptionsMapper) => void;
+  onChange: (value: QueryOptionsMapper | undefined) => void;
 
   /**
    * Data
@@ -78,14 +78,19 @@ export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, da
             options={availableFieldOptions.valueOptions}
             value={`${value?.source}:${value?.value}`}
             onChange={(option) =>
-              onChange({
-                ...value,
-                source: option.source,
-                value: option.fieldName,
-                label: value?.source !== option.source ? null : value?.label || null,
-              })
+              onChange(
+                !option
+                  ? undefined
+                  : {
+                      ...value,
+                      source: option.source,
+                      value: option.fieldName,
+                      label: value?.source !== option.source ? null : value?.label || null,
+                    }
+              )
             }
             aria-label={TEST_IDS.formElementsEditor.fieldQueryOptionsValue}
+            isClearable
           />
         </InlineField>
       </InlineFieldRow>
@@ -98,10 +103,11 @@ export const ElementQueryOptionsEditor: React.FC<Props> = ({ value, onChange, da
               onChange={(option) =>
                 onChange({
                   ...value,
-                  label: option.fieldName,
+                  label: option ? option.fieldName : '',
                 })
               }
               aria-label={TEST_IDS.formElementsEditor.fieldQueryOptionsLabel}
+              isClearable
             />
           </InlineField>
         </InlineFieldRow>
