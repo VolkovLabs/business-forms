@@ -18,10 +18,6 @@ export const getStyles = () => {
     table: css`
       width: 100%;
     `,
-    td: css`
-      padding: 20px;
-      vertical-align: top;
-    `,
     margin: css`
       margin: 5px;
     `,

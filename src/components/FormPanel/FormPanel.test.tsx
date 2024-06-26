@@ -14,6 +14,7 @@ import {
   PayloadMode,
   RequestMethod,
   ResetActionMode,
+  SectionVariant,
   TEST_IDS,
 } from '../../constants';
 import { useDatasourceRequest } from '../../hooks';
@@ -26,7 +27,12 @@ import {
   PanelOptions,
   UpdateEnabledMode,
 } from '../../types';
-import { getFormElementsSelectors, getPanelSelectors, toLocalFormElement } from '../../utils';
+import {
+  getFormElementsSectionSelectors,
+  getFormElementsSelectors,
+  getPanelSelectors,
+  toLocalFormElement,
+} from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
 
@@ -34,7 +40,7 @@ import { FormPanel } from './FormPanel';
  * Mock Form Elements
  */
 jest.mock('../FormElements', () => ({
-  FormElements: jest.fn(() => null),
+  FormElements: jest.fn(jest.requireActual('../FormElements').FormElements),
 }));
 
 /**
@@ -77,6 +83,11 @@ describe('Panel', () => {
    * Elements Selectors
    */
   const elementsSelectors = getFormElementsSelectors(screen);
+
+  /**
+   * Section Selectors
+   */
+  const sectionSelectors = getFormElementsSectionSelectors(screen);
 
   /**
    * Replace variables
@@ -150,6 +161,7 @@ describe('Panel', () => {
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequestMock as any);
 
     jest.mocked(FormElements).mockClear();
+    jest.mocked(FormElements).mockImplementation(jest.requireActual('../FormElements').FormElements);
     jest.mocked(fetch).mockClear();
     replaceVariables.mockClear();
 
@@ -221,6 +233,35 @@ describe('Panel', () => {
     );
     expect(selectors.splitLayoutContent(false, 'section1')).toBeInTheDocument();
     expect(selectors.splitLayoutContent(false, 'section2')).toBeInTheDocument();
+  });
+
+  /**
+   * Split Vertical Layout with collapsable
+   */
+  it('Should render split vertical layout with collapsable', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          options: {
+            elements: [{ ...FORM_ELEMENT_DEFAULT, section: 'section1', id: 'test' }],
+            layout: {
+              variant: LayoutVariant.SPLIT,
+              orientation: LayoutOrientation.VERTICAL,
+              sectionVariant: SectionVariant.COLLAPSABLE,
+              sections: [
+                { name: 'section1', id: 'section1' },
+                { name: 'section2', id: 'section2' },
+              ],
+            },
+          },
+        })
+      )
+    );
+
+    expect(selectors.splitLayoutContent(false, 'section1')).toBeInTheDocument();
+    expect(selectors.splitLayoutContent(false, 'section2')).toBeInTheDocument();
+
+    expect(sectionSelectors.sectionHeader(true, 'section1', 'section1')).toBeInTheDocument();
   });
 
   /**
@@ -2121,10 +2162,6 @@ describe('Panel', () => {
       };
     };
 
-    afterAll(() => {
-      jest.mocked(FormElements).mockReset();
-    });
-
     it('Should show changed values if field has initial value', async () => {
       const { triggerChangeElement, elementWithInitialValue, initialValues } = await prepareComponent();
 
@@ -2707,6 +2744,266 @@ describe('Panel', () => {
        * Should be enabled
        */
       expect(selectors.buttonSaveDefault()).not.toBeDisabled();
+    });
+  });
+
+  describe('Collapsable Sections', () => {
+    it('Should expand section from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.expandSection("section1");
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [section],
+              },
+            },
+          })
+        )
+      );
+
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(false, section.id, section.name)).toBeInTheDocument();
+    });
+
+    it('Should collapse section from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: true };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.collapseSection("section1");
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [section],
+              },
+            },
+          })
+        )
+      );
+
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(true, section.id, section.name)).not.toBeInTheDocument();
+    });
+
+    it('Should toggle section from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.toggleSection("section1");
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [section],
+              },
+            },
+          })
+        )
+      );
+
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(false, section.id, section.name)).toBeInTheDocument();
+    });
+
+    it('Should expand section from the value changed code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+              },
+              elementValueChanged: `
+                context.panel.expandSection("section1");
+              `,
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [{ id: 'section2', name: 'Section 2', expanded: true }, section],
+              },
+              elements: [{ ...FORM_ELEMENT_DEFAULT, type: FormElementType.STRING, section: 'section2' }],
+            },
+          })
+        )
+      );
+
+      /**
+       * Trigger element value change
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(false), { target: { value: '123' } }));
+
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(false, section.id, section.name)).toBeInTheDocument();
+    });
+
+    it('Should collapse section from the value changed code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: true };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+              },
+              elementValueChanged: `
+                context.panel.collapseSection("section1");
+              `,
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [{ id: 'section2', name: 'Section 2', expanded: true }, section],
+              },
+              elements: [{ ...FORM_ELEMENT_DEFAULT, type: FormElementType.STRING, section: 'section2' }],
+            },
+          })
+        )
+      );
+
+      /**
+       * Check initial section state
+       */
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(false, section.id, section.name)).toBeInTheDocument();
+
+      /**
+       * Trigger element value change
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(false), { target: { value: '123' } }));
+
+      /**
+       * Check updated section state
+       */
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(true, section.id, section.name)).not.toBeInTheDocument();
+    });
+
+    it('Should toggle section from the value changed code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: true };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+              },
+              elementValueChanged: `
+                context.panel.toggleSection("section1");
+              `,
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [{ id: 'section2', name: 'Section 2', expanded: true }, section],
+              },
+              elements: [{ ...FORM_ELEMENT_DEFAULT, type: FormElementType.STRING, section: 'section2' }],
+            },
+          })
+        )
+      );
+
+      /**
+       * Check initial section state
+       */
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(false, section.id, section.name)).toBeInTheDocument();
+
+      /**
+       * Trigger element value change
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(false), { target: { value: '123' } }));
+
+      /**
+       * Check updated section state
+       */
+      expect(sectionSelectors.sectionHeader(false, section.id, section.name)).toBeInTheDocument();
+      expect(sectionSelectors.sectionContent(true, section.id, section.name)).not.toBeInTheDocument();
     });
   });
 });

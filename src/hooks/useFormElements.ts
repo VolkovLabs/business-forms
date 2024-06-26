@@ -1,7 +1,7 @@
 import { EventBusSrv, SelectableValue } from '@grafana/data';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FormElement, LocalFormElement } from '../types';
+import { FormElement, LayoutSection, LocalFormElement } from '../types';
 import {
   isElementConflict,
   isElementOptionConflict,
@@ -23,10 +23,12 @@ export const useFormElements = ({
   onChange,
   value,
   isAutoSave = true,
+  sections = [],
 }: {
   onChange: (elements: FormElement[]) => void;
   value?: FormElement[];
   isAutoSave?: boolean;
+  sections?: LayoutSection[];
 }) => {
   const eventBus = useRef(new EventBusSrv());
 
@@ -36,6 +38,30 @@ export const useFormElements = ({
   const [elements, setElements, elementsRef] = useMutableState<LocalFormElement[]>(
     normalizeElementsForLocalState(value)
   );
+
+  /**
+   * Expand/Collapse State for Sections
+   */
+  const [sectionsExpandedState, setSectionsExpandedState] = useState<Record<string, boolean>>(
+    sections.reduce(
+      (acc, section) => ({
+        ...acc,
+        [section.id]: section.expanded,
+      }),
+      {}
+    )
+  );
+
+  /**
+   * On Change Section Expanded State
+   */
+  const onChangeSectionExpandedState = useCallback((name: string, isExpanded: boolean) => {
+    setSectionsExpandedState((prev) => ({
+      ...prev,
+      [name]: isExpanded,
+    }));
+  }, []);
+
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -175,5 +201,7 @@ export const useFormElements = ({
     onElementRemove,
     eventBus: eventBus.current,
     elementsRef,
+    sectionsExpandedState,
+    onChangeSectionExpandedState,
   };
 };

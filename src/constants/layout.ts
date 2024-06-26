@@ -18,6 +18,14 @@ export const enum LayoutOrientation {
 }
 
 /**
+ * Section Variant
+ */
+export const enum SectionVariant {
+  DEFAULT = 'default',
+  COLLAPSABLE = 'collapsable',
+}
+
+/**
  * Layout Variant Options
  */
 export const LAYOUT_VARIANT_OPTIONS: SelectableValue[] = [
@@ -56,5 +64,23 @@ export const LAYOUT_ORIENTATION_OPTIONS: SelectableValue[] = [
     description: 'Vertical Orientation',
     label: 'Vertical',
     icon: 'vertical-align-center',
+  },
+];
+
+/**
+ * Section Variant Options
+ */
+export const SECTION_VARIANT_OPTIONS: SelectableValue[] = [
+  {
+    value: SectionVariant.DEFAULT,
+    description: 'Always Open',
+    label: 'Always Open',
+    icon: 'bars',
+  },
+  {
+    value: SectionVariant.COLLAPSABLE,
+    description: 'Collapsable',
+    label: 'Collapsable',
+    icon: 'arrows-v',
   },
 ];

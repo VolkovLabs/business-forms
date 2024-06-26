@@ -13,6 +13,11 @@ export const getCustomCodeEditorSelectors = getJestSelectors(TEST_IDS.customCode
 export const getFormElementsSelectors = getJestSelectors(TEST_IDS.formElements, ['fieldDateTime']);
 
 /**
+ * Get Form Elements Selectors
+ */
+export const getFormElementsSectionSelectors = getJestSelectors(TEST_IDS.formElementsSection);
+
+/**
  * Get Form Elements Editor Selectors
  */
 export const getFormElementsEditorSelectors = getJestSelectors(TEST_IDS.formElementsEditor, ['fieldDateTime']);

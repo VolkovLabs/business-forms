@@ -40,6 +40,19 @@ export const requestCodeParameters = new CodeParametersBuilder({
         response: new CodeParameterItem<FetchResponse | Response | DataQueryResponse | null | undefined>(
           'Response object.'
         ),
+        toggleSection: new CodeParameterItem<(id: string) => void>(
+          'Toggle Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        collapseSection: new CodeParameterItem<(id: string) => void>(
+          'Collapse Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        expandSection: new CodeParameterItem<(id: string) => void>(
+          'Expand Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
       },
     },
     grafana: {
@@ -122,6 +135,19 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           'Disable save default button.',
           CodeEditorSuggestionItemKind.Method
         ),
+        toggleSection: new CodeParameterItem<(id: string) => void>(
+          'Toggle Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        collapseSection: new CodeParameterItem<(id: string) => void>(
+          'Collapse Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        expandSection: new CodeParameterItem<(id: string) => void>(
+          'Expand Section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
       },
     },
     grafana: {

@@ -1,20 +1,26 @@
 import { StandardEditorProps } from '@grafana/data';
-import { Button, InlineField, InlineFieldRow, Input } from '@grafana/ui';
+import { Button, Checkbox, InlineField, InlineFieldRow, Input, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useCallback, useMemo } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { LayoutSection } from '../../types';
+import { LayoutOrientation, SectionVariant, TEST_IDS } from '../../constants';
+import { LayoutSection, PanelOptions } from '../../types';
 import { isSectionCollisionExists } from '../../utils';
+import { getStyles } from './LayoutSectionsEditor.styles';
 
 /**
  * Properties
  */
-type Props = StandardEditorProps<LayoutSection[] | undefined>;
+type Props = StandardEditorProps<LayoutSection[] | undefined, null, PanelOptions>;
 
 /**
  * Layout Section Editor
  */
-export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
+export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange, context }) => {
+  /**
+   * Styles
+   */
+  const styles = useStyles2(getStyles);
+
   /**
    * Sections
    */
@@ -53,13 +59,24 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
   }, [sections]);
 
   /**
+   * Is Expanded Field Shown
+   */
+  const isExpandedFieldShown =
+    context.options?.layout.orientation === LayoutOrientation.VERTICAL &&
+    context.options?.layout.sectionVariant === SectionVariant.COLLAPSABLE;
+
+  /**
    * Return
    */
   return (
     <div data-testid={TEST_IDS.layoutSectionsEditor.root}>
       {sections.map((section, id) => (
-        <InlineFieldRow key={id} data-testid={TEST_IDS.layoutSectionsEditor.section(section.id)}>
-          <InlineField label="Id" grow labelWidth={8} invalid={section.id === ''}>
+        <InlineFieldRow
+          key={id}
+          data-testid={TEST_IDS.layoutSectionsEditor.section(section.id)}
+          className={styles.item}
+        >
+          <InlineField label="Id" grow invalid={section.id === ''}>
             <Input
               placeholder="id"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +94,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
               data-testid={TEST_IDS.layoutSectionsEditor.fieldId}
             />
           </InlineField>
-          <InlineField label="Name" grow labelWidth={8}>
+          <InlineField label="Name" grow>
             <Input
               placeholder="name"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -90,6 +107,21 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange }) => {
               data-testid={TEST_IDS.layoutSectionsEditor.fieldName}
             />
           </InlineField>
+          {isExpandedFieldShown && (
+            <div className={styles.checkbox}>
+              <Checkbox
+                label="Expanded"
+                value={section.expanded}
+                onClick={(event) => {
+                  onChangeSection({
+                    ...section,
+                    expanded: event.currentTarget.checked,
+                  });
+                }}
+                aria-label={TEST_IDS.layoutSectionsEditor.fieldExpanded}
+              />
+            </div>
+          )}
           <Button
             variant="secondary"
             onClick={() => {

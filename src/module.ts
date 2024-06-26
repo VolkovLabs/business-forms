@@ -39,6 +39,8 @@ import {
   RESET_CODE_DEFAULT,
   ResetActionMode,
   SAVE_DEFAULT_BUTTON_DEFAULT,
+  SECTION_VARIANT_OPTIONS,
+  SectionVariant,
   SUBMIT_BUTTON_DEFAULT,
   UPDATE_CODE_DEFAULT,
   UPDATE_ENABLED_OPTIONS,
@@ -112,14 +114,6 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
      * Sections
      */
     builder
-      .addCustomEditor({
-        id: 'layout.sections',
-        path: 'layout.sections',
-        name: 'Sections',
-        category: ['Sections'],
-        editor: LayoutSectionsEditor,
-        showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
-      })
       .addRadio({
         path: 'layout.orientation',
         name: 'Orientation',
@@ -128,6 +122,25 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
           options: LAYOUT_ORIENTATION_OPTIONS,
         },
         defaultValue: LayoutOrientation.HORIZONTAL,
+        showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
+      })
+      .addRadio({
+        path: 'layout.sectionVariant',
+        name: 'Variant',
+        category: ['Sections'],
+        settings: {
+          options: SECTION_VARIANT_OPTIONS,
+        },
+        defaultValue: SectionVariant.DEFAULT,
+        showIf: (config) =>
+          config.layout.variant === LayoutVariant.SPLIT && config.layout.orientation === LayoutOrientation.VERTICAL,
+      })
+      .addCustomEditor({
+        id: 'layout.sections',
+        path: 'layout.sections',
+        name: 'Sections',
+        category: ['Sections'],
+        editor: LayoutSectionsEditor,
         showIf: (config) => config.layout.variant === LayoutVariant.SPLIT,
       });
 

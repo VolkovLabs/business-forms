@@ -19,23 +19,13 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  ConfirmModal,
-  FieldSet,
-  usePanelContext,
-  useStyles2,
-  useTheme2,
-} from '@grafana/ui';
+import { Alert, Button, ButtonGroup, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   ConfirmationElementDisplayMode,
   ContentType,
   FormElementType,
-  LayoutOrientation,
   LayoutVariant,
   LoadingMode,
   PayloadMode,
@@ -67,6 +57,7 @@ import {
   toJson,
   ValueChangedEvent,
 } from '../../utils';
+import { ElementSections } from '../ElementSections';
 import { FormElements } from '../FormElements';
 import { LoadingBar } from '../LoadingBar';
 import { getStyles } from './FormPanel.styles';
@@ -139,10 +130,13 @@ export const FormPanel: React.FC<Props> = ({
     onSaveUpdates,
     eventBus: elementsEventBus,
     elementsRef,
+    sectionsExpandedState,
+    onChangeSectionExpandedState,
   } = useFormElements({
     onChange: onChangeOptions,
     value: options.elements,
     isAutoSave: false,
+    sections: options.layout.sections,
   });
 
   /**
@@ -260,6 +254,10 @@ export const FormPanel: React.FC<Props> = ({
               response,
               enableSubmit: () => setSubmitEnabled(true),
               disableSubmit: () => setSubmitEnabled(false),
+              collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
+              expandSection: (id: string) => onChangeSectionExpandedState(id, true),
+              toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
+              sectionsExpandedState,
             },
             utils: {
               toDataQueryResponse,
@@ -287,6 +285,8 @@ export const FormPanel: React.FC<Props> = ({
       notifyWarning,
       eventBus,
       appEvents,
+      sectionsExpandedState,
+      onChangeSectionExpandedState,
     ]
   );
 
@@ -822,6 +822,10 @@ export const FormPanel: React.FC<Props> = ({
             onOptionsChange,
             elements,
             onChangeElements,
+            collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
+            expandSection: (id: string) => onChangeSectionExpandedState(id, true),
+            toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
+            sectionsExpandedState,
             initial: initialRef.current,
             setError,
             enableReset: () => setResetEnabled(true),
@@ -848,9 +852,11 @@ export const FormPanel: React.FC<Props> = ({
       notifySuccess,
       notifyWarning,
       onChangeElements,
+      onChangeSectionExpandedState,
       onOptionsChange,
       options,
       replaceVariables,
+      sectionsExpandedState,
       templateSrv,
     ]
   );
@@ -912,54 +918,16 @@ export const FormPanel: React.FC<Props> = ({
               </td>
             </tr>
           )}
-
-          {options.layout.variant === LayoutVariant.SPLIT &&
-            options.layout.orientation !== LayoutOrientation.VERTICAL && (
-              <tr>
-                {options.layout?.sections?.map((section, id) => {
-                  return (
-                    <td className={styles.td} key={id} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-                      <FieldSet label={section.name}>
-                        <FormElements
-                          data={data}
-                          options={options}
-                          elements={elements}
-                          onChangeElement={onChangeElement}
-                          initial={initial}
-                          section={section}
-                          replaceVariables={replaceVariables}
-                        />
-                      </FieldSet>
-                    </td>
-                  );
-                })}
-              </tr>
-            )}
-
-          {options.layout.variant === LayoutVariant.SPLIT &&
-            options.layout.orientation === LayoutOrientation.VERTICAL && (
-              <>
-                {options.layout?.sections?.map((section, id) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.td} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-                        <FieldSet label={section.name}>
-                          <FormElements
-                            options={options}
-                            elements={elements}
-                            onChangeElement={onChangeElement}
-                            initial={initial}
-                            section={section}
-                            replaceVariables={replaceVariables}
-                            data={data}
-                          />
-                        </FieldSet>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </>
-            )}
+          <ElementSections
+            data={data}
+            options={options}
+            elements={elements}
+            onChangeElement={onChangeElement}
+            initial={initial}
+            replaceVariables={replaceVariables}
+            sectionsExpandedState={sectionsExpandedState}
+            onChangeSectionExpandedState={onChangeSectionExpandedState}
+          />
           <tr>
             <td colSpan={options.layout?.sections?.length}>
               <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>

@@ -1,0 +1,189 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 13,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "if (context.panel.sectionsExpandedState['readonly']) {\n  context.panel.collapseSection('readonly');\n} else {\n  context.panel.expandSection('readonly');\n}",
+        "elements": [
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "readonly",
+            "title": "Id",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "fc9d89f2-75ee-4606-ac3d-d222fc53ba14",
+            "width": 0
+          },
+          {
+            "id": "id",
+            "labelWidth": 10,
+            "section": "updated",
+            "title": "Id",
+            "tooltip": "",
+            "type": "number",
+            "uid": "075628d7-219c-4c96-a380-3ec1001ba4b4",
+            "width": 0
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "readonly",
+            "title": "Type",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "6d334707-d8d4-40b7-9bc9-c3fb3f3fc0bd",
+            "width": 0
+          },
+          {
+            "id": "type",
+            "labelWidth": 10,
+            "section": "updated",
+            "title": "Type",
+            "tooltip": "",
+            "type": "string",
+            "uid": "3b1756b1-c9a6-489e-b387-3de8694884bd",
+            "width": 0
+          }
+        ],
+        "initial": {
+          "code": "",
+          "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
+          "url": "http://localhost:3001"
+        },
+        "layout": {
+          "orientation": "vertical",
+          "padding": 10,
+          "sectionVariant": "collapsable",
+          "sections": [
+            {
+              "expanded": false,
+              "id": "readonly",
+              "name": "Read-only"
+            },
+            {
+              "expanded": true,
+              "id": "updated",
+              "name": "Updated"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "console.log(data, response, initial, elements);",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "",
+          "confirm": true,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "payloadMode": "all",
+          "url": "http://localhost:3001"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "3.8.0",
+      "title": "Collapsable",
+      "type": "volkovlabs-form-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Sections",
+  "uid": "bf94d72f-2c14-4882-925e-989a96b2db74",
+  "version": 5,
+  "weekStart": ""
+}
