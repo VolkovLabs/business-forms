@@ -38,6 +38,7 @@
 - Updated Error handling in code editors showIf, disableIf, getOptions (#410)
 - Updated description for Get Options Code (#404)
 - Added custom color/background color for elements (#386)
+- Added Collapsable Sections (#409)
 
 ## 3.8.0 (2024-05-30)
 
