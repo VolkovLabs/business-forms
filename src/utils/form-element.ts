@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import { BusEventBase, dateTime, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
 import { v4 as uuidv4 } from 'uuid';
@@ -564,4 +565,26 @@ export const formatElementValue = (element: LocalFormElement, value: unknown): s
       return value === undefined ? '' : String(value);
     }
   }
+};
+
+/**
+ * Apply Label styles
+ * @param labelBackground
+ * @param labelColor
+ */
+export const applyLabelStyles = (labelBackground?: string, labelColor?: string): string => {
+  return css`
+    ${labelBackground &&
+    `
+      & label:first-child {
+          background: ${labelBackground};
+        }
+    `}
+    ${labelColor &&
+    `
+      & label:first-child {
+          color: ${labelColor};
+        } 
+    `}
+  `;
 };

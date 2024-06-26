@@ -1,5 +1,15 @@
 import { DataFrame, SelectableValue } from '@grafana/data';
-import { Field, InlineField, InlineFieldRow, Input, RadioButtonGroup, Select, useStyles2 } from '@grafana/ui';
+import {
+  ColorPicker,
+  Field,
+  IconButton,
+  InlineField,
+  InlineFieldRow,
+  Input,
+  RadioButtonGroup,
+  Select,
+  useStyles2,
+} from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
@@ -227,6 +237,96 @@ export const ElementEditor: React.FC<Props> = ({
             value={element.unit}
             data-testid={TEST_IDS.formElementsEditor.fieldUnit}
           />
+        </InlineField>
+      </InlineFieldRow>
+
+      <InlineFieldRow>
+        <InlineField className={styles.colorPickerContainer} label="Background" grow={true}>
+          <div className={styles.colorPickerButtons}>
+            <ColorPicker
+              data-testid={TEST_IDS.formElementsEditor.fieldElementBackground}
+              color={element.background || 'transparent'}
+              onChange={(color) => {
+                onChange({
+                  ...element,
+                  background: color,
+                });
+              }}
+            />
+            {element.background && (
+              <IconButton
+                data-testid={TEST_IDS.formElementsEditor.buttonRemoveBackground}
+                name="times"
+                size="md"
+                variant="secondary"
+                tooltip="Reset to default"
+                onClick={() =>
+                  onChange({
+                    ...element,
+                    background: '',
+                  })
+                }
+              />
+            )}
+          </div>
+        </InlineField>
+        <InlineField className={styles.colorPickerContainer} label="Label Background" grow={true}>
+          <div className={styles.colorPickerButtons}>
+            <ColorPicker
+              data-testid={TEST_IDS.formElementsEditor.fieldLabelBackground}
+              color={element.labelBackground || 'transparent'}
+              onChange={(color) => {
+                onChange({
+                  ...element,
+                  labelBackground: color,
+                });
+              }}
+            />
+            {element.labelBackground && (
+              <IconButton
+                data-testid={TEST_IDS.formElementsEditor.buttonRemoveLabelBackground}
+                name="times"
+                size="md"
+                variant="secondary"
+                tooltip="Reset to default"
+                onClick={() =>
+                  onChange({
+                    ...element,
+                    labelBackground: '',
+                  })
+                }
+              />
+            )}
+          </div>
+        </InlineField>
+        <InlineField className={styles.colorPickerContainer} label="Label Color" grow>
+          <div className={styles.colorPickerButtons}>
+            <ColorPicker
+              data-testid={TEST_IDS.formElementsEditor.fieldLabelColor}
+              color={element.labelColor || 'transparent'}
+              onChange={(color) => {
+                onChange({
+                  ...element,
+                  labelColor: color,
+                });
+              }}
+            />
+            {element.labelColor && (
+              <IconButton
+                data-testid={TEST_IDS.formElementsEditor.buttonRemoveLabelColor}
+                name="times"
+                size="md"
+                variant="secondary"
+                tooltip="Reset to default"
+                onClick={() =>
+                  onChange({
+                    ...element,
+                    labelColor: '',
+                  })
+                }
+              />
+            )}
+          </div>
         </InlineField>
       </InlineFieldRow>
 

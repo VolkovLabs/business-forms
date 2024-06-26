@@ -3,6 +3,7 @@ import { FormElementType, OptionsSource } from '../constants';
 import { ButtonVariant } from '../types';
 import {
   applyAcceptedFiles,
+  applyLabelStyles,
   convertToElementValue,
   formatElementValue,
   getButtonVariant,
@@ -10,6 +11,14 @@ import {
   toLocalFormElement,
   toNumberValue,
 } from './form-element';
+
+/**
+ * Mock @emotion/css
+ */
+jest.mock('@emotion/css', () => ({
+  css: jest.fn(() => 'css-test'),
+  keyframes: jest.fn((styles) => `keyframes-${styles}`),
+}));
 
 describe('Utils', () => {
   const logError = jest.fn();
@@ -368,6 +377,19 @@ describe('Utils', () => {
       },
     ])('Should format value for $name', ({ element, expectedResult, value }) => {
       expect(formatElementValue(element as any, value)).toEqual(expectedResult);
+    });
+  });
+
+  /**
+   * Test applyLabelStyles function
+   */
+  describe('applyLabelStyles', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+    it('should return the expected CSS styles', () => {
+      const result = applyLabelStyles('white', 'blue');
+      expect(result).toEqual('css-test');
     });
   });
 
