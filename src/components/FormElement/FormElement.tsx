@@ -63,7 +63,6 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
       data-testid={TEST_IDS.formElements.element(element.id, element.type)}
       className={cx({
         [styles.rootWithBackground]: !!element.background,
-        [styles.rootInSection]: !!element.section,
       })}
       style={{
         backgroundColor: element.background || undefined,
