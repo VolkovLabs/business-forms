@@ -10,9 +10,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       padding: ${theme.spacing(0.5, 0, 0, 0.5)};
       margin-bottom: ${theme.spacing(0.5)};
     `,
-    rootInSection: css`
-      width: max-content;
-    `,
+    rootInSection: css``,
     slider: css`
       .rc-slider {
         margin: 10px 0 0 0;
