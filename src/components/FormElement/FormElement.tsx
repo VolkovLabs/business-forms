@@ -23,7 +23,7 @@ import React, { ChangeEvent } from 'react';
 
 import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '../../constants';
 import { CodeLanguage, LinkTarget, LocalFormElement } from '../../types';
-import { applyAcceptedFiles, applyWidth, formatNumberValue, isFormElementType } from '../../utils';
+import { applyAcceptedFiles, applyLabelStyles, applyWidth, formatNumberValue, isFormElementType } from '../../utils';
 import { getStyles } from './FormElement.styles';
 
 /**
@@ -59,7 +59,16 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
   const styles = useStyles2(getStyles);
 
   return (
-    <InlineFieldRow data-testid={TEST_IDS.formElements.element(element.id, element.type)}>
+    <InlineFieldRow
+      data-testid={TEST_IDS.formElements.element(element.id, element.type)}
+      className={cx({
+        [styles.rootWithBackground]: !!element.background,
+        [styles.rootInSection]: !!element.section,
+      })}
+      style={{
+        backgroundColor: element.background || undefined,
+      }}
+    >
       {element.type === FormElementType.NUMBER && (
         <InlineField
           label={element.title}
@@ -68,6 +77,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <NumberInput
             value={formatNumberValue(element.value)}
@@ -94,9 +104,12 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
-          className={cx({
-            [styles.hidden]: element.hidden,
-          })}
+          className={cx(
+            {
+              [styles.hidden]: element.hidden,
+            },
+            applyLabelStyles(element.labelBackground, element.labelColor)
+          )}
           disabled={element.disabled}
         >
           <Input
@@ -123,6 +136,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <Input
             value={element.value || ''}
@@ -148,6 +162,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           disabled
           transparent={!element.title}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <Input
             value={
@@ -170,6 +185,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <TextArea
             value={element.value}
@@ -195,6 +211,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.type === FormElementType.DISABLED_TEXTAREA}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <TextArea
             value={element.value}
@@ -214,6 +231,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <AutosizeCodeEditor
             language={element.language || CodeLanguage.JAVASCRIPT}
@@ -244,6 +262,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
           data-testid={TEST_IDS.formElements.fieldBooleanContainer}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <RadioButtonGroup
             value={element.value}
@@ -268,6 +287,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           {element.disabled ? (
             <DatePickerWithInput
@@ -322,7 +342,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
             labelWidth={applyWidth(element.labelWidth)}
             tooltip={element.tooltip}
             transparent={!element.title}
-            className={cx(styles.slider)}
+            className={cx(styles.slider, applyLabelStyles(element.labelBackground, element.labelColor))}
             disabled={element.disabled}
           >
             <Slider
@@ -367,6 +387,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           transparent={!element.title}
           data-testid={TEST_IDS.formElements.fieldRadioContainer}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <RadioButtonGroup
             value={element.value}
@@ -391,6 +412,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <Select
             key={element.id}
@@ -418,6 +440,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <FileDropzone
             options={{
@@ -448,6 +471,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           labelWidth={applyWidth(element.labelWidth)}
           tooltip={element.tooltip}
           transparent={!element.title}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           <div className={styles.link} style={{ width: element.width ? theme.spacing(element.width) : 'auto' }}>
             <TextLink
@@ -469,7 +493,7 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
           tooltip={element.tooltip}
           transparent={!element.title}
           disabled={element.disabled}
-          className={styles.checkboxWrap}
+          className={cx(styles.checkboxWrap, applyLabelStyles(element.labelBackground, element.labelColor))}
           data-testid={TEST_IDS.formElements.fieldCheckboxListContainer}
         >
           <div style={{ width: element.width ? theme.spacing(element.width) : 'auto' }} className={styles.checkboxRow}>

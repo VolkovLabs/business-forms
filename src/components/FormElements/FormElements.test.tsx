@@ -1245,6 +1245,48 @@ describe('Form Elements', () => {
     expect(selectors.element(false, updatedElement.id, updatedElement.type)).toBeInTheDocument();
   });
 
+  /**
+   * Apply styles for row
+   */
+  describe('Form styles', () => {
+    it('Should render element with background', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [{ id: 'radio', type: FormElementType.RADIO, background: 'red' }],
+      };
+
+      render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Radio
+       */
+      expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyle({
+        backgroundColor: 'red',
+      });
+    });
+
+    it('Should render element with "max-content" width', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [{ id: 'radio', type: FormElementType.RADIO, section: 'Test-Section' }],
+      };
+
+      render(getComponent({ options, onChangeElement }));
+
+      /**
+       * Radio
+       */
+      expect(selectors.fieldRadioContainer()).toBeInTheDocument();
+      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyleRule('width', 'max-content');
+    });
+  });
   afterAll(() => {
     jest.resetAllMocks();
   });

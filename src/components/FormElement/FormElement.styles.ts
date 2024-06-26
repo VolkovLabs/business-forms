@@ -6,6 +6,13 @@ import { GrafanaTheme2 } from '@grafana/data';
  */
 export const getStyles = (theme: GrafanaTheme2) => {
   return {
+    rootWithBackground: css`
+      padding: ${theme.spacing(0.5, 0, 0, 0.5)};
+      margin-bottom: ${theme.spacing(0.5)};
+    `,
+    rootInSection: css`
+      width: max-content;
+    `,
     slider: css`
       .rc-slider {
         margin: 10px 0 0 0;
@@ -63,6 +70,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     checkbox: css`
       padding: ${theme.spacing(1)};
+      background: unset !important;
     `,
   };
 };
