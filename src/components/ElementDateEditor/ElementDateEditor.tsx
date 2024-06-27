@@ -1,4 +1,4 @@
-import { dateTime } from '@grafana/data';
+import { DateTime, dateTime } from '@grafana/data';
 import { Button, DateTimePicker, InlineField, InlineFieldRow } from '@grafana/ui';
 import React from 'react';
 
@@ -45,8 +45,10 @@ export const ElementDateEditor: React.FC<Props> = ({ value, onChange, label, ...
       <>
         <InlineField label={label} labelWidth={8}>
           <DateTimePicker
-            onChange={(dateTime) => {
-              onChange(dateTime.toISOString());
+            onChange={(dateTime?: DateTime) => {
+              if(dateTime) {
+                onChange(dateTime.toISOString());
+              }
             }}
             date={dateTime(value)}
             data-testid={TEST_IDS.formElementsEditor.fieldDateTime}
