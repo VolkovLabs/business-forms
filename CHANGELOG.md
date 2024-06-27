@@ -39,7 +39,7 @@
 - Updated description for Get Options Code (#404)
 - Added custom color/background color for elements (#386)
 - Added Collapsable Sections (#409)
-- Updated to Grafana 11.1 and dependencies ()
+- Updated to Grafana 11.1 and dependencies (#426)
 
 ## 3.8.0 (2024-05-30)
 
