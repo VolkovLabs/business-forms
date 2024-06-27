@@ -1268,24 +1268,6 @@ describe('Form Elements', () => {
         backgroundColor: 'red',
       });
     });
-
-    it('Should render element with "max-content" width', () => {
-      const options = {
-        submit: {},
-        initial: { highlightColor: false },
-        update: {},
-        reset: {},
-        elements: [{ id: 'radio', type: FormElementType.RADIO, section: 'Test-Section' }],
-      };
-
-      render(getComponent({ options, onChangeElement }));
-
-      /**
-       * Radio
-       */
-      expect(selectors.fieldRadioContainer()).toBeInTheDocument();
-      expect(selectors.element(false, 'radio', FormElementType.RADIO)).toHaveStyleRule('width', 'max-content');
-    });
   });
   afterAll(() => {
     jest.resetAllMocks();

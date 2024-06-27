@@ -14,6 +14,7 @@ export const getStyles = () => {
       top: 0;
       left: 0;
       width: 100%;
+      overflow: hidden;
     `,
     table: css`
       width: 100%;

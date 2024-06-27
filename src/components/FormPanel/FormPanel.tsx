@@ -901,23 +901,20 @@ export const FormPanel: React.FC<Props> = ({
         </Alert>
       )}
 
-      <table className={styles.table}>
-        <tbody>
-          {options.layout.variant === LayoutVariant.SINGLE && (
-            <tr>
-              <td data-testid={TEST_IDS.panel.singleLayoutContent}>
-                <FormElements
-                  data={data}
-                  options={options}
-                  elements={elements}
-                  onChangeElement={onChangeElement}
-                  initial={initial}
-                  section={null}
-                  replaceVariables={replaceVariables}
-                />
-              </td>
-            </tr>
-          )}
+      <div>
+        {options.layout.variant === LayoutVariant.SINGLE ? (
+          <div data-testid={TEST_IDS.panel.singleLayoutContent}>
+            <FormElements
+              data={data}
+              options={options}
+              elements={elements}
+              onChangeElement={onChangeElement}
+              initial={initial}
+              section={null}
+              replaceVariables={replaceVariables}
+            />
+          </div>
+        ) : (
           <ElementSections
             data={data}
             options={options}
@@ -928,90 +925,86 @@ export const FormPanel: React.FC<Props> = ({
             sectionsExpandedState={sectionsExpandedState}
             onChangeSectionExpandedState={onChangeSectionExpandedState}
           />
-          <tr>
-            <td colSpan={options.layout?.sections?.length}>
-              <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
-                {options.updateEnabled !== UpdateEnabledMode.DISABLED && (
-                  <Button
-                    className={cx(styles.margin)}
-                    variant={getButtonVariant(options.submit.variant)}
-                    icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
-                    title={title}
-                    style={
-                      options.submit.variant === ButtonVariant.CUSTOM
-                        ? {
-                            background: 'none',
-                            border: 'none',
-                            backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
-                            color: theme.visualization.getColorByName(options.submit.foregroundColor),
-                          }
-                        : {}
-                    }
-                    disabled={isSubmitDisabled}
-                    onClick={
-                      options.update.confirm
-                        ? () => {
-                            setUpdateConfirmation(true);
-                          }
-                        : updateRequest
-                    }
-                    size={options.buttonGroup.size}
-                    data-testid={TEST_IDS.panel.buttonSubmit}
-                  >
-                    {options.submit.text}
-                  </Button>
-                )}
+        )}
+      </div>
+      <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
+        {options.updateEnabled !== UpdateEnabledMode.DISABLED && (
+          <Button
+            className={cx(styles.margin)}
+            variant={getButtonVariant(options.submit.variant)}
+            icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
+            title={title}
+            style={
+              options.submit.variant === ButtonVariant.CUSTOM
+                ? {
+                    background: 'none',
+                    border: 'none',
+                    backgroundColor: theme.visualization.getColorByName(options.submit.backgroundColor),
+                    color: theme.visualization.getColorByName(options.submit.foregroundColor),
+                  }
+                : {}
+            }
+            disabled={isSubmitDisabled}
+            onClick={
+              options.update.confirm
+                ? () => {
+                    setUpdateConfirmation(true);
+                  }
+                : updateRequest
+            }
+            size={options.buttonGroup.size}
+            data-testid={TEST_IDS.panel.buttonSubmit}
+          >
+            {options.submit.text}
+          </Button>
+        )}
 
-                {options.reset.variant !== ButtonVariant.HIDDEN && (
-                  <Button
-                    className={cx(styles.margin)}
-                    variant={getButtonVariant(options.reset.variant)}
-                    icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
-                    style={
-                      options.reset.variant === ButtonVariant.CUSTOM
-                        ? {
-                            background: 'none',
-                            border: 'none',
-                            backgroundColor: theme.visualization.getColorByName(options.reset.backgroundColor),
-                            color: theme.visualization.getColorByName(options.reset.foregroundColor),
-                          }
-                        : {}
-                    }
-                    disabled={!!loading || !resetEnabled}
-                    onClick={() => {
-                      if (options.resetAction.confirm) {
-                        setResetConfirmation(true);
-                        return;
-                      }
+        {options.reset.variant !== ButtonVariant.HIDDEN && (
+          <Button
+            className={cx(styles.margin)}
+            variant={getButtonVariant(options.reset.variant)}
+            icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
+            style={
+              options.reset.variant === ButtonVariant.CUSTOM
+                ? {
+                    background: 'none',
+                    border: 'none',
+                    backgroundColor: theme.visualization.getColorByName(options.reset.backgroundColor),
+                    color: theme.visualization.getColorByName(options.reset.foregroundColor),
+                  }
+                : {}
+            }
+            disabled={!!loading || !resetEnabled}
+            onClick={() => {
+              if (options.resetAction.confirm) {
+                setResetConfirmation(true);
+                return;
+              }
 
-                      resetRequest();
-                    }}
-                    size={options.buttonGroup.size}
-                    data-testid={TEST_IDS.panel.buttonReset}
-                  >
-                    {options.reset.text}
-                  </Button>
-                )}
+              resetRequest();
+            }}
+            size={options.buttonGroup.size}
+            data-testid={TEST_IDS.panel.buttonReset}
+          >
+            {options.reset.text}
+          </Button>
+        )}
 
-                {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
-                  <Button
-                    className={cx(styles.margin)}
-                    variant={getButtonVariant(options.saveDefault.variant)}
-                    icon={options.saveDefault.icon}
-                    disabled={!!loading || !saveDefaultEnabled}
-                    onClick={onSaveUpdates}
-                    size={options.buttonGroup.size}
-                    data-testid={TEST_IDS.panel.buttonSaveDefault}
-                    title="Save values in the dashboard. Requires to Save dashboard."
-                  >
-                    {options.saveDefault.text}
-                  </Button>
-                )}
-              </ButtonGroup>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
+          <Button
+            className={cx(styles.margin)}
+            variant={getButtonVariant(options.saveDefault.variant)}
+            icon={options.saveDefault.icon}
+            disabled={!!loading || !saveDefaultEnabled}
+            onClick={onSaveUpdates}
+            size={options.buttonGroup.size}
+            data-testid={TEST_IDS.panel.buttonSaveDefault}
+            title="Save values in the dashboard. Requires to Save dashboard."
+          >
+            {options.saveDefault.text}
+          </Button>
+        )}
+      </ButtonGroup>
 
       {error && (
         <Alert data-testid={TEST_IDS.panel.errorMessage} severity="error" title="Request">

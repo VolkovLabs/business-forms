@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -45,6 +44,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "initial": {
           "code": "console.log(context.panel.response)",
           "contentType": "application/json",
@@ -52,11 +69,14 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
           "url": "http://api.example.com/"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -68,8 +88,10 @@
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -85,16 +107,18 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
-          "updatedOnly": false,
           "url": "http://api.example.com/"
-        }
+        },
+        "updateEnabled": "auto"
       },
       "pluginVersion": "4.0.0",
       "title": "No Elements",
@@ -117,6 +141,24 @@
           "orientation": "center",
           "size": "lg"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "first",
@@ -150,11 +192,13 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
           "url": "http://localhost:3001"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -166,8 +210,10 @@
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -181,15 +227,18 @@
           "text": "Submit",
           "variant": "destructive"
         },
+        "sync": true,
         "update": {
           "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
           "url": "http://localhost:3001"
-        }
+        },
+        "updateEnabled": "auto"
       },
       "pluginVersion": "4.0.0",
       "title": "Data Manipulation Form",
@@ -212,6 +261,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "initial": {
           "code": "console.log(context.panel.response)",
           "contentType": "application/json",
@@ -219,11 +286,13 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
           "url": "http://api.example.com/"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "none"
         },
         "reset": {
@@ -235,8 +304,10 @@
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -252,15 +323,18 @@
           "text": "Submit",
           "variant": "destructive"
         },
+        "sync": true,
         "update": {
           "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "DELETE",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
           "url": "http://api.example.com/"
-        }
+        },
+        "updateEnabled": "auto"
       },
       "pluginVersion": "4.0.0",
       "title": "Buttons only",
@@ -283,6 +357,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "amount",
@@ -395,11 +487,14 @@
           "highlight": true,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
           "url": "http://localhost:3001/${var}"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "name": "data",
@@ -412,8 +507,10 @@
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -429,6 +526,7 @@
           "text": "Update",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${context.panel.response.status}`]);\n}",
           "confirm": true,
@@ -441,10 +539,11 @@
             }
           ],
           "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
-          "updatedOnly": false,
           "url": "http://localhost:3001/${var}"
         },
+        "updateEnabled": "auto",
         "width": 0,
         "widthMode": "auto"
       },
@@ -469,6 +568,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "id",
@@ -514,16 +631,20 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
           "url": "http://localhost:3001"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "sections": [
             {
+              "id": "Read-only",
               "name": "Read-only"
             },
             {
+              "id": "Updated",
               "name": "Updated"
             }
           ],
@@ -538,8 +659,10 @@
         },
         "resetAction": {
           "code": "console.log(data, response, initial, elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -553,15 +676,18 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "console.log(context.panel.options, context.panel.data, context.panel.response, context.panel.elements, context.grafana.locationService, context.grafana.templateService)",
           "confirm": true,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
           "url": "http://localhost:3001"
-        }
+        },
+        "updateEnabled": "auto"
       },
       "pluginVersion": "4.0.0",
       "title": "Read Only Updated",
@@ -584,6 +710,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "id",
@@ -661,16 +805,21 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
           "url": "http://localhost:3001"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "sections": [
             {
+              "id": "Read-only",
               "name": "Read-only"
             },
             {
+              "id": "Update",
               "name": "Update"
             }
           ],
@@ -685,8 +834,10 @@
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -700,16 +851,18 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "console.log(context.panel.initial)\n\n/**\n * Set body\n */\nconst body = {};\ncontext.panel.elements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
           "confirm": true,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
-          "updatedOnly": true,
           "url": "http://localhost:3001"
-        }
+        },
+        "updateEnabled": "auto"
       },
       "pluginVersion": "4.0.0",
       "title": "Control Panel",
@@ -732,6 +885,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "name",
@@ -745,11 +916,14 @@
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
-          "method": "GET"
+          "method": "GET",
+          "payload": {},
+          "payloadMode": "all"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -761,8 +935,10 @@
         },
         "resetAction": {
           "code": "console.log(data, response, initial, elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -778,15 +954,17 @@
           "text": "Submit",
           "variant": "custom"
         },
+        "sync": true,
         "update": {
           "code": "console.log(context.panel.response)",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
-          "payloadMode": "all",
-          "updatedOnly": false
-        }
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
       },
       "pluginVersion": "4.0.0",
       "title": "No Initial Request and Custom Button",
@@ -809,6 +987,24 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": [
+              "name",
+              "oldValue",
+              "newValue"
+            ],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "amount",
@@ -906,19 +1102,25 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
           "url": "http://localhost:3001"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "sections": [
             {
+              "id": "Input",
               "name": "Input"
             },
             {
+              "id": "Output",
               "name": "Output"
             },
             {
+              "id": "Total",
               "name": "Total"
             }
           ],
@@ -936,8 +1138,10 @@
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -953,16 +1157,18 @@
           "text": "Update",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (context.panel.response && context.panel.response.ok) {\n  location.reload();\n}\n",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all",
-          "updatedOnly": false,
           "url": "http://localhost:3001/"
         },
+        "updateEnabled": "auto",
         "width": 0,
         "widthMode": "auto"
       },
@@ -972,8 +1178,7 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
@@ -1007,6 +1212,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 11,
+  "version": 6,
   "weekStart": ""
 }

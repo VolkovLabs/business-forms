@@ -1,9 +1,10 @@
+import { cx } from '@emotion/css';
 import { InterpolateFunction, PanelData } from '@grafana/data';
 import { FieldSet, useTheme2 } from '@grafana/ui';
 import { CollapsableSection } from '@volkovlabs/components';
 import React from 'react';
 
-import { LayoutOrientation, LayoutVariant, SectionVariant, TEST_IDS } from '../../constants';
+import { LayoutOrientation, SectionVariant, TEST_IDS } from '../../constants';
 import { LocalFormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
 import { getStyles } from './ElementSections.styles';
@@ -79,37 +80,18 @@ export const ElementSections: React.FC<Props> = ({
   const theme = useTheme2();
   const styles = getStyles(theme);
 
-  /**
-   * Return
-   */
-  return options.layout.variant === LayoutVariant.SPLIT && options.layout.orientation !== LayoutOrientation.VERTICAL ? (
-    <tr>
-      {options.layout?.sections?.map((section, id) => {
-        return (
-          <td className={styles.td} key={id} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-            <FieldSet label={section.name}>
-              <FormElements
-                data={data}
-                options={options}
-                elements={elements}
-                onChangeElement={onChangeElement}
-                initial={initial}
-                section={section}
-                replaceVariables={replaceVariables}
-              />
-            </FieldSet>
-          </td>
-        );
+  return (
+    <div
+      className={cx(styles.root, {
+        vertical: options.layout.orientation === LayoutOrientation.VERTICAL,
       })}
-    </tr>
-  ) : options.layout.sectionVariant === SectionVariant.COLLAPSABLE ? (
-    <>
+    >
       {options.layout?.sections?.map((section, id) => {
         const isOpen = sectionsExpandedState[section.id];
 
-        return (
-          <tr key={id}>
-            <td className={styles.tdCollapse} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
+        const renderContainer = (children: React.ReactNode) => {
+          if (options.layout.sectionVariant === SectionVariant.COLLAPSABLE) {
+            return (
               <CollapsableSection
                 headerDataTestId={TEST_IDS.formElementsSection.sectionHeader(section.id, section.name)}
                 contentDataTestId={TEST_IDS.formElementsSection.sectionContent(section.id, section.name)}
@@ -121,42 +103,36 @@ export const ElementSections: React.FC<Props> = ({
                   </>
                 }
               >
-                <FormElements
-                  options={options}
-                  elements={elements}
-                  onChangeElement={onChangeElement}
-                  initial={initial}
-                  section={section}
-                  replaceVariables={replaceVariables}
-                  data={data}
-                />
+                {children}
               </CollapsableSection>
-            </td>
-          </tr>
-        );
-      })}
-    </>
-  ) : (
-    <>
-      {options.layout?.sections?.map((section, id) => {
+            );
+          }
+
+          return <FieldSet label={section.name}>{children}</FieldSet>;
+        };
+
         return (
-          <tr key={id}>
-            <td className={styles.td} data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}>
-              <FieldSet label={section.name}>
-                <FormElements
-                  options={options}
-                  elements={elements}
-                  onChangeElement={onChangeElement}
-                  initial={initial}
-                  section={section}
-                  replaceVariables={replaceVariables}
-                  data={data}
-                />
-              </FieldSet>
-            </td>
-          </tr>
+          <div
+            key={id}
+            className={cx(styles.section, {
+              collapsable: options.layout.sectionVariant === SectionVariant.COLLAPSABLE,
+            })}
+            data-testid={TEST_IDS.panel.splitLayoutContent(section.name)}
+          >
+            {renderContainer(
+              <FormElements
+                options={options}
+                elements={elements}
+                onChangeElement={onChangeElement}
+                initial={initial}
+                section={section}
+                replaceVariables={replaceVariables}
+                data={data}
+              />
+            )}
+          </div>
         );
       })}
-    </>
+    </div>
   );
 };
