@@ -473,15 +473,32 @@ export const convertToElementValue = (
       };
     }
     case FormElementType.DATETIME: {
+      let newValue;
+
+      if (typeof value === 'number' || typeof value === 'string') {
+        /**
+         * Date format validation
+         */
+        newValue = !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : undefined;
+      }
+
       return {
         ...element,
-        value: typeof value === 'string' ? value : undefined,
+        value: newValue,
       };
     }
     case FormElementType.TIME: {
+      let newValue = '';
+
+      if (typeof value === 'number' || typeof value === 'string') {
+        /**
+         * Date format validation
+         */
+        newValue = !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : '';
+      }
       return {
         ...element,
-        value: typeof value === 'string' ? value : '',
+        value: newValue,
       };
     }
     case FormElementType.CHECKBOX_LIST: {
