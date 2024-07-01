@@ -41,7 +41,11 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
   return result;
 };
 
-const getDateTimeValue = (value: string | number) => {
+/**
+ * Get Date Time
+ * @param value
+ */
+const getDateTimeValue = (value: string | number): string | undefined => {
   /**
    * Date format validation
    */
