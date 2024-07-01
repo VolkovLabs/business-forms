@@ -41,10 +41,10 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
   return result;
 };
 
-/**
- * Date format validation
- */
-const dateFormatValidation = (value: string | number) => {
+const getDateTimeValue = (value: string | number) => {
+  /**
+   * Date format validation
+   */
   return !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : undefined;
 };
 
@@ -483,10 +483,7 @@ export const convertToElementValue = (
       let newValue;
 
       if (typeof value === 'number' || typeof value === 'string') {
-        /**
-         * Date format validation
-         */
-        newValue = dateFormatValidation(value);
+        newValue = getDateTimeValue(value);
       }
 
       return {
@@ -498,10 +495,7 @@ export const convertToElementValue = (
       let newValue;
 
       if (typeof value === 'number' || typeof value === 'string') {
-        /**
-         * Date format validation
-         */
-        newValue = dateFormatValidation(value);
+        newValue = getDateTimeValue(value);
       }
       return {
         ...element,
