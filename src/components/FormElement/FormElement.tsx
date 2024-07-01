@@ -299,11 +299,13 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
               minDate={element.min ? new Date(element.min) : undefined}
               maxDate={element.max ? new Date(element.max) : undefined}
               date={dateTime(element.value)}
-              onChange={(dateTime: DateTime) => {
-                onChange<typeof element>({
-                  ...element,
-                  value: dateTime.toISOString(element.isUseLocalTime),
-                });
+              onChange={(dateTime?: DateTime) => {
+                if (dateTime) {
+                  onChange<typeof element>({
+                    ...element,
+                    value: dateTime.toISOString(element.isUseLocalTime),
+                  });
+                }
               }}
               data-testid={TEST_IDS.formElements.fieldDateTime}
             />
