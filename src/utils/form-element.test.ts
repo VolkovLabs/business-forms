@@ -238,7 +238,7 @@ describe('Utils', () => {
            */
           {
             original: 'abc',
-            expected: '',
+            expected: undefined,
           },
 
           /**
@@ -270,7 +270,7 @@ describe('Utils', () => {
            */
           {
             original: '1717200000000',
-            expected: '',
+            expected: undefined,
           },
 
           /**
@@ -286,7 +286,7 @@ describe('Utils', () => {
            */
           {
             original: '2084076205',
-            expected: '',
+            expected: undefined,
           },
         ],
       },

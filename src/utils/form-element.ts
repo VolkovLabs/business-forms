@@ -42,6 +42,13 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
 };
 
 /**
+ * Date format validation
+ */
+const dateFormatValidation = (value: string | number) => {
+  return !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : undefined;
+};
+
+/**
  * Get Element With New Type
  * @param element
  * @param newType
@@ -479,7 +486,7 @@ export const convertToElementValue = (
         /**
          * Date format validation
          */
-        newValue = !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : undefined;
+        newValue = dateFormatValidation(value);
       }
 
       return {
@@ -488,13 +495,13 @@ export const convertToElementValue = (
       };
     }
     case FormElementType.TIME: {
-      let newValue = '';
+      let newValue;
 
       if (typeof value === 'number' || typeof value === 'string') {
         /**
          * Date format validation
          */
-        newValue = !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : '';
+        newValue = dateFormatValidation(value);
       }
       return {
         ...element,
