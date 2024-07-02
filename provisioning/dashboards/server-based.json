@@ -92,7 +92,7 @@
           }
         ],
         "initial": {
-          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeElements([formElements].map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}),\n);\n",
+          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeElements(formElements.map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}),\n);\n",
           "contentType": "application/json",
           "datasource": "PostgreSQL",
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
