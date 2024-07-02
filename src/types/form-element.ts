@@ -266,7 +266,7 @@ export interface TimeOptions {
    *
    * @type {string}
    */
-  value: string;
+  value?: string;
 }
 
 /**

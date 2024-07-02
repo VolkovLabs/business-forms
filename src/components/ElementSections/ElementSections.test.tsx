@@ -39,15 +39,11 @@ describe('Form Elements', () => {
    */
   const getComponent = ({ options = {} as any, ...restProps }: Partial<Props>) => {
     return (
-      <table>
-        <tbody>
-          <ElementSections
-            options={options}
-            elements={normalizeElementsForLocalState(options.elements)}
-            {...(restProps as any)}
-          />
-        </tbody>
-      </table>
+      <ElementSections
+        options={options}
+        elements={normalizeElementsForLocalState(options.elements)}
+        {...(restProps as any)}
+      />
     );
   };
 

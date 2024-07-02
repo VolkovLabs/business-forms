@@ -170,12 +170,59 @@ describe('Utils', () => {
           type: FormElementType.DATETIME,
         },
         testCases: [
+          /**
+           * Not a number string return undefined
+           */
           {
             original: 'abc',
-            expected: 'abc',
+            expected: undefined,
           },
+
+          /**
+           * Correct String date format return date format
+           */
+          {
+            original: '2024-06-05T03:00:00.000Z',
+            expected: '2024-06-05T03:00:00.000Z',
+          },
+
+          /**
+           * Weird number convert to 1970-01-01 date
+           */
           {
             original: 123,
+            expected: '1970-01-01T00:00:00.123Z',
+          },
+
+          /**
+           * Convert Number Timestamp return date format
+           */
+          {
+            original: 1717200000000,
+            expected: '2024-06-01T00:00:00.000Z',
+          },
+
+          /**
+           * Weird string return undefined
+           */
+          {
+            original: '1717200000000',
+            expected: undefined,
+          },
+
+          /**
+           * Unix format number convert to 1970-01-01 date
+           */
+          {
+            original: 2147234605,
+            expected: '1970-01-25T20:27:14.605Z',
+          },
+
+          /**
+           * Weird Unix format String return undefined
+           */
+          {
+            original: '2084076205',
             expected: undefined,
           },
         ],
@@ -186,13 +233,60 @@ describe('Utils', () => {
           type: FormElementType.TIME,
         },
         testCases: [
+          /**
+           * Not a number string return ''
+           */
           {
             original: 'abc',
-            expected: 'abc',
+            expected: undefined,
           },
+
+          /**
+           * Correct String date format return date format
+           */
+          {
+            original: '2024-06-05T03:00:00.000Z',
+            expected: '2024-06-05T03:00:00.000Z',
+          },
+
+          /**
+           * Weird number convert to 1970-01-01 date
+           */
           {
             original: 123,
-            expected: '',
+            expected: '1970-01-01T00:00:00.123Z',
+          },
+
+          /**
+           * Convert Number Timestamp return date format
+           */
+          {
+            original: 1717200000000,
+            expected: '2024-06-01T00:00:00.000Z',
+          },
+
+          /**
+           * Weird string return ''
+           */
+          {
+            original: '1717200000000',
+            expected: undefined,
+          },
+
+          /**
+           * Unix format number convert to 1970-01-01 date
+           */
+          {
+            original: 2147234605,
+            expected: '1970-01-25T20:27:14.605Z',
+          },
+
+          /**
+           * Weird Unix format String return ''
+           */
+          {
+            original: '2084076205',
+            expected: undefined,
           },
         ],
       },

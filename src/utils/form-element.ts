@@ -42,6 +42,17 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
 };
 
 /**
+ * Get Date Time
+ * @param value
+ */
+const getDateTimeValue = (value: string | number): string | undefined => {
+  /**
+   * Date format validation
+   */
+  return !isNaN(new Date(value).getTime()) ? new Date(value).toISOString() : undefined;
+};
+
+/**
  * Get Element With New Type
  * @param element
  * @param newType
@@ -473,15 +484,26 @@ export const convertToElementValue = (
       };
     }
     case FormElementType.DATETIME: {
+      let newValue;
+
+      if (typeof value === 'number' || typeof value === 'string') {
+        newValue = getDateTimeValue(value);
+      }
+
       return {
         ...element,
-        value: typeof value === 'string' ? value : undefined,
+        value: newValue,
       };
     }
     case FormElementType.TIME: {
+      let newValue;
+
+      if (typeof value === 'number' || typeof value === 'string') {
+        newValue = getDateTimeValue(value);
+      }
       return {
         ...element,
-        value: typeof value === 'string' ? value : '',
+        value: newValue,
       };
     }
     case FormElementType.CHECKBOX_LIST: {
