@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.0.0 (2024-06-26)
+## 4.0.0 (2024-07-01)
 
 ### Breaking changes
 
@@ -40,6 +40,7 @@
 - Added custom color/background color for elements (#386)
 - Added Collapsable Sections (#409)
 - Updated to Grafana 11.1 and dependencies (#426)
+- Update Date Time query field (#429)
 
 ## 3.8.0 (2024-05-30)
 
