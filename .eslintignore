@@ -9,7 +9,6 @@ cypress/
 dist/
 
 # Servers
-server-deno/
 server-json/
 server-mysql/
 server-pg/
