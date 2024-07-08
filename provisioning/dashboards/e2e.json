@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -38,6 +39,20 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "amount",
@@ -162,11 +177,14 @@
           "highlight": true,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
           "url": "http://localhost:3001/${var}"
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "name": "data",
@@ -176,6 +194,13 @@
           "icon": "process",
           "text": "Reset",
           "variant": "secondary"
+        },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -191,6 +216,7 @@
           "text": "Update",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
           "confirm": true,
@@ -203,20 +229,21 @@
             }
           ],
           "method": "POST",
-          "updatedOnly": false,
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "payloadMode": "all",
           "url": "http://localhost:3001/${var}"
         },
+        "updateEnabled": "auto",
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     }
   ],
   "refresh": "",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [

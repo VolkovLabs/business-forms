@@ -57,63 +57,72 @@ const normalizeRequestOptions = ({ updatedOnly, payloadMode, ...actual }: Outdat
  */
 const normalizeCodeOptions = (code: string): string => {
   const search =
-    /(options.|data.|response|elements.|onChange\(|locationService|templateService|onOptionsChange\(|initialRequest\(|setInitial\(|initial\.|notifyError\(|notifySuccess\(|notifyWarning\(|toDataQueryResponse\(|replaceVariables\()/gm;
+    /^(?!.*context\.)(?:.*)(options\.|data\.|response|elements\.|onChange\(|locationService|templateService|onOptionsChange\(|initialRequest\(|setInitial\(|initial\.|notifyError\(|notifySuccess\(|notifyWarning\(|toDataQueryResponse\(|replaceVariables\()/gm;
 
-  return code.replace(search, (value) => {
-    switch (value) {
-      case 'options.': {
-        return 'context.panel.options.';
-      }
-      case 'data.': {
-        return 'context.panel.data.';
-      }
-      case 'response': {
-        return 'context.panel.response';
-      }
-      case 'elements.': {
-        return 'context.panel.elements.';
-      }
-      case 'onChange(': {
-        return 'context.panel.onChangeElements(';
-      }
-      case 'locationService': {
-        return 'context.grafana.locationService';
-      }
-      case 'templateService': {
-        return 'context.grafana.templateService';
-      }
-      case 'onOptionsChange(': {
-        return 'context.panel.onOptionsChange(';
-      }
-      case 'initialRequest(': {
-        return 'context.panel.initialRequest(';
-      }
-      case 'setInitial(': {
-        return 'context.panel.setInitial(';
-      }
-      case 'initial.': {
-        return 'context.panel.initial.';
-      }
-      case 'notifyError(': {
-        return 'context.grafana.notifyError(';
-      }
-      case 'notifySuccess(': {
-        return 'context.grafana.notifySuccess(';
-      }
-      case 'notifyWarning(': {
-        return 'context.grafana.notifyWarning(';
-      }
-      case 'toDataQueryResponse(': {
-        return 'context.utils.toDataQueryResponse(';
-      }
-      case 'replaceVariables(': {
-        return 'context.grafana.replaceVariables(';
-      }
-      default: {
-        return value;
-      }
-    }
-  });
+  return code
+    .split(' ')
+    .map((part) => {
+      return part.replace(search, (value, ...args) => {
+        const searchTerm = args[0] || value;
+
+        return value.replace(searchTerm, (valueToReplace) => {
+          switch (valueToReplace) {
+            case 'options.': {
+              return 'context.panel.options.';
+            }
+            case 'data.': {
+              return 'context.panel.data.';
+            }
+            case 'response': {
+              return 'context.panel.response';
+            }
+            case 'elements.': {
+              return 'context.panel.elements.';
+            }
+            case 'onChange(': {
+              return 'context.panel.onChangeElements(';
+            }
+            case 'locationService': {
+              return 'context.grafana.locationService';
+            }
+            case 'templateService': {
+              return 'context.grafana.templateService';
+            }
+            case 'onOptionsChange(': {
+              return 'context.panel.onOptionsChange(';
+            }
+            case 'initialRequest(': {
+              return 'context.panel.initialRequest(';
+            }
+            case 'setInitial(': {
+              return 'context.panel.setInitial(';
+            }
+            case 'initial.': {
+              return 'context.panel.initial.';
+            }
+            case 'notifyError(': {
+              return 'context.grafana.notifyError(';
+            }
+            case 'notifySuccess(': {
+              return 'context.grafana.notifySuccess(';
+            }
+            case 'notifyWarning(': {
+              return 'context.grafana.notifyWarning(';
+            }
+            case 'toDataQueryResponse(': {
+              return 'context.utils.toDataQueryResponse(';
+            }
+            case 'replaceVariables(': {
+              return 'context.grafana.replaceVariables(';
+            }
+            default: {
+              return value;
+            }
+          }
+        });
+      });
+    })
+    .join(' ');
 };
 
 /**

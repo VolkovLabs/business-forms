@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 14,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -49,6 +49,7 @@
             "oldValue": "Old Value"
           },
           "confirm": "Confirm",
+          "elementDisplayMode": "modified",
           "title": "Confirm update request"
         },
         "elementValueChanged": "let elements = context.panel.elements;\n\n/**\n * Reset room and bench values on facility change\n */\nif (context.element.id === 'facility') {\n  elements = elements.map((element) => {\n    if (element.id === 'room' || element.id === 'bench') {\n      return {\n        ...element,\n        value: null,\n      }\n    }\n\n    return element;\n  })\n}\n\n/**\n * Reset bench value on room change\n */\nif (context.element.id === 'room') {\n  elements = elements.map((element) => {\n    if (element.id === 'bench') {\n      return {\n        ...element,\n        value: null,\n      }\n    }\n\n    return element;\n  })\n}\n\n/**\n * Update form elements\n */\ncontext.panel.onChangeElements(elements);\n\n/**\n * Caclulate form validation state\n */\nconst isFormValid = elements.every((element) => !!element.value);\n\n/**\n * Enable/Disable submit button\n */\nif (isFormValid) {\n  context.panel.enableSubmit();\n} else {\n  context.panel.disableSubmit();\n}",
@@ -148,6 +149,7 @@
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -178,7 +180,7 @@
         },
         "sync": true,
         "update": {
-          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "code": "context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\ncontext.grafana.locationService.reload();",
           "confirm": false,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
@@ -188,7 +190,7 @@
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -216,6 +218,6 @@
   "timezone": "",
   "title": "Form Validation",
   "uid": "b73e41bd-a0d8-4531-8d97-7bd764d76e6b",
-  "version": 6,
+  "version": 1,
   "weekStart": ""
 }
