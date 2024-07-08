@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -99,11 +100,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -569,7 +566,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -624,11 +621,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -818,7 +811,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -891,6 +884,6 @@
   "timezone": "",
   "title": "Configuration",
   "uid": "d185bf58-9e0a-4373-befa-3905a18af42e",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }
