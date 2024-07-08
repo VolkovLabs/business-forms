@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 5,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -42,11 +43,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -193,7 +190,7 @@
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -221,6 +218,6 @@
   "timezone": "",
   "title": "Form Validation",
   "uid": "b73e41bd-a0d8-4531-8d97-7bd764d76e6b",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

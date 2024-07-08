@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -48,11 +49,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -120,7 +117,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "No Elements",
       "type": "volkovlabs-form-panel"
     },
@@ -145,11 +142,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -240,7 +233,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "Data Manipulation Form",
       "type": "volkovlabs-form-panel"
     },
@@ -265,11 +258,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -336,7 +325,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "Buttons only",
       "type": "volkovlabs-form-panel"
     },
@@ -361,11 +350,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -547,7 +532,7 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     },
@@ -572,11 +557,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -689,7 +670,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
@@ -714,11 +695,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -864,7 +841,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "title": "Control Panel",
       "type": "volkovlabs-form-panel"
     },
@@ -889,11 +866,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -991,11 +964,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -1212,6 +1181,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 6,
+  "version": 1,
   "weekStart": ""
 }

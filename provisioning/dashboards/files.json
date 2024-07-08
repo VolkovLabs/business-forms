@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 7,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -42,11 +43,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -377,7 +374,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -406,12 +403,7 @@
         "autoPlay": true,
         "buttons": [],
         "controls": true,
-        "formats": [
-          "audio",
-          "image",
-          "pdf",
-          "video"
-        ],
+        "formats": ["audio", "image", "pdf", "video"],
         "height": 0,
         "heightMode": "original",
         "infinityPlay": false,
@@ -477,11 +469,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -560,7 +548,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -581,10 +569,9 @@
     "list": [
       {
         "current": {
-          "isNone": true,
           "selected": false,
-          "text": "None",
-          "value": ""
+          "text": "Business Suite.svg",
+          "value": "Business Suite.svg"
         },
         "datasource": {
           "type": "grafana-postgresql-datasource",

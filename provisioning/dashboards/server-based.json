@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 9,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -48,6 +49,7 @@
             "oldValue": "Old Value"
           },
           "confirm": "Confirm",
+          "elementDisplayMode": "modified",
           "title": "Confirm update request"
         },
         "elementValueChanged": "/**\n * Update device variable\n */\n\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
@@ -98,11 +100,13 @@
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
-          "method": "query"
+          "method": "query",
+          "payload": {}
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -116,7 +120,8 @@
           "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -137,11 +142,12 @@
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all"
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "cacheDurationSeconds": 300,
@@ -174,9 +180,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "device1",
-          "value": "device1"
+          "selected": true,
+          "text": "device2",
+          "value": "device2"
         },
         "datasource": {
           "type": "marcusolsson-static-datasource",
@@ -217,6 +223,6 @@
   "timezone": "",
   "title": "Server-based",
   "uid": "f430fe0c-2487-4a02-a495-941c85b1e21d",
-  "version": 5,
+  "version": 1,
   "weekStart": ""
 }
