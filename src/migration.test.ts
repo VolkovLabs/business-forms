@@ -103,21 +103,23 @@ describe('Migration', () => {
           initial: `
           const dataState = "";
           data.state;
+          context.panel.data.state;
           `,
           expected: `
           const dataState = "";
+          context.panel.data.state;
           context.panel.data.state;
           `,
         },
         {
           name: 'response',
           initial: `
-          if(response && response.ok) {
+          if(response && response.ok && context.panel.response) {
             action()
           }
           `,
           expected: `
-          if(context.panel.response && context.panel.response.ok) {
+          if(context.panel.response && context.panel.response.ok && context.panel.response) {
             action()
           }
           `,

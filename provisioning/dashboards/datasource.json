@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -15,54 +18,109 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "datasource": { "type": "marcusolsson-static-datasource", "uid": "P1D2C73DC01F2359B" },
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 80 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 31, "w": 3, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 35,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "options": {
+        "alwaysVisibleFilter": false,
         "autoScroll": true,
+        "collapsedByDefault": false,
+        "customValue": false,
         "displayMode": "table",
+        "emptyValue": false,
         "favorites": true,
         "filter": true,
         "groupSelection": false,
         "header": true,
         "padding": 10,
+        "persistent": false,
+        "saveSelectedGroup": false,
+        "saveSelectedGroupKey": "",
+        "showGroupTotal": false,
+        "showLabel": false,
         "showName": false,
+        "showResetButton": false,
+        "showTotal": false,
         "statusSort": false,
         "sticky": true,
         "variable": "device"
       },
+      "pluginVersion": "3.1.0",
       "type": "volkovlabs-variable-panel"
     },
     {
-      "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
-      "gridPos": { "h": 9, "w": 10, "x": 3, "y": 0 },
+      "datasource": {
+        "type": "postgres",
+        "uid": "PCC52D03280B7034C"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 20,
+        "x": 4,
+        "y": 0
+      },
       "id": 2,
       "options": {
-        "buttonGroup": { "orientation": "center", "size": "md" },
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "fieldName": "max",
             "id": "max",
             "labelWidth": 10,
             "options": [],
-            "queryField": { "label": "A:max", "refId": "A", "value": "max" },
+            "queryField": {
+              "label": "A:max",
+              "refId": "A",
+              "value": "max"
+            },
             "section": "current",
             "title": "Max",
             "tooltip": "",
@@ -77,7 +135,11 @@
             "id": "min",
             "labelWidth": 10,
             "options": [],
-            "queryField": { "label": "A:min", "refId": "A", "value": "min" },
+            "queryField": {
+              "label": "A:min",
+              "refId": "A",
+              "value": "min"
+            },
             "section": "current",
             "title": "Min",
             "tooltip": "",
@@ -92,7 +154,11 @@
             "id": "speed",
             "labelWidth": 10,
             "options": [],
-            "queryField": { "label": "A:speed", "refId": "A", "value": "speed" },
+            "queryField": {
+              "label": "A:speed",
+              "refId": "A",
+              "value": "speed"
+            },
             "section": "current",
             "title": "Speed",
             "tooltip": "",
@@ -106,7 +172,11 @@
             "fieldName": "max",
             "id": "max",
             "labelWidth": 10,
-            "queryField": { "label": "A:max", "refId": "A", "value": "max" },
+            "queryField": {
+              "label": "A:max",
+              "refId": "A",
+              "value": "max"
+            },
             "section": "new",
             "title": "Max",
             "tooltip": "",
@@ -120,7 +190,11 @@
             "fieldName": "min",
             "id": "min",
             "labelWidth": 10,
-            "queryField": { "label": "A:min", "refId": "A", "value": "min" },
+            "queryField": {
+              "label": "A:min",
+              "refId": "A",
+              "value": "min"
+            },
             "section": "new",
             "title": "Min",
             "tooltip": "",
@@ -136,7 +210,11 @@
             "labelWidth": 10,
             "max": 100,
             "min": 0,
-            "queryField": { "label": "A:speed", "refId": "A", "value": "speed" },
+            "queryField": {
+              "label": "A:speed",
+              "refId": "A",
+              "value": "speed"
+            },
             "section": "new",
             "step": 1,
             "title": "Speed",
@@ -154,14 +232,45 @@
           "getPayload": "return {\n  rawSql: \"select * from configuration where name ='$device';\",\n  format: 'table',\n}",
           "highlight": true,
           "highlightColor": "red",
-          "method": "datasource"
+          "method": "datasource",
+          "payload": {
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "select * from configuration where name ='$device';",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "sections": [
-            { "id": "current", "name": "Current Values" },
-            { "id": "new", "name": "New Values" }
+            {
+              "id": "current",
+              "name": "Current Values"
+            },
+            {
+              "id": "new",
+              "name": "New Values"
+            }
           ],
           "variant": "split"
         },
@@ -176,7 +285,506 @@
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": true,
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn payload;",
+          "method": "datasource",
+          "payload": {
+            "0": "c",
+            "1": "o",
+            "2": "n",
+            "3": "s",
+            "4": "t",
+            "5": " ",
+            "6": "p",
+            "7": "a",
+            "8": "y",
+            "9": "l",
+            "10": "o",
+            "11": "a",
+            "12": "d",
+            "13": " ",
+            "14": "=",
+            "15": " ",
+            "16": "{",
+            "17": "}",
+            "18": ";",
+            "19": "\n",
+            "20": "\n",
+            "21": "e",
+            "22": "l",
+            "23": "e",
+            "24": "m",
+            "25": "e",
+            "26": "n",
+            "27": "t",
+            "28": "s",
+            "29": ".",
+            "30": "f",
+            "31": "o",
+            "32": "r",
+            "33": "E",
+            "34": "a",
+            "35": "c",
+            "36": "h",
+            "37": "(",
+            "38": "(",
+            "39": "e",
+            "40": "l",
+            "41": "e",
+            "42": "m",
+            "43": "e",
+            "44": "n",
+            "45": "t",
+            "46": ")",
+            "47": " ",
+            "48": "=",
+            "49": ">",
+            "50": " ",
+            "51": "{",
+            "52": "\n",
+            "53": " ",
+            "54": " ",
+            "55": "i",
+            "56": "f",
+            "57": " ",
+            "58": "(",
+            "59": "!",
+            "60": "e",
+            "61": "l",
+            "62": "e",
+            "63": "m",
+            "64": "e",
+            "65": "n",
+            "66": "t",
+            "67": ".",
+            "68": "v",
+            "69": "a",
+            "70": "l",
+            "71": "u",
+            "72": "e",
+            "73": ")",
+            "74": " ",
+            "75": "{",
+            "76": "\n",
+            "77": " ",
+            "78": " ",
+            "79": " ",
+            "80": " ",
+            "81": "r",
+            "82": "e",
+            "83": "t",
+            "84": "u",
+            "85": "r",
+            "86": "n",
+            "87": ";",
+            "88": "\n",
+            "89": " ",
+            "90": " ",
+            "91": "}",
+            "92": "\n",
+            "93": "\n",
+            "94": " ",
+            "95": " ",
+            "96": "p",
+            "97": "a",
+            "98": "y",
+            "99": "l",
+            "100": "o",
+            "101": "a",
+            "102": "d",
+            "103": "[",
+            "104": "e",
+            "105": "l",
+            "106": "e",
+            "107": "m",
+            "108": "e",
+            "109": "n",
+            "110": "t",
+            "111": ".",
+            "112": "i",
+            "113": "d",
+            "114": "]",
+            "115": " ",
+            "116": "=",
+            "117": " ",
+            "118": "e",
+            "119": "l",
+            "120": "e",
+            "121": "m",
+            "122": "e",
+            "123": "n",
+            "124": "t",
+            "125": ".",
+            "126": "v",
+            "127": "a",
+            "128": "l",
+            "129": "u",
+            "130": "e",
+            "131": ";",
+            "132": "\n",
+            "133": "}",
+            "134": ")",
+            "135": "\n",
+            "136": "\n",
+            "137": "r",
+            "138": "e",
+            "139": "t",
+            "140": "u",
+            "141": "r",
+            "142": "n",
+            "143": " ",
+            "144": "p",
+            "145": "a",
+            "146": "y",
+            "147": "l",
+            "148": "o",
+            "149": "a",
+            "150": "d",
+            "151": ";",
+            "152": "\n",
+            "153": "\n",
+            "154": "/",
+            "155": "*",
+            "156": "*",
+            "157": "\n",
+            "158": " ",
+            "159": "*",
+            "160": " ",
+            "161": "D",
+            "162": "a",
+            "163": "t",
+            "164": "a",
+            "165": " ",
+            "166": "S",
+            "167": "o",
+            "168": "u",
+            "169": "r",
+            "170": "c",
+            "171": "e",
+            "172": " ",
+            "173": "p",
+            "174": "a",
+            "175": "y",
+            "176": "l",
+            "177": "o",
+            "178": "a",
+            "179": "d",
+            "180": "\n",
+            "181": " ",
+            "182": "*",
+            "183": "/",
+            "184": " ",
+            "185": "\n",
+            "186": "r",
+            "187": "e",
+            "188": "t",
+            "189": "u",
+            "190": "r",
+            "191": "n",
+            "192": " ",
+            "193": "{",
+            "194": "\n",
+            "195": " ",
+            "196": " ",
+            "197": "r",
+            "198": "a",
+            "199": "w",
+            "200": "S",
+            "201": "q",
+            "202": "l",
+            "203": ":",
+            "204": " ",
+            "205": "'",
+            "206": "'",
+            "207": ",",
+            "208": "\n",
+            "209": " ",
+            "210": " ",
+            "211": "f",
+            "212": "o",
+            "213": "r",
+            "214": "m",
+            "215": "a",
+            "216": "t",
+            "217": ":",
+            "218": " ",
+            "219": "'",
+            "220": "t",
+            "221": "a",
+            "222": "b",
+            "223": "l",
+            "224": "e",
+            "225": "'",
+            "226": ",",
+            "227": "\n",
+            "228": "}",
+            "229": ";",
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          "payloadMode": "custom"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select * from configuration where name ='$device';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Data Source",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PCC52D03280B7034C"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 20,
+        "x": 4,
+        "y": 9
+      },
+      "id": 3,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "fieldName": "max",
+            "id": "max",
+            "labelWidth": 10,
+            "options": [],
+            "queryField": {
+              "label": "A:max",
+              "refId": "A",
+              "value": "max"
+            },
+            "section": "current",
+            "title": "Max",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "8285e945-b1cf-4dd6-9efd-8e322196222a",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "min",
+            "id": "min",
+            "labelWidth": 10,
+            "options": [],
+            "queryField": {
+              "label": "A:min",
+              "refId": "A",
+              "value": "min"
+            },
+            "section": "current",
+            "title": "Min",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "6d3ca353-178b-4a7a-b23d-e548cf3d2437",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "speed",
+            "id": "speed",
+            "labelWidth": 10,
+            "options": [],
+            "queryField": {
+              "label": "A:speed",
+              "refId": "A",
+              "value": "speed"
+            },
+            "section": "current",
+            "title": "Speed",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "b7c38a6c-6c59-41db-a439-1964d20e660b",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "max",
+            "id": "max",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "A:max",
+              "refId": "A",
+              "value": "max"
+            },
+            "section": "new",
+            "title": "Max",
+            "tooltip": "",
+            "type": "number",
+            "uid": "3d3cf24f-7611-482d-b27b-b55621745dda",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "min",
+            "id": "min",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "A:min",
+              "refId": "A",
+              "value": "min"
+            },
+            "section": "new",
+            "title": "Min",
+            "tooltip": "",
+            "type": "number",
+            "uid": "bc2c6772-5bbd-456d-9fe2-f1824c373c68",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "speed",
+            "id": "speed",
+            "labelWidth": 10,
+            "max": 100,
+            "min": 0,
+            "queryField": {
+              "label": "A:speed",
+              "refId": "A",
+              "value": "speed"
+            },
+            "section": "new",
+            "step": 1,
+            "title": "Speed",
+            "tooltip": "",
+            "type": "slider",
+            "uid": "1918dc47-f686-4ca2-aeb3-7f21c360f621",
+            "unit": "",
+            "value": 0
+          }
+        ],
+        "initial": {
+          "code": "",
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "return {\n  rawSql: \"select * from configuration where name ='$device';\",\n  format: 'table',\n}",
+          "highlight": true,
+          "highlightColor": "red",
+          "method": "query",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "sections": [
+            {
+              "id": "current",
+              "name": "Current Values"
+            },
+            {
+              "id": "new",
+              "name": "New Values"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "secondary"
+        },
+        "resetAction": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -198,188 +806,38 @@
           "datasource": "PostgreSQL",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
           "method": "datasource",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "custom"
-        }
+        },
+        "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
-          "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCC52D03280B7034C"
+          },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
           "rawSql": "select * from configuration where name ='$device';",
           "refId": "A",
           "sql": {
-            "columns": [{ "parameters": [], "type": "function" }],
-            "groupBy": [{ "property": { "type": "string" }, "type": "groupBy" }],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Data Source",
-      "type": "volkovlabs-form-panel"
-    },
-    {
-      "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
-      "gridPos": { "h": 9, "w": 10, "x": 3, "y": 9 },
-      "id": 3,
-      "options": {
-        "buttonGroup": { "orientation": "center", "size": "md" },
-        "elements": [
-          {
-            "fieldName": "max",
-            "id": "max",
-            "labelWidth": 10,
-            "options": [],
-            "queryField": { "label": "A:max", "refId": "A", "value": "max" },
-            "section": "current",
-            "title": "Max",
-            "tooltip": "",
-            "type": "disabled",
-            "uid": "8285e945-b1cf-4dd6-9efd-8e322196222a",
-            "unit": "",
-            "value": 0,
-            "width": 20
-          },
-          {
-            "fieldName": "min",
-            "id": "min",
-            "labelWidth": 10,
-            "options": [],
-            "queryField": { "label": "A:min", "refId": "A", "value": "min" },
-            "section": "current",
-            "title": "Min",
-            "tooltip": "",
-            "type": "disabled",
-            "uid": "6d3ca353-178b-4a7a-b23d-e548cf3d2437",
-            "unit": "",
-            "value": 0,
-            "width": 20
-          },
-          {
-            "fieldName": "speed",
-            "id": "speed",
-            "labelWidth": 10,
-            "options": [],
-            "queryField": { "label": "A:speed", "refId": "A", "value": "speed" },
-            "section": "current",
-            "title": "Speed",
-            "tooltip": "",
-            "type": "disabled",
-            "uid": "b7c38a6c-6c59-41db-a439-1964d20e660b",
-            "unit": "",
-            "value": 0,
-            "width": 20
-          },
-          {
-            "fieldName": "max",
-            "id": "max",
-            "labelWidth": 10,
-            "queryField": { "label": "A:max", "refId": "A", "value": "max" },
-            "section": "new",
-            "title": "Max",
-            "tooltip": "",
-            "type": "number",
-            "uid": "3d3cf24f-7611-482d-b27b-b55621745dda",
-            "unit": "",
-            "value": 0,
-            "width": 20
-          },
-          {
-            "fieldName": "min",
-            "id": "min",
-            "labelWidth": 10,
-            "queryField": { "label": "A:min", "refId": "A", "value": "min" },
-            "section": "new",
-            "title": "Min",
-            "tooltip": "",
-            "type": "number",
-            "uid": "bc2c6772-5bbd-456d-9fe2-f1824c373c68",
-            "unit": "",
-            "value": 0,
-            "width": 20
-          },
-          {
-            "fieldName": "speed",
-            "id": "speed",
-            "labelWidth": 10,
-            "max": 100,
-            "min": 0,
-            "queryField": { "label": "A:speed", "refId": "A", "value": "speed" },
-            "section": "new",
-            "step": 1,
-            "title": "Speed",
-            "tooltip": "",
-            "type": "slider",
-            "uid": "1918dc47-f686-4ca2-aeb3-7f21c360f621",
-            "unit": "",
-            "value": 0
-          }
-        ],
-        "initial": {
-          "code": "",
-          "contentType": "application/json",
-          "datasource": "PostgreSQL",
-          "getPayload": "return {\n  rawSql: \"select * from configuration where name ='$device';\",\n  format: 'table',\n}",
-          "highlight": true,
-          "highlightColor": "red",
-          "method": "query"
-        },
-        "layout": {
-          "orientation": "horizontal",
-          "padding": 10,
-          "sections": [
-            { "id": "current", "name": "Current Values" },
-            { "id": "new", "name": "New Values" }
-          ],
-          "variant": "split"
-        },
-        "reset": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "process",
-          "text": "Reset",
-          "variant": "secondary"
-        },
-        "resetAction": {
-          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
-          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}"
-        },
-        "saveDefault": {
-          "icon": "save",
-          "text": "Save Default",
-          "variant": "hidden"
-        },
-        "submit": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "cloud-upload",
-          "text": "Submit",
-          "variant": "primary"
-        },
-        "update": {
-          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
-          "confirm": true,
-          "contentType": "application/json",
-          "datasource": "PostgreSQL",
-          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: `update configuration set min=${payload.min}, max=${payload.max}, speed=${payload.speed} where name='$device'`,\n  format: 'table',\n};",
-          "method": "datasource",
-          "payloadMode": "custom"
-        }
-      },
-      "pluginVersion": "4.0.0",
-      "targets": [
-        {
-          "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "select * from configuration where name ='$device';",
-          "refId": "A",
-          "sql": {
-            "columns": [{ "parameters": [], "type": "function" }],
-            "groupBy": [{ "property": { "type": "string" }, "type": "groupBy" }],
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
             "limit": 50
           }
         }
@@ -394,8 +852,15 @@
   "templating": {
     "list": [
       {
-        "current": { "selected": false, "text": "device1", "value": "device1" },
-        "datasource": { "type": "postgres", "uid": "PCC52D03280B7034C" },
+        "current": {
+          "selected": false,
+          "text": "device1",
+          "value": "device1"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "PCC52D03280B7034C"
+        },
         "definition": "select distinct name from configuration;",
         "hide": 0,
         "includeAll": false,
@@ -411,11 +876,14 @@
       }
     ]
   },
-  "time": { "from": "now-6h", "to": "now" },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "",
   "title": "Configuration",
   "uid": "d185bf58-9e0a-4373-befa-3905a18af42e",
-  "version": 32,
+  "version": 1,
   "weekStart": ""
 }

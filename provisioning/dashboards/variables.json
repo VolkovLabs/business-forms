@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -42,11 +43,13 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
           },
           "confirm": "Confirm",
+          "elementDisplayMode": "modified",
           "title": "Confirm update request"
         },
         "elementValueChanged": "if (context.element.id === 'facility') {\n  context.grafana.locationService.partial({\n    'var-facility': context.element.value,\n  });\n}\n\nif (context.element.id === 'room') {\n  context.grafana.locationService.partial({\n    'var-room': context.element.value,\n  });\n}\n\nif (context.element.id === 'bench') {\n  context.grafana.locationService.partial({\n    'var-bench': context.element.value,\n  });\n}\n\ncontext.panel.enableSubmit();",
@@ -129,11 +132,13 @@
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
-          "method": "query"
+          "method": "query",
+          "payload": {}
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -147,7 +152,8 @@
           "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -168,11 +174,12 @@
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all"
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -307,11 +314,13 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
           },
           "confirm": "Confirm",
+          "elementDisplayMode": "modified",
           "title": "Confirm update request"
         },
         "elementValueChanged": "if (context.element.id === 'facility') {\n  context.grafana.locationService.partial({\n    'var-facility': context.element.value,\n  });\n}\n\nif (context.element.id === 'room') {\n  context.grafana.locationService.partial({\n    'var-room': context.element.value,\n  });\n}\n\nif (context.element.id === 'bench') {\n  context.grafana.locationService.partial({\n    'var-bench': context.element.value,\n  });\n}\n\ncontext.panel.enableSubmit();",
@@ -406,11 +415,13 @@
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
-          "method": "query"
+          "method": "query",
+          "payload": {}
         },
         "layout": {
           "orientation": "horizontal",
           "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -424,7 +435,8 @@
           "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
           "confirm": false,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
-          "mode": "initial"
+          "mode": "initial",
+          "payload": {}
         },
         "saveDefault": {
           "icon": "save",
@@ -445,11 +457,12 @@
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "-",
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "payloadMode": "all"
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -572,8 +585,8 @@
       {
         "current": {
           "selected": false,
-          "text": "facility2",
-          "value": "facility2"
+          "text": "facility1",
+          "value": "facility1"
         },
         "hide": 0,
         "includeAll": false,
@@ -581,12 +594,12 @@
         "name": "facility",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "facility1",
             "value": "facility1"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "facility2",
             "value": "facility2"
           },
@@ -604,8 +617,8 @@
       {
         "current": {
           "selected": false,
-          "text": "facility2-room2",
-          "value": "facility2-room2"
+          "text": "facility1-room1",
+          "value": "facility1-room1"
         },
         "datasource": {
           "type": "marcusolsson-static-datasource",
@@ -645,8 +658,8 @@
       {
         "current": {
           "selected": false,
-          "text": "facility2-room2-bench2",
-          "value": "facility2-room2-bench2"
+          "text": "facility1-room1-bench2",
+          "value": "facility1-room1-bench2"
         },
         "datasource": {
           "type": "marcusolsson-static-datasource",
@@ -693,6 +706,6 @@
   "timezone": "",
   "title": "Variables",
   "uid": "c63788ef-96f5-4d2b-a52d-e18c91053233",
-  "version": 18,
+  "version": 1,
   "weekStart": ""
 }

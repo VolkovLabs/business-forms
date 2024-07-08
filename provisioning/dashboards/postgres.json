@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 4,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -143,14 +144,17 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": ["count"],
           "fields": "/^id$/",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
@@ -162,7 +166,6 @@
         }
       ],
       "title": "Total",
-      "transformations": [],
       "type": "stat"
     },
     {
@@ -177,7 +180,9 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
             "inspect": false
           },
           "mappings": [],
@@ -254,7 +259,9 @@
       },
       "id": 2,
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": ["sum"],
           "show": false
@@ -262,7 +269,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
@@ -338,6 +345,20 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "name",
@@ -390,9 +411,14 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
           "url": "http://localhost:3002/${__user.login}"
         },
         "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -402,6 +428,18 @@
           "text": "Reset",
           "variant": "primary"
         },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -409,16 +447,20 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}\n",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
-          "updatedOnly": false,
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "payloadMode": "all",
           "url": "http://localhost:3002"
-        }
+        },
+        "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -448,6 +490,20 @@
           "orientation": "center",
           "size": "md"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "name",
@@ -485,13 +541,19 @@
           }
         ],
         "initial": {
-          "code": "const feedback = context.panel.data.series.find((serie) => serie.refId === 'Feedback');\nconst typeOptions = context.panel.data.series.find((serie) => serie.refId === 'Types');\n\nif (feedback?.fields.length) {\n  const ids = feedback.fields.find((f) => f.name === 'id').values.buffer;\n  const titles = feedback.fields.find((f) => f.name === 'title').values.buffer;\n  const types = feedback.fields.find((f) => f.name === 'type').values.buffer;\n\n  /**\n   * Set Elements\n   */\n  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });\n\n  /**\n   * Find Type element\n   */\n  const typeSelect = elements.find((element) => element.id === 'type');\n  if (typeSelect && typeOptions?.fields.length) {\n    const labels = typeOptions.fields.find((f) => f.name === 'label').values.buffer;\n    const values = typeOptions.fields.find((f) => f.name === 'value').values.buffer;\n\n    /**\n     * Update Types\n     */\n    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });\n  }\n\n  /**\n   * Update Panel Options\n   */\n  context.panel.onOptionsChange({ ...context.panel.options, elements });\n}",
+          "code": "const feedback = context.panel.data.series.find((serie) => serie.refId === 'Feedback');\nconst typeOptions = context.panel.data.series.find((serie) => serie.refId === 'Types');\n\nif (feedback?.fields.length) {\n  const ids = feedback.fields.find((f) => f.name === 'id').values;\n  const titles = feedback.fields.find((f) => f.name === 'title').values;\n  const types = feedback.fields.find((f) => f.name === 'type').values;\n\n  /**\n   * Set Elements\n   */\n  elements = ids.map((id, index) => { return { id, title: titles[index], type: types[index] } });\n\n  /**\n   * Find Type element\n   */\n  const typeSelect = elements.find((element) => element.id === 'type');\n  if (typeSelect && typeOptions?.fields.length) {\n    const labels = typeOptions.fields.find((f) => f.name === 'label').values;\n    const values = typeOptions.fields.find((f) => f.name === 'value').values;\n\n    /**\n     * Update Types\n     */\n    typeSelect.options = labels.map((label, index) => { return { label, value: values[index] } });\n  }\n\n  /**\n   * Update Panel Options\n   */\n  context.panel.onOptionsChange({ ...context.panel.options, elements });\n}",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "highlight": false,
           "highlightColor": "red",
-          "method": "-"
+          "method": "-",
+          "payload": {},
+          "payloadMode": "all"
         },
         "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
           "variant": "single"
         },
         "reset": {
@@ -501,6 +563,18 @@
           "text": "Reset",
           "variant": "primary"
         },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -508,16 +582,20 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (context.panel.response && context.panel.response.ok) {\n  location.reload();\n}",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "method": "POST",
-          "updatedOnly": false,
+          "payload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "payloadMode": "all",
           "url": "http://localhost:3002"
-        }
+        },
+        "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.1.0",
       "targets": [
         {
           "datasource": {
@@ -581,8 +659,7 @@
       "type": "volkovlabs-form-panel"
     }
   ],
-  "schemaVersion": 37,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
@@ -595,6 +672,6 @@
   "timezone": "",
   "title": "PostgresSQL Feedback",
   "uid": "bSNr62X7z",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }
