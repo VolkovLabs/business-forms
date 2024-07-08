@@ -18,7 +18,7 @@ import { ConfirmationElementDisplayMode } from './request';
 /**
  * Initial Request
  */
-export const INITIAL_CODE_DEFAULT = `console.log(data, response, initial, elements);
+export const INITIAL_CODE_DEFAULT = `console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);
 
 return;
 
@@ -26,38 +26,35 @@ return;
  * Data Source
  * Requires form elements to be defined
  */
-const dataQuery = toDataQueryResponse(response);
+const dataQuery = context.utils.toDataQueryResponse(context.panel.response);
 console.log(dataQuery);`;
 
 /**
  * Update Request
  */
-export const UPDATE_CODE_DEFAULT = `if (response && response.ok) {
-  notifySuccess(['Update', 'Values updated successfully.']);
-  locationService.reload();
+export const UPDATE_CODE_DEFAULT = `if (context.panel.response) {
+  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);
+  context.grafana.locationService.reload();
 } else {
-  notifyError(['Update', 'An error occured updating values.']);
+  context.grafana.notifyError(['Update', 'An error occurred updating values.']);
 }`;
 
 /**
  * Reset Request
  */
-export const RESET_CODE_DEFAULT = `console.log(data, response, initial, elements);`;
+export const RESET_CODE_DEFAULT = `console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);`;
 
 /**
  * Initial Payload
  */
-export const INITIAL_PAYLOAD_DEFAULT = `return {
-  rawSql: '',
-  format: 'table',
-}`;
+export const INITIAL_PAYLOAD_DEFAULT = `return {}`;
 
 /**
  * Update Payload
  */
 export const UPDATE_PAYLOAD_DEFAULT = `const payload = {};
 
-elements.forEach((element) => {
+context.panel.elements.forEach((element) => {
   if (!element.value) {
     return;
   }
@@ -65,15 +62,7 @@ elements.forEach((element) => {
   payload[element.id] = element.value;
 })
 
-return payload;
-
-/**
- * Data Source payload
- */ 
-return {
-  rawSql: '',
-  format: 'table',
-};`;
+return payload;`;
 
 /**
  * Initial Request
