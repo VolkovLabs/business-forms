@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   server:
     container_name: server
@@ -7,6 +5,9 @@ services:
       context: ./server-json
     ports:
       - 3001:3001/tcp
+    profiles:
+      - dev
+      - main
 
   grafana:
     container_name: grafana
@@ -20,6 +21,8 @@ services:
     volumes:
       - ./dist:/var/lib/grafana/plugins/volkovlabs-form-panel
       - ./provisioning:/etc/grafana/provisioning
+    profiles:
+      - dev
 
   postgres:
     container_name: postgres
@@ -31,6 +34,9 @@ services:
       - 5432:5432
     volumes:
       - ./server-pg:/docker-entrypoint-initdb.d
+    profiles:
+      - dev
+      - main
 
   server-pg:
     container_name: server-pg
@@ -45,6 +51,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: postgres
+    profiles:
+      - dev
+      - main
 
   nginx:
     container_name: nginx
@@ -57,3 +66,35 @@ services:
       - 443:443/tcp
     depends_on:
       - grafana
+    profiles:
+      - dev
+      - main
+
+  grafana-main:
+    container_name: grafana-main
+    image: grafana/grafana:main
+    ports:
+      - 3000:3000/tcp
+    environment:
+      - GF_DEFAULT_APP_MODE=development
+      - GF_USERS_DEFAULT_THEME=light
+      - GF_INSTALL_PLUGINS=marcusolsson-static-datasource,marcusolsson-json-datasource,volkovlabs-variable-panel, volkovlabs-image-panel
+    volumes:
+      - ./dist:/var/lib/grafana/plugins/volkovlabs-form-panel
+      - ./provisioning:/etc/grafana/provisioning
+    profiles:
+      - main
+
+  test:
+    container_name: test-e2e
+    build:
+      context: .
+      dockerfile: test/Dockerfile
+    environment:
+      - GRAFANA_URL=http://127.0.0.1:3000
+    volumes:
+      - ./test:/app/test
+      - ./playwright-report:/app/playwright-report
+    network_mode: host
+    profiles:
+      - e2e

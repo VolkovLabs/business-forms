@@ -2,6 +2,11 @@ import { test, expect } from '@grafana/plugin-e2e';
 import { TEST_IDS } from '../src/constants/tests';
 
 test.describe('Data Manipulation Panel', () => {
+  test('Check grafana version', async ({ grafanaVersion }) => {
+    console.log('Grafana version: ', grafanaVersion);
+    expect(grafanaVersion).toEqual(grafanaVersion);
+  });
+
   test('Should display a Form', async ({ gotoDashboardPage, dashboardPage, page }) => {
     /**
      * Go To E2E dashboard
