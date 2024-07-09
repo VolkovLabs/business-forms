@@ -8,6 +8,7 @@ describe('Migration', () => {
       sync: true,
       initial: {} as any,
       update: {} as any,
+      resetAction: {} as any,
     };
 
     expect(
@@ -20,7 +21,9 @@ describe('Migration', () => {
   describe('3.4.0', () => {
     it('Should normalize requestOptions.updatedOnly', () => {
       expect(
-        getMigratedOptions({ options: { initial: { updatedOnly: true }, update: { updatedOnly: true } } } as any)
+        getMigratedOptions({
+          options: { initial: { updatedOnly: true }, update: { updatedOnly: true }, resetAction: {} },
+        } as any)
       ).toEqual({
         initial: {
           payloadMode: PayloadMode.UPDATED,
@@ -28,9 +31,12 @@ describe('Migration', () => {
         update: {
           payloadMode: PayloadMode.UPDATED,
         },
+        resetAction: {},
       });
       expect(
-        getMigratedOptions({ options: { initial: { updatedOnly: false }, update: { updatedOnly: false } } } as any)
+        getMigratedOptions({
+          options: { initial: { updatedOnly: false }, update: { updatedOnly: false }, resetAction: {} },
+        } as any)
       ).toEqual({
         initial: {
           payloadMode: PayloadMode.ALL,
@@ -38,12 +44,14 @@ describe('Migration', () => {
         update: {
           payloadMode: PayloadMode.ALL,
         },
+        resetAction: {},
       });
       expect(
         getMigratedOptions({
           options: {
             initial: { updatedOnly: true, payloadMode: PayloadMode.ALL },
             update: { updatedOnly: true, payloadMode: PayloadMode.ALL },
+            resetAction: {},
           },
         } as any)
       ).toEqual({
@@ -53,6 +61,7 @@ describe('Migration', () => {
         update: {
           payloadMode: PayloadMode.ALL,
         },
+        resetAction: {},
       });
     });
 
@@ -65,11 +74,13 @@ describe('Migration', () => {
             layout: {
               sections: [{ name: 'section1' }, { id: 'sectionId', name: 'section2' }],
             },
+            resetAction: {},
           },
         } as any)
       ).toEqual({
         initial: {},
         update: {},
+        resetAction: {},
         layout: {
           sections: [
             { id: 'section1', name: 'section1' },
@@ -383,6 +394,74 @@ describe('Migration', () => {
         expect(element.showIf).toEqual(expected);
         expect(element.disableIf).toEqual(expected);
         expect(element.getOptions).toEqual(expected);
+      });
+    });
+
+    it('Should normalize payload code if string', () => {
+      expect(
+        getMigratedOptions({
+          options: {
+            initial: {
+              payload: '',
+            },
+            update: {
+              payload: '',
+            },
+            resetAction: {
+              payload: '',
+            },
+          },
+        } as any)
+      ).toEqual({
+        initial: {
+          payload: {},
+        },
+        update: {
+          payload: {},
+        },
+        resetAction: {
+          payload: {},
+        },
+      });
+    });
+
+    it('Should keep payload query if object', () => {
+      expect(
+        getMigratedOptions({
+          options: {
+            initial: {
+              payload: {
+                type: '123',
+              },
+            },
+            update: {
+              payload: {
+                type: 'hello',
+              },
+            },
+            resetAction: {
+              payload: {
+                type: 'bye',
+              },
+            },
+          },
+        } as any)
+      ).toEqual({
+        initial: {
+          payload: {
+            type: '123',
+          },
+        },
+        update: {
+          payload: {
+            type: 'hello',
+          },
+        },
+        resetAction: {
+          payload: {
+            type: 'bye',
+          },
+        },
       });
     });
   });

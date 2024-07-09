@@ -7,6 +7,7 @@
 - Updated context parameters migration (#433)
 - Updated provisioning files (#433)
 - Updated Checkbox list with custom options (#435)
+- Updated code defaults to use context properties (#438)
 
 ## 4.0.0 (2024-07-01)
 

@@ -167,6 +167,21 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
   }
 
   /**
+   * Remove datasource payload code
+   */
+  if (typeof options.initial.payload === 'string') {
+    options.initial.payload = {};
+  }
+
+  if (typeof options.update.payload === 'string') {
+    options.update.payload = {};
+  }
+
+  if (typeof options.resetAction.payload === 'string') {
+    options.resetAction.payload = {};
+  }
+
+  /**
    * Normalize request options
    */
   if ('updatedOnly' in options.initial || 'updatedOnly' in options.update) {
