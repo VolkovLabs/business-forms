@@ -4,8 +4,9 @@
 
 ### Features / Enhancements
 
-- Update context parameters migration (#433)
-- Update provisioning files (#433)
+- Updated context parameters migration (#433)
+- Updated provisioning files (#433)
+- Updated Checkbox list with custom options (#435)
 
 ## 4.0.0 (2024-07-01)
 
