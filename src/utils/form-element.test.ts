@@ -310,7 +310,7 @@ describe('Utils', () => {
         testCases: [
           {
             original: true,
-            expected: [],
+            expected: [true],
           },
         ],
       },
