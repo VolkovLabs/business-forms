@@ -509,7 +509,7 @@ export const convertToElementValue = (
     case FormElementType.CHECKBOX_LIST: {
       return {
         ...element,
-        value: Array.isArray(value) ? value : [],
+        value: Array.isArray(value) ? value : [value],
       };
     }
     default: {
