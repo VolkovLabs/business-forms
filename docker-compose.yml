@@ -55,34 +55,6 @@ services:
       - dev
       - main
 
-  nginx:
-    container_name: nginx
-    build: ./nginx
-    restart: always
-    environment:
-      - GRAFANA_HOST=postgres
-    ports:
-      - 80:80/tcp
-      - 443:443/tcp
-    depends_on:
-      - grafana
-    profiles:
-      - dev
-
-  nginx-main:
-    container_name: nginx-main
-    build: ./nginx
-    restart: always
-    environment:
-      - GRAFANA_HOST=postgres
-    ports:
-      - 80:80/tcp
-      - 443:443/tcp
-    depends_on:
-      - grafana-main
-    profiles:
-      - main
-
   grafana-main:
     container_name: grafana-main
     image: grafana/grafana:main
