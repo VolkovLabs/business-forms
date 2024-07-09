@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.1.0 (IN PROGRESS)
+## 4.1.0 (2024-07-09)
 
 ### Features / Enhancements
 
@@ -8,6 +8,7 @@
 - Updated provisioning files (#433)
 - Updated Checkbox list with custom options (#435)
 - Updated code defaults to use context properties (#438)
+- Updated E2E workflow using Docker (#441)
 
 ## 4.0.0 (2024-07-01)
 
