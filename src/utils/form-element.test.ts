@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
+import { css, keyframes } from '@emotion/css';
+
 import { FormElementType, OptionsSource } from '../constants';
 import { ButtonVariant } from '../types';
-import { css, keyframes } from '@emotion/css';
 import {
   applyAcceptedFiles,
   applyLabelStyles,
@@ -17,7 +18,7 @@ import {
  * Mock @emotion/css
  */
 const cssMock = () => 'css-test';
-const keyframesMock = (styles) => `keyframes-${styles}`;
+const keyframesMock = (styles: string) => `keyframes-${styles}`;
 
 jest.mock('@emotion/css', () => ({
   css: jest.fn(),
@@ -36,7 +37,7 @@ describe('Utils', () => {
     jest.mocked(console.log).mockImplementation(logInfo);
 
     jest.mocked(css).mockImplementation(cssMock);
-    jest.mocked(keyframes).mockImplementation(keyframesMock);
+    jest.mocked(keyframes).mockImplementation(keyframesMock as any);
   });
 
   /**
