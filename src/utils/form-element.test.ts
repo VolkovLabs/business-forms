@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { FormElementType, OptionsSource } from '../constants';
 import { ButtonVariant } from '../types';
+import { css, keyframes } from '@emotion/css';
 import {
   applyAcceptedFiles,
   applyLabelStyles,
@@ -15,26 +16,27 @@ import {
 /**
  * Mock @emotion/css
  */
+const cssMock = () => 'css-test';
+const keyframesMock = (styles) => `keyframes-${styles}`;
+
 jest.mock('@emotion/css', () => ({
-  css: jest.fn(() => 'css-test'),
-  keyframes: jest.fn((styles) => `keyframes-${styles}`),
+  css: jest.fn(),
+  keyframes: jest.fn(),
 }));
 
 describe('Utils', () => {
   const logError = jest.fn();
   const logInfo = jest.fn();
 
-  beforeAll(() => {
+  beforeEach(() => {
     jest.spyOn(console, 'error');
     jest.spyOn(console, 'log');
 
     jest.mocked(console.error).mockImplementation(logError);
     jest.mocked(console.log).mockImplementation(logInfo);
-  });
 
-  beforeEach(() => {
-    logError.mockClear();
-    logInfo.mockClear();
+    jest.mocked(css).mockImplementation(cssMock);
+    jest.mocked(keyframes).mockImplementation(keyframesMock);
   });
 
   /**

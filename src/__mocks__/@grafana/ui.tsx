@@ -6,7 +6,7 @@ const actual = jest.requireActual('@grafana/ui');
 /**
  * Mock Code Editor
  */
-const CodeEditor = jest.fn(({ onBlur, getSuggestions, ...restProps }) => {
+const CodeEditorMock = ({ onBlur, getSuggestions, ...restProps }) => {
   return (
     <input
       aria-label={restProps['aria-label']}
@@ -24,12 +24,14 @@ const CodeEditor = jest.fn(({ onBlur, getSuggestions, ...restProps }) => {
       }}
     />
   );
-});
+};
+
+const CodeEditor = jest.fn(CodeEditorMock);
 
 /**
  * Mock ColorPickerInput component
  */
-const ColorPicker = jest.fn(({ onChange, value, ...restProps }) => {
+const ColorPickerMock = ({ onChange, value, ...restProps }) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -41,12 +43,14 @@ const ColorPicker = jest.fn(({ onChange, value, ...restProps }) => {
       }}
     />
   );
-});
+};
+
+const ColorPicker = jest.fn(ColorPickerMock);
 
 /**
  * Mock DatetimePicker component
  */
-const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
+const DateTimePickerMock = ({ onChange, ...restProps }) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -58,12 +62,14 @@ const DateTimePicker = jest.fn(({ onChange, ...restProps }) => {
       }}
     />
   );
-});
+};
+
+const DateTimePicker = jest.fn(DateTimePickerMock);
 
 /**
  * Mock TimeOfDayPicker component
  */
-const TimeOfDayPicker = jest.fn(({ onChange, ...restProps }) => {
+const TimeOfDayPickerMock = ({ onChange, ...restProps }) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -75,12 +81,14 @@ const TimeOfDayPicker = jest.fn(({ onChange, ...restProps }) => {
       }}
     />
   );
-});
+};
+
+const TimeOfDayPicker = jest.fn(TimeOfDayPickerMock);
 
 /**
  * Mock Select component
  */
-const Select = jest.fn(({ options, onChange, value, isMulti, isClearable, ...restProps }) => (
+const SelectMock = ({ options, onChange, value, isMulti, isClearable, ...restProps }) => (
   <select
     onChange={(event: any) => {
       if (onChange) {
@@ -110,12 +118,14 @@ const Select = jest.fn(({ options, onChange, value, isMulti, isClearable, ...res
       </option>
     ))}
   </select>
-));
+);
+
+const Select = jest.fn(SelectMock);
 
 /**
  * Mock FileDropzone
  */
-const FileDropzone = jest.fn(({ onChange, options, onFileRemove, ...props }) => {
+const FileDropzoneMock = ({ onChange, options, onFileRemove, ...props }) => {
   const { onDrop } = options;
   const [files, setFiles] = useState<File[]>([]);
 
@@ -143,7 +153,9 @@ const FileDropzone = jest.fn(({ onChange, options, onFileRemove, ...props }) => 
       ))}
     </>
   );
-});
+};
+
+const FileDropzone = jest.fn(FileDropzoneMock);
 
 /**
  * useTheme2
@@ -168,11 +180,26 @@ const useTheme2 = () => ({
 /**
  * Text Link
  */
-const TextLink = jest.fn(({ children, href, external, ...restProps }) => (
+const TextLinkMock = ({ children, href, external, ...restProps }) => (
   <a href={href} target={external ? '_blank' : '_self'} {...restProps}>
     {children}
   </a>
-));
+);
+
+const TextLink = jest.fn(TextLinkMock);
+
+/**
+ * Set mocks
+ */
+beforeEach(() => {
+  CodeEditor.mockImplementation(CodeEditorMock);
+  Select.mockImplementation(SelectMock);
+  DateTimePicker.mockImplementation(DateTimePickerMock);
+  FileDropzone.mockImplementation(FileDropzoneMock);
+  TimeOfDayPicker.mockImplementation(TimeOfDayPickerMock);
+  ColorPicker.mockImplementation(ColorPickerMock);
+  TextLink.mockImplementation(TextLinkMock);
+});
 
 module.exports = {
   ...actual,

@@ -3,24 +3,38 @@ const actual = jest.requireActual('@grafana/ui');
 /**
  * Mock DragDropContext
  */
-const DragDropContext = jest.fn(({ children }) => children);
+const DragDropContextMock = ({ children }) => children;
+
+const DragDropContext = jest.fn(DragDropContextMock);
 
 /**
  * Mock Droppable
  */
-const Droppable = jest.fn(({ children }) => children({}));
+const DroppableMock = ({ children }) => children({});
+
+const Droppable = jest.fn(DroppableMock);
 
 /**
  * Draggable
  */
-const Draggable = jest.fn(({ children }) =>
+const DraggableMock = ({ children }) =>
   children(
     {
       draggableProps: {},
     },
     {}
-  )
-);
+  );
+
+const Draggable = jest.fn(DraggableMock);
+
+/**
+ * Set mocks
+ */
+beforeEach(() => {
+  DragDropContext.mockImplementation(DragDropContextMock);
+  Droppable.mockImplementation(DroppableMock);
+  Draggable.mockImplementation(DraggableMock);
+});
 
 module.exports = {
   ...actual,
