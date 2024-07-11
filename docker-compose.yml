@@ -1,6 +1,5 @@
 services:
   server:
-    container_name: server
     build:
       context: ./server-json
     ports:
@@ -10,7 +9,6 @@ services:
       - main
 
   grafana:
-    container_name: grafana
     image: ghcr.io/volkovlabs/app:latest
     ports:
       - 3000:3000/tcp
@@ -25,7 +23,6 @@ services:
       - dev
 
   postgres:
-    container_name: postgres
     image: postgres
     restart: always
     environment:
@@ -39,7 +36,6 @@ services:
       - main
 
   server-pg:
-    container_name: server-pg
     build:
       context: ./server-pg
     ports:
@@ -56,7 +52,6 @@ services:
       - main
 
   grafana-main:
-    container_name: grafana-main
     image: grafana/grafana:main
     ports:
       - 3000:3000/tcp
@@ -71,7 +66,6 @@ services:
       - main
 
   test:
-    container_name: test-e2e
     build:
       context: .
       dockerfile: test/Dockerfile
