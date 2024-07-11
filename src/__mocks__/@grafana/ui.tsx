@@ -6,7 +6,7 @@ const actual = jest.requireActual('@grafana/ui');
 /**
  * Mock Code Editor
  */
-const CodeEditorMock = ({ onBlur, getSuggestions, ...restProps }) => {
+const CodeEditorMock = ({ onBlur, getSuggestions, ...restProps }: any) => {
   return (
     <input
       aria-label={restProps['aria-label']}
@@ -31,7 +31,7 @@ const CodeEditor = jest.fn(CodeEditorMock);
 /**
  * Mock ColorPickerInput component
  */
-const ColorPickerMock = ({ onChange, value, ...restProps }) => {
+const ColorPickerMock = ({ onChange, value, ...restProps }: any) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -50,7 +50,7 @@ const ColorPicker = jest.fn(ColorPickerMock);
 /**
  * Mock DatetimePicker component
  */
-const DateTimePickerMock = ({ onChange, ...restProps }) => {
+const DateTimePickerMock = ({ onChange, ...restProps }: any) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -69,7 +69,7 @@ const DateTimePicker = jest.fn(DateTimePickerMock);
 /**
  * Mock TimeOfDayPicker component
  */
-const TimeOfDayPickerMock = ({ onChange, ...restProps }) => {
+const TimeOfDayPickerMock = ({ onChange, ...restProps }: any) => {
   return (
     <input
       data-testid={restProps['data-testid']}
@@ -88,7 +88,7 @@ const TimeOfDayPicker = jest.fn(TimeOfDayPickerMock);
 /**
  * Mock Select component
  */
-const SelectMock = ({ options, onChange, value, isMulti, isClearable, ...restProps }) => (
+const SelectMock = ({ options, onChange, value, isMulti, isClearable, ...restProps }: any) => (
   <select
     onChange={(event: any) => {
       if (onChange) {
@@ -125,7 +125,7 @@ const Select = jest.fn(SelectMock);
 /**
  * Mock FileDropzone
  */
-const FileDropzoneMock = ({ onChange, options, onFileRemove, ...props }) => {
+const FileDropzoneMock = ({ onChange, options, onFileRemove, ...props }: any) => {
   const { onDrop } = options;
   const [files, setFiles] = useState<File[]>([]);
 
@@ -180,7 +180,7 @@ const useTheme2 = () => ({
 /**
  * Text Link
  */
-const TextLinkMock = ({ children, href, external, ...restProps }) => (
+const TextLinkMock = ({ children, href, external, ...restProps }: any) => (
   <a href={href} target={external ? '_blank' : '_self'} {...restProps}>
     {children}
   </a>
