@@ -78,6 +78,7 @@ export const FormPanel: React.FC<Props> = ({
   eventBus,
   replaceVariables,
   data,
+  timeZone,
 }) => {
   const [loading, setLoading] = useState<LoadingMode>(LoadingMode.INITIAL);
   const [error, setError] = useState('');
@@ -912,6 +913,7 @@ export const FormPanel: React.FC<Props> = ({
               initial={initial}
               section={null}
               replaceVariables={replaceVariables}
+              timeZone={timeZone}
             />
           </div>
         ) : (
@@ -924,6 +926,7 @@ export const FormPanel: React.FC<Props> = ({
             replaceVariables={replaceVariables}
             sectionsExpandedState={sectionsExpandedState}
             onChangeSectionExpandedState={onChangeSectionExpandedState}
+            timeZone={timeZone}
           />
         )}
       </div>
