@@ -57,6 +57,14 @@ grafana-cli plugins install volkovlabs-form-panel
 | [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)             | Provides examples of API server implementations.                                           |
 | [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)       | Stay up to date with the latest features and updates.                                      |
 
+## Business Suite for Grafana
+
+The Business Suite is a collection of open source plugins created and actively maintained by Volkov Labs.
+
+The collection aims to solve the most frequent business tasks by providing an intuitive interface with detailed written documentation, examples, and video tutorials.
+
+![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)
+
 ## Feedback
 
 We're looking forward to hearing from you. You can use different ways to get in touch with us.
