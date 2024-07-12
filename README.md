@@ -63,7 +63,7 @@ The Business Suite is a collection of open source plugins created and actively m
 
 The collection aims to solve the most frequent business tasks by providing an intuitive interface with detailed written documentation, examples, and video tutorials.
 
-![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)
+[![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
 
 ## Feedback
 
