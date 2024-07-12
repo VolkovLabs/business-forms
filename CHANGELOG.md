@@ -6,6 +6,7 @@
 
 - Updated Docker Compose and E2E pipeline (#446, #447)
 - Improved unit tests (#447)
+- Updated Business Forms tutorial (#451)
 
 ## 4.1.0 (2024-07-09)
 
