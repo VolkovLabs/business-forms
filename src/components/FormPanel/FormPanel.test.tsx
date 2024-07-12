@@ -1,5 +1,5 @@
-import { AppEvents, FieldType, LoadingState, toDataFrame } from '@grafana/data';
-import { getAppEvents } from '@grafana/runtime';
+import { AppEvents, EventBusSrv, FieldType, LoadingState, toDataFrame } from '@grafana/data';
+import { getAppEvents, RefreshEvent } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import React from 'react';
@@ -92,7 +92,8 @@ describe('Panel', () => {
   /**
    * Replace variables
    */
-  const replaceVariables = jest.fn((code: string) => code);
+  const replaceVariablesMock = (code: string) => code;
+  const replaceVariables = jest.fn(replaceVariablesMock);
 
   /**
    * Get Tested Component
@@ -164,6 +165,7 @@ describe('Panel', () => {
     jest.mocked(FormElements).mockImplementation(jest.requireActual('../FormElements').FormElements);
     jest.mocked(fetch).mockClear();
     replaceVariables.mockClear();
+    replaceVariables.mockImplementation(replaceVariablesMock);
 
     /**
      * App Events
@@ -715,7 +717,7 @@ describe('Panel', () => {
           state: LoadingState.Error,
         })
       );
-      jest.mocked(useDatasourceRequest).mockImplementationOnce(() => datasourceRequestMock);
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
 
       /**
        * Render
@@ -901,20 +903,7 @@ describe('Panel', () => {
       /**
        * Event Bus
        */
-      let callbacks: Array<() => void> = [];
-      const eventBus = {
-        getStream: jest.fn(() => ({
-          subscribe: jest.fn((callback) => {
-            callbacks.push(callback);
-            return {
-              unsubscribe: () => (callbacks = callbacks.filter((item) => item !== callback)),
-            };
-          }),
-        })),
-        publish: () => {
-          callbacks.forEach((cb) => cb());
-        },
-      };
+      const eventBus = new EventBusSrv();
 
       it('Should make initial request on dashboard refresh', async () => {
         const data = {
@@ -944,7 +933,7 @@ describe('Panel', () => {
          * Simulate Dashboard Refresh
          */
         await act(async () => {
-          eventBus.publish();
+          eventBus.publish(new RefreshEvent());
         });
 
         /**
@@ -984,7 +973,7 @@ describe('Panel', () => {
          * Simulate Dashboard Refresh
          */
         await act(async () => {
-          eventBus.publish();
+          eventBus.publish(new RefreshEvent());
         });
 
         /**

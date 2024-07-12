@@ -2,7 +2,8 @@ import { FormElementType, PayloadMode } from '../constants';
 import { getPayloadForRequest, toFormData, toJson } from './request';
 
 describe('Request Utils', () => {
-  const replaceVariables = jest.fn((str) => str);
+  const replaceVariablesMock = (str: string) => str;
+  const replaceVariables = jest.fn(replaceVariablesMock);
 
   /**
    * Files
@@ -11,7 +12,7 @@ describe('Request Utils', () => {
   const pdf = new File(['(⌐□_□)'], 'chucknorris.pdf', { type: 'application/pdf' });
 
   beforeEach(() => {
-    replaceVariables.mockClear();
+    replaceVariables.mockImplementation(replaceVariablesMock);
   });
 
   describe('GetPayloadForRequest', () => {
