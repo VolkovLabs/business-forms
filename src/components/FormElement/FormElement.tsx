@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { dateTime, DateTime, dateTimeForTimeZone, getTimeZone } from '@grafana/data';
+import { DateTime, dateTime, dateTimeForTimeZone, getTimeZone } from '@grafana/data';
 import {
   Checkbox,
   DatePickerWithInput,
@@ -74,8 +74,6 @@ export const FormElement: React.FC<Props> = ({ element, onChange, highlightClass
     },
     [timeZone]
   );
-
-  console.log('timeZone', timeZone);
 
   return (
     <InlineFieldRow
