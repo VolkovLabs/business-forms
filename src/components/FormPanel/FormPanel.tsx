@@ -773,12 +773,13 @@ export const FormPanel: React.FC<Props> = ({
    * Check updated values
    */
   const isUpdated = useMemo(() => {
-    return elements
-      .map((element) => {
-        const initialValue = initial[element.id];
-        return !isEqual(initialValue, element.value);
-      })
-      .some((element) => !!element);
+    for (const element of elements) {
+      if (!isEqual(initial[element.id], element.value)) {
+        return true;
+      }
+    }
+
+    return false;
   }, [elements, initial]);
 
   /**
