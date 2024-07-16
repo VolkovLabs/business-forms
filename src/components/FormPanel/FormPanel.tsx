@@ -20,6 +20,7 @@ import {
   toDataQueryResponse,
 } from '@grafana/runtime';
 import { Alert, Button, ButtonGroup, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
+import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -773,7 +774,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   const isUpdated = useMemo(() => {
     for (const element of elements) {
-      if (element.value !== initial[element.id]) {
+      if (!isEqual(initial[element.id], element.value)) {
         return true;
       }
     }
