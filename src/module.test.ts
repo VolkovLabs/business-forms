@@ -12,14 +12,26 @@ describe('plugin', () => {
    * Builder
    */
   const builder: any = {
-    addColorPicker: jest.fn().mockImplementation(() => builder),
-    addCustomEditor: jest.fn().mockImplementation(() => builder),
-    addRadio: jest.fn().mockImplementation(() => builder),
-    addSelect: jest.fn().mockImplementation(() => builder),
-    addSliderInput: jest.fn().mockImplementation(() => builder),
-    addTextInput: jest.fn().mockImplementation(() => builder),
-    addMultiSelect: jest.fn().mockImplementation(() => builder),
+    addColorPicker: jest.fn(),
+    addCustomEditor: jest.fn(),
+    addRadio: jest.fn(),
+    addSelect: jest.fn(),
+    addSliderInput: jest.fn(),
+    addTextInput: jest.fn(),
+    addMultiSelect: jest.fn(),
   };
+
+  const addFieldMock = () => builder;
+
+  beforeEach(() => {
+    builder.addColorPicker.mockImplementation(addFieldMock);
+    builder.addCustomEditor.mockImplementation(addFieldMock);
+    builder.addRadio.mockImplementation(addFieldMock);
+    builder.addSelect.mockImplementation(addFieldMock);
+    builder.addSliderInput.mockImplementation(addFieldMock);
+    builder.addTextInput.mockImplementation(addFieldMock);
+    builder.addMultiSelect.mockImplementation(addFieldMock);
+  });
 
   it('Should be instance of PanelPlugin', () => {
     expect(plugin).toBeInstanceOf(PanelPlugin);

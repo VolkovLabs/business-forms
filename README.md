@@ -13,7 +13,7 @@
 
 The Business Forms Panel is a conceptually new plugin for Grafana. It is the first plugin that allows inserting and updating application data, as well as modifying configuration directly from your Grafana dashboard.
 
-[![Use REST API, Data Source and Queries to manipulate your data](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/tutorial.png)](https://youtu.be/hVy9NfFiI5U)
+[![Use REST API, Data Source and Queries to manipulate your data](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/business-forms.png)](https://youtu.be/ulbe8U8-IFA)
 
 ## Requirements
 
@@ -56,6 +56,14 @@ grafana-cli plugins install volkovlabs-form-panel
 | [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)           | Explains the plugin features.                                                              |
 | [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)             | Provides examples of API server implementations.                                           |
 | [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)       | Stay up to date with the latest features and updates.                                      |
+
+## Business Suite for Grafana
+
+The Business Suite is a collection of open source plugins created and actively maintained by Volkov Labs.
+
+The collection aims to solve the most frequent business tasks by providing an intuitive interface with detailed written documentation, examples, and video tutorials.
+
+[![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
 
 ## Feedback
 
