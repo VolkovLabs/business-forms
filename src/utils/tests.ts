@@ -37,6 +37,11 @@ export const getHeaderParametersEditorSelectors = getJestSelectors(TEST_IDS.head
  */
 export const getLayoutSectionsEditorSelectors = getJestSelectors(TEST_IDS.layoutSectionsEditor);
 
+/**
+ * Get Initial Fields Editor Selectors
+ */
+export const getInitialFieldsEditorSelectors = getJestSelectors(TEST_IDS.initialFieldsEditor);
+
 import { SelectableValue } from '@grafana/data';
 
 /**

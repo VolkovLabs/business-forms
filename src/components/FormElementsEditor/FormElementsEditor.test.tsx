@@ -1619,31 +1619,6 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldTextareaRows()).toHaveValue(123);
     });
 
-    it('Should update field name', async () => {
-      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
-      const context = {
-        options: {
-          initial: {
-            method: RequestMethod.DATASOURCE,
-          },
-        },
-      };
-
-      render(getComponent({ value: elements, onChange, context }));
-
-      /**
-       * Open id element
-       */
-      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
-
-      /**
-       * Change field name
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldNamePicker(), { target: { value: 'metric' } }));
-
-      expect(elementSelectors.fieldNamePicker()).toHaveValue('metric');
-    });
-
     it('Should update field accept', async () => {
       const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', type: FormElementType.FILE }];
       const context = {
@@ -1715,53 +1690,6 @@ describe('Form Elements Editor', () => {
 
       expect(sourceOption).toBeChecked();
       expect(elementSelectors.fieldQueryOptionsValue()).toBeInTheDocument();
-    });
-
-    it('Should update query field name', async () => {
-      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
-      const context = {
-        options: {
-          initial: {
-            method: RequestMethod.QUERY,
-          },
-        },
-        data: [
-          toDataFrame({
-            fields: [
-              {
-                name: 'field1',
-                values: [],
-              },
-              {
-                name: 'field2',
-                values: [],
-              },
-            ],
-          }),
-        ],
-      };
-
-      render(getComponent({ value: elements, onChange, context }));
-
-      /**
-       * Open id element
-       */
-
-      const elementSelectors = openElement('id', FORM_ELEMENT_DEFAULT.type);
-
-      /**
-       * Change query field name
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldFromQueryPicker(), { target: { value: 'field1' } }));
-
-      expect(elementSelectors.fieldFromQueryPicker()).toHaveValue('field1');
-
-      /**
-       * Clear query field name
-       */
-      await act(() => fireEvent.change(elementSelectors.fieldFromQueryPicker(), { target: { value: '' } }));
-
-      expect(elementSelectors.fieldFromQueryPicker()).toHaveValue('');
     });
 
     it('Should update field target', async () => {

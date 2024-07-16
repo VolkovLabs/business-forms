@@ -9,23 +9,18 @@ export const getStyles = (theme: GrafanaTheme2) => {
     item: css`
       margin-bottom: ${theme.spacing(1)};
     `,
-    dragHandle: css`
-      display: flex;
-      margin: ${theme.spacing(0, 0.5)};
-    `,
-    dragIcon: css`
-      cursor: grab;
-      color: ${theme.colors.text.disabled};
-      &:hover {
-        color: ${theme.colors.text};
-      }
-    `,
-    removeButton: css`
-      margin-left: ${theme.spacing(1)};
+    description: css`
       color: ${theme.colors.text.secondary};
+      font-size: 12px;
+      font-weight: 400;
+      margin-top: 2px;
     `,
     buttonWrap: css`
       min-height: 32px;
+    `,
+    label: css`
+      align-self: center;
+      margin-right: ${theme.spacing(1)};
     `,
   };
 };

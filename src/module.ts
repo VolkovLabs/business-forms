@@ -8,6 +8,7 @@ import {
   FormElementsEditor,
   FormPanel,
   HeaderParametersEditor,
+  InitialFieldsEditor,
   LayoutSectionsEditor,
 } from './components';
 import {
@@ -263,6 +264,16 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         },
         defaultValue: INITIAL_CODE_DEFAULT,
         showIf: (config) => isRequestConfigured(config.initial),
+      })
+      .addCustomEditor({
+        id: 'elements',
+        path: 'elements',
+        name: 'Initial Fields',
+        category: ['Initial Request'],
+        editor: InitialFieldsEditor,
+        showIf: (config) =>
+          config.layout.variant !== LayoutVariant.NONE &&
+          (config.initial.method === RequestMethod.DATASOURCE || config.initial.method === RequestMethod.QUERY),
       });
 
     /**

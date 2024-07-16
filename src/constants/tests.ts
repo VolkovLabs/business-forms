@@ -152,4 +152,13 @@ export const TEST_IDS = {
     loadingMessage: 'data-testid payload-editor loading-message',
     errorMessage: 'data-testid payload-editor error-message',
   },
+  initialFieldsEditor: {
+    root: 'data-testid initial-fields-editor',
+    text: 'data-testid initial-fields-editor text',
+    sectionContent: (id: string, type: string) => `data-testid initial-fields-editor section-content-${id}-${type}`,
+    sectionLabel: (id: string, type: string) => `data-testid initial-fields-editor section-label-${id}-${type}`,
+    buttonSaveChanges: 'data-testid initial-fields-editor button-save-changes',
+    fieldNamePicker: 'data-testid initial-fields-editor field-name-picker',
+    fieldFromQueryPicker: 'data-testid initial-fields-editor field-from-query-picker',
+  },
 };

@@ -4,8 +4,8 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { RequestMethod, TEST_IDS } from '../../constants';
-import { useFormElements, useQueryFields } from '../../hooks';
+import { TEST_IDS } from '../../constants';
+import { useFormElements } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { getElementUniqueId, reorder } from '../../utils';
 import { ElementEditor } from '../ElementEditor';
@@ -57,12 +57,6 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     onChange,
     value,
   });
-
-  /**
-   * Query Fields
-   */
-  const isQueryFieldsEnabled = context.options?.initial?.method === RequestMethod.QUERY;
-  const queryFields = useQueryFields({ data: context.data, isEnabled: isQueryFieldsEnabled });
 
   /**
    * Add Elements
@@ -169,10 +163,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
                             element={element}
                             onChange={onChangeElement}
                             layoutSectionOptions={layoutSectionOptions}
-                            initialMethod={context.options?.initial?.method}
                             onChangeOption={onChangeElementOption}
-                            queryFields={queryFields}
-                            isQueryFieldsEnabled={isQueryFieldsEnabled}
                             data={context.data}
                           />
                         </Collapse>
@@ -187,11 +178,13 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
         </Droppable>
       </DragDropContext>
 
-      {isChanged && (
-        <Button onClick={onSaveUpdates} data-testid={TEST_IDS.formElementsEditor.buttonSaveChanges}>
-          Save changes
-        </Button>
-      )}
+      <div className={styles.buttonWrap}>
+        {isChanged && (
+          <Button onClick={onSaveUpdates} data-testid={TEST_IDS.formElementsEditor.buttonSaveChanges}>
+            Save changes
+          </Button>
+        )}
+      </div>
 
       <hr />
       <NewElement elements={elements} onSave={onElementAdd} />
