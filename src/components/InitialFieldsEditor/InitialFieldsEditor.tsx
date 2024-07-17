@@ -5,7 +5,7 @@ import React, { ChangeEvent } from 'react';
 import { RequestMethod, TEST_IDS } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, PanelOptions } from '../../types';
-import { getStyles } from './InititalFieldsEditor.styles';
+import { getStyles } from './InitialFieldsEditor.styles';
 
 /**
  * Properties
