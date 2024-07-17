@@ -1,5 +1,5 @@
 import { StandardEditorProps } from '@grafana/data';
-import { Button, InlineField, InlineFieldRow, Input, Label, Select, useTheme2 } from '@grafana/ui';
+import { Button, InlineField, InlineFieldRow, Input, Select, useTheme2 } from '@grafana/ui';
 import React, { ChangeEvent } from 'react';
 
 import { RequestMethod, TEST_IDS } from '../../constants';
@@ -40,21 +40,10 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
    */
   return (
     <div data-testid={TEST_IDS.initialFieldsEditor.root}>
-      <p className={styles.description} data-testid={TEST_IDS.initialFieldsEditor.text}>
-        {`${context.options?.initial?.method === RequestMethod.QUERY ? 'Query Fields' : 'Field Names'}. Specify a field name for appropriate form element`}
-      </p>
       {elements.map((element) => {
         return context.options?.initial?.method === RequestMethod.DATASOURCE ? (
           <InlineFieldRow key={element.uid}>
-            <Label className={styles.label}>
-              {element.title} [{element.id}]
-            </Label>
-            <InlineField
-              grow={true}
-              label="Field Name"
-              labelWidth={14}
-              tooltip="Specify a field name from the Data Source response"
-            >
+            <InlineField grow={true} label={element.title} labelWidth={14}>
               <Input
                 value={element.fieldName || ''}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -69,10 +58,7 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
           </InlineFieldRow>
         ) : (
           <InlineFieldRow key={element.uid}>
-            <Label className={styles.label}>
-              {element.title} [{element.id}]
-            </Label>
-            <InlineField grow={true} label="Query Field" labelWidth={14} tooltip="Specify a field name from the Query">
+            <InlineField grow={true} label={element.title} labelWidth={14}>
               <Select
                 value={element.queryField?.value}
                 options={queryFields}
@@ -90,13 +76,14 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
           </InlineFieldRow>
         );
       })}
-      <div className={styles.buttonWrap}>
-        {isChanged && (
+
+      {isChanged && (
+        <div className={styles.buttonWrap}>
           <Button onClick={onSaveUpdates} data-testid={TEST_IDS.initialFieldsEditor.buttonSaveChanges}>
             Save changes
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -264,16 +264,31 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         },
         defaultValue: INITIAL_CODE_DEFAULT,
         showIf: (config) => isRequestConfigured(config.initial),
+      });
+
+    /**
+     * Initial Fields
+     */
+    builder
+      .addCustomEditor({
+        id: 'elements',
+        path: 'elements',
+        name: 'Field Names',
+        description: 'Specify fields for appropriate form elements.',
+        category: ['Initial Fields'],
+        editor: InitialFieldsEditor,
+        showIf: (config) =>
+          config.layout.variant !== LayoutVariant.NONE && config.initial.method === RequestMethod.DATASOURCE,
       })
       .addCustomEditor({
         id: 'elements',
         path: 'elements',
-        name: 'Initial Fields',
-        category: ['Initial Request'],
+        name: 'Query Fields',
+        description: 'Specify fields for appropriate form elements.',
+        category: ['Initial Fields'],
         editor: InitialFieldsEditor,
         showIf: (config) =>
-          config.layout.variant !== LayoutVariant.NONE &&
-          (config.initial.method === RequestMethod.DATASOURCE || config.initial.method === RequestMethod.QUERY),
+          config.layout.variant !== LayoutVariant.NONE && config.initial.method === RequestMethod.QUERY,
       });
 
     /**
