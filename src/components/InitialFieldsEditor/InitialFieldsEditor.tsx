@@ -1,11 +1,10 @@
 import { StandardEditorProps } from '@grafana/data';
-import { Button, InlineField, InlineFieldRow, Input, Select, useTheme2 } from '@grafana/ui';
+import { Button, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
 import React, { ChangeEvent } from 'react';
 
 import { RequestMethod, TEST_IDS } from '../../constants';
 import { useFormElements, useQueryFields } from '../../hooks';
 import { FormElement, PanelOptions } from '../../types';
-import { getStyles } from './InitialFieldsEditor.styles';
 
 /**
  * Properties
@@ -16,12 +15,6 @@ type Props = StandardEditorProps<FormElement[], null, PanelOptions>;
  * Initial Fields Editor
  */
 export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context }) => {
-  /**
-   * Styles and Theme
-   */
-  const theme = useTheme2();
-  const styles = getStyles(theme);
-
   /**
    * Form Elements State
    */
