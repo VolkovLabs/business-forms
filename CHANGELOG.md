@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.2.0 (IN PROGRESS)
+## 4.2.0 (2024-07-18)
 
 ### Features / Enhancements
 
@@ -8,6 +8,7 @@
 - Improved unit tests (#447)
 - Updated Business Forms tutorial (#451)
 - Updated the logic for comparing values with the initial values (#454)
+- Updated position of Query fields for initial values (#455)
 
 ## 4.1.0 (2024-07-09)
 

@@ -22,12 +22,11 @@ import {
   LINK_TARGET_OPTIONS,
   OPTIONS_SOURCE_OPTIONS,
   OptionsSource,
-  RequestMethod,
   STRING_ELEMENT_OPTIONS,
   TEST_IDS,
   TIME_TRANSFORMATION_OPTIONS,
 } from '../../constants';
-import { CodeLanguage, LocalFormElement, QueryField } from '../../types';
+import { CodeLanguage, LocalFormElement } from '../../types';
 import {
   formatNumberValue,
   getElementWithNewType,
@@ -70,21 +69,6 @@ interface Props {
   layoutSectionOptions: SelectableValue[];
 
   /**
-   * Initial Request Method
-   */
-  initialMethod?: RequestMethod;
-
-  /**
-   * Query Fields
-   */
-  queryFields: QueryField[];
-
-  /**
-   * Is Query Fields Enabled
-   */
-  isQueryFieldsEnabled: boolean;
-
-  /**
    * Data
    */
   data: DataFrame[];
@@ -93,16 +77,7 @@ interface Props {
 /**
  * Element Editor
  */
-export const ElementEditor: React.FC<Props> = ({
-  element,
-  onChange,
-  onChangeOption,
-  layoutSectionOptions,
-  initialMethod,
-  isQueryFieldsEnabled,
-  queryFields,
-  data,
-}) => {
+export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOption, layoutSectionOptions, data }) => {
   /**
    * Styles
    */
@@ -521,46 +496,6 @@ export const ElementEditor: React.FC<Props> = ({
               value={element.height}
               min={0}
               data-testid={TEST_IDS.formElementsEditor.fieldCodeHeight}
-            />
-          </InlineField>
-        </InlineFieldRow>
-      )}
-
-      {initialMethod === RequestMethod.DATASOURCE && (
-        <InlineFieldRow>
-          <InlineField
-            grow={true}
-            label="Field Name"
-            labelWidth={14}
-            tooltip="Specify a field name from the Data Source response"
-          >
-            <Input
-              value={element.fieldName || ''}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                onChange({
-                  ...element,
-                  fieldName: event.target.value,
-                });
-              }}
-              data-testid={TEST_IDS.formElementsEditor.fieldNamePicker}
-            />
-          </InlineField>
-        </InlineFieldRow>
-      )}
-      {isQueryFieldsEnabled && (
-        <InlineFieldRow>
-          <InlineField grow={true} label="Query Field" labelWidth={14} tooltip="Specify a field name from the Query">
-            <Select
-              value={element.queryField?.value}
-              options={queryFields}
-              onChange={(item) => {
-                onChange({
-                  ...element,
-                  queryField: item,
-                });
-              }}
-              aria-label={TEST_IDS.formElementsEditor.fieldFromQueryPicker}
-              isClearable={true}
             />
           </InlineField>
         </InlineFieldRow>
