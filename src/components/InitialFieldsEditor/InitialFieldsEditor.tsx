@@ -61,7 +61,6 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
                       queryField: item,
                     });
                   }}
-                  aria-label={TEST_IDS.initialFieldsEditor.fieldFromQueryPicker}
                   data-testid={TEST_IDS.initialFieldsEditor.fieldFromQueryPicker}
                   isClearable={true}
                 />
