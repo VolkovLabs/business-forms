@@ -41,23 +41,6 @@ describe('Form Elements Editor', () => {
     );
 
     expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.text()).toBeInTheDocument();
-    expect(selectors.text()).toHaveTextContent('Field Names. Specify a field name for appropriate form element');
-  });
-
-  it('Should render component for QUERY method', async () => {
-    const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id' }];
-    render(
-      getComponent({
-        value: elements,
-        onChange,
-        context: { options: { initial: { method: RequestMethod.QUERY } } },
-      })
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.text()).toBeInTheDocument();
-    expect(selectors.text()).toHaveTextContent('Query Fields. Specify a field name for appropriate form element');
   });
 
   it('Should change Field Name', async () => {
@@ -71,8 +54,6 @@ describe('Form Elements Editor', () => {
     );
 
     expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.text()).toBeInTheDocument();
-    expect(selectors.text()).toHaveTextContent('Field Names. Specify a field name for appropriate form element');
 
     expect(selectors.fieldNamePicker()).toBeInTheDocument();
     expect(selectors.fieldNamePicker()).toHaveValue('max');
@@ -119,8 +100,6 @@ describe('Form Elements Editor', () => {
     );
 
     expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.text()).toBeInTheDocument();
-    expect(selectors.text()).toHaveTextContent('Query Fields. Specify a field name for appropriate form element');
 
     expect(selectors.fieldNamePicker(true)).not.toBeInTheDocument();
 

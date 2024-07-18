@@ -78,11 +78,9 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
       })}
 
       {isChanged && (
-        <div className={styles.buttonWrap}>
-          <Button onClick={onSaveUpdates} data-testid={TEST_IDS.initialFieldsEditor.buttonSaveChanges}>
-            Save changes
-          </Button>
-        </div>
+        <Button onClick={onSaveUpdates} data-testid={TEST_IDS.initialFieldsEditor.buttonSaveChanges}>
+          Save changes
+        </Button>
       )}
     </div>
   );
