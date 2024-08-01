@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 import { BusEventBase, dateTime, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
-import _ from 'lodash';
+import lodash from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -618,7 +618,7 @@ export const applyLabelStyles = (labelBackground?: string, labelColor?: string):
  * @param objectValues
  */
 export const patchFormValueHandler = (elements: LocalFormElement[], objectValues: Record<string, unknown>) => {
-  const newElements: LocalFormElement[] = _.cloneDeep(elements);
+  const newElements: LocalFormElement[] = lodash.cloneDeep(elements);
   newElements.forEach((item) => {
     const newValue = objectValues[item.id];
 
@@ -654,7 +654,7 @@ export const setFormValueHandler = (
   initialElements: LocalFormElement[],
   objectValues: Record<string, unknown>
 ) => {
-  const newElements: LocalFormElement[] = _.cloneDeep(elements);
+  const newElements: LocalFormElement[] = lodash.cloneDeep(elements);
   newElements.forEach((item) => {
     const newValue = objectValues[item.id];
 
