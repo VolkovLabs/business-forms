@@ -1,30 +1,30 @@
-# Business Forms Panel for Grafana
+# Business Forms for Grafana
 
-![Form Panel](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/src/img/panel.png)
+![Forms](https://raw.githubusercontent.com/volkovlabs/business-forms/main/src/img/panel.png)
 
 ![Grafana](https://img.shields.io/badge/Grafana-11.1-orange)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
-![CI](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/CI/badge.svg)
-![E2E](https://github.com/volkovlabs/volkovlabs-form-panel/workflows/E2E/badge.svg)
-[![codecov](https://codecov.io/gh/VolkovLabs/volkovlabs-form-panel/branch/main/graph/badge.svg?token=0m6f0ktUar)](https://codecov.io/gh/VolkovLabs/volkovlabs-form-panel)
-[![CodeQL](https://github.com/VolkovLabs/volkovlabs-form-panel/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/volkovlabs-form-panel/actions/workflows/codeql-analysis.yml)
+![CI](https://github.com/volkovlabs/business-forms/workflows/CI/badge.svg)
+![E2E](https://github.com/volkovlabs/business-forms/workflows/E2E/badge.svg)
+[![codecov](https://codecov.io/gh/VolkovLabs/business-forms/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-forms)
+[![CodeQL](https://github.com/VolkovLabs/business-forms/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/business-forms/actions/workflows/codeql-analysis.yml)
 
 ## Introduction
 
-The Business Forms Panel is a conceptually new plugin for Grafana. It is the first plugin that allows inserting and updating application data, as well as modifying configuration directly from your Grafana dashboard.
+The Business Forms panel is a conceptually new plugin for Grafana. It is the first plugin that allows inserting and updating application data, as well as modifying configuration directly from your Grafana dashboard.
 
-[![Use REST API, Data Source and Queries to manipulate your data](https://raw.githubusercontent.com/volkovlabs/volkovlabs-form-panel/main/img/business-forms.png)](https://youtu.be/ulbe8U8-IFA)
+[![Use REST API, Data Source and Queries to manipulate your data](https://raw.githubusercontent.com/volkovlabs/business-forms/main/img/business-forms.png)](https://youtu.be/ulbe8U8-IFA)
 
 ## Requirements
 
-- Business Forms Panel 4.X requires **Grafana 10** or **Grafana 11**.
-- Data Manipulation Panel 3.X requires **Grafana 9** or **Grafana 10**.
-- Data Manipulation Panel 2.X requires **Grafana 9** or **Grafana 8.5**.
-- Data Manipulation Panel 1.X requires **Grafana 8**.
+- Business Forms panel 4.X requires **Grafana 10** or **Grafana 11**.
+- Data Manipulation panel 3.X requires **Grafana 9** or **Grafana 10**.
+- Data Manipulation panel 2.X requires **Grafana 9** or **Grafana 8.5**.
+- Data Manipulation panel 1.X requires **Grafana 8**.
 
 ## Getting Started
 
-You can install the Business Forms Panel from the [Grafana Plugins [catalog](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or use the Grafana command line tool.
+You can install the Business Forms panel from the [Grafana Plugins [catalog](https://grafana.com/grafana/plugins/volkovlabs-form-panel/) or use the Grafana command line tool.
 
 For the latter, please use the following command:
 
@@ -69,11 +69,11 @@ The collection aims to solve the most frequent business tasks by providing an in
 
 We're looking forward to hearing from you. You can use different ways to get in touch with us.
 
-- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/volkovlabs-form-panel/issues).
+- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/business-forms/issues).
 - Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and leave your comments.
 - Sponsor our open-source plugins for Grafana at [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
 - Star the repository to show your support.
 
 ## License
 
-Apache License Version 2.0, see [LICENSE](https://github.com/volkovlabs/volkovlabs-form-panel/blob/main/LICENSE).
+Apache License Version 2.0, see [LICENSE](https://github.com/volkovlabs/business-forms/blob/main/LICENSE).
