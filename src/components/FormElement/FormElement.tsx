@@ -154,12 +154,6 @@ export const FormElement: React.FC<Props> = ({
         }
         return <></>;
       }
-      case FormElementType.NUMBER: {
-        return <NumberElement element={element} onChange={onChange} highlightClass={highlightClass} />;
-      }
-      case FormElementType.NUMBER: {
-        return <NumberElement element={element} onChange={onChange} highlightClass={highlightClass} />;
-      }
       default: {
         return <></>;
       }
