@@ -196,7 +196,6 @@ export const CONFIRM_MODAL_DEFAULT: ModalOptions = {
  */
 export const CUSTOM_BUTTON_DEFAULT: CustomButtonOptions = {
   customCode: '',
-  icon: 'circle',
   size: ButtonSize.MEDIUM,
   show: CustomButtonShow.FORM,
   variant: ButtonVariant.PRIMARY,

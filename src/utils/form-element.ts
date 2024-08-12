@@ -173,7 +173,7 @@ export const getElementWithNewType = (
         type: newType,
       };
     }
-    case FormElementType.CUSTOM_BUTTON: {
+    case FormElementType.BUTTON: {
       return {
         ...baseValues,
         ...CUSTOM_BUTTON_DEFAULT,
@@ -458,7 +458,7 @@ export const convertToElementValue = (
     case FormElementType.PASSWORD:
     case FormElementType.SECRET:
     case FormElementType.TEXTAREA:
-    case FormElementType.CUSTOM_BUTTON:
+    case FormElementType.BUTTON:
     case FormElementType.LINK: {
       return {
         ...element,

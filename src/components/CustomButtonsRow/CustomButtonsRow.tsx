@@ -1,11 +1,9 @@
 import { InterpolateFunction, PanelData } from '@grafana/data';
-import { useStyles2 } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { FormElementType, TEST_IDS } from '../../constants';
+import { FormElementType } from '../../constants';
 import { CustomButtonShow, ExecuteCustomCodeParams, LocalFormElement } from '../../types';
 import { CustomButtonElement } from '../FormElement/components';
-import { getStyles } from './CustomButtonRow.style';
 /**
  * Properties
  */
@@ -43,11 +41,6 @@ interface Props {
  */
 export const CustomButtonsRow: React.FC<Props> = ({ elements, initial, replaceVariables, data, executeCustomCode }) => {
   /**
-   * Styles and Theme
-   */
-  const styles = useStyles2(getStyles);
-
-  /**
    * Visible Elements
    */
   const visibleElements = useMemo(() => {
@@ -63,13 +56,13 @@ export const CustomButtonsRow: React.FC<Props> = ({ elements, initial, replaceVa
   }, [data, elements, replaceVariables]);
 
   return (
-    <div data-testid={TEST_IDS.formElements.customButtonsRow} className={styles.row}>
+    <>
       {!!visibleElements.length &&
         visibleElements.map((element) => {
           /**
            * Return
            */
-          if (element.type === FormElementType.CUSTOM_BUTTON && element.show === CustomButtonShow.BOTTOM) {
+          if (element.type === FormElementType.BUTTON && element.show === CustomButtonShow.BOTTOM) {
             return (
               <CustomButtonElement
                 key={element.id}
@@ -83,6 +76,6 @@ export const CustomButtonsRow: React.FC<Props> = ({ elements, initial, replaceVa
 
           return null;
         })}
-    </div>
+    </>
   );
 };

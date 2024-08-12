@@ -19,7 +19,7 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
+import { Alert, Button, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
 import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -934,7 +934,7 @@ export const FormPanel: React.FC<Props> = ({
           />
         )}
       </div>
-      <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
+      <div className={cx(styles.buttons, styles.buttonsPosition[options.buttonGroup.orientation])}>
         <CustomButtonsRow
           data={data}
           executeCustomCode={executeCustomCode}
@@ -944,7 +944,6 @@ export const FormPanel: React.FC<Props> = ({
         />
         {options.updateEnabled !== UpdateEnabledMode.DISABLED && (
           <Button
-            className={cx(styles.margin)}
             variant={getButtonVariant(options.submit.variant)}
             icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
             title={title}
@@ -975,7 +974,6 @@ export const FormPanel: React.FC<Props> = ({
 
         {options.reset.variant !== ButtonVariant.HIDDEN && (
           <Button
-            className={cx(styles.margin)}
             variant={getButtonVariant(options.reset.variant)}
             icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
             style={
@@ -1006,7 +1004,6 @@ export const FormPanel: React.FC<Props> = ({
 
         {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
           <Button
-            className={cx(styles.margin)}
             variant={getButtonVariant(options.saveDefault.variant)}
             icon={options.saveDefault.icon}
             disabled={!!loading || !saveDefaultEnabled}
@@ -1018,7 +1015,7 @@ export const FormPanel: React.FC<Props> = ({
             {options.saveDefault.text}
           </Button>
         )}
-      </ButtonGroup>
+      </div>
 
       {error && (
         <Alert data-testid={TEST_IDS.panel.errorMessage} severity="error" title="Request">

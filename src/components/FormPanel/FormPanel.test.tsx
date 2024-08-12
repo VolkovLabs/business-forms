@@ -300,7 +300,7 @@ describe('Panel', () => {
               { type: FormElementType.STRING, id: 'string1', value: 'str1' },
               { type: FormElementType.STRING, id: 'string2', value: 'str2' },
               {
-                type: FormElementType.CUSTOM_BUTTON,
+                type: FormElementType.BUTTON,
                 id: 'button1',
                 value: '',
                 customCode: `context.grafana.notifySuccess("success");`,
@@ -320,7 +320,6 @@ describe('Panel', () => {
 
     expect(selectors.buttonSubmit()).toBeInTheDocument();
     expect(selectors.buttonReset()).toBeInTheDocument();
-    expect(elementsSelectors.customButtonsRow()).toBeInTheDocument();
 
     expect(elementsSelectors.fieldCustomButtonContainer(true)).not.toBeInTheDocument();
 
@@ -349,7 +348,7 @@ describe('Panel', () => {
               { type: FormElementType.STRING, id: 'string1', value: 'str1' },
               { type: FormElementType.STRING, id: 'string2', value: 'str2' },
               {
-                type: FormElementType.CUSTOM_BUTTON,
+                type: FormElementType.BUTTON,
                 id: 'button1',
                 value: '',
                 customCode: `context.grafana.notifySuccess("success");`,
@@ -369,7 +368,6 @@ describe('Panel', () => {
 
     expect(selectors.buttonSubmit()).toBeInTheDocument();
     expect(selectors.buttonReset()).toBeInTheDocument();
-    expect(elementsSelectors.customButtonsRow()).toBeInTheDocument();
 
     expect(elementsSelectors.fieldCustomButtonContainer(true)).not.toBeInTheDocument();
 

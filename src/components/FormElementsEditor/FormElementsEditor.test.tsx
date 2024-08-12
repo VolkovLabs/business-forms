@@ -271,7 +271,7 @@ describe('Form Elements Editor', () => {
       render(getComponent({ value: elements, onChange }));
 
       const newElementId = 'button';
-      const newElementType = FormElementType.CUSTOM_BUTTON;
+      const newElementType = FormElementType.BUTTON;
       /**
        * Check if section is missing
        */
@@ -2817,7 +2817,7 @@ describe('Form Elements Editor', () => {
 
   describe('Custom button', () => {
     it('Should update icon for custom button', async () => {
-      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.CUSTOM_BUTTON };
+      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.BUTTON };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -2827,7 +2827,7 @@ describe('Form Elements Editor', () => {
        */
       const elementSelectors = openElement(element.id, element.type);
       expect(elementSelectors.fieldCustomButtonIcon()).toBeInTheDocument();
-      expect(elementSelectors.fieldCustomButtonIcon()).toHaveValue('circle');
+      expect(elementSelectors.fieldCustomButtonIcon()).toHaveValue('');
 
       await act(() => fireEvent.change(elementSelectors.fieldCustomButtonIcon(), { target: { value: 'arrow-down' } }));
 
@@ -2835,7 +2835,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update button size', async () => {
-      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.CUSTOM_BUTTON };
+      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.BUTTON };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -2857,7 +2857,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update button text label', async () => {
-      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.CUSTOM_BUTTON };
+      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.BUTTON };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -2876,7 +2876,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update button place', async () => {
-      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.CUSTOM_BUTTON };
+      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.BUTTON };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -2900,7 +2900,7 @@ describe('Form Elements Editor', () => {
     });
 
     it('Should update button variant', async () => {
-      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.CUSTOM_BUTTON };
+      const element = { ...CUSTOM_BUTTON_DEFAULT, id: 'button', uid: 'button-1', type: FormElementType.BUTTON };
       const elements = [element];
 
       render(getComponent({ value: elements, onChange }));
@@ -2929,7 +2929,7 @@ describe('Form Elements Editor', () => {
         id: 'button',
         uid: 'button-1',
         variant: ButtonVariant.CUSTOM,
-        type: FormElementType.CUSTOM_BUTTON,
+        type: FormElementType.BUTTON,
         backgroundColor: '',
       };
       const elements = [element];
@@ -2958,7 +2958,7 @@ describe('Form Elements Editor', () => {
         id: 'button',
         uid: 'button-1',
         variant: ButtonVariant.CUSTOM,
-        type: FormElementType.CUSTOM_BUTTON,
+        type: FormElementType.BUTTON,
         backgroundColor: '',
       };
       const elements = [element];
@@ -2987,7 +2987,7 @@ describe('Form Elements Editor', () => {
         id: 'button',
         uid: 'button-1',
         variant: ButtonVariant.CUSTOM,
-        type: FormElementType.CUSTOM_BUTTON,
+        type: FormElementType.BUTTON,
         backgroundColor: '',
       };
       const elements = [element];

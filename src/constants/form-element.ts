@@ -10,7 +10,7 @@ import { TEST_IDS } from './tests';
 export const enum FormElementType {
   BOOLEAN = 'boolean',
   CODE = 'code',
-  CUSTOM_BUTTON = 'Custom button',
+  BUTTON = 'button',
   DATETIME = 'datetime',
   DISABLED = 'disabled',
   DISABLED_TEXTAREA = 'disabledTextarea',
@@ -42,8 +42,8 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
     label: 'Code Editor',
   },
   {
-    value: FormElementType.CUSTOM_BUTTON,
-    label: 'Custom Button',
+    value: FormElementType.BUTTON,
+    label: 'Button',
   },
   {
     value: FormElementType.DATETIME,

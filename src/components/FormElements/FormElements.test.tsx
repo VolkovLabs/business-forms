@@ -365,7 +365,7 @@ describe('Form Elements', () => {
       elements: [
         {
           id: 'elementButton-1-1',
-          type: FormElementType.CUSTOM_BUTTON,
+          type: FormElementType.BUTTON,
           value: '',
           show: CustomButtonShow.FORM,
           customCode: '',
@@ -382,7 +382,7 @@ describe('Form Elements', () => {
     /**
      * Element
      */
-    expect(selectors.element(false, 'elementButton-1-1', FormElementType.CUSTOM_BUTTON)).toBeInTheDocument();
+    expect(selectors.element(false, 'elementButton-1-1', FormElementType.BUTTON)).toBeInTheDocument();
 
     expect(selectors.fieldCustomButtonContainer()).toBeInTheDocument();
   });
@@ -397,7 +397,7 @@ describe('Form Elements', () => {
       elements: [
         {
           id: 'elementButton-1-1',
-          type: FormElementType.CUSTOM_BUTTON,
+          type: FormElementType.BUTTON,
           value: '',
           show: CustomButtonShow.FORM,
           customCode: `console.log('test')`,
@@ -412,7 +412,7 @@ describe('Form Elements', () => {
     /**
      * Element
      */
-    expect(selectors.element(false, 'elementButton-1-1', FormElementType.CUSTOM_BUTTON)).toBeInTheDocument();
+    expect(selectors.element(false, 'elementButton-1-1', FormElementType.BUTTON)).toBeInTheDocument();
 
     expect(selectors.fieldCustomButtonContainer()).toBeInTheDocument();
     expect(selectors.fieldCustomButton(false, 'elementButton-1-1')).toBeInTheDocument();

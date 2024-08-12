@@ -1,4 +1,4 @@
-import { Button, InlineField, useStyles2, useTheme2 } from '@grafana/ui';
+import { Button, InlineField, useTheme2 } from '@grafana/ui';
 import React, { useCallback } from 'react';
 
 import { FormElementType, TEST_IDS } from '../../../../constants';
@@ -10,7 +10,6 @@ import {
   LocalFormElement,
 } from '../../../../types';
 import { applyWidth, getButtonVariant } from '../../../../utils';
-import { getStyles } from './CustomButtonElement.styles';
 
 /**
  * Properties
@@ -20,7 +19,7 @@ interface Props {
    * Element
    *
    */
-  element: FormElementByType<LocalFormElement, FormElementType.CUSTOM_BUTTON>;
+  element: FormElementByType<LocalFormElement, FormElementType.BUTTON>;
 
   /**
    * Execute Custom Code
@@ -52,13 +51,38 @@ export const CustomButtonElement: React.FC<Props> = ({ element, executeCustomCod
    * Styles and Theme
    */
   const theme = useTheme2();
-  const styles = useStyles2(getStyles);
 
   const executeButtonCode = useCallback(
     async (code: string) => {
       await executeCustomCode({ code: code, currentElements: elements, initial: initial });
     },
     [elements, executeCustomCode, initial]
+  );
+
+  /**
+   * Content
+   */
+  const content = (
+    <Button
+      variant={getButtonVariant(element.variant)}
+      style={
+        element.variant === ButtonVariant.CUSTOM
+          ? {
+              background: 'none',
+              border: 'none',
+              backgroundColor: theme.visualization.getColorByName(element.backgroundColor),
+              color: theme.visualization.getColorByName(element.foregroundColor),
+            }
+          : {}
+      }
+      icon={element.icon}
+      disabled={element.disabled}
+      onClick={() => executeButtonCode(element.customCode)}
+      size={element.size}
+      data-testid={TEST_IDS.formElements.fieldCustomButton(element.id)}
+    >
+      {element.buttonLabel}
+    </Button>
   );
 
   return (
@@ -73,50 +97,10 @@ export const CustomButtonElement: React.FC<Props> = ({ element, executeCustomCod
           disabled={element.disabled}
           data-testid={TEST_IDS.formElements.fieldCustomButtonContainer}
         >
-          <Button
-            variant={getButtonVariant(element.variant)}
-            style={
-              element.variant === ButtonVariant.CUSTOM
-                ? {
-                    background: 'none',
-                    border: 'none',
-                    backgroundColor: theme.visualization.getColorByName(element.backgroundColor),
-                    color: theme.visualization.getColorByName(element.foregroundColor),
-                  }
-                : {}
-            }
-            className={styles.margin}
-            icon={element.icon}
-            disabled={element.disabled}
-            onClick={() => executeButtonCode(element.customCode)}
-            size={element.size}
-            data-testid={TEST_IDS.formElements.fieldCustomButton(element.id)}
-          >
-            {element.buttonLabel}
-          </Button>
+          {content}
         </InlineField>
       ) : (
-        <Button
-          variant={getButtonVariant(element.variant)}
-          style={
-            element.variant === ButtonVariant.CUSTOM
-              ? {
-                  background: 'none',
-                  border: 'none',
-                  backgroundColor: theme.visualization.getColorByName(element.backgroundColor),
-                  color: theme.visualization.getColorByName(element.foregroundColor),
-                }
-              : {}
-          }
-          className={styles.margin}
-          icon={element.icon}
-          disabled={element.disabled}
-          onClick={() => executeButtonCode(element.customCode)}
-          size={element.size}
-          data-testid={TEST_IDS.formElements.fieldCustomButton(element.id)}
-        >
-          {element.buttonLabel}
-        </Button>
+        content
       )}
     </>
   );

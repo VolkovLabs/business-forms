@@ -32,7 +32,6 @@ export const TEST_IDS = {
   },
   formElements: {
     root: 'data-testid form-elements',
-    customButtonsRow: 'data-testid form-elements custom-buttons-row',
     element: (elementId: string, elementType: string) =>
       `data-testid form-elements element-${elementId}-${elementType}`,
     fieldNumber: 'data-testid form-elements field-number',

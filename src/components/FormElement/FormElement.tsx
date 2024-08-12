@@ -141,7 +141,7 @@ export const FormElement: React.FC<Props> = ({
       case FormElementType.CHECKBOX_LIST: {
         return <CheckboxListElement element={element} onChange={onChange} />;
       }
-      case FormElementType.CUSTOM_BUTTON: {
+      case FormElementType.BUTTON: {
         if (element.show === CustomButtonShow.FORM) {
           return (
             <CustomButtonElement

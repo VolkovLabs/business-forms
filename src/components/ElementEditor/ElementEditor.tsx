@@ -1,4 +1,4 @@
-import { DataFrame, SelectableValue } from '@grafana/data';
+import { DataFrame, IconName, SelectableValue } from '@grafana/data';
 import {
   ColorPicker,
   Field,
@@ -90,8 +90,8 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
   /**
    * Icon Options
    */
-  const iconOptions = useMemo(() => {
-    return getAvailableIcons().map((icon): SelectableValue => {
+  const iconOptions = useMemo((): Array<SelectableValue<IconName>> => {
+    return getAvailableIcons().map((icon) => {
       return {
         value: icon,
         label: icon,
@@ -657,7 +657,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         </>
       )}
 
-      {isFormElementType(element, FormElementType.CUSTOM_BUTTON) && (
+      {isFormElementType(element, FormElementType.BUTTON) && (
         <>
           <InlineField
             label="Text"
@@ -682,7 +682,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
             <Select
               options={iconOptions}
               isClearable
-              onChange={(event: SelectableValue) => {
+              onChange={(event) => {
                 onChange({
                   ...element,
                   icon: event?.value,

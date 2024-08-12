@@ -431,7 +431,7 @@ export interface CustomButtonOptions {
    *
    * @type {IconName}
    */
-  icon: IconName;
+  icon?: IconName;
 
   /**
    * Size
@@ -553,7 +553,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.DATETIME } & DateTimeOptions)
     | ({ type: FormElementType.SECRET } & SecretOptions)
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
-    | ({ type: FormElementType.CUSTOM_BUTTON } & CustomButtonOptions)
+    | ({ type: FormElementType.BUTTON } & CustomButtonOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
     | ({ type: FormElementType.LINK } & LinkOptions)
     | ({ type: FormElementType.CHECKBOX_LIST } & CheckboxListOptions)
