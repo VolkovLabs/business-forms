@@ -9,7 +9,7 @@ services:
       - main
 
   grafana:
-    image: grafana/grafana:main
+    image: ghcr.io/volkovlabs/app:latest
     ports:
       - 3000:3000/tcp
     environment:
