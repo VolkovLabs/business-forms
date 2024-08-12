@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.3.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added helpers for form elements (#460)
+- Updated payload options migration (#464)
+
 ## 4.2.0 (2024-07-18)
 
 ### Features / Enhancements

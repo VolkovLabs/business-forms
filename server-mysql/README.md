@@ -49,7 +49,7 @@ server {
 
 This option is CORS-ready as an endpoint is a part of the same domain.
 
-Check the protocol used to connect to Grafana and API. It should be the same, recommended HTTPS. Related issue: <https://github.com/VolkovLabs/volkovlabs-form-panel/issues/124>
+Check the protocol used to connect to Grafana and API. It should be the same, recommended HTTPS. Related issue: <https://github.com/VolkovLabs/business-forms/issues/124>
 
 ## GET settings in Grafana plugin
 
