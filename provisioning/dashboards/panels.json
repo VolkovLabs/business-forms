@@ -117,7 +117,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "title": "No Elements",
       "type": "volkovlabs-form-panel"
     },
@@ -233,7 +233,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "title": "Data Manipulation Form",
       "type": "volkovlabs-form-panel"
     },
@@ -325,7 +325,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "title": "Buttons only",
       "type": "volkovlabs-form-panel"
     },
@@ -532,7 +532,7 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     },
@@ -670,7 +670,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
@@ -830,7 +830,7 @@
         },
         "sync": true,
         "update": {
-          "code": "console.log(context.panel.initial)\n\n/**\n * Set body\n */\nconst body = {};\ncontext.panel.elements.forEach((element) => {\n  if (!options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
+          "code": "console.log(context.panel.initial)\n\n/**\n * Set body\n */\nconst body = {};\ncontext.panel.elements.forEach((element) => {\n  if (!context.panel.options.update.updatedOnly) {\n    body[element.id] = element.value;\n    return;\n  }\n\n  /**\n   * Skip not updated elements\n   */\n  if (element.value === initial[element.id]) {\n    return;\n  }\n\n  body[element.id] = element.value;\n});\n\n/**\n * Set URL\n */\nconst url = `http://localhost:3001`;\n\n/**\n * Fetch\n */\nconst resp = fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'PRIVATE-TOKEN': '$token',\n  },\n  body: JSON.stringify(body),\n})\n  .catch((error) => {\n    console.error(error);\n  })\n  .then((resp) => {\n    console.log(resp);\n  });",
           "confirm": true,
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */\nreturn {\n  rawSql: '',\n  format: 'table',\n};",
@@ -841,7 +841,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "title": "Control Panel",
       "type": "volkovlabs-form-panel"
     },
@@ -939,7 +939,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.3.0",
       "title": "No Initial Request and Custom Button",
       "type": "volkovlabs-form-panel"
     },
@@ -1141,7 +1141,7 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.0.0",
+      "pluginVersion": "4.3.0",
       "title": "Split Form",
       "type": "volkovlabs-form-panel"
     }

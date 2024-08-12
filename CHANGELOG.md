@@ -6,6 +6,7 @@
 
 - Added helpers for form elements (#460)
 - Updated payload options migration (#464)
+- Added element custom button (#463)
 
 ## 4.2.0 (2024-07-18)
 

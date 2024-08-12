@@ -1,8 +1,11 @@
 import {
   ButtonOptions,
+  ButtonSize,
   ButtonVariant,
   CodeLanguage,
   CodeOptions,
+  CustomButtonOptions,
+  CustomButtonShow,
   FormElement,
   ModalColumnName,
   ModalOptions,
@@ -186,4 +189,17 @@ export const CONFIRM_MODAL_DEFAULT: ModalOptions = {
   confirm: 'Confirm',
   cancel: 'Cancel',
   elementDisplayMode: ConfirmationElementDisplayMode.MODIFIED,
+};
+
+/**
+ * Custom Button Default
+ */
+export const CUSTOM_BUTTON_DEFAULT: CustomButtonOptions = {
+  customCode: '',
+  size: ButtonSize.MEDIUM,
+  show: CustomButtonShow.FORM,
+  variant: ButtonVariant.PRIMARY,
+  foregroundColor: '',
+  backgroundColor: '',
+  buttonLabel: 'Button',
 };

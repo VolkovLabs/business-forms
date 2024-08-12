@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 7,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -144,7 +143,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "targets": [
         {
           "datasource": {
@@ -171,20 +170,30 @@
       "id": 2,
       "options": {
         "autoPlay": true,
+        "autoPlayInfinity": false,
         "buttons": [],
         "controls": true,
-        "formats": ["audio", "image", "pdf", "video"],
         "height": 0,
         "heightMode": "original",
         "infinityPlay": false,
+        "mediaSources": [
+          {
+            "field": "file",
+            "id": "bf121b14-b665-4268-8cc8-c32700bb01c1",
+            "refId": "A",
+            "type": "image"
+          }
+        ],
         "name": "file",
         "noResultsMessage": "Nothing to display...",
+        "pdfToolbar": true,
         "scale": "auto",
         "toolbar": true,
         "width": 0,
         "widthMode": "auto",
         "zoomType": "default"
       },
+      "pluginVersion": "6.0.0",
       "targets": [
         {
           "datasource": {
@@ -318,7 +327,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.3.0",
       "targets": [
         {
           "datasource": {
@@ -340,8 +349,8 @@
       {
         "current": {
           "selected": false,
-          "text": "Business Suite.svg",
-          "value": "Business Suite.svg"
+          "text": "BusSuite-part1.png",
+          "value": "BusSuite-part1.png"
         },
         "datasource": {
           "type": "grafana-postgresql-datasource",
