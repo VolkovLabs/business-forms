@@ -1665,7 +1665,7 @@ describe('Panel', () => {
               ],
               initial: {
                 method: RequestMethod.NONE,
-                code: `const payload = context.panel.formValue(); context.grafana.notifySuccess(payload.test)`,
+                code: `const payload = context.panel.formValue; context.grafana.notifySuccess(payload.test)`,
               },
             },
           })
@@ -1673,7 +1673,7 @@ describe('Panel', () => {
       );
 
       expect(replaceVariables).toHaveBeenCalledWith(
-        `const payload = context.panel.formValue(); context.grafana.notifySuccess(payload.test)`
+        `const payload = context.panel.formValue; context.grafana.notifySuccess(payload.test)`
       );
 
       expect(elementsSelectors.fieldNumber()).toBeInTheDocument();

@@ -6,9 +6,9 @@ import { ButtonVariant } from '../types';
 import {
   applyAcceptedFiles,
   applyLabelStyles,
+  convertElementsToPayload,
   convertToElementValue,
   formatElementValue,
-  formValueHandler,
   getButtonVariant,
   patchFormValueHandler,
   reorder,
@@ -619,7 +619,7 @@ describe('Utils', () => {
         },
       ] as any;
 
-      const result = formValueHandler(elements);
+      const result = convertElementsToPayload(elements);
 
       expect(result).toEqual({
         tst1: '',

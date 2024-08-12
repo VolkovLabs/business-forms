@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FormElement, LayoutSection, LocalFormElement } from '../types';
 import {
-  formValueHandler,
+  convertElementsToPayload,
   isElementConflict,
   isElementOptionConflict,
   normalizeElementsForDashboard,
@@ -180,8 +180,8 @@ export const useFormElements = ({
   /**
    * Form Values
    */
-  const formValue = useCallback(() => {
-    return formValueHandler(elementsRef.current);
+  const getFormValue = useCallback(() => {
+    return convertElementsToPayload(elementsRef.current);
   }, [elementsRef]);
 
   /**
@@ -234,6 +234,6 @@ export const useFormElements = ({
     onChangeSectionExpandedState,
     patchFormValue,
     setFormValue,
-    formValue,
+    getFormValue,
   };
 };

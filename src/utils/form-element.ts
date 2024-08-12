@@ -1,7 +1,6 @@
 import { css } from '@emotion/css';
 import { BusEventBase, dateTime, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { ButtonVariant as GrafanaButtonVariant } from '@grafana/ui';
-import lodash from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -618,8 +617,7 @@ export const applyLabelStyles = (labelBackground?: string, labelColor?: string):
  * @param objectValues
  */
 export const patchFormValueHandler = (elements: LocalFormElement[], objectValues: Record<string, unknown>) => {
-  const newElements: LocalFormElement[] = lodash.cloneDeep(elements);
-  newElements.forEach((item) => {
+  return elements.map((item) => {
     const newValue = objectValues[item.id];
 
     /**
@@ -628,16 +626,16 @@ export const patchFormValueHandler = (elements: LocalFormElement[], objectValues
     if (newValue !== null && newValue !== undefined) {
       item.value = convertToElementValue(item, newValue).value;
     }
-  });
 
-  return newElements;
+    return item;
+  });
 };
 
 /**
- * Form Value
+ * Convert Elements To Payload
  * @param elements
  */
-export const formValueHandler = (elements: LocalFormElement[]) =>
+export const convertElementsToPayload = (elements: LocalFormElement[]) =>
   elements.reduce<Record<string, unknown>>((acc, element) => {
     acc[element.id] = element.value;
     return acc;
@@ -654,8 +652,7 @@ export const setFormValueHandler = (
   initialElements: LocalFormElement[],
   objectValues: Record<string, unknown>
 ) => {
-  const newElements: LocalFormElement[] = lodash.cloneDeep(elements);
-  newElements.forEach((item) => {
+  return elements.map((item) => {
     const newValue = objectValues[item.id];
 
     /**
@@ -673,7 +670,7 @@ export const setFormValueHandler = (
           ? convertToElementValue(item, initialElement.value).value
           : convertToElementValue(item, '').value;
     }
-  });
 
-  return newElements;
+    return item;
+  });
 };

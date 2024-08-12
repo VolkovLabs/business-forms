@@ -34,8 +34,8 @@ export const requestCodeParameters = new CodeParametersBuilder({
           'Set panel elements.',
           CodeEditorSuggestionItemKind.Method
         ),
-        formValue: new CodeParameterItem<() => Record<string, unknown>>(
-          'Return Current form value.',
+        formValue: new CodeParameterItem<Record<string, unknown>>(
+          'Current form value.',
           CodeEditorSuggestionItemKind.Method
         ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
