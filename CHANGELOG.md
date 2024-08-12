@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Add helpers for form elements (#460)
+- Added helpers for form elements (#460)
+- Updated payload options migration (#464)
 
 ## 4.2.0 (2024-07-18)
 
