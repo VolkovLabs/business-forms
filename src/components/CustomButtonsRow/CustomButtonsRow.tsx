@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { FormElementType } from '../../constants';
 import { CustomButtonShow, ExecuteCustomCodeParams, LocalFormElement } from '../../types';
 import { CustomButtonElement } from '../FormElement/components';
+
 /**
  * Properties
  */
@@ -37,7 +38,7 @@ interface Props {
 }
 
 /**
- * CustomButtonsRow
+ * Custom Buttons Row
  */
 export const CustomButtonsRow: React.FC<Props> = ({ elements, initial, replaceVariables, data, executeCustomCode }) => {
   /**

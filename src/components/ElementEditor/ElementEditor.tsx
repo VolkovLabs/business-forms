@@ -659,13 +659,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
 
       {isFormElementType(element, FormElementType.BUTTON) && (
         <>
-          <InlineField
-            label="Text"
-            grow
-            labelWidth={8}
-            tooltip="The text on the button.
-"
-          >
+          <InlineField label="Text" grow labelWidth={8} tooltip="The text on the button.">
             <Input
               placeholder="Text"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
