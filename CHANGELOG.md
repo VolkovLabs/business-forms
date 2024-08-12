@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.3.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add helpers for form elements (#460)
+
 ## 4.2.0 (2024-07-18)
 
 ### Features / Enhancements
