@@ -2,9 +2,9 @@ import { DateTime, dateTime } from '@grafana/data';
 import { InlineField, TimeOfDayPicker } from '@grafana/ui';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '../../../../constants';
-import { FormElementByType, LocalFormElement } from '../../../../types';
-import { applyWidth } from '../../../../utils';
+import { FormElementType, TEST_IDS } from '@/constants';
+import { FormElementByType, LocalFormElement } from '@/types';
+import { applyWidth } from '@/utils';
 
 /**
  * Properties

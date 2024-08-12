@@ -2,9 +2,10 @@ import { cx } from '@emotion/css';
 import { InlineField, Input, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent } from 'react';
 
-import { FormElementType, TEST_IDS } from '../../../../constants';
-import { FormElementByType, LocalFormElement } from '../../../../types';
-import { applyLabelStyles, applyWidth } from '../../../../utils';
+import { FormElementType, TEST_IDS } from '@/constants';
+import { FormElementByType, LocalFormElement } from '@/types';
+import { applyLabelStyles, applyWidth } from '@/utils';
+
 import { getStyles } from './StringElement.style';
 
 /**

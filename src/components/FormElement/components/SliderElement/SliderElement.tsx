@@ -3,9 +3,10 @@ import { InlineField, Input, useStyles2 } from '@grafana/ui';
 import Slider from 'rc-slider';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '../../../../constants';
-import { FormElementByType, LocalFormElement } from '../../../../types';
-import { applyLabelStyles, applyWidth } from '../../../../utils';
+import { FormElementType, TEST_IDS } from '@/constants';
+import { FormElementByType, LocalFormElement } from '@/types';
+import { applyLabelStyles, applyWidth } from '@/utils';
+
 import { getStyles } from './SliderElement.style';
 
 /**

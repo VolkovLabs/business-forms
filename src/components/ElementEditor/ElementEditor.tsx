@@ -90,7 +90,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
   /**
    * Icon Options
    */
-  const iconOptions = useMemo((): Array<SelectableValue<IconName>> => {
+  const iconOptions = useMemo((): Array<SelectableValue<string>> => {
     return getAvailableIcons().map((icon) => {
       return {
         value: icon,
@@ -685,7 +685,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
               onChange={(event) => {
                 onChange({
                   ...element,
-                  icon: event?.value,
+                  icon: event?.value as IconName | undefined,
                 });
               }}
               value={element.icon}

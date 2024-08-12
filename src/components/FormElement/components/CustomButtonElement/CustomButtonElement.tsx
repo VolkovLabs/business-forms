@@ -1,15 +1,9 @@
 import { Button, InlineField, useTheme2 } from '@grafana/ui';
 import React, { useCallback } from 'react';
 
-import { FormElementType, TEST_IDS } from '../../../../constants';
-import {
-  ButtonVariant,
-  CustomButtonShow,
-  ExecuteCustomCodeParams,
-  FormElementByType,
-  LocalFormElement,
-} from '../../../../types';
-import { applyWidth, getButtonVariant } from '../../../../utils';
+import { FormElementType, TEST_IDS } from '@/constants';
+import { ButtonVariant, CustomButtonShow, ExecuteCustomCodeParams, FormElementByType, LocalFormElement } from '@/types';
+import { applyWidth, getButtonVariant } from '@/utils';
 
 /**
  * Properties
