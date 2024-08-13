@@ -47,15 +47,15 @@ grafana-cli plugins install volkovlabs-form-panel
 
 ## Documentation
 
-| Section                                                                             | Description                                                                                |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| [Data Flow](https://volkovlabs.io/plugins/volkovlabs-form-panel/data-flow/)         | Explains the data flow and its specifics.                                                  |
-| [Form Elements](https://volkovlabs.io/plugins/volkovlabs-form-panel/form-elements/) | Explains the specifics of form elements.                                                   |
-| [REST API](https://volkovlabs.io/plugins/volkovlabs-form-panel/architecture/)       | Explains the REST API architecture and how to use NGINX.                                   |
-| [Custom Code](https://volkovlabs.io/plugins/volkovlabs-form-panel/code/)            | Explains how to access plugin options, API responses, form elements, and Grafana services. |
-| [Features](https://volkovlabs.io/plugins/volkovlabs-form-panel/features/)           | Explains the plugin features.                                                              |
-| [Servers](https://volkovlabs.io/plugins/volkovlabs-form-panel/servers/)             | Provides examples of API server implementations.                                           |
-| [Release Notes](https://volkovlabs.io/plugins/volkovlabs-form-panel/release/)       | Stay up to date with the latest features and updates.                                      |
+| Section                                                                      | Description                                                                                |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [Data Flow](https://volkovlabs.io/plugins/business-forms/data-flow/)         | Explains the data flow and its specifics.                                                  |
+| [Form Elements](https://volkovlabs.io/plugins/business-forms/form-elements/) | Explains the specifics of form elements.                                                   |
+| [REST API](https://volkovlabs.io/plugins/business-forms/architecture/)       | Explains the REST API architecture and how to use NGINX.                                   |
+| [Custom Code](https://volkovlabs.io/plugins/business-forms/code/)            | Explains how to access plugin options, API responses, form elements, and Grafana services. |
+| [Features](https://volkovlabs.io/plugins/business-forms/features/)           | Explains the plugin features.                                                              |
+| [Servers](https://volkovlabs.io/plugins/business-forms/servers/)             | Provides examples of API server implementations.                                           |
+| [Release Notes](https://volkovlabs.io/plugins/business-forms/release/)       | Stay up to date with the latest features and updates.                                      |
 
 ## Business Suite for Grafana
 
