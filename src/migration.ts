@@ -1,4 +1,5 @@
 import { PanelModel } from '@grafana/data';
+import { set } from 'lodash';
 import semver from 'semver';
 
 import { FormElementType, PayloadMode } from './constants';
@@ -36,10 +37,10 @@ interface OutdatedLayoutOptions extends Omit<LayoutOptions, 'sections'> {
 /**
  * Outdated Panel Options
  */
-interface OutdatedPanelOptions extends Omit<PanelOptions, 'initial' | 'update' | 'layout'> {
-  initial: OutdatedRequestOptions;
-  update: OutdatedRequestOptions;
-  layout: OutdatedLayoutOptions;
+interface OutdatedPanelOptions extends Partial<Omit<PanelOptions, 'initial' | 'update' | 'layout'>> {
+  initial?: OutdatedRequestOptions;
+  update?: OutdatedRequestOptions;
+  layout?: OutdatedLayoutOptions;
 }
 
 /**
@@ -55,7 +56,11 @@ const normalizeRequestOptions = ({ updatedOnly, payloadMode, ...actual }: Outdat
 /**
  * Normalize Code Options
  */
-const normalizeCodeOptions = (code: string): string => {
+const normalizeCodeOptions = (code: string | undefined): string => {
+  if (!code) {
+    return '';
+  }
+
   const search =
     /^(?!.*context\.)(?:.*)(options\.|data\.|response|elements\.|onChange\(|locationService|templateService|onOptionsChange\(|initialRequest\(|setInitial\(|initial\.|notifyError\(|notifySuccess\(|notifyWarning\(|toDataQueryResponse\(|replaceVariables\()/gm;
 
@@ -131,7 +136,7 @@ const normalizeCodeOptions = (code: string): string => {
  * @param obj
  *
  */
-export const normalizePayloadOptions = (obj: Record<string, unknown>) => {
+export const normalizePayloadOptions = (obj?: Record<string, unknown>) => {
   /**
    * Check passed object
    */
@@ -167,13 +172,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
    * Normalize non context code parameters before 4.0.0
    */
   if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.0.0')) {
-    options.initial.code = normalizeCodeOptions(options.initial.code);
-    options.resetAction.code = normalizeCodeOptions(options.resetAction.code);
-    options.update.code = normalizeCodeOptions(options.update.code);
+    set(options, 'initial.code', normalizeCodeOptions(options.initial?.code));
+    set(options, 'resetAction.code', normalizeCodeOptions(options.resetAction?.code));
+    set(options, 'update.code', normalizeCodeOptions(options.update?.code));
 
-    options.initial.getPayload = normalizeCodeOptions(options.initial.getPayload);
-    options.resetAction.getPayload = normalizeCodeOptions(options.resetAction.getPayload);
-    options.update.getPayload = normalizeCodeOptions(options.update.getPayload);
+    set(options, 'initial.getPayload', normalizeCodeOptions(options.initial?.getPayload));
+    set(options, 'resetAction.getPayload', normalizeCodeOptions(options.resetAction?.getPayload));
+    set(options, 'update.getPayload', normalizeCodeOptions(options.update?.getPayload));
 
     if (options.elements && options.elements.length > 0) {
       options.elements.forEach((element) => {
@@ -200,23 +205,25 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
   /**
    * Remove datasource payload code
    */
-  if (typeof options.initial.payload === 'string') {
+  if (typeof options.initial?.payload === 'string') {
     options.initial.payload = {};
   }
 
-  if (typeof options.update.payload === 'string') {
+  if (typeof options.update?.payload === 'string') {
     options.update.payload = {};
   }
 
-  if (typeof options.resetAction.payload === 'string') {
+  if (typeof options.resetAction?.payload === 'string') {
     options.resetAction.payload = {};
   }
 
   /**
-   * Normalize request options
+   * Normalize initial request options
    */
-  if ('updatedOnly' in options.initial || 'updatedOnly' in options.update) {
+  if (options.initial && 'updatedOnly' in options.initial) {
     options.initial = normalizeRequestOptions(options.initial);
+  }
+  if (options.update && 'updatedOnly' in options.update) {
     options.update = normalizeRequestOptions(options.update);
   }
 
@@ -237,9 +244,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
    * Normalize payload object
    */
   if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.3.0')) {
-    options.initial.payload = normalizePayloadOptions(options.initial.payload as Record<string, unknown>);
-    options.update.payload = normalizePayloadOptions(options.update.payload as Record<string, unknown>);
-    options.resetAction.payload = normalizePayloadOptions(options.resetAction.payload as Record<string, unknown>);
+    set(options, 'initial.payload', normalizePayloadOptions(options.initial?.payload as Record<string, unknown>));
+    set(options, 'update.payload', normalizePayloadOptions(options.update?.payload as Record<string, unknown>));
+    set(
+      options,
+      'resetAction.payload',
+      normalizePayloadOptions(options.resetAction?.payload as Record<string, unknown>)
+    );
   }
 
   return options as PanelOptions;

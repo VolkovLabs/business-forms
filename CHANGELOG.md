@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.3.1 (2024-08-16)
+
+### Bugfixes
+
+- Fixed migration helper if nested object properties are not defined (#468)
+
 ## 4.3.0 (2024-08-12)
 
 ### Features / Enhancements
