@@ -632,6 +632,83 @@ describe('Panel', () => {
       );
     });
 
+    it('Should update elements with query result for multiselect elements', async () => {
+      /**
+       * Render
+       */
+      await act(async () => {
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: {
+                state: LoadingState.Done,
+                series: [
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    refId: 'A',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricB1', 'metricB2'],
+                      },
+                    ],
+                    refId: 'B',
+                  }),
+                ],
+              },
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+      });
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricA1', 'metricA2'],
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
     it('Should not update elements if no query result', async () => {
       /**
        * Render
