@@ -634,6 +634,8 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
                 showLineNumbers={true}
                 aria-label={TEST_IDS.formElementsEditor.fieldGetOptions}
                 getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementGetOptions}
+                modalTitle="Get options code Editor"
+                modalButtonTooltip="Expand Get Options Editor"
               />
             </Field>
           )}
@@ -785,6 +787,8 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
               }}
               monacoOptions={{ formatOnPaste: true, formatOnType: true }}
               showLineNumbers={true}
+              modalTitle="Code Editor"
+              modalButtonTooltip="Expand Code Editor"
               aria-label={TEST_IDS.formElementsEditor.fieldCustomButtonCustomCode}
               getSuggestions={() => CODE_EDITOR_SUGGESTIONS.request}
             />
@@ -804,6 +808,8 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
           }}
           monacoOptions={{ formatOnPaste: true, formatOnType: true }}
           showLineNumbers={true}
+          modalTitle={`'Show if' code Editor`}
+          modalButtonTooltip={`Expand 'Show if' code Editor`}
           aria-label={TEST_IDS.formElementsEditor.fieldShowIf}
           getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementShowIf}
         />
@@ -824,6 +830,8 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
               }}
               monacoOptions={{ formatOnPaste: true, formatOnType: true }}
               showLineNumbers={true}
+              modalTitle={`'Disable if' code Editor`}
+              modalButtonTooltip={`Expand 'Disable if' code Editor`}
               aria-label={TEST_IDS.formElementsEditor.fieldDisableIf}
               getSuggestions={() => CODE_EDITOR_SUGGESTIONS.elementDisableIf}
             />
