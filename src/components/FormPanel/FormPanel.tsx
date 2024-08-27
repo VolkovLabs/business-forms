@@ -201,6 +201,13 @@ export const FormPanel: React.FC<Props> = ({
            */
           const values = getFieldValues(field);
 
+          /**
+           * Supports multi values
+           */
+          if (element.type === FormElementType.CHECKBOX_LIST || element.type === FormElementType.MULTISELECT) {
+            return convertToElementValue(element, values);
+          }
+
           return convertToElementValue(element, values[values.length - 1]);
         }
 

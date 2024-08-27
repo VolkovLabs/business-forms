@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Added Expandable Editors (#472)
+- Updated Pre-Selection for multi selection elements (#474)
 
 ## 4.3.1 (2024-08-16)
 
