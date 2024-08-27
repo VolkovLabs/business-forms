@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.4.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added Expandable Editors (#472)
+
 ## 4.3.1 (2024-08-16)
 
 ### Bugfixes
