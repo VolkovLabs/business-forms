@@ -1,11 +1,12 @@
 # Change Log
 
-## 4.4.0 (IN PROGRESS)
+## 4.4.0 (2024-08-29)
 
 ### Features / Enhancements
 
 - Added Expandable Editors (#472)
 - Updated Pre-Selection for multi selection elements (#474)
+- Updated data source query display error (#477)
 
 ## 4.3.1 (2024-08-16)
 

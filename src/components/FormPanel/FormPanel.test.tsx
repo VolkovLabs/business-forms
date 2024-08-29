@@ -483,7 +483,7 @@ describe('Panel', () => {
        * Check if http error message shown
        */
       expect(selectors.errorMessage()).toBeInTheDocument();
-      expect(within(selectors.errorMessage()).getByText('Error: message')).toBeInTheDocument();
+      expect(within(selectors.errorMessage()).getByText('Initial error: message')).toBeInTheDocument();
     });
 
     it('Should show error if error while execution', async () => {
