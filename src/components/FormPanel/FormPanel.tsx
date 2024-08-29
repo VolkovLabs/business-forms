@@ -687,7 +687,8 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
         payload,
       }).catch((error: DataQueryError) => {
-        setError(JSON.stringify(error));
+        const errorMessage = `Update datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+        setError(errorMessage);
         return null;
       });
     } else {
