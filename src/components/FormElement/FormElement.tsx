@@ -79,6 +79,7 @@ export const FormElement: React.FC<Props> = ({
   executeCustomCode,
   elements,
   initial,
+  replaceVariables,
 }) => {
   /**
    * Styles and Theme
@@ -147,6 +148,7 @@ export const FormElement: React.FC<Props> = ({
             <CustomButtonElement
               element={element}
               executeCustomCode={executeCustomCode}
+              replaceVariables={replaceVariables}
               elements={elements}
               initial={initial}
             />

@@ -1,3 +1,4 @@
+import { InterpolateFunction } from '@grafana/data';
 import { Button, InlineField, useTheme2 } from '@grafana/ui';
 import React, { useCallback } from 'react';
 
@@ -35,12 +36,23 @@ interface Props {
    * @type {[id: string]: unknown}
    */
   initial: { [id: string]: unknown };
+
+  /**
+   * Template variables interpolation function
+   */
+  replaceVariables: InterpolateFunction;
 }
 
 /**
  * Custom Button Element
  */
-export const CustomButtonElement: React.FC<Props> = ({ element, executeCustomCode, elements, initial }) => {
+export const CustomButtonElement: React.FC<Props> = ({
+  element,
+  executeCustomCode,
+  elements,
+  initial,
+  replaceVariables,
+}) => {
   /**
    * Styles and Theme
    */
@@ -75,7 +87,7 @@ export const CustomButtonElement: React.FC<Props> = ({ element, executeCustomCod
       size={element.size}
       data-testid={TEST_IDS.formElements.fieldCustomButton(element.id)}
     >
-      {element.buttonLabel}
+      {replaceVariables(element.buttonLabel)}
     </Button>
   );
 

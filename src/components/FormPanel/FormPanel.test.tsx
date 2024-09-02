@@ -552,8 +552,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
+       * replaceVariables called for buttons titles
+       * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(1);
+      expect(replaceVariables).toHaveBeenCalledTimes(13);
     });
 
     it('Should update elements with query result', async () => {
@@ -830,8 +832,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
+       * replaceVariables called for buttons titles
+       * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(1);
+      expect(replaceVariables).toHaveBeenCalledTimes(13);
     });
 
     it('Should not update elements if datasource is unspecified', async () => {
@@ -2051,7 +2055,12 @@ describe('Panel', () => {
       });
 
       expect(replaceVariables).toHaveBeenCalledWith(defaultOptions.resetAction.code);
-      expect(replaceVariables).toHaveBeenCalledTimes(1);
+
+      /**
+       * replaceVariables called for buttons titles
+       * number of calls increased
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(9);
       expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertSuccess.name,
         payload: 'success',
@@ -2156,8 +2165,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
+       * replaceVariables called for buttons titles
+       * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(1);
+      expect(replaceVariables).toHaveBeenCalledTimes(9);
     });
 
     it('Should not run reset datasource request if datasource not specified', async () => {
@@ -2245,8 +2256,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
+       * replaceVariables called for buttons titles
+       * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(0);
+      expect(replaceVariables).toHaveBeenCalledTimes(4);
     });
 
     it('Should show reset datasource request error', async () => {

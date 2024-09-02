@@ -18,6 +18,12 @@ jest.useFakeTimers();
 jest.mock('@volkovlabs/components');
 
 /**
+ * Replace variables
+ */
+const replaceVariablesMock = (code: string) => code;
+const replaceVariables = jest.fn(replaceVariablesMock) as any;
+
+/**
  * Form Elements
  */
 describe('Form Elements', () => {
@@ -34,7 +40,12 @@ describe('Form Elements', () => {
    */
   const getComponent = ({ options = {}, ...restProps }: any) => {
     return (
-      <FormElements options={options} elements={normalizeElementsForLocalState(options.elements)} {...restProps} />
+      <FormElements
+        replaceVariables={replaceVariables}
+        options={options}
+        elements={normalizeElementsForLocalState(options.elements)}
+        {...restProps}
+      />
     );
   };
 
@@ -256,6 +267,34 @@ describe('Form Elements', () => {
      * Input
      */
     expect(selectors.fieldSliderInput()).toBeInTheDocument();
+  });
+
+  it('Should render default only for test', async () => {
+    const options = {
+      submit: {},
+      initial: { highlightColor: false },
+      update: {},
+      reset: {},
+      elements: [{ id: 'none', type: 'none', value: 0 }],
+    };
+
+    render(getComponent({ options, onChangeElement }));
+    expect(selectors.element(true, 'none', 'none')).toBeInTheDocument();
+    expect(selectors.fieldSlider(true)).not.toBeInTheDocument();
+    expect(selectors.fieldCheckboxListContainer(true)).not.toBeInTheDocument();
+    expect(selectors.fieldCode(true)).not.toBeInTheDocument();
+    expect(selectors.fieldDateTime(true)).not.toBeInTheDocument();
+    expect(selectors.fieldDisabled(true)).not.toBeInTheDocument();
+    expect(selectors.fieldDisabledTextarea(true)).not.toBeInTheDocument();
+    expect(selectors.fieldFile(true)).not.toBeInTheDocument();
+    expect(selectors.fieldNumber(true)).not.toBeInTheDocument();
+    expect(selectors.fieldPassword(true)).not.toBeInTheDocument();
+    expect(selectors.fieldRadioContainer(true)).not.toBeInTheDocument();
+    expect(selectors.fieldSelect(true)).not.toBeInTheDocument();
+    expect(selectors.fieldString(true)).not.toBeInTheDocument();
+    expect(selectors.fieldSliderInput(true)).not.toBeInTheDocument();
+    expect(selectors.fieldTextarea(true)).not.toBeInTheDocument();
+    expect(selectors.fieldTime(true)).not.toBeInTheDocument();
   });
 
   it('Should find component with Radio', async () => {
