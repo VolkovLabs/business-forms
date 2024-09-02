@@ -21,12 +21,19 @@ interface Props {
    * On Change
    */
   onChange: <T extends LocalFormElement>(element: T) => void;
+
+  /**
+   * Time Zone
+   *
+   * @type {string}
+   */
+  timeZone: string;
 }
 
 /**
  * Date Time Element
  */
-export const DateTimeElement: React.FC<Props> = ({ element, onChange }) => {
+export const DateTimeElement: React.FC<Props> = ({ element, onChange, timeZone }) => {
   return (
     <InlineField
       label={element.title}
@@ -57,6 +64,7 @@ export const DateTimeElement: React.FC<Props> = ({ element, onChange }) => {
             }
           }}
           data-testid={TEST_IDS.formElements.fieldDateTime}
+          timeZone={timeZone}
         />
       )}
     </InlineField>

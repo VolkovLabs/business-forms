@@ -3,8 +3,9 @@ import { InterpolateFunction, PanelData } from '@grafana/data';
 import { useTheme2 } from '@grafana/ui';
 import React, { useCallback, useMemo } from 'react';
 
-import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '../../constants';
-import { ExecuteCustomCodeParams, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
+import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '@/constants';
+import { ExecuteCustomCodeParams, LayoutSection, LocalFormElement, PanelOptions } from '@/types';
+
 import { FormElement } from '../FormElement';
 
 /**
@@ -59,6 +60,8 @@ interface Props {
 
   /**
    * Time Zone
+   *
+   * @type {string}
    */
   timeZone: string;
 }
