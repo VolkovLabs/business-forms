@@ -6,14 +6,14 @@
     "@grafana/runtime": "^11.1.0",
     "@grafana/ui": "^11.2.0-186891",
     "@hello-pangea/dnd": "^16.6.0",
-    "@volkovlabs/components": "^2.6.0",
+    "@volkovlabs/components": "^2.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "semver": "^7.6.2",
     "tslib": "^2.6.3",
     "uuid": "^10.0.0"
   },
-  "description": "Business Forms Panel",
+  "description": "Insert, update application data, and modify configuration",
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@emotion/jest": "^11.11.0",
@@ -49,6 +49,7 @@
     "swc-loader": "^0.2.6",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "5.5.2",
     "util": "^0.12.5",
     "webpack": "^5.92.1",
@@ -59,10 +60,10 @@
     "node": ">=20"
   },
   "license": "Apache-2.0",
-  "name": "volkovlabs-form-panel",
+  "name": "business-forms",
   "scripts": {
-    "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
-    "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
+    "build": "webpack -c ./webpack.config.ts --env production",
+    "dev": "webpack -w -c ./webpack.config.ts --env development",
     "levitate": "npx @grafana/levitate@latest is-compatible --path src/module.ts --target @grafana/data,@grafana/runtime,@grafana/ui",
     "lint": "eslint --ignore-path ./.eslintignore --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ignore-path ./.eslintignore --ext .js,.jsx,.ts,.tsx .",
@@ -76,5 +77,5 @@
     "test:ci": "jest --maxWorkers 4 --coverage",
     "upgrade": "npm upgrade --save"
   },
-  "version": "4.2.0"
+  "version": "4.4.0"
 }

@@ -21,6 +21,7 @@ import { useDatasourceRequest } from '../../hooks';
 import {
   ButtonOrientation,
   ButtonVariant,
+  CustomButtonShow,
   FormElement,
   LocalFormElement,
   ModalColumnName,
@@ -276,6 +277,120 @@ describe('Panel', () => {
     expect(selectors.buttonReset()).toBeInTheDocument();
   });
 
+  it('Should render custom buttons after form buttons ', async () => {
+    /**
+     * Render
+     */
+    const replaceVariables = jest.fn((code) => code);
+
+    await act(async () =>
+      render(
+        getComponent({
+          props: {
+            replaceVariables,
+          },
+          options: {
+            initial: {
+              method: RequestMethod.NONE,
+            },
+            elements: [
+              { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
+              { type: FormElementType.NUMBER, id: 'number', value: 111, unit: 'test' },
+              { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              { type: FormElementType.STRING, id: 'string1', value: 'str1' },
+              { type: FormElementType.STRING, id: 'string2', value: 'str2' },
+              {
+                type: FormElementType.BUTTON,
+                id: 'button1',
+                value: '',
+                customCode: `context.grafana.notifySuccess("success");`,
+                title: 'Custom Button',
+                buttonLabel: 'Test 1',
+                show: CustomButtonShow.BOTTOM,
+                unit: 'test 2',
+                foregroundColor: 'red',
+                backgroundColor: '#3274D9',
+                variant: ButtonVariant.PRIMARY,
+              },
+            ],
+          },
+        })
+      )
+    );
+
+    expect(selectors.buttonSubmit()).toBeInTheDocument();
+    expect(selectors.buttonReset()).toBeInTheDocument();
+
+    expect(elementsSelectors.fieldCustomButtonContainer(true)).not.toBeInTheDocument();
+
+    expect(elementsSelectors.fieldCustomButton(false, 'button1')).toBeInTheDocument();
+  });
+  it('Should render custom buttons after form buttons and execute code', async () => {
+    /**
+     * Render
+     */
+    const replaceVariables = jest.fn((code) => code);
+
+    await act(async () =>
+      render(
+        getComponent({
+          props: {
+            replaceVariables,
+          },
+          options: {
+            initial: {
+              method: RequestMethod.NONE,
+            },
+            elements: [
+              { ...FORM_ELEMENT_DEFAULT, id: 'test', value: '123' },
+              { type: FormElementType.NUMBER, id: 'number', value: 111, unit: 'test' },
+              { type: FormElementType.DISABLED, id: 'disabled', value: '222' },
+              { type: FormElementType.STRING, id: 'string1', value: 'str1' },
+              { type: FormElementType.STRING, id: 'string2', value: 'str2' },
+              {
+                type: FormElementType.BUTTON,
+                id: 'button1',
+                value: '',
+                customCode: `context.grafana.notifySuccess("success");`,
+                title: 'Custom Button',
+                buttonLabel: 'Test 1',
+                show: CustomButtonShow.BOTTOM,
+                unit: 'test 2',
+                foregroundColor: 'red',
+                backgroundColor: '#3274D9',
+                variant: ButtonVariant.CUSTOM,
+              },
+            ],
+          },
+        })
+      )
+    );
+
+    expect(selectors.buttonSubmit()).toBeInTheDocument();
+    expect(selectors.buttonReset()).toBeInTheDocument();
+
+    expect(elementsSelectors.fieldCustomButtonContainer(true)).not.toBeInTheDocument();
+
+    expect(elementsSelectors.fieldCustomButton(false, 'button1')).toBeInTheDocument();
+
+    expect(elementsSelectors.fieldCustomButton(false, 'button1')).toHaveStyle({
+      'background-color': 'rgb(50, 116, 217)',
+    });
+
+    /**
+     * Run Execute code
+     */
+    await act(async () => {
+      fireEvent.click(elementsSelectors.fieldCustomButton(false, 'button1'));
+    });
+
+    expect(replaceVariables).toHaveBeenCalledWith('context.grafana.notifySuccess("success");');
+    expect(appEventsMock.publish).toHaveBeenCalledWith({
+      type: AppEvents.alertSuccess.name,
+      payload: 'success',
+    });
+  });
+
   /**
    * Initial Request
    */
@@ -368,7 +483,7 @@ describe('Panel', () => {
        * Check if http error message shown
        */
       expect(selectors.errorMessage()).toBeInTheDocument();
-      expect(within(selectors.errorMessage()).getByText('Error: message')).toBeInTheDocument();
+      expect(within(selectors.errorMessage()).getByText('Initial error: message')).toBeInTheDocument();
     });
 
     it('Should show error if error while execution', async () => {
@@ -506,6 +621,83 @@ describe('Panel', () => {
             expect.objectContaining({
               id: 'mapped',
               value: 'metricA2',
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
+    it('Should update elements with query result for multiselect elements', async () => {
+      /**
+       * Render
+       */
+      await act(async () => {
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: {
+                state: LoadingState.Done,
+                series: [
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    refId: 'A',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricB1', 'metricB2'],
+                      },
+                    ],
+                    refId: 'B',
+                  }),
+                ],
+              },
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+      });
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricA1', 'metricA2'],
             }),
             expect.objectContaining({
               id: 'unmapped',
@@ -1580,6 +1772,108 @@ describe('Panel', () => {
       expect(appEventsMock.publish).toHaveBeenCalledWith({
         type: AppEvents.alertWarning.name,
         payload: 'warning',
+      });
+    });
+
+    it('Should execute code on initial request with patchFormValue correctly', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.patchFormValue({ test2: '15' });`,
+              },
+            },
+          })
+        )
+      );
+      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.patchFormValue({ test2: '15' });`);
+
+      expect(elementsSelectors.fieldNumber()).toBeInTheDocument();
+      expect(elementsSelectors.fieldNumber()).toHaveValue(15);
+    });
+
+    it('Should execute code on initial request with setFormValue correctly', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.setFormValue({ test2: '15' });`,
+              },
+            },
+          })
+        )
+      );
+
+      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.setFormValue({ test2: '15' });`);
+
+      expect(elementsSelectors.fieldNumber()).toBeInTheDocument();
+      expect(elementsSelectors.fieldNumber()).toHaveValue(15);
+    });
+
+    it('Should execute code on initial request with formValue correctly', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: 'success test' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+              initial: {
+                method: RequestMethod.NONE,
+                code: `const payload = context.panel.formValue; context.grafana.notifySuccess(payload.test)`,
+              },
+            },
+          })
+        )
+      );
+
+      expect(replaceVariables).toHaveBeenCalledWith(
+        `const payload = context.panel.formValue; context.grafana.notifySuccess(payload.test)`
+      );
+
+      expect(elementsSelectors.fieldNumber()).toBeInTheDocument();
+      expect(elementsSelectors.fieldNumber()).toHaveValue(10);
+
+      expect(appEventsMock.publish).toHaveBeenCalledWith({
+        type: AppEvents.alertSuccess.name,
+        payload: 'success test',
       });
     });
 

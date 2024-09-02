@@ -26,13 +26,25 @@ export const requestCodeParameters = new CodeParametersBuilder({
           'Update panel elements.',
           CodeEditorSuggestionItemKind.Method
         ),
+        patchFormValue: new CodeParameterItem<(objectValues: Record<string, unknown>) => void>(
+          'Patch panel elements.',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        setFormValue: new CodeParameterItem<(objectValues: Record<string, unknown>) => void>(
+          'Set panel elements.',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        formValue: new CodeParameterItem<Record<string, unknown>>(
+          'Return current form value.',
+          CodeEditorSuggestionItemKind.Method
+        ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
         setInitial: new CodeParameterItem<(value: { [id: string]: unknown }) => void>(
           'Allows to specify the initial values.',
           CodeEditorSuggestionItemKind.Method
         ),
         initialRequest: new CodeParameterItem<(() => Promise<void>) | undefined>(
-          'Run Initial Request.',
+          'Run Initial request.',
           CodeEditorSuggestionItemKind.Method
         ),
         enableSubmit: new CodeParameterItem<() => void>('Enable submit button.', CodeEditorSuggestionItemKind.Method),
@@ -41,15 +53,15 @@ export const requestCodeParameters = new CodeParametersBuilder({
           'Response object.'
         ),
         toggleSection: new CodeParameterItem<(id: string) => void>(
-          'Toggle Section',
+          'Toggle section',
           CodeEditorSuggestionItemKind.Method
         ),
         collapseSection: new CodeParameterItem<(id: string) => void>(
-          'Collapse Section',
+          'Collapse section',
           CodeEditorSuggestionItemKind.Method
         ),
         expandSection: new CodeParameterItem<(id: string) => void>(
-          'Expand Section',
+          'Expand section',
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
@@ -114,9 +126,21 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           'Update panel elements.',
           CodeEditorSuggestionItemKind.Method
         ),
+        patchFormValue: new CodeParameterItem<(objectValues: Record<string, unknown>) => void>(
+          'Patch panel elements.',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        setFormValue: new CodeParameterItem<(objectValues: Record<string, unknown>) => void>(
+          'Set panel elements.',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        formValue: new CodeParameterItem<() => Record<string, unknown>>(
+          'Return current form value.',
+          CodeEditorSuggestionItemKind.Method
+        ),
         initial: new CodeParameterItem<unknown>('Initial values.'),
         initialRequest: new CodeParameterItem<(() => Promise<void>) | undefined>(
-          'Run Initial Request.',
+          'Run Initial request.',
           CodeEditorSuggestionItemKind.Method
         ),
         enableSubmit: new CodeParameterItem<() => void>('Enable submit button.', CodeEditorSuggestionItemKind.Method),
@@ -136,15 +160,15 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         toggleSection: new CodeParameterItem<(id: string) => void>(
-          'Toggle Section',
+          'Toggle section',
           CodeEditorSuggestionItemKind.Method
         ),
         collapseSection: new CodeParameterItem<(id: string) => void>(
-          'Collapse Section',
+          'Collapse section',
           CodeEditorSuggestionItemKind.Method
         ),
         expandSection: new CodeParameterItem<(id: string) => void>(
-          'Expand Section',
+          'Expand section',
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),

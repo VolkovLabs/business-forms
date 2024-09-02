@@ -24,5 +24,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
       margin-left: ${theme.spacing(1)};
       color: ${theme.colors.text.secondary};
     `,
+    buttonWrap: css`
+      min-height: 32px;
+    `,
   };
 };

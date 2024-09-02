@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   CODE_DEFAULT,
+  CUSTOM_BUTTON_DEFAULT,
   FormElementType,
   NUMBER_DEFAULT,
   OptionsSource,
@@ -169,6 +170,14 @@ export const getElementWithNewType = (
       return {
         ...baseValues,
         value: false,
+        type: newType,
+      };
+    }
+    case FormElementType.BUTTON: {
+      return {
+        ...baseValues,
+        ...CUSTOM_BUTTON_DEFAULT,
+        value: '',
         type: newType,
       };
     }
@@ -449,6 +458,7 @@ export const convertToElementValue = (
     case FormElementType.PASSWORD:
     case FormElementType.SECRET:
     case FormElementType.TEXTAREA:
+    case FormElementType.BUTTON:
     case FormElementType.LINK: {
       return {
         ...element,
@@ -609,4 +619,68 @@ export const applyLabelStyles = (labelBackground?: string, labelColor?: string):
         } 
     `}
   `;
+};
+
+/**
+ * Patch Form Value
+ * @param elements
+ * @param objectValues
+ */
+export const patchFormValueHandler = (elements: LocalFormElement[], objectValues: Record<string, unknown>) => {
+  return elements.map((item) => {
+    const newValue = objectValues[item.id];
+
+    /**
+     * Set Value
+     */
+    if (newValue !== null && newValue !== undefined) {
+      item.value = convertToElementValue(item, newValue).value;
+    }
+
+    return item;
+  });
+};
+
+/**
+ * Convert Elements To Payload
+ * @param elements
+ */
+export const convertElementsToPayload = (elements: LocalFormElement[]) =>
+  elements.reduce<Record<string, unknown>>((acc, element) => {
+    acc[element.id] = element.value;
+    return acc;
+  }, {});
+
+/**
+ * Set Form Value
+ * @param elements
+ * @param initialElements
+ * @param objectValues
+ */
+export const setFormValueHandler = (
+  elements: LocalFormElement[],
+  initialElements: LocalFormElement[],
+  objectValues: Record<string, unknown>
+) => {
+  return elements.map((item) => {
+    const newValue = objectValues[item.id];
+
+    /**
+     * Set Value
+     */
+    if (newValue !== null && newValue !== undefined) {
+      item.value = convertToElementValue(item, newValue).value;
+    } else {
+      /**
+       * Set Initial value or reset to empty value
+       */
+      const initialElement = initialElements.find((initialElement) => initialElement.id === item.id);
+      item.value =
+        initialElement?.value !== undefined && initialElement?.value !== null
+          ? convertToElementValue(item, initialElement.value).value
+          : convertToElementValue(item, '').value;
+    }
+
+    return item;
+  });
 };

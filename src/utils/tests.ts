@@ -1,3 +1,4 @@
+import { SelectableValue } from '@grafana/data';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 
 import { TEST_IDS } from '../constants';
@@ -37,7 +38,10 @@ export const getHeaderParametersEditorSelectors = getJestSelectors(TEST_IDS.head
  */
 export const getLayoutSectionsEditorSelectors = getJestSelectors(TEST_IDS.layoutSectionsEditor);
 
-import { SelectableValue } from '@grafana/data';
+/**
+ * Get Initial Fields Editor Selectors
+ */
+export const getInitialFieldsEditorSelectors = getJestSelectors(TEST_IDS.initialFieldsEditor);
 
 /**
  * Get Options with testId

@@ -1,12 +1,36 @@
 # Change Log
 
-## 4.2.0 (IN PROGRESS)
+## 4.4.0 (2024-08-29)
+
+### Features / Enhancements
+
+- Added Expandable Editors (#472)
+- Updated Pre-Selection for multi selection elements (#474)
+- Updated data source query display error (#477)
+
+## 4.3.1 (2024-08-16)
+
+### Bugfixes
+
+- Fixed migration helper if nested object properties are not defined (#468)
+
+## 4.3.0 (2024-08-12)
+
+### Features / Enhancements
+
+- Added helpers for form elements (#460)
+- Updated payload options migration (#464)
+- Added element custom button (#463)
+
+## 4.2.0 (2024-07-18)
 
 ### Features / Enhancements
 
 - Updated Docker Compose and E2E pipeline (#446, #447)
 - Improved unit tests (#447)
 - Updated Business Forms tutorial (#451)
+- Updated the logic for comparing values with the initial values (#454)
+- Updated position of Query fields for initial values (#455)
 
 ## 4.1.0 (2024-07-09)
 

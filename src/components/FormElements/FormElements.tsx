@@ -4,7 +4,7 @@ import { useTheme2 } from '@grafana/ui';
 import React, { useCallback, useMemo } from 'react';
 
 import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '../../constants';
-import { LayoutSection, LocalFormElement, PanelOptions } from '../../types';
+import { ExecuteCustomCodeParams, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { FormElement } from '../FormElement';
 
 /**
@@ -37,6 +37,8 @@ interface Props {
 
   /**
    * Section
+   *
+   * @type {LayoutSection | null}
    */
   section: LayoutSection | null;
 
@@ -49,6 +51,11 @@ interface Props {
    * Data
    */
   data: PanelData;
+
+  /**
+   * Execute Custom Code
+   */
+  executeCustomCode: (params: ExecuteCustomCodeParams) => Promise<unknown>;
 
   /**
    * Time Zone
@@ -67,6 +74,7 @@ export const FormElements: React.FC<Props> = ({
   initial,
   replaceVariables,
   data,
+  executeCustomCode,
   timeZone,
 }) => {
   /**
@@ -131,6 +139,10 @@ export const FormElements: React.FC<Props> = ({
             element={element}
             onChange={onChangeElement}
             highlightClass={highlightClass}
+            replaceVariables={replaceVariables}
+            executeCustomCode={executeCustomCode}
+            initial={initial}
+            elements={elements}
             timeZone={timeZone}
           />
         );

@@ -1,9 +1,10 @@
 import { css } from '@emotion/css';
+import { GrafanaTheme2 } from '@grafana/data';
 
 /**
  * Styles
  */
-export const getStyles = () => {
+export const getStyles = (theme: GrafanaTheme2) => {
   return {
     wrapper: css`
       position: relative;
@@ -22,7 +23,13 @@ export const getStyles = () => {
     margin: css`
       margin: 5px;
     `,
-    button: {
+    buttons: css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: ${theme.spacing(0.5)};
+    `,
+    buttonsPosition: {
       center: css`
         display: flex;
         align-items: center;

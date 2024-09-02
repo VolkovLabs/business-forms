@@ -19,7 +19,9 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
-import { Alert, Button, ButtonGroup, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
+import { Alert, Button, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
+import { CustomButtonsRow } from 'components/CustomButtonsRow';
+import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -80,6 +82,9 @@ export const FormPanel: React.FC<Props> = ({
   data,
   timeZone,
 }) => {
+  /**
+   * State
+   */
   const [loading, setLoading] = useState<LoadingMode>(LoadingMode.INITIAL);
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
@@ -133,6 +138,9 @@ export const FormPanel: React.FC<Props> = ({
     elementsRef,
     sectionsExpandedState,
     onChangeSectionExpandedState,
+    patchFormValue,
+    setFormValue,
+    getFormValue,
   } = useFormElements({
     onChange: onChangeOptions,
     value: options.elements,
@@ -194,6 +202,13 @@ export const FormPanel: React.FC<Props> = ({
            */
           const values = getFieldValues(field);
 
+          /**
+           * Supports multi values
+           */
+          if (element.type === FormElementType.CHECKBOX_LIST || element.type === FormElementType.MULTISELECT) {
+            return convertToElementValue(element, values);
+          }
+
           return convertToElementValue(element, values[values.length - 1]);
         }
 
@@ -219,7 +234,7 @@ export const FormPanel: React.FC<Props> = ({
       response?: FetchResponse | Response | DataQueryResponse | null;
       initialRequest?: () => Promise<void>;
       currentElements?: LocalFormElement[];
-    }) => {
+    }): Promise<void> => {
       if (!code) {
         return;
       }
@@ -249,6 +264,9 @@ export const FormPanel: React.FC<Props> = ({
               onOptionsChange,
               elements: currentElements || elementsRef.current,
               onChangeElements,
+              patchFormValue,
+              setFormValue,
+              formValue: getFormValue(),
               setInitial,
               initial,
               initialRequest,
@@ -280,6 +298,9 @@ export const FormPanel: React.FC<Props> = ({
       onChangeElements,
       templateSrv,
       onOptionsChange,
+      getFormValue,
+      patchFormValue,
+      setFormValue,
       setInitial,
       notifyError,
       notifySuccess,
@@ -374,7 +395,8 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
         payload,
       }).catch((error: DataQueryError) => {
-        setError(JSON.stringify(error));
+        const errorMessage = `Initial datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+        setError(errorMessage);
         return null;
       });
 
@@ -437,7 +459,8 @@ export const FormPanel: React.FC<Props> = ({
         method: options.initial.method,
         headers,
       }).catch((error: Error) => {
-        setError(error.toString());
+        const errorMessage = `Initial error: ${error.message ? error.message : error.toString()}`;
+        setError(errorMessage);
         return null;
       });
 
@@ -577,7 +600,8 @@ export const FormPanel: React.FC<Props> = ({
       replaceVariables,
       payload,
     }).catch((error: DataQueryError) => {
-      setError(JSON.stringify(error));
+      const errorMessage = `Reset datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+      setError(errorMessage);
       return null;
     });
 
@@ -667,7 +691,8 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
         payload,
       }).catch((error: DataQueryError) => {
-        setError(JSON.stringify(error));
+        const errorMessage = `Update datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+        setError(errorMessage);
         return null;
       });
     } else {
@@ -774,7 +799,7 @@ export const FormPanel: React.FC<Props> = ({
    */
   const isUpdated = useMemo(() => {
     for (const element of elements) {
-      if (element.value !== initial[element.id]) {
+      if (!isEqual(initial[element.id], element.value)) {
         return true;
       }
     }
@@ -823,6 +848,9 @@ export const FormPanel: React.FC<Props> = ({
             onOptionsChange,
             elements,
             onChangeElements,
+            patchFormValue,
+            setFormValue,
+            formValue: getFormValue,
             collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
             expandSection: (id: string) => onChangeSectionExpandedState(id, true),
             toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
@@ -851,6 +879,9 @@ export const FormPanel: React.FC<Props> = ({
       initialRequest,
       notifyError,
       notifySuccess,
+      patchFormValue,
+      setFormValue,
+      getFormValue,
       notifyWarning,
       onChangeElements,
       onChangeSectionExpandedState,
@@ -913,6 +944,7 @@ export const FormPanel: React.FC<Props> = ({
               initial={initial}
               section={null}
               replaceVariables={replaceVariables}
+              executeCustomCode={executeCustomCode}
               timeZone={timeZone}
             />
           </div>
@@ -926,14 +958,21 @@ export const FormPanel: React.FC<Props> = ({
             replaceVariables={replaceVariables}
             sectionsExpandedState={sectionsExpandedState}
             onChangeSectionExpandedState={onChangeSectionExpandedState}
+            executeCustomCode={executeCustomCode}
             timeZone={timeZone}
           />
         )}
       </div>
-      <ButtonGroup className={cx(styles.button[options.buttonGroup.orientation])}>
+      <div className={cx(styles.buttons, styles.buttonsPosition[options.buttonGroup.orientation])}>
+        <CustomButtonsRow
+          data={data}
+          executeCustomCode={executeCustomCode}
+          initial={initial}
+          elements={elements}
+          replaceVariables={replaceVariables}
+        />
         {options.updateEnabled !== UpdateEnabledMode.DISABLED && (
           <Button
-            className={cx(styles.margin)}
             variant={getButtonVariant(options.submit.variant)}
             icon={loading === LoadingMode.UPDATE ? 'fa fa-spinner' : options.submit.icon}
             title={title}
@@ -964,7 +1003,6 @@ export const FormPanel: React.FC<Props> = ({
 
         {options.reset.variant !== ButtonVariant.HIDDEN && (
           <Button
-            className={cx(styles.margin)}
             variant={getButtonVariant(options.reset.variant)}
             icon={loading === LoadingMode.RESET ? 'fa fa-spinner' : options.reset.icon}
             style={
@@ -995,7 +1033,6 @@ export const FormPanel: React.FC<Props> = ({
 
         {options.saveDefault.variant !== ButtonVariant.HIDDEN && canSaveDefaultValues && (
           <Button
-            className={cx(styles.margin)}
             variant={getButtonVariant(options.saveDefault.variant)}
             icon={options.saveDefault.icon}
             disabled={!!loading || !saveDefaultEnabled}
@@ -1007,7 +1044,7 @@ export const FormPanel: React.FC<Props> = ({
             {options.saveDefault.text}
           </Button>
         )}
-      </ButtonGroup>
+      </div>
 
       {error && (
         <Alert data-testid={TEST_IDS.panel.errorMessage} severity="error" title="Request">
