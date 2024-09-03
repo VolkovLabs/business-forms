@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -117,7 +116,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "No Elements",
       "type": "volkovlabs-form-panel"
     },
@@ -233,7 +232,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "Data Manipulation Form",
       "type": "volkovlabs-form-panel"
     },
@@ -288,20 +287,20 @@
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
           "icon": "process",
-          "text": "Reset",
-          "variant": "hidden"
+          "text": "Reset $var",
+          "variant": "primary"
         },
         "resetAction": {
           "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
-          "confirm": false,
+          "confirm": true,
           "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "mode": "initial",
           "payload": {}
         },
         "saveDefault": {
           "icon": "save",
-          "text": "Save Default",
-          "variant": "hidden"
+          "text": "Save Default $var",
+          "variant": "secondary"
         },
         "submit": {
           "backgroundColor": "purple",
@@ -309,7 +308,7 @@
           "icon": "cloud-upload",
           "orientation": "center",
           "size": "md",
-          "text": "Submit",
+          "text": "Submit $var",
           "variant": "destructive"
         },
         "sync": true,
@@ -325,7 +324,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "Buttons only",
       "type": "volkovlabs-form-panel"
     },
@@ -532,7 +531,7 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     },
@@ -670,7 +669,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
@@ -841,7 +840,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "Control Panel",
       "type": "volkovlabs-form-panel"
     },
@@ -939,7 +938,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "No Initial Request and Custom Button",
       "type": "volkovlabs-form-panel"
     },
@@ -1141,7 +1140,7 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.3.0",
+      "pluginVersion": "4.5.0",
       "title": "Split Form",
       "type": "volkovlabs-form-panel"
     }
@@ -1153,9 +1152,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "test",
-          "value": "test"
+          "selected": false,
+          "text": "test2",
+          "value": "test2"
         },
         "hide": 0,
         "label": "Var",
@@ -1163,11 +1162,11 @@
         "options": [
           {
             "selected": true,
-            "text": "test",
-            "value": "test"
+            "text": "test2",
+            "value": "test2"
           }
         ],
-        "query": "test",
+        "query": "test2",
         "skipUrlSync": false,
         "type": "textbox"
       }

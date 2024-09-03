@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Updated date and time input timezone (#452)
+- Added dashboard variables support in button titles (#479)
 
 ## 4.4.0 (2024-08-29)
 
