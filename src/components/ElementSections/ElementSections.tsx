@@ -64,6 +64,13 @@ interface Props {
    * Execute Custom Code
    */
   executeCustomCode: (params: ExecuteCustomCodeParams) => Promise<unknown>;
+
+  /**
+   * Time Zone
+   *
+   * @type {string}
+   */
+  timeZone: string;
 }
 
 /**
@@ -79,6 +86,7 @@ export const ElementSections: React.FC<Props> = ({
   sectionsExpandedState,
   onChangeSectionExpandedState,
   executeCustomCode,
+  timeZone,
 }) => {
   /**
    * Theme and Styles
@@ -135,6 +143,7 @@ export const ElementSections: React.FC<Props> = ({
                 replaceVariables={replaceVariables}
                 data={data}
                 executeCustomCode={executeCustomCode}
+                timeZone={timeZone}
               />
             )}
           </div>

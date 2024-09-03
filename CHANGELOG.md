@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.5.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Updated date and time input timezone (#452)
+
 ## 4.4.0 (2024-08-29)
 
 ### Features / Enhancements

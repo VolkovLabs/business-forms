@@ -3,8 +3,9 @@ import { InterpolateFunction, PanelData } from '@grafana/data';
 import { useTheme2 } from '@grafana/ui';
 import React, { useCallback, useMemo } from 'react';
 
-import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '../../constants';
-import { ExecuteCustomCodeParams, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
+import { INITIAL_HIGHLIGHT_COLOR_DEFAULT, TEST_IDS } from '@/constants';
+import { ExecuteCustomCodeParams, LayoutSection, LocalFormElement, PanelOptions } from '@/types';
+
 import { FormElement } from '../FormElement';
 
 /**
@@ -56,6 +57,13 @@ interface Props {
    * Execute Custom Code
    */
   executeCustomCode: (params: ExecuteCustomCodeParams) => Promise<unknown>;
+
+  /**
+   * Time Zone
+   *
+   * @type {string}
+   */
+  timeZone: string;
 }
 
 /**
@@ -70,6 +78,7 @@ export const FormElements: React.FC<Props> = ({
   replaceVariables,
   data,
   executeCustomCode,
+  timeZone,
 }) => {
   /**
    * Theme and Styles
@@ -137,6 +146,7 @@ export const FormElements: React.FC<Props> = ({
             executeCustomCode={executeCustomCode}
             initial={initial}
             elements={elements}
+            timeZone={timeZone}
           />
         );
       })}

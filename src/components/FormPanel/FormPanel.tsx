@@ -80,6 +80,7 @@ export const FormPanel: React.FC<Props> = ({
   eventBus,
   replaceVariables,
   data,
+  timeZone,
 }) => {
   /**
    * State
@@ -944,6 +945,7 @@ export const FormPanel: React.FC<Props> = ({
               section={null}
               replaceVariables={replaceVariables}
               executeCustomCode={executeCustomCode}
+              timeZone={timeZone}
             />
           </div>
         ) : (
@@ -957,6 +959,7 @@ export const FormPanel: React.FC<Props> = ({
             sectionsExpandedState={sectionsExpandedState}
             onChangeSectionExpandedState={onChangeSectionExpandedState}
             executeCustomCode={executeCustomCode}
+            timeZone={timeZone}
           />
         )}
       </div>
