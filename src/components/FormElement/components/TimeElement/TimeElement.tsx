@@ -1,6 +1,6 @@
-import { DateTime, dateTime } from '@grafana/data';
+import { DateTime, dateTimeForTimeZone, getTimeZone } from '@grafana/data';
 import { InlineField, TimeOfDayPicker } from '@grafana/ui';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { FormElementType, TEST_IDS } from '@/constants';
 import { FormElementByType, LocalFormElement } from '@/types';
@@ -21,12 +21,29 @@ interface Props {
    * On Change
    */
   onChange: <T extends LocalFormElement>(element: T) => void;
+
+  /**
+   * Time Zone
+   *
+   * @type {string}
+   */
+  timeZone: string;
 }
 
 /**
  * Time Element
  */
-export const TimeElement: React.FC<Props> = ({ element, onChange }) => {
+export const TimeElement: React.FC<Props> = ({ element, onChange, timeZone }) => {
+  /**
+   * To Date Time With Time Zone
+   */
+  const toDateTimeWithTimeZone = useCallback(
+    (date?: string) => {
+      return dateTimeForTimeZone(getTimeZone({ timeZone }), date);
+    },
+    [timeZone]
+  );
+
   return (
     <InlineField
       label={element.title}
@@ -38,7 +55,7 @@ export const TimeElement: React.FC<Props> = ({ element, onChange }) => {
     >
       <TimeOfDayPicker
         data-testid={TEST_IDS.formElements.fieldTime}
-        value={element.value ? dateTime(element.value) : dateTime(new Date().toISOString())}
+        value={element.value ? toDateTimeWithTimeZone(element.value) : toDateTimeWithTimeZone(new Date().toISOString())}
         onChange={(dateTime: DateTime) => {
           onChange<typeof element>({
             ...element,

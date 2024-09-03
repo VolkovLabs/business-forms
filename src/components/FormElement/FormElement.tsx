@@ -3,8 +3,9 @@ import { InterpolateFunction } from '@grafana/data';
 import { InlineFieldRow, InlineLabel, useStyles2 } from '@grafana/ui';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '../../constants';
-import { CustomButtonShow, ExecuteCustomCodeParams, LocalFormElement } from '../../types';
+import { FormElementType, TEST_IDS } from '@/constants';
+import { CustomButtonShow, ExecuteCustomCodeParams, LocalFormElement } from '@/types';
+
 import {
   BooleanElement,
   CheckboxListElement,
@@ -67,6 +68,13 @@ interface Props {
    * @type {[id: string]: unknown}
    */
   initial: { [id: string]: unknown };
+
+  /**
+   * Time Zone
+   *
+   * @type {string}
+   */
+  timeZone: string;
 }
 
 /**
@@ -74,12 +82,13 @@ interface Props {
  */
 export const FormElement: React.FC<Props> = ({
   element,
-  onChange,
-  highlightClass,
-  executeCustomCode,
   elements,
+  executeCustomCode,
+  highlightClass,
   initial,
+  onChange,
   replaceVariables,
+  timeZone,
 }) => {
   /**
    * Styles and Theme
@@ -116,10 +125,10 @@ export const FormElement: React.FC<Props> = ({
         return <BooleanElement element={element} onChange={onChange} highlightClass={highlightClass} />;
       }
       case FormElementType.DATETIME: {
-        return <DateTimeElement element={element} onChange={onChange} />;
+        return <DateTimeElement element={element} onChange={onChange} timeZone={timeZone} />;
       }
       case FormElementType.TIME: {
-        return <TimeElement element={element} onChange={onChange} />;
+        return <TimeElement element={element} onChange={onChange} timeZone={timeZone} />;
       }
       case FormElementType.SLIDER: {
         return <SliderElement element={element} onChange={onChange} />;
