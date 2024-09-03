@@ -997,7 +997,7 @@ export const FormPanel: React.FC<Props> = ({
             size={options.buttonGroup.size}
             data-testid={TEST_IDS.panel.buttonSubmit}
           >
-            {options.submit.text}
+            {replaceVariables(options.submit.text)}
           </Button>
         )}
 
@@ -1027,7 +1027,7 @@ export const FormPanel: React.FC<Props> = ({
             size={options.buttonGroup.size}
             data-testid={TEST_IDS.panel.buttonReset}
           >
-            {options.reset.text}
+            {replaceVariables(options.reset.text)}
           </Button>
         )}
 
@@ -1041,7 +1041,7 @@ export const FormPanel: React.FC<Props> = ({
             data-testid={TEST_IDS.panel.buttonSaveDefault}
             title="Save values in the dashboard. Requires to Save dashboard."
           >
-            {options.saveDefault.text}
+            {replaceVariables(options.saveDefault.text)}
           </Button>
         )}
       </div>
@@ -1140,13 +1140,13 @@ export const FormPanel: React.FC<Props> = ({
             )}
           </div>
         }
-        confirmText={options.confirmModal.confirm}
+        confirmText={replaceVariables(options.confirmModal.confirm)}
         onConfirm={() => {
           updateRequest();
           setUpdateConfirmation(false);
         }}
         onDismiss={() => setUpdateConfirmation(false)}
-        dismissText={options.confirmModal.cancel}
+        dismissText={replaceVariables(options.confirmModal.cancel)}
       />
 
       <ConfirmModal

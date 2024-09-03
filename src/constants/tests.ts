@@ -34,6 +34,7 @@ export const TEST_IDS = {
     root: 'data-testid form-elements',
     element: (elementId: string, elementType: string) =>
       `data-testid form-elements element-${elementId}-${elementType}`,
+    default: 'data-testid form-elements default-none',
     fieldNumber: 'data-testid form-elements field-number',
     fieldString: 'data-testid form-elements field-string',
     fieldFile: 'data-testid form-elements field-file',

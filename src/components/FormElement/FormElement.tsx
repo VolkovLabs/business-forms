@@ -82,11 +82,12 @@ interface Props {
  */
 export const FormElement: React.FC<Props> = ({
   element,
-  onChange,
-  highlightClass,
-  executeCustomCode,
   elements,
+  executeCustomCode,
+  highlightClass,
   initial,
+  onChange,
+  replaceVariables,
   timeZone,
 }) => {
   /**
@@ -156,6 +157,7 @@ export const FormElement: React.FC<Props> = ({
             <CustomButtonElement
               element={element}
               executeCustomCode={executeCustomCode}
+              replaceVariables={replaceVariables}
               elements={elements}
               initial={initial}
             />

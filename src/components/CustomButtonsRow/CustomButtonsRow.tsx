@@ -71,6 +71,7 @@ export const CustomButtonsRow: React.FC<Props> = ({ elements, initial, replaceVa
                 executeCustomCode={executeCustomCode}
                 initial={initial}
                 elements={elements}
+                replaceVariables={replaceVariables}
               />
             );
           }
