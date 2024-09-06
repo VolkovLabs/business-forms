@@ -1,17 +1,10 @@
-import { Global } from '@emotion/react';
-import { InlineField, useStyles2 } from '@grafana/ui';
+import { InlineField } from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
-/**
- * Monaco
- */
-import type * as monacoType from 'monaco-editor/esm/vs/editor/editor.api';
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { FormElementType, TEST_IDS } from '@/constants';
 import { CodeLanguage, FormElementByType, LocalFormElement } from '@/types';
 import { applyLabelStyles, applyWidth } from '@/utils';
-
-import { codeEditorStyles } from './CodeElement.styles';
 /**
  * Properties
  */
@@ -33,87 +26,35 @@ interface Props {
  * Code Element
  */
 export const CodeElement: React.FC<Props> = ({ element, onChange }) => {
-  /**
-   * Styles and Theme
-   */
-  const styles = useStyles2(codeEditorStyles);
-
-  const editorRef = useRef(null);
-  const editorUpdateRef = useRef(false);
-
-  /**
-   * Format On Mount
-   */
-  const onEditorMount = (editor: monacoType.editor.IStandaloneCodeEditor) => {
-    editor.updateOptions({
-      suggestOnTriggerCharacters: true,
-      acceptSuggestionOnEnter: 'on',
-      quickSuggestionsDelay: 200,
-      quickSuggestions: {
-        other: 'on',
-        comments: 'on',
-        strings: 'on',
-      },
-    });
-
-    editor.onKeyDown(() => {
-      if (!editorUpdateRef.current) {
-        setTimeout(() => {
-          const element = editorRef.current.getElementsByClassName('editor-widget suggest-widget')[0];
-
-          if (element) {
-            element.style.top = '-55px';
-            element.style.left = '0px';
-            editorUpdateRef.current = true;
-          }
-        }, 280);
-      }
-
-      // setTimeout(() => {
-      //   const suggestionsBlocks = document.getElementsByClassName('editor-widget suggest-widget');
-      //   const element = suggestionsBlocks[0];
-      //   if (element instanceof HTMLElement) {
-      //     element.style.top = '-55px';
-      //   }
-      // }, 250);
-    });
-  };
-
   return (
-    <>
-      <Global styles={styles.global} />
-      <InlineField
-        label={element.title}
-        grow={!element.width}
-        labelWidth={applyWidth(element.labelWidth)}
-        tooltip={element.tooltip}
-        transparent={!element.title}
-        disabled={element.disabled}
-        className={applyLabelStyles(element.labelBackground, element.labelColor)}
-      >
-        <div ref={editorRef}>
-          <AutosizeCodeEditor
-            language={element.language || CodeLanguage.JAVASCRIPT}
-            showLineNumbers={true}
-            showMiniMap={(element.value?.length || 0) > 100}
-            value={element.value || ''}
-            height={element.height}
-            width={applyWidth(element.width)}
-            onBlur={(code) => {
-              onChange<typeof element>({
-                ...element,
-                value: code,
-              });
-            }}
-            modalTitle={`${element.id} editor`}
-            modalButtonTooltip={`Expand ${element.id}`}
-            monacoOptions={{ formatOnPaste: true, formatOnType: true }}
-            aria-label={TEST_IDS.formElements.fieldCode}
-            onEditorDidMount={onEditorMount}
-            readOnly={element.disabled}
-          />
-        </div>
-      </InlineField>
-    </>
+    <InlineField
+      label={element.title}
+      grow={!element.width}
+      labelWidth={applyWidth(element.labelWidth)}
+      tooltip={element.tooltip}
+      transparent={!element.title}
+      disabled={element.disabled}
+      className={applyLabelStyles(element.labelBackground, element.labelColor)}
+    >
+      <AutosizeCodeEditor
+        language={element.language || CodeLanguage.JAVASCRIPT}
+        showLineNumbers={true}
+        showMiniMap={(element.value?.length || 0) > 100}
+        value={element.value || ''}
+        height={element.height}
+        width={applyWidth(element.width)}
+        onBlur={(code) => {
+          onChange<typeof element>({
+            ...element,
+            value: code,
+          });
+        }}
+        modalTitle={`${element.id} editor`}
+        modalButtonTooltip={`Expand ${element.id}`}
+        monacoOptions={{ formatOnPaste: true, formatOnType: true, fixedOverflowWidgets: false }}
+        aria-label={TEST_IDS.formElements.fieldCode}
+        readOnly={element.disabled}
+      />
+    </InlineField>
   );
 };
