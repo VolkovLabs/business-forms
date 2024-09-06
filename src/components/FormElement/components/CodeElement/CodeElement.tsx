@@ -1,6 +1,6 @@
 import { InlineField } from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { FormElementType, TEST_IDS } from '@/constants';
 import { CodeLanguage, FormElementByType, LocalFormElement } from '@/types';
@@ -27,6 +27,18 @@ interface Props {
  * Code Element
  */
 export const CodeElement: React.FC<Props> = ({ element, onChange }) => {
+  /**
+   * Monaco Options
+   */
+  const monacoOptions = useMemo(
+    () => ({
+      formatOnPaste: true,
+      formatOnType: true,
+      fixedOverflowWidgets: false,
+    }),
+    []
+  );
+
   return (
     <InlineField
       label={element.title}
@@ -52,7 +64,7 @@ export const CodeElement: React.FC<Props> = ({ element, onChange }) => {
         }}
         modalTitle={`${element.id} editor`}
         modalButtonTooltip={`Expand ${element.id}`}
-        monacoOptions={{ formatOnPaste: true, formatOnType: true, fixedOverflowWidgets: false }}
+        monacoOptions={monacoOptions}
         aria-label={TEST_IDS.formElements.fieldCode}
         readOnly={element.disabled}
       />
