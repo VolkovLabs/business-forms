@@ -552,10 +552,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
-       * replaceVariables called for buttons titles
+       * replaceVariables called for buttons titles, labels, section labels
        * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(13);
+      expect(replaceVariables).toHaveBeenCalledTimes(16);
     });
 
     it('Should update elements with query result', async () => {
@@ -832,10 +832,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
-       * replaceVariables called for buttons titles
+       * replaceVariables called for buttons titles, labels, section labels
        * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(13);
+      expect(replaceVariables).toHaveBeenCalledTimes(19);
     });
 
     it('Should not update elements if datasource is unspecified', async () => {
@@ -2165,10 +2165,10 @@ describe('Panel', () => {
 
       /**
        * Check if replace variables called for get payload function
-       * replaceVariables called for buttons titles
+       * replaceVariables called for buttons titles, labels, section labels
        * number of calls increased
        */
-      expect(replaceVariables).toHaveBeenCalledTimes(9);
+      expect(replaceVariables).toHaveBeenCalledTimes(12);
     });
 
     it('Should not run reset datasource request if datasource not specified', async () => {

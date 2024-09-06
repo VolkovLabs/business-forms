@@ -1,12 +1,13 @@
 # Change Log
 
-## 4.5.0 (IN PROGRESS)
+## 4.5.0 (2024-09-06)
 
 ### Features / Enhancements
 
 - Updated date and time input timezone (#452)
 - Added dashboard variables support in button titles (#479)
 - Updated suggestions position in Code elements (#483)
+- Added variable support in sections and labels (#485)
 
 ## 4.4.0 (2024-08-29)
 

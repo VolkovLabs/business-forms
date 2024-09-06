@@ -113,7 +113,7 @@ export const ElementSections: React.FC<Props> = ({
                 onToggle={() => onChangeSectionExpandedState(section.id, !isOpen)}
                 label={
                   <>
-                    {section.name} [{section.id}]
+                    {replaceVariables(section.name)} [{section.id}]
                   </>
                 }
               >
@@ -122,7 +122,7 @@ export const ElementSections: React.FC<Props> = ({
             );
           }
 
-          return <FieldSet label={section.name}>{children}</FieldSet>;
+          return <FieldSet label={replaceVariables(section.name)}>{children}</FieldSet>;
         };
 
         return (

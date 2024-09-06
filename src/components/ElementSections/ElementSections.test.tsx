@@ -78,12 +78,14 @@ describe('Form Elements', () => {
     };
 
     it('Should render Sections', () => {
+      const replaceVariables = jest.fn();
       render(
         getComponent({
           options,
           onChangeElement,
           initial: { changed: 'bye' },
           sectionsExpandedState: { section1: true },
+          replaceVariables,
         })
       );
 
@@ -92,7 +94,7 @@ describe('Form Elements', () => {
 
     it('Should toggle sections', () => {
       const onChangeSectionExpandedState = jest.fn();
-
+      const replaceVariables = jest.fn();
       render(
         getComponent({
           options,
@@ -100,6 +102,7 @@ describe('Form Elements', () => {
           onChangeSectionExpandedState,
           initial: { changed: 'bye' },
           sectionsExpandedState: { section1: true },
+          replaceVariables,
         })
       );
 
