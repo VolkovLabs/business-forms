@@ -558,7 +558,7 @@ describe('Panel', () => {
       expect(replaceVariables).toHaveBeenCalledTimes(16);
     });
 
-    it('Should make initial datasource request (response doesn`t`t return state property)', async () => {
+    it('Should make initial datasource request (response doesn`t return state property)', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({
           data: [],
