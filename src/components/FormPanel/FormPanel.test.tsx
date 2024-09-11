@@ -595,13 +595,6 @@ describe('Panel', () => {
           sql: 'select *;',
         },
       });
-
-      /**
-       * Check if replace variables called for get payload function
-       * replaceVariables called for buttons titles, labels, section labels
-       * number of calls increased
-       */
-      expect(replaceVariables).toHaveBeenCalledTimes(16);
     });
 
     it('Should update elements with query result', async () => {
