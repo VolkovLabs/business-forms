@@ -400,7 +400,10 @@ export const FormPanel: React.FC<Props> = ({
         return null;
       });
 
-      if (response && response.state === LoadingState.Done) {
+      /**
+       * if response has no state property accept as done
+       */
+      if (response && (!response.hasOwnProperty('state') || response.state === LoadingState.Done)) {
         /**
          * Change Elements With Data Source Values
          */
