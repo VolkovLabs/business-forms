@@ -29,6 +29,20 @@ const CodeEditorMock = ({ onBlur, getSuggestions, ...restProps }: any) => {
 const CodeEditor = jest.fn(CodeEditorMock);
 
 /**
+ * Mock PageToolbar component, especially for test AutosizeCodeEditor editor component
+ */
+const PageToolbarMock = ({ leftItems, children }: any) => {
+  return (
+    <>
+      {leftItems}
+      {children}
+    </>
+  );
+};
+
+const PageToolbar = jest.fn(PageToolbarMock);
+
+/**
  * Mock ColorPickerInput component
  */
 const ColorPickerMock = ({ onChange, value, ...restProps }: any) => {
@@ -211,4 +225,5 @@ module.exports = {
   FileDropzone,
   TextLink,
   TimeOfDayPicker,
+  PageToolbar,
 };

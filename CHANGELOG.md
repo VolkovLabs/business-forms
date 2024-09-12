@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Updated initial values for elements from Datasource (#490)
+- Updated initial values for elements from data source (#490)
+- Added wrap button in the code editor (#491)
 
 ## 4.5.0 (2024-09-06)
 
