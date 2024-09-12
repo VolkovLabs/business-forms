@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.6.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Updated initial values for elements from Datasource (#490)
+
 ## 4.5.0 (2024-09-06)
 
 ### Features / Enhancements
