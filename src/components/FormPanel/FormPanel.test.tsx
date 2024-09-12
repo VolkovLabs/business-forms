@@ -558,6 +558,45 @@ describe('Panel', () => {
       expect(replaceVariables).toHaveBeenCalledTimes(16);
     });
 
+    it('Should make initial datasource request (response doesn`t return state property)', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          data: [],
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '123',
+                getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
+              },
+            },
+            props: {},
+          })
+        )
+      );
+
+      expect(datasourceRequestMock).toHaveBeenCalledWith({
+        datasource: '123',
+        payload: { key1: 'value' },
+        replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
+      });
+    });
+
     it('Should update elements with query result', async () => {
       /**
        * Render
