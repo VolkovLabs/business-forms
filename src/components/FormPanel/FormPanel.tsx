@@ -19,7 +19,7 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
-import { Alert, Button, ConfirmModal, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
+import { Alert, Button, ConfirmModal, LoadingBar, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
 import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -61,7 +61,6 @@ import {
 } from '../../utils';
 import { ElementSections } from '../ElementSections';
 import { FormElements } from '../FormElements';
-import { LoadingBar } from '../LoadingBar';
 import { getStyles } from './FormPanel.styles';
 
 /**

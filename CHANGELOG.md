@@ -6,6 +6,7 @@
 
 - Updated initial values for elements from data source (#490)
 - Added wrap button in the code editor (#491)
+- Updated loading bar for Initial Request (#492)
 
 ## 4.5.0 (2024-09-06)
 
