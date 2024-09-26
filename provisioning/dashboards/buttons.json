@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
   "links": [],
   "panels": [
     {
@@ -42,11 +41,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -58,11 +53,14 @@
         "elementValueChanged": "",
         "elements": [
           {
+            "background": "",
             "backgroundColor": "",
             "buttonLabel": "Button",
             "customCode": "",
             "foregroundColor": "",
-            "id": "butotn",
+            "id": "button",
+            "labelBackground": "",
+            "labelColor": "",
             "labelWidth": 10,
             "section": "",
             "show": "form",
@@ -154,12 +152,12 @@
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
           "method": "-",
-          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payload": {},
           "payloadMode": "all"
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.2.0",
+      "pluginVersion": "4.6.0",
       "targets": [
         {
           "datasource": {
@@ -193,11 +191,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -305,12 +299,12 @@
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
           "method": "-",
-          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payload": {},
           "payloadMode": "all"
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.2.0",
+      "pluginVersion": "4.6.0",
       "targets": [
         {
           "datasource": {
@@ -321,6 +315,157 @@
         }
       ],
       "title": "In Footer",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "background": "#3274D9",
+            "backgroundColor": "",
+            "buttonLabel": "Button",
+            "customCode": "",
+            "foregroundColor": "",
+            "id": "button",
+            "labelBackground": "#AD0317",
+            "labelColor": "#ffffff",
+            "labelWidth": 10,
+            "section": "",
+            "show": "form",
+            "size": "md",
+            "title": "Button",
+            "tooltip": "",
+            "type": "button",
+            "uid": "53b461cc-4f03-4ffe-8884-2baccef8b6f0",
+            "unit": "",
+            "value": "",
+            "variant": "primary"
+          },
+          {
+            "backgroundColor": "",
+            "buttonLabel": "Button",
+            "customCode": "",
+            "foregroundColor": "",
+            "id": "button2",
+            "labelColor": "#A352CC",
+            "labelWidth": 10,
+            "section": "",
+            "show": "form",
+            "size": "sm",
+            "title": "Button 2",
+            "tooltip": "",
+            "type": "button",
+            "uid": "3ae3d2eb-db57-48bf-8d5f-9153b1f7092b",
+            "unit": "",
+            "value": "",
+            "variant": "secondary"
+          },
+          {
+            "hidden": false,
+            "id": "text",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Text",
+            "tooltip": "",
+            "type": "string",
+            "uid": "9c170388-157f-4903-af83-9a8852ed7500",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": {},
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "In Form with colors",
       "type": "volkovlabs-form-panel"
     }
   ],
@@ -337,6 +482,6 @@
   "timezone": "browser",
   "title": "Buttons",
   "uid": "cdulr0ohehddsa",
-  "version": 5,
+  "version": 1,
   "weekStart": ""
 }
