@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.6.0 (IN PROGRESS)
+## 4.6.0 (2024-09-28)
 
 ### Features / Enhancements
 
