@@ -7,6 +7,7 @@
 - Updated initial values for elements from data source (#490)
 - Added wrap button in the code editor (#491)
 - Updated loading bar for Initial Request (#492)
+- Added Label Background and Label Color for element with type Button (#502)
 
 ## 4.5.0 (2024-09-06)
 
