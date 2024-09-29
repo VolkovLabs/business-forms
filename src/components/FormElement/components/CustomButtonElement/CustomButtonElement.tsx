@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 
 import { FormElementType, TEST_IDS } from '@/constants';
 import { ButtonVariant, CustomButtonShow, ExecuteCustomCodeParams, FormElementByType, LocalFormElement } from '@/types';
-import { applyWidth, getButtonVariant } from '@/utils';
+import { applyLabelStyles, applyWidth, getButtonVariant } from '@/utils';
 
 /**
  * Properties
@@ -102,6 +102,7 @@ export const CustomButtonElement: React.FC<Props> = ({
           transparent={!element.title}
           disabled={element.disabled}
           data-testid={TEST_IDS.formElements.fieldCustomButtonContainer}
+          className={applyLabelStyles(element.labelBackground, element.labelColor)}
         >
           {content}
         </InlineField>
