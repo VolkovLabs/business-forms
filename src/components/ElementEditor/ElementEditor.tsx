@@ -20,6 +20,7 @@ import {
   CODE_LANGUAGE_OPTIONS,
   CUSTOM_BUTTON_SIZE_OPTIONS,
   CUSTOM_BUTTON_VARIANT_OPTIONS,
+  CUSTOM_VALUES_OPTIONS,
   FORM_ELEMENT_TYPE_OPTIONS,
   FormElementType,
   LINK_TARGET_OPTIONS,
@@ -590,6 +591,18 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         isFormElementType(element, FormElementType.DISABLED) ||
         isFormElementType(element, FormElementType.CHECKBOX_LIST)) && (
         <>
+          <InlineField label="Custom values" data-testid={TEST_IDS.formElementsEditor.fieldCustomValues}>
+            <RadioButtonGroup
+              options={CUSTOM_VALUES_OPTIONS}
+              value={!!element.allowCustomValues}
+              onChange={(value) => {
+                onChange({
+                  ...element,
+                  allowCustomValues: value,
+                });
+              }}
+            />
+          </InlineField>
           <InlineFieldRow>
             <InlineField label="Options Source" labelWidth={14}>
               <RadioButtonGroup
