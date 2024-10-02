@@ -78,8 +78,6 @@ export const CustomCodeEditor: React.FC<Props> = ({ value, item, onChange }) => 
         monacoOptions={{ formatOnPaste: true, formatOnType: true, scrollBeyondLastLine: false }}
         onEditorDidMount={onEditorMount}
         getSuggestions={getSuggestions}
-        modalTitle={`${item.name} editor`}
-        modalButtonTooltip={`Expand ${item.name}`}
       />
     </div>
   );
