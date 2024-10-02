@@ -310,9 +310,9 @@ export const CUSTOM_BUTTON_VARIANT_OPTIONS: SelectableValue[] = [
 ];
 
 /**
- * Options Source Options
+ * Custom Value Options
  */
-export const CUSTOM_VALUES_OPTIONS = [
+export const CUSTOM_VALUE_OPTIONS = [
   {
     label: 'Allow',
     value: true,

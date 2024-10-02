@@ -20,7 +20,7 @@ import {
   CODE_LANGUAGE_OPTIONS,
   CUSTOM_BUTTON_SIZE_OPTIONS,
   CUSTOM_BUTTON_VARIANT_OPTIONS,
-  CUSTOM_VALUES_OPTIONS,
+  CUSTOM_VALUE_OPTIONS,
   FORM_ELEMENT_TYPE_OPTIONS,
   FormElementType,
   LINK_TARGET_OPTIONS,
@@ -593,7 +593,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         <>
           <InlineField label="Custom values" labelWidth={14}>
             <RadioButtonGroup
-              options={CUSTOM_VALUES_OPTIONS}
+              options={CUSTOM_VALUE_OPTIONS}
               value={!!element.allowCustomValues}
               onChange={(value) => {
                 onChange({
