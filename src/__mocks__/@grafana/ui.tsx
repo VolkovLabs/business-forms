@@ -102,7 +102,7 @@ const TimeOfDayPicker = jest.fn(TimeOfDayPickerMock);
 /**
  * Mock Select component
  */
-const SelectMock = ({ options, onChange, value, isMulti, isClearable, ...restProps }: any) => (
+const SelectMock = ({ options, onChange, value, isMulti, isClearable, allowCustomValue, ...restProps }: any) => (
   <select
     onChange={(event: any) => {
       if (onChange) {

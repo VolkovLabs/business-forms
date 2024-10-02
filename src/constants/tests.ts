@@ -137,7 +137,6 @@ export const TEST_IDS = {
     fieldLinkText: 'data-testid form-elements-editor field-link-text',
     fieldGetOptions: 'form-elements-editor field-get-options',
     fileMultipleOption: (name: unknown) => `form-elements-editor file-multiple-option-${name}`,
-    fieldCustomValues: 'form-elements-editor field-allow-custom-values',
     optionsCustomValues: (value: unknown) => `form-elements-editor options-source-option-${value}`,
   },
   formElementsSection: {

@@ -591,7 +591,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         isFormElementType(element, FormElementType.DISABLED) ||
         isFormElementType(element, FormElementType.CHECKBOX_LIST)) && (
         <>
-          <InlineField label="Custom values" data-testid={TEST_IDS.formElementsEditor.fieldCustomValues}>
+          <InlineField label="Custom values" labelWidth={14}>
             <RadioButtonGroup
               options={CUSTOM_VALUES_OPTIONS}
               value={!!element.allowCustomValues}
