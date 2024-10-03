@@ -323,6 +323,6 @@ export const CUSTOM_VALUE_OPTIONS = [
     label: 'Disallow',
     value: false,
     ariaLabel: TEST_IDS.formElementsEditor.optionsCustomValues('Disallow'),
-    icon: 'bars',
+    icon: 'times',
   },
 ];
