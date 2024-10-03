@@ -6,6 +6,7 @@
 
 - Updated Autosize Code Editor toolbar (#506)
 - Added custom input for Select, Multi select (#507)
+- Added Multiple initial fields support (#508)
 
 ## 4.6.0 (2024-09-28)
 
