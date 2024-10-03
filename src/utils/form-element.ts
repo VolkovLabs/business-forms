@@ -135,6 +135,7 @@ export const getElementWithNewType = (
         return {
           ...baseValues,
           ...selectOptions,
+          allowCustomValue: false,
           type: newType,
           value: Array.isArray(baseValues) ? baseValues : [],
         };
@@ -143,6 +144,7 @@ export const getElementWithNewType = (
       return {
         ...baseValues,
         ...selectOptions,
+        allowCustomValue: false,
         type: newType,
       };
     }
@@ -462,7 +464,7 @@ export const convertToElementValue = (
     case FormElementType.LINK: {
       return {
         ...element,
-        value: typeof value === 'string' ? value : value?.toString() ?? '',
+        value: typeof value === 'string' ? value : (value?.toString() ?? ''),
       };
     }
     case FormElementType.NUMBER:

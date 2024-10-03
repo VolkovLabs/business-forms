@@ -323,6 +323,13 @@ export interface SelectOptions {
    * @type {string}
    */
   getOptions?: string;
+
+  /**
+   * Allow Custom values
+   *
+   * @type {boolean}
+   */
+  allowCustomValue: boolean;
 }
 
 /**

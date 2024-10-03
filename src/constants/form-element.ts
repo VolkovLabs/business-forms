@@ -308,3 +308,21 @@ export const CUSTOM_BUTTON_VARIANT_OPTIONS: SelectableValue[] = [
     label: 'Custom',
   },
 ];
+
+/**
+ * Custom Value Options
+ */
+export const CUSTOM_VALUE_OPTIONS = [
+  {
+    label: 'Allow',
+    value: true,
+    ariaLabel: TEST_IDS.formElementsEditor.optionsCustomValues('Allow'),
+    icon: 'keyboard',
+  },
+  {
+    label: 'Disallow',
+    value: false,
+    ariaLabel: TEST_IDS.formElementsEditor.optionsCustomValues('Disallow'),
+    icon: 'times',
+  },
+];
