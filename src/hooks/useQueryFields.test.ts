@@ -11,15 +11,15 @@ const createDataFrame = ({ fields, frameName, refId }: { fields: any; frameName:
 describe('useQueryFields', () => {
   it('Should return an array', () => {
     const data: any = [
-      createDataFrame({ refId: 'A', fields: ['field1', 'field2'], frameName: 'FrameA' }),
-      createDataFrame({ refId: 'B', fields: ['field3'], frameName: 'FrameB' }),
+      createDataFrame({ refId: 'A', fields: ['field1', 'field2'], frameName: 'Frame A' }),
+      createDataFrame({ refId: 'B', fields: ['field3'], frameName: 'Frame B' }),
     ];
     const { result } = renderHook(() => useQueryFields({ data, isEnabled: true }));
 
     expect(result.current).toEqual([
-      { value: 'field1', refId: 'A', label: 'A:FrameA field1' },
-      { value: 'field2', refId: 'A', label: 'A:FrameA field2' },
-      { value: 'field3', refId: 'B', label: 'B:FrameB field3' },
+      { value: 'Frame A field1', refId: 'A', label: 'A:Frame A field1' },
+      { value: 'Frame A field2', refId: 'A', label: 'A:Frame A field2' },
+      { value: 'Frame B field3', refId: 'B', label: 'B:Frame B field3' },
     ]);
   });
 
@@ -31,10 +31,10 @@ describe('useQueryFields', () => {
     const { result } = renderHook(() => useQueryFields({ data, isEnabled: true }));
 
     expect(result.current).toEqual([
-      { value: 'field1', refId: 'A', label: 'A:Frame A field1' },
-      { value: 'field2', refId: 'A', label: 'A:Frame A field2' },
-      { value: 'field1', refId: 'A', label: 'A:Frame A-1 field1' },
-      { value: 'field2', refId: 'A', label: 'A:Frame A-1 field2' },
+      { value: 'Frame A field1', refId: 'A', label: 'A:Frame A field1' },
+      { value: 'Frame A field2', refId: 'A', label: 'A:Frame A field2' },
+      { value: 'Frame A-1 field1', refId: 'A', label: 'A:Frame A-1 field1' },
+      { value: 'Frame A-1 field2', refId: 'A', label: 'A:Frame A-1 field2' },
     ]);
   });
 
@@ -46,10 +46,10 @@ describe('useQueryFields', () => {
     const { result } = renderHook(() => useQueryFields({ data, isEnabled: true }));
 
     expect(result.current).toEqual([
-      { value: 'field1', refId: undefined, label: 'undefined:Frame A field1' },
-      { value: 'field2', refId: undefined, label: 'undefined:Frame A field2' },
-      { value: 'field1', refId: undefined, label: 'undefined:Frame A-1 field1' },
-      { value: 'field2', refId: undefined, label: 'undefined:Frame A-1 field2' },
+      { value: 'Frame A field1', refId: undefined, label: 'undefined:Frame A field1' },
+      { value: 'Frame A field2', refId: undefined, label: 'undefined:Frame A field2' },
+      { value: 'Frame A-1 field1', refId: undefined, label: 'undefined:Frame A-1 field1' },
+      { value: 'Frame A-1 field2', refId: undefined, label: 'undefined:Frame A-1 field2' },
     ]);
   });
 });

@@ -13,9 +13,12 @@ export const useQueryFields = ({ data, isEnabled }: { data?: DataFrame[]; isEnab
         const { fields, refId } = frame;
         return acc.concat(
           fields.map((field) => {
+            /**
+             * Get unique field name
+             */
             const fieldName = getFieldDisplayName(field, frame, data);
             return {
-              value: field.name,
+              value: fieldName,
               refId,
               label: `${refId}:${fieldName}`,
             };

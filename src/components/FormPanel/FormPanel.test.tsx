@@ -750,6 +750,163 @@ describe('Panel', () => {
       );
     });
 
+    it('Should update elements with query result for the same refId', async () => {
+      /**
+       * Render
+       */
+      await act(async () => {
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metrics A-2 metric',
+                    label: 'A:metrics A-2 metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: {
+                state: LoadingState.Done,
+                series: [
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    name: 'metrics A-1',
+                    refId: 'A',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    name: 'metrics A-2',
+                    refId: 'A',
+                  }),
+                ],
+              },
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+      });
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricA1', 'metricA2'],
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
+    it('Should update elements with query result for the same refId if refId undefined', async () => {
+      /**
+       * Render
+       */
+      await act(async () => {
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    value: 'metrics A-1 metric',
+                    label: 'undefined:metrics A-2 metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: {
+                state: LoadingState.Done,
+                series: [
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    name: 'metrics A-1',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    name: 'metrics A-2',
+                  }),
+                ],
+              },
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+      });
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricA1', 'metricA2'],
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
     it('Should not update elements if no query result', async () => {
       /**
        * Render
