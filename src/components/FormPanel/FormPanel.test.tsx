@@ -851,6 +851,8 @@ describe('Panel', () => {
             },
           })
         );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
       });
 
       expect(FormElements).toHaveBeenCalledTimes(6);
