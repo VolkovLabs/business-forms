@@ -253,5 +253,19 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
     );
   }
 
+  /**
+   * Normalize allowCustomValue for Select and Multiselect Type
+   */
+  if (options.elements && options.elements.length > 0) {
+    options.elements.forEach((element) => {
+      if (
+        (element.type === FormElementType.SELECT || element.type === FormElementType.MULTISELECT) &&
+        !element.hasOwnProperty('allowCustomValue')
+      ) {
+        element.allowCustomValue = false;
+      }
+    });
+  }
+
   return options as PanelOptions;
 };

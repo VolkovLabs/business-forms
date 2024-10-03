@@ -671,4 +671,46 @@ describe('Migration', () => {
       });
     });
   });
+
+  it('Should return allowCustom property for select and multiselect elements if not specified', () => {
+    const options: Partial<PanelOptions> = {
+      sync: true,
+      initial: {} as any,
+      update: {} as any,
+      resetAction: {} as any,
+      elements: [
+        {
+          type: FormElementType.MULTISELECT,
+        },
+        {
+          type: FormElementType.SELECT,
+        },
+        {
+          allowCustomValue: true,
+          type: FormElementType.SELECT,
+        },
+        {
+          allowCustomValue: false,
+          type: FormElementType.MULTISELECT,
+        },
+        {
+          type: FormElementType.STRING,
+        },
+      ] as any,
+    };
+
+    const result = getMigratedOptions({
+      options: options as any,
+    } as any);
+
+    const elements: any = result.elements;
+
+    expect(elements[0].allowCustomValue).toBeDefined();
+    expect(elements[0].allowCustomValue).toEqual(false);
+    expect(elements[1].allowCustomValue).toBeDefined();
+    expect(elements[1].allowCustomValue).toEqual(false);
+    expect(elements[2].allowCustomValue).toEqual(true);
+    expect(elements[3].allowCustomValue).toEqual(false);
+    expect(elements[4].allowCustomValue).toBeUndefined();
+  });
 });
