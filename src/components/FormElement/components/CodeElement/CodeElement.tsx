@@ -62,8 +62,6 @@ export const CodeElement: React.FC<Props> = ({ element, onChange }) => {
             value: code,
           });
         }}
-        modalTitle={`${element.id} editor`}
-        modalButtonTooltip={`Expand ${element.id}`}
         monacoOptions={monacoOptions}
         aria-label={TEST_IDS.formElements.fieldCode}
         readOnly={element.disabled}
