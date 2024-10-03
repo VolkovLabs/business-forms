@@ -329,7 +329,7 @@ export interface SelectOptions {
    *
    * @type {boolean}
    */
-  allowCustomValues?: boolean;
+  allowCustomValue?: boolean;
 }
 
 /**

@@ -594,11 +594,11 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
           <InlineField label="Custom values" labelWidth={14}>
             <RadioButtonGroup
               options={CUSTOM_VALUE_OPTIONS}
-              value={!!element.allowCustomValues}
+              value={!!element.allowCustomValue}
               onChange={(value) => {
                 onChange({
                   ...element,
-                  allowCustomValues: value,
+                  allowCustomValue: value,
                 });
               }}
             />
