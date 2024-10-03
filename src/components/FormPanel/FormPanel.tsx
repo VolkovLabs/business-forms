@@ -7,6 +7,7 @@ import {
   DataQueryError,
   DataQueryResponse,
   Field,
+  getFieldDisplayName,
   LoadingState,
   PanelProps,
 } from '@grafana/data';
@@ -187,8 +188,15 @@ export const FormPanel: React.FC<Props> = ({
         const fieldConfig = sourceType === RequestMethod.QUERY ? element.queryField : { value: element.fieldName };
         const field = frames
           .filter((frame) => (fieldConfig?.refId ? frame.refId === fieldConfig.refId : true))
-          .reduce((acc: Field | undefined, { fields }) => {
-            const field = fields?.find((field: Field) => field.name === fieldConfig?.value);
+          .reduce((acc: Field | undefined, frame) => {
+            const { fields } = frame;
+            const field = fields?.find((field: Field) => {
+              /**
+               * Get unique field name
+               */
+              const fieldName = getFieldDisplayName(field, frame, frames);
+              return fieldName === fieldConfig?.value;
+            });
             if (field) {
               return field;
             }

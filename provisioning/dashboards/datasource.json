@@ -23,11 +23,163 @@
   "panels": [
     {
       "datasource": {
+        "default": true,
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "String",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:val-1 category",
+              "value": "category"
+            },
+            "section": "",
+            "title": "String",
+            "tooltip": "",
+            "type": "string",
+            "uid": "0a15f927-e435-4678-8341-10f0e5caa3fb",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": ["val-1", "val-2", "val-3"]
+              },
+              {
+                "config": {},
+                "name": "category",
+                "type": "string",
+                "values": ["cat-1", "cat-2", "cat-3"]
+              }
+            ],
+            "meta": {},
+            "name": "A"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Transform data - for Query Fields",
+      "transformations": [
+        {
+          "id": "partitionByValues",
+          "options": {
+            "fields": ["value"],
+            "keepFields": true,
+            "naming": {
+              "asLabels": false
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
       "fieldConfig": {
         "defaults": {
+          "custom": {
+            "thresholdsStyle": {
+              "mode": "color",
+              "thresholds": []
+            }
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -48,7 +200,7 @@
         "h": 35,
         "w": 4,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 1,
       "options": {
@@ -58,7 +210,14 @@
         "customValue": false,
         "displayMode": "table",
         "emptyValue": false,
-        "favorites": true,
+        "favorites": {
+          "addQuery": {},
+          "datasource": "",
+          "deleteQuery": {},
+          "enabled": true,
+          "getQuery": {},
+          "storage": "browser"
+        },
         "filter": true,
         "groupSelection": false,
         "header": true,
@@ -73,9 +232,10 @@
         "showTotal": false,
         "statusSort": false,
         "sticky": true,
+        "tabsInOrder": true,
         "variable": "device"
       },
-      "pluginVersion": "3.1.0",
+      "pluginVersion": "3.4.0",
       "type": "volkovlabs-variable-panel"
     },
     {
@@ -87,7 +247,7 @@
         "h": 9,
         "w": 20,
         "x": 4,
-        "y": 0
+        "y": 8
       },
       "id": 2,
       "options": {
@@ -99,11 +259,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -339,7 +495,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.6.0",
       "targets": [
         {
           "datasource": {
@@ -382,7 +538,7 @@
         "h": 9,
         "w": 20,
         "x": 4,
-        "y": 9
+        "y": 17
       },
       "id": 3,
       "options": {
@@ -394,11 +550,7 @@
           "body": "Please confirm to update changed values",
           "cancel": "Cancel",
           "columns": {
-            "include": [
-              "name",
-              "oldValue",
-              "newValue"
-            ],
+            "include": ["name", "oldValue", "newValue"],
             "name": "Label",
             "newValue": "New Value",
             "oldValue": "Old Value"
@@ -611,7 +763,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.6.0",
       "targets": [
         {
           "datasource": {

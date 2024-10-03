@@ -2,7 +2,7 @@ import { AppEvents, EventBusSrv, FieldType, LoadingState, toDataFrame } from '@g
 import { getAppEvents, RefreshEvent } from '@grafana/runtime';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import {
   CONFIRM_MODAL_DEFAULT,
@@ -722,6 +722,230 @@ describe('Panel', () => {
                       },
                     ],
                     refId: 'B',
+                  }),
+                ],
+              },
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+      });
+
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricA1', 'metricA2'],
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
+    it('Should update elements with query result for the same refId', async () => {
+      /**
+       * Render
+       */
+      const data = {
+        state: LoadingState.Done,
+        series: [
+          toDataFrame({
+            fields: [
+              {
+                name: 'metric',
+                values: ['metricA1', 'metricA2'],
+              },
+            ],
+            name: 'metrics A-1',
+            refId: 'A',
+          }),
+          toDataFrame({
+            fields: [
+              {
+                name: 'metric',
+                values: ['metricB1', 'metricB2'],
+              },
+            ],
+            name: 'metrics A-2',
+            refId: 'A',
+          }),
+        ],
+      };
+
+      let rerenderCurrent: (ui: ReactElement) => void;
+
+      await act(async () => {
+        const { rerender } = render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metrics A-2 metric',
+                    label: 'A:metrics A-2 metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: data,
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+
+        rerenderCurrent = rerender;
+      });
+
+      /**
+       * Rerender with other query field
+       */
+      await act(async () => {
+        rerenderCurrent(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    refId: 'A',
+                    value: 'metrics A-1 metric',
+                    label: 'A:metrics A-1 metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: data,
+            },
+          })
+        );
+
+        await waitFor(() => expect(selectors.loadingBar(true)).not.toBeInTheDocument());
+      });
+
+      expect(FormElements).toHaveBeenCalledTimes(6);
+      /**
+       * Check values after render call - 2nd call
+       */
+      expect(FormElements).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricB1', 'metricB2'],
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+
+      /**
+       * Check values after rerender call - 5th call
+       */
+      expect(FormElements).toHaveBeenNthCalledWith(
+        5,
+        expect.objectContaining({
+          elements: expect.arrayContaining([
+            expect.objectContaining({
+              id: 'mapped',
+              value: ['metricA1', 'metricA2'],
+            }),
+            expect.objectContaining({
+              id: 'unmapped',
+              value: '',
+            }),
+          ]),
+        }),
+        expect.anything()
+      );
+    });
+
+    it('Should update elements with query result for the same refId if refId undefined', async () => {
+      /**
+       * Render
+       */
+      await act(async () => {
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.QUERY,
+              },
+              elements: [
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  type: FormElementType.CHECKBOX_LIST,
+                  id: 'mapped',
+                  queryField: {
+                    value: 'metrics A-1 metric',
+                    label: 'undefined:metrics A-2 metric',
+                  },
+                },
+                {
+                  ...FORM_ELEMENT_DEFAULT,
+                  id: 'unmapped',
+                  queryField: undefined,
+                },
+              ],
+            },
+            props: {
+              data: {
+                state: LoadingState.Done,
+                series: [
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricA1', 'metricA2'],
+                      },
+                    ],
+                    name: 'metrics A-1',
+                  }),
+                  toDataFrame({
+                    fields: [
+                      {
+                        name: 'metric',
+                        values: ['metricB1', 'metricB2'],
+                      },
+                    ],
+                    name: 'metrics A-2',
                   }),
                 ],
               },
