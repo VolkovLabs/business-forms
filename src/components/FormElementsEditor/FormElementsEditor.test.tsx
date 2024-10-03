@@ -1016,6 +1016,37 @@ describe('Form Elements Editor', () => {
       });
     });
 
+    it('Should allow custom values', async () => {
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'id',
+        type: FormElementType.SELECT,
+        optionsSource: undefined,
+      };
+      const elements = [element];
+
+      render(
+        getComponent({
+          value: elements,
+          onChange,
+          context: {
+            data: [],
+          },
+        })
+      );
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+
+      expect(elementSelectors.optionsCustomValues(false, 'Allow')).not.toBeChecked();
+
+      await act(() => fireEvent.click(elementSelectors.optionsCustomValues(false, 'Allow')));
+
+      expect(elementSelectors.optionsCustomValues(false, 'Allow')).toBeChecked();
+    });
+
     it('Should update Width', async () => {
       const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'id', width: 100 }];
 

@@ -144,6 +144,7 @@ export const TEXTAREA_DEFAULT: TextareaOptions = {
  */
 export const SELECT_DEFAULT: SelectOptions = {
   options: [],
+  allowCustomValue: false,
   optionsSource: OptionsSource.CUSTOM,
 };
 
