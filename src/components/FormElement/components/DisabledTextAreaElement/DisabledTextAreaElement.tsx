@@ -15,17 +15,12 @@ interface Props {
    * @type {FormElementByType<LocalFormElement, FormElementType.DISABLED_TEXTAREA>}
    */
   element: FormElementByType<LocalFormElement, FormElementType.DISABLED_TEXTAREA>;
-
-  /**
-   * Highlight Class
-   */
-  highlightClass: (element: LocalFormElement) => string;
 }
 
 /**
  * Disabled Text Area Element
  */
-export const DisabledTextAreaElement: React.FC<Props> = ({ element, highlightClass }) => {
+export const DisabledTextAreaElement: React.FC<Props> = ({ element }) => {
   return (
     <InlineField
       label={element.title}
@@ -38,7 +33,6 @@ export const DisabledTextAreaElement: React.FC<Props> = ({ element, highlightCla
     >
       <TextArea
         value={element.value}
-        className={highlightClass(element)}
         cols={applyWidth(element.width)}
         rows={element.rows}
         data-testid={TEST_IDS.formElements.fieldDisabledTextarea}

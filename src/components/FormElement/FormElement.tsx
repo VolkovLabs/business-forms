@@ -116,7 +116,7 @@ export const FormElement: React.FC<Props> = ({
         return <TextAreaElement element={element} onChange={onChange} highlightClass={highlightClass} />;
       }
       case FormElementType.DISABLED_TEXTAREA: {
-        return <DisabledTextAreaElement element={element} highlightClass={highlightClass} />;
+        return <DisabledTextAreaElement element={element} />;
       }
       case FormElementType.CODE: {
         return <CodeElement element={element} onChange={onChange} />;

@@ -1104,7 +1104,10 @@ export const FormPanel: React.FC<Props> = ({
                     /**
                      * Skip Disabled elements, which can be updated in the custom code as previous values
                      */
-                    if (element.type === FormElementType.DISABLED) {
+                    if (
+                      element.type === FormElementType.DISABLED ||
+                      element.type === FormElementType.DISABLED_TEXTAREA
+                    ) {
                       return;
                     }
 
