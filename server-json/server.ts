@@ -13,7 +13,7 @@ let values = { name: 'Name', amount: 30, updated: false, step: 4 };
 /**
  * Create Server
  */
-const server = http.createServer(function (req: any, res: any) {
+const server = http.createServer(function (req, res) {
   /**
    * Set CORS headers
    */
@@ -34,7 +34,7 @@ const server = http.createServer(function (req: any, res: any) {
   const urlObject = new URL(`http://localhost${req.url}`);
   if (urlObject.pathname === '/form') {
     const device = urlObject.searchParams.get('device') || '';
-    const formElements: unknown[] = [
+    const formElements = [
       {
         uid: 'device',
         id: 'device',
@@ -127,7 +127,7 @@ const server = http.createServer(function (req: any, res: any) {
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
     setTimeout(() => {
       let body = '';
-      req.on('data', function (chunk: any) {
+      req.on('data', function (chunk) {
         body += chunk;
       });
 

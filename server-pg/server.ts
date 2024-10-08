@@ -21,7 +21,7 @@ client.connect();
 /**
  * Create Server
  */
-const server = http.createServer(async function (req: any, res: any) {
+const server = http.createServer(async function (req, res) {
   /**
    * Set CORS headers
    */
@@ -61,7 +61,7 @@ const server = http.createServer(async function (req: any, res: any) {
   if (req.url === '/upload' && req.method === 'POST') {
     const form = new multiparty.Form({ autoFiles: true });
 
-    form.parse(req, async function (err: any, fields: any, files: any) {
+    form.parse(req, async function (err, fields, files) {
       if (!files) {
         res.writeHead(200, { 'content-type': 'text/plain' });
         res.write('Incorrect request');
@@ -69,7 +69,7 @@ const server = http.createServer(async function (req: any, res: any) {
         return;
       }
 
-      const filesArray = Object.values(files).reduce((acc: any[], files) => acc.concat(files), []);
+      const filesArray = Object.values(files).reduce((acc, files) => acc.concat(files), []);
 
       /**
        * Insert files to database
@@ -94,7 +94,7 @@ const server = http.createServer(async function (req: any, res: any) {
    */
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
     let body = '';
-    req.on('data', function (chunk: string) {
+    req.on('data', function (chunk) {
       body += chunk;
     });
 

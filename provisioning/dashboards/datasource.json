@@ -29,7 +29,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 17,
         "x": 0,
         "y": 0
       },
@@ -119,12 +119,12 @@
           "contentType": "application/json",
           "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
           "method": "-",
-          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payload": {},
           "payloadMode": "all"
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.6.0",
+      "pluginVersion": "4.7.0",
       "targets": [
         {
           "datasource": {
@@ -165,6 +165,161 @@
           }
         }
       ],
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 25,
+        "w": 7,
+        "x": 17,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "speed",
+            "labelWidth": 10,
+            "section": "",
+            "title": "speed",
+            "tooltip": "",
+            "type": "string",
+            "uid": "5fbcaea6-13d1-46b0-9f2f-a4ae21a95166",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "allowCustomValue": false,
+            "id": "max",
+            "labelWidth": 10,
+            "options": [],
+            "optionsSource": "Custom",
+            "section": "",
+            "title": "max",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "15d744cd-1e4c-41b4-b703-51e560bf8065",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "allowCustomValue": false,
+            "id": "min",
+            "labelWidth": 10,
+            "options": [],
+            "optionsSource": "Custom",
+            "section": "",
+            "title": "min",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "79a97013-7957-4426-b5e5-fb5143d91357",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "maxArea",
+            "labelWidth": 10,
+            "rows": 10,
+            "section": "",
+            "title": "maxArea",
+            "tooltip": "",
+            "type": "disabledTextarea",
+            "uid": "965c7503-f229-4549-b5df-24182e42ab1b",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "minArea",
+            "labelWidth": 10,
+            "rows": 10,
+            "section": "",
+            "title": "minArea",
+            "tooltip": "",
+            "type": "disabledTextarea",
+            "uid": "c9c4c436-d3e6-4f27-9d3a-91c3b9c2d5dd",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "context.panel.patchFormValue({\n  \"speed\": \"15\",\n  \"max\": 220,\n  \"min\": 230,\n  \"maxArea\": 250,\n  \"minArea\": 260\n});\n",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response && context.panel.response.state === 'Done') {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": true,
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn payload;",
+          "method": "datasource",
+          "payload": {},
+          "payloadMode": "custom"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.7.0",
+      "title": "Initial patchFormValue",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -235,7 +390,7 @@
         "tabsInOrder": true,
         "variable": "device"
       },
-      "pluginVersion": "3.4.0",
+      "pluginVersion": "3.5.0",
       "type": "volkovlabs-variable-panel"
     },
     {
@@ -245,7 +400,7 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 20,
+        "w": 13,
         "x": 4,
         "y": 8
       },
@@ -495,7 +650,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.6.0",
+      "pluginVersion": "4.7.0",
       "targets": [
         {
           "datasource": {
@@ -535,8 +690,8 @@
         "uid": "PCC52D03280B7034C"
       },
       "gridPos": {
-        "h": 9,
-        "w": 20,
+        "h": 8,
+        "w": 13,
         "x": 4,
         "y": 17
       },
@@ -763,7 +918,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.6.0",
+      "pluginVersion": "4.7.0",
       "targets": [
         {
           "datasource": {
@@ -836,6 +991,6 @@
   "timezone": "",
   "title": "Configuration",
   "uid": "d185bf58-9e0a-4373-befa-3905a18af42e",
-  "version": 2,
+  "version": 5,
   "weekStart": ""
 }
