@@ -1,12 +1,13 @@
 # Change Log
 
-## 4.7.0 (IN PROGRESS)
+## 4.7.0 (2024-10-08)
 
 ### Features / Enhancements
 
 - Updated Autosize Code Editor toolbar (#506)
 - Added custom input for Select, Multi select (#507)
-- Added Multiple initial fields support (#508)
+- Added support for frames in initial fields support (#508)
+- Updated behavior for disabled text area element (#514)
 
 ## 4.6.0 (2024-09-28)
 
