@@ -55,6 +55,7 @@ grafana-cli plugins install volkovlabs-form-panel
 | [Custom Code](https://volkovlabs.io/plugins/business-forms/code/)            | Explains how to access plugin options, API responses, form elements, and Grafana services. |
 | [Features](https://volkovlabs.io/plugins/business-forms/features/)           | Explains the plugin features.                                                              |
 | [Servers](https://volkovlabs.io/plugins/business-forms/servers/)             | Provides examples of API server implementations.                                           |
+| [Tutorials](https://volkovlabs.io/plugins/business-forms/tutorials/)         | Easy to follow tutorials                                                                   |
 | [Release Notes](https://volkovlabs.io/plugins/business-forms/release/)       | Stay up to date with the latest features and updates.                                      |
 
 ## Business Suite for Grafana
@@ -65,14 +66,17 @@ The collection aims to solve the most frequent business tasks by providing an in
 
 [![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
 
-## Feedback
+### Enterprise Support
 
-We're looking forward to hearing from you. You can use different ways to get in touch with us.
+With the [Business Suite Enterprise](https://volkovlabs.io/pricing/), you're not just getting a product, you're getting a complete support system. You'll have a designated support team ready to tackle any issues.
+
+You can contact us via Zendesk, receive priority in feature requests and bug fixes, meet with us for in-person consultation, and get access to the Business Intelligence. It's a package that's designed to make your life easier.
+
+## Always happy to hear from you
 
 - Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/business-forms/issues).
-- Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and leave your comments.
-- Sponsor our open-source plugins for Grafana at [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
-- Star the repository to show your support.
+- Subscribe to our [YouTube Channel](https://youtube.com/@volkovlabs) and leave your comments.
+- Become a [Business Suite sponsor](https://github.com/sponsors/VolkovLabs).
 
 ## License
 
