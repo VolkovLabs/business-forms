@@ -475,6 +475,38 @@ describe('Utils', () => {
         value: undefined,
         expectedResult: '',
       },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: 'line1\\nline2',
+        expectedResult: 'line1\nline2',
+      },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: 'line1',
+        expectedResult: 'line1',
+      },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: 'line1',
+        expectedResult: 'line1',
+      },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: '',
+        expectedResult: '',
+      },
     ])('Should format value for $name', ({ element, expectedResult, value }) => {
       expect(formatElementValue(element as any, value)).toEqual(expectedResult);
     });
