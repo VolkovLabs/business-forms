@@ -9,15 +9,16 @@ CREATE TABLE feedbacks (
 
 CREATE TABLE configuration (
     name text,
+    option text,
     max integer not null,
     min integer not null,
     speed integer not null
 );
 
-insert into configuration values ('device1', 100, 10, 54);
-insert into configuration values ('device2', 60, 0, 10);
-insert into configuration values ('device3', 60, 30, 40);
-insert into configuration values ('device4', 34, 10, 20);
+insert into configuration values ('device1', 'option1', 100, 10, 54);
+insert into configuration values ('device2', 'option2', 60, 0, 10);
+insert into configuration values ('device3', 'option3', 60, 30, 40);
+insert into configuration values ('device4', 'option4', 34, 10, 20);
 
 CREATE TABLE files (
     name text,
