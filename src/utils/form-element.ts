@@ -595,6 +595,9 @@ export const formatElementValue = (element: LocalFormElement, value: unknown): s
         ? new Date(value).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
         : '';
     }
+    case FormElementType.TEXTAREA: {
+      return value && typeof value === 'string' ? value.replaceAll('\\n', '\n') : '';
+    }
     default: {
       return value === undefined ? '' : String(value);
     }
