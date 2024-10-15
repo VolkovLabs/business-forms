@@ -157,15 +157,28 @@ export const getElementWithNewType = (
         multiple: true,
       };
     }
-    case FormElementType.DATETIME:
-    case FormElementType.PASSWORD:
-    case FormElementType.TIME:
-    case FormElementType.SECRET: {
+    case FormElementType.DATETIME: {
       return {
         ...baseValues,
         value: '',
         type: newType,
         isUseLocalTime: false,
+      };
+    }
+    case FormElementType.PASSWORD:
+    case FormElementType.SECRET: {
+      return {
+        ...baseValues,
+        value: '',
+        type: newType,
+      };
+    }
+    case FormElementType.TIME:
+    case FormElementType.DATE: {
+      return {
+        ...baseValues,
+        value: '',
+        type: newType,
       };
     }
     case FormElementType.BOOLEAN: {
@@ -495,9 +508,10 @@ export const convertToElementValue = (
         value: !!value,
       };
     }
-    case FormElementType.DATETIME: {
+    case FormElementType.DATETIME:
+    case FormElementType.TIME:
+    case FormElementType.DATE: {
       let newValue;
-
       if (typeof value === 'number' || typeof value === 'string') {
         newValue = getDateTimeValue(value);
       }
@@ -507,17 +521,7 @@ export const convertToElementValue = (
         value: newValue,
       };
     }
-    case FormElementType.TIME: {
-      let newValue;
 
-      if (typeof value === 'number' || typeof value === 'string') {
-        newValue = getDateTimeValue(value);
-      }
-      return {
-        ...element,
-        value: newValue,
-      };
-    }
     case FormElementType.CHECKBOX_LIST: {
       return {
         ...element,
