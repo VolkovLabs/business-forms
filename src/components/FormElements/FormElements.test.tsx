@@ -943,6 +943,82 @@ describe('Form Elements', () => {
       expect(selectors.fieldDateTime()).toHaveValue('2021-07-31 12:30:30');
     });
 
+    /**
+     * DateTime Element in Date View
+     */
+    it('Should update Date value', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          {
+            id: 'number',
+            type: FormElementType.DATE,
+            value: '',
+          },
+        ],
+      };
+      const onChangeElement = jest.fn();
+
+      /**
+       * Render Component
+       */
+      render(getComponent({ options, onChangeElement }));
+      expect(selectors.fieldDate()).toBeVisible();
+
+      /**
+       * Change date time
+       */
+      fireEvent.change(selectors.fieldDate(), { target: { value: '2024-10-10T21:00:00.000Z' } });
+      expect(onChangeElement).toHaveBeenCalledWith(
+        expect.objectContaining({
+          value: '2024-10-10T21:00:00.000Z',
+        })
+      );
+    });
+
+    /**
+     * DateTime Element in Date View
+     */
+    it('Should update Date value from Date', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          {
+            id: 'number',
+            type: FormElementType.DATE,
+            value: '',
+          },
+        ],
+      };
+      const onChangeElement = jest.fn();
+
+      /**
+       * Render Component
+       */
+      render(getComponent({ options, onChangeElement }));
+      expect(selectors.fieldDate()).toBeVisible();
+
+      /**
+       * Change date time
+       */
+      fireEvent.change(selectors.fieldDate(), {
+        target: {
+          value: '2024-11-11T00:00:00.000Z',
+        },
+      });
+      expect(onChangeElement).toHaveBeenCalledWith(
+        expect.objectContaining({
+          value: '2024-11-11T00:00:00.000Z',
+        })
+      );
+    });
+
     it('Should handle onChange event for time input', async () => {
       let appliedElements = [{ id: 'timeElement', type: FormElementType.TIME, value: '', disabled: false }];
       const options = {
