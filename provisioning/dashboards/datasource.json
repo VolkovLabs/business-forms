@@ -959,7 +959,7 @@
       },
       "gridPos": {
         "h": 17,
-        "w": 13,
+        "w": 20,
         "x": 4,
         "y": 25
       },
@@ -1268,6 +1268,337 @@
       ],
       "title": "Data Source",
       "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PCC52D03280B7034C"
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 20,
+        "x": 4,
+        "y": 42
+      },
+      "id": 7,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "fieldName": "max",
+            "id": "max",
+            "labelWidth": 10,
+            "options": [],
+            "queryField": {
+              "label": "A:max",
+              "refId": "A",
+              "value": "max"
+            },
+            "section": "current",
+            "title": "Max",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "8285e945-b1cf-4dd6-9efd-8e322196222a",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "min",
+            "id": "min",
+            "labelWidth": 10,
+            "options": [],
+            "queryField": {
+              "label": "A:min",
+              "refId": "A",
+              "value": "min"
+            },
+            "section": "current",
+            "title": "Min",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "6d3ca353-178b-4a7a-b23d-e548cf3d2437",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "speed",
+            "id": "speed",
+            "labelWidth": 10,
+            "options": [],
+            "queryField": {
+              "label": "A:speed",
+              "refId": "A",
+              "value": "speed"
+            },
+            "section": "current",
+            "title": "Speed",
+            "tooltip": "",
+            "type": "disabled",
+            "uid": "b7c38a6c-6c59-41db-a439-1964d20e660b",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "max",
+            "id": "max",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "A:max",
+              "refId": "A",
+              "value": "max"
+            },
+            "section": "new",
+            "title": "Max",
+            "tooltip": "",
+            "type": "number",
+            "uid": "3d3cf24f-7611-482d-b27b-b55621745dda",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "min",
+            "id": "min",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "A:min",
+              "refId": "A",
+              "value": "min"
+            },
+            "section": "new",
+            "title": "Min",
+            "tooltip": "",
+            "type": "number",
+            "uid": "bc2c6772-5bbd-456d-9fe2-f1824c373c68",
+            "unit": "",
+            "value": 0,
+            "width": 20
+          },
+          {
+            "fieldName": "speed",
+            "id": "speed",
+            "labelWidth": 10,
+            "max": 100,
+            "min": 0,
+            "queryField": {
+              "label": "A:speed",
+              "refId": "A",
+              "value": "speed"
+            },
+            "section": "new",
+            "step": 1,
+            "title": "Speed",
+            "tooltip": "",
+            "type": "slider",
+            "uid": "1918dc47-f686-4ca2-aeb3-7f21c360f621",
+            "unit": "",
+            "value": 0
+          },
+          {
+            "fieldName": "option",
+            "id": "option1",
+            "labelWidth": 10,
+            "rows": 10,
+            "section": "current",
+            "title": "option",
+            "tooltip": "",
+            "type": "disabledTextarea",
+            "uid": "d0bade08-9717-471c-a237-ad53d790fb8b",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "fieldName": "option",
+            "id": "option2",
+            "labelWidth": 10,
+            "rows": 10,
+            "section": "new",
+            "title": "option",
+            "tooltip": "",
+            "type": "textarea",
+            "uid": "37e48a07-696d-4216-995b-a35d5d4be354",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "fieldName": "option",
+            "height": 200,
+            "id": "code",
+            "labelWidth": 10,
+            "language": "javascript",
+            "section": "new",
+            "title": "Option",
+            "tooltip": "",
+            "type": "code",
+            "uid": "f555f166-4d66-4b5c-ac54-54897a44a867",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconsole.log(payload);\ncontext.panel.setInitial(payload);\n\nreturn;",
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "",
+          "highlight": true,
+          "highlightColor": "red",
+          "method": "datasource",
+          "payload": {
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "select * from configuration where name ='$device';",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "sections": [
+            {
+              "id": "current",
+              "name": "Current Values"
+            },
+            {
+              "id": "new",
+              "name": "New Values"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "secondary"
+        },
+        "resetAction": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response && context.panel.response.state === 'Done') {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": true,
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\n/**\n * Data Source payload\n */\nreturn payload;",
+          "method": "datasource",
+          "payload": {
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "update\n  configuration\nset\n  min = ${payload.min},\n  max = ${payload.max},\n  speed = ${payload.speed},\n  option = '${payload.code}'\nwhere\n  name = '$device'",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          },
+          "payloadMode": "custom"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.7.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCC52D03280B7034C"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select * from configuration where name ='$device';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Data Source",
+      "type": "volkovlabs-form-panel"
     }
   ],
   "refresh": "",
@@ -1308,6 +1639,6 @@
   "timezone": "",
   "title": "Configuration",
   "uid": "d185bf58-9e0a-4373-befa-3905a18af42e",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
