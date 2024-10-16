@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -28,8 +27,8 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 15,
-        "w": 13,
+        "h": 21,
+        "w": 17,
         "x": 0,
         "y": 0
       },
@@ -54,6 +53,37 @@
         },
         "elementValueChanged": "",
         "elements": [
+          {
+            "id": "dateTime",
+            "labelWidth": 10,
+            "title": "DateTime",
+            "type": "datetime",
+            "uid": "69baa91c-9674-455e-896b-83e866a68b36",
+            "value": "2024-04-17T11:00:00"
+          },
+          {
+            "id": "time",
+            "isUseLocalTime": false,
+            "labelWidth": 10,
+            "section": "",
+            "title": "Time",
+            "tooltip": "",
+            "type": "time",
+            "uid": "3f803b5c-6944-459f-98d2-4b0cf47173d7",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "id": "date",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Date",
+            "tooltip": "",
+            "type": "date",
+            "uid": "8c7a53e1-ce31-44ee-8b84-ebef70978ee1",
+            "unit": "",
+            "value": ""
+          },
           {
             "id": "amount",
             "labelWidth": 10,
@@ -92,18 +122,22 @@
             "value": 4
           },
           {
+            "allowCustomValue": false,
             "id": "select",
             "labelWidth": 10,
             "options": [
               {
+                "id": "max",
                 "label": "Max",
                 "value": "max"
               },
               {
+                "id": "min",
                 "label": "Min",
                 "value": "min"
               },
               {
+                "id": "avg",
                 "label": "Average",
                 "value": "avg"
               }
@@ -114,22 +148,16 @@
             "unit": "C"
           },
           {
-            "id": "dateTime",
-            "labelWidth": 10,
-            "title": "DateTime",
-            "type": "datetime",
-            "uid": "69baa91c-9674-455e-896b-83e866a68b36",
-            "value": "2024-04-17T11:00:00"
-          },
-          {
             "id": "radio",
             "labelWidth": 10,
             "options": [
               {
+                "id": "plus",
                 "label": "Plus",
                 "value": "plus"
               },
               {
+                "id": "minus",
                 "label": "Minus",
                 "value": "minus"
               }
@@ -237,7 +265,7 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.7.0",
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     }

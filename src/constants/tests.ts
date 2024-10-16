@@ -49,6 +49,7 @@ export const TEST_IDS = {
      * https://github.com/grafana/grafana/blob/6a12673f8b0e07bc2aeeed70defc461fdf93bca8/packages/grafana-ui/src/components/DateTimePickers/DateTimePicker/DateTimePicker.tsx#LL229C24-L229C39
      */
     fieldDateTime: 'date-time-input',
+    fieldDate: 'data-testid form-elements field-date',
     fieldTime: 'data-testid form-elements field-time',
     fieldSlider: 'form-elements field-slider',
     fieldSliderInput: 'data-testid form-elements field-slider-input',

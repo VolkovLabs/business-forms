@@ -127,6 +127,9 @@ export const FormElement: React.FC<Props> = ({
       case FormElementType.DATETIME: {
         return <DateTimeElement element={element} onChange={onChange} timeZone={timeZone} />;
       }
+      case FormElementType.DATE: {
+        return <DateTimeElement element={element} onChange={onChange} timeZone={timeZone} />;
+      }
       case FormElementType.TIME: {
         return <TimeElement element={element} onChange={onChange} timeZone={timeZone} />;
       }

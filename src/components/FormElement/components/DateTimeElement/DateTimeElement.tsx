@@ -13,9 +13,11 @@ interface Props {
   /**
    * Element
    *
-   * @type {FormElementByType<LocalFormElement, FormElementType.DATETIME>}
+   * @type {FormElementByType<LocalFormElement, FormElementType.DATETIME> | FormElementByType<LocalFormElement, FormElementType.DATE>}
    */
-  element: FormElementByType<LocalFormElement, FormElementType.DATETIME>;
+  element:
+    | FormElementByType<LocalFormElement, FormElementType.DATETIME>
+    | FormElementByType<LocalFormElement, FormElementType.DATE>;
 
   /**
    * On Change
@@ -50,7 +52,7 @@ export const DateTimeElement: React.FC<Props> = ({ element, onChange, timeZone }
           value={element.value}
           data-testid={TEST_IDS.formElements.fieldDateTime}
         />
-      ) : (
+      ) : element.type === FormElementType.DATETIME ? (
         <DateTimePicker
           minDate={element.min ? new Date(element.min) : undefined}
           maxDate={element.max ? new Date(element.max) : undefined}
@@ -65,6 +67,26 @@ export const DateTimeElement: React.FC<Props> = ({ element, onChange, timeZone }
           }}
           data-testid={TEST_IDS.formElements.fieldDateTime}
           timeZone={timeZone}
+        />
+      ) : (
+        <DatePickerWithInput
+          onChange={(date: string | Date) => {
+            if (typeof date === 'string') {
+              onChange<typeof element>({
+                ...element,
+                value: date,
+              });
+
+              return;
+            }
+            onChange<typeof element>({
+              ...element,
+              value: date.toISOString(),
+            });
+          }}
+          placeholder="Set the Date"
+          value={element.value}
+          data-testid={TEST_IDS.formElements.fieldDate}
         />
       )}
     </InlineField>

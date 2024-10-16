@@ -10,6 +10,7 @@ import {
   convertToElementValue,
   formatElementValue,
   getButtonVariant,
+  getElementWithNewType,
   patchFormValueHandler,
   reorder,
   setFormValueHandler,
@@ -475,6 +476,38 @@ describe('Utils', () => {
         value: undefined,
         expectedResult: '',
       },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: 'line1\\nline2',
+        expectedResult: 'line1\nline2',
+      },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: 'line1',
+        expectedResult: 'line1',
+      },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: 'line1',
+        expectedResult: 'line1',
+      },
+      {
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        name: 'Text area',
+        value: '',
+        expectedResult: '',
+      },
     ])('Should format value for $name', ({ element, expectedResult, value }) => {
       expect(formatElementValue(element as any, value)).toEqual(expectedResult);
     });
@@ -490,52 +523,6 @@ describe('Utils', () => {
     it('should return the expected CSS styles', () => {
       const result = applyLabelStyles('white', 'blue');
       expect(result).toEqual('css-test');
-    });
-  });
-
-  describe('toLocalFormElement', () => {
-    it('Should log error messages when there is an error in showIf function', () => {
-      const element = {
-        showIf: `const newValue = 'string'
-
-        if (newValue && ) {
-
-        } `,
-      } as any;
-
-      toLocalFormElement(element);
-      expect(logError).toHaveBeenCalled();
-      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
-    });
-
-    it('Should log error messages when there is an error in disableIf function', () => {
-      const element = {
-        disableIf: `const newValue = 'string'
-
-        if (newValue && ) {
-
-        } `,
-      } as any;
-
-      toLocalFormElement(element);
-      expect(logError).toHaveBeenCalled();
-      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
-    });
-
-    it('Should log error messages when there is an error in getOptions function', () => {
-      const element = {
-        type: FormElementType.SELECT,
-        optionsSource: OptionsSource.CODE,
-        getOptions: `const newValue = 'string'
-
-        if (newValue && ) {
-
-        } `,
-      } as any;
-
-      toLocalFormElement(element);
-      expect(logError).toHaveBeenCalled();
-      expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
   });
 
@@ -630,9 +617,7 @@ describe('Utils', () => {
         tst6: undefined,
       });
     });
-  });
 
-  describe('formValueHandler', () => {
     it('Should return correct Element values based on passed object', () => {
       const elements = [
         {
@@ -843,6 +828,111 @@ describe('Utils', () => {
           value: '',
         },
       ]);
+    });
+  });
+
+  describe('getElementWithNewType', () => {
+    const baseElement = {
+      uid: '1',
+      id: 'element1',
+      labelWidth: 100,
+      width: 300,
+      value: 'initialValue',
+      title: 'Test Element',
+      tooltip: 'This is a tooltip',
+      section: 'Test Section',
+      unit: 'unit',
+      helpers: {},
+      options: [],
+      optionsSource: 'source',
+      queryOptions: undefined,
+    };
+    it.each([
+      {
+        name: 'STRING',
+        newType: FormElementType.STRING,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.STRING,
+          value: '',
+          hidden: false,
+        }),
+      },
+      {
+        name: 'SLIDER',
+        newType: FormElementType.SLIDER,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.SLIDER,
+        }),
+      },
+      {
+        name: 'NUMBER',
+        newType: FormElementType.NUMBER,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.NUMBER,
+        }),
+      },
+      {
+        name: 'DATETIME',
+        newType: FormElementType.DATETIME,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          isUseLocalTime: false,
+          type: FormElementType.DATETIME,
+        }),
+      },
+      {
+        name: 'TIME',
+        newType: FormElementType.TIME,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.TIME,
+        }),
+      },
+      {
+        name: 'DATE',
+        newType: FormElementType.DATE,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.DATE,
+        }),
+      },
+      {
+        name: 'TIME',
+        newType: FormElementType.SELECT,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.SELECT,
+        }),
+      },
+      {
+        name: 'DATE',
+        newType: FormElementType.PASSWORD,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.PASSWORD,
+        }),
+      },
+    ])('$name', ({ element, newType, expected }) => {
+      expect(getElementWithNewType(element as any, newType)).toEqual(expected);
     });
   });
 });

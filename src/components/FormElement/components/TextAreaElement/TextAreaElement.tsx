@@ -42,11 +42,11 @@ export const TextAreaElement: React.FC<Props> = ({ element, onChange, highlightC
       className={applyLabelStyles(element.labelBackground, element.labelColor)}
     >
       <TextArea
-        value={element.value}
+        value={element.value?.replaceAll('\\n', '\n')}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
           onChange<typeof element>({
             ...element,
-            value: event.target.value,
+            value: event.target.value.replaceAll('\n', '\\n'),
           });
         }}
         className={highlightClass(element)}

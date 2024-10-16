@@ -53,13 +53,13 @@ export const CodeElement: React.FC<Props> = ({ element, onChange }) => {
         language={element.language || CodeLanguage.JAVASCRIPT}
         showLineNumbers={true}
         showMiniMap={(element.value?.length || 0) > 100}
-        value={element.value || ''}
+        value={element.value?.replaceAll('\\n', '\n') || ''}
         height={element.height}
         width={applyWidth(element.width)}
         onBlur={(code) => {
           onChange<typeof element>({
             ...element,
-            value: code,
+            value: code.replaceAll('\n', '\\n'),
           });
         }}
         monacoOptions={monacoOptions}

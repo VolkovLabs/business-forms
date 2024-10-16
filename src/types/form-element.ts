@@ -366,6 +366,11 @@ export interface DateTimeOptions {
 }
 
 /**
+ * Date Options
+ */
+export interface DateOptions extends Pick<DateTimeOptions, 'min' | 'max' | 'value'> {}
+
+/**
  * File Options
  */
 export interface FileOptions {
@@ -558,6 +563,7 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.DISABLED_TEXTAREA } & TextareaOptions)
     | ({ type: FormElementType.PASSWORD } & PasswordOptions)
     | ({ type: FormElementType.DATETIME } & DateTimeOptions)
+    | ({ type: FormElementType.DATE } & DateOptions)
     | ({ type: FormElementType.SECRET } & SecretOptions)
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.BUTTON } & CustomButtonOptions)

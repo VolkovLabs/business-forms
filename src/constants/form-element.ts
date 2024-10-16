@@ -11,6 +11,7 @@ export const enum FormElementType {
   BOOLEAN = 'boolean',
   CODE = 'code',
   BUTTON = 'button',
+  DATE = 'date',
   DATETIME = 'datetime',
   DISABLED = 'disabled',
   DISABLED_TEXTAREA = 'disabledTextarea',
@@ -44,6 +45,10 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   {
     value: FormElementType.BUTTON,
     label: 'Button',
+  },
+  {
+    value: FormElementType.DATE,
+    label: 'Date',
   },
   {
     value: FormElementType.DATETIME,

@@ -81,6 +81,32 @@ const DateTimePickerMock = ({ onChange, ...restProps }: any) => {
 const DateTimePicker = jest.fn(DateTimePickerMock);
 
 /**
+ * Mock DatePickerWithInput component
+ */
+const DatePickerWithInputMock = ({ onChange, ...restProps }: any) => {
+  return (
+    <input
+      data-testid={restProps['data-testid']}
+      value={restProps.value}
+      onChange={(event) => {
+        if (onChange) {
+          /**
+           * Mock for check Date
+           */
+          if (event.target.value === '2024-11-11T00:00:00.000Z') {
+            onChange(new Date(event.target.value));
+            return;
+          }
+          onChange(event.target.value);
+        }
+      }}
+    />
+  );
+};
+
+const DatePickerWithInput = jest.fn(DatePickerWithInputMock);
+
+/**
  * Mock TimeOfDayPicker component
  */
 const TimeOfDayPickerMock = ({ onChange, ...restProps }: any) => {
@@ -213,6 +239,7 @@ beforeEach(() => {
   TimeOfDayPicker.mockImplementation(TimeOfDayPickerMock);
   ColorPicker.mockImplementation(ColorPickerMock);
   TextLink.mockImplementation(TextLinkMock);
+  DatePickerWithInput.mockImplementation(DatePickerWithInputMock);
 });
 
 module.exports = {
@@ -226,4 +253,5 @@ module.exports = {
   TextLink,
   TimeOfDayPicker,
   PageToolbar,
+  DatePickerWithInput,
 };
