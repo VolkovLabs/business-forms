@@ -20,6 +20,7 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
+import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { Alert, Button, ConfirmModal, LoadingBar, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
 import { isEqual } from 'lodash';
@@ -262,7 +263,20 @@ export const FormPanel: React.FC<Props> = ({
               notifyWarning,
               eventBus,
               appEvents,
-              refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+              refresh: () => {
+                /**
+                 * Refresh on scene dashboard
+                 */
+                if (window && window.hasOwnProperty('__grafanaSceneContext')) {
+                  const sceneContext = window.__grafanaSceneContext;
+                  return sceneGraph.getTimeRange(sceneContext as SceneObject)?.onRefresh();
+                }
+
+                /**
+                 * Refresh dashboard
+                 */
+                return appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+              },
               backendService: getBackendSrv(),
             },
             panel: {
@@ -850,7 +864,20 @@ export const FormPanel: React.FC<Props> = ({
             notifyWarning,
             eventBus,
             appEvents,
-            refresh: () => appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } }),
+            refresh: () => {
+              /**
+               * Refresh on scene dashboard
+               */
+              if (window && window.hasOwnProperty('__grafanaSceneContext')) {
+                const sceneContext = window.__grafanaSceneContext;
+                return sceneGraph.getTimeRange(sceneContext as SceneObject)?.onRefresh();
+              }
+
+              /**
+               * Refresh dashboard
+               */
+              return appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+            },
           },
           panel: {
             options,
