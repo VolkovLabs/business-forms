@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.8.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added Date Form element (#520)
+- Updated Text area, Code editor elements to escape multi-lines (#520)
+
 ## 4.7.0 (2024-10-08)
 
 ### Features / Enhancements
