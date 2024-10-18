@@ -36,8 +36,8 @@ import {
   RequestMethod,
   ResetActionMode,
   TEST_IDS,
-} from '../../constants';
-import { useDatasourceRequest, useFormElements, useMutableState } from '../../hooks';
+} from '@/constants';
+import { useDatasourceRequest, useFormElements, useMutableState } from '@/hooks';
 import {
   ButtonVariant,
   FormElement,
@@ -45,7 +45,7 @@ import {
   ModalColumnName,
   PanelOptions,
   UpdateEnabledMode,
-} from '../../types';
+} from '@/types';
 import {
   convertToElementValue,
   createExecutionCode,
@@ -60,7 +60,8 @@ import {
   toFormData,
   toJson,
   ValueChangedEvent,
-} from '../../utils';
+} from '@/utils';
+
 import { ElementSections } from '../ElementSections';
 import { FormElements } from '../FormElements';
 import { getStyles } from './FormPanel.styles';
@@ -178,6 +179,24 @@ export const FormPanel: React.FC<Props> = ({
   );
 
   /**
+   * Refresh Dashboard
+   */
+  const refreshDashboard = useCallback(() => {
+    /**
+     * Refresh on scene dashboard
+     */
+    if (window && window.hasOwnProperty('__grafanaSceneContext')) {
+      const sceneContext = window.__grafanaSceneContext;
+      return sceneGraph.getTimeRange(sceneContext as SceneObject)?.onRefresh();
+    }
+
+    /**
+     * Refresh dashboard
+     */
+    return appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+  }, [appEvents]);
+
+  /**
    * On Change Elements With Field Values
    */
   const getElementsWithFieldValues = useCallback(
@@ -263,20 +282,7 @@ export const FormPanel: React.FC<Props> = ({
               notifyWarning,
               eventBus,
               appEvents,
-              refresh: () => {
-                /**
-                 * Refresh on scene dashboard
-                 */
-                if (window && window.hasOwnProperty('__grafanaSceneContext')) {
-                  const sceneContext = window.__grafanaSceneContext;
-                  return sceneGraph.getTimeRange(sceneContext as SceneObject)?.onRefresh();
-                }
-
-                /**
-                 * Refresh dashboard
-                 */
-                return appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
-              },
+              refresh: refreshDashboard,
               backendService: getBackendSrv(),
             },
             panel: {
@@ -313,21 +319,22 @@ export const FormPanel: React.FC<Props> = ({
     },
     [
       replaceVariables,
-      options,
-      data,
-      elementsRef,
-      onChangeElements,
       templateSrv,
-      onOptionsChange,
-      getFormValue,
-      patchFormValue,
-      setFormValue,
-      setInitial,
       notifyError,
       notifySuccess,
       notifyWarning,
       eventBus,
       appEvents,
+      refreshDashboard,
+      options,
+      data,
+      onOptionsChange,
+      elementsRef,
+      onChangeElements,
+      patchFormValue,
+      setFormValue,
+      getFormValue,
+      setInitial,
       sectionsExpandedState,
       onChangeSectionExpandedState,
     ]
@@ -864,20 +871,7 @@ export const FormPanel: React.FC<Props> = ({
             notifyWarning,
             eventBus,
             appEvents,
-            refresh: () => {
-              /**
-               * Refresh on scene dashboard
-               */
-              if (window && window.hasOwnProperty('__grafanaSceneContext')) {
-                const sceneContext = window.__grafanaSceneContext;
-                return sceneGraph.getTimeRange(sceneContext as SceneObject)?.onRefresh();
-              }
-
-              /**
-               * Refresh dashboard
-               */
-              return appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
-            },
+            refresh: refreshDashboard,
           },
           panel: {
             options,
@@ -909,24 +903,25 @@ export const FormPanel: React.FC<Props> = ({
       );
     },
     [
-      appEvents,
-      data,
-      eventBus,
-      initialRef,
-      initialRequest,
+      replaceVariables,
+      options,
+      templateSrv,
       notifyError,
       notifySuccess,
+      notifyWarning,
+      eventBus,
+      appEvents,
+      refreshDashboard,
+      data,
+      onOptionsChange,
+      onChangeElements,
       patchFormValue,
       setFormValue,
       getFormValue,
-      notifyWarning,
-      onChangeElements,
-      onChangeSectionExpandedState,
-      onOptionsChange,
-      options,
-      replaceVariables,
       sectionsExpandedState,
-      templateSrv,
+      initialRef,
+      initialRequest,
+      onChangeSectionExpandedState,
     ]
   );
 
