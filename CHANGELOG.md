@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.8.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Update refresh for dashboard scene (#522)
+
 ## 4.7.0 (2024-10-08)
 
 ### Features / Enhancements
