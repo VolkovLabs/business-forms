@@ -4,6 +4,16 @@ import { LayoutVariant, PayloadMode, RequestMethod, ResetActionMode } from './co
 import { plugin } from './module';
 import { ButtonVariant, PanelOptions } from './types';
 
+/**
+ * Mock @grafana/scenes
+ * mostly prevent IntersectionObserver is not defined
+ */
+jest.mock('@grafana/scenes', () => ({
+  sceneGraph: {
+    getTimeRange: jest.fn(),
+  },
+}));
+
 /*
  Plugin
  */
