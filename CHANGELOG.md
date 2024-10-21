@@ -4,7 +4,9 @@
 
 ### Features / Enhancements
 
+- Added Date Form element (#520)
 - Update refresh for dashboard scene (#522)
+- Updated Text area, Code editor elements to escape multi-lines (#520)
 
 ## 4.7.0 (2024-10-08)
 
