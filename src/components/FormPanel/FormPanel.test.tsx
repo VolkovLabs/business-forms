@@ -1,5 +1,6 @@
 import { AppEvents, EventBusSrv, FieldType, LoadingState, toDataFrame } from '@grafana/data';
 import { getAppEvents, RefreshEvent } from '@grafana/runtime';
+import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import React, { ReactElement } from 'react';
@@ -36,6 +37,16 @@ import {
 } from '../../utils';
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
+
+/**
+ * Mock @grafana/scenes
+ * mostly prevent IntersectionObserver is not defined
+ */
+jest.mock('@grafana/scenes', () => ({
+  sceneGraph: {
+    getTimeRange: jest.fn(),
+  },
+}));
 
 /**
  * Mock Form Elements
@@ -174,6 +185,11 @@ describe('Panel', () => {
     jest.mocked(getAppEvents).mockReset();
     jest.mocked(getAppEvents).mockReturnValue(appEventsMock as any);
     appEventsMock.publish.mockReset();
+
+    /**
+     * delete __grafanaSceneContext
+     */
+    delete window.__grafanaSceneContext;
   });
 
   it('Should find component with Elements', async () => {
@@ -2203,6 +2219,75 @@ describe('Panel', () => {
         payload: 'error',
       });
     });
+
+    it('Should execute code refresh on dashboard scene on initial request', async () => {
+      window.__grafanaSceneContext = {
+        body: {
+          text: 'hello',
+        },
+      };
+
+      jest.mocked(sceneGraph.getTimeRange).mockReturnValue({
+        onRefresh: jest.fn(),
+      } as any);
+
+      const context = window.__grafanaSceneContext;
+      const result = sceneGraph.getTimeRange(context as SceneObject);
+
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: 'context.grafana.refresh()',
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Dashboard should be refreshed
+       */
+      expect(result.onRefresh).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should execute code refresh on dashboard on initial request', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              initial: {
+                method: RequestMethod.NONE,
+                code: 'context.grafana.refresh()',
+              },
+            },
+          })
+        )
+      );
+
+      /**
+       * Dashboard should be refreshed
+       */
+      expect(appEventsMock.publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
+    });
   });
 
   describe('Reset actions', () => {
@@ -3141,6 +3226,49 @@ describe('Panel', () => {
        * Should be enabled
        */
       expect(selectors.buttonSubmit()).not.toBeDisabled();
+    });
+
+    it('Should allow to refresh dashboard in dashboard scene', async () => {
+      window.__grafanaSceneContext = {
+        body: {
+          text: 'hello',
+        },
+      };
+
+      jest.mocked(sceneGraph.getTimeRange).mockReturnValue({
+        onRefresh: jest.fn(),
+      } as any);
+
+      const context = window.__grafanaSceneContext;
+      const result = sceneGraph.getTimeRange(context as SceneObject);
+
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              elements: [
+                {
+                  ...element,
+                  value: '1',
+                },
+              ],
+              elementValueChanged: `
+                context.grafana.refresh();
+              `,
+            },
+          })
+        )
+      );
+
+      /**
+       * Change value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      /**
+       * Dashboard should be refreshed
+       */
+      expect(result.onRefresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should allow to refresh dashboard', async () => {
