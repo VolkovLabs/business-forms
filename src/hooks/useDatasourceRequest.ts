@@ -1,7 +1,9 @@
-import { DataQueryResponse, InterpolateFunction } from '@grafana/data';
+import { DataQueryResponse, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getDataSourceSrv } from '@grafana/runtime';
 import { useCallback } from 'react';
 import { lastValueFrom } from 'rxjs';
+
+import { DatasourceResponseError } from '@/utils';
 
 /**
  * Use Data Source Request
@@ -24,32 +26,43 @@ export const useDatasourceRequest = () => {
       /**
        * Replace Variables
        */
-      const target = JSON.parse(
-        replaceVariables(JSON.stringify(query), {
-          payload: {
-            value: payload,
-          },
-        })
-      );
+      const targetJson = replaceVariables(JSON.stringify(query, null, 2), {
+        payload: {
+          value: payload,
+        },
+      });
 
-      /**
-       * Response
-       */
-      const response = ds.query({
-        targets: [target],
-      } as never);
+      const target = JSON.parse(targetJson);
 
-      /**
-       * Handle as promise
-       */
-      if (response instanceof Promise) {
-        return await response;
+      try {
+        /**
+         * Response
+         */
+        const response = ds.query({
+          targets: [target],
+        } as never);
+
+        const handleResponse = (response: DataQueryResponse) => {
+          if (response.state && response.state === LoadingState.Error) {
+            throw response?.errors?.[0] || response;
+          }
+          return response;
+        };
+
+        /**
+         * Handle as promise
+         */
+        if (response instanceof Promise) {
+          return await response.then(handleResponse);
+        }
+
+        /**
+         * Handle as observable
+         */
+        return await lastValueFrom(response).then(handleResponse);
+      } catch (error) {
+        throw new DatasourceResponseError(error, targetJson);
       }
-
-      /**
-       * Handle as observable
-       */
-      return await lastValueFrom(response);
     },
     []
   );

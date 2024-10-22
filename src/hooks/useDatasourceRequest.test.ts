@@ -1,3 +1,4 @@
+import { LoadingState } from '@grafana/data';
 import { getDataSourceSrv } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
 import { Observable } from 'rxjs';
@@ -125,5 +126,38 @@ describe('Use Datasource Request', () => {
         message: 'hello',
       },
     });
+  });
+
+  it('Should handle promise error', async () => {
+    const dataSourceSrv = {
+      query: jest.fn(() =>
+        Promise.resolve({
+          state: LoadingState.Error,
+        })
+      ),
+    };
+    const getDataSourceSrvMock = jest.fn(() => dataSourceSrv);
+
+    jest.mocked(getDataSourceSrv).mockImplementationOnce(
+      () =>
+        ({
+          get: getDataSourceSrvMock,
+        }) as any
+    );
+    const { result } = renderHook(() => useDatasourceRequest());
+
+    const response = await result
+      .current({
+        query: {
+          key1: 'value1',
+          key2: 'value2',
+        },
+        datasource: 'abc',
+        replaceVariables: jest.fn((str) => str),
+        payload: {},
+      })
+      .catch(() => false);
+
+    expect(response).toBeFalsy();
   });
 });

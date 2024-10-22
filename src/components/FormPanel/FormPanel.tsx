@@ -423,7 +423,7 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
         payload,
       }).catch((error: DataQueryError) => {
-        const errorMessage = `Initial datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+        const errorMessage = `Initial Datasource Error: ${error.message ? error.message : JSON.stringify(error)}`;
         setError(errorMessage);
         return null;
       });
@@ -490,7 +490,7 @@ export const FormPanel: React.FC<Props> = ({
         method: options.initial.method,
         headers,
       }).catch((error: Error) => {
-        const errorMessage = `Initial error: ${error.message ? error.message : error.toString()}`;
+        const errorMessage = `Initial Error: ${error.message ? error.message : error.toString()}`;
         setError(errorMessage);
         return null;
       });
@@ -631,7 +631,7 @@ export const FormPanel: React.FC<Props> = ({
       replaceVariables,
       payload,
     }).catch((error: DataQueryError) => {
-      const errorMessage = `Reset datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+      const errorMessage = `Reset Datasource Error: ${error.message ? error.message : JSON.stringify(error)}`;
       setError(errorMessage);
       return null;
     });
@@ -722,7 +722,7 @@ export const FormPanel: React.FC<Props> = ({
         replaceVariables,
         payload,
       }).catch((error: DataQueryError) => {
-        const errorMessage = `Update datasource error: ${error.message ? error.message : JSON.stringify(error)}`;
+        const errorMessage = `Update Datasource Error: ${error.message ? error.message : JSON.stringify(error)}`;
         setError(errorMessage);
         return null;
       });
@@ -1079,7 +1079,12 @@ export const FormPanel: React.FC<Props> = ({
       </div>
 
       {error && (
-        <Alert data-testid={TEST_IDS.panel.errorMessage} severity="error" title="Request">
+        <Alert
+          data-testid={TEST_IDS.panel.errorMessage}
+          severity="error"
+          title="Request"
+          className={styles.errorMessage}
+        >
           {error}
         </Alert>
       )}
