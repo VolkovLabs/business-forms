@@ -80,7 +80,10 @@ const NumberInput: React.FC<Props> = ({ value, onChange, min, max, step, ...rest
   return <Input {...restProps} type="number" value={numberValue} onChange={onSaveValue} />;
 };
 
+const useDatasourceRequest = jest.fn();
+
 module.exports = {
   ...actual,
   NumberInput,
+  useDatasourceRequest,
 };

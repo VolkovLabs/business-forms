@@ -22,6 +22,7 @@ import {
 } from '@grafana/runtime';
 import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { Alert, Button, ConfirmModal, LoadingBar, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
+import { useDatasourceRequest } from '@volkovlabs/components';
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
 import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -37,7 +38,7 @@ import {
   ResetActionMode,
   TEST_IDS,
 } from '@/constants';
-import { useDatasourceRequest, useFormElements, useMutableState } from '@/hooks';
+import { useFormElements, useMutableState } from '@/hooks';
 import {
   ButtonVariant,
   FormElement,

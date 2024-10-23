@@ -3,6 +3,7 @@ import { getAppEvents, RefreshEvent } from '@grafana/runtime';
 import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { useDatasourceRequest } from '@volkovlabs/components';
 import React, { ReactElement } from 'react';
 
 import {
@@ -17,8 +18,7 @@ import {
   ResetActionMode,
   SectionVariant,
   TEST_IDS,
-} from '../../constants';
-import { useDatasourceRequest } from '../../hooks';
+} from '@/constants';
 import {
   ButtonOrientation,
   ButtonVariant,
@@ -28,25 +28,16 @@ import {
   ModalColumnName,
   PanelOptions,
   UpdateEnabledMode,
-} from '../../types';
+} from '@/types';
 import {
   getFormElementsSectionSelectors,
   getFormElementsSelectors,
   getPanelSelectors,
   toLocalFormElement,
-} from '../../utils';
+} from '@/utils';
+
 import { FormElements } from '../FormElements';
 import { FormPanel } from './FormPanel';
-
-/**
- * Mock @grafana/scenes
- * mostly prevent IntersectionObserver is not defined
- */
-jest.mock('@grafana/scenes', () => ({
-  sceneGraph: {
-    getTimeRange: jest.fn(),
-  },
-}));
 
 /**
  * Mock Form Elements
@@ -76,11 +67,6 @@ const datasourceRequestMock = jest.fn(() =>
     state: LoadingState.Done,
   })
 );
-
-jest.mock('../../hooks', () => ({
-  ...jest.requireActual('../../hooks'),
-  useDatasourceRequest: jest.fn(() => datasourceRequestMock),
-}));
 
 /**
  * Panel
