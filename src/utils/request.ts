@@ -159,3 +159,27 @@ export const toFormData = (payload: object, replaceVariables: InterpolateFunctio
 
   return formData;
 };
+
+/**
+ * Data Source Response Error
+ */
+export class DatasourceResponseError {
+  public readonly message: string;
+
+  constructor(
+    public readonly error: unknown,
+    target: string
+  ) {
+    if (error && typeof error === 'object') {
+      if ('message' in error && typeof error.message === 'string') {
+        this.message = error.message;
+      } else {
+        this.message = JSON.stringify(error, null, 2);
+      }
+    } else {
+      this.message = 'Unknown Error';
+    }
+
+    this.message += `\nRequest: ${target}`;
+  }
+}
