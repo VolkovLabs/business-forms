@@ -20,9 +20,8 @@ import {
   RefreshEvent,
   toDataQueryResponse,
 } from '@grafana/runtime';
-import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { Alert, Button, ConfirmModal, LoadingBar, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
-import { useDatasourceRequest } from '@volkovlabs/components';
+import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
 import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -180,22 +179,9 @@ export const FormPanel: React.FC<Props> = ({
   );
 
   /**
-   * Refresh Dashboard
+   * Refresh dashboard
    */
-  const refreshDashboard = useCallback(() => {
-    /**
-     * Refresh on scene dashboard
-     */
-    if (window && window.hasOwnProperty('__grafanaSceneContext')) {
-      const sceneContext = window.__grafanaSceneContext;
-      return sceneGraph.getTimeRange(sceneContext as SceneObject)?.onRefresh();
-    }
-
-    /**
-     * Refresh dashboard
-     */
-    return appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
-  }, [appEvents]);
+  const refreshDashboard = useDashboardRefresh();
 
   /**
    * On Change Elements With Field Values
@@ -283,7 +269,7 @@ export const FormPanel: React.FC<Props> = ({
               notifyWarning,
               eventBus,
               appEvents,
-              refresh: refreshDashboard,
+              refresh: () => refreshDashboard(),
               backendService: getBackendSrv(),
             },
             panel: {
@@ -872,7 +858,7 @@ export const FormPanel: React.FC<Props> = ({
             notifyWarning,
             eventBus,
             appEvents,
-            refresh: refreshDashboard,
+            refresh: () => refreshDashboard(),
           },
           panel: {
             options,
