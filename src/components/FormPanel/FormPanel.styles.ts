@@ -50,5 +50,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
     confirmTableTd: css`
       border: 1px solid;
     `,
+    errorMessage: css`
+      white-space: pre-wrap;
+      margin: ${theme.spacing(1, 0, 0)};
+    `,
   };
 };
