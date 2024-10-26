@@ -1,13 +1,15 @@
 # Change Log
 
-## 4.8.0 (IN PROGRESS)
+## 4.8.0 (2024-10-25)
 
 ### Features / Enhancements
 
 - Added Date Form element (#520)
 - Update refresh for dashboard scene (#522)
 - Updated Text area, Code editor elements to escape multi-lines (#520)
-- Update refresh for dashboard scene using useDashboardRefresh hook (#528)
+- Updated refresh for dashboard scene using useDashboardRefresh hook (#528)
+- Added Handling Data Source Request Errors (#530)
+- Updated Grafana 11.3.0 and dependencies (#531)
 
 ## 4.7.0 (2024-10-08)
 
