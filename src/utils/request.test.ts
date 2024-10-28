@@ -1,6 +1,6 @@
 import { FormElementType, PayloadMode } from '@/constants';
 
-import { DatasourceResponseError, getPayloadForRequest, toFormData, toJson } from './request';
+import { getPayloadForRequest, toFormData, toJson } from './request';
 
 describe('Request Utils', () => {
   const replaceVariablesMock = (str: string) => str;
@@ -178,31 +178,6 @@ describe('Request Utils', () => {
        */
       expect(result.get('file[0]')).toEqual(payload.file[0]);
       expect(result.get('file[1]')).toEqual(payload.file[1]);
-    });
-  });
-
-  describe('DatasourceResponseError', () => {
-    it('Should format error', () => {
-      const error = new Error('123');
-
-      expect(new DatasourceResponseError(error, '111')).toEqual({
-        error,
-        message: '123\nRequest: 111',
-      });
-    });
-
-    it('Should format object', () => {
-      expect(new DatasourceResponseError({ name: 'hello' }, '111')).toEqual({
-        error: { name: 'hello' },
-        message: `${JSON.stringify({ name: 'hello' }, null, 2)}\nRequest: 111`,
-      });
-    });
-
-    it('Should format unknown', () => {
-      expect(new DatasourceResponseError('hello', '111')).toEqual({
-        error: 'hello',
-        message: 'Unknown Error\nRequest: 111',
-      });
     });
   });
 });
