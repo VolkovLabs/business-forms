@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.9.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Remove DatasourceResponseError moved to external Components (#535)
+
 ## 4.8.0 (2024-10-25)
 
 ### Features / Enhancements
