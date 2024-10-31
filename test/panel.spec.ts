@@ -144,7 +144,7 @@ test.describe('Data Manipulation Panel', () => {
       const disabledSpeedElement = await elements.getDisabledElement('speed', 'disabled');
 
       await disabledMaxElement.checkValue('100');
-      await disabledMinElement.checkValue('11');
+      await disabledMinElement.checkValue('10');
       await disabledSpeedElement.checkValue('54');
     });
 
@@ -181,7 +181,7 @@ test.describe('Data Manipulation Panel', () => {
       await gotoDashboardPage({ uid: dashboard.uid, queryParams: variableParams });
 
       await disabledMaxElement.checkValue('100');
-      await disabledMinElement.checkValue('11');
+      await disabledMinElement.checkValue('10');
       await disabledSpeedElement.checkValue('54');
     });
 
@@ -324,7 +324,7 @@ test.describe('Data Manipulation Panel', () => {
       const numberMaxElement = await elements.getNumberElement('max', 'number');
       const numberMinElement = await elements.getNumberElement('min', 'number');
       await numberMaxElement.checkValue('100');
-      await numberMinElement.checkValue('11');
+      await numberMinElement.checkValue('10');
 
       await numberMaxElement.setValue('115');
       await numberMinElement.setValue('15');
@@ -332,7 +332,7 @@ test.describe('Data Manipulation Panel', () => {
       await resetButton.reset();
 
       await numberMaxElement.checkValue('100');
-      await numberMinElement.checkValue('11');
+      await numberMinElement.checkValue('10');
     });
 
     test('Should display error for invalid update request', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
