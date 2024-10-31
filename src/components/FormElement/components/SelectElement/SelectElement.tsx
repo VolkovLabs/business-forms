@@ -47,6 +47,7 @@ export const SelectElement: React.FC<Props> = ({ element, onChange, highlightCla
         key={element.id}
         isMulti={element.type === FormElementType.MULTISELECT}
         aria-label={TEST_IDS.formElements.fieldSelect}
+        data-testid={TEST_IDS.formElements.fieldSelect}
         value={element.value !== undefined ? element.value : null}
         allowCustomValue={element.allowCustomValue}
         onChange={(event) => {

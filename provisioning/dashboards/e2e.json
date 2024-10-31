@@ -18,17 +18,21 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
       },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
-        "h": 21,
-        "w": 17,
+        "h": 16,
+        "w": 12,
         "x": 0,
         "y": 0
       },
@@ -55,7 +59,7 @@
         "elements": [
           {
             "id": "dateTime",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "title": "DateTime",
             "type": "datetime",
             "uid": "69baa91c-9674-455e-896b-83e866a68b36",
@@ -64,7 +68,7 @@
           {
             "id": "time",
             "isUseLocalTime": false,
-            "labelWidth": 10,
+            "labelWidth": 15,
             "section": "",
             "title": "Time",
             "tooltip": "",
@@ -75,7 +79,7 @@
           },
           {
             "id": "date",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "section": "",
             "title": "Date",
             "tooltip": "",
@@ -86,7 +90,7 @@
           },
           {
             "id": "amount",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "title": "Amount",
             "type": "number",
             "uid": "5ec96b3b-1360-48fb-aea0-6aecfd5a6bfb",
@@ -95,7 +99,7 @@
           },
           {
             "id": "updated",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "title": "Updated",
             "type": "boolean",
             "uid": "251b9dc7-7fed-4df1-981f-122cd141c51c",
@@ -103,7 +107,7 @@
           },
           {
             "id": "name",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "title": "Name",
             "type": "string",
             "uid": "67e7fa0e-8038-4b14-80d0-9e2ccc3336ff",
@@ -111,7 +115,7 @@
           },
           {
             "id": "step",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "max": 6,
             "min": 0,
             "step": 1,
@@ -124,7 +128,7 @@
           {
             "allowCustomValue": false,
             "id": "select",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "options": [
               {
                 "id": "max",
@@ -149,7 +153,7 @@
           },
           {
             "id": "radio",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "options": [
               {
                 "id": "plus",
@@ -167,27 +171,59 @@
             "uid": "9dbab8b8-92ca-4bd0-b7b4-9e5f47911de8"
           },
           {
+            "id": "password",
+            "labelWidth": 15,
+            "title": "Password",
+            "type": "password",
+            "uid": "0b021eb5-f8b3-4e8d-9387-9693d6a7df8c"
+          },
+          {
             "id": "disabled",
-            "labelWidth": 10,
+            "labelWidth": 15,
             "options": [],
             "title": "Disabled",
             "type": "disabled",
             "uid": "79758a94-6654-4dbe-a44e-a311cba6a4e5"
           },
           {
-            "id": "password",
-            "labelWidth": 10,
-            "title": "Password",
-            "type": "password",
-            "uid": "0b021eb5-f8b3-4e8d-9387-9693d6a7df8c"
+            "id": "link",
+            "labelWidth": 15,
+            "linkText": "https://volkovlabs.io/",
+            "section": "",
+            "target": "_blank",
+            "title": "link",
+            "tooltip": "",
+            "type": "link",
+            "uid": "69a27982-9e3d-47c1-afe2-7c825d5fa12d",
+            "unit": "",
+            "value": ""
           },
           {
-            "id": "text",
-            "labelWidth": 10,
-            "rows": 4,
-            "title": "Text",
-            "type": "textarea",
-            "uid": "ff544458-ce27-4e30-bac5-58a7f8fbe955"
+            "allowCustomValue": false,
+            "id": "checkbox",
+            "labelWidth": 15,
+            "options": [
+              {
+                "id": "1",
+                "label": "1",
+                "type": "number",
+                "value": 1
+              },
+              {
+                "id": "2",
+                "label": "2",
+                "type": "number",
+                "value": 2
+              }
+            ],
+            "optionsSource": "Custom",
+            "section": "",
+            "title": "checkbox",
+            "tooltip": "",
+            "type": "checkboxList",
+            "uid": "4722ca3f-aca3-4fb2-976c-71b3ddc31797",
+            "unit": "",
+            "value": []
           }
         ],
         "height": 0,
@@ -265,23 +301,305 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.7.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Single Form",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "accept": "",
+            "id": "file",
+            "labelWidth": 15,
+            "multiple": true,
+            "section": "",
+            "title": "file",
+            "tooltip": "",
+            "type": "file",
+            "uid": "d2c7fbe1-e246-40ff-8470-b2a2ff7af762",
+            "unit": "",
+            "value": []
+          },
+          {
+            "id": "text",
+            "labelWidth": 15,
+            "rows": 4,
+            "title": "Text",
+            "type": "textarea",
+            "uid": "ff544458-ce27-4e30-bac5-58a7f8fbe955"
+          },
+          {
+            "id": "readOnlyTextArea",
+            "labelWidth": 15,
+            "rows": 10,
+            "section": "",
+            "title": "Disbled Textbox",
+            "tooltip": "",
+            "type": "disabledTextarea",
+            "uid": "7da514d1-8989-45b6-b42d-6919149573bf",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "height": 200,
+            "id": "code",
+            "labelWidth": 15,
+            "language": "javascript",
+            "section": "",
+            "title": "code",
+            "tooltip": "",
+            "type": "code",
+            "uid": "29fd6236-b227-4a10-abfb-dd47a5c66798",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "height": 0,
+        "heightMode": "auto",
+        "initial": {
+          "code": "console.log(context.panel.response)\nconsole.log(context)",
+          "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
+          "highlight": true,
+          "highlightColor": "red",
+          "method": "GET",
+          "payload": {},
+          "payloadMode": "all",
+          "url": "http://localhost:3001/${var}"
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "name": "data",
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "secondary"
+        },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "orientation": "center",
+          "size": "md",
+          "text": "Update",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.panel.initialRequest();\n} else {\n  context.grafana.notifyError(['Update', `An error occured updating values: ${response.status}`]);\n}",
+          "confirm": true,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "header": [
+            {
+              "name": "X-Key",
+              "value": "123"
+            }
+          ],
+          "method": "POST",
+          "payload": {},
+          "payloadMode": "all",
+          "url": "http://localhost:3001/${var}"
+        },
+        "updateEnabled": "auto",
+        "width": 0,
+        "widthMode": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
+      "title": "Boxes",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 4,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "Name",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Name",
+            "tooltip": "",
+            "type": "string",
+            "uid": "86564314-5234-4cc3-8e0c-f29d0c4c4bf7",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
+      "title": "Empty URL",
       "type": "volkovlabs-form-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "test",
           "value": "test"
         },
-        "hide": 0,
         "label": "Var",
         "name": "var",
         "options": [
@@ -292,7 +610,6 @@
           }
         ],
         "query": "test",
-        "skipUrlSync": false,
         "type": "textbox"
       }
     ]
@@ -305,6 +622,6 @@
   "timezone": "",
   "title": "E2E",
   "uid": "ddab9faf-2c15-431a-a047-9a7a6a0aed71",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
