@@ -18,17 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
       },
       "gridPos": {
         "h": 16,
@@ -302,12 +298,109 @@
         "widthMode": "auto"
       },
       "pluginVersion": "4.9.0",
-      "targets": [
-        {
-          "refId": "A"
-        }
-      ],
       "title": "Single Form",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "Name",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Name",
+            "tooltip": "",
+            "type": "string",
+            "uid": "86564314-5234-4cc3-8e0c-f29d0c4c4bf7",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "title": "Empty URL",
       "type": "volkovlabs-form-panel"
     },
     {
@@ -315,15 +408,11 @@
         "type": "datasource",
         "uid": "grafana"
       },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
       "gridPos": {
         "h": 21,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 6
       },
       "id": 3,
       "options": {
@@ -469,129 +558,12 @@
         "widthMode": "auto"
       },
       "pluginVersion": "4.9.0",
-      "targets": [
-        {
-          "refId": "A"
-        }
-      ],
       "title": "Boxes",
-      "type": "volkovlabs-form-panel"
-    },
-    {
-      "datasource": {
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 16
-      },
-      "id": 4,
-      "options": {
-        "buttonGroup": {
-          "orientation": "center",
-          "size": "md"
-        },
-        "confirmModal": {
-          "body": "Please confirm to update changed values",
-          "cancel": "Cancel",
-          "columns": {
-            "include": ["name", "oldValue", "newValue"],
-            "name": "Label",
-            "newValue": "New Value",
-            "oldValue": "Old Value"
-          },
-          "confirm": "Confirm",
-          "elementDisplayMode": "modified",
-          "title": "Confirm update request"
-        },
-        "elementValueChanged": "",
-        "elements": [
-          {
-            "hidden": false,
-            "id": "Name",
-            "labelWidth": 10,
-            "section": "",
-            "title": "Name",
-            "tooltip": "",
-            "type": "string",
-            "uid": "86564314-5234-4cc3-8e0c-f29d0c4c4bf7",
-            "unit": "",
-            "value": ""
-          }
-        ],
-        "initial": {
-          "code": "console.log(context.panel.data, context.panel.response, context.panel.initial, context.panel.elements);\n\nreturn;\n\n/**\n * Data Source\n * Requires form elements to be defined\n */\nconst dataQuery = context.utils.toDataQueryResponse(context.panel.response);\nconsole.log(dataQuery);",
-          "contentType": "application/json",
-          "getPayload": "return {}",
-          "highlight": false,
-          "highlightColor": "red",
-          "method": "GET",
-          "payload": {}
-        },
-        "layout": {
-          "orientation": "horizontal",
-          "padding": 10,
-          "sectionVariant": "default",
-          "variant": "single"
-        },
-        "reset": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "process",
-          "text": "Reset",
-          "variant": "hidden"
-        },
-        "resetAction": {
-          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
-          "confirm": false,
-          "getPayload": "return {}",
-          "mode": "initial",
-          "payload": {}
-        },
-        "saveDefault": {
-          "icon": "save",
-          "text": "Save Default",
-          "variant": "hidden"
-        },
-        "submit": {
-          "backgroundColor": "purple",
-          "foregroundColor": "yellow",
-          "icon": "cloud-upload",
-          "text": "Submit",
-          "variant": "primary"
-        },
-        "sync": true,
-        "update": {
-          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
-          "confirm": false,
-          "contentType": "application/json",
-          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
-          "method": "-",
-          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
-          "payloadMode": "all"
-        },
-        "updateEnabled": "auto"
-      },
-      "pluginVersion": "4.9.0",
-      "targets": [
-        {
-          "refId": "A"
-        }
-      ],
-      "title": "Empty URL",
       "type": "volkovlabs-form-panel"
     }
   ],
-  "preload": false,
   "refresh": "",
-  "schemaVersion": 40,
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
@@ -600,6 +572,7 @@
           "text": "test",
           "value": "test"
         },
+        "hide": 0,
         "label": "Var",
         "name": "var",
         "options": [
@@ -610,6 +583,7 @@
           }
         ],
         "query": "test",
+        "skipUrlSync": false,
         "type": "textbox"
       }
     ]
@@ -622,6 +596,6 @@
   "timezone": "",
   "title": "E2E",
   "uid": "ddab9faf-2c15-431a-a047-9a7a6a0aed71",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
