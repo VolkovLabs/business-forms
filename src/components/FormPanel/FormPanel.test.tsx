@@ -3351,6 +3351,100 @@ describe('Panel', () => {
       expect(result.onRefresh).toHaveBeenCalledTimes(1);
     });
 
+    it('Should execute code on element change with removeSection correctly', async () => {
+      /**
+       * Render
+       */
+      const onOptionsChange = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              onOptionsChange,
+            },
+            options: {
+              elements: [
+                {
+                  ...element,
+                  value: '3',
+                },
+              ],
+              layout: {
+                sections: [
+                  {
+                    name: 'test',
+                    id: 'id1',
+                  },
+                ],
+              },
+              elementValueChanged: `
+                context.panel.removeSection('id1')
+              `,
+            },
+          })
+        )
+      );
+
+      /**
+       * Change value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      expect(onOptionsChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          layout: expect.objectContaining({
+            sections: expect.arrayContaining([]),
+          }),
+        })
+      );
+    });
+
+    it('Should execute code on element change with addSection correctly', async () => {
+      /**
+       * Render
+       */
+      const onOptionsChange = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              onOptionsChange,
+            },
+            options: {
+              elements: [
+                {
+                  ...element,
+                  value: '1',
+                },
+              ],
+              elementValueChanged: `
+                context.panel.addSection('test15');
+              `,
+            },
+          })
+        )
+      );
+
+      /**
+       * Change value
+       */
+      await act(async () => fireEvent.change(elementsSelectors.fieldString(), { target: { value: '11' } }));
+
+      expect(onOptionsChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          layout: expect.objectContaining({
+            sections: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'test15',
+              }),
+            ]),
+          }),
+        })
+      );
+    });
+
     it('Should allow to refresh dashboard', async () => {
       await act(async () =>
         render(
