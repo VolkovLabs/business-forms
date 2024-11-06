@@ -25,6 +25,7 @@ import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/component
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
 import { isEqual } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   ConfirmationElementDisplayMode,
@@ -123,6 +124,46 @@ export const FormPanel: React.FC<Props> = ({
       onOptionsChange({
         ...options,
         elements,
+      });
+    },
+    [onOptionsChange, options]
+  );
+
+  /**
+   * Add new section
+   */
+  const addSection = useCallback(
+    (name: string) => {
+      const newSections = [
+        ...options.layout.sections,
+        {
+          id: uuidv4(),
+          name: name,
+        },
+      ];
+      onOptionsChange({
+        ...options,
+        layout: {
+          ...options.layout,
+          sections: newSections,
+        },
+      });
+    },
+    [onOptionsChange, options]
+  );
+
+  /**
+   * Remove Section
+   */
+  const removeSection = useCallback(
+    (id: string) => {
+      const newSections = options.layout.sections.filter((section) => section.id !== id);
+      onOptionsChange({
+        ...options,
+        layout: {
+          ...options.layout,
+          sections: newSections,
+        },
       });
     },
     [onOptionsChange, options]
@@ -287,6 +328,8 @@ export const FormPanel: React.FC<Props> = ({
               response,
               enableSubmit: () => setSubmitEnabled(true),
               disableSubmit: () => setSubmitEnabled(false),
+              addSection: (name: string) => addSection(name),
+              removeSection: (id: string) => removeSection(id),
               collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
               expandSection: (id: string) => onChangeSectionExpandedState(id, true),
               toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
@@ -312,7 +355,6 @@ export const FormPanel: React.FC<Props> = ({
       notifyWarning,
       eventBus,
       appEvents,
-      refreshDashboard,
       options,
       data,
       onOptionsChange,
@@ -323,6 +365,9 @@ export const FormPanel: React.FC<Props> = ({
       getFormValue,
       setInitial,
       sectionsExpandedState,
+      refreshDashboard,
+      addSection,
+      removeSection,
       onChangeSectionExpandedState,
     ]
   );
@@ -872,6 +917,8 @@ export const FormPanel: React.FC<Props> = ({
             collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
             expandSection: (id: string) => onChangeSectionExpandedState(id, true),
             toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
+            addSection: (name: string) => addSection(name),
+            removeSection: (id: string) => removeSection(id),
             sectionsExpandedState,
             initial: initialRef.current,
             setError,
@@ -898,7 +945,6 @@ export const FormPanel: React.FC<Props> = ({
       notifyWarning,
       eventBus,
       appEvents,
-      refreshDashboard,
       data,
       onOptionsChange,
       onChangeElements,
@@ -908,7 +954,10 @@ export const FormPanel: React.FC<Props> = ({
       sectionsExpandedState,
       initialRef,
       initialRequest,
+      refreshDashboard,
       onChangeSectionExpandedState,
+      addSection,
+      removeSection,
     ]
   );
 

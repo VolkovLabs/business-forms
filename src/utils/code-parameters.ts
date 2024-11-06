@@ -65,6 +65,14 @@ export const requestCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
+        addSection: new CodeParameterItem<(name: string) => void>(
+          'Add new section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        removeSection: new CodeParameterItem<(id: string) => void>(
+          'Add new section',
+          CodeEditorSuggestionItemKind.Method
+        ),
       },
     },
     grafana: {
@@ -172,6 +180,14 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
+        addSection: new CodeParameterItem<(name: string) => void>(
+          'Add new section',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        removeSection: new CodeParameterItem<(id: string) => void>(
+          'Add new section',
+          CodeEditorSuggestionItemKind.Method
+        ),
       },
     },
     grafana: {
