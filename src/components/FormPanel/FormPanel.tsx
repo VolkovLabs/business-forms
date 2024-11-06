@@ -134,8 +134,9 @@ export const FormPanel: React.FC<Props> = ({
    */
   const addSection = useCallback(
     (name: string) => {
+      const sections = options.layout.sections || [];
       const newSections = [
-        ...options.layout.sections,
+        ...sections,
         {
           id: uuidv4(),
           name: name,
@@ -157,14 +158,16 @@ export const FormPanel: React.FC<Props> = ({
    */
   const removeSection = useCallback(
     (id: string) => {
-      const newSections = options.layout.sections.filter((section) => section.id !== id);
-      onOptionsChange({
-        ...options,
-        layout: {
-          ...options.layout,
-          sections: newSections,
-        },
-      });
+      if (options.layout.sections && options.layout.sections.length) {
+        const newSections = options.layout.sections.filter((section) => section.id !== id);
+        onOptionsChange({
+          ...options,
+          layout: {
+            ...options.layout,
+            sections: newSections,
+          },
+        });
+      }
     },
     [onOptionsChange, options]
   );

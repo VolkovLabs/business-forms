@@ -2042,6 +2042,133 @@ describe('Panel', () => {
       expect(elementsSelectors.fieldNumber()).toHaveValue(15);
     });
 
+    it('Should execute code on initial request with addSection correctly', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+      const onOptionsChange = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+              onOptionsChange,
+            },
+            options: {
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.addSection('test');`,
+              },
+            },
+          })
+        )
+      );
+      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.addSection('test');`);
+      expect(onOptionsChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          layout: expect.objectContaining({
+            sections: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'test',
+              }),
+            ]),
+          }),
+        })
+      );
+    });
+
+    it('Should execute code on initial request with removeSection correctly', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+      const onOptionsChange = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+              onOptionsChange,
+            },
+            options: {
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+              layout: {
+                sections: [
+                  {
+                    name: 'test',
+                    id: 'id1',
+                  },
+                  {
+                    name: 'test2',
+                    id: 'id2',
+                  },
+                ],
+              },
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.removeSection('id2');`,
+              },
+            },
+          })
+        )
+      );
+
+      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.removeSection('id2');`);
+      expect(onOptionsChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          layout: expect.objectContaining({
+            sections: expect.arrayContaining([
+              {
+                name: 'test',
+                id: 'id1',
+              },
+            ]),
+          }),
+        })
+      );
+    });
+
+    it('Should nat call change options with removeSections if sections not specified', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+      const onOptionsChange = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+              onOptionsChange,
+            },
+            options: {
+              elements: [
+                { id: 'test', type: FormElementType.STRING, value: '111' },
+                { id: 'test2', type: FormElementType.NUMBER, value: 10 },
+              ],
+              initial: {
+                method: RequestMethod.NONE,
+                code: `context.panel.removeSection('test');`,
+              },
+            },
+          })
+        )
+      );
+      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.removeSection('test');`);
+      expect(onOptionsChange).not.toHaveBeenCalled();
+    });
+
     it('Should execute code on initial request with setFormValue correctly', async () => {
       /**
        * Render
