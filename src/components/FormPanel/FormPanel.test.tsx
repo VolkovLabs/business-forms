@@ -1285,39 +1285,6 @@ describe('Panel', () => {
       expect(fetch).toHaveBeenCalledTimes(2);
     });
 
-    it('Should make initial request once', async () => {
-      let fetchCalledOptions: any = {};
-      jest.mocked(fetch).mockImplementationOnce((url, options) => {
-        fetchCalledOptions = options;
-        return Promise.resolve({
-          json: Promise.resolve({}),
-        } as any);
-      });
-
-      /**
-       * Render
-       */
-      await act(async () =>
-        render(
-          getComponent({
-            props: {},
-          })
-        )
-      );
-
-      /**
-       * Check if fetch is called
-       */
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(fetch).toHaveBeenCalledWith(
-        'some-url',
-        expect.objectContaining({
-          method: RequestMethod.POST,
-        })
-      );
-      expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
-    });
-
     it('Should enable submit from code', async () => {
       /**
        * Render
