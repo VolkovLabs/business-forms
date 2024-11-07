@@ -43,6 +43,10 @@ export const CODE_LANGUAGE_OPTIONS: SelectableValue[] = [
     label: 'GO',
   },
   {
+    value: CodeLanguage.HTML,
+    label: 'HTML',
+  },
+  {
     value: CodeLanguage.JAVA,
     label: 'Java',
   },
@@ -53,6 +57,10 @@ export const CODE_LANGUAGE_OPTIONS: SelectableValue[] = [
   {
     value: CodeLanguage.JSON,
     label: 'JSON',
+  },
+  {
+    value: CodeLanguage.MARKDOWN,
+    label: 'Markdown',
   },
   {
     value: CodeLanguage.MYSQL,
