@@ -2063,19 +2063,20 @@ describe('Panel', () => {
               ],
               initial: {
                 method: RequestMethod.NONE,
-                code: `context.panel.addSection('test');`,
+                code: `context.panel.addSections([{name:'test', id:'test-id'}]);`,
               },
             },
           })
         )
       );
-      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.addSection('test');`);
+      expect(replaceVariables).toHaveBeenCalledWith(`context.panel.addSections([{name:'test', id:'test-id'}]);`);
       expect(onOptionsChange).toHaveBeenCalledWith(
         expect.objectContaining({
           layout: expect.objectContaining({
             sections: expect.arrayContaining([
               expect.objectContaining({
                 name: 'test',
+                id: 'test-id',
               }),
             ]),
           }),
@@ -3420,7 +3421,7 @@ describe('Panel', () => {
                 },
               ],
               elementValueChanged: `
-                context.panel.addSection('test15');
+                context.panel.addSections([{name:'test15', id:'test-id'}]);
               `,
             },
           })

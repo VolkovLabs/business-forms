@@ -65,8 +65,8 @@ export const requestCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        addSection: new CodeParameterItem<(name: string) => void>(
-          'Add new section',
+        addSections: new CodeParameterItem<(sections: Array<{ name: string; id: string }>) => void>(
+          'Add new sections',
           CodeEditorSuggestionItemKind.Method
         ),
         removeSection: new CodeParameterItem<(id: string) => void>(
@@ -180,8 +180,8 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        addSection: new CodeParameterItem<(name: string) => void>(
-          'Add new section',
+        addSections: new CodeParameterItem<(sections: Array<{ name: string; id: string }>) => void>(
+          'Add new sections',
           CodeEditorSuggestionItemKind.Method
         ),
         removeSection: new CodeParameterItem<(id: string) => void>(
