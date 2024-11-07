@@ -3,7 +3,7 @@ import { Button, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui'
 import React, { ChangeEvent } from 'react';
 
 import { RequestMethod, TEST_IDS } from '../../constants';
-import { useFormElements, useQueryFields } from '../../hooks';
+import { useFormLayout, useQueryFields } from '../../hooks';
 import { FormElement, PanelOptions } from '../../types';
 
 /**
@@ -18,7 +18,7 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
   /**
    * Form Elements State
    */
-  const { elements, isChanged, onSaveUpdates, onChangeElement } = useFormElements({
+  const { elements, isChanged, onSaveUpdates, onChangeElement } = useFormLayout({
     onChangeElementsOption: onChange,
     value,
   });

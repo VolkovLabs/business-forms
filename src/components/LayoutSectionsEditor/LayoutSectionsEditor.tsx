@@ -3,7 +3,7 @@ import { Button, Checkbox, InlineField, InlineFieldRow, Input, useStyles2 } from
 import React, { ChangeEvent, useCallback, useMemo } from 'react';
 
 import { LayoutOrientation, SectionVariant, TEST_IDS } from '../../constants';
-import { useFormElements } from '../../hooks';
+import { useFormLayout } from '../../hooks';
 import { LayoutSection, PanelOptions } from '../../types';
 import { isSectionCollisionExists } from '../../utils';
 import { getStyles } from './LayoutSectionsEditor.styles';
@@ -25,7 +25,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange, context
   /**
    * Sections
    */
-  const { sections, onChangeSections } = useFormElements({
+  const { sections, onChangeSections } = useFormLayout({
     onChangeSectionsOption: onChange,
     layoutSections: value,
   });

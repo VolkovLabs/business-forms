@@ -5,7 +5,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { useFormElements } from '../../hooks';
+import { useFormLayout } from '../../hooks';
 import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { getElementUniqueId, reorder } from '../../utils';
 import { ElementEditor } from '../ElementEditor';
@@ -53,7 +53,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     onChangeElement,
     onChangeElementOption,
     onElementRemove,
-  } = useFormElements({
+  } = useFormLayout({
     onChangeElementsOption: onChange,
     value,
   });

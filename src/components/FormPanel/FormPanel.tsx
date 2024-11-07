@@ -37,7 +37,7 @@ import {
   ResetActionMode,
   TEST_IDS,
 } from '@/constants';
-import { useFormElements, useMutableState } from '@/hooks';
+import { useFormLayout, useMutableState } from '@/hooks';
 import {
   ButtonVariant,
   FormElement,
@@ -165,7 +165,7 @@ export const FormPanel: React.FC<Props> = ({
     onChangeSections,
     sections,
     onChangeLayout,
-  } = useFormElements({
+  } = useFormLayout({
     onChangeElementsOption: onChangeOptions,
     value: options.elements,
     isAutoSave: false,

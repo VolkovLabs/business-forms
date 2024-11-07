@@ -16,13 +16,15 @@ import { useAutoSave } from './useAutoSave';
 import { useMutableState } from './useMutableState';
 
 /**
- * Form Elements
+ * Form Layout
  * @param onChangeElementsOption
+ * @param onChangeSectionsOption
  * @param value
  * @param isAutoSave
- * @param onItemChange
+ * @param layoutSections
+ * @param options
  */
-export const useFormElements = ({
+export const useFormLayout = ({
   onChangeElementsOption,
   onChangeSectionsOption,
   value,
