@@ -18,14 +18,17 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
+  "id": 2,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "marcusolsson-json-datasource",
         "uid": "serverapi"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -55,6 +58,7 @@
         "elementValueChanged": "/**\n * Update device variable\n */\n\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
         "elements": [
           {
+            "allowCustomValue": false,
             "id": "device",
             "options": [
               {
@@ -147,7 +151,7 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.9.0",
       "targets": [
         {
           "cacheDurationSeconds": 300,
@@ -171,16 +175,628 @@
       ],
       "title": "Server-based Elements",
       "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "serverapi"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "/**\n * Update device variable\n */\n\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
+        "elements": [],
+        "initial": {
+          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeLayout(formElements.map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    section:'new2',\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}), [{ name: 'new1', id: 'new1' }, { name: 'new3', id: 'new3' }, { name: 'new2', id: 'new2' }]\n);\n",
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "vertical",
+          "padding": 10,
+          "sectionVariant": "collapsable",
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "-",
+          "payload": {},
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "serverapi"
+          },
+          "fields": [
+            {
+              "jsonPath": "$",
+              "language": "jsonpath",
+              "name": "elements"
+            }
+          ],
+          "method": "GET",
+          "params": [["", ""]],
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/form?device=$device"
+        }
+      ],
+      "title": "Server-based Elements change layout",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "initial": {
+          "code": "const ids = context.panel.data.series[0].fields[0].values\nconst names = context.panel.data.series[0].fields[1].values\n\nconst sections = ids.map((item, index) => ({\n  id: item,\n  name: names[index]\n}))\n\ncontext.panel.addSections(sections)",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "vertical",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": false,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["id-1", "id-2", "id-3"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Section 1", "Section 2", "Section 3"]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Add new section",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "serverapi"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "/**\n * Update device variable\n */\n\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
+        "elements": [],
+        "initial": {
+          "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeLayout(formElements.map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    section: 'new2',\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n})\n);\n",
+          "contentType": "application/json",
+          "datasource": "PostgreSQL",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "vertical",
+          "padding": 10,
+          "sectionVariant": "collapsable",
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response && context.panel.response.ok) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
+          "method": "-",
+          "payload": {},
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "serverapi"
+          },
+          "fields": [
+            {
+              "jsonPath": "$",
+              "language": "jsonpath",
+              "name": "elements"
+            }
+          ],
+          "method": "GET",
+          "params": [["", ""]],
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": "/form?device=$device"
+        }
+      ],
+      "title": "Server-based Elements add section from elements",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "String",
+            "labelWidth": 10,
+            "section": "test-1",
+            "title": "String",
+            "tooltip": "",
+            "type": "string",
+            "uid": "0b25cbd4-4926-4fc3-9cf7-554cfced3bfe",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "const ids = context.panel.data.series[0].fields[0].values\nconst names = context.panel.data.series[0].fields[1].values\n\nconst sections = ids.map((item, index) => ({\n  id: item,\n  name: names[index]\n}))\n\ncontext.panel.onChangeSections(sections)",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "vertical",
+          "padding": 10,
+          "sectionVariant": "default",
+          "sections": [
+            {
+              "id": "test-1",
+              "name": "Test Section"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": false,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["id-1", "id-2", "id-3"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Section 1", "Section 2", "Section 3"]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Change Sections",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "String",
+            "labelWidth": 10,
+            "section": "test-1",
+            "title": "String",
+            "tooltip": "",
+            "type": "string",
+            "uid": "0b25cbd4-4926-4fc3-9cf7-554cfced3bfe",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "const ids = context.panel.data.series[0].fields[0].values\nconst names = context.panel.data.series[0].fields[1].values\n\nconst sections = ids.map((item, index) => ({\n  id: item,\n  name: names[index]\n}))\n\ncontext.panel.addSections(sections)",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "vertical",
+          "padding": 10,
+          "sectionVariant": "default",
+          "sections": [
+            {
+              "id": "test-1",
+              "name": "Test Section"
+            }
+          ],
+          "variant": "split"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": false,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.locationService.reload();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "method": "-",
+          "payload": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;",
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["id-1", "id-2", "id-3"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Section 1", "Section 2", "Section 3"]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Add Sections",
+      "type": "volkovlabs-form-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": true,
           "text": "device2",
           "value": "device2"
         },
@@ -189,9 +805,7 @@
           "uid": "P1D2C73DC01F2359B"
         },
         "definition": "",
-        "hide": 0,
         "includeAll": false,
-        "multi": false,
         "name": "device",
         "options": [],
         "query": {
@@ -209,8 +823,6 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]
@@ -223,6 +835,6 @@
   "timezone": "",
   "title": "Server-based",
   "uid": "f430fe0c-2487-4a02-a495-941c85b1e21d",
-  "version": 1,
+  "version": 12,
   "weekStart": ""
 }
