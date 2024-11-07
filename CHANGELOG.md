@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Remove DatasourceResponseError moved to external Components (#535)
+- Removed DatasourceResponseError moved to external Components (#535)
+- Added HTML, Markdown to supported Code Editor languages (#543)
 
 ## 4.8.0 (2024-10-25)
 
