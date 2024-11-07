@@ -583,6 +583,44 @@ describe('Panel', () => {
       expect(selectors.splitLayoutContent(true, 'Section 3')).toBeInTheDocument();
     });
 
+    it('Should change layout from the initial code with empty elements and not specified sections', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+      const section2 = { id: 'section2', name: 'Section 2', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.onChangeLayout([]);
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.DEFAULT,
+                sections: [section, section2],
+              },
+            },
+          })
+        )
+      );
+
+      expect(selectors.splitLayoutContent(true, section.name)).not.toBeInTheDocument();
+      expect(selectors.splitLayoutContent(true, section2.name)).not.toBeInTheDocument();
+    });
+
     it('Should make initial request once if sync disabled', async () => {
       let fetchCalledOptions: any = {};
       jest.mocked(fetch).mockImplementationOnce((url, options) => {

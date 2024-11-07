@@ -149,7 +149,7 @@ export const useFormLayout = ({
    * Change layout
    */
   const onChangeLayout = useCallback(
-    (newElements: LocalFormElement[], newSections?: LayoutSection[]) => {
+    (newElements: LocalFormElement[], newSections: LayoutSection[] = []) => {
       /**
        * Section Ids from elements
        */
@@ -163,22 +163,16 @@ export const useFormLayout = ({
         id: item,
       }));
 
-      let sectionsToChange: LayoutSection[] = [];
-
-      if (newSections) {
-        /**
-         * Concat two array with sections and remove duplicate
-         */
-        sectionsToChange = [...currentSections, ...newSections].reduce((acc: LayoutSection[], item) => {
-          const existing = acc.find((obj) => obj['id'] === item['id']);
-          if (!existing) {
-            acc.push(item);
-          }
-          return acc;
-        }, []);
-      } else {
-        sectionsToChange = currentSections;
-      }
+      /**
+       * Concat two array with sections and remove duplicate
+       */
+      const sectionsToChange = [...currentSections, ...newSections].reduce((acc: LayoutSection[], item) => {
+        const existing = acc.find((obj) => obj['id'] === item['id']);
+        if (!existing) {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
 
       onChangeSections(sectionsToChange);
       setElements(newElements);
