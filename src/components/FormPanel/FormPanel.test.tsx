@@ -430,6 +430,159 @@ describe('Panel', () => {
       expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
     });
 
+    it('Should add section from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.addSections([{name:'Section 2', id:'section2'}]);
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.COLLAPSABLE,
+                sections: [section],
+              },
+            },
+          })
+        )
+      );
+
+      expect(selectors.splitLayoutContent(false, 'Section 1')).toBeInTheDocument();
+      expect(selectors.splitLayoutContent(false, 'Section 2')).toBeInTheDocument();
+    });
+
+    it('Should remove section from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+      const section2 = { id: 'section2', name: 'Section 2', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.removeSection('section2');
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.DEFAULT,
+                sections: [section, section2],
+              },
+            },
+          })
+        )
+      );
+
+      expect(selectors.splitLayoutContent(false, section.name)).toBeInTheDocument();
+      expect(selectors.splitLayoutContent(true, section2.name)).not.toBeInTheDocument();
+    });
+
+    it('Should change sections from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+      const section2 = { id: 'section2', name: 'Section 2', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.onChangeSections([{name:'Section 3', id:'section3'}]);
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.DEFAULT,
+                sections: [section, section2],
+              },
+            },
+          })
+        )
+      );
+
+      expect(selectors.splitLayoutContent(true, section.name)).not.toBeInTheDocument();
+      expect(selectors.splitLayoutContent(true, section2.name)).not.toBeInTheDocument();
+      expect(selectors.splitLayoutContent(true, 'Section 3')).toBeInTheDocument();
+    });
+
+    it('Should change layout from the initial code', async () => {
+      /**
+       * Render
+       */
+      const replaceVariables = jest.fn((code) => code);
+
+      const section = { id: 'section1', name: 'Section 1', expanded: false };
+      const section2 = { id: 'section2', name: 'Section 2', expanded: false };
+
+      await act(async () =>
+        render(
+          getComponent({
+            props: {
+              replaceVariables,
+            },
+            options: {
+              sync: false,
+              initial: {
+                method: RequestMethod.NONE,
+                code: `
+                  context.panel.onChangeLayout([],[{name:'Section 3', id:'section3'}] );
+                `,
+              },
+              layout: {
+                variant: LayoutVariant.SPLIT,
+                orientation: LayoutOrientation.VERTICAL,
+                sectionVariant: SectionVariant.DEFAULT,
+                sections: [section, section2],
+              },
+            },
+          })
+        )
+      );
+
+      expect(selectors.splitLayoutContent(true, section.name)).not.toBeInTheDocument();
+      expect(selectors.splitLayoutContent(true, section2.name)).not.toBeInTheDocument();
+      expect(selectors.splitLayoutContent(true, 'Section 3')).toBeInTheDocument();
+    });
+
     it('Should make initial request once if sync disabled', async () => {
       let fetchCalledOptions: any = {};
       jest.mocked(fetch).mockImplementationOnce((url, options) => {
