@@ -16,6 +16,8 @@ export const enum CodeLanguage {
   RUBY = 'ruby',
   SQL = 'sql',
   TYPESCRIPT = 'typescript',
+  HTML = 'html',
+  MARKDOWN = 'markdown',
 }
 
 /**
