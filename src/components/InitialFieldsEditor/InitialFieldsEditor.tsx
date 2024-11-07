@@ -19,7 +19,7 @@ export const InitialFieldsEditor: React.FC<Props> = ({ value, onChange, context 
    * Form Elements State
    */
   const { elements, isChanged, onSaveUpdates, onChangeElement } = useFormElements({
-    onChange,
+    onChangeElementsOption: onChange,
     value,
   });
 

@@ -1,7 +1,7 @@
 import { EventBusSrv, SelectableValue } from '@grafana/data';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FormElement, LayoutSection, LocalFormElement } from '../types';
+import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../types';
 import {
   convertElementsToPayload,
   isElementConflict,
@@ -17,21 +17,25 @@ import { useMutableState } from './useMutableState';
 
 /**
  * Form Elements
- * @param onChange
+ * @param onChangeElementsOption
  * @param value
  * @param isAutoSave
  * @param onItemChange
  */
 export const useFormElements = ({
-  onChange,
+  onChangeElementsOption,
+  onChangeSectionsOption,
   value,
   isAutoSave = true,
-  sections = [],
+  layoutSections,
+  options,
 }: {
-  onChange: (elements: FormElement[]) => void;
+  onChangeElementsOption?: (elements: FormElement[]) => void;
   value?: FormElement[];
   isAutoSave?: boolean;
-  sections?: LayoutSection[];
+  layoutSections?: LayoutSection[];
+  options?: PanelOptions;
+  onChangeSectionsOption?: (sections: LayoutSection[]) => void;
 }) => {
   const eventBus = useRef(new EventBusSrv());
 
@@ -41,6 +45,9 @@ export const useFormElements = ({
   const [elements, setElements, elementsRef] = useMutableState<LocalFormElement[]>(
     normalizeElementsForLocalState(value)
   );
+  const [sections, setSections] = useState<LayoutSection[]>(layoutSections || []);
+  const [isChanged, setIsChanged] = useState(false);
+  const { startTimer, removeTimer } = useAutoSave();
 
   /**
    * Expand/Collapse State for Sections
@@ -56,6 +63,53 @@ export const useFormElements = ({
   );
 
   /**
+   * Change Sections
+   */
+  const onChangeSections = useCallback(
+    (newSections: LayoutSection[]) => {
+      setSections(
+        newSections.map((item) => ({
+          ...item,
+          id: item.id,
+        }))
+      );
+      setIsChanged(true);
+    },
+    [setSections]
+  );
+
+  /**
+   * Add new section
+   */
+  const addSections = useCallback(
+    (newSections: LayoutSection[]) => {
+      if (options) {
+        /**
+         * Not existed sections
+         */
+        const currentSectionsToAdd = newSections.filter((element) =>
+          sections.every((section) => section.id !== element.id)
+        );
+
+        onChangeSections([...sections, ...currentSectionsToAdd]);
+      }
+    },
+    [onChangeSections, options, sections]
+  );
+
+  /**
+   * Remove Section
+   */
+  const removeSection = useCallback(
+    (id: string) => {
+      if (options) {
+        onChangeSections(sections.filter((section) => section.id !== id));
+      }
+    },
+    [onChangeSections, options, sections]
+  );
+
+  /**
    * On Change Section Expanded State
    */
   const onChangeSectionExpandedState = useCallback((name: string, isExpanded: boolean) => {
@@ -65,16 +119,18 @@ export const useFormElements = ({
     }));
   }, []);
 
-  const [isChanged, setIsChanged] = useState(false);
-  const { startTimer, removeTimer } = useAutoSave();
-
   /**
    * Save Updates
    */
   const onSaveUpdates = useCallback(() => {
-    onChange(normalizeElementsForDashboard(elements));
+    if (onChangeElementsOption) {
+      onChangeElementsOption(normalizeElementsForDashboard(elements));
+    }
+    if (onChangeSectionsOption) {
+      onChangeSectionsOption(sections);
+    }
     setIsChanged(false);
-  }, [elements, onChange]);
+  }, [elements, onChangeElementsOption, onChangeSectionsOption, sections]);
 
   /**
    * Change Elements
@@ -85,6 +141,48 @@ export const useFormElements = ({
       setIsChanged(true);
     },
     [setElements]
+  );
+
+  /**
+   * Change layout
+   */
+  const onChangeLayout = useCallback(
+    (newElements: LocalFormElement[], newSections?: LayoutSection[]) => {
+      /**
+       * Section Ids from elements
+       */
+      const sectionIds = [...new Set(newElements.map((element) => element.section).filter((element) => !!element))];
+
+      /**
+       * Set Sections based on elements
+       */
+      const currentSections: LayoutSection[] = sectionIds.map((item) => ({
+        name: item,
+        id: item,
+      }));
+
+      let sectionsToChange: LayoutSection[] = [];
+
+      if (newSections) {
+        /**
+         * Concat two array with sections and remove duplicate
+         */
+        sectionsToChange = [...currentSections, ...newSections].reduce((acc: LayoutSection[], item) => {
+          const existing = acc.find((obj) => obj['id'] === item['id']);
+          if (!existing) {
+            acc.push(item);
+          }
+          return acc;
+        }, []);
+      } else {
+        sectionsToChange = currentSections;
+      }
+
+      onChangeSections(sectionsToChange);
+      setElements(newElements);
+      setIsChanged(true);
+    },
+    [onChangeSections, setElements]
   );
 
   /**
@@ -203,6 +301,16 @@ export const useFormElements = ({
   }, [setElements, value]);
 
   /**
+   * Update local sections
+   */
+  useEffect(() => {
+    if (layoutSections) {
+      setSections(layoutSections);
+      setIsChanged(false);
+    }
+  }, [setSections, layoutSections]);
+
+  /**
    * Auto Save Timer
    */
   useEffect(() => {
@@ -235,5 +343,10 @@ export const useFormElements = ({
     patchFormValue,
     setFormValue,
     getFormValue,
+    sections,
+    addSections,
+    removeSection,
+    onChangeSections,
+    onChangeLayout,
   };
 };

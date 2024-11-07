@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
 import { LayoutOrientation, SectionVariant } from '../../constants';
@@ -72,7 +72,7 @@ describe('Layout Sections Editor', () => {
   /**
    * Change id
    */
-  it('Should change id value', () => {
+  it('Should change id value', async () => {
     const sections = [
       { id: '1', name: 'Section' },
       { id: '2', name: '' },
@@ -94,18 +94,9 @@ describe('Layout Sections Editor', () => {
      * Change section name
      */
     const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
-    fireEvent.change(sectionSelectors.fieldId(), { target: { value: '11' } });
-
-    /**
-     * Check if id is changed
-     */
-    expect(onChange).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({
-          id: '2',
-        }),
-      ])
-    );
+    expect(sectionSelectors.fieldId()).toHaveValue('1');
+    await act(() => fireEvent.change(sectionSelectors.fieldId(), { target: { value: '11' } }));
+    expect(sectionSelectors.fieldId()).toHaveValue('11');
   });
 
   it('Should clean id value', () => {
@@ -126,19 +117,11 @@ describe('Layout Sections Editor', () => {
     /**
      * Change section name
      */
-    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
-    fireEvent.change(sectionSelectors.fieldId(), { target: { value: '' } });
 
-    /**
-     * Check if id is changed
-     */
-    expect(onChange).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({
-          id: '',
-        }),
-      ])
-    );
+    const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
+    expect(sectionSelectors.fieldId()).toHaveValue('1');
+    fireEvent.change(sectionSelectors.fieldId(), { target: { value: '' } });
+    expect(sectionSelectors.fieldId()).toHaveValue('');
   });
 
   it('Should not allow use already existing id', () => {
@@ -190,18 +173,10 @@ describe('Layout Sections Editor', () => {
      * Change section name
      */
     const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
-    fireEvent.change(sectionSelectors.fieldName(), { target: { value: 'newName' } });
+    expect(sectionSelectors.fieldName()).toHaveValue('Section');
 
-    /**
-     * Check if name is changed
-     */
-    expect(onChange).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({
-          name: 'newName',
-        }),
-      ])
-    );
+    fireEvent.change(sectionSelectors.fieldName(), { target: { value: 'newName' } });
+    expect(sectionSelectors.fieldName()).toHaveValue('newName');
   });
 
   it('Should change expanded value for collapsable section variable', () => {
@@ -232,18 +207,9 @@ describe('Layout Sections Editor', () => {
      */
     const sectionSelectors = getLayoutSectionsEditorSelectors(within(section));
     expect(sectionSelectors.fieldExpanded()).toBeInTheDocument();
+    expect(sectionSelectors.fieldExpanded()).not.toBeChecked();
     fireEvent.click(sectionSelectors.fieldExpanded());
-
-    /**
-     * Check if expanded is changed
-     */
-    expect(onChange).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({
-          expanded: true,
-        }),
-      ])
-    );
+    expect(sectionSelectors.fieldExpanded()).toBeChecked();
   });
 
   it('Should hide expanded field if no collapsable variant', () => {

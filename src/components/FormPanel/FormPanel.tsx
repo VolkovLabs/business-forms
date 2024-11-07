@@ -41,6 +41,7 @@ import { useFormElements, useMutableState } from '@/hooks';
 import {
   ButtonVariant,
   FormElement,
+  LayoutSection,
   LocalFormElement,
   ModalColumnName,
   PanelOptions,
@@ -129,10 +130,10 @@ export const FormPanel: React.FC<Props> = ({
   );
 
   /**
-   * Add new section
+   * Change Sections Options
    */
-  const addSections = useCallback(
-    (sections: Array<{ name: string; id: string }>) => {
+  const onChangeSectionsOption = useCallback(
+    (sections: LayoutSection[]) => {
       onOptionsChange({
         ...options,
         layout: {
@@ -140,25 +141,6 @@ export const FormPanel: React.FC<Props> = ({
           sections: sections,
         },
       });
-    },
-    [onOptionsChange, options]
-  );
-
-  /**
-   * Remove Section
-   */
-  const removeSection = useCallback(
-    (id: string) => {
-      if (options.layout.sections && options.layout.sections.length) {
-        const newSections = options.layout.sections.filter((section) => section.id !== id);
-        onOptionsChange({
-          ...options,
-          layout: {
-            ...options.layout,
-            sections: newSections,
-          },
-        });
-      }
     },
     [onOptionsChange, options]
   );
@@ -178,11 +160,18 @@ export const FormPanel: React.FC<Props> = ({
     patchFormValue,
     setFormValue,
     getFormValue,
+    addSections,
+    removeSection,
+    onChangeSections,
+    sections,
+    onChangeLayout,
   } = useFormElements({
-    onChange: onChangeOptions,
+    onChangeElementsOption: onChangeOptions,
     value: options.elements,
     isAutoSave: false,
-    sections: options.layout.sections,
+    layoutSections: options.layout.sections,
+    options,
+    onChangeSectionsOption: onChangeSectionsOption,
   });
 
   /**
@@ -322,7 +311,10 @@ export const FormPanel: React.FC<Props> = ({
               response,
               enableSubmit: () => setSubmitEnabled(true),
               disableSubmit: () => setSubmitEnabled(false),
-              addSections,
+              addSections: (sections: LayoutSection[]) => addSections(sections),
+              onChangeSections: (sections: LayoutSection[]) => onChangeSections(sections),
+              onChangeLayout: (elements: LocalFormElement[], sections?: LayoutSection[]) =>
+                onChangeLayout(elements, sections),
               removeSection: (id: string) => removeSection(id),
               collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
               expandSection: (id: string) => onChangeSectionExpandedState(id, true),
@@ -361,6 +353,8 @@ export const FormPanel: React.FC<Props> = ({
       sectionsExpandedState,
       refreshDashboard,
       addSections,
+      onChangeSections,
+      onChangeLayout,
       removeSection,
       onChangeSectionExpandedState,
     ]
@@ -911,7 +905,10 @@ export const FormPanel: React.FC<Props> = ({
             collapseSection: (id: string) => onChangeSectionExpandedState(id, false),
             expandSection: (id: string) => onChangeSectionExpandedState(id, true),
             toggleSection: (id: string) => onChangeSectionExpandedState(id, !sectionsExpandedState[id]),
-            addSections,
+            addSections: (sections: LayoutSection[]) => addSections(sections),
+            onChangeSections: (sections: LayoutSection[]) => onChangeSections(sections),
+            onChangeLayout: (elements: LocalFormElement[], sections?: LayoutSection[]) =>
+              onChangeLayout(elements, sections),
             removeSection: (id: string) => removeSection(id),
             sectionsExpandedState,
             initial: initialRef.current,
@@ -951,6 +948,8 @@ export const FormPanel: React.FC<Props> = ({
       refreshDashboard,
       onChangeSectionExpandedState,
       addSections,
+      onChangeSections,
+      onChangeLayout,
       removeSection,
     ]
   );
@@ -1015,6 +1014,7 @@ export const FormPanel: React.FC<Props> = ({
             data={data}
             options={options}
             elements={elements}
+            sections={sections}
             onChangeElement={onChangeElement}
             initial={initial}
             replaceVariables={replaceVariables}

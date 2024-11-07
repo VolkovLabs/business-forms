@@ -48,6 +48,10 @@ describe('Form Elements', () => {
   };
 
   describe('Render elements', () => {
+    const sections = [
+      { name: 'section1', id: 'section1', expanded: true },
+      { name: 'section2', id: 'section2', expanded: true },
+    ];
     const options: PanelOptions = {
       sync: true,
       updateEnabled: UpdateEnabledMode.MANUAL,
@@ -82,6 +86,7 @@ describe('Form Elements', () => {
       render(
         getComponent({
           options,
+          sections,
           onChangeElement,
           initial: { changed: 'bye' },
           sectionsExpandedState: { section1: true },
@@ -98,6 +103,7 @@ describe('Form Elements', () => {
       render(
         getComponent({
           options,
+          sections,
           onChangeElement,
           onChangeSectionExpandedState,
           initial: { changed: 'bye' },

@@ -3,7 +3,7 @@ import { BackendSrv, FetchResponse, LocationService, TemplateSrv, toDataQueryRes
 import { CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { CodeParameterItem, CodeParametersBuilder } from '@volkovlabs/components';
 
-import { FormElement, LocalFormElement, PanelOptions } from '../types';
+import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../types';
 import { fileToBase64 } from './request';
 
 /**
@@ -65,12 +65,20 @@ export const requestCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        addSections: new CodeParameterItem<(sections: Array<{ name: string; id: string }>) => void>(
+        addSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
           'Add new sections',
           CodeEditorSuggestionItemKind.Method
         ),
+        onChangeSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
+          'Change sections',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        onChangeLayout: new CodeParameterItem<(elements: LocalFormElement[], sections?: LayoutSection[]) => void>(
+          'Change sections and elements',
+          CodeEditorSuggestionItemKind.Method
+        ),
         removeSection: new CodeParameterItem<(id: string) => void>(
-          'Add new section',
+          'Remove section',
           CodeEditorSuggestionItemKind.Method
         ),
       },
@@ -180,12 +188,20 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        addSections: new CodeParameterItem<(sections: Array<{ name: string; id: string }>) => void>(
+        addSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
           'Add new sections',
           CodeEditorSuggestionItemKind.Method
         ),
+        onChangeSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
+          'Change sections',
+          CodeEditorSuggestionItemKind.Method
+        ),
+        onChangeLayout: new CodeParameterItem<(elements: LocalFormElement[], sections?: LayoutSection[]) => void>(
+          'Change sections and elements',
+          CodeEditorSuggestionItemKind.Method
+        ),
         removeSection: new CodeParameterItem<(id: string) => void>(
-          'Add new section',
+          'Remove section',
           CodeEditorSuggestionItemKind.Method
         ),
       },

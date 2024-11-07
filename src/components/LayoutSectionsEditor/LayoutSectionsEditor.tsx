@@ -3,6 +3,7 @@ import { Button, Checkbox, InlineField, InlineFieldRow, Input, useStyles2 } from
 import React, { ChangeEvent, useCallback, useMemo } from 'react';
 
 import { LayoutOrientation, SectionVariant, TEST_IDS } from '../../constants';
+import { useFormElements } from '../../hooks';
 import { LayoutSection, PanelOptions } from '../../types';
 import { isSectionCollisionExists } from '../../utils';
 import { getStyles } from './LayoutSectionsEditor.styles';
@@ -24,21 +25,19 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange, context
   /**
    * Sections
    */
-  const sections = useMemo(() => {
-    if (Array.isArray(value)) {
-      return value;
-    }
-    return [];
-  }, [value]);
+  const { sections, onChangeSections } = useFormElements({
+    onChangeSectionsOption: onChange,
+    layoutSections: value,
+  });
 
   /**
    * Change Section
    */
   const onChangeSection = useCallback(
     (updatedSection: LayoutSection, id = updatedSection.id) => {
-      onChange(sections.map((section) => (section.id === id ? updatedSection : section)));
+      onChangeSections(sections.map((section) => (section.id === id ? updatedSection : section)));
     },
-    [onChange, sections]
+    [onChangeSections, sections]
   );
 
   /**
@@ -46,9 +45,9 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange, context
    */
   const onRemoveSection = useCallback(
     (removedSection: LayoutSection) => {
-      onChange(sections.filter((section) => section.id !== removedSection.id));
+      onChangeSections(sections.filter((section) => section.id !== removedSection.id));
     },
-    [onChange, sections]
+    [onChangeSections, sections]
   );
 
   /**
@@ -136,7 +135,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange, context
       <Button
         variant="secondary"
         onClick={() => {
-          onChange(
+          onChangeSections(
             sections.concat({
               id: '',
               name: '',

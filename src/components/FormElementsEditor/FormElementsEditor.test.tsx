@@ -501,7 +501,7 @@ describe('Form Elements Editor', () => {
   });
 
   /**
-   * Multi Select
+   * File
    */
   it('Should find component with File', () => {
     const elements = [
