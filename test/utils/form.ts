@@ -203,6 +203,14 @@ class SectionsHelper {
     return expect(this.selectors.splitLayoutContent(name), this.getMsg(`Check ${name} Section`)).toBeVisible();
   }
 
+  public async checkElementsCountInSection(name: string, count: number) {
+    const section = this.selectors.splitLayoutContent(name);
+    const elementsContainer = getElementsSelector(section);
+    const elements = await elementsContainer.root().locator('label').all();
+
+    return expect(elements, this.getMsg('Check Body Rows Count')).toHaveLength(count);
+  }
+
   public async openSection(name: string) {
     return this.selectors.splitLayoutContent(name).click();
   }

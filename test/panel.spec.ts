@@ -138,6 +138,7 @@ test.describe('Data Manipulation Panel', () => {
 
       const sections = panel.getSections();
       await sections.checkSectionPresence('Current Values');
+      await sections.checkElementsCountInSection('Current Values', 3);
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
@@ -170,6 +171,7 @@ test.describe('Data Manipulation Panel', () => {
 
       const sections = panel.getSections();
       await sections.checkSectionPresence('Current Values');
+      await sections.checkElementsCountInSection('Current Values', 3);
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
@@ -229,6 +231,8 @@ test.describe('Data Manipulation Panel', () => {
       const sections = panel.getSections();
       await sections.checkSectionPresence('Current Values');
       await sections.checkSectionPresence('New Values');
+      await sections.checkElementsCountInSection('Current Values', 3);
+      await sections.checkElementsCountInSection('New Values', 3);
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
@@ -429,6 +433,7 @@ test.describe('Data Manipulation Panel', () => {
        * Open section
        */
       await sections.openSection('Section 1');
+      await sections.checkElementsCountInSection('Section 1', 1);
       await elements.checkElementPresence('element1', 'string');
 
       await dashboardPage.refreshDashboard();
