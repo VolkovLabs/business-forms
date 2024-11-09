@@ -61,12 +61,12 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
    * Load Query Editor
    */
   useEffect(() => {
-    const datasourceName = get(context.options, item.settings?.datasourceKey || '');
+    const datasourceUid = get(context.options, item.settings?.datasourceKey || '');
 
     const getDataSource = async () => {
       setIsLoading(true);
 
-      const ds = await dataSourceService.get(datasourceName);
+      const ds = await dataSourceService.get(datasourceUid);
 
       setDatasource(ds);
       setIsLoading(false);
@@ -75,14 +75,14 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
     /**
      * Reset query if new datasource
      */
-    if (datasource && datasource.name !== datasourceName) {
+    if (datasource && datasource.uid !== datasourceUid) {
       onChangeQuery({});
     }
 
     /**
      * Load data source
      */
-    if (datasourceName && (!datasource || datasource.name !== datasourceName)) {
+    if (datasourceUid && (!datasource || datasource.uid !== datasourceUid)) {
       getDataSource();
     }
   }, [context.options, dataSourceService, datasource, item.settings?.datasourceKey, onChangeQuery]);

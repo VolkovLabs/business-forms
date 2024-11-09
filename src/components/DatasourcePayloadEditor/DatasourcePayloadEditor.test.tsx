@@ -60,7 +60,8 @@ describe('DatasourcePayloadEditor', () => {
   it('Should show error message', async () => {
     const dataSourceSrv = {
       get: jest.fn(() => ({
-        name: 'postgres',
+        name: 'nameDs',
+        uid: 'postgres',
         components: {},
       })),
     };
@@ -92,7 +93,8 @@ describe('DatasourcePayloadEditor', () => {
      */
     const dataSourceSrv = {
       get: jest.fn(() => ({
-        name: 'postgres',
+        name: 'nameDS',
+        uid: 'postgres',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
@@ -168,7 +170,8 @@ describe('DatasourcePayloadEditor', () => {
      */
     const dataSourceSrv = {
       get: jest.fn(() => ({
-        name: 'postgres',
+        name: 'nameDS',
+        uid: 'postgres',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
@@ -224,7 +227,8 @@ describe('DatasourcePayloadEditor', () => {
      */
     jest.mocked(getDataSourceSrv).mockReturnValue({
       get: jest.fn(() => ({
-        name: 'postgres1',
+        name: 'nameDS',
+        uid: 'postgres1',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
