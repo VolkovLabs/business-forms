@@ -8,46 +8,19 @@ const getElementsSelector = getLocatorSelectors(TEST_IDS.formElements);
 /**
  * Disabled Element Helper
  */
-class DisabledElementHelper {
-  private readonly locator: Locator;
+class BaseElementHelper {
+  protected readonly locator: Locator;
 
-  constructor(parentLocator: Locator) {
-    this.locator = parentLocator.getByTestId(TEST_IDS.formElements.fieldDisabled);
+  constructor(locator: Locator) {
+    this.locator = locator;
   }
 
   private getMsg(message: string): string {
-    return `DisabledElement: ${message}`;
+    return `Element: ${message}`;
   }
 
   public get() {
     return this.locator;
-  }
-
-  public async checkValue(text: string) {
-    return expect(this.get(), this.getMsg('Check Text')).toHaveValue(text);
-  }
-}
-
-/**
- * Number Element Helper
- */
-class NumberElementHelper {
-  private readonly locator: Locator;
-
-  constructor(parentLocator: Locator) {
-    this.locator = parentLocator.getByTestId(TEST_IDS.formElements.fieldNumber);
-  }
-
-  private getMsg(message: string): string {
-    return `NumberElement: ${message}`;
-  }
-
-  public get() {
-    return this.locator;
-  }
-
-  public async checkValue(text: string) {
-    return expect(this.get(), this.getMsg('Check value')).toHaveValue(text);
   }
 
   public async setValue(value: string) {
@@ -55,29 +28,46 @@ class NumberElementHelper {
     return this.get().blur();
   }
 
+  public async checkValue(text: string) {
+    return expect(this.get(), this.getMsg('Check value')).toHaveValue(text);
+  }
+
   public async isDisabled() {
-    return expect(this.get(), this.getMsg('Number element is Disabled')).toBeDisabled();
+    return expect(this.get(), this.getMsg('Element is Disabled')).toBeDisabled();
   }
 
   public async isNotDisabled() {
-    return expect(this.get(), this.getMsg('Number element is not Disabled')).not.toBeDisabled();
+    return expect(this.get(), this.getMsg('Element is not Disabled')).not.toBeDisabled();
+  }
+}
+
+/**
+ * Disabled Element Helper
+ */
+class DisabledElementHelper extends BaseElementHelper {
+  constructor(parentLocator: Locator) {
+    super(parentLocator.getByTestId(TEST_IDS.formElements.fieldDisabled));
+  }
+}
+
+/**
+ * Number Element Helper
+ */
+class NumberElementHelper extends BaseElementHelper {
+  constructor(parentLocator: Locator) {
+    super(parentLocator.getByTestId(TEST_IDS.formElements.fieldNumber));
   }
 }
 
 /**
  * Select Element Helper
  */
-class SelectElementHelper {
-  private readonly locator: Locator;
+class SelectElementHelper extends BaseElementHelper {
   private readonly page: DashboardPage;
 
   constructor(parentLocator: Locator, page: DashboardPage) {
-    this.locator = parentLocator.getByTestId(TEST_IDS.formElements.fieldSelect);
+    super(parentLocator.getByTestId(TEST_IDS.formElements.fieldSelect));
     this.page = page;
-  }
-
-  public get() {
-    return this.locator;
   }
 
   public async setValue(fieldKey) {
