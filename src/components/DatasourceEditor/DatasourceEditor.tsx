@@ -25,7 +25,7 @@ export const DatasourceEditor: React.FC<Props> = ({ value, onChange }) => {
   const datasourceOptions = useMemo(() => {
     return datasources.map((datasource) => ({
       label: datasource.name,
-      value: datasource.name,
+      value: datasource.uid,
     }));
   }, [datasources]);
 

@@ -38,16 +38,18 @@ describe('Select Datasource Editor', () => {
         [
           {
             name: '123',
+            uid: 'ds1',
           },
           {
             name: 'abc',
+            uid: 'ds2',
           },
         ] as any
     );
     render(getComponent({}));
 
-    fireEvent.change(selectors.fieldSelect(), { target: { value: 'abc' } });
+    fireEvent.change(selectors.fieldSelect(), { target: { value: 'ds1' } });
 
-    expect(onChange).toHaveBeenCalledWith('abc');
+    expect(onChange).toHaveBeenCalledWith('ds1');
   });
 });
