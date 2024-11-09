@@ -6,6 +6,7 @@
 
 - Removed DatasourceResponseError moved to external Components (#535)
 - Added HTML, Markdown to supported Code Editor languages (#543)
+- Updated options to use datasource ID instead of name (#539)
 
 ## 4.8.0 (2024-10-25)
 
