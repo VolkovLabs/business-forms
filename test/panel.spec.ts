@@ -373,7 +373,7 @@ test.describe('Data Manipulation Panel', () => {
 
       const dashboard = await readProvisionedDashboard({ fileName: 'validation.json' });
       const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
-      dashboardPage.getByGrafanaSelector;
+
       /**
        * Check Presence
        */
