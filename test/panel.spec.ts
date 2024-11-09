@@ -135,7 +135,9 @@ test.describe('Data Manipulation Panel', () => {
 
       await panel.checkIfNoErrors();
       await panel.checkPresence();
-      await panel.checkSectionPresence('Current Values');
+
+      const sections = panel.getSections();
+      await sections.checkSectionPresence('Current Values');
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
@@ -165,7 +167,9 @@ test.describe('Data Manipulation Panel', () => {
 
       await panel.checkIfNoErrors();
       await panel.checkPresence();
-      await panel.checkSectionPresence('Current Values');
+
+      const sections = panel.getSections();
+      await sections.checkSectionPresence('Current Values');
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
@@ -221,8 +225,10 @@ test.describe('Data Manipulation Panel', () => {
 
       await panel.checkIfNoErrors();
       await panel.checkPresence();
-      await panel.checkSectionPresence('Current Values');
-      await panel.checkSectionPresence('New Values');
+
+      const sections = panel.getSections();
+      await sections.checkSectionPresence('Current Values');
+      await sections.checkSectionPresence('New Values');
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
@@ -415,12 +421,14 @@ test.describe('Data Manipulation Panel', () => {
 
       const elements = panel.getElements();
       await elements.checkElementNotPresence('element1', 'string');
-      await panel.checkSectionPresence('Section 1');
+
+      const sections = panel.getSections();
+      await sections.checkSectionPresence('Section 1');
 
       /**
        * Open section
        */
-      await panel.openSection('Section 1');
+      await sections.openSection('Section 1');
       await elements.checkElementPresence('element1', 'string');
 
       await dashboardPage.refreshDashboard();

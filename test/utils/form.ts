@@ -184,6 +184,31 @@ class ButtonsHelper {
 }
 
 /**
+ * Buttons Helper
+ */
+class SectionsHelper {
+  private readonly locator: Locator;
+  private readonly selectors: LocatorSelectors<typeof TEST_IDS.panel>;
+
+  constructor(parentLocator: Locator) {
+    this.locator = parentLocator;
+    this.selectors = getLocatorSelectors(TEST_IDS.panel)(this.locator);
+  }
+
+  private getMsg(message: string): string {
+    return `Sections: ${message}`;
+  }
+
+  public async checkSectionPresence(name: string) {
+    return expect(this.selectors.splitLayoutContent(name), this.getMsg(`Check ${name} Section`)).toBeVisible();
+  }
+
+  public async openSection(name: string) {
+    return this.selectors.splitLayoutContent(name).click();
+  }
+}
+
+/**
  * Panel Editor Helper
  */
 class PanelEditorHelper {
@@ -245,6 +270,10 @@ export class PanelHelper {
     return new ButtonsHelper(this.locator);
   }
 
+  public getSections() {
+    return new SectionsHelper(this.locator);
+  }
+
   public async checkIfNoErrors() {
     return expect(this.panel.getErrorIcon(), this.getMsg('Check If No Errors')).not.toBeVisible();
   }
@@ -255,14 +284,6 @@ export class PanelHelper {
 
   public async checkAlertMessage() {
     return expect(this.selectors.infoMessage(), this.getMsg(`Check Alert Message`)).toBeVisible();
-  }
-
-  public async checkSectionPresence(name: string) {
-    return expect(this.selectors.splitLayoutContent(name), this.getMsg(`Check ${name} Section`)).toBeVisible();
-  }
-
-  public async openSection(name: string) {
-    return this.selectors.splitLayoutContent(name).click();
   }
 
   public async checkErrorMessage() {
