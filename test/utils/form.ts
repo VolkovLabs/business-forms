@@ -143,64 +143,43 @@ class ElementsHelper {
 }
 
 /**
- * Submit Button Helper
+ * Buttons Helper
  */
-class SubmitButtonHelper {
+class ButtonsHelper {
   private readonly locator: Locator;
+  private readonly selectors: LocatorSelectors<typeof TEST_IDS.panel>;
 
   constructor(parentLocator: Locator) {
-    this.locator = parentLocator.getByTestId(TEST_IDS.panel.buttonSubmit);
+    this.locator = parentLocator;
+    this.selectors = getLocatorSelectors(TEST_IDS.panel)(this.locator);
   }
 
   private getMsg(message: string): string {
-    return `Submit Button: ${message}`;
+    return `Buttons: ${message}`;
   }
 
-  public get() {
-    return this.locator;
+  public async checkSubmitButtonPresence() {
+    return expect(this.selectors.buttonSubmit(), this.getMsg(`Check Submit button Presence`)).toBeVisible();
   }
 
-  public async checkPresence() {
-    return expect(this.get(), this.getMsg(`Check Submit button Presence`)).toBeVisible();
+  public async checkSubmitButtonIsDisabled() {
+    return expect(this.selectors.buttonSubmit(), this.getMsg(`Check Submit button disabled`)).toBeDisabled();
   }
 
-  public async checkIsDisabled() {
-    return expect(this.get(), this.getMsg(`Check Submit button disabled`)).toBeDisabled();
-  }
-
-  public async checkIsNotDisabled() {
-    return expect(this.get(), this.getMsg(`Check Submit button not disabled`)).not.toBeDisabled();
+  public async checkSubmitButtonIsNotDisabled() {
+    return expect(this.selectors.buttonSubmit(), this.getMsg(`Check Submit button not disabled`)).not.toBeDisabled();
   }
 
   public async submit() {
-    return this.get().click();
-  }
-}
-
-/**
- * Reset Button Helper
- */
-class ResetButtonHelper {
-  private readonly locator: Locator;
-
-  constructor(parentLocator: Locator) {
-    this.locator = parentLocator.getByTestId(TEST_IDS.panel.buttonReset);
+    return this.selectors.buttonSubmit().click();
   }
 
-  private getMsg(message: string): string {
-    return `Reset Button: ${message}`;
-  }
-
-  public get() {
-    return this.locator;
-  }
-
-  public async checkPresence() {
-    return expect(this.get(), this.getMsg(`Check Reset button Presence`)).toBeVisible();
+  public async checkResetButtonPresence() {
+    return expect(this.selectors.buttonReset(), this.getMsg(`Check Reset button Presence`)).toBeVisible();
   }
 
   public async reset() {
-    return this.get().click();
+    return this.selectors.buttonReset().click();
   }
 }
 
@@ -262,12 +241,8 @@ export class PanelHelper {
     return new PanelEditorHelper(locator, editPage);
   }
 
-  public getSubmitButton() {
-    return new SubmitButtonHelper(this.locator);
-  }
-
-  public getResetButton() {
-    return new ResetButtonHelper(this.locator);
+  public getButtons() {
+    return new ButtonsHelper(this.locator);
   }
 
   public async checkIfNoErrors() {

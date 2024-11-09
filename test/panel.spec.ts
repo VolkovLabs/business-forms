@@ -1,5 +1,4 @@
 import { test, expect } from '@grafana/plugin-e2e';
-import { TEST_IDS } from '../src/constants/tests';
 import { ModalHelper, PanelHelper } from './utils';
 
 test.describe('Data Manipulation Panel', () => {
@@ -227,18 +226,18 @@ test.describe('Data Manipulation Panel', () => {
 
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
-      const submitButton = panel.getSubmitButton();
+      const buttons = panel.getButtons();
 
       await disabledMaxElement.checkValue('100');
-      await submitButton.checkPresence();
-      await submitButton.checkIsDisabled();
+      await buttons.checkSubmitButtonPresence();
+      await buttons.checkSubmitButtonIsDisabled();
 
       const numberMaxElement = await elements.getNumberElement('max', 'number');
       await numberMaxElement.checkValue('100');
       await numberMaxElement.setValue('125');
 
-      await submitButton.checkIsNotDisabled();
-      await submitButton.submit();
+      await buttons.checkSubmitButtonIsNotDisabled();
+      await buttons.submit();
 
       const confirmModal = new ModalHelper(dashboardPage);
       await confirmModal.checkPresence();
@@ -246,7 +245,7 @@ test.describe('Data Manipulation Panel', () => {
       await confirmModal.cancelButtonCheckPresence();
       await confirmModal.updateValues();
 
-      await submitButton.checkIsDisabled();
+      await buttons.checkSubmitButtonPresence();
       await numberMaxElement.checkValue('125');
       await disabledMaxElement.checkValue('125');
 
@@ -254,7 +253,7 @@ test.describe('Data Manipulation Panel', () => {
        * Return to initial
        */
       await numberMaxElement.setValue('100');
-      await submitButton.submit();
+      await buttons.submit();
       await confirmModal.updateValues();
     });
 
@@ -278,16 +277,16 @@ test.describe('Data Manipulation Panel', () => {
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
 
-      const submitButton = panel.getSubmitButton();
+      const buttons = panel.getButtons();
 
       await disabledMaxElement.checkValue('100');
-      await submitButton.checkPresence();
-      await submitButton.checkIsDisabled();
+      await buttons.checkSubmitButtonPresence();
+      await buttons.checkSubmitButtonIsDisabled();
 
       const numberMaxElement = await elements.getNumberElement('max', 'number');
       await numberMaxElement.setValue('125');
 
-      await submitButton.submit();
+      await buttons.submit();
 
       const confirmModal = new ModalHelper(dashboardPage);
 
@@ -317,7 +316,7 @@ test.describe('Data Manipulation Panel', () => {
       const elements = panel.getElements();
       const disabledMaxElement = await elements.getDisabledElement('max', 'disabled');
 
-      const resetButton = panel.getResetButton();
+      const buttons = panel.getButtons();
 
       await disabledMaxElement.checkValue('100');
 
@@ -329,7 +328,7 @@ test.describe('Data Manipulation Panel', () => {
       await numberMaxElement.setValue('115');
       await numberMinElement.setValue('15');
 
-      await resetButton.reset();
+      await buttons.reset();
 
       await numberMaxElement.checkValue('100');
       await numberMinElement.checkValue('10');
@@ -354,8 +353,8 @@ test.describe('Data Manipulation Panel', () => {
       const numberMaxElement = await elements.getNumberElement('max', 'number');
       await numberMaxElement.setValue('125');
 
-      const submitButton = panel.getSubmitButton();
-      await submitButton.submit();
+      const buttons = panel.getButtons();
+      await buttons.submit();
 
       const confirmModal = new ModalHelper(dashboardPage);
       await confirmModal.updateValues();
