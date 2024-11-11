@@ -1,5 +1,6 @@
 import { test, expect } from '@grafana/plugin-e2e';
 import { ModalHelper, PanelHelper } from './utils';
+import { FormElementType } from '../src/types/form-element';
 
 test.describe('Data Manipulation Panel', () => {
   test('Check grafana version', async ({ grafanaVersion }) => {
@@ -30,19 +31,19 @@ test.describe('Data Manipulation Panel', () => {
        * Check all elements Presence
        */
       await elements.checkPresence();
-      await elements.checkElementPresence('dateTime', 'datetime');
-      await elements.checkElementPresence('time', 'time');
-      await elements.checkElementPresence('date', 'date');
-      await elements.checkElementPresence('amount', 'number');
-      await elements.checkElementPresence('updated', 'boolean');
-      await elements.checkElementPresence('name', 'string');
-      await elements.checkElementPresence('step', 'slider');
-      await elements.checkElementPresence('select', 'select');
-      await elements.checkElementPresence('radio', 'radio');
-      await elements.checkElementPresence('password', 'password');
-      await elements.checkElementPresence('disabled', 'disabled');
-      await elements.checkElementPresence('link', 'link');
-      await elements.checkElementPresence('checkbox', 'checkboxList');
+      await elements.checkElementPresence('dateTime', FormElementType.DATETIME);
+      await elements.checkElementPresence('time', FormElementType.TIME);
+      await elements.checkElementPresence('date', FormElementType.DATE);
+      await elements.checkElementPresence('amount', FormElementType.NUMBER);
+      await elements.checkElementPresence('updated', FormElementType.BOOLEAN);
+      await elements.checkElementPresence('name', FormElementType.STRING);
+      await elements.checkElementPresence('step', FormElementType.SLIDER);
+      await elements.checkElementPresence('select', FormElementType.SELECT);
+      await elements.checkElementPresence('radio', FormElementType.RADIO);
+      await elements.checkElementPresence('password', FormElementType.PASSWORD);
+      await elements.checkElementPresence('disabled', FormElementType.DISABLED);
+      await elements.checkElementPresence('link', FormElementType.LINK);
+      await elements.checkElementPresence('checkbox', FormElementType.CHECKBOX_LIST);
 
       const panelBoxes = new PanelHelper(dashboardPage, 'Boxes');
       await panelBoxes.checkIfNoErrors();
@@ -50,10 +51,10 @@ test.describe('Data Manipulation Panel', () => {
 
       const boxesElements = panelBoxes.getElements();
       await boxesElements.checkPresence();
-      await boxesElements.checkElementPresence('file', 'file');
-      await boxesElements.checkElementPresence('text', 'textarea');
-      await boxesElements.checkElementPresence('readOnlyTextArea', 'disabledTextarea');
-      await boxesElements.checkElementPresence('code', 'code');
+      await boxesElements.checkElementPresence('file', FormElementType.FILE);
+      await boxesElements.checkElementPresence('text', FormElementType.TEXTAREA);
+      await boxesElements.checkElementPresence('readOnlyTextArea', FormElementType.DISABLED_TEXTAREA);
+      await boxesElements.checkElementPresence('code', FormElementType.CODE);
     });
 
     test('Should add empty Form panel', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
@@ -115,7 +116,7 @@ test.describe('Data Manipulation Panel', () => {
       const elements = panel.getElements();
 
       await elements.checkPresence();
-      await elements.checkElementPresence('string', 'string');
+      await elements.checkElementPresence('string', FormElementType.STRING);
     });
   });
 
@@ -434,14 +435,14 @@ test.describe('Data Manipulation Panel', () => {
        */
       await sections.openSection('Section 1');
       await sections.checkElementsCountInSection('Section 1', 1);
-      await elements.checkElementPresence('element1', 'string');
+      await elements.checkElementPresence('element1', FormElementType.STRING);
 
       await dashboardPage.refreshDashboard();
 
       /**
        * Element in open section should be visible
        */
-      await elements.checkElementPresence('element1', 'string');
+      await elements.checkElementPresence('element1', FormElementType.STRING);
     });
   });
 });

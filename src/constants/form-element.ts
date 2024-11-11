@@ -1,34 +1,8 @@
 import { SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
 
-import { ButtonSize, ButtonVariant, CustomButtonShow, LinkTarget } from '../types';
+import { ButtonSize, ButtonVariant, CustomButtonShow, FormElementType, LinkTarget } from '../types';
 import { TEST_IDS } from './tests';
-
-/**
- * Form Element Type
- */
-export const enum FormElementType {
-  BOOLEAN = 'boolean',
-  CODE = 'code',
-  BUTTON = 'button',
-  DATE = 'date',
-  DATETIME = 'datetime',
-  DISABLED = 'disabled',
-  DISABLED_TEXTAREA = 'disabledTextarea',
-  FILE = 'file',
-  LINK = 'link',
-  MULTISELECT = 'multiselect',
-  NUMBER = 'number',
-  PASSWORD = 'password',
-  RADIO = 'radio',
-  SECRET = 'secret',
-  SELECT = 'select',
-  SLIDER = 'slider',
-  STRING = 'string',
-  TEXTAREA = 'textarea',
-  TIME = 'time',
-  CHECKBOX_LIST = 'checkboxList',
-}
 
 /**
  * Form Element Type Options

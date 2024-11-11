@@ -2,8 +2,8 @@ import { DateTime, dateTimeForTimeZone, getTimeZone } from '@grafana/data';
 import { InlineField, TimeOfDayPicker } from '@grafana/ui';
 import React, { useCallback } from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { FormElementByType, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { FormElementByType, FormElementType, LocalFormElement } from '@/types';
 import { applyWidth } from '@/utils';
 
 /**

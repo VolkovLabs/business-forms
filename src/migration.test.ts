@@ -1,8 +1,8 @@
 import { getBackendSrv } from '@grafana/runtime';
 
-import { FormElementType, PayloadMode } from './constants';
+import { PayloadMode } from './constants';
 import { getMigratedOptions } from './migration';
-import { PanelOptions } from './types';
+import { FormElementType, PanelOptions } from './types';
 
 /**
  * Mock @grafana/runtime

@@ -7,6 +7,7 @@ import {
   CustomButtonOptions,
   CustomButtonShow,
   FormElement,
+  FormElementType,
   ModalColumnName,
   ModalOptions,
   NumberOptions,
@@ -15,7 +16,7 @@ import {
   TextareaOptions,
 } from '../types';
 import { CODE_EDITOR_CONFIG } from './code-editor';
-import { FormElementType, OptionsSource } from './form-element';
+import { OptionsSource } from './form-element';
 import { ConfirmationElementDisplayMode } from './request';
 
 /**

@@ -3,8 +3,8 @@ import { getBackendSrv } from '@grafana/runtime';
 import { set } from 'lodash';
 import semver from 'semver';
 
-import { FormElementType, PayloadMode } from './constants';
-import { LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
+import { PayloadMode } from './constants';
+import { FormElementType, LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
 
 /**
  * Outdated Request Options

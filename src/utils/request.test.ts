@@ -1,4 +1,5 @@
-import { FormElementType, PayloadMode } from '@/constants';
+import { PayloadMode } from '@/constants';
+import { FormElementType } from '@/types';
 
 import { getPayloadForRequest, toFormData, toJson } from './request';
 

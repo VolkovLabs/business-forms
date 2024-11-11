@@ -1,8 +1,8 @@
 import { InlineField, Select } from '@grafana/ui';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { FormElementByType, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { FormElementByType, FormElementType, LocalFormElement } from '@/types';
 import { applyLabelStyles, applyWidth } from '@/utils';
 
 /**

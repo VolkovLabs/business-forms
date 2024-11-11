@@ -4,14 +4,10 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { ChangeEvent, useCallback, useState } from 'react';
 
-import {
-  FORM_ELEMENT_OPTION_DEFAULT,
-  FormElementType,
-  ICON_OPTIONS,
-  SELECT_ELEMENT_OPTIONS,
-  TEST_IDS,
-} from '../../constants';
-import { reorder } from '../../utils';
+import { FORM_ELEMENT_OPTION_DEFAULT, ICON_OPTIONS, SELECT_ELEMENT_OPTIONS, TEST_IDS } from '@/constants';
+import { FormElementType } from '@/types';
+import { reorder } from '@/utils';
+
 import { getStyles } from './ElementOptionsEditor.styles';
 
 /**

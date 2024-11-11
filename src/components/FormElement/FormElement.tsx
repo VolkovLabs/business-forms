@@ -3,8 +3,8 @@ import { InterpolateFunction } from '@grafana/data';
 import { InlineFieldRow, InlineLabel, useStyles2 } from '@grafana/ui';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { CustomButtonShow, ExecuteCustomCodeParams, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { CustomButtonShow, ExecuteCustomCodeParams, FormElementType, LocalFormElement } from '@/types';
 
 import {
   BooleanElement,

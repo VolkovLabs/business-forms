@@ -1,7 +1,7 @@
 import { InterpolateFunction } from '@grafana/data';
 
-import { FormElementType, PayloadMode } from '../constants';
-import { LocalFormElement, RequestOptions } from '../types';
+import { PayloadMode } from '../constants';
+import { FormElementType, LocalFormElement, RequestOptions } from '../types';
 import { getPayloadCodeParameters } from './code-parameters';
 
 /**

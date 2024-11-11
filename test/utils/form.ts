@@ -3,6 +3,8 @@ import { DashboardPage, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e
 import { getLocatorSelectors, LocatorSelectors } from './selectors';
 import { TEST_IDS } from '../../src/constants/tests';
 
+import { FormElementType } from '../../src/types/form-element';
+
 const getElementsSelector = getLocatorSelectors(TEST_IDS.formElements);
 
 /**
@@ -98,7 +100,7 @@ class ElementsHelper {
     return expect(this.selectors.root(), this.getMsg('Elements Container Presence')).toBeVisible();
   }
 
-  public async checkElementPresence(elementId: string, elementType: string) {
+  public async checkElementPresence(elementId: string, elementType: FormElementType) {
     return expect(
       this.selectors.element(elementId, elementType),
       this.getMsg(`Element ${elementId} Presence`)
