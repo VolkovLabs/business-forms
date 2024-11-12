@@ -1,9 +1,10 @@
-import { PanelModel } from '@grafana/data';
+import { DataSourceApi, PanelModel } from '@grafana/data';
+import { getBackendSrv } from '@grafana/runtime';
 import { set } from 'lodash';
 import semver from 'semver';
 
-import { FormElementType, PayloadMode } from './constants';
-import { LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
+import { PayloadMode } from './constants';
+import { FormElementType, LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
 
 /**
  * Outdated Request Options
@@ -51,6 +52,13 @@ const normalizeRequestOptions = ({ updatedOnly, payloadMode, ...actual }: Outdat
     ...actual,
     payloadMode: payloadMode ?? (updatedOnly ? PayloadMode.UPDATED : PayloadMode.ALL),
   };
+};
+
+/**
+ * Fetch datasources
+ */
+const fetchData = async () => {
+  return await getBackendSrv().get('/api/datasources');
 };
 
 /**
@@ -162,10 +170,22 @@ export const normalizePayloadOptions = (obj?: Record<string, unknown>) => {
 };
 
 /**
+ * Normalize Payload Options
+ *
+ * @param obj
+ * @param name
+ *
+ */
+const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string => {
+  const currentDs = ds.find((element) => element.name === name);
+  return currentDs?.uid || '';
+};
+
+/**
  * Get Migrated Options
  * @param panel
  */
-export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): PanelOptions => {
+export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
 
   /**
@@ -265,6 +285,31 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
         element.allowCustomValue = false;
       }
     });
+  }
+
+  /**
+   * Normalize datasource property
+   */
+  if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.9.0')) {
+    const dataSources: DataSourceApi[] = await fetchData();
+    if (options.initial && options.initial?.datasource) {
+      options.initial = {
+        ...options.initial,
+        datasource: normalizeDatasourceOptions(dataSources, options.initial?.datasource),
+      };
+    }
+    if (options.update && options.update?.datasource) {
+      options.update = {
+        ...options.update,
+        datasource: normalizeDatasourceOptions(dataSources, options.update?.datasource),
+      };
+    }
+    if (options.resetAction && options.resetAction?.datasource) {
+      options.resetAction = {
+        ...options.resetAction,
+        datasource: normalizeDatasourceOptions(dataSources, options.resetAction?.datasource),
+      };
+    }
   }
 
   return options as PanelOptions;

@@ -1,9 +1,48 @@
-import { FormElementType, PayloadMode } from './constants';
+import { getBackendSrv } from '@grafana/runtime';
+
+import { PayloadMode } from './constants';
 import { getMigratedOptions } from './migration';
-import { PanelOptions } from './types';
+import { FormElementType, PanelOptions } from './types';
+
+/**
+ * Mock @grafana/runtime
+ */
+jest.mock('@grafana/runtime', () => ({
+  getBackendSrv: jest.fn(),
+}));
 
 describe('Migration', () => {
-  it('Should return panel options', () => {
+  beforeEach(() => {
+    jest.mocked(getBackendSrv).mockImplementation(
+      () =>
+        ({
+          get: jest.fn(() => [
+            {
+              name: 'Datasource 1',
+              uid: 'ds1',
+            },
+            {
+              name: 'Datasource 2',
+              uid: 'ds2',
+            },
+            {
+              name: 'Datasource 3',
+              uid: 'ds3',
+            },
+            {
+              name: 'Datasource 4',
+              uid: 'ds4',
+            },
+            {
+              name: 'Datasource 5',
+              uid: 'ds5',
+            },
+          ]),
+        }) as any
+    );
+  });
+
+  it('Should return panel options', async () => {
     const options: Partial<PanelOptions> = {
       sync: true,
       initial: {} as any,
@@ -11,17 +50,16 @@ describe('Migration', () => {
       resetAction: {} as any,
     };
 
-    expect(
-      getMigratedOptions({
-        options: options as any,
-      } as any)
-    ).toEqual(options);
+    const result = await getMigratedOptions({
+      options: options as any,
+    } as any);
+    expect(result).toEqual(options);
   });
 
   describe('3.4.0', () => {
-    it('Should normalize requestOptions.updatedOnly', () => {
+    it('Should normalize requestOptions.updatedOnly', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: { initial: { updatedOnly: true }, update: { updatedOnly: true }, resetAction: {} },
         } as any)
       ).toEqual({
@@ -34,7 +72,7 @@ describe('Migration', () => {
         resetAction: {},
       });
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: { initial: { updatedOnly: false }, update: { updatedOnly: false }, resetAction: {} },
         } as any)
       ).toEqual({
@@ -47,7 +85,7 @@ describe('Migration', () => {
         resetAction: {},
       });
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             initial: { updatedOnly: true, payloadMode: PayloadMode.ALL },
             update: { updatedOnly: true, payloadMode: PayloadMode.ALL },
@@ -65,9 +103,9 @@ describe('Migration', () => {
       });
     });
 
-    it('Should normalize layout.sections', () => {
+    it('Should normalize layout.sections', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             initial: {},
             update: {},
@@ -269,53 +307,53 @@ describe('Migration', () => {
           `,
         },
       ];
-      it.each(options)('Should migrate $name for code', ({ initial, expected }) => {
-        expect(
-          getMigratedOptions({
-            pluginVersion: '3.9.0',
-            options: {
-              initial: {
-                code: initial,
-                updatedOnly: true,
-                getPayload: 'code',
-              },
-              resetAction: {
-                code: '',
-                getPayload: 'code',
-              },
-              update: {
-                code: '',
-                getPayload: 'code',
-              },
+
+      it.each(options)('Should migrate $name for code', async ({ initial, expected }) => {
+        const result = await getMigratedOptions({
+          pluginVersion: '3.9.0',
+          options: {
+            initial: {
+              code: initial,
+              updatedOnly: true,
+              getPayload: 'code',
             },
-          } as any).initial.code
-        ).toEqual(expected);
+            resetAction: {
+              code: '',
+              getPayload: 'code',
+            },
+            update: {
+              code: '',
+              getPayload: 'code',
+            },
+          },
+        } as any);
+        expect(result.initial.code).toEqual(expected);
       });
 
       /**
        * Test common code migration getPayload
        */
-      it.each(options)('Should migrate $name for getPayload', ({ initial, expected }) => {
-        expect(
-          getMigratedOptions({
-            pluginVersion: '3.9.0',
-            options: {
-              initial: {
-                code: '',
-                updatedOnly: true,
-                getPayload: initial,
-              },
-              resetAction: {
-                code: '',
-                getPayload: 'code',
-              },
-              update: {
-                code: '',
-                getPayload: 'code',
-              },
+      it.each(options)('Should migrate $name for getPayload', async ({ initial, expected }) => {
+        const result = await getMigratedOptions({
+          pluginVersion: '3.9.0',
+          options: {
+            initial: {
+              code: '',
+              updatedOnly: true,
+              getPayload: initial,
             },
-          } as any).initial.getPayload
-        ).toEqual(expected);
+            resetAction: {
+              code: '',
+              getPayload: 'code',
+            },
+            update: {
+              code: '',
+              getPayload: 'code',
+            },
+          },
+        } as any);
+
+        expect(result.initial.getPayload).toEqual(expected);
       });
 
       /**
@@ -352,8 +390,8 @@ describe('Migration', () => {
           const test = context.grafana.replaceVariables('$var');;
           `,
         },
-      ])('Should migrate $name for disableIf, showIf, getOptions', ({ initial, expected }) => {
-        const options = getMigratedOptions({
+      ])('Should migrate $name for disableIf, showIf, getOptions', async ({ initial, expected }) => {
+        const options = await getMigratedOptions({
           pluginVersion: '3.9.0',
           options: {
             initial: {
@@ -397,9 +435,9 @@ describe('Migration', () => {
       });
     });
 
-    it('Should normalize payload code if string', () => {
+    it('Should normalize payload code if string', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             initial: {
               payload: '',
@@ -425,9 +463,9 @@ describe('Migration', () => {
       });
     });
 
-    it('Should keep payload query if object', () => {
+    it('Should keep payload query if object', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             initial: {
               payload: {
@@ -470,9 +508,9 @@ describe('Migration', () => {
    * Normalize Payload Options
    */
   describe('4.3.0', () => {
-    it('Should normalize payload if payload object with properties', () => {
+    it('Should normalize payload if payload object with properties', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           pluginVersion: '4.0.0',
           options: {
             initial: {
@@ -672,7 +710,7 @@ describe('Migration', () => {
     });
   });
 
-  it('Should return allowCustom property for select and multiselect elements if not specified', () => {
+  it('Should return allowCustom property for select and multiselect elements if not specified', async () => {
     const options: Partial<PanelOptions> = {
       sync: true,
       initial: {} as any,
@@ -699,7 +737,7 @@ describe('Migration', () => {
       ] as any,
     };
 
-    const result = getMigratedOptions({
+    const result = await getMigratedOptions({
       options: options as any,
     } as any);
 
@@ -712,5 +750,46 @@ describe('Migration', () => {
     expect(elements[2].allowCustomValue).toEqual(true);
     expect(elements[3].allowCustomValue).toEqual(false);
     expect(elements[4].allowCustomValue).toBeUndefined();
+  });
+
+  /**
+   * Normalize Datasource Options
+   */
+  describe('4.9.0', () => {
+    it('Should return datasource id instead name', async () => {
+      const options: Partial<PanelOptions> = {
+        initial: {
+          datasource: 'Datasource 1',
+        } as any,
+        update: { datasource: 'Datasource 2' } as any,
+        resetAction: { datasource: 'Datasource 3' } as any,
+        elements: [] as any,
+      };
+
+      const result = await getMigratedOptions({
+        pluginVersion: '3.8.0',
+        options: options as any,
+      } as any);
+
+      expect(result.initial.datasource).toEqual('ds1');
+      expect(result.update.datasource).toEqual('ds2');
+      expect(result.resetAction.datasource).toEqual('ds3');
+    });
+
+    it('Should return empty datasource id instead name if DS does not exist', async () => {
+      const options: Partial<PanelOptions> = {
+        initial: {
+          datasource: 'Datasource 15',
+        } as any,
+        elements: [] as any,
+      };
+
+      const result = await getMigratedOptions({
+        pluginVersion: '3.8.0',
+        options: options as any,
+      } as any);
+
+      expect(result.initial.datasource).toEqual('');
+    });
   });
 });

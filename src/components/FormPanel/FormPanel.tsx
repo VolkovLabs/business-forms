@@ -29,7 +29,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ConfirmationElementDisplayMode,
   ContentType,
-  FormElementType,
   LayoutVariant,
   LoadingMode,
   PayloadMode,
@@ -42,6 +41,7 @@ import {
   ButtonVariant,
   FormElement,
   LayoutSection,
+  FormElementType,
   LocalFormElement,
   ModalColumnName,
   PanelOptions,

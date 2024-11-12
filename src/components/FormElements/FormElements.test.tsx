@@ -2,9 +2,10 @@ import { toDataFrame } from '@grafana/data';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
-import { FORM_ELEMENT_DEFAULT, FormElementType, OptionsSource } from '../../constants';
-import { ButtonVariant, CustomButtonShow, LinkTarget } from '../../types';
-import { getFormElementsSelectors, normalizeElementsForLocalState } from '../../utils';
+import { FORM_ELEMENT_DEFAULT, OptionsSource } from '@/constants';
+import { ButtonVariant, CustomButtonShow, FormElementType, LinkTarget } from '@/types';
+import { getFormElementsSelectors, normalizeElementsForLocalState } from '@/utils';
+
 import { FormElements } from './FormElements';
 
 /**

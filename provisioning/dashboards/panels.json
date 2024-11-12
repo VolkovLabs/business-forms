@@ -24,14 +24,17 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 3,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -117,7 +120,12 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "No Elements",
       "type": "volkovlabs-form-panel"
     },
@@ -125,6 +133,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 12,
@@ -233,7 +245,12 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Data Manipulation Form",
       "type": "volkovlabs-form-panel"
     },
@@ -241,6 +258,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -325,7 +346,12 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Buttons only",
       "type": "volkovlabs-form-panel"
     },
@@ -333,6 +359,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 13,
@@ -410,7 +440,7 @@
         "layout": {
           "orientation": "vertical",
           "padding": 10,
-          "sectionVariant": "default",
+          "sectionVariant": "collapsable",
           "sections": [
             {
               "id": "Section 1",
@@ -464,14 +494,23 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
-      "title": "Replace Variables",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
+      "title": "Sections",
       "type": "volkovlabs-form-panel"
     },
     {
       "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 7,
@@ -602,7 +641,12 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Read Only Updated",
       "type": "volkovlabs-form-panel"
     },
@@ -610,6 +654,10 @@
       "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -681,6 +729,7 @@
             "width": 0
           },
           {
+            "allowCustomValue": false,
             "id": "type",
             "labelWidth": 10,
             "options": [
@@ -773,7 +822,12 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Control Panel",
       "type": "volkovlabs-form-panel"
     },
@@ -781,6 +835,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 13,
@@ -843,6 +901,7 @@
             "value": 4
           },
           {
+            "allowCustomValue": false,
             "id": "select",
             "options": [
               {
@@ -980,7 +1039,12 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     },
@@ -988,6 +1052,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 9,
@@ -1046,6 +1114,7 @@
             "unit": ""
           },
           {
+            "allowCustomValue": false,
             "id": "select",
             "options": [
               {
@@ -1182,7 +1251,12 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Split Form",
       "type": "volkovlabs-form-panel"
     },
@@ -1190,6 +1264,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
@@ -1280,23 +1358,27 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.5.0",
+      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "No Initial Request and Custom Button",
       "type": "volkovlabs-form-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "test2",
           "value": "test2"
         },
-        "hide": 0,
         "label": "Var",
         "name": "var",
         "options": [
@@ -1307,7 +1389,6 @@
           }
         ],
         "query": "test2",
-        "skipUrlSync": false,
         "type": "textbox"
       }
     ]
@@ -1320,6 +1401,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }

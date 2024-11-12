@@ -1,8 +1,8 @@
 import { InlineField, TextLink, useStyles2, useTheme2 } from '@grafana/ui';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { FormElementByType, LinkTarget, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { FormElementByType, FormElementType, LinkTarget, LocalFormElement } from '@/types';
 import { applyLabelStyles, applyWidth } from '@/utils';
 
 import { getStyles } from './LinkElement.style';

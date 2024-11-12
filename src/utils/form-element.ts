@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   CODE_DEFAULT,
   CUSTOM_BUTTON_DEFAULT,
-  FormElementType,
   NUMBER_DEFAULT,
   OptionsSource,
   SELECT_DEFAULT,
@@ -18,6 +17,7 @@ import {
   DisableIfHelper,
   FormElement,
   FormElementByType,
+  FormElementType,
   GetOptionsHelper,
   LayoutSection,
   LinkTarget,

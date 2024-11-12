@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { css, keyframes } from '@emotion/css';
 
-import { FormElementType, OptionsSource } from '../constants';
-import { ButtonVariant } from '../types';
+import { OptionsSource } from '../constants';
+import { ButtonVariant, FormElementType } from '../types';
 import {
   applyAcceptedFiles,
   applyLabelStyles,

@@ -8,15 +8,15 @@ import {
   CUSTOM_BUTTON_DEFAULT,
   FORM_ELEMENT_DEFAULT,
   FORM_ELEMENT_OPTION_DEFAULT,
-  FormElementType,
   NUMBER_DEFAULT,
   OptionsSource,
   RequestMethod,
   SELECT_DEFAULT,
   SLIDER_DEFAULT,
-} from '../../constants';
-import { ButtonVariant, CodeLanguage, LinkTarget } from '../../types';
-import { getFormElementsEditorSelectors } from '../../utils';
+} from '@/constants';
+import { ButtonVariant, CodeLanguage, FormElementType, LinkTarget } from '@/types';
+import { getFormElementsEditorSelectors } from '@/utils';
+
 import { FormElementsEditor } from './FormElementsEditor';
 
 /**

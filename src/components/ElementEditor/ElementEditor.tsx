@@ -22,7 +22,6 @@ import {
   CUSTOM_BUTTON_VARIANT_OPTIONS,
   CUSTOM_VALUE_OPTIONS,
   FORM_ELEMENT_TYPE_OPTIONS,
-  FormElementType,
   LINK_TARGET_OPTIONS,
   OPTIONS_SOURCE_OPTIONS,
   OptionsSource,
@@ -30,15 +29,16 @@ import {
   STRING_ELEMENT_OPTIONS,
   TEST_IDS,
   TIME_TRANSFORMATION_OPTIONS,
-} from '../../constants';
-import { ButtonVariant, CodeLanguage, LocalFormElement } from '../../types';
+} from '@/constants';
+import { ButtonVariant, CodeLanguage, FormElementType, LocalFormElement } from '@/types';
 import {
   formatNumberValue,
   getElementWithNewType,
   getOptionsWithTestId,
   isFormElementType,
   toNumberValue,
-} from '../../utils';
+} from '@/utils';
+
 import { ElementDateEditor } from '../ElementDateEditor';
 import { ElementOptionsEditor } from '../ElementOptionsEditor';
 import { ElementQueryOptionsEditor } from '../ElementQueryOptionsEditor';
