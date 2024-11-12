@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 5,
   "links": [],
   "panels": [
     {
@@ -56,47 +56,7 @@
           "title": "Confirm update request"
         },
         "elementValueChanged": "/**\n * Update device variable\n */\n\nif (context.element.id === 'device') {\n  context.grafana.locationService.partial({\n    'var-device': context.element.value,\n  })\n}",
-        "elements": [
-          {
-            "allowCustomValue": false,
-            "id": "device",
-            "options": [
-              {
-                "id": "device1",
-                "label": "device1",
-                "type": "string",
-                "value": "device1"
-              },
-              {
-                "id": "device2",
-                "label": "device2",
-                "type": "string",
-                "value": "device2"
-              }
-            ],
-            "optionsSource": "Custom",
-            "title": "Device",
-            "type": "select",
-            "uid": "device",
-            "value": "device1"
-          },
-          {
-            "id": "device1Field",
-            "max": 10,
-            "min": 0,
-            "title": "Device 1 Field",
-            "type": "number",
-            "uid": "device1Field",
-            "value": 0
-          },
-          {
-            "id": "comment",
-            "title": "Comment",
-            "type": "textarea",
-            "uid": "comment",
-            "value": ""
-          }
-        ],
+        "elements": [],
         "initial": {
           "code": "/**\n * Convert JSON to form elements array\n */\nconst formElements = JSON.parse(context.panel.data.series[0].fields[0].values[0])\n/**\n * Set elements with helpers\n */\ncontext.panel.onChangeElements(formElements.map((element) => {\n  const elementInForm = context.panel.elements.find((item) => item.uid === element.uid);\n  let value = element.value;\n\n  if (element.uid === 'comment' && elementInForm) {\n    value = elementInForm.value;\n  }\n\n  return {\n    ...element,\n    value,\n    helpers: {\n      showIf: () => true,\n      disableIf: () => false,\n      getOptions: () => element.options,\n    }\n  }\n}),\n);\n",
           "contentType": "application/json",
@@ -969,6 +929,6 @@
   "timezone": "",
   "title": "Server-based",
   "uid": "f430fe0c-2487-4a02-a495-941c85b1e21d",
-  "version": 13,
+  "version": 2,
   "weekStart": ""
 }

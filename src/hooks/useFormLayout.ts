@@ -1,7 +1,7 @@
 import { EventBusSrv, SelectableValue } from '@grafana/data';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../types';
+import { FormElement, LayoutSection, LocalFormElement } from '../types';
 import {
   convertElementsToPayload,
   isElementConflict,
@@ -30,13 +30,11 @@ export const useFormLayout = ({
   value,
   isAutoSave = true,
   layoutSections,
-  options,
 }: {
   onChangeElementsOption?: (elements: FormElement[]) => void;
   value?: FormElement[];
   isAutoSave?: boolean;
   layoutSections?: LayoutSection[];
-  options?: PanelOptions;
   onChangeSectionsOption?: (sections: LayoutSection[]) => void;
 }) => {
   const eventBus = useRef(new EventBusSrv());
@@ -47,7 +45,7 @@ export const useFormLayout = ({
   const [elements, setElements, elementsRef] = useMutableState<LocalFormElement[]>(
     normalizeElementsForLocalState(value)
   );
-  const [sections, setSections] = useState<LayoutSection[]>(layoutSections || []);
+  const [sections, setSections, sectionsRef] = useMutableState<LayoutSection[]>(layoutSections || []);
   const [isChanged, setIsChanged] = useState(false);
   const { startTimer, removeTimer } = useAutoSave();
 
@@ -69,46 +67,10 @@ export const useFormLayout = ({
    */
   const onChangeSections = useCallback(
     (newSections: LayoutSection[]) => {
-      setSections(
-        newSections.map((item) => ({
-          ...item,
-          id: item.id,
-        }))
-      );
+      setSections(newSections);
       setIsChanged(true);
     },
     [setSections]
-  );
-
-  /**
-   * Add new section
-   */
-  const addSections = useCallback(
-    (newSections: LayoutSection[]) => {
-      if (options) {
-        /**
-         * Not existed sections
-         */
-        const currentSectionsToAdd = newSections.filter((element) =>
-          sections.every((section) => section.id !== element.id)
-        );
-
-        onChangeSections([...sections, ...currentSectionsToAdd]);
-      }
-    },
-    [onChangeSections, options, sections]
-  );
-
-  /**
-   * Remove Section
-   */
-  const removeSection = useCallback(
-    (id: string) => {
-      if (options) {
-        onChangeSections(sections.filter((section) => section.id !== id));
-      }
-    },
-    [onChangeSections, options, sections]
   );
 
   /**
@@ -143,42 +105,6 @@ export const useFormLayout = ({
       setIsChanged(true);
     },
     [setElements]
-  );
-
-  /**
-   * Change layout
-   */
-  const onChangeLayout = useCallback(
-    (newElements: LocalFormElement[], newSections: LayoutSection[] = []) => {
-      /**
-       * Section Ids from elements
-       */
-      const sectionIds = [...new Set(newElements.map((element) => element.section).filter((element) => !!element))];
-
-      /**
-       * Set Sections based on elements
-       */
-      const currentSections: LayoutSection[] = sectionIds.map((item) => ({
-        name: item,
-        id: item,
-      }));
-
-      /**
-       * Concat two array with sections and remove duplicate
-       */
-      const sectionsToChange = [...currentSections, ...newSections].reduce((acc: LayoutSection[], item) => {
-        const existing = acc.find((obj) => obj['id'] === item['id']);
-        if (!existing) {
-          acc.push(item);
-        }
-        return acc;
-      }, []);
-
-      onChangeSections(sectionsToChange);
-      setElements(newElements);
-      setIsChanged(true);
-    },
-    [onChangeSections, setElements]
   );
 
   /**
@@ -297,6 +223,143 @@ export const useFormLayout = ({
   }, [setElements, value]);
 
   /**
+   * Add new section
+   */
+  const addSection = useCallback(
+    ({ name, id, elements }: { name: string; id: string; elements: string[] }) => {
+      const sections = sectionsRef.current;
+      const currentElements = elementsRef.current;
+      const isSectionExisted = sections.some((section) => section.id === id);
+
+      if (!isSectionExisted) {
+        onChangeSections([
+          ...sections,
+          {
+            name,
+            id,
+          },
+        ]);
+      }
+
+      const updatedElements = currentElements.map((element) => {
+        const elementToUpdate = elements.some((item) => item === element.id);
+        if (elementToUpdate) {
+          return {
+            ...element,
+            section: name,
+          };
+        }
+        return element;
+      });
+
+      onChangeElements(updatedElements);
+    },
+    [elementsRef, onChangeElements, onChangeSections, sectionsRef]
+  );
+
+  /**
+   * Remove Section
+   */
+  const removeSection = useCallback(
+    (id: string) => {
+      const sections = sectionsRef.current;
+      onChangeSections(sections.filter((section) => section.id !== id));
+    },
+    [onChangeSections, sectionsRef]
+  );
+
+  /**
+   * Assign to Section
+   */
+  const assignToSection = useCallback(
+    (id: string, elements: string[]) => {
+      const sections = sectionsRef.current;
+      const section = sections.find((item) => item.id === id);
+
+      if (!section) {
+        return;
+      }
+
+      const currentElements = elementsRef.current;
+      const updatedElements = currentElements.map((element) => {
+        const elementToUpdate = elements.some((item) => item === element.id);
+        if (elementToUpdate) {
+          return {
+            ...element,
+            section: section.name,
+          };
+        }
+        return element;
+      });
+
+      onChangeElements(updatedElements);
+    },
+    [elementsRef, onChangeElements, sectionsRef]
+  );
+
+  /**
+   * Unassign from Section
+   */
+  const unassignFromSection = useCallback(
+    (elements: string[]) => {
+      const currentElements = elementsRef.current;
+      const updatedElements = currentElements.map((element) => {
+        const elementToUpdate = elements.some((item) => item === element.id);
+        if (elementToUpdate) {
+          return {
+            ...element,
+            section: '',
+          };
+        }
+        return element;
+      });
+
+      onChangeElements(updatedElements);
+    },
+    [elementsRef, onChangeElements]
+  );
+
+  /**
+   * Get Section
+   */
+  const getSection = useCallback(
+    (id: string) => {
+      const sections = sectionsRef.current;
+      const section = sections.find((section) => section.id === id);
+
+      if (!section) {
+        return {
+          section: null,
+          elements: [],
+        };
+      }
+      const currentElements = elementsRef.current;
+      const sectionElements = currentElements.filter((curElement) => curElement.section === section.name);
+      return {
+        section: section,
+        elements: sectionElements,
+      };
+    },
+    [elementsRef, sectionsRef]
+  );
+
+  /**
+   * Get Section
+   */
+  const getAllSections = useCallback(() => {
+    const sections = sectionsRef.current;
+
+    return sections.map((section) => {
+      const currentElements = elementsRef.current;
+      const sectionElements = currentElements.filter((curElement) => curElement.section === section.name);
+      return {
+        section: section,
+        elements: sectionElements,
+      };
+    });
+  }, [elementsRef, sectionsRef]);
+
+  /**
    * Update local sections
    */
   useEffect(() => {
@@ -340,9 +403,12 @@ export const useFormLayout = ({
     setFormValue,
     getFormValue,
     sections,
-    addSections,
+    addSection,
     removeSection,
     onChangeSections,
-    onChangeLayout,
+    assignToSection,
+    unassignFromSection,
+    getSection,
+    getAllSections,
   };
 };

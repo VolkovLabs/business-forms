@@ -65,22 +65,29 @@ export const requestCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        addSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
-          'Add new sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        onChangeSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
-          'Change sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        onChangeLayout: new CodeParameterItem<(elements: LocalFormElement[], sections?: LayoutSection[]) => void>(
-          'Change sections and elements',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        removeSection: new CodeParameterItem<(id: string) => void>(
-          'Remove section',
-          CodeEditorSuggestionItemKind.Method
-        ),
+        sections: {
+          detail: 'Section Helpers',
+          items: {
+            add: new CodeParameterItem<
+              ({ name, id, elements }: { name: string; id: string; elements: string[] }) => void
+            >('Add new Section', CodeEditorSuggestionItemKind.Method),
+            update: new CodeParameterItem<(sections: LayoutSection[]) => void>(
+              'Change sections',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            remove: new CodeParameterItem<(id: string) => void>('Remove section', CodeEditorSuggestionItemKind.Method),
+            assign: new CodeParameterItem<(id: string, elements: string[]) => void>(
+              'Assign elements to section',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            unassign: new CodeParameterItem<(elements: string[]) => void>(
+              'Unassign elements from section',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            get: new CodeParameterItem<(id: string) => void>('Get section', CodeEditorSuggestionItemKind.Method),
+            getAll: new CodeParameterItem<() => void>('Get all sections', CodeEditorSuggestionItemKind.Method),
+          },
+        },
       },
     },
     grafana: {
@@ -188,22 +195,29 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           CodeEditorSuggestionItemKind.Method
         ),
         sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        addSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
-          'Add new sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        onChangeSections: new CodeParameterItem<(sections: LayoutSection[]) => void>(
-          'Change sections',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        onChangeLayout: new CodeParameterItem<(elements: LocalFormElement[], sections?: LayoutSection[]) => void>(
-          'Change sections and elements',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        removeSection: new CodeParameterItem<(id: string) => void>(
-          'Remove section',
-          CodeEditorSuggestionItemKind.Method
-        ),
+        sections: {
+          detail: 'Section Helpers',
+          items: {
+            add: new CodeParameterItem<
+              ({ name, id, elements }: { name: string; id: string; elements: string[] }) => void
+            >('Add new Section', CodeEditorSuggestionItemKind.Method),
+            update: new CodeParameterItem<(sections: LayoutSection[]) => void>(
+              'Change sections',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            remove: new CodeParameterItem<(id: string) => void>('Remove section', CodeEditorSuggestionItemKind.Method),
+            assign: new CodeParameterItem<(id: string, elements: string[]) => void>(
+              'Assign elements to section',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            unassign: new CodeParameterItem<(elements: string[]) => void>(
+              'Unassign elements from section',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            get: new CodeParameterItem<(id: string) => void>('Get section', CodeEditorSuggestionItemKind.Method),
+            getAll: new CodeParameterItem<() => void>('Get all sections', CodeEditorSuggestionItemKind.Method),
+          },
+        },
       },
     },
     grafana: {
