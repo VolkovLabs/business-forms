@@ -38,7 +38,7 @@ console.log(dataQuery);`;
  */
 export const UPDATE_CODE_DEFAULT = `if (context.panel.response) {
   context.grafana.notifySuccess(['Update', 'Values updated successfully.']);
-  context.grafana.locationService.reload();
+  context.grafana.refresh();
 } else {
   context.grafana.notifyError(['Update', 'An error occurred updating values.']);
 }`;
