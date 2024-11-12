@@ -1,8 +1,34 @@
 import { DataQueryResponse, IconName, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
 import { FetchResponse } from '@grafana/runtime';
 
-import { FormElementType, OptionsSource } from '../constants';
+import { OptionsSource } from '../constants';
 import { ButtonSize, ButtonVariant, CodeLanguage } from '../types';
+
+/**
+ * Form Element Type
+ */
+export const enum FormElementType {
+  BOOLEAN = 'boolean',
+  CODE = 'code',
+  BUTTON = 'button',
+  DATE = 'date',
+  DATETIME = 'datetime',
+  DISABLED = 'disabled',
+  DISABLED_TEXTAREA = 'disabledTextarea',
+  FILE = 'file',
+  LINK = 'link',
+  MULTISELECT = 'multiselect',
+  NUMBER = 'number',
+  PASSWORD = 'password',
+  RADIO = 'radio',
+  SECRET = 'secret',
+  SELECT = 'select',
+  SLIDER = 'slider',
+  STRING = 'string',
+  TEXTAREA = 'textarea',
+  TIME = 'time',
+  CHECKBOX_LIST = 'checkboxList',
+}
 
 /**
  * Query Field

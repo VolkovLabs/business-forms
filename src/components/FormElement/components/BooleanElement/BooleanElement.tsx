@@ -1,8 +1,8 @@
 import { InlineField, RadioButtonGroup } from '@grafana/ui';
 import React from 'react';
 
-import { BOOLEAN_ELEMENT_OPTIONS, FormElementType, TEST_IDS } from '@/constants';
-import { FormElementByType, LocalFormElement } from '@/types';
+import { BOOLEAN_ELEMENT_OPTIONS, TEST_IDS } from '@/constants';
+import { FormElementByType, FormElementType, LocalFormElement } from '@/types';
 import { applyLabelStyles, applyWidth } from '@/utils';
 
 /**

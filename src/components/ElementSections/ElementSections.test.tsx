@@ -1,15 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
-import {
-  FORM_ELEMENT_DEFAULT,
-  FormElementType,
-  LayoutOrientation,
-  LayoutVariant,
-  SectionVariant,
-} from '../../constants';
-import { PanelOptions, UpdateEnabledMode } from '../../types';
-import { getFormElementsSectionSelectors, normalizeElementsForLocalState } from '../../utils';
+import { FORM_ELEMENT_DEFAULT, LayoutOrientation, LayoutVariant, SectionVariant } from '@/constants';
+import { FormElementType, PanelOptions, UpdateEnabledMode } from '@/types';
+import { getFormElementsSectionSelectors, normalizeElementsForLocalState } from '@/utils';
+
 import { ElementSections } from './ElementSections';
 
 /**

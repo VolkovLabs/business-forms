@@ -1,8 +1,8 @@
 import { InterpolateFunction, PanelData } from '@grafana/data';
 import React, { useMemo } from 'react';
 
-import { FormElementType } from '../../constants';
-import { CustomButtonShow, ExecuteCustomCodeParams, LocalFormElement } from '../../types';
+import { CustomButtonShow, ExecuteCustomCodeParams, FormElementType, LocalFormElement } from '@/types';
+
 import { CustomButtonElement } from '../FormElement/components';
 
 /**

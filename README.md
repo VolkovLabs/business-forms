@@ -17,7 +17,7 @@ The Business Forms panel is a conceptually new plugin for Grafana. It is the fir
 
 ## Requirements
 
-- Business Forms panel 4.X requires **Grafana 10** or **Grafana 11**.
+- Business Forms panel 4.X requires **Grafana 10.3** or **Grafana 11**.
 - Data Manipulation panel 3.X requires **Grafana 9** or **Grafana 10**.
 - Data Manipulation panel 2.X requires **Grafana 9** or **Grafana 8.5**.
 - Data Manipulation panel 1.X requires **Grafana 8**.

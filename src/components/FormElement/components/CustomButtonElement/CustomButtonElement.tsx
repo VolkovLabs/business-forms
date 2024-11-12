@@ -2,8 +2,15 @@ import { InterpolateFunction } from '@grafana/data';
 import { Button, InlineField, useTheme2 } from '@grafana/ui';
 import React, { useCallback } from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { ButtonVariant, CustomButtonShow, ExecuteCustomCodeParams, FormElementByType, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import {
+  ButtonVariant,
+  CustomButtonShow,
+  ExecuteCustomCodeParams,
+  FormElementByType,
+  FormElementType,
+  LocalFormElement,
+} from '@/types';
 import { applyLabelStyles, applyWidth, getButtonVariant } from '@/utils';
 
 /**

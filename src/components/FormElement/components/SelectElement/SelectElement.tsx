@@ -1,8 +1,8 @@
 import { InlineField, Select } from '@grafana/ui';
 import React from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { FormElementByType, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { FormElementByType, FormElementType, LocalFormElement } from '@/types';
 import { applyLabelStyles, applyWidth } from '@/utils';
 
 /**
@@ -47,6 +47,7 @@ export const SelectElement: React.FC<Props> = ({ element, onChange, highlightCla
         key={element.id}
         isMulti={element.type === FormElementType.MULTISELECT}
         aria-label={TEST_IDS.formElements.fieldSelect}
+        data-testid={TEST_IDS.formElements.fieldSelect}
         value={element.value !== undefined ? element.value : null}
         allowCustomValue={element.allowCustomValue}
         onChange={(event) => {

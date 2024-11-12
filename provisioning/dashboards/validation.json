@@ -18,14 +18,17 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 7,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -55,6 +58,7 @@
         "elementValueChanged": "let elements = context.panel.elements;\n\n/**\n * Reset room and bench values on facility change\n */\nif (context.element.id === 'facility') {\n  elements = elements.map((element) => {\n    if (element.id === 'room' || element.id === 'bench') {\n      return {\n        ...element,\n        value: null,\n      }\n    }\n\n    return element;\n  })\n}\n\n/**\n * Reset bench value on room change\n */\nif (context.element.id === 'room') {\n  elements = elements.map((element) => {\n    if (element.id === 'bench') {\n      return {\n        ...element,\n        value: null,\n      }\n    }\n\n    return element;\n  })\n}\n\n/**\n * Update form elements\n */\ncontext.panel.onChangeElements(elements);\n\n/**\n * Caclulate form validation state\n */\nconst isFormValid = elements.every((element) => !!element.value);\n\n/**\n * Enable/Disable submit button\n */\nif (isFormValid) {\n  context.panel.enableSubmit();\n} else {\n  context.panel.disableSubmit();\n}",
         "elements": [
           {
+            "allowCustomValue": false,
             "disableIf": "",
             "id": "facility",
             "labelWidth": 10,
@@ -84,6 +88,20 @@
           },
           {
             "disableIf": "const facility = context.panel.elements.find((element) => element.id === 'facility')\n\nreturn !facility?.value",
+            "id": "number",
+            "labelWidth": 10,
+            "section": "",
+            "showIf": "",
+            "title": "Number",
+            "tooltip": "",
+            "type": "number",
+            "uid": "fc06941b-31fa-4d09-95ca-89a43e543ea9",
+            "unit": "",
+            "value": 0
+          },
+          {
+            "allowCustomValue": false,
+            "disableIf": "const facility = context.panel.elements.find((element) => element.id === 'facility')\n\nreturn !facility?.value",
             "id": "room",
             "labelWidth": 10,
             "options": [
@@ -110,6 +128,7 @@
             "value": ""
           },
           {
+            "allowCustomValue": false,
             "disableIf": "const facility = context.panel.elements.find((element) => element.id === 'facility')\nconst room = context.panel.elements.find((element) => element.id === 'room')\n\nreturn !facility?.value || !room?.value",
             "id": "bench",
             "labelWidth": 10,
@@ -190,7 +209,7 @@
         },
         "updateEnabled": "manual"
       },
-      "pluginVersion": "4.1.0",
+      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -204,8 +223,9 @@
       "type": "volkovlabs-form-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": []

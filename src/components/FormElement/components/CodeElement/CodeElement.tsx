@@ -2,8 +2,8 @@ import { InlineField } from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
-import { FormElementType, TEST_IDS } from '@/constants';
-import { CodeLanguage, FormElementByType, LocalFormElement } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { CodeLanguage, FormElementByType, FormElementType, LocalFormElement } from '@/types';
 import { applyLabelStyles, applyWidth } from '@/utils';
 
 /**
