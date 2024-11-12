@@ -626,7 +626,9 @@ describe('Migration', () => {
           },
         } as any)
       ).toEqual({
+        elementValueChanged: '',
         initial: {
+          code: '',
           payload: {
             editorMode: 'code',
             format: 'table',
@@ -654,6 +656,7 @@ describe('Migration', () => {
           },
         },
         update: {
+          code: '',
           payload: {
             editorMode: 'code',
             format: 'table',
@@ -681,6 +684,7 @@ describe('Migration', () => {
           },
         },
         resetAction: {
+          code: '',
           payload: {
             editorMode: 'code',
             format: 'table',
@@ -790,6 +794,92 @@ describe('Migration', () => {
       } as any);
 
       expect(result.initial.datasource).toEqual('');
+    });
+
+    describe('codeOptions', () => {
+      /**
+       * Test common code migration
+       */
+
+      const options = [
+        {
+          name: 'toggleSection',
+          initial: `
+          context.panel.toggleSection('test1')
+          `,
+          expected: `
+          context.panel.sectionsUtils.toggle('test1')
+          `,
+        },
+        {
+          name: 'toggleSection',
+          initial: `
+          const toggleSection = context.panel.toggleSection
+          toggleSection('1')
+          `,
+          expected: `
+          const toggleSection = context.panel.sectionsUtils.toggle
+          toggleSection('1')
+          `,
+        },
+        {
+          name: 'collapseSection',
+          initial: `
+          context.panel.collapseSection('test1')
+          `,
+          expected: `
+          context.panel.sectionsUtils.collapse('test1')
+          `,
+        },
+        {
+          name: 'expandSection',
+          initial: `
+          context.panel.expandSection('test1')
+          `,
+          expected: `
+          context.panel.sectionsUtils.expand('test1')
+          `,
+        },
+        {
+          name: 'expandSection',
+          initial: `
+          context.panel.sectionsExpandedState
+          `,
+          expected: `
+          context.panel.sectionsUtils.expandedState
+          `,
+        },
+        {
+          name: 'expandSection',
+          initial: `
+          const sectionsExpandedState = context.panel.sectionsExpandedState
+          `,
+          expected: `
+          const sectionsExpandedState = context.panel.sectionsUtils.expandedState
+          `,
+        },
+      ];
+      it.each(options)('Should migrate $name for code', async ({ initial, expected }) => {
+        const result = await getMigratedOptions({
+          pluginVersion: '4.8.0',
+          options: {
+            initial: {
+              code: initial,
+              updatedOnly: true,
+              getPayload: 'code',
+            },
+            resetAction: {
+              code: '',
+              getPayload: 'code',
+            },
+            update: {
+              code: '',
+              getPayload: 'code',
+            },
+          },
+        } as any);
+        expect(result.initial.code).toEqual(expected);
+      });
     });
   });
 });

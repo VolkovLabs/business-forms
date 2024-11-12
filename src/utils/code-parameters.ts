@@ -52,20 +52,7 @@ export const requestCodeParameters = new CodeParametersBuilder({
         response: new CodeParameterItem<FetchResponse | Response | DataQueryResponse | null | undefined>(
           'Response object.'
         ),
-        toggleSection: new CodeParameterItem<(id: string) => void>(
-          'Toggle section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        collapseSection: new CodeParameterItem<(id: string) => void>(
-          'Collapse section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        expandSection: new CodeParameterItem<(id: string) => void>(
-          'Expand section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        sections: {
+        sectionsUtils: {
           detail: 'Section Helpers',
           items: {
             add: new CodeParameterItem<
@@ -86,6 +73,13 @@ export const requestCodeParameters = new CodeParametersBuilder({
             ),
             get: new CodeParameterItem<(id: string) => void>('Get section', CodeEditorSuggestionItemKind.Method),
             getAll: new CodeParameterItem<() => void>('Get all sections', CodeEditorSuggestionItemKind.Method),
+            toggle: new CodeParameterItem<(id: string) => void>('Toggle section', CodeEditorSuggestionItemKind.Method),
+            collapse: new CodeParameterItem<(id: string) => void>(
+              'Collapse section',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            expand: new CodeParameterItem<(id: string) => void>('Expand section', CodeEditorSuggestionItemKind.Method),
+            expandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
           },
         },
       },
@@ -182,20 +176,7 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           'Disable save default button.',
           CodeEditorSuggestionItemKind.Method
         ),
-        toggleSection: new CodeParameterItem<(id: string) => void>(
-          'Toggle section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        collapseSection: new CodeParameterItem<(id: string) => void>(
-          'Collapse section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        expandSection: new CodeParameterItem<(id: string) => void>(
-          'Expand section',
-          CodeEditorSuggestionItemKind.Method
-        ),
-        sectionsExpandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-        sections: {
+        sectionsUtils: {
           detail: 'Section Helpers',
           items: {
             add: new CodeParameterItem<
@@ -216,6 +197,13 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
             ),
             get: new CodeParameterItem<(id: string) => void>('Get section', CodeEditorSuggestionItemKind.Method),
             getAll: new CodeParameterItem<() => void>('Get all sections', CodeEditorSuggestionItemKind.Method),
+            toggle: new CodeParameterItem<(id: string) => void>('Toggle section', CodeEditorSuggestionItemKind.Method),
+            collapse: new CodeParameterItem<(id: string) => void>(
+              'Collapse section',
+              CodeEditorSuggestionItemKind.Method
+            ),
+            expand: new CodeParameterItem<(id: string) => void>('Expand section', CodeEditorSuggestionItemKind.Method),
+            expandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
           },
         },
       },

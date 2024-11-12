@@ -453,7 +453,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.add({name:'Section 2', id:'section2'});
+                    context.panel.sectionsUtils.add({name:'Section 2', id:'section2'});
                   `,
                 },
                 layout: {
@@ -490,7 +490,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.add({name:'Section 2', id:'section2', elements:['test']});
+                    context.panel.sectionsUtils.add({name:'Section 2', id:'section2', elements:['test']});
                   `,
                 },
                 elements: [
@@ -539,7 +539,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.add({name:'Section 2', id:'section2', elements:['test-2']});
+                    context.panel.sectionsUtils.add({name:'Section 2', id:'section2', elements:['test-2']});
                   `,
                 },
                 elements: [
@@ -588,7 +588,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.assign('section1', ['test']);
+                    context.panel.sectionsUtils.assign('section1', ['test']);
                   `,
                 },
                 elements: [
@@ -636,7 +636,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.assign('section12', ['test']);
+                    context.panel.sectionsUtils.assign('section12', ['test']);
                   `,
                 },
                 elements: [
@@ -684,7 +684,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.assign('section1', ['test15']);
+                    context.panel.sectionsUtils.assign('section1', ['test15']);
                   `,
                 },
                 elements: [
@@ -733,7 +733,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.unassign(['test']);
+                    context.panel.sectionsUtils.unassign(['test']);
                   `,
                 },
                 elements: [
@@ -782,7 +782,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.unassign(['test11']);
+                    context.panel.sectionsUtils.unassign(['test11']);
                   `,
                 },
                 elements: [
@@ -832,7 +832,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.remove('section2');
+                    context.panel.sectionsUtils.remove('section2');
                   `,
                 },
                 layout: {
@@ -870,7 +870,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    context.panel.sections.update([{name:'Section 3', id:'section3'}]);
+                    context.panel.sectionsUtils.update([{name:'Section 3', id:'section3'}]);
                   `,
                 },
                 layout: {
@@ -909,7 +909,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    const sections = context.panel.sections.getAll(); const sectionsIds = sections.map(element => element.id).join(); context.grafana.notifySuccess(['Sections',sectionsIds]);
+                    const sections = context.panel.sectionsUtils.getAll(); const sectionsIds = sections.map(element => element.id).join(); context.grafana.notifySuccess(['Sections',sectionsIds]);
                   `,
                 },
                 layout: {
@@ -949,7 +949,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    const section = context.panel.sections.get('section1'); context.grafana.notifySuccess(['Sections',section.id]);
+                    const section = context.panel.sectionsUtils.get('section1'); context.grafana.notifySuccess(['Sections',section.id]);
                   `,
                 },
                 layout: {
@@ -989,7 +989,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    const section = context.panel.sections.get('section12'); context.grafana.notifySuccess(['Sections',section.id]);
+                    const section = context.panel.sectionsUtils.get('section12'); context.grafana.notifySuccess(['Sections',section.id]);
                   `,
                 },
                 layout: {
@@ -3987,7 +3987,7 @@ describe('Panel', () => {
               initial: {
                 method: RequestMethod.NONE,
                 code: `
-                  context.panel.expandSection("section1");
+                  context.panel.sectionsUtils.expand("section1");
                 `,
               },
               layout: {
@@ -4024,7 +4024,7 @@ describe('Panel', () => {
               initial: {
                 method: RequestMethod.NONE,
                 code: `
-                  context.panel.collapseSection("section1");
+                  context.panel.sectionsUtils.collapse("section1");
                 `,
               },
               layout: {
@@ -4061,7 +4061,7 @@ describe('Panel', () => {
               initial: {
                 method: RequestMethod.NONE,
                 code: `
-                  context.panel.toggleSection("section1");
+                  context.panel.sectionsUtils.toggle("section1");
                 `,
               },
               layout: {
@@ -4099,7 +4099,7 @@ describe('Panel', () => {
                 method: RequestMethod.NONE,
               },
               elementValueChanged: `
-                context.panel.expandSection("section1");
+                context.panel.sectionsUtils.expand("section1");
               `,
               layout: {
                 variant: LayoutVariant.SPLIT,
@@ -4142,7 +4142,7 @@ describe('Panel', () => {
                 method: RequestMethod.NONE,
               },
               elementValueChanged: `
-                context.panel.collapseSection("section1");
+                context.panel.sectionsUtils.collapse("section1");
               `,
               layout: {
                 variant: LayoutVariant.SPLIT,
@@ -4194,7 +4194,7 @@ describe('Panel', () => {
                 method: RequestMethod.NONE,
               },
               elementValueChanged: `
-                context.panel.toggleSection("section1");
+                context.panel.sectionsUtils.toggle("section1");
               `,
               layout: {
                 variant: LayoutVariant.SPLIT,
