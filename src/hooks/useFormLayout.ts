@@ -246,7 +246,7 @@ export const useFormLayout = ({
         if (elementToUpdate) {
           return {
             ...element,
-            section: name,
+            section: id,
           };
         }
         return element;
@@ -286,7 +286,7 @@ export const useFormLayout = ({
         if (elementToUpdate) {
           return {
             ...element,
-            section: section.name,
+            section: section.id,
           };
         }
         return element;
@@ -329,14 +329,15 @@ export const useFormLayout = ({
 
       if (!section) {
         return {
-          section: null,
+          id: null,
+          name: null,
           elements: [],
         };
       }
       const currentElements = elementsRef.current;
       const sectionElements = currentElements.filter((curElement) => curElement.section === section.name);
       return {
-        section: section,
+        ...section,
         elements: sectionElements,
       };
     },
@@ -353,7 +354,7 @@ export const useFormLayout = ({
       const currentElements = elementsRef.current;
       const sectionElements = currentElements.filter((curElement) => curElement.section === section.name);
       return {
-        section: section,
+        ...section,
         elements: sectionElements,
       };
     });

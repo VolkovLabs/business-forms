@@ -91,7 +91,7 @@ export interface FormElementBase {
   tooltip: string;
 
   /**
-   * Section's Name
+   * Section's Id
    *
    * @type {string}
    */
