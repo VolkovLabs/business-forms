@@ -40,8 +40,8 @@ import { useFormLayout, useMutableState } from '@/hooks';
 import {
   ButtonVariant,
   FormElement,
-  LayoutSection,
   FormElementType,
+  LayoutSection,
   LocalFormElement,
   ModalColumnName,
   PanelOptions,
