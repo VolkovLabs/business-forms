@@ -8,6 +8,7 @@
 - Added HTML, Markdown to supported Code Editor languages (#543)
 - Updated options to use datasource ID instead of name (#539)
 - Updated E2E tests (#538)
+- Updated refresh function in the Update Request (#547)
 
 ## 4.8.0 (2024-10-25)
 
