@@ -45,7 +45,6 @@ import {
   SUBMIT_BUTTON_DEFAULT,
   UPDATE_CODE_DEFAULT,
   UPDATE_ENABLED_OPTIONS,
-  UPDATE_PAYLOAD_DEFAULT,
   UPDATE_REQUEST_METHOD_OPTIONS,
 } from './constants';
 import { getMigratedOptions } from './migration';
@@ -464,7 +463,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
           type: CodeEditorType.GET_PAYLOAD,
           variablesSuggestions: true,
         },
-        defaultValue: UPDATE_PAYLOAD_DEFAULT,
+        defaultValue: '',
         showIf: (config) => isRequestConfigured(config.update) && config.update.payloadMode === PayloadMode.CUSTOM,
       })
       .addCustomEditor({
@@ -477,7 +476,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         settings: {
           datasourceKey: 'update.datasource',
         },
-        defaultValue: UPDATE_PAYLOAD_DEFAULT,
+        defaultValue: '',
         showIf: (config) =>
           isRequestConfigured(config.update) &&
           config.update.method === RequestMethod.DATASOURCE &&
