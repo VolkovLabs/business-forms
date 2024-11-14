@@ -54,6 +54,18 @@ export const RESET_CODE_DEFAULT = `console.log(context.panel.data, context.panel
 export const INITIAL_PAYLOAD_DEFAULT = `return {}`;
 
 /**
+ * Update Payload
+ */
+export const UPDATE_PAYLOAD_DEFAULT = `const payload = {};
+context.panel.elements.forEach((element) => {
+  if (!element.value) {
+    return;
+  }
+  payload[element.id] = element.value;
+})
+return payload;`;
+
+/**
  * Initial Request
  */
 export const INITIAL_HIGHLIGHT_COLOR_DEFAULT = 'red';
