@@ -989,7 +989,7 @@ describe('Panel', () => {
                 initial: {
                   method: RequestMethod.NONE,
                   code: `
-                    const section = context.panel.sectionsUtils.get('section12'); context.grafana.notifySuccess(['Sections',section.id]);
+                    const section = context.panel.sectionsUtils.get('section12'); context.grafana.notifySuccess(['Sections', section]);
                   `,
                 },
                 layout: {
@@ -1005,7 +1005,7 @@ describe('Panel', () => {
 
         expect(appEventsMock.publish).toHaveBeenCalledWith({
           type: AppEvents.alertSuccess.name,
-          payload: ['Sections', null],
+          payload: ['Sections', undefined],
         });
       });
     });

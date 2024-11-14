@@ -74,10 +74,10 @@
     "start:main": "docker compose pull grafana-main && docker compose --profile main up",
     "stop": "docker compose down",
     "test": "jest --watch --onlyChanged",
+    "test:ci": "jest --maxWorkers 4 --coverage",
     "test:e2e": "npx playwright test",
     "test:e2e:dev": "npx playwright test --ui",
     "test:e2e:docker": "docker compose --profile e2e up --exit-code-from test",
-    "test:ci": "jest --maxWorkers 4 --coverage",
     "upgrade": "npm upgrade --save"
   },
   "version": "4.9.0"

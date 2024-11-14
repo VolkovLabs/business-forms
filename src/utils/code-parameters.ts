@@ -3,8 +3,47 @@ import { BackendSrv, FetchResponse, LocationService, TemplateSrv, toDataQueryRes
 import { CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { CodeParameterItem, CodeParametersBuilder } from '@volkovlabs/components';
 
-import { FormElement, LayoutSection, LocalFormElement, PanelOptions } from '../types';
+import { FormElement, LayoutSection, LayoutSectionWithElements, LocalFormElement, PanelOptions } from '@/types';
+
 import { fileToBase64 } from './request';
+
+/**
+ * Sections Utils
+ */
+const sectionsUtils = {
+  detail: 'Section Helpers',
+  items: {
+    add: new CodeParameterItem<({ name, id, elements }: { name: string; id: string; elements: string[] }) => void>(
+      'Add new Section',
+      CodeEditorSuggestionItemKind.Method
+    ),
+    update: new CodeParameterItem<(sections: LayoutSection[]) => void>(
+      'Change sections',
+      CodeEditorSuggestionItemKind.Method
+    ),
+    remove: new CodeParameterItem<(id: string) => void>('Remove section', CodeEditorSuggestionItemKind.Method),
+    assign: new CodeParameterItem<(id: string, elements: string[]) => void>(
+      'Assign elements to section',
+      CodeEditorSuggestionItemKind.Method
+    ),
+    unassign: new CodeParameterItem<(elements: string[]) => void>(
+      'Unassign elements from section',
+      CodeEditorSuggestionItemKind.Method
+    ),
+    get: new CodeParameterItem<(id: string) => LayoutSectionWithElements | undefined>(
+      'Get section',
+      CodeEditorSuggestionItemKind.Method
+    ),
+    getAll: new CodeParameterItem<() => LayoutSectionWithElements[]>(
+      'Get all sections',
+      CodeEditorSuggestionItemKind.Method
+    ),
+    toggle: new CodeParameterItem<(id: string) => void>('Toggle section', CodeEditorSuggestionItemKind.Method),
+    collapse: new CodeParameterItem<(id: string) => void>('Collapse section', CodeEditorSuggestionItemKind.Method),
+    expand: new CodeParameterItem<(id: string) => void>('Expand section', CodeEditorSuggestionItemKind.Method),
+    expandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
+  },
+};
 
 /**
  * Request Code Parameters
@@ -52,36 +91,7 @@ export const requestCodeParameters = new CodeParametersBuilder({
         response: new CodeParameterItem<FetchResponse | Response | DataQueryResponse | null | undefined>(
           'Response object.'
         ),
-        sectionsUtils: {
-          detail: 'Section Helpers',
-          items: {
-            add: new CodeParameterItem<
-              ({ name, id, elements }: { name: string; id: string; elements: string[] }) => void
-            >('Add new Section', CodeEditorSuggestionItemKind.Method),
-            update: new CodeParameterItem<(sections: LayoutSection[]) => void>(
-              'Change sections',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            remove: new CodeParameterItem<(id: string) => void>('Remove section', CodeEditorSuggestionItemKind.Method),
-            assign: new CodeParameterItem<(id: string, elements: string[]) => void>(
-              'Assign elements to section',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            unassign: new CodeParameterItem<(elements: string[]) => void>(
-              'Unassign elements from section',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            get: new CodeParameterItem<(id: string) => void>('Get section', CodeEditorSuggestionItemKind.Method),
-            getAll: new CodeParameterItem<() => void>('Get all sections', CodeEditorSuggestionItemKind.Method),
-            toggle: new CodeParameterItem<(id: string) => void>('Toggle section', CodeEditorSuggestionItemKind.Method),
-            collapse: new CodeParameterItem<(id: string) => void>(
-              'Collapse section',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            expand: new CodeParameterItem<(id: string) => void>('Expand section', CodeEditorSuggestionItemKind.Method),
-            expandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-          },
-        },
+        sectionsUtils,
       },
     },
     grafana: {
@@ -176,36 +186,7 @@ export const elementValueChangedCodeParameters = new CodeParametersBuilder({
           'Disable save default button.',
           CodeEditorSuggestionItemKind.Method
         ),
-        sectionsUtils: {
-          detail: 'Section Helpers',
-          items: {
-            add: new CodeParameterItem<
-              ({ name, id, elements }: { name: string; id: string; elements: string[] }) => void
-            >('Add new Section', CodeEditorSuggestionItemKind.Method),
-            update: new CodeParameterItem<(sections: LayoutSection[]) => void>(
-              'Change sections',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            remove: new CodeParameterItem<(id: string) => void>('Remove section', CodeEditorSuggestionItemKind.Method),
-            assign: new CodeParameterItem<(id: string, elements: string[]) => void>(
-              'Assign elements to section',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            unassign: new CodeParameterItem<(elements: string[]) => void>(
-              'Unassign elements from section',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            get: new CodeParameterItem<(id: string) => void>('Get section', CodeEditorSuggestionItemKind.Method),
-            getAll: new CodeParameterItem<() => void>('Get all sections', CodeEditorSuggestionItemKind.Method),
-            toggle: new CodeParameterItem<(id: string) => void>('Toggle section', CodeEditorSuggestionItemKind.Method),
-            collapse: new CodeParameterItem<(id: string) => void>(
-              'Collapse section',
-              CodeEditorSuggestionItemKind.Method
-            ),
-            expand: new CodeParameterItem<(id: string) => void>('Expand section', CodeEditorSuggestionItemKind.Method),
-            expandedState: new CodeParameterItem<Record<string, boolean>>('Sections Expanded State'),
-          },
-        },
+        sectionsUtils,
       },
     },
     grafana: {

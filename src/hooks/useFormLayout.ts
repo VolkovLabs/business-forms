@@ -1,7 +1,7 @@
 import { EventBusSrv, SelectableValue } from '@grafana/data';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FormElement, LayoutSection, LocalFormElement } from '../types';
+import { FormElement, LayoutSection, LayoutSectionWithElements, LocalFormElement } from '../types';
 import {
   convertElementsToPayload,
   isElementConflict,
@@ -323,17 +323,14 @@ export const useFormLayout = ({
    * Get Section
    */
   const getSection = useCallback(
-    (id: string) => {
+    (id: string): LayoutSectionWithElements | undefined => {
       const sections = sectionsRef.current;
       const section = sections.find((section) => section.id === id);
 
       if (!section) {
-        return {
-          id: null,
-          name: null,
-          elements: [],
-        };
+        return;
       }
+
       const currentElements = elementsRef.current;
       const sectionElements = currentElements.filter((curElement) => curElement.section === section.name);
       return {
@@ -347,10 +344,10 @@ export const useFormLayout = ({
   /**
    * Get Section
    */
-  const getAllSections = useCallback(() => {
+  const getAllSections = useCallback((): LayoutSectionWithElements[] => {
     const sections = sectionsRef.current;
 
-    return sections.map((section) => {
+    return sections.map((section): LayoutSectionWithElements => {
       const currentElements = elementsRef.current;
       const sectionElements = currentElements.filter((curElement) => curElement.section === section.name);
       return {
