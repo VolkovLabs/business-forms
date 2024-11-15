@@ -10,6 +10,7 @@
 - Updated E2E tests (#538)
 - Updated refresh function in the Update Request (#547)
 - Added functionality for updating sections dynamically (#542)
+- Removed default payload from Update Request (#550)
 
 ## 4.8.0 (2024-10-25)
 
