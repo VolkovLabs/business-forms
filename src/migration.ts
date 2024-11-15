@@ -139,6 +139,46 @@ const normalizeCodeOptions = (code: string | undefined): string => {
 };
 
 /**
+ * Normalize Code Options
+ */
+const normalizeCodeOptionsWithSections = (code: string | undefined): string => {
+  if (!code) {
+    return '';
+  }
+
+  const search = /context\.panel\.(toggleSection|collapseSection|expandSection|sectionsExpandedState)\s*\(?.*?\)?/g;
+
+  return code
+    .split(' ')
+    .map((part) => {
+      return part.replace(search, (value, ...args) => {
+        const searchTerm = args[0] || value;
+
+        return value.replace(searchTerm, (valueToReplace) => {
+          switch (valueToReplace) {
+            case 'toggleSection': {
+              return 'sectionsUtils.toggle';
+            }
+            case 'collapseSection': {
+              return 'sectionsUtils.collapse';
+            }
+            case 'expandSection': {
+              return 'sectionsUtils.expand';
+            }
+            case 'sectionsExpandedState': {
+              return 'sectionsUtils.expandedState';
+            }
+            default: {
+              return value;
+            }
+          }
+        });
+      });
+    })
+    .join(' ');
+};
+
+/**
  * Normalize Payload Options
  *
  * @param obj
@@ -288,7 +328,7 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   }
 
   /**
-   * Normalize datasource property
+   * Normalize 4.9.0
    */
   if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.9.0')) {
     const dataSources: DataSourceApi[] = await fetchData();
@@ -310,6 +350,11 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         datasource: normalizeDatasourceOptions(dataSources, options.resetAction?.datasource),
       };
     }
+
+    set(options, 'initial.code', normalizeCodeOptionsWithSections(options.initial?.code));
+    set(options, 'resetAction.code', normalizeCodeOptionsWithSections(options.resetAction?.code));
+    set(options, 'update.code', normalizeCodeOptionsWithSections(options.update?.code));
+    set(options, 'elementValueChanged', normalizeCodeOptionsWithSections(options.elementValueChanged));
   }
 
   return options as PanelOptions;

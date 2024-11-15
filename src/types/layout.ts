@@ -1,4 +1,5 @@
-import { LayoutOrientation, LayoutVariant, SectionVariant } from '../constants';
+import { LayoutOrientation, LayoutVariant, SectionVariant } from '@/constants';
+import { LocalFormElement } from '@/types/form-element';
 
 /**
  * Layout Section
@@ -25,6 +26,11 @@ export interface LayoutSection {
    */
   expanded?: boolean;
 }
+
+/**
+ * Layout Section With Elements
+ */
+export type LayoutSectionWithElements = LayoutSection & { elements: LocalFormElement[] };
 
 /**
  * Layout Options

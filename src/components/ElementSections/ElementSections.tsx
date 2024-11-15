@@ -5,7 +5,7 @@ import { CollapsableSection } from '@volkovlabs/components';
 import React from 'react';
 
 import { LayoutOrientation, SectionVariant, TEST_IDS } from '../../constants';
-import { ExecuteCustomCodeParams, LocalFormElement, PanelOptions } from '../../types';
+import { ExecuteCustomCodeParams, LayoutSection, LocalFormElement, PanelOptions } from '../../types';
 import { FormElements } from '../FormElements';
 import { getStyles } from './ElementSections.styles';
 
@@ -71,6 +71,13 @@ interface Props {
    * @type {string}
    */
   timeZone: string;
+
+  /**
+   * Sections
+   *
+   * @type {string}
+   */
+  sections: LayoutSection[];
 }
 
 /**
@@ -87,6 +94,7 @@ export const ElementSections: React.FC<Props> = ({
   onChangeSectionExpandedState,
   executeCustomCode,
   timeZone,
+  sections,
 }) => {
   /**
    * Theme and Styles
@@ -100,7 +108,7 @@ export const ElementSections: React.FC<Props> = ({
         vertical: options.layout.orientation === LayoutOrientation.VERTICAL,
       })}
     >
-      {options.layout?.sections?.map((section, id) => {
+      {sections?.map((section, id) => {
         const isOpen = sectionsExpandedState[section.id];
 
         const renderContainer = (children: React.ReactNode) => {
