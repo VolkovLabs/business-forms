@@ -477,7 +477,7 @@ export const plugin = new PanelPlugin<PanelOptions>(FormPanel)
         settings: {
           datasourceKey: 'update.datasource',
         },
-        defaultValue: UPDATE_PAYLOAD_DEFAULT,
+        defaultValue: {},
         showIf: (config) =>
           isRequestConfigured(config.update) &&
           config.update.method === RequestMethod.DATASOURCE &&
