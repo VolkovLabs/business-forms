@@ -29,8 +29,10 @@ You can install the Business Forms panel from the [Grafana Plugins catalog](http
 For the latter, please use the following command:
 
 ```bash
-grafana-cli plugins install volkovlabs-form-panel
+grafana cli plugins install volkovlabs-form-panel
 ```
+
+[![Install Business Suite plugins in Cloud, OSS, Enterprise | Open source community plugins](https://raw.githubusercontent.com/volkovlabs/.github/main/started.png)](https://youtu.be/1qYzHfPXJF8)
 
 ## Highlights
 
