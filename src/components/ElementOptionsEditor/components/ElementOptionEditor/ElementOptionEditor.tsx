@@ -10,7 +10,7 @@ import { FormElementType } from '@/types';
  */
 interface Props {
   /**
-   * Options
+   * Option
    */
   option: SelectableValue;
 

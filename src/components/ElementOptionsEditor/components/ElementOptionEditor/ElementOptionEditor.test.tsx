@@ -7,7 +7,7 @@ import { getFormElementsEditorSelectors } from '@/utils';
 import { ElementOptionEditor } from './ElementOptionEditor';
 
 /**
- * Form Elements Editor
+ * Element option editor
  */
 describe('Element Option Editor', () => {
   const onChange = jest.fn();
@@ -19,8 +19,7 @@ describe('Element Option Editor', () => {
 
   /**
    * Get Tested Component
-   * @param value
-   * @param context
+   * @param option
    * @param restProps
    */
   const getComponent = ({ option = {}, ...restProps }: any) => {
