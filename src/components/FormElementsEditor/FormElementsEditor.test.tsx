@@ -2079,6 +2079,32 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.optionLabel(false, option2.id)).toBeInTheDocument();
     });
 
+    it('Should toggle option visibility', async () => {
+      const option1 = { label: 'label', type: FormElementType.STRING, value: '111', id: '111' };
+      const element = {
+        ...FORM_ELEMENT_DEFAULT,
+        id: 'select',
+        type: FormElementType.SELECT,
+        options: [option1],
+      };
+      const elements = [element];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open select element
+       */
+      const elementSelectors = openElement(element.id, element.type);
+      expect(elementSelectors.optionLabel(false, option1.id)).toBeInTheDocument();
+      expect(elementSelectors.fieldOptionType(false)).toBeInTheDocument();
+
+      /**
+       * Toggle option visibility
+       */
+      await act(() => fireEvent.click(elementSelectors.optionLabel(false, option1.id)));
+      expect(elementSelectors.fieldOptionType(true)).not.toBeInTheDocument();
+    });
+
     /**
      * Option order
      */
