@@ -38,6 +38,7 @@ export const TEST_IDS = {
     fieldNumber: 'data-testid form-elements field-number',
     fieldString: 'data-testid form-elements field-string',
     fieldFile: 'data-testid form-elements field-file',
+    fieldColorPicker: 'data-testid form-elements field-color-picker',
     fieldPassword: 'data-testid form-elements field-password',
     fieldDisabled: 'data-testid form-elements field-disabled',
     fieldTextarea: 'data-testid form-elements field-textarea',
@@ -139,6 +140,7 @@ export const TEST_IDS = {
     fieldGetOptions: 'form-elements-editor field-get-options',
     fileMultipleOption: (name: unknown) => `form-elements-editor file-multiple-option-${name}`,
     optionsCustomValues: (value: unknown) => `form-elements-editor options-source-option-${value}`,
+    optionsColorFormat: (value: unknown) => `form-elements-editor options-color-format-option-${value}`,
   },
   formElementsSection: {
     sectionContent: (id: string, name: string) => `data-testid form-elements-section section-content-${id}-${name}`,

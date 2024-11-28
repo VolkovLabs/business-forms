@@ -2,7 +2,7 @@ import { DataQueryResponse, IconName, InterpolateFunction, PanelData, Selectable
 import { FetchResponse } from '@grafana/runtime';
 
 import { OptionsSource } from '../constants';
-import { ButtonSize, ButtonVariant, CodeLanguage } from '../types';
+import { ButtonSize, ButtonVariant, CodeLanguage, ColorFormat } from '../types';
 
 /**
  * Form Element Type
@@ -10,6 +10,7 @@ import { ButtonSize, ButtonVariant, CodeLanguage } from '../types';
 export const enum FormElementType {
   BOOLEAN = 'boolean',
   CODE = 'code',
+  COLOR_PICKER = 'colorPicker',
   BUTTON = 'button',
   DATE = 'date',
   DATETIME = 'datetime',
@@ -204,6 +205,32 @@ export interface CodeOptions {
    * @type {string}
    */
   value: string;
+}
+
+/**
+ * Color Picker Options
+ */
+export interface ColorPickerOptions {
+  /**
+   * Hidden
+   *
+   * @type {boolean}
+   */
+  hidden: boolean;
+
+  /**
+   * Value
+   *
+   * @type {string}
+   */
+  value: string;
+
+  /**
+   * Color Format
+   *
+   * @type {ColorFormat}
+   */
+  colorFormat: ColorFormat;
 }
 
 /**
@@ -579,6 +606,7 @@ export type FormElement = FormElementBase &
   (
     | ({ type: FormElementType.STRING } & StringOptions)
     | ({ type: FormElementType.CODE } & CodeOptions)
+    | ({ type: FormElementType.COLOR_PICKER } & ColorPickerOptions)
     | ({ type: FormElementType.SLIDER } & SliderOptions)
     | ({ type: FormElementType.NUMBER } & NumberOptions)
     | ({ type: FormElementType.TEXTAREA } & TextareaOptions)

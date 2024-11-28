@@ -10,6 +10,7 @@ import {
   BooleanElement,
   CheckboxListElement,
   CodeElement,
+  ColorElement,
   CustomButtonElement,
   DateTimeElement,
   DisabledElement,
@@ -167,6 +168,9 @@ export const FormElement: React.FC<Props> = ({
           );
         }
         return <></>;
+      }
+      case FormElementType.COLOR_PICKER: {
+        return <ColorElement element={element} onChange={onChange} />;
       }
       default: {
         return <></>;

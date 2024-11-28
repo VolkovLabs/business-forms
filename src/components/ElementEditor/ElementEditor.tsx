@@ -18,6 +18,7 @@ import {
   BOOLEAN_OPTIONS,
   CODE_EDITOR_SUGGESTIONS,
   CODE_LANGUAGE_OPTIONS,
+  COLOR_FORMAT_OPTIONS,
   CUSTOM_BUTTON_SIZE_OPTIONS,
   CUSTOM_BUTTON_VARIANT_OPTIONS,
   CUSTOM_VALUE_OPTIONS,
@@ -585,6 +586,21 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
             />
           </InlineField>
         </InlineFieldRow>
+      )}
+
+      {isFormElementType(element, FormElementType.COLOR_PICKER) && (
+        <InlineField label="Returned color format" labelWidth={14}>
+          <RadioButtonGroup
+            options={COLOR_FORMAT_OPTIONS}
+            value={element.colorFormat}
+            onChange={(value) => {
+              onChange({
+                ...element,
+                colorFormat: value,
+              });
+            }}
+          />
+        </InlineField>
       )}
 
       {(isFormElementType(element, FormElementType.RADIO) ||

@@ -1,6 +1,7 @@
 export * from './BooleanElement';
 export * from './CheckboxListElement';
 export * from './CodeElement';
+export * from './ColorElement';
 export * from './CustomButtonElement';
 export * from './DateTimeElement';
 export * from './DisabledElement';
