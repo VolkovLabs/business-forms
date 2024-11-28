@@ -1,18 +1,10 @@
-import { toDataFrame } from '@grafana/data';
-import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { FormElementType } from '@/types';
 import { getFormElementsEditorSelectors } from '@/utils';
 
 import { ElementOptionEditor } from './ElementOptionEditor';
-import { FormElementType } from '@/types';
-import { FORM_ELEMENT_DEFAULT } from '@/constants';
-
-/**
- * Mock timers
- */
-jest.useFakeTimers();
 
 /**
  * Form Elements Editor
