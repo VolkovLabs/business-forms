@@ -467,12 +467,17 @@ export const convertToElementValue = (
   value: unknown
 ): FormElementByType<LocalFormElement, typeof element.type> => {
   switch (element.type) {
+    case FormElementType.CODE:
+    case FormElementType.TEXTAREA: {
+      return {
+        ...element,
+        value: typeof value === 'string' ? value.replaceAll('\n', '\\n') : (value?.toString() ?? ''),
+      };
+    }
     case FormElementType.STRING:
     case FormElementType.DISABLED_TEXTAREA:
-    case FormElementType.CODE:
     case FormElementType.PASSWORD:
     case FormElementType.SECRET:
-    case FormElementType.TEXTAREA:
     case FormElementType.BUTTON:
     case FormElementType.LINK: {
       return {
