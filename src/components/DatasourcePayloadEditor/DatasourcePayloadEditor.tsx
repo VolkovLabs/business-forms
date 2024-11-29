@@ -1,5 +1,5 @@
 import { DataSourceApi, StandardEditorProps } from '@grafana/data';
-import { getDataSourceSrv } from '@grafana/runtime';
+import { getDataSourceSrv, getTemplateSrv } from '@grafana/runtime';
 import { DataQuery } from '@grafana/schema';
 import { Alert, LoadingPlaceholder } from '@grafana/ui';
 import { get } from 'lodash';
@@ -23,6 +23,11 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
    */
   const dataSourceService = getDataSourceSrv();
 
+  /**
+   * Template Service
+   */
+  const templateService = getTemplateSrv();
+  console.log('console > templateService', templateService);
   /**
    * Data Source
    */
@@ -61,31 +66,45 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
    * Load Query Editor
    */
   useEffect(() => {
-    const datasourceUid = get(context.options, item.settings?.datasourceKey || '');
+    const datasourceUid = templateService.replace(get(context.options, item.settings?.datasourceKey || ''));
 
-    const getDataSource = async () => {
+    const getDataSource = async (datasourceUid: string) => {
       setIsLoading(true);
 
       const ds = await dataSourceService.get(datasourceUid);
 
-      setDatasource(ds);
       setIsLoading(false);
+
+      return ds;
     };
 
-    /**
-     * Reset query if new datasource
-     */
-    if (datasource && datasource.uid !== datasourceUid) {
-      onChangeQuery({});
-    }
+    const checkDatasourceType = async () => {
+      const loadedDatasource = datasource;
+      const replacedDatasourceUid = templateService.replace(datasourceUid);
 
-    /**
-     * Load data source
-     */
-    if (datasourceUid && (!datasource || datasource.uid !== datasourceUid)) {
-      getDataSource();
-    }
-  }, [context.options, dataSourceService, datasource, item.settings?.datasourceKey, onChangeQuery]);
+      /**
+       * Reset query if new datasource type
+       */
+      if (loadedDatasource && loadedDatasource.uid !== replacedDatasourceUid) {
+        const currentDatasource = await getDataSource(replacedDatasourceUid);
+
+        if (loadedDatasource.type !== currentDatasource.type) {
+          onChangeQuery({});
+        }
+
+        setDatasource(currentDatasource);
+      }
+
+      /**
+       * Load data source
+       */
+      if (replacedDatasourceUid && !datasource) {
+        setDatasource(await getDataSource(replacedDatasourceUid));
+      }
+    };
+
+    checkDatasourceType();
+  }, [context.options, dataSourceService, datasource, item.settings?.datasourceKey, onChangeQuery, templateService]);
 
   /**
    * Auto Save Timer

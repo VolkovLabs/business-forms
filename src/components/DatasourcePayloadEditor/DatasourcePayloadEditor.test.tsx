@@ -1,4 +1,4 @@
-import { getDataSourceSrv } from '@grafana/runtime';
+import { getDataSourceSrv, getTemplateSrv } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
@@ -21,6 +21,7 @@ jest.useFakeTimers();
  */
 jest.mock('@grafana/runtime', () => ({
   getDataSourceSrv: jest.fn(),
+  getTemplateSrv: jest.fn(),
 }));
 
 /**
@@ -49,6 +50,9 @@ describe('DatasourcePayloadEditor', () => {
 
   beforeEach(() => {
     jest.mocked(getDataSourceSrv).mockReset();
+    jest.mocked(getTemplateSrv).mockReturnValue({
+      replace: jest.fn((str) => str),
+    } as never);
   });
 
   it('Should show loading message', async () => {
@@ -164,7 +168,7 @@ describe('DatasourcePayloadEditor', () => {
     });
   });
 
-  it('Should clear query if different data source', async () => {
+  it('Should not clear query if the same datasource', async () => {
     /**
      * Data Source Mock
      */
@@ -229,6 +233,129 @@ describe('DatasourcePayloadEditor', () => {
       get: jest.fn(() => ({
         name: 'nameDS',
         uid: 'postgres1',
+        components: {
+          QueryEditor: jest.fn(({ onChange, query }) => (
+            <input
+              data-testid={InTestIds.queryEditor}
+              value={query?.name || ''}
+              onChange={(event) =>
+                onChange({
+                  name: event.target.value,
+                })
+              }
+            />
+          )),
+        },
+      })),
+    } as any);
+
+    /**
+     * Rerender with new datasource
+     */
+    await act(async () =>
+      rerender(
+        getComponent({
+          context: {
+            options: {
+              datasource: 'postgres1',
+            },
+          } as any,
+          item: {
+            settings: {
+              datasourceKey: 'datasource',
+            },
+          } as any,
+          onChange,
+          value: {
+            name: 'hello',
+          },
+        })
+      )
+    );
+
+    /**
+     * Check if value reset
+     */
+    expect(selectors.queryEditor()).toHaveValue('hello');
+
+    /**
+     * Run auto save timer
+     */
+    await act(async () => jest.runOnlyPendingTimersAsync());
+
+    /**
+     * Check if saved
+     */
+    expect(onChange).not.toHaveBeenCalledWith({});
+  });
+
+  it('Should clear query if different data source', async () => {
+    /**
+     * Data Source Mock
+     */
+    const dataSourceSrv = {
+      get: jest.fn(() => ({
+        name: 'nameDS',
+        type: 'postgres-1',
+        uid: 'postgres',
+        components: {
+          QueryEditor: jest.fn(({ onChange, query }) => (
+            <input
+              data-testid={InTestIds.queryEditor}
+              value={query?.name || ''}
+              onChange={(event) =>
+                onChange({
+                  name: event.target.value,
+                })
+              }
+            />
+          )),
+        },
+      })),
+    };
+    jest.mocked(getDataSourceSrv).mockReturnValue(dataSourceSrv as any);
+
+    /**
+     * On Change
+     */
+    const onChange = jest.fn();
+
+    const { rerender } = await act(async () =>
+      render(
+        getComponent({
+          context: {
+            options: {
+              datasource: 'postgres',
+            },
+          } as any,
+          item: {
+            settings: {
+              datasourceKey: 'datasource',
+            },
+          } as any,
+          onChange,
+          value: {
+            name: 'hello',
+          },
+        })
+      )
+    );
+
+    expect(selectors.queryEditor()).toBeInTheDocument();
+
+    /**
+     * Check if value reset
+     */
+    expect(selectors.queryEditor()).toHaveValue('hello');
+
+    /**
+     * Data Source Mock
+     */
+    jest.mocked(getDataSourceSrv).mockReturnValue({
+      get: jest.fn(() => ({
+        name: 'nameDS',
+        uid: 'postgres1',
+        type: 'postgres-1-new',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
