@@ -27,7 +27,7 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
    * Template Service
    */
   const templateService = getTemplateSrv();
-  console.log('console > templateService', templateService);
+
   /**
    * Data Source
    */
