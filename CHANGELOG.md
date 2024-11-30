@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.0.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Update change value behavior for custom option (#562)
+
 ## 4.9.0 (2024-11-16)
 
 ### Features / Enhancements
