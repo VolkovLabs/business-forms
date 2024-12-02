@@ -1,6 +1,7 @@
 import { getTemplateSrv } from '@grafana/runtime';
-import { CodeEditor, CodeEditorSuggestionItemKind } from '@grafana/ui';
+import { CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { render, screen } from '@testing-library/react';
+import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useEffect } from 'react';
 
 import { CODE_EDITOR_SUGGESTIONS } from '@/constants';
@@ -14,6 +15,14 @@ import { CustomCodeEditor } from './CustomCodeEditor';
  */
 jest.mock('@grafana/runtime', () => ({
   getTemplateSrv: jest.fn(),
+}));
+
+/**
+ * Mock @volkovlabs/components
+ */
+jest.mock('@volkovlabs/components', () => ({
+  ...jest.requireActual('@volkovlabs/components'),
+  AutosizeCodeEditor: jest.fn().mockImplementation(() => null),
 }));
 
 /**
@@ -51,7 +60,7 @@ describe('Custom Code Editor', () => {
   it('Should show mini map if value more than 100 symbols', () => {
     render(getComponent({ value: new Array(102).join('1') }));
 
-    expect(CodeEditor).toHaveBeenCalledWith(
+    expect(AutosizeCodeEditor).toHaveBeenCalledWith(
       expect.objectContaining({
         showMiniMap: true,
       }),
@@ -70,7 +79,7 @@ describe('Custom Code Editor', () => {
       })),
     };
 
-    jest.mocked(CodeEditor).mockImplementationOnce(({ onEditorDidMount }: any) => {
+    jest.mocked(AutosizeCodeEditor).mockImplementationOnce(({ onEditorDidMount }: any) => {
       useEffect(() => {
         onEditorDidMount(editor);
       }, [onEditorDidMount]);
@@ -86,7 +95,7 @@ describe('Custom Code Editor', () => {
     /**
      * Check if formatDocument is run
      */
-    expect(CodeEditor).toHaveBeenCalledWith(
+    expect(AutosizeCodeEditor).toHaveBeenCalledWith(
       expect.objectContaining({
         monacoOptions: {
           formatOnPaste: true,
@@ -107,7 +116,7 @@ describe('Custom Code Editor', () => {
     const value = 'some value';
     const onChange = jest.fn();
 
-    jest.mocked(CodeEditor).mockImplementationOnce(({ onBlur }: any) => {
+    jest.mocked(AutosizeCodeEditor).mockImplementationOnce(({ onBlur }: any) => {
       onBlur(value);
       return null;
     });
@@ -134,7 +143,7 @@ describe('Custom Code Editor', () => {
     const value = 'some value';
     const onChange = jest.fn();
 
-    jest.mocked(CodeEditor).mockImplementationOnce(({ onSave }: any) => {
+    jest.mocked(AutosizeCodeEditor).mockImplementationOnce(({ onSave }: any) => {
       onSave(value);
       return null;
     });
@@ -163,7 +172,7 @@ describe('Custom Code Editor', () => {
     const variableWithoutDescription = { name: 'var2', description: '', label: 'Var 2' };
     const variables = [variableWithDescription, variableWithoutDescription];
 
-    jest.mocked(CodeEditor).mockImplementationOnce(({ getSuggestions }: any) => {
+    jest.mocked(AutosizeCodeEditor).mockImplementationOnce(({ getSuggestions }: any) => {
       suggestionsResult = getSuggestions();
       return null;
     });
@@ -218,7 +227,7 @@ describe('Custom Code Editor', () => {
     const variableWithoutDescription = { name: 'var2', description: '', label: 'Var 2' };
     const variables = [variableWithDescription, variableWithoutDescription];
 
-    jest.mocked(CodeEditor).mockImplementationOnce(({ getSuggestions }: any) => {
+    jest.mocked(AutosizeCodeEditor).mockImplementationOnce(({ getSuggestions }: any) => {
       suggestionsResult = getSuggestions();
       return null;
     });
