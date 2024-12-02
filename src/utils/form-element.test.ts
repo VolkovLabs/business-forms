@@ -321,6 +321,102 @@ describe('Utils', () => {
           },
         ],
       },
+      {
+        name: 'Should convert value for code element',
+        element: {
+          type: FormElementType.CODE,
+        },
+        testCases: [
+          {
+            original: 'line1',
+            expected: 'line1',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for code element and replace new lines',
+        element: {
+          type: FormElementType.CODE,
+        },
+        testCases: [
+          {
+            original: 'line1\n',
+            expected: 'line1\\n',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for code element if none-string',
+        element: {
+          type: FormElementType.CODE,
+        },
+        testCases: [
+          {
+            original: 15,
+            expected: '15',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for code element if no value',
+        element: {
+          type: FormElementType.CODE,
+        },
+        testCases: [
+          {
+            original: '',
+            expected: '',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for code element if value is undefined',
+        element: {
+          type: FormElementType.CODE,
+        },
+        testCases: [
+          {
+            original: undefined,
+            expected: '',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for textarea element',
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        testCases: [
+          {
+            original: 'line1',
+            expected: 'line1',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for textarea element and replace new lines',
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        testCases: [
+          {
+            original: 'line1\n',
+            expected: 'line1\\n',
+          },
+        ],
+      },
+      {
+        name: 'Should convert value for textarea element if none-string',
+        element: {
+          type: FormElementType.TEXTAREA,
+        },
+        testCases: [
+          {
+            original: 15,
+            expected: '15',
+          },
+        ],
+      },
     ])('$name', ({ element, testCases }) => {
       testCases.forEach(({ original, expected }) => {
         expect(convertToElementValue(element as never, original)).toEqual({
