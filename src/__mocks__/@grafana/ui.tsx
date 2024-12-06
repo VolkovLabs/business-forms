@@ -60,6 +60,7 @@ const ColorPickerMock = ({ onChange, value, ...restProps }: any) => {
 };
 
 const ColorPicker = jest.fn(ColorPickerMock);
+const ColorPickerInput = jest.fn(ColorPickerMock);
 
 /**
  * Mock DatetimePicker component
@@ -238,6 +239,7 @@ beforeEach(() => {
   FileDropzone.mockImplementation(FileDropzoneMock);
   TimeOfDayPicker.mockImplementation(TimeOfDayPickerMock);
   ColorPicker.mockImplementation(ColorPickerMock);
+  ColorPickerInput.mockImplementation(ColorPickerMock);
   TextLink.mockImplementation(TextLinkMock);
   DatePickerWithInput.mockImplementation(DatePickerWithInputMock);
 });
@@ -247,6 +249,7 @@ module.exports = {
   useTheme2,
   CodeEditor,
   ColorPicker,
+  ColorPickerInput,
   DateTimePicker,
   Select,
   FileDropzone,

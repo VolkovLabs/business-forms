@@ -18,16 +18,20 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 7,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
       },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
-        "h": 16,
+        "h": 18,
         "w": 12,
         "x": 0,
         "y": 0
@@ -220,6 +224,32 @@
             "uid": "4722ca3f-aca3-4fb2-976c-71b3ddc31797",
             "unit": "",
             "value": []
+          },
+          {
+            "colorFormat": "rgb",
+            "hidden": false,
+            "id": "colorRGB",
+            "labelWidth": 10,
+            "section": "",
+            "title": "colorRGB",
+            "tooltip": "",
+            "type": "colorPicker",
+            "uid": "429a7a12-3450-433d-9011-6aa5dc3a83b6",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "colorFormat": "hex",
+            "hidden": false,
+            "id": "colorHEX",
+            "labelWidth": 10,
+            "section": "",
+            "title": "colorHEX",
+            "tooltip": "",
+            "type": "colorPicker",
+            "uid": "350488d4-cb02-4e36-bfe6-e642cb8bb85c",
+            "unit": "",
+            "value": ""
           }
         ],
         "height": 0,
@@ -297,7 +327,11 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Single Form",
       "type": "volkovlabs-form-panel"
     },
@@ -305,6 +339,10 @@
       "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -399,7 +437,11 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Empty URL",
       "type": "volkovlabs-form-panel"
     },
@@ -407,6 +449,10 @@
       "datasource": {
         "type": "datasource",
         "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 21,
@@ -557,13 +603,18 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Boxes",
       "type": "volkovlabs-form-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
@@ -572,7 +623,6 @@
           "text": "test",
           "value": "test"
         },
-        "hide": 0,
         "label": "Var",
         "name": "var",
         "options": [
@@ -583,7 +633,6 @@
           }
         ],
         "query": "test",
-        "skipUrlSync": false,
         "type": "textbox"
       }
     ]

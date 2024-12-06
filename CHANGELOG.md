@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Update change value behavior for custom option (#562)
+- Updated change value behavior for custom option (#562)
+- Added form-element of type color (#561)
 
 ## 4.9.0 (2024-11-16)
 

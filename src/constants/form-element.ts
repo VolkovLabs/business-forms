@@ -1,7 +1,7 @@
 import { SelectableValue } from '@grafana/data';
 import { getAvailableIcons } from '@grafana/ui';
 
-import { ButtonSize, ButtonVariant, CustomButtonShow, FormElementType, LinkTarget } from '../types';
+import { ButtonSize, ButtonVariant, ColorFormat, CustomButtonShow, FormElementType, LinkTarget } from '../types';
 import { TEST_IDS } from './tests';
 
 /**
@@ -15,6 +15,10 @@ export const FORM_ELEMENT_TYPE_OPTIONS: SelectableValue[] = [
   {
     value: FormElementType.CODE,
     label: 'Code Editor',
+  },
+  {
+    value: FormElementType.COLOR_PICKER,
+    label: 'Color',
   },
   {
     value: FormElementType.BUTTON,
@@ -303,5 +307,21 @@ export const CUSTOM_VALUE_OPTIONS = [
     value: false,
     ariaLabel: TEST_IDS.formElementsEditor.optionsCustomValues('Disallow'),
     icon: 'times',
+  },
+];
+
+/**
+ * Color Format Options
+ */
+export const COLOR_FORMAT_OPTIONS = [
+  {
+    label: 'HEX',
+    value: ColorFormat.HEX,
+    ariaLabel: TEST_IDS.formElementsEditor.optionsColorFormat(ColorFormat.HEX),
+  },
+  {
+    label: 'RGB',
+    value: ColorFormat.RGB,
+    ariaLabel: TEST_IDS.formElementsEditor.optionsColorFormat(ColorFormat.RGB),
   },
 ];

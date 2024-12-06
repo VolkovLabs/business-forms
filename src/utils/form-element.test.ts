@@ -931,6 +931,16 @@ describe('Utils', () => {
           type: FormElementType.PASSWORD,
         }),
       },
+      {
+        name: 'COLOR',
+        newType: FormElementType.COLOR_PICKER,
+        element: baseElement,
+        expected: expect.objectContaining({
+          uid: baseElement.uid,
+          id: baseElement.id,
+          type: FormElementType.COLOR_PICKER,
+        }),
+      },
     ])('$name', ({ element, newType, expected }) => {
       expect(getElementWithNewType(element as any, newType)).toEqual(expected);
     });
