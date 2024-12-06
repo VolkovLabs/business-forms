@@ -161,10 +161,6 @@ export const TEST_IDS = {
     root: 'data-testid layout-sections-editor',
     section: (name: string) => `data-testid layout-sections-editor section-${name}`,
   },
-  payloadEditor: {
-    loadingMessage: 'data-testid payload-editor loading-message',
-    errorMessage: 'data-testid payload-editor error-message',
-  },
   initialFieldsEditor: {
     root: 'data-testid initial-fields-editor',
     buttonSaveChanges: 'data-testid initial-fields-editor button-save-changes',
