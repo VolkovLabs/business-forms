@@ -14,7 +14,7 @@ import {
   SELECT_DEFAULT,
   SLIDER_DEFAULT,
 } from '@/constants';
-import { ButtonVariant, CodeLanguage, FormElementType, LinkTarget } from '@/types';
+import { ButtonVariant, CodeLanguage, ColorFormat, FormElementType, LinkTarget } from '@/types';
 import { getFormElementsEditorSelectors } from '@/utils';
 
 import { FormElementsEditor } from './FormElementsEditor';
@@ -1835,6 +1835,23 @@ describe('Form Elements Editor', () => {
       await act(() => fireEvent.blur(elementSelectors.fieldDisableIf(), { target: { value: '123' } }));
 
       expect(elementSelectors.fieldDisableIf()).toHaveValue('123');
+    });
+
+    it('Should update color format for color pickers', async () => {
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, type: FormElementType.COLOR_PICKER, id: 'color-picker' }];
+
+      render(getComponent({ value: elements, onChange }));
+
+      /**
+       * Open id element
+       */
+      const elementSelectors = openElement('color-picker', FormElementType.COLOR_PICKER);
+
+      expect(elementSelectors.optionsColorFormat(false, ColorFormat.HEX)).not.toBeChecked();
+
+      await act(() => fireEvent.click(elementSelectors.optionsColorFormat(false, ColorFormat.HEX)));
+
+      expect(elementSelectors.optionsColorFormat(false, ColorFormat.HEX)).toBeChecked();
     });
 
     describe('Apply default element options', () => {

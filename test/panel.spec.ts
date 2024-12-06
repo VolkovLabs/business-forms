@@ -44,6 +44,8 @@ test.describe('Data Manipulation Panel', () => {
       await elements.checkElementPresence('disabled', FormElementType.DISABLED);
       await elements.checkElementPresence('link', FormElementType.LINK);
       await elements.checkElementPresence('checkbox', FormElementType.CHECKBOX_LIST);
+      await elements.checkElementPresence('colorRGB', FormElementType.COLOR_PICKER);
+      await elements.checkElementPresence('colorHEX', FormElementType.COLOR_PICKER);
 
       const panelBoxes = new PanelHelper(dashboardPage, 'Boxes');
       await panelBoxes.checkIfNoErrors();

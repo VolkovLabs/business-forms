@@ -33,6 +33,14 @@ export enum CodeEditorType {
 }
 
 /**
+ * Color format
+ */
+export enum ColorFormat {
+  HEX = 'hex',
+  RGB = 'rgb',
+}
+
+/**
  * Code Editor Settings
  */
 export interface CodeEditorSettings {
