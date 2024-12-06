@@ -589,7 +589,7 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
       )}
 
       {isFormElementType(element, FormElementType.COLOR_PICKER) && (
-        <InlineField label="Returned color format" labelWidth={14}>
+        <InlineField label="Color format" labelWidth={12}>
           <RadioButtonGroup
             options={COLOR_FORMAT_OPTIONS}
             value={element.colorFormat}
