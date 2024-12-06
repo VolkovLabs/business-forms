@@ -85,7 +85,6 @@ export const FormPanel: React.FC<Props> = ({
   data,
   timeZone,
 }) => {
-  console.log('console >> options', options);
   /**
    * State
    */

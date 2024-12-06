@@ -19,7 +19,7 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
    * Template Service
    */
   const templateService = getTemplateSrv();
-
+  console.log('console >>> ', getTemplateSrv());
   /**
    * Datasource Uid
    */
@@ -32,7 +32,6 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ context, value, onCha
     <PayloadEditor
       value={value}
       onChange={(payload) => {
-        console.log('payload > payload', payload);
         onChange(payload);
       }}
       datasourceUid={datasourceUid}
