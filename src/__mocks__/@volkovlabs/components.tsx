@@ -45,7 +45,7 @@ interface Props extends Omit<React.ComponentProps<typeof Input>, 'onChange' | 'v
 /**
  * Number Input
  */
-const NumberInput: React.FC<Props> = ({ value, onChange, min, max, step, ...restProps }) => {
+const NumberInputMock: React.FC<Props> = ({ value, onChange, min, max, step, ...restProps }) => {
   /**
    * Number Value
    */
@@ -80,10 +80,43 @@ const NumberInput: React.FC<Props> = ({ value, onChange, min, max, step, ...rest
   return <Input {...restProps} type="number" value={numberValue} onChange={onSaveValue} />;
 };
 
+const NumberInput = jest.fn(NumberInputMock);
+
 const useDatasourceRequest = jest.fn();
+
+/**
+ * Mock DatasourcePayloadEditor
+ */
+const DatasourcePayloadEditorMock = ({ onChange, ...restProps }: any) => {
+  return (
+    <>
+      <input
+        data-testid="data-testid query-editor"
+        value={restProps.value}
+        onChange={(event) => {
+          if (onChange) {
+            onChange(event.target.value);
+          }
+        }}
+      />
+      <span data-testid="data-testid datasourceUID-key">{restProps.datasourceUid}</span>
+    </>
+  );
+};
+
+const DatasourcePayloadEditor = jest.fn(DatasourcePayloadEditorMock);
+
+/**
+ * Set mocks
+ */
+beforeEach(() => {
+  DatasourcePayloadEditor.mockImplementation(DatasourcePayloadEditorMock);
+  NumberInput.mockImplementation(NumberInputMock);
+});
 
 module.exports = {
   ...actual,
   NumberInput,
+  DatasourcePayloadEditor,
   useDatasourceRequest,
 };
