@@ -1,26 +1,20 @@
-import { getDataSourceSrv } from '@grafana/runtime';
+import { getDataSourceSrv, getTemplateSrv } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '../../constants';
 import { DatasourcePayloadEditor } from './DatasourcePayloadEditor';
-
 /**
  * Props
  */
 type Props = React.ComponentProps<typeof DatasourcePayloadEditor>;
 
 /**
- * Mock timers
- */
-jest.useFakeTimers();
-
-/**
  * Mock @grafana/runtime
  */
 jest.mock('@grafana/runtime', () => ({
   getDataSourceSrv: jest.fn(),
+  getTemplateSrv: jest.fn(),
 }));
 
 /**
@@ -28,6 +22,7 @@ jest.mock('@grafana/runtime', () => ({
  */
 const InTestIds = {
   queryEditor: 'data-testid query-editor',
+  datasourceUid: 'data-testid datasourceUID-key',
 };
 
 describe('DatasourcePayloadEditor', () => {
@@ -35,7 +30,6 @@ describe('DatasourcePayloadEditor', () => {
    * Selectors
    */
   const getSelectors = getJestSelectors({
-    ...TEST_IDS.payloadEditor,
     ...InTestIds,
   });
   const selectors = getSelectors(screen);
@@ -49,69 +43,12 @@ describe('DatasourcePayloadEditor', () => {
 
   beforeEach(() => {
     jest.mocked(getDataSourceSrv).mockReset();
+    jest.mocked(getTemplateSrv).mockReturnValue({
+      replace: jest.fn((str) => str),
+    } as never);
   });
 
-  it('Should show loading message', async () => {
-    await act(async () => render(getComponent({})));
-
-    expect(selectors.loadingMessage()).toBeInTheDocument();
-  });
-
-  it('Should show error message', async () => {
-    const dataSourceSrv = {
-      get: jest.fn(() => ({
-        name: 'nameDs',
-        uid: 'postgres',
-        components: {},
-      })),
-    };
-    jest.mocked(getDataSourceSrv).mockReturnValue(dataSourceSrv as any);
-
-    await act(async () =>
-      render(
-        getComponent({
-          context: {
-            options: {
-              datasource: 'postgres',
-            },
-          } as any,
-          item: {
-            settings: {
-              datasourceKey: 'datasource',
-            },
-          } as any,
-        })
-      )
-    );
-
-    expect(selectors.errorMessage()).toBeInTheDocument();
-  });
-
-  it('Should show query editor', async () => {
-    /**
-     * Data Source Mock
-     */
-    const dataSourceSrv = {
-      get: jest.fn(() => ({
-        name: 'nameDS',
-        uid: 'postgres',
-        components: {
-          QueryEditor: jest.fn(({ onChange, query }) => (
-            <input
-              data-testid={InTestIds.queryEditor}
-              value={query?.name || ''}
-              onChange={(event) =>
-                onChange({
-                  name: event.target.value,
-                })
-              }
-            />
-          )),
-        },
-      })),
-    };
-    jest.mocked(getDataSourceSrv).mockReturnValue(dataSourceSrv as any);
-
+  it('Should show component and pass correct uid', async () => {
     /**
      * On Change
      */
@@ -131,70 +68,22 @@ describe('DatasourcePayloadEditor', () => {
             },
           } as any,
           onChange,
-          value: {
-            name: 'bye',
-          },
+          value: 'payload',
         })
       )
     );
 
-    expect(selectors.queryEditor()).toBeInTheDocument();
-    expect(selectors.queryEditor()).toHaveValue('bye');
-
-    /**
-     * Change query
-     */
-    fireEvent.change(selectors.queryEditor(), { target: { value: 'hello' } });
-
-    /**
-     * Check updated value
-     */
-    expect(selectors.queryEditor()).toHaveValue('hello');
-
-    /**
-     * Run auto save timer
-     */
-    await act(async () => jest.runOnlyPendingTimersAsync());
-
-    /**
-     * Check if saved
-     */
-    expect(onChange).toHaveBeenCalledWith({
-      name: 'hello',
-    });
+    expect(selectors.datasourceUid()).toBeInTheDocument();
+    expect(selectors.datasourceUid()).toHaveTextContent('postgres');
   });
 
-  it('Should clear query if different data source', async () => {
-    /**
-     * Data Source Mock
-     */
-    const dataSourceSrv = {
-      get: jest.fn(() => ({
-        name: 'nameDS',
-        uid: 'postgres',
-        components: {
-          QueryEditor: jest.fn(({ onChange, query }) => (
-            <input
-              data-testid={InTestIds.queryEditor}
-              value={query?.name || ''}
-              onChange={(event) =>
-                onChange({
-                  name: event.target.value,
-                })
-              }
-            />
-          )),
-        },
-      })),
-    };
-    jest.mocked(getDataSourceSrv).mockReturnValue(dataSourceSrv as any);
-
+  it('Should show component and change payload', async () => {
     /**
      * On Change
      */
     const onChange = jest.fn();
 
-    const { rerender } = await act(async () =>
+    await act(async () =>
       render(
         getComponent({
           context: {
@@ -204,113 +93,19 @@ describe('DatasourcePayloadEditor', () => {
           } as any,
           item: {
             settings: {
-              datasourceKey: 'datasource',
+              datasourceKey: '',
             },
           } as any,
           onChange,
-          value: {
-            name: 'hello',
-          },
+          value: 'payload',
         })
       )
     );
 
     expect(selectors.queryEditor()).toBeInTheDocument();
+    expect(selectors.queryEditor()).toHaveValue('payload');
 
-    /**
-     * Check if value reset
-     */
-    expect(selectors.queryEditor()).toHaveValue('hello');
-
-    /**
-     * Data Source Mock
-     */
-    jest.mocked(getDataSourceSrv).mockReturnValue({
-      get: jest.fn(() => ({
-        name: 'nameDS',
-        uid: 'postgres1',
-        components: {
-          QueryEditor: jest.fn(({ onChange, query }) => (
-            <input
-              data-testid={InTestIds.queryEditor}
-              value={query?.name || ''}
-              onChange={(event) =>
-                onChange({
-                  name: event.target.value,
-                })
-              }
-            />
-          )),
-        },
-      })),
-    } as any);
-
-    /**
-     * Rerender with new datasource
-     */
-    await act(async () =>
-      rerender(
-        getComponent({
-          context: {
-            options: {
-              datasource: 'postgres1',
-            },
-          } as any,
-          item: {
-            settings: {
-              datasourceKey: 'datasource',
-            },
-          } as any,
-          onChange,
-          value: {
-            name: 'hello',
-          },
-        })
-      )
-    );
-
-    /**
-     * Check if value reset
-     */
-    expect(selectors.queryEditor()).toHaveValue('');
-
-    /**
-     * Run auto save timer
-     */
-    await act(async () => jest.runOnlyPendingTimersAsync());
-
-    /**
-     * Check if saved
-     */
-    expect(onChange).toHaveBeenCalledWith({});
-  });
-
-  it('Should show error if unable to get datasource', async () => {
-    /**
-     * Data Source Mock
-     */
-    const dataSourceSrv = {
-      get: jest.fn(() => null),
-    };
-    jest.mocked(getDataSourceSrv).mockReturnValue(dataSourceSrv as any);
-
-    await act(async () =>
-      render(
-        getComponent({
-          context: {
-            options: {
-              datasource: 'postgres',
-            },
-          } as any,
-          item: {
-            settings: {
-              datasourceKey: 'datasource',
-            },
-          } as any,
-        })
-      )
-    );
-
-    expect(selectors.errorMessage()).toBeInTheDocument();
+    fireEvent.change(selectors.queryEditor(), { target: { value: 'updated payload' } });
+    expect(onChange).toHaveBeenCalledWith('updated payload');
   });
 });

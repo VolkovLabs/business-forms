@@ -49,6 +49,24 @@ describe('Custom Code Editor', () => {
     return <CustomCodeEditor {...restProps} value={value} item={item} />;
   };
 
+  const defaultModel = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    setEOL: jest.fn(),
+  };
+
+  const defaultMonaco = {
+    editor: {
+      EndOfLineSequence: {
+        '0': 'LF',
+        '1': 'CRLF',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        LF: 0,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        CRLF: 1,
+      },
+    },
+  } as any;
+
   it('Should find component', async () => {
     render(getComponent({}));
     expect(selectors.root()).toBeInTheDocument();
@@ -77,11 +95,12 @@ describe('Custom Code Editor', () => {
       getAction: jest.fn().mockImplementation(() => ({
         run: runFormatDocument,
       })),
+      getModel: () => defaultModel,
     };
 
     jest.mocked(AutosizeCodeEditor).mockImplementationOnce(({ onEditorDidMount }: any) => {
       useEffect(() => {
-        onEditorDidMount(editor);
+        onEditorDidMount(editor, defaultMonaco);
       }, [onEditorDidMount]);
       return null;
     });

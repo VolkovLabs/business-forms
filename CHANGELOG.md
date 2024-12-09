@@ -7,6 +7,7 @@
 - Updated change value behavior for custom option (#562)
 - Added form-element of type color (#561)
 - Updated new lines in Text Area and Code Editor (#563)
+- Added support variables in data sources (#564)
 
 ## 4.9.0 (2024-11-16)
 
