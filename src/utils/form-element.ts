@@ -14,6 +14,7 @@ import {
 } from '../constants';
 import {
   ButtonVariant,
+  ColorFormat,
   DisableIfHelper,
   FormElement,
   FormElementByType,
@@ -81,6 +82,15 @@ export const getElementWithNewType = (
       return {
         ...baseValues,
         hidden: false,
+        value: '',
+        type: newType,
+      };
+    }
+    case FormElementType.COLOR_PICKER: {
+      return {
+        ...baseValues,
+        hidden: false,
+        colorFormat: ColorFormat.RGB,
         value: '',
         type: newType,
       };
@@ -478,6 +488,8 @@ export const convertToElementValue = (
     case FormElementType.DISABLED_TEXTAREA:
     case FormElementType.PASSWORD:
     case FormElementType.SECRET:
+    case FormElementType.COLOR_PICKER:
+    case FormElementType.TEXTAREA:
     case FormElementType.BUTTON:
     case FormElementType.LINK: {
       return {

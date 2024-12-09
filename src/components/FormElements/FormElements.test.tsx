@@ -60,6 +60,7 @@ describe('Form Elements', () => {
         { ...FORM_ELEMENT_DEFAULT, id: 'string' },
         { id: 'password', type: FormElementType.PASSWORD },
         { id: 'number', type: FormElementType.NUMBER },
+        { id: 'colorPicker', type: FormElementType.COLOR_PICKER },
         { id: 'textarea', type: FormElementType.TEXTAREA },
         { id: 'code', type: FormElementType.CODE },
         { id: 'boolean', type: FormElementType.BOOLEAN },
@@ -139,6 +140,16 @@ describe('Form Elements', () => {
 
       const elementSelectors = getFormElementsSelectors(within(element));
       expect(elementSelectors.fieldString()).toBeInTheDocument();
+    });
+
+    it('Should render color picker', () => {
+      const elementOption = findElementById('colorPicker');
+      const element = selectors.element(false, elementOption.id, elementOption.type);
+
+      expect(element).toBeInTheDocument();
+
+      const elementSelectors = getFormElementsSelectors(within(element));
+      expect(elementSelectors.fieldColorPicker()).toBeInTheDocument();
     });
 
     it('Should render number field', () => {
@@ -865,6 +876,34 @@ describe('Form Elements', () => {
       await act(() => fireEvent.blur(selectors.fieldCode(), { target: { value: '123' } }));
 
       expect(selectors.fieldCode()).toHaveValue('123');
+    });
+
+    /**
+     * Color Picker element
+     */
+    it('Should update color value', async () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [{ id: 'color-picker', type: FormElementType.COLOR_PICKER, value: '' }],
+      };
+      const onChangeElement = jest.fn();
+
+      /**
+       * Render Component
+       */
+      render(getComponent({ options, onChangeElement }));
+
+      expect(selectors.fieldColorPicker(false)).toBeInTheDocument();
+      expect(selectors.fieldColorPicker()).toHaveValue('');
+
+      /**
+       * Change date time
+       */
+      fireEvent.change(selectors.fieldColorPicker(), { target: { value: 'rgb(51, 35, 26)' } });
+      expect(selectors.fieldColorPicker()).toHaveValue('rgb(51, 35, 26)');
     });
 
     /**
