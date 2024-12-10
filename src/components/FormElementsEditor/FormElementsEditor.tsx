@@ -54,6 +54,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
     onChangeElementOption,
     onElementRemove,
   } = useFormLayout({
+    replaceVariables: context.replaceVariables,
     onChangeElementsOption: onChange,
     value,
   });
@@ -187,7 +188,7 @@ export const FormElementsEditor: React.FC<Props> = ({ value, onChange, context }
       </div>
 
       <hr />
-      <NewElement elements={elements} onSave={onElementAdd} />
+      <NewElement elements={elements} onSave={onElementAdd} replaceVariables={context.replaceVariables} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { EventBusSrv, SelectableValue } from '@grafana/data';
+import { EventBusSrv, InterpolateFunction, SelectableValue } from '@grafana/data';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FormElement, LayoutSection, LayoutSectionWithElements, LocalFormElement } from '../types';
@@ -30,7 +30,9 @@ export const useFormLayout = ({
   value,
   isAutoSave = true,
   layoutSections,
+  replaceVariables,
 }: {
+  replaceVariables?: InterpolateFunction;
   onChangeElementsOption?: (elements: FormElement[]) => void;
   value?: FormElement[];
   isAutoSave?: boolean;
@@ -43,7 +45,7 @@ export const useFormLayout = ({
    * States
    */
   const [elements, setElements, elementsRef] = useMutableState<LocalFormElement[]>(
-    normalizeElementsForLocalState(value)
+    normalizeElementsForLocalState(value, replaceVariables)
   );
   const [sections, setSections, sectionsRef] = useMutableState<LayoutSection[]>(layoutSections || []);
   const [isChanged, setIsChanged] = useState(false);
@@ -209,18 +211,20 @@ export const useFormLayout = ({
    */
   const setFormValue = useCallback(
     (objectValues: Record<string, unknown>) => {
-      onChangeElements(setFormValueHandler(elementsRef.current, normalizeElementsForLocalState(value), objectValues));
+      onChangeElements(
+        setFormValueHandler(elementsRef.current, normalizeElementsForLocalState(value, replaceVariables), objectValues)
+      );
     },
-    [elementsRef, onChangeElements, value]
+    [elementsRef, onChangeElements, replaceVariables, value]
   );
 
   /**
    * Update local elements
    */
   useEffect(() => {
-    setElements(normalizeElementsForLocalState(value));
+    setElements(normalizeElementsForLocalState(value, replaceVariables));
     setIsChanged(false);
-  }, [setElements, value]);
+  }, [replaceVariables, setElements, value]);
 
   /**
    * Add new section
