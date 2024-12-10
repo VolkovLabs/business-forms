@@ -1,4 +1,4 @@
-import { DataQueryResponse, IconName, InterpolateFunction, PanelData, SelectableValue } from '@grafana/data';
+import { DataQueryResponse, IconName, PanelData, SelectableValue } from '@grafana/data';
 import { FetchResponse } from '@grafana/runtime';
 
 import { OptionsSource } from '../constants';
@@ -630,27 +630,17 @@ export type FormElement = FormElementBase &
 /**
  * Get Options Helper
  */
-export type GetOptionsHelper = (params: {
-  data: PanelData;
-  elements: LocalFormElement[];
-  replaceVariables: InterpolateFunction;
-}) => SelectableValue[];
+export type GetOptionsHelper = (params: { data: PanelData; elements: LocalFormElement[] }) => SelectableValue[];
 
 /**
  * Show If Helper
  */
-export type ShowIfHelper = (params: {
-  elements: FormElement[];
-  replaceVariables: InterpolateFunction;
-}) => boolean | undefined;
+export type ShowIfHelper = (params: { elements: FormElement[] }) => boolean | undefined;
 
 /**
  * Disable If Helper
  */
-export type DisableIfHelper = (params: {
-  elements: FormElement[];
-  replaceVariables: InterpolateFunction;
-}) => boolean | undefined;
+export type DisableIfHelper = (params: { elements: FormElement[] }) => boolean | undefined;
 
 /**
  * Local Form Element

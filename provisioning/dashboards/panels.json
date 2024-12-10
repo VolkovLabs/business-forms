@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -120,7 +120,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -245,7 +244,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -346,7 +344,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -494,7 +491,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -641,7 +637,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -822,7 +817,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -869,7 +863,7 @@
         "elements": [
           {
             "id": "amount",
-            "showIf": "const test = context.grafana.replaceVariables('$var');\nreturn test === 'test'",
+            "showIf": "const test = '$var'\nreturn test === 'test'",
             "title": "Amount",
             "type": "number",
             "uid": "16cf7be7-c7b0-4742-afa8-e069f5e06558",
@@ -905,14 +899,17 @@
             "id": "select",
             "options": [
               {
+                "id": "max",
                 "label": "Max",
                 "value": "max"
               },
               {
+                "id": "min",
                 "label": "Min",
                 "value": "min"
               },
               {
+                "id": "avg",
                 "label": "Average",
                 "value": "avg"
               }
@@ -932,10 +929,12 @@
             "id": "radio",
             "options": [
               {
+                "id": "plus",
                 "label": "Plus",
                 "value": "plus"
               },
               {
+                "id": "minus",
                 "label": "Minus",
                 "value": "minus"
               }
@@ -1039,7 +1038,6 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -1251,7 +1249,6 @@
         "width": 0,
         "widthMode": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
@@ -1358,7 +1355,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "refId": "A"
