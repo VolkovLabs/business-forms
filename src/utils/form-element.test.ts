@@ -637,6 +637,18 @@ describe('Utils', () => {
       expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
 
+    it('Should call replaceVariables if passed for showIf helper', () => {
+      const replaceVariables = jest.fn((value: string) => value);
+      const element = {
+        showIf: `const showIf = 'string'`,
+      } as any;
+
+      toLocalFormElement(element, replaceVariables);
+
+      expect(replaceVariables).toHaveBeenCalled();
+      expect(replaceVariables).toHaveBeenCalledWith(`const showIf = 'string'`);
+    });
+
     it('Should log error messages when there is an error in disableIf function', () => {
       const element = {
         disableIf: `const newValue = 'string'
@@ -649,6 +661,18 @@ describe('Utils', () => {
       toLocalFormElement(element);
       expect(logError).toHaveBeenCalled();
       expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
+    });
+
+    it('Should call replaceVariables if passed for disableIf helper', () => {
+      const replaceVariables = jest.fn((value: string) => value);
+      const element = {
+        disableIf: `const disableIf = 'string'`,
+      } as any;
+
+      toLocalFormElement(element, replaceVariables);
+
+      expect(replaceVariables).toHaveBeenCalled();
+      expect(replaceVariables).toHaveBeenCalledWith(`const disableIf = 'string'`);
     });
 
     it('Should log error messages when there is an error in getOptions function', () => {
@@ -665,6 +689,20 @@ describe('Utils', () => {
       toLocalFormElement(element);
       expect(logError).toHaveBeenCalled();
       expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
+    });
+
+    it('Should call replaceVariables if passed for getOptions helper', () => {
+      const replaceVariables = jest.fn((value: string) => value);
+      const element = {
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.CODE,
+        getOptions: `const option = 'string'`,
+      } as any;
+
+      toLocalFormElement(element, replaceVariables);
+
+      expect(replaceVariables).toHaveBeenCalled();
+      expect(replaceVariables).toHaveBeenCalledWith(`const option = 'string'`);
     });
   });
 
