@@ -717,6 +717,20 @@ describe('Utils', () => {
       expect(replaceVariables).toHaveBeenCalled();
       expect(replaceVariables).toHaveBeenCalledWith(`const option = 'string'`);
     });
+
+    it('Should not call replaceVariables if passed for getOptions helper with empty value', () => {
+      const replaceVariables = jest.fn((value: string) => value);
+      const element = {
+        type: FormElementType.SELECT,
+        optionsSource: OptionsSource.CODE,
+        getOptions: '',
+      } as any;
+
+      const localElement = toLocalFormElement(element, replaceVariables);
+      localElement.helpers.getOptions({ elements: [], data: {} as any });
+
+      expect(replaceVariables).not.toHaveBeenCalled();
+    });
   });
 
   describe('formValueHandler', () => {
