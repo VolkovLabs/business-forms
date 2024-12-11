@@ -1,4 +1,4 @@
-import { AlertPayload, DataQueryResponse, EventBus, InterpolateFunction, PanelData } from '@grafana/data';
+import { AlertPayload, DataQueryResponse, EventBus, PanelData } from '@grafana/data';
 import { BackendSrv, FetchResponse, LocationService, TemplateSrv, toDataQueryResponse } from '@grafana/runtime';
 import { CodeEditorSuggestionItemKind } from '@grafana/ui';
 import { CodeParameterItem, CodeParametersBuilder } from '@volkovlabs/components';
@@ -236,15 +236,6 @@ export const showIfCodeParameters = new CodeParametersBuilder({
         elements: new CodeParameterItem<FormElement[]>('Panel elements.'),
       },
     },
-    grafana: {
-      detail: 'Grafana properties and methods.',
-      items: {
-        replaceVariables: new CodeParameterItem<InterpolateFunction>(
-          'Interpolate variables.',
-          CodeEditorSuggestionItemKind.Method
-        ),
-      },
-    },
   },
 });
 
@@ -258,15 +249,6 @@ export const disableIfCodeParameters = new CodeParametersBuilder({
       detail: 'Panel instance properties.',
       items: {
         elements: new CodeParameterItem<FormElement[]>('Panel elements.'),
-      },
-    },
-    grafana: {
-      detail: 'Grafana properties and methods.',
-      items: {
-        replaceVariables: new CodeParameterItem<InterpolateFunction>(
-          'Interpolate variables.',
-          CodeEditorSuggestionItemKind.Method
-        ),
       },
     },
   },
@@ -283,15 +265,6 @@ export const getOptionsCodeParameters = new CodeParametersBuilder({
       items: {
         data: new CodeParameterItem<PanelData>('Panel data.'),
         elements: new CodeParameterItem<FormElement[]>('Panel elements.'),
-      },
-    },
-    grafana: {
-      detail: 'Grafana properties and methods.',
-      items: {
-        replaceVariables: new CodeParameterItem<InterpolateFunction>(
-          'Interpolate variables.',
-          CodeEditorSuggestionItemKind.Method
-        ),
       },
     },
   },

@@ -1,6 +1,6 @@
 import { getBackendSrv } from '@grafana/runtime';
 
-import { PayloadMode } from './constants';
+import { OptionsSource, PayloadMode } from './constants';
 import { getMigratedOptions } from './migration';
 import { FormElementType, PanelOptions } from './types';
 
@@ -384,10 +384,13 @@ describe('Migration', () => {
         {
           name: 'replaceVariables(',
           initial: `
-          const test = replaceVariables('$var');;
+          const test = replaceVariables('$var');
           `,
+          /**
+           * Return  with normalize for 5.0.0
+           */
           expected: `
-          const test = context.grafana.replaceVariables('$var');;
+          const test = '$var';
           `,
         },
       ])('Should migrate $name for disableIf, showIf, getOptions', async ({ initial, expected }) => {
@@ -413,6 +416,7 @@ describe('Migration', () => {
                 disableIf: initial,
                 getOptions: initial,
                 type: FormElementType.RADIO,
+                optionsSource: OptionsSource.CODE,
               },
               {
                 showIf: '',
@@ -879,6 +883,63 @@ describe('Migration', () => {
           },
         } as any);
         expect(result.initial.code).toEqual(expected);
+      });
+    });
+  });
+
+  describe('5.0.0', () => {
+    describe('codeOptions', () => {
+      /**
+       * Test code migration for disableIf, showIf, getOptions value
+       */
+      it.each([
+        {
+          name: '2 lines',
+          initial: `
+          const test = context.grafana.replaceVariables('$var');\n
+          console.log('show message');\n
+          const test2 = context.grafana.replaceVariables('$varStr');
+          `,
+          expected: `
+          const test = '$var';\n
+          console.log('show message');\n
+          const test2 = '$varStr';
+          `,
+        },
+        {
+          name: '1 line',
+          initial: `
+          const test = context.grafana.replaceVariables('$var');
+          `,
+          expected: `
+          const test = '$var';
+          `,
+        },
+        {
+          name: 'Empty code',
+          initial: ``,
+          expected: ``,
+        },
+      ])('Should migrate $name for disableIf, showIf, getOptions', async ({ initial, expected }) => {
+        const options = await getMigratedOptions({
+          pluginVersion: '4.9.0',
+          options: {
+            elements: [
+              {
+                showIf: initial,
+                disableIf: initial,
+                getOptions: initial,
+                optionsSource: OptionsSource.CODE,
+                type: FormElementType.RADIO,
+              },
+            ],
+          },
+        } as any);
+
+        const element: any = options.elements[0];
+        expect(element.showIf).toEqual(expected);
+        expect(element.disableIf).toEqual(expected);
+        expect(element.getOptions).toEqual(expected);
       });
     });
   });

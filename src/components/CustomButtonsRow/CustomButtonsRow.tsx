@@ -47,14 +47,14 @@ export const CustomButtonsRow: React.FC<Props> = ({ elements, initial, replaceVa
   const visibleElements = useMemo(() => {
     return elements
       .filter((element) => {
-        return element.helpers.showIf({ elements, replaceVariables });
+        return element.helpers.showIf({ elements });
       })
       .map((element) => ({
         ...element,
-        disabled: element.helpers.disableIf({ elements, replaceVariables }),
-        options: element.helpers.getOptions({ elements, replaceVariables, data }),
+        disabled: element.helpers.disableIf({ elements }),
+        options: element.helpers.getOptions({ elements, data }),
       }));
-  }, [data, elements, replaceVariables]);
+  }, [data, elements]);
 
   return (
     <>
