@@ -625,6 +625,9 @@ describe('Utils', () => {
   describe('toLocalFormElement', () => {
     it('Should log error messages when there is an error in showIf function', () => {
       const element = {
+        uid: 'test-1',
+        type: FormElementType.BOOLEAN,
+        disableIf: null,
         showIf: `const newValue = 'string'
 
         if (newValue && ) {
@@ -632,7 +635,9 @@ describe('Utils', () => {
         } `,
       } as any;
 
-      toLocalFormElement(element);
+      const localElement = toLocalFormElement(element);
+      localElement.helpers.showIf({ elements: [] });
+
       expect(logError).toHaveBeenCalled();
       expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
@@ -643,7 +648,8 @@ describe('Utils', () => {
         showIf: `const showIf = 'string'`,
       } as any;
 
-      toLocalFormElement(element, replaceVariables);
+      const localElement = toLocalFormElement(element, replaceVariables);
+      localElement.helpers.showIf({ elements: [] });
 
       expect(replaceVariables).toHaveBeenCalled();
       expect(replaceVariables).toHaveBeenCalledWith(`const showIf = 'string'`);
@@ -658,7 +664,9 @@ describe('Utils', () => {
         } `,
       } as any;
 
-      toLocalFormElement(element);
+      const localElement = toLocalFormElement(element);
+      localElement.helpers.disableIf({ elements: [] });
+
       expect(logError).toHaveBeenCalled();
       expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
@@ -669,13 +677,15 @@ describe('Utils', () => {
         disableIf: `const disableIf = 'string'`,
       } as any;
 
-      toLocalFormElement(element, replaceVariables);
+      const localElement = toLocalFormElement(element, replaceVariables);
+      localElement.helpers.disableIf({ elements: [] });
 
       expect(replaceVariables).toHaveBeenCalled();
       expect(replaceVariables).toHaveBeenCalledWith(`const disableIf = 'string'`);
     });
 
     it('Should log error messages when there is an error in getOptions function', () => {
+      const replaceVariables = jest.fn((value: string) => value);
       const element = {
         type: FormElementType.SELECT,
         optionsSource: OptionsSource.CODE,
@@ -686,7 +696,9 @@ describe('Utils', () => {
         } `,
       } as any;
 
-      toLocalFormElement(element);
+      const localElement = toLocalFormElement(element, replaceVariables);
+      localElement.helpers.getOptions({ elements: [], data: {} as any });
+
       expect(logError).toHaveBeenCalled();
       expect(logError).toHaveBeenCalledWith('Code Error', expect.any(Error));
     });
@@ -699,7 +711,8 @@ describe('Utils', () => {
         getOptions: `const option = 'string'`,
       } as any;
 
-      toLocalFormElement(element, replaceVariables);
+      const localElement = toLocalFormElement(element, replaceVariables);
+      localElement.helpers.getOptions({ elements: [], data: {} as any });
 
       expect(replaceVariables).toHaveBeenCalled();
       expect(replaceVariables).toHaveBeenCalledWith(`const option = 'string'`);

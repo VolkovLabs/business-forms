@@ -288,32 +288,32 @@ export const toLocalFormElement = (element: FormElement, replaceVariables?: Inte
   const showIf = element.showIf;
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = createExecutionCode('context', replaceVariables ? replaceVariables(showIf) : showIf);
-
-    showIfFn = ({ elements }: { elements: FormElement[] }) =>
-      fn(
+    showIfFn = ({ elements }: { elements: FormElement[] }) => {
+      const fn = createExecutionCode('context', replaceVariables ? replaceVariables(showIf) : showIf);
+      return fn(
         showIfCodeParameters.create({
           panel: {
             elements,
           },
         })
       );
+    };
   }
 
   const disableIf = element.disableIf;
 
   let disableIfFn: DisableIfHelper = () => false;
   if (disableIf || disableIf?.trim()) {
-    const fn = createExecutionCode('context', replaceVariables ? replaceVariables(disableIf) : disableIf);
-
-    disableIfFn = ({ elements }: { elements: FormElement[] }) =>
-      fn(
+    disableIfFn = ({ elements }: { elements: FormElement[] }) => {
+      const fn = createExecutionCode('context', replaceVariables ? replaceVariables(disableIf) : disableIf);
+      return fn(
         disableIfCodeParameters.create({
           panel: {
             elements,
           },
         })
       );
+    };
   }
 
   let getOptions: GetOptionsHelper = () => [];
@@ -349,16 +349,15 @@ export const toLocalFormElement = (element: FormElement, replaceVariables?: Inte
         }));
       };
     } else if (element.optionsSource === OptionsSource.CODE) {
-      const options = element.getOptions
-        ? replaceVariables
-          ? replaceVariables(element.getOptions)
-          : element.getOptions
-        : 'return []';
+      getOptions = ({ data, elements }: { data: PanelData; elements: FormElement[] }) => {
+        const options = element.getOptions
+          ? replaceVariables
+            ? replaceVariables(element.getOptions)
+            : element.getOptions
+          : 'return []';
 
-      const fn = createExecutionCode('context', options);
-
-      getOptions = ({ data, elements }: { data: PanelData; elements: FormElement[] }) =>
-        fn(
+        const fn = createExecutionCode('context', options);
+        return fn(
           getOptionsCodeParameters.create({
             panel: {
               data,
@@ -366,6 +365,7 @@ export const toLocalFormElement = (element: FormElement, replaceVariables?: Inte
             },
           })
         );
+      };
     } else {
       getOptions = () => element.options || [];
     }
