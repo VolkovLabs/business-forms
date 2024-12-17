@@ -18,8 +18,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -91,13 +91,22 @@
         "tabsInOrder": true,
         "variable": "device"
       },
-      "pluginVersion": "3.6.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
+      "title": "",
       "type": "volkovlabs-variable-panel"
     },
     {
       "datasource": {
         "type": "postgres",
         "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 9,
@@ -351,7 +360,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -389,6 +397,10 @@
       "datasource": {
         "type": "postgres",
         "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -619,7 +631,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -657,6 +668,10 @@
       "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 17,
@@ -804,7 +819,11 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
       "title": "Initial patchFormValue",
       "type": "volkovlabs-form-panel"
     },
@@ -812,6 +831,10 @@
       "datasource": {
         "type": "postgres",
         "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -1065,7 +1088,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -1104,6 +1126,10 @@
         "default": true,
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -1202,7 +1228,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -1249,6 +1274,10 @@
       "datasource": {
         "type": "postgres",
         "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 17,
@@ -1528,7 +1557,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -1559,13 +1587,17 @@
           }
         }
       ],
-      "title": "Data Source Options",
+      "title": "Data Source Update Text Area",
       "type": "volkovlabs-form-panel"
     },
     {
       "datasource": {
         "type": "postgres",
         "uid": "PCC52D03280B7034C"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
       "gridPos": {
         "h": 17,
@@ -1859,7 +1891,6 @@
         },
         "updateEnabled": "auto"
       },
-      "pluginVersion": "4.9.0",
       "targets": [
         {
           "datasource": {
@@ -1890,18 +1921,18 @@
           }
         }
       ],
-      "title": "Data Source Options 2",
+      "title": "Data Source Update Code Editor",
       "type": "volkovlabs-form-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "device1",
           "value": "device1"
         },
@@ -1910,15 +1941,12 @@
           "uid": "PCC52D03280B7034C"
         },
         "definition": "select distinct name from configuration;",
-        "hide": 0,
         "includeAll": false,
-        "multi": false,
         "name": "device",
         "options": [],
         "query": "select distinct name from configuration;",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       }
