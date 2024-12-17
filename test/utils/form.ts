@@ -1,4 +1,4 @@
-import { Locator } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { DashboardPage, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
 import { getLocatorSelectors, LocatorSelectors } from './selectors';
 import { TEST_IDS } from '../../src/constants/tests';
@@ -62,6 +62,15 @@ class NumberElementHelper extends BaseElementHelper {
 }
 
 /**
+ * String Element Helper
+ */
+class StringElementHelper extends BaseElementHelper {
+  constructor(parentLocator: Locator) {
+    super(parentLocator.getByTestId(TEST_IDS.formElements.fieldString));
+  }
+}
+
+/**
  * Select Element Helper
  */
 class SelectElementHelper extends BaseElementHelper {
@@ -75,6 +84,63 @@ class SelectElementHelper extends BaseElementHelper {
   public async setValue(fieldKey) {
     await this.get().click();
     return this.page.getByGrafanaSelector(this.page.ctx.selectors.components.Select.option).getByText(fieldKey).click();
+  }
+}
+
+/**
+ * Text Area Element Helper
+ */
+class TextAreaElementHelper extends BaseElementHelper {
+  private readonly page: DashboardPage;
+
+  constructor(parentLocator: Locator) {
+    super(parentLocator.getByTestId(TEST_IDS.formElements.fieldTextarea));
+  }
+}
+
+/**
+ * Disabled Text Area Element Helper
+ */
+class DisabledTextAreaElementHelper extends BaseElementHelper {
+  private readonly page: DashboardPage;
+
+  constructor(parentLocator: Locator) {
+    super(parentLocator.getByTestId(TEST_IDS.formElements.fieldDisabledTextarea));
+  }
+}
+
+/**
+ * Code editor Element Helper
+ */
+class CodeEditorElementHelper extends BaseElementHelper {
+  private readonly page: Page;
+
+  constructor(parentLocator: Locator, page: Page) {
+    super(parentLocator);
+    this.page = page;
+  }
+
+  public async checkPresence() {
+    return expect(this.get()).toBeVisible();
+  }
+
+  public async checkText(text: string) {
+    return expect(this.get()).toHaveText(text);
+  }
+
+  public async setText(text: string) {
+    const element = this.get();
+    await element.click();
+    await this.page.keyboard.type(text);
+    await this.page.keyboard.press('Escape');
+  }
+
+  public async clearText() {
+    const element = this.get();
+    await element.click();
+    await this.page.keyboard.press('Control+A');
+    await this.page.keyboard.press('Backspace');
+    await this.page.keyboard.press('Escape');
   }
 }
 
@@ -132,6 +198,26 @@ class ElementsHelper {
     const element = await this.getElement(elementId, elementType);
     return new SelectElementHelper(element, dashboardPage);
   }
+
+  public async getTextAreaElement(elementId: string, elementType: string) {
+    const element = await this.getElement(elementId, elementType);
+    return new TextAreaElementHelper(element);
+  }
+
+  public async getDisabledTextAreaElement(elementId: string, elementType: string) {
+    const element = await this.getElement(elementId, elementType);
+    return new DisabledTextAreaElementHelper(element);
+  }
+
+  public async getCodeEditorElement(elementId: string, elementType: string, page: Page) {
+    const element = await this.getElement(elementId, elementType);
+    return new CodeEditorElementHelper(element.locator('.monaco-editor').nth(0), page);
+  }
+
+  public async getStringElement(elementId: string, elementType: string) {
+    const element = await this.getElement(elementId, elementType);
+    return new StringElementHelper(element);
+  }
 }
 
 /**
@@ -176,7 +262,7 @@ class ButtonsHelper {
 }
 
 /**
- * Buttons Helper
+ * Sections Helper
  */
 class SectionsHelper {
   private readonly locator: Locator;
@@ -209,16 +295,45 @@ class SectionsHelper {
 }
 
 /**
+ * Panel Editor Options Section Helper
+ */
+class PanelEditorOptionsSectionHelper {
+  private readonly locator: Locator;
+
+  constructor(parentLocator: Locator) {
+    this.locator = parentLocator;
+  }
+
+  public get() {
+    return this.locator;
+  }
+
+  private getMsg(message: string): string {
+    return `Options Section: ${message}`;
+  }
+
+  public async checkSectionPresence() {
+    return expect(this.get(), this.getMsg(`Check options Section`)).toBeVisible();
+  }
+
+  public async getCodeEditorElement(page: Page) {
+    return new CodeEditorElementHelper(this.get().locator('.monaco-editor').nth(0), page);
+  }
+}
+
+/**
  * Panel Editor Helper
  */
 class PanelEditorHelper {
   private readonly elementsEditorSelectors: LocatorSelectors<typeof TEST_IDS.formElementsEditor>;
+  private readonly page: PanelEditPage;
 
   constructor(
     private readonly locator: Locator,
     private readonly editPage: PanelEditPage
   ) {
     this.elementsEditorSelectors = getLocatorSelectors(TEST_IDS.formElementsEditor)(this.locator);
+    this.editPage = editPage;
   }
 
   public async addElement(id: string, label: string, type: string) {
@@ -231,6 +346,14 @@ class PanelEditorHelper {
       .click();
     await this.elementsEditorSelectors.buttonAddElement().click();
     await this.elementsEditorSelectors.buttonSaveChanges().click();
+  }
+
+  public getOptionsSections(label: string) {
+    const optionsSection = this.editPage.getByGrafanaSelector(
+      this.editPage.ctx.selectors.components.OptionsGroup.group(label)
+    );
+
+    return new PanelEditorOptionsSectionHelper(optionsSection);
   }
 }
 
@@ -288,5 +411,9 @@ export class PanelHelper {
 
   public async checkErrorMessage() {
     return expect(this.selectors.errorMessage(), this.getMsg(`Check Error Message`)).toBeVisible();
+  }
+
+  public async checkNoErrorMessage() {
+    return expect(this.selectors.errorMessage(), this.getMsg(`Check Error Message`)).not.toBeVisible();
   }
 }
