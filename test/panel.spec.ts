@@ -328,18 +328,12 @@ test.describe('Data Manipulation Panel', () => {
       page,
     }) => {
       /**
-       * Go To Panels dashboard datasource.json
+       * Go To Panels dashboard updateViaEditors.json
        * return dashboardPage
        */
 
-      const dashboard = await readProvisionedDashboard({ fileName: 'datasource.json' });
+      const dashboard = await readProvisionedDashboard({ fileName: 'updateViaEditors.json' });
       const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
-
-      /**
-       * Scroll down by 950
-       * To get panel by title, panel should be in the view
-       */
-      await page.evaluate(() => window.scrollBy(0, 950));
 
       /**
        * Check Presence
@@ -398,18 +392,12 @@ test.describe('Data Manipulation Panel', () => {
       page,
     }) => {
       /**
-       * Go To Panels dashboard datasource.json
+       * Go To Panels dashboard updateViaEditors.json
        * return dashboardPage
        */
 
-      const dashboard = await readProvisionedDashboard({ fileName: 'datasource.json' });
+      const dashboard = await readProvisionedDashboard({ fileName: 'updateViaEditors.json' });
       const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
-
-      /**
-       * Scroll down by 1600
-       * To get panel by title, panel should be in the view
-       */
-      await page.evaluate(() => window.scrollBy(0, 1600));
 
       /**
        * Check Presence
