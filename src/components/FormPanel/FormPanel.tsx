@@ -169,6 +169,7 @@ export const FormPanel: React.FC<Props> = ({
     getSection,
     getAllSections,
   } = useFormLayout({
+    replaceVariables: replaceVariables,
     onChangeElementsOption: onChangeOptions,
     value: options.elements,
     isAutoSave: false,
@@ -1187,10 +1188,7 @@ export const FormPanel: React.FC<Props> = ({
                     /**
                      * Skip hidden element
                      */
-                    if (
-                      ('hidden' in element && element.hidden) ||
-                      !element.helpers.showIf({ elements, replaceVariables })
-                    ) {
+                    if (('hidden' in element && element.hidden) || !element.helpers.showIf({ elements })) {
                       return;
                     }
 
