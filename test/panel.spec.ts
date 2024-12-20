@@ -216,6 +216,7 @@ test.describe('Data Manipulation Panel', () => {
       gotoDashboardPage,
       readProvisionedDashboard,
       page,
+      selectors,
     }) => {
       /**
        * Go To Panels dashboard e2e.json
@@ -238,10 +239,9 @@ test.describe('Data Manipulation Panel', () => {
       const initialSectionEditor = await editor.getOptionsSections('Initial Request');
       await initialSectionEditor.checkSectionPresence();
 
-      const editorInitialCode = await initialSectionEditor.getCodeEditorElement(page);
+      const editorInitialCode = await initialSectionEditor.getCodeEditorElement(selectors);
       await editorInitialCode.checkPresence();
-      await editorInitialCode.clearText();
-      await editorInitialCode.setText(`context.panel.patchFormValue({string: 'test'})`);
+      await editorInitialCode.setValue(`context.panel.patchFormValue({string:'test'});`);
 
       /**
        * Apply changes and return to dashboard
@@ -390,6 +390,7 @@ test.describe('Data Manipulation Panel', () => {
       gotoDashboardPage,
       readProvisionedDashboard,
       page,
+      selectors,
     }) => {
       /**
        * Go To Panels dashboard updateViaEditors.json
@@ -424,9 +425,9 @@ test.describe('Data Manipulation Panel', () => {
       await buttons.checkSubmitButtonPresence();
       await buttons.checkSubmitButtonIsDisabled();
 
-      const codeEditorElement = await elements.getCodeEditorElement('code', FormElementType.CODE, page);
+      const codeEditorElement = await elements.getCodeEditorElement('code', FormElementType.CODE, selectors);
       await codeEditorElement.checkPresence();
-      await codeEditorElement.setText('\noption2\noption3');
+      await codeEditorElement.setValue('option1\noption2\noption3');
 
       await buttons.checkSubmitButtonIsNotDisabled();
       await buttons.submit();
@@ -445,8 +446,8 @@ test.describe('Data Manipulation Panel', () => {
       /**
        * Return to initial
        */
-      await codeEditorElement.clearText();
-      await codeEditorElement.setText('option1');
+      await codeEditorElement.clearValue();
+      await codeEditorElement.setValue('option1');
       await buttons.submit();
       await confirmModal.updateValues();
       await disabledTextAreaElement.checkValue('option1');

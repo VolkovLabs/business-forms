@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { DashboardPage, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
+import { DashboardPage, E2ESelectors, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
 import { getLocatorSelectors, LocatorSelectors } from './selectors';
 import { TEST_IDS } from '../../src/constants/tests';
 
@@ -113,34 +113,24 @@ class DisabledTextAreaElementHelper extends BaseElementHelper {
  * Code editor Element Helper
  */
 class CodeEditorElementHelper extends BaseElementHelper {
-  private readonly page: Page;
-
-  constructor(parentLocator: Locator, page: Page) {
+  constructor(parentLocator: Locator) {
     super(parentLocator);
-    this.page = page;
   }
 
   public async checkPresence() {
     return expect(this.get()).toBeVisible();
   }
 
-  public async checkText(text: string) {
-    return expect(this.get()).toHaveText(text);
+  public async setValue(text: string) {
+    await this.get().click();
+    await this.get().fill(text);
+    await this.get().blur();
   }
 
-  public async setText(text: string) {
-    const element = this.get();
-    await element.click();
-    await this.page.keyboard.type(text);
-    await this.page.keyboard.press('Escape');
-  }
-
-  public async clearText() {
-    const element = this.get();
-    await element.click();
-    await this.page.keyboard.press('Control+A');
-    await this.page.keyboard.press('Backspace');
-    await this.page.keyboard.press('Escape');
+  public async clearValue() {
+    await this.get().click();
+    await this.get().fill('');
+    await this.get().blur();
   }
 }
 
@@ -209,9 +199,10 @@ class ElementsHelper {
     return new DisabledTextAreaElementHelper(element);
   }
 
-  public async getCodeEditorElement(elementId: string, elementType: string, page: Page) {
+  public async getCodeEditorElement(elementId: string, elementType: string, grafanaSelectors: E2ESelectors) {
     const element = await this.getElement(elementId, elementType);
-    return new CodeEditorElementHelper(element.locator('.monaco-editor').nth(0), page);
+    const codeEditor = element.getByTestId(grafanaSelectors.components.CodeEditor.container).getByRole('textbox');
+    return new CodeEditorElementHelper(codeEditor);
   }
 
   public async getStringElement(elementId: string, elementType: string) {
@@ -316,8 +307,10 @@ class PanelEditorOptionsSectionHelper {
     return expect(this.get(), this.getMsg(`Check options Section`)).toBeVisible();
   }
 
-  public async getCodeEditorElement(page: Page) {
-    return new CodeEditorElementHelper(this.get().locator('.monaco-editor').nth(0), page);
+  public async getCodeEditorElement(grafanaSelectors: E2ESelectors) {
+    const codeEditor = this.get().getByTestId(grafanaSelectors.components.CodeEditor.container).getByRole('textbox');
+
+    return new CodeEditorElementHelper(codeEditor);
   }
 }
 
