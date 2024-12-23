@@ -211,6 +211,58 @@ test.describe('Data Manipulation Panel', () => {
       await panel.checkPresence();
       await panel.checkErrorMessage();
     });
+
+    test('Should add Form panel with base element and initial req should be executed as expected', async ({
+      gotoDashboardPage,
+      readProvisionedDashboard,
+      page,
+      selectors,
+    }) => {
+      /**
+       * Go To Panels dashboard e2e.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'e2e.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+      /**
+       * Add new visualization
+       */
+      const editPage = await dashboardPage.addPanel();
+      await editPage.setVisualization('Business Forms');
+      await editPage.setPanelTitle('Business Form New');
+
+      const panel = new PanelHelper(dashboardPage, 'Business Form New');
+      const editor = panel.getPanelEditor(page.locator('body'), editPage);
+
+      await editor.addElement('string', 'Name', 'String input');
+      const initialSectionEditor = await editor.getOptionsSections('Initial Request');
+      await initialSectionEditor.checkSectionPresence();
+
+      const editorInitialCode = await initialSectionEditor.getCodeEditorElement(selectors);
+      await editorInitialCode.checkPresence();
+      await editorInitialCode.setValue(`context.panel.patchFormValue({string:'test'});`);
+
+      /**
+       * Apply changes and return to dashboard
+       */
+      await editPage.backToDashboard();
+
+      /**
+       * Check Presence
+       */
+      await panel.checkPresence();
+      await panel.checkIfNoErrors();
+
+      const elements = panel.getElements();
+
+      await elements.checkPresence();
+      await elements.checkElementPresence('string', FormElementType.STRING);
+
+      const stringElement = await elements.getStringElement('string', FormElementType.STRING);
+      await stringElement.isNotDisabled();
+      await stringElement.checkValue('test');
+    });
   });
 
   test.describe('Update', () => {
@@ -268,6 +320,137 @@ test.describe('Data Manipulation Panel', () => {
       await numberMaxElement.setValue('100');
       await buttons.submit();
       await confirmModal.updateValues();
+    });
+
+    test('Should update values via Text area with new lines in payload', async ({
+      gotoDashboardPage,
+      readProvisionedDashboard,
+      page,
+    }) => {
+      /**
+       * Go To Panels dashboard updateViaEditors.json
+       * return dashboardPage
+       */
+
+      const dashboard = await readProvisionedDashboard({ fileName: 'updateViaEditors.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+      /**
+       * Check Presence
+       */
+      const panel = new PanelHelper(dashboardPage, 'Data Source Update Text Area');
+
+      await panel.checkIfNoErrors();
+      await panel.checkPresence();
+
+      const sections = panel.getSections();
+      await sections.checkSectionPresence('Current Values');
+      await sections.checkSectionPresence('New Values');
+      await sections.checkElementsCountInSection('Current Values', 4);
+      await sections.checkElementsCountInSection('New Values', 4);
+
+      const elements = panel.getElements();
+      const disabledTextAreaElement = await elements.getDisabledTextAreaElement(
+        'option1',
+        FormElementType.DISABLED_TEXTAREA
+      );
+      const buttons = panel.getButtons();
+
+      await disabledTextAreaElement.checkValue('option1');
+      await buttons.checkSubmitButtonPresence();
+      await buttons.checkSubmitButtonIsDisabled();
+
+      const textAreaElement = await elements.getTextAreaElement('option2', FormElementType.TEXTAREA);
+      await textAreaElement.checkValue('option1');
+      await textAreaElement.setValue('option1\noption2\n');
+
+      await buttons.checkSubmitButtonIsNotDisabled();
+      await buttons.submit();
+
+      const confirmModal = new ModalHelper(dashboardPage);
+      await confirmModal.checkPresence();
+      await confirmModal.confirmButtonCheckPresence();
+      await confirmModal.cancelButtonCheckPresence();
+      await confirmModal.updateValues();
+
+      await panel.checkNoErrorMessage();
+
+      await buttons.checkSubmitButtonPresence();
+      await disabledTextAreaElement.checkValue('option1\noption2\n');
+
+      /**
+       * Return to initial
+       */
+      await textAreaElement.setValue('option1');
+      await buttons.submit();
+      await confirmModal.updateValues();
+    });
+
+    test('Should update values via Code Editor area with new lines in payload', async ({
+      gotoDashboardPage,
+      readProvisionedDashboard,
+      page,
+      selectors,
+    }) => {
+      /**
+       * Go To Panels dashboard updateViaEditors.json
+       * return dashboardPage
+       */
+
+      const dashboard = await readProvisionedDashboard({ fileName: 'updateViaEditors.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+      /**
+       * Check Presence
+       */
+      const panel = new PanelHelper(dashboardPage, 'Data Source Update Code Editor');
+
+      await panel.checkIfNoErrors();
+      await panel.checkPresence();
+
+      const sections = panel.getSections();
+      await sections.checkSectionPresence('Current Values');
+      await sections.checkSectionPresence('New Values');
+      await sections.checkElementsCountInSection('Current Values', 4);
+      await sections.checkElementsCountInSection('New Values', 5);
+
+      const elements = panel.getElements();
+      const disabledTextAreaElement = await elements.getDisabledTextAreaElement(
+        'option1',
+        FormElementType.DISABLED_TEXTAREA
+      );
+      const buttons = panel.getButtons();
+
+      await disabledTextAreaElement.checkValue('option1');
+      await buttons.checkSubmitButtonPresence();
+      await buttons.checkSubmitButtonIsDisabled();
+
+      const codeEditorElement = await elements.getCodeEditorElement('code', FormElementType.CODE, selectors);
+      await codeEditorElement.checkPresence();
+      await codeEditorElement.setValue('option1\noption2\noption3');
+
+      await buttons.checkSubmitButtonIsNotDisabled();
+      await buttons.submit();
+
+      const confirmModal = new ModalHelper(dashboardPage);
+      await confirmModal.checkPresence();
+      await confirmModal.confirmButtonCheckPresence();
+      await confirmModal.cancelButtonCheckPresence();
+      await confirmModal.updateValues();
+
+      await panel.checkNoErrorMessage();
+
+      await buttons.checkSubmitButtonPresence();
+      await disabledTextAreaElement.checkValue('option1\noption2\noption3');
+
+      /**
+       * Return to initial
+       */
+      await codeEditorElement.clearValue();
+      await codeEditorElement.setValue('option1');
+      await buttons.submit();
+      await confirmModal.updateValues();
+      await disabledTextAreaElement.checkValue('option1');
     });
 
     test('Should not update values if cancel', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
