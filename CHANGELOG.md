@@ -1,6 +1,6 @@
 # Change Log
 
-## 5.0.0 (IN PROGRESS)
+## 5.0.0 (2024-12-23)
 
 ### Breaking changes
 
@@ -14,6 +14,7 @@
 - Added support variables in data sources (#564)
 - Updated packages for Code Editor (#569)
 - Updated element helpers (#570)
+- Updated Grafana 11.4.0 and dependencies (#571)
 
 ## 4.9.0 (2024-11-16)
 
