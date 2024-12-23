@@ -325,7 +325,6 @@ test.describe('Data Manipulation Panel', () => {
     test('Should update values via Text area with new lines in payload', async ({
       gotoDashboardPage,
       readProvisionedDashboard,
-      page,
     }) => {
       /**
        * Go To Panels dashboard updateViaEditors.json
@@ -384,12 +383,12 @@ test.describe('Data Manipulation Panel', () => {
       await textAreaElement.setValue('option1');
       await buttons.submit();
       await confirmModal.updateValues();
+      await disabledTextAreaElement.checkValue('option1');
     });
 
     test('Should update values via Code Editor area with new lines in payload', async ({
       gotoDashboardPage,
       readProvisionedDashboard,
-      page,
       selectors,
     }) => {
       /**
@@ -421,7 +420,6 @@ test.describe('Data Manipulation Panel', () => {
       );
       const buttons = panel.getButtons();
 
-      await disabledTextAreaElement.checkValue('option1');
       await buttons.checkSubmitButtonPresence();
       await buttons.checkSubmitButtonIsDisabled();
 
