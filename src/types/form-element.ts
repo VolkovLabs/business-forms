@@ -421,7 +421,7 @@ export interface DateTimeOptions {
 /**
  * Date Options
  */
-export interface DateOptions extends Pick<DateTimeOptions, 'min' | 'max' | 'value'> {}
+export type DateOptions = Pick<DateTimeOptions, 'min' | 'max' | 'value'>;
 
 /**
  * File Options
