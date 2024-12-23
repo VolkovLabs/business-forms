@@ -2,6 +2,10 @@
 
 ## 5.0.0 (IN PROGRESS)
 
+### Breaking changes
+
+- Dashboard variables in Show If, Disabled and Options replace automatically. Function `replaceVariables` is not required and removed.
+
 ### Features / Enhancements
 
 - Updated change value behavior for custom option (#562)

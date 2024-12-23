@@ -21,7 +21,7 @@ interface Props {
   onSave: (element: LocalFormElement) => void;
 
   /**
-   * On Save
+   * Template variables interpolation function
    */
   replaceVariables?: InterpolateFunction;
 }
