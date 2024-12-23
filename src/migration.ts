@@ -3,7 +3,7 @@ import { getBackendSrv } from '@grafana/runtime';
 import { set } from 'lodash';
 import semver from 'semver';
 
-import { PayloadMode } from './constants';
+import { OptionsSource, PayloadMode } from './constants';
 import { FormElementType, LayoutOptions, LayoutSection, PanelOptions, RequestOptions } from './types';
 
 /**
@@ -178,6 +178,19 @@ const normalizeCodeOptionsWithSections = (code: string | undefined): string => {
     .join(' ');
 };
 
+const normalizeReplaceVariablesInHelpers = (code: string): string => {
+  const search = /context\.grafana\.replaceVariables\('([^']*)'\)/g;
+
+  return code
+    .split(' ')
+    .map((part) => {
+      return part.replace(search, (value, variable) => {
+        return `'${variable}'`;
+      });
+    })
+    .join(' ');
+};
+
 /**
  * Normalize Payload Options
  *
@@ -229,6 +242,50 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   const { ...options } = panel.options;
 
   /**
+   * Normalize elements
+   */
+  if (options.elements && options.elements.length > 0) {
+    options.elements.forEach((element) => {
+      /**
+       * Normalize allowCustomValue for Select and Multiselect Type
+       */
+      if (
+        (element.type === FormElementType.SELECT || element.type === FormElementType.MULTISELECT) &&
+        !element.hasOwnProperty('allowCustomValue')
+      ) {
+        element.allowCustomValue = false;
+      }
+
+      /**
+       * Normalize non context code parameters before 4.0.0 and context.grafana.replaceVariables before 5.0.0 for elements
+       */
+      if (panel.pluginVersion && semver.lt(panel.pluginVersion, '5.0.0')) {
+        if (element.showIf) {
+          element.showIf = normalizeCodeOptions(element.showIf);
+          element.showIf = normalizeReplaceVariablesInHelpers(element.showIf);
+        }
+        if (element.disableIf) {
+          element.disableIf = normalizeCodeOptions(element.disableIf);
+          element.disableIf = normalizeReplaceVariablesInHelpers(element.disableIf);
+        }
+
+        if (
+          (element.type === FormElementType.DISABLED ||
+            element.type === FormElementType.SELECT ||
+            element.type === FormElementType.MULTISELECT ||
+            element.type === FormElementType.RADIO ||
+            element.type === FormElementType.CHECKBOX_LIST) &&
+          element.getOptions &&
+          element.optionsSource === OptionsSource.CODE
+        ) {
+          element.getOptions = normalizeCodeOptions(element.getOptions);
+          element.getOptions = normalizeReplaceVariablesInHelpers(element.getOptions);
+        }
+      }
+    });
+  }
+
+  /**
    * Normalize non context code parameters before 4.0.0
    */
   if (panel.pluginVersion && semver.lt(panel.pluginVersion, '4.0.0')) {
@@ -239,27 +296,6 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
     set(options, 'initial.getPayload', normalizeCodeOptions(options.initial?.getPayload));
     set(options, 'resetAction.getPayload', normalizeCodeOptions(options.resetAction?.getPayload));
     set(options, 'update.getPayload', normalizeCodeOptions(options.update?.getPayload));
-
-    if (options.elements && options.elements.length > 0) {
-      options.elements.forEach((element) => {
-        if (element.showIf) {
-          element.showIf = normalizeCodeOptions(element.showIf);
-        }
-        if (element.disableIf) {
-          element.disableIf = normalizeCodeOptions(element.disableIf);
-        }
-        if (
-          (element.type === FormElementType.DISABLED ||
-            element.type === FormElementType.SELECT ||
-            element.type === FormElementType.MULTISELECT ||
-            element.type === FormElementType.RADIO ||
-            element.type === FormElementType.CHECKBOX_LIST) &&
-          element.getOptions
-        ) {
-          element.getOptions = normalizeCodeOptions(element.getOptions);
-        }
-      });
-    }
   }
 
   /**
@@ -311,20 +347,6 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
       'resetAction.payload',
       normalizePayloadOptions(options.resetAction?.payload as Record<string, unknown>)
     );
-  }
-
-  /**
-   * Normalize allowCustomValue for Select and Multiselect Type
-   */
-  if (options.elements && options.elements.length > 0) {
-    options.elements.forEach((element) => {
-      if (
-        (element.type === FormElementType.SELECT || element.type === FormElementType.MULTISELECT) &&
-        !element.hasOwnProperty('allowCustomValue')
-      ) {
-        element.allowCustomValue = false;
-      }
-    });
   }
 
   /**

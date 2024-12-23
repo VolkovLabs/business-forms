@@ -26,6 +26,7 @@ export const LayoutSectionsEditor: React.FC<Props> = ({ value, onChange, context
    * Sections
    */
   const { sections, onChangeSections } = useFormLayout({
+    replaceVariables: context.replaceVariables,
     onChangeSectionsOption: onChange,
     layoutSections: value,
   });

@@ -1,4 +1,4 @@
-import { SelectableValue } from '@grafana/data';
+import { InterpolateFunction, SelectableValue } from '@grafana/data';
 import { Alert, Button, CollapsableSection, InlineField, Input, Select } from '@grafana/ui';
 import React, { ChangeEvent, useCallback, useState } from 'react';
 
@@ -19,12 +19,17 @@ interface Props {
    * On Save
    */
   onSave: (element: LocalFormElement) => void;
+
+  /**
+   * Template variables interpolation function
+   */
+  replaceVariables?: InterpolateFunction;
 }
 
 /**
  * New Element
  */
-export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
+export const NewElement: React.FC<Props> = ({ onSave, elements, replaceVariables }) => {
   /**
    * States
    */
@@ -51,13 +56,13 @@ export const NewElement: React.FC<Props> = ({ onSave, elements }) => {
     /**
      * Save Element
      */
-    onSave(getElementWithNewType(toLocalFormElement(newElement), newElement.type));
+    onSave(getElementWithNewType(toLocalFormElement(newElement, replaceVariables), newElement.type));
 
     /**
      * Reset input values
      */
     setNewElement(FORM_ELEMENT_DEFAULT);
-  }, [elements, newElement, onSave]);
+  }, [elements, newElement, onSave, replaceVariables]);
 
   return (
     <CollapsableSection

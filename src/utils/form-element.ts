@@ -284,48 +284,36 @@ export const isSectionCollisionExists = (sections: LayoutSection[], compareWith:
 /**
  * To Local Form Element
  */
-export const toLocalFormElement = (element: FormElement): LocalFormElement => {
+export const toLocalFormElement = (element: FormElement, replaceVariables?: InterpolateFunction): LocalFormElement => {
   const showIf = element.showIf;
   let showIfFn: ShowIfHelper = () => true;
   if (showIf || showIf?.trim()) {
-    const fn = createExecutionCode('context', showIf);
-
-    showIfFn = ({ elements, replaceVariables }: { elements: FormElement[]; replaceVariables: InterpolateFunction }) =>
-      fn(
+    showIfFn = ({ elements }: { elements: FormElement[] }) => {
+      const fn = createExecutionCode('context', replaceVariables ? replaceVariables(showIf) : showIf);
+      return fn(
         showIfCodeParameters.create({
           panel: {
             elements,
           },
-          grafana: {
-            replaceVariables,
-          },
         })
       );
+    };
   }
 
   const disableIf = element.disableIf;
 
   let disableIfFn: DisableIfHelper = () => false;
   if (disableIf || disableIf?.trim()) {
-    const fn = createExecutionCode('context', disableIf);
-
-    disableIfFn = ({
-      elements,
-      replaceVariables,
-    }: {
-      elements: FormElement[];
-      replaceVariables: InterpolateFunction;
-    }) =>
-      fn(
+    disableIfFn = ({ elements }: { elements: FormElement[] }) => {
+      const fn = createExecutionCode('context', replaceVariables ? replaceVariables(disableIf) : disableIf);
+      return fn(
         disableIfCodeParameters.create({
           panel: {
             elements,
           },
-          grafana: {
-            replaceVariables,
-          },
         })
       );
+    };
   }
 
   let getOptions: GetOptionsHelper = () => [];
@@ -361,28 +349,23 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
         }));
       };
     } else if (element.optionsSource === OptionsSource.CODE) {
-      const fn = createExecutionCode('context', element.getOptions || 'return []');
+      getOptions = ({ data, elements }: { data: PanelData; elements: FormElement[] }) => {
+        const options = element.getOptions
+          ? replaceVariables
+            ? replaceVariables(element.getOptions)
+            : element.getOptions
+          : 'return []';
 
-      getOptions = ({
-        data,
-        elements,
-        replaceVariables,
-      }: {
-        data: PanelData;
-        elements: FormElement[];
-        replaceVariables: InterpolateFunction;
-      }) =>
-        fn(
+        const fn = createExecutionCode('context', options);
+        return fn(
           getOptionsCodeParameters.create({
             panel: {
               data,
               elements,
             },
-            grafana: {
-              replaceVariables,
-            },
           })
         );
+      };
     } else {
       getOptions = () => element.options || [];
     }
@@ -410,9 +393,12 @@ export const toLocalFormElement = (element: FormElement): LocalFormElement => {
 /**
  * Normalize Elements for Local State
  */
-export const normalizeElementsForLocalState = (elements?: FormElement[]): LocalFormElement[] => {
+export const normalizeElementsForLocalState = (
+  elements?: FormElement[],
+  replaceVariables?: InterpolateFunction
+): LocalFormElement[] => {
   if (elements && Array.isArray(elements)) {
-    return elements.map<LocalFormElement>((element) => toLocalFormElement(element));
+    return elements.map<LocalFormElement>((element) => toLocalFormElement(element, replaceVariables));
   }
 
   return [];
