@@ -175,8 +175,7 @@ export const getElementWithNewType = (
         isUseLocalTime: false,
       };
     }
-    case FormElementType.PASSWORD:
-    case FormElementType.SECRET: {
+    case FormElementType.PASSWORD: {
       return {
         ...baseValues,
         value: '',
@@ -473,7 +472,6 @@ export const convertToElementValue = (
     case FormElementType.STRING:
     case FormElementType.DISABLED_TEXTAREA:
     case FormElementType.PASSWORD:
-    case FormElementType.SECRET:
     case FormElementType.COLOR_PICKER:
     case FormElementType.TEXTAREA:
     case FormElementType.BUTTON:

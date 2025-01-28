@@ -22,7 +22,6 @@ export const enum FormElementType {
   NUMBER = 'number',
   PASSWORD = 'password',
   RADIO = 'radio',
-  SECRET = 'secret',
   SELECT = 'select',
   SLIDER = 'slider',
   STRING = 'string',
@@ -542,18 +541,6 @@ export interface CustomButtonOptions {
 }
 
 /**
- * Secret Options
- */
-export interface SecretOptions {
-  /**
-   * Value
-   *
-   * @type {string}
-   */
-  value: string;
-}
-
-/**
  * Link Target
  */
 export enum LinkTarget {
@@ -618,7 +605,6 @@ export type FormElement = FormElementBase &
     | ({ type: FormElementType.PASSWORD } & PasswordOptions)
     | ({ type: FormElementType.DATETIME } & DateTimeOptions)
     | ({ type: FormElementType.DATE } & DateOptions)
-    | ({ type: FormElementType.SECRET } & SecretOptions)
     | ({ type: FormElementType.BOOLEAN } & BooleanOptions)
     | ({ type: FormElementType.BUTTON } & CustomButtonOptions)
     | ({ type: FormElementType.FILE } & FileOptions)
