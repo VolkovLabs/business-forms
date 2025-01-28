@@ -609,18 +609,21 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         isFormElementType(element, FormElementType.DISABLED) ||
         isFormElementType(element, FormElementType.CHECKBOX_LIST)) && (
         <>
-          <InlineField label="Custom values" labelWidth={14}>
-            <RadioButtonGroup
-              options={CUSTOM_VALUE_OPTIONS}
-              value={!!element.allowCustomValue}
-              onChange={(value) => {
-                onChange({
-                  ...element,
-                  allowCustomValue: value,
-                });
-              }}
-            />
-          </InlineField>
+          {!isFormElementType(element, FormElementType.RADIO) &&
+            !isFormElementType(element, FormElementType.DISABLED) && (
+              <InlineField label="Custom values" labelWidth={14}>
+                <RadioButtonGroup
+                  options={CUSTOM_VALUE_OPTIONS}
+                  value={!!element.allowCustomValue}
+                  onChange={(value) => {
+                    onChange({
+                      ...element,
+                      allowCustomValue: value,
+                    });
+                  }}
+                />
+              </InlineField>
+            )}
           <InlineFieldRow>
             <InlineField label="Options Source" labelWidth={14}>
               <RadioButtonGroup
