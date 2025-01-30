@@ -1,0 +1,390 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 11,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "hidden": false,
+            "id": "value",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:Value",
+              "value": "Value"
+            },
+            "section": "",
+            "title": "Value",
+            "tooltip": "",
+            "type": "string",
+            "uid": "631c7168-a2a7-442b-9159-67293b07ffc3",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "hidden": false,
+            "id": "max",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:Max",
+              "value": "Max"
+            },
+            "section": "",
+            "title": "max",
+            "tooltip": "",
+            "type": "string",
+            "uid": "802b0eea-6629-40e3-8a94-6c6b1529198c",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "hidden": false,
+            "id": "min",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:Min",
+              "value": "Min"
+            },
+            "section": "",
+            "title": "min",
+            "tooltip": "",
+            "type": "string",
+            "uid": "e8c8d25a-587a-4540-9041-61a701d9e08b",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "",
+          "contentType": "application/json",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "query",
+          "payload": {}
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.refresh();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.refresh();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n  payload[element.id] = element.value;\n})\nreturn payload;",
+          "method": "-",
+          "payload": {},
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "targets": [
+        {
+          "channel": "plugin/testdata/random-2s-stream",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Grafana Streaming",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "md"
+        },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "include": ["name", "oldValue", "newValue"],
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "elementDisplayMode": "modified",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
+        "elements": [
+          {
+            "fieldName": "speed",
+            "hidden": false,
+            "id": "speed",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:Value",
+              "value": "Value"
+            },
+            "section": "",
+            "title": "speed",
+            "tooltip": "",
+            "type": "string",
+            "uid": "631c7168-a2a7-442b-9159-67293b07ffc3",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "fieldName": "max",
+            "hidden": false,
+            "id": "max",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:Max",
+              "value": "Max"
+            },
+            "section": "",
+            "title": "max",
+            "tooltip": "",
+            "type": "string",
+            "uid": "802b0eea-6629-40e3-8a94-6c6b1529198c",
+            "unit": "",
+            "value": ""
+          },
+          {
+            "fieldName": "min",
+            "hidden": false,
+            "id": "min",
+            "labelWidth": 10,
+            "queryField": {
+              "label": "undefined:Min",
+              "value": "Min"
+            },
+            "section": "",
+            "title": "min",
+            "tooltip": "",
+            "type": "string",
+            "uid": "e8c8d25a-587a-4540-9041-61a701d9e08b",
+            "unit": "",
+            "value": ""
+          }
+        ],
+        "initial": {
+          "code": "const payload = {};\n\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nconsole.log(payload);\ncontext.panel.setInitial(payload);",
+          "contentType": "application/json",
+          "datasource": "PCC52D03280B7034C",
+          "getPayload": "return {}",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "datasource",
+          "payload": {
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "select * from configuration where name ='$device';",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        },
+        "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
+          "sectionVariant": "default",
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "resetAction": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.refresh();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {}",
+          "mode": "initial",
+          "payload": {}
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "cloud-upload",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "sync": true,
+        "update": {
+          "code": "if (context.panel.response) {\n  context.grafana.notifySuccess(['Update', 'Values updated successfully.']);\n  context.grafana.refresh();\n} else {\n  context.grafana.notifyError(['Update', 'An error occurred updating values.']);\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "getPayload": "const payload = {};\ncontext.panel.elements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n  payload[element.id] = element.value;\n})\nreturn payload;",
+          "method": "-",
+          "payload": {},
+          "payloadMode": "all"
+        },
+        "updateEnabled": "auto"
+      },
+      "targets": [
+        {
+          "channel": "plugin/testdata/random-2s-stream",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Grafana Streaming initial from DS",
+      "type": "volkovlabs-form-panel"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "device1",
+          "value": "device1"
+        },
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "PCC52D03280B7034C"
+        },
+        "definition": "select distinct name from configuration;",
+        "name": "device",
+        "options": [],
+        "query": "select distinct name from configuration;",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Streaming",
+  "uid": "febj74vmo1beod",
+  "version": 5,
+  "weekStart": ""
+}
