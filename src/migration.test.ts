@@ -961,6 +961,10 @@ describe('Migration', () => {
           {
             type: FormElementType.TEXTAREA,
           },
+          {
+            type: FormElementType.TEXTAREA,
+            isEscaping: false,
+          },
         ] as any,
       };
 
@@ -974,6 +978,8 @@ describe('Migration', () => {
       expect(elements[0].isEscaping).toEqual(true);
       expect(elements[1].isEscaping).toBeDefined();
       expect(elements[1].isEscaping).toEqual(true);
+      expect(elements[2].isEscaping).toBeDefined();
+      expect(elements[2].isEscaping).toEqual(false);
     });
   });
 });
