@@ -1094,7 +1094,9 @@ describe('Form Elements', () => {
     });
 
     it('Should handle onChange event for Text Area and replace new lines', async () => {
-      let appliedElements = [{ id: 'timeElement', type: FormElementType.TEXTAREA, value: '', disabled: false }];
+      let appliedElements = [
+        { id: 'timeElement', type: FormElementType.TEXTAREA, value: '', disabled: false, isEscaping: true },
+      ];
       const options = {
         submit: {},
         initial: { highlightColor: false },
@@ -1123,6 +1125,42 @@ describe('Form Elements', () => {
       expect(onChangeElement).toHaveBeenCalledWith(
         expect.objectContaining({
           value: 'line\\nline2',
+        })
+      );
+    });
+
+    it('Should handle onChange event for Text Area and don`t replace new lines if isEscaping disabled', async () => {
+      let appliedElements = [
+        { id: 'timeElement', type: FormElementType.TEXTAREA, value: '', disabled: false, isEscaping: false },
+      ];
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: appliedElements,
+      };
+
+      const onChangeElement = jest.fn(
+        (updatedElement) =>
+          (appliedElements = appliedElements.map((item) => (item.id === updatedElement.id ? updatedElement : item)))
+      );
+
+      /**
+       * Render Component
+       */
+      render(getComponent({ options, onChangeElement }));
+
+      expect(selectors.fieldTextarea()).toBeInTheDocument();
+
+      /**
+       * Change date time
+       */
+      await act(() => fireEvent.change(selectors.fieldTextarea(), { target: { value: 'line\nline2' } }));
+
+      expect(onChangeElement).toHaveBeenCalledWith(
+        expect.objectContaining({
+          value: 'line\nline2',
         })
       );
     });
