@@ -1118,7 +1118,7 @@ describe('Form Elements', () => {
       expect(selectors.fieldTextarea()).toBeInTheDocument();
 
       /**
-       * Change date time
+       * Change text value
        */
       await act(() => fireEvent.change(selectors.fieldTextarea(), { target: { value: 'line\nline2' } }));
 
@@ -1154,7 +1154,7 @@ describe('Form Elements', () => {
       expect(selectors.fieldTextarea()).toBeInTheDocument();
 
       /**
-       * Change date time
+       * Change text value
        */
       await act(() => fireEvent.change(selectors.fieldTextarea(), { target: { value: 'line\nline2' } }));
 
