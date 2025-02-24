@@ -970,9 +970,11 @@ describe('Form Elements Editor', () => {
         /**
          * Change type
          */
-        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+        await act(() =>
+          fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.MULTISELECT } })
+        );
 
-        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.MULTISELECT);
 
         expect(elementSelectors.optionsSourceOption(false, element.optionsSource)).toBeChecked();
         expect(elementSelectors.fieldQueryOptionsValue()).toHaveValue(
@@ -1008,9 +1010,11 @@ describe('Form Elements Editor', () => {
         /**
          * Change type
          */
-        await act(() => fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.RADIO } }));
+        await act(() =>
+          fireEvent.change(elementSelectors.fieldType(), { target: { value: FormElementType.MULTISELECT } })
+        );
 
-        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.RADIO);
+        expect(elementSelectors.fieldType()).toHaveValue(FormElementType.MULTISELECT);
 
         expect(elementSelectors.optionsSourceOption(false, SELECT_DEFAULT.optionsSource)).toBeChecked();
       });
