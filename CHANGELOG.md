@@ -1,14 +1,14 @@
 # Change Log
 
-## 5.1.0 (IN PROGRESS)
+## 5.1.0 (2024-02-24)
 
 ### Features / Enhancements
 
 - Added isEscaping option for TextArea and CodeEditor elements (#581)
 - Added support streaming state for data (#577)
 - Refactoring form elements (#576)
-- Updated to Grafana 11.5 and dependencies (#578)
-- Updated release workflow to include attestation (#578)
+- Updated to Grafana 11.5 and dependencies (#582)
+- Updated release workflow to include attestation (#582)
 
 ## 5.0.0 (2024-12-23)
 
