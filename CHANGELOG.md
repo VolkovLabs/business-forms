@@ -1,5 +1,12 @@
 # Change Log
 
+## 5.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added isEscaping option for TextArea and CodeEditor elements (#581)
+- Added support streaming state for data (#577)
+
 ## 5.0.0 (2024-12-23)
 
 ### Breaking changes

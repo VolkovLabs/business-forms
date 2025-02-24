@@ -6,6 +6,7 @@ import {
   IconButton,
   InlineField,
   InlineFieldRow,
+  InlineSwitch,
   Input,
   RadioButtonGroup,
   Select,
@@ -469,6 +470,24 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
         </>
       )}
 
+      {(isFormElementType(element, FormElementType.TEXTAREA) || isFormElementType(element, FormElementType.CODE)) && (
+        <InlineField
+          label="Escaping new line"
+          labelWidth={20}
+          tooltip="Escaping newline characters. Replace '\n' to '\\n'. Use to avoid errors on some 'datasource' update requests."
+        >
+          <InlineSwitch
+            value={element.isEscaping}
+            onChange={(event) =>
+              onChange({
+                ...element,
+                isEscaping: event.currentTarget.checked,
+              })
+            }
+            data-testid={TEST_IDS.formElementsEditor.fieldIsEscapingEditor}
+          />
+        </InlineField>
+      )}
       {(isFormElementType(element, FormElementType.TEXTAREA) ||
         isFormElementType(element, FormElementType.DISABLED_TEXTAREA)) && (
         <InlineFieldRow>

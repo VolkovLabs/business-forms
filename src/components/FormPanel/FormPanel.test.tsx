@@ -1140,6 +1140,94 @@ describe('Panel', () => {
       expect(replaceVariables).toHaveBeenCalledTimes(16);
     });
 
+    it('Should make initial datasource request for streaming data state', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          data: [],
+          state: LoadingState.Done,
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '123',
+                getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
+              },
+            },
+            props: {
+              data: {
+                state: LoadingState.Streaming,
+              },
+            },
+          })
+        )
+      );
+
+      expect(datasourceRequestMock).toHaveBeenCalledWith({
+        datasource: '123',
+        payload: { key1: 'value' },
+        replaceVariables: expect.any(Function),
+        query: {
+          sql: 'select *;',
+        },
+      });
+
+      /**
+       * Check if replace variables called for get payload function
+       * replaceVariables called for buttons titles, labels, section labels
+       * number of calls increased
+       */
+      expect(replaceVariables).toHaveBeenCalledTimes(16);
+    });
+
+    it('Should not make initial datasource request for loading data state', async () => {
+      const datasourceRequestMock = jest.fn(() =>
+        Promise.resolve({
+          data: [],
+          state: LoadingState.Done,
+        })
+      ) as any;
+      jest.mocked(useDatasourceRequest).mockImplementation(() => datasourceRequestMock);
+
+      /**
+       * Render
+       */
+      await act(async () =>
+        render(
+          getComponent({
+            options: {
+              initial: {
+                method: RequestMethod.DATASOURCE,
+                datasource: '123',
+                getPayload: `return { key1: 'value' }`,
+                payload: {
+                  sql: 'select *;',
+                },
+              },
+            },
+            props: {
+              data: {
+                state: LoadingState.Loading,
+              },
+            },
+          })
+        )
+      );
+
+      expect(datasourceRequestMock).not.toHaveBeenCalled();
+    });
+
     it('Should make initial datasource request (response doesn`t return state property)', async () => {
       const datasourceRequestMock = jest.fn(() =>
         Promise.resolve({

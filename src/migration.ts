@@ -282,6 +282,16 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           element.getOptions = normalizeReplaceVariablesInHelpers(element.getOptions);
         }
       }
+
+      /**
+       * Normalize isEscaping for CODE and TEXTAREA Type
+       */
+      if (
+        (element.type === FormElementType.CODE || element.type === FormElementType.TEXTAREA) &&
+        !element.hasOwnProperty('isEscaping')
+      ) {
+        element.isEscaping = true;
+      }
     });
   }
 

@@ -943,4 +943,43 @@ describe('Migration', () => {
       });
     });
   });
+
+  describe('5.1.0', () => {
+    /**
+     * Normalize isEscaping
+     */
+    it('Should return allowCustom property for select and multiselect elements if not specified', async () => {
+      const options: Partial<PanelOptions> = {
+        sync: true,
+        initial: {} as any,
+        update: {} as any,
+        resetAction: {} as any,
+        elements: [
+          {
+            type: FormElementType.CODE,
+          },
+          {
+            type: FormElementType.TEXTAREA,
+          },
+          {
+            type: FormElementType.TEXTAREA,
+            isEscaping: false,
+          },
+        ] as any,
+      };
+
+      const result = await getMigratedOptions({
+        options: options as any,
+      } as any);
+
+      const elements: any = result.elements;
+
+      expect(elements[0].isEscaping).toBeDefined();
+      expect(elements[0].isEscaping).toEqual(true);
+      expect(elements[1].isEscaping).toBeDefined();
+      expect(elements[1].isEscaping).toEqual(true);
+      expect(elements[2].isEscaping).toBeDefined();
+      expect(elements[2].isEscaping).toEqual(false);
+    });
+  });
 });
