@@ -830,7 +830,10 @@ export const FormPanel: React.FC<Props> = ({
     /**
      * On Load
      */
-    if (data.state === LoadingState.Done && (options.sync || !isInitialized)) {
+    if (
+      (data.state === LoadingState.Done || data.state === LoadingState.Streaming) &&
+      (options.sync || !isInitialized)
+    ) {
       initialRequest();
 
       /**
