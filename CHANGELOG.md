@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Add isEscaping option for TextArea and CodeEditor elements (#581)
+- Added isEscaping option for TextArea and CodeEditor elements (#581)
+- Added support streaming state for data (#577)
 
 ## 5.0.0 (2024-12-23)
 
