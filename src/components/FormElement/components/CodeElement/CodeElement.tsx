@@ -50,7 +50,7 @@ export const CodeElement: React.FC<Props> = ({ element, onChange }) => {
       className={applyLabelStyles(element.labelBackground, element.labelColor)}
     >
       <AutosizeCodeEditor
-        isEscaping={true}
+        isEscaping={element.isEscaping}
         language={element.language || CodeLanguage.JAVASCRIPT}
         showLineNumbers={true}
         showMiniMap={(element.value?.length || 0) > 100}

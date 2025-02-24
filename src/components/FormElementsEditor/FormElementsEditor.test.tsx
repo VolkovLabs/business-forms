@@ -1151,6 +1151,30 @@ describe('Form Elements Editor', () => {
       expect(elementSelectors.fieldLabelBackground()).toHaveValue('#c1c1c1');
     });
 
+    it('Should allow change isEscaping for TextArea', async () => {
+      const onChange = jest.fn();
+
+      const elements = [{ ...FORM_ELEMENT_DEFAULT, id: 'textarea', type: FormElementType.TEXTAREA, isEscaping: false }];
+
+      render(getComponent({ value: elements, onChange }));
+      expect(selectors.root()).toBeInTheDocument();
+
+      /**
+       * Make Textarea Element is opened
+       */
+      const elementSelectors = openElement('textarea', FormElementType.TEXTAREA);
+
+      expect(elementSelectors.fieldTextareaRows()).toBeInTheDocument();
+      expect(elementSelectors.fieldIsEscapingEditor()).toBeInTheDocument();
+      expect(elementSelectors.fieldIsEscapingEditor()).not.toBeChecked();
+
+      /**
+       * Change is escaping
+       */
+      await act(() => fireEvent.click(elementSelectors.fieldIsEscapingEditor()));
+      expect(elementSelectors.fieldIsEscapingEditor()).toBeChecked();
+    });
+
     it('Should render "Remove Label background" button', async () => {
       const onChange = jest.fn();
 

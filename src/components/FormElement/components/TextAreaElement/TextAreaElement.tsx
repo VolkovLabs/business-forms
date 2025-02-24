@@ -46,7 +46,7 @@ export const TextAreaElement: React.FC<Props> = ({ element, onChange, highlightC
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
           onChange<typeof element>({
             ...element,
-            value: event.target.value.replaceAll('\n', '\\n'),
+            value: element.isEscaping ? event.target.value.replaceAll('\n', '\\n') : event.target.value,
           });
         }}
         className={highlightClass(element)}

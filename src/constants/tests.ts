@@ -92,6 +92,7 @@ export const TEST_IDS = {
     fieldSliderMin: 'data-testid form-elements-editor field-slider-min',
     fieldSliderStep: 'data-testid form-elements-editor field-slider-step',
     fieldTextareaRows: 'data-testid form-elements-editor field-textarea-rows',
+    fieldIsEscapingEditor: 'data-testid form-elements-editor field-is-escaping-editor',
     fieldTooltip: 'data-testid form-elements-editor field-tooltip',
     fieldType: 'form-elements-editor field-type',
     fieldShowIf: 'form-elements-editor field-show-if',
