@@ -1,5 +1,11 @@
 # Change Log
 
+## 5.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add isEscaping option for TextArea and CodeEditor elements (#581)
+
 ## 5.0.0 (2024-12-23)
 
 ### Breaking changes

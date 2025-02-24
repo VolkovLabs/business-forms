@@ -205,6 +205,11 @@ export interface CodeOptions {
    * @type {string}
    */
   value: string;
+
+  /**
+   * Should escape value
+   */
+  isEscaping?: boolean;
 }
 
 /**
@@ -309,6 +314,11 @@ export interface TextareaOptions {
    * @type {string}
    */
   value: string;
+
+  /**
+   * Should escape value
+   */
+  isEscaping?: boolean;
 }
 
 /**
