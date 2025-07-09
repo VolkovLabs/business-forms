@@ -986,6 +986,43 @@ describe('Form Elements', () => {
     /**
      * DateTime Element in Date View
      */
+    it('Should update Date value wih local time', () => {
+      const options = {
+        submit: {},
+        initial: { highlightColor: false },
+        update: {},
+        reset: {},
+        elements: [
+          {
+            id: 'number',
+            type: FormElementType.DATE,
+            value: '',
+            isUseLocalTime: true,
+          },
+        ],
+      };
+      const onChangeElement = jest.fn();
+
+      /**
+       * Render Component
+       */
+      render(getComponent({ options, onChangeElement }));
+      expect(selectors.fieldDate()).toBeVisible();
+
+      /**
+       * Change date time
+       */
+      fireEvent.change(selectors.fieldDate(), { target: { value: '2024-11-11T00:00:00.000Z' } });
+      expect(onChangeElement).toHaveBeenCalledWith(
+        expect.objectContaining({
+          value: new Date('2024-11-11T00:00:00.000Z').toISOString(),
+        })
+      );
+    });
+
+    /**
+     * DateTime Element in Date View
+     */
     it('Should update Date value', () => {
       const options = {
         submit: {},
