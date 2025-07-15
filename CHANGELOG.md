@@ -1,6 +1,16 @@
 # Change Log
 
-## 5.1.0 (2024-02-26)
+## 6.0.0 (2025-07-16)
+
+### Breaking changes
+
+- Requires Grafana 11 and Grafana 12
+
+### Features / Enhancements
+
+- Added TimeZone option for Date element (#604)
+
+## 5.1.0 (2025-02-26)
 
 ### Features / Enhancements
 
