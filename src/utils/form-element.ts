@@ -188,6 +188,7 @@ export const getElementWithNewType = (
         ...baseValues,
         value: '',
         type: newType,
+        isUseLocalTime: false,
       };
     }
     case FormElementType.BOOLEAN: {

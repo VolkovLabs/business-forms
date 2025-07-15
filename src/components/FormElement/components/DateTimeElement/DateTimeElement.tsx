@@ -79,9 +79,14 @@ export const DateTimeElement: React.FC<Props> = ({ element, onChange, timeZone }
 
               return;
             }
+
+            const updatedValue = element.isUseLocalTime
+              ? date.toISOString()
+              : new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString();
+
             onChange<typeof element>({
               ...element,
-              value: date.toISOString(),
+              value: updatedValue,
             });
           }}
           placeholder="Set the Date"

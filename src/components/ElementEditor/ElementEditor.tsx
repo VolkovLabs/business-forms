@@ -453,11 +453,12 @@ export const ElementEditor: React.FC<Props> = ({ element, onChange, onChangeOpti
             value={element.max}
             data-testid={TEST_IDS.formElementsEditor.fieldMaxDate}
           />
-          {isFormElementType(element, FormElementType.DATETIME) && (
+          {(isFormElementType(element, FormElementType.DATETIME) ||
+            isFormElementType(element, FormElementType.DATE)) && (
             <InlineField label="Time Zone" data-testid={TEST_IDS.formElementsEditor.fieldTimeZone}>
               <RadioButtonGroup
                 options={TIME_TRANSFORMATION_OPTIONS}
-                value={element.isUseLocalTime}
+                value={element.isUseLocalTime ?? false}
                 onChange={(value) => {
                   onChange({
                     ...element,

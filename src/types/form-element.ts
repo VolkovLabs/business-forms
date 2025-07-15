@@ -430,7 +430,7 @@ export interface DateTimeOptions {
 /**
  * Date Options
  */
-export type DateOptions = Pick<DateTimeOptions, 'min' | 'max' | 'value'>;
+export type DateOptions = Pick<DateTimeOptions, 'min' | 'max' | 'value' | 'isUseLocalTime'>;
 
 /**
  * File Options
