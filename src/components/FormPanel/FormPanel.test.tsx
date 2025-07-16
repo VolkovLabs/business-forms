@@ -1,9 +1,9 @@
 import { AppEvents, EventBusSrv, FieldType, LoadingState, toDataFrame } from '@grafana/data';
 import { getAppEvents, RefreshEvent } from '@grafana/runtime';
-import { sceneGraph, SceneObject } from '@grafana/scenes';
+import { sceneGraph } from '@grafana/scenes';
 import { PanelContextProvider } from '@grafana/ui';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { useDatasourceRequest } from '@volkovlabs/components';
+import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import React, { ReactElement } from 'react';
 
 import {
@@ -67,6 +67,16 @@ const datasourceRequestMock = jest.fn(() =>
     state: LoadingState.Done,
   })
 );
+
+const mockPublish = jest.fn();
+const mockRefreshDashboard = jest.fn(() => {
+  mockPublish({
+    payload: {
+      refreshAll: true,
+    },
+    type: 'variables-changed',
+  });
+});
 
 /**
  * Panel
@@ -158,6 +168,9 @@ describe('Panel', () => {
      */
     jest.mocked(useDatasourceRequest).mockReset();
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequestMock as any);
+
+    jest.mocked(useDashboardRefresh).mockReset();
+    jest.mocked(useDashboardRefresh).mockReturnValue(mockRefreshDashboard);
 
     jest.mocked(FormElements).mockClear();
     jest.mocked(FormElements).mockImplementation(jest.requireActual('../FormElements').FormElements);
@@ -2842,6 +2855,10 @@ describe('Panel', () => {
     });
 
     it('Should execute code refresh on dashboard scene on initial request', async () => {
+      const onRefresh = jest.fn();
+
+      jest.mocked(useDashboardRefresh).mockReturnValue(() => onRefresh());
+
       window.__grafanaSceneContext = {
         body: {
           text: 'hello',
@@ -2851,9 +2868,6 @@ describe('Panel', () => {
       jest.mocked(sceneGraph.getTimeRange).mockReturnValue({
         onRefresh: jest.fn(),
       } as any);
-
-      const context = window.__grafanaSceneContext;
-      const result = sceneGraph.getTimeRange(context as SceneObject);
 
       /**
        * Render
@@ -2879,7 +2893,7 @@ describe('Panel', () => {
       /**
        * Dashboard should be refreshed
        */
-      expect(result.onRefresh).toHaveBeenCalledTimes(1);
+      expect(onRefresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should execute code refresh on dashboard on initial request', async () => {
@@ -2907,7 +2921,7 @@ describe('Panel', () => {
       /**
        * Dashboard should be refreshed
        */
-      expect(appEventsMock.publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
+      expect(mockRefreshDashboard).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -3850,6 +3864,10 @@ describe('Panel', () => {
     });
 
     it('Should allow to refresh dashboard in dashboard scene', async () => {
+      const onRefresh = jest.fn();
+
+      jest.mocked(useDashboardRefresh).mockReturnValue(() => onRefresh());
+
       window.__grafanaSceneContext = {
         body: {
           text: 'hello',
@@ -3859,9 +3877,6 @@ describe('Panel', () => {
       jest.mocked(sceneGraph.getTimeRange).mockReturnValue({
         onRefresh: jest.fn(),
       } as any);
-
-      const context = window.__grafanaSceneContext;
-      const result = sceneGraph.getTimeRange(context as SceneObject);
 
       await act(async () =>
         render(
@@ -3889,7 +3904,7 @@ describe('Panel', () => {
       /**
        * Dashboard should be refreshed
        */
-      expect(result.onRefresh).toHaveBeenCalledTimes(1);
+      expect(onRefresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should allow to refresh dashboard', async () => {
@@ -3919,7 +3934,7 @@ describe('Panel', () => {
       /**
        * Dashboard should be refreshed
        */
-      expect(appEventsMock.publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
+      expect(mockRefreshDashboard).toHaveBeenCalledTimes(1);
     });
 
     it('Should allow to manage submit button', async () => {
