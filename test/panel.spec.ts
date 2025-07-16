@@ -441,7 +441,7 @@ test.describe('Data Manipulation Panel', () => {
       await panel.checkNoErrorMessage();
 
       await buttons.checkSubmitButtonPresence();
-      await disabledTextAreaElement.checkValue('option1\noption3');
+      await disabledTextAreaElement.checkTextContent('option1\noption3');
 
       /**
        * Return to initial
@@ -450,7 +450,7 @@ test.describe('Data Manipulation Panel', () => {
       await codeEditorElement.setValue('option1');
       await buttons.submit();
       await confirmModal.updateValues();
-      await disabledTextAreaElement.checkValue('option1');
+      await disabledTextAreaElement.checkTextContent('option1');
     });
 
     test('Should not update values if cancel', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
