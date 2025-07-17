@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { DashboardPage, E2ESelectors, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
+import { DashboardPage, E2ESelectorGroups, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
 import { getLocatorSelectors, LocatorSelectors } from './selectors';
 import { TEST_IDS } from '../../src/constants/tests';
 
@@ -32,6 +32,10 @@ class BaseElementHelper {
 
   public async checkValue(text: string) {
     return expect(this.get(), this.getMsg('Check value')).toHaveValue(text);
+  }
+
+  public async checkTextContent(text: string) {
+    return expect(this.get(), this.getMsg('Check value')).toHaveText(text);
   }
 
   public async isDisabled() {
@@ -199,7 +203,7 @@ class ElementsHelper {
     return new DisabledTextAreaElementHelper(element);
   }
 
-  public async getCodeEditorElement(elementId: string, elementType: string, grafanaSelectors: E2ESelectors) {
+  public async getCodeEditorElement(elementId: string, elementType: string, grafanaSelectors: E2ESelectorGroups) {
     const element = await this.getElement(elementId, elementType);
     const codeEditor = element.getByTestId(grafanaSelectors.components.CodeEditor.container).getByRole('textbox');
     return new CodeEditorElementHelper(codeEditor);
@@ -307,7 +311,7 @@ class PanelEditorOptionsSectionHelper {
     return expect(this.get(), this.getMsg(`Check options Section`)).toBeVisible();
   }
 
-  public async getCodeEditorElement(grafanaSelectors: E2ESelectors) {
+  public async getCodeEditorElement(grafanaSelectors: E2ESelectorGroups) {
     const codeEditor = this.get().getByTestId(grafanaSelectors.components.CodeEditor.container).getByRole('textbox');
 
     return new CodeEditorElementHelper(codeEditor);

@@ -986,7 +986,7 @@ describe('Form Elements', () => {
     /**
      * DateTime Element in Date View
      */
-    it('Should update Date value wih local time', () => {
+    it('Should update Date value with local time', () => {
       const options = {
         submit: {},
         initial: { highlightColor: false },

@@ -9,6 +9,7 @@
 ### Features / Enhancements
 
 - Added TimeZone option for Date element (#604)
+- Updated to Grafana 12.0 and dependencies
 
 ## 5.1.0 (2025-02-26)
 
