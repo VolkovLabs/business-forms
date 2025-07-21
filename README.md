@@ -9,13 +9,11 @@
 [![Codecov](https://codecov.io/gh/VolkovLabs/business-forms/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-forms)
 [![CodeQL](https://github.com/VolkovLabs/business-forms/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/business-forms/actions/workflows/codeql-analysis.yml)
 
-**Business Forms** is a revolutionary plugin for Grafana that enables seamless data insertion, updates, and configuration modifications directly from your Grafana dashboards.
-
-[![Use REST API, Data Source, and Queries to Manipulate Your Data](https://raw.githubusercontent.com/volkovlabs/business-forms/main/img/business-forms.png)](https://youtu.be/ulbe8U8-IFA)
-
 ## 🚀 Introduction
 
 The **Business Forms panel** is a groundbreaking plugin for Grafana, designed to empower users by allowing direct interaction with application data and configurations within dashboards. Whether you're managing data or customizing settings, this plugin streamlines workflows with an intuitive interface.
+
+[![Use REST API, Data Source, and Queries to Manipulate Your Data](https://raw.githubusercontent.com/volkovlabs/business-forms/main/img/business-forms.png)](https://youtu.be/ulbe8U8-IFA)
 
 ## 📋 Requirements
 
