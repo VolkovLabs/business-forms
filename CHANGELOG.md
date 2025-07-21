@@ -1,485 +1,576 @@
-# Change Log
+# Changelog
 
-## 6.0.0 (2025-07-16)
+All notable changes to this project will be documented in this file.
 
-### Breaking changes
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-- Requires Grafana 11 and Grafana 12
+## [6.0.0] - 2025-07-21
 
-### Features / Enhancements
+### Breaking Changes
 
-- Added TimeZone option for Date element (#604)
-- Updated to Grafana 12.0 and dependencies
+- Requires Grafana 11 and Grafana 12.
 
-## 5.1.0 (2025-02-26)
+### Added
 
-### Features / Enhancements
+- TimeZone option for Date element (#604).
 
-- Added isEscaping option for TextArea and CodeEditor elements (#581)
-- Added support streaming state for data (#577)
-- Refactoring form elements (#576)
-- Updated to Grafana 11.5 and dependencies (#582)
-- Updated release workflow to include attestation (#582)
+### Changed
 
-## 5.0.0 (2024-12-23)
+- Updated to Grafana 12.0 and dependencies (#607).
 
-### Breaking changes
+## [5.1.0] - 2025-02-26
 
-- Dashboard variables in Show If, Disabled and Options replace automatically. Function `replaceVariables` is not required and removed.
+### Added
 
-### Features / Enhancements
+- `isEscaping` option for TextArea and CodeEditor elements (#581).
+- Support for streaming state for data (#577).
 
-- Updated change value behavior for custom option (#562)
-- Added form-element of type color (#561)
-- Updated new lines in Text Area and Code Editor (#563)
-- Added support variables in data sources (#564)
-- Updated packages for Code Editor (#569)
-- Updated element helpers (#570)
-- Updated Grafana 11.4.0 and dependencies (#571)
+### Changed
 
-## 4.9.0 (2024-11-16)
+- Refactored form elements (#576).
+- Updated to Grafana 11.5 and dependencies (#582).
+- Updated release workflow to include attestation (#582).
 
-### Features / Enhancements
+## [5.0.0] - 2024-12-23
 
-- Removed DatasourceResponseError moved to external Components (#535)
-- Added HTML, Markdown to supported Code Editor languages (#543)
-- Updated options to use datasource ID instead of name (#539)
-- Updated E2E tests (#538)
-- Updated refresh function in the Update Request (#547)
-- Added functionality for updating sections dynamically (#542)
-- Removed default payload from Update Request (#550)
+### Breaking Changes
 
-## 4.8.0 (2024-10-25)
+- Dashboard variables in Show If, Disabled, and Options are replaced automatically. Function `replaceVariables` is no longer required and has been removed.
 
-### Features / Enhancements
+### Added
 
-- Added Date Form element (#520)
-- Update refresh for dashboard scene (#522)
-- Updated Text area, Code editor elements to escape multi-lines (#520)
-- Updated refresh for dashboard scene using useDashboardRefresh hook (#528)
-- Added Handling Data Source Request Errors (#530)
-- Updated Grafana 11.3.0 and dependencies (#531)
+- Form element of type Color (#561).
+- Support for variables in data sources (#564).
 
-## 4.7.0 (2024-10-08)
+### Changed
 
-### Features / Enhancements
+- Updated change value behavior for custom option (#562).
+- Updated new lines in Text Area and Code Editor (#563).
+- Updated packages for Code Editor (#569).
+- Updated element helpers (#570).
+- Updated to Grafana 11.4.0 and dependencies (#571).
 
-- Updated Autosize Code Editor toolbar (#506)
-- Added custom input for Select, Multi select (#507)
-- Added support for frames in initial fields support (#508)
-- Updated behavior for disabled text area element (#514)
+## [4.9.0] - 2024-11-16
 
-## 4.6.0 (2024-09-28)
+### Added
 
-### Features / Enhancements
+- HTML and Markdown to supported Code Editor languages (#543).
+- Functionality for updating sections dynamically (#542).
 
-- Updated initial values for elements from data source (#490)
-- Added wrap button in the code editor (#491)
-- Updated loading bar for Initial Request (#492)
-- Added Label Background and Label Color for element with type Button (#502)
+### Changed
 
-## 4.5.0 (2024-09-06)
+- Removed `DatasourceResponseError`, moved to external Components (#535).
+- Updated options to use datasource ID instead of name (#539).
+- Updated E2E tests (#538).
+- Updated refresh function in the Update Request (#547).
+- Removed default payload from Update Request (#550).
 
-### Features / Enhancements
+## [4.8.0] - 2024-10-25
 
-- Updated date and time input timezone (#452)
-- Added dashboard variables support in button titles (#479)
-- Updated suggestions position in Code elements (#483)
-- Added variable support in sections and labels (#485)
+### Added
 
-## 4.4.0 (2024-08-29)
+- Date Form element (#520).
+- Handling for Data Source Request Errors (#530).
 
-### Features / Enhancements
+### Changed
 
-- Added Expandable Editors (#472)
-- Updated Pre-Selection for multi selection elements (#474)
-- Updated data source query display error (#477)
+- Updated refresh for dashboard scene (#522).
+- Updated Text Area and Code Editor elements to escape multi-lines (#520).
+- Updated refresh for dashboard scene using `useDashboardRefresh` hook (#528).
+- Updated to Grafana 11.3.0 and dependencies (#531).
 
-## 4.3.1 (2024-08-16)
+## [4.7.0] - 2024-10-08
 
-### Bugfixes
+### Added
 
-- Fixed migration helper if nested object properties are not defined (#468)
+- Custom input for Select and Multi-Select (#507).
+- Support for frames in initial fields (#508).
 
-## 4.3.0 (2024-08-12)
+### Changed
 
-### Features / Enhancements
+- Updated Autosize Code Editor toolbar (#506).
+- Updated behavior for disabled Text Area element (#514).
 
-- Added helpers for form elements (#460)
-- Updated payload options migration (#464)
-- Added element custom button (#463)
+## [4.6.0] - 2024-09-28
 
-## 4.2.0 (2024-07-18)
+### Added
 
-### Features / Enhancements
+- Wrap button in the Code Editor (#491).
+- Label Background and Label Color for Button element (#502).
 
-- Updated Docker Compose and E2E pipeline (#446, #447)
-- Improved unit tests (#447)
-- Updated Business Forms tutorial (#451)
-- Updated the logic for comparing values with the initial values (#454)
-- Updated position of Query fields for initial values (#455)
+### Changed
 
-## 4.1.0 (2024-07-09)
+- Updated initial values for elements from data source (#490).
+- Updated loading bar for Initial Request (#492).
 
-### Features / Enhancements
+## [4.5.0] - 2024-09-06
 
-- Updated context parameters migration (#433)
-- Updated provisioning files (#433)
-- Updated Checkbox list with custom options (#435)
-- Updated code defaults to use context properties (#438)
-- Updated E2E workflow using Docker (#441)
+### Added
 
-## 4.0.0 (2024-07-01)
+- Dashboard variables support in button titles (#479).
+- Variable support in sections and labels (#485).
 
-### Breaking changes
+### Changed
 
-- Requires Grafana 10 and Grafana 11
-- Data Source requests were updated to use Query Editor.
+- Updated date and time input timezone (#452).
+- Updated suggestions position in Code elements (#483).
+
+## [4.4.0] - 2024-08-29
+
+### Added
+
+- Expandable Editors (#472).
+
+### Changed
+
+- Updated Pre-Selection for multi-selection elements (#474).
+- Updated data source query display error (#477).
+
+## [4.3.1] - 2024-08-16
+
+### Fixed
+
+- Migration helper for undefined nested object properties (#468).
+
+## [4.3.0] - 2024-08-12
+
+### Added
+
+- Helpers for form elements (#460).
+- Element custom button (#463).
+
+### Changed
+
+- Updated payload options migration (#464).
+
+## [4.2.0] - 2024-07-18
+
+### Changed
+
+- Updated Docker Compose and E2E pipeline (#446, #447).
+- Improved unit tests (#447).
+- Updated Business Forms tutorial (#451).
+- Updated logic for comparing values with initial values (#454).
+- Updated position of Query fields for initial values (#455).
+
+## [4.1.0] - 2024-07-09
+
+### Changed
+
+- Updated context parameters migration (#433).
+- Updated provisioning files (#433).
+- Updated Checkbox list with custom options (#435).
+- Updated code defaults to use context properties (#438).
+- Updated E2E workflow using Docker (#441).
+
+## [4.0.0] - 2024-07-01
+
+### Breaking Changes
+
+- Requires Grafana 10 and Grafana 11.
+- Data Source requests updated to use Query Editor.
 - Removed non-context code parameters. Please update parameters to use `context`.
 
-### Code parameters migration guide
+### Migration Guide
 
-- data -> context.panel.data
-- elements -> context.panel.elements
-- initial -> context.panel.initial
-- initialRequest -> context.panel.initialRequest
-- locationService -> context.grafana.locationService
-- notifyError -> context.grafana.notifyError
-- notifySuccess -> context.grafana.notifySuccess
-- notifyWarning -> context.grafana.notifyWarning
-- onChange -> context.panel.onChange
-- onOptionsChange -> context.panel.onOptionsChange
-- options -> context.panel.options
-- replaceVariables -> context.grafana.replaceVariables
-- response -> context.panel.response
-- setInitial -> context.panel.setInitial
-- templateService -> context.grafana.templateService
-- toDataQueryResponse -> context.utils.toDataQueryResponse
+- `data` -> `context.panel.data`
+- `elements` -> `context.panel.elements`
+- `initial` -> `context.panel.initial`
+- `initialRequest` -> `context.panel.initialRequest`
+- `locationService` -> `context.grafana.locationService`
+- `notifyError` -> `context.grafana.notifyError`
+- `notifySuccess` -> `context.grafana.notifySuccess`
+- `notifyWarning` -> `context.grafana.notifyWarning`
+- `onChange` -> `context.panel.onChange`
+- `onOptionsChange` -> `context.panel.onOptionsChange`
+- `options` -> `context.panel.options`
+- `replaceVariables` -> `context.grafana.replaceVariables`
+- `response` -> `context.panel.response`
+- `setInitial` -> `context.panel.setInitial`
+- `templateService` -> `context.grafana.templateService`
+- `toDataQueryResponse` -> `context.utils.toDataQueryResponse`
 
-### Features / Enhancements
+### Added
 
-- Updated name to Business Forms Panel (#361)
-- Added support frontend data sources (#361)
-- Updated elected type for a new option (#402)
-- Prepared for Grafana 11 (#399)
-- Updated Reset button handler (#422)
-- Updated Confirmation Window (#420)
-- Updated Error handling in code editors showIf, disableIf, getOptions (#410)
-- Updated description for Get Options Code (#404)
-- Added custom color/background color for elements (#386)
-- Added Collapsable Sections (#409)
-- Updated to Grafana 11.1 and dependencies (#426)
-- Update Date Time query field (#429)
+- Support for frontend data sources (#361).
+- Custom color/background color for elements (#386).
+- Collapsable Sections (#409).
 
-## 3.8.0 (2024-05-30)
+### Changed
 
-### Features / Enhancements
+- Updated name to Business Forms Panel (#361).
+- Updated elected type for a new option (#402).
+- Prepared for Grafana 11 (#399).
+- Updated Reset button handler (#422).
+- Updated Confirmation Window (#420).
+- Updated error handling in code editors for `showIf`, `disableIf`, and `getOptions` (#410).
+- Updated description for Get Options Code (#404).
+- Updated to Grafana 11.1 and dependencies (#426).
+- Updated Date Time query field (#429).
 
-- Added Checkbox List element (#382)
-- Updated syntax support in Code Editor (#383)
-- Added plugin e2e tests and remove cypress (#390)
-- Added server-based form elements example (#392)
-- Added input type time (#385)
-- Updated hiding/show multi-select element (#389)
-- Updated allowed files for file type (#388)
-- Added Form validation provisioning dashboard (#411)
+## [3.8.0] - 2024-05-30
 
-## 3.7.0 (2024-03-10)
+### Added
 
-### Breaking changes
+- Checkbox List element (#382).
+- Syntax support in Code Editor (#383).
+- Plugin E2E tests, removed Cypress (#390).
+- Server-based form elements example (#392).
+- Input type time (#385).
+- Form validation provisioning dashboard (#411).
 
-- Requires Grafana 9.2 and Grafana 10
+### Changed
 
-### Features / Enhancements
+- Updated hiding/showing multi-select element (#389).
+- Updated allowed files for file type (#388).
 
-- Added update enabled option and variables examples, fix sync option (#356)
-- Added files upload examples and fix form data header (#357)
-- Added code parameters with builder and add initial request to element value changed code (#358)
-- Allowed to disable columns in confirmation modal (#360)
-- Updated dependencies and Actions (#368)
-- Added skipping elements hidden using Show If from update payload (#369)
-- Add multiple files option (#375)
+## [3.7.0] - 2024-03-10
 
-## 3.6.0 (2023-01-10)
+### Breaking Changes
 
-### Features / Enhancements
+- Requires Grafana 9.2 and Grafana 10.
 
-- Added backend service to custom code (#331)
-- Added support for file base64 encoding in payload (#331)
-- Added Context parameter to Payload (#331)
+### Added
 
-### Bugfixes
+- Update enabled option and variables examples (#356).
+- Files upload examples (#357).
+- Code parameters with builder and initial request to element value changed code (#358).
+- Ability to disable columns in confirmation modal (#360).
+- Multiple files option (#375).
 
-- Fixed element custom options source (#334)
+### Changed
 
-## 3.5.0 (2023-01-04)
+- Updated dependencies and Actions (#368).
+- Added skipping elements hidden using Show If from update payload (#369).
 
-### Features / Enhancements
+## [3.6.0] - 2023-01-10
 
-- Added disable if code (#321)
-- Updated reset request visibility if reset button is hidden (#322)
-- Added code options source for select element (#323)
-- Added value changed code (#324)
-- Updated to Node 20 (#326)
-- Added suggestions for code editors (#327)
-- Added reset button confirmation (#328)
+### Added
 
-## 3.4.0 (2023-12-14)
+- Backend service to custom code (#331).
+- Support for file base64 encoding in payload (#331).
+- Context parameter to Payload (#331).
 
-### Features / Enhancements
+### Fixed
 
-- Add ability to disable panel syncing (#298)
-- Update ESLint configuration and refactor (#299)
-- Update Collapse from @volkovlabs/components (#299)
-- Add EventBus and AppEvents to Context (#307)
-- Add replacing variables in Payload functions (#309)
-- Update to Grafana 10.2.2 and Volkov labs packages (#313)
-- Add options migration (#315)
+- Element custom options source (#334).
 
-### Bugfixes
+## [3.5.0] - 2023-01-04
 
-- Fix draggable control to support upcoming Grafana changes (#314)
+### Added
 
-## 3.3.0 (2023-11-21)
+- `disableIf` code (#321).
+- Code options source for select element (#323).
+- Value changed code (#324).
+- Suggestions for code editors (#327).
+- Reset button confirmation (#328).
 
-### Features / Enhancements
+### Changed
 
-- Add Disabled Text Area element type (#243)
-- Add Confirmation Window options (#242)
-- Add context object to the custom code (#255)
-- Add Select Options From Query (#254)
-- Add NumberInput component which allows to enter decimals (#291)
-- Update to Plugin Tools 2.1.1 (#292)
-- Use Grafana Access Policy to sign plugin (#292)
-- Update to Grafana 10.2.1 (#292)
-- Update ESLint configuration (#294)
-- Add Autosize Code Editor (#295)
-- Add Data Source option for Reset button (#296)
-- Add Link Element (#297)
+- Updated reset request visibility if reset button is hidden (#322).
+- Updated to Node 20 (#326).
 
-### Bugfixes
+## [3.4.0] - 2023-12-14
 
-- Allow to enter zero value in number field (#288)
+### Added
 
-## 3.2.1 (2023-09-07)
+- Ability to disable panel syncing (#298).
+- EventBus and AppEvents to Context (#307).
+- Options migration (#315).
 
-### Features / Enhancements
+### Changed
 
-- Add backward compatibility for option id (#244)
+- Updated ESLint configuration and refactor (#299).
+- Updated Collapse from `@volkovlabs/components` (#299).
+- Added replacing variables in Payload functions (#309).
+- Updated to Grafana 10.2.2 and Volkov Labs packages (#313).
 
-## 3.2.0 (2023-09-06)
+### Fixed
 
-### Features / Enhancements
+- Draggable control to support upcoming Grafana changes (#314).
 
-- Add min and max date for date time element (#225)
-- Map Data Source values to elements (#224)
-- Update element Show If to support variables (#230)
-- Add clearing errors before initial and update requests (#232)
-- Add URL encode to variables (#231)
-- Allow empty section name (#228)
-- Add Query Field Picker for Initial Request (#227)
-- Add File element type for File Upload (#229)
-- Add converting option value to string and number based on type (#233)
-- Add loading states for Initial, Update and Reset button actions (#234)
-- Add support for asynchronous custom code (#234)
-- Update Query and Data Source initial request (#237)
-- Add icons for radio and select options (#238)
+## [3.3.0] - 2023-11-21
 
-## 3.1.0 (2023-08-13)
+### Added
 
-### Features / Enhancements
+- Disabled Text Area element type (#243).
+- Confirmation Window options (#242).
+- Context object to custom code (#255).
+- Select Options From Query (#254).
+- NumberInput component allowing decimals (#291).
+- Autosize Code Editor (#295).
+- Data Source option for Reset button (#296).
+- Link Element (#297).
 
-- Update jest selectors to use npm package (#209)
-- Add onChange to update elements in local state within custom code (#214)
-- Update ESLint configuration (#215)
-- Add Multi Select element (#217)
-- Add conditional element visibility (#219)
-- Add custom payload code editor (#220)
-- Add custom reset code editor (#221)
-- Add Data Source request (#222)
+### Changed
 
-## 3.0.0 (2023-07-15)
+- Updated to Plugin Tools 2.1.1 (#292).
+- Used Grafana Access Policy to sign plugin (#292).
+- Updated to Grafana 10.2.1 (#292).
+- Updated ESLint configuration (#294).
 
-## Breaking changes
+### Fixed
+
+- Allowed entering zero value in number field (#288).
+
+## [3.2.1] - 2023-09-07
+
+### Added
+
+- Backward compatibility for option ID (#244).
+
+## [3.2.0] - 2023-09-06
+
+### Added
+
+- Min and max date for DateTime element (#225).
+- Mapping Data Source values to elements (#224).
+- Clearing errors before initial and update requests (#232).
+- URL encode to variables (#231).
+- Query Field Picker for Initial Request (#227).
+- File element type for File Upload (#229).
+- Loading states for Initial, Update, and Reset button actions (#234).
+- Support for asynchronous custom code (#234).
+- Icons for radio and select options (#238).
+
+### Changed
+
+- Updated element `Show If` to support variables (#230).
+- Allowed empty section name (#228).
+- Added converting option value to string and number based on type (#233).
+- Updated Query and Data Source initial request (#237).
+
+## [3.1.0] - 2023-08-13
+
+### Added
+
+- `onChange` to update elements in local state within custom code (#214).
+- Multi-Select element (#217).
+- Conditional element visibility (#219).
+- Custom payload code editor (#220).
+- Custom reset code editor (#221).
+- Data Source request (#222).
+
+### Changed
+
+- Updated Jest selectors to use npm package (#209).
+- Updated ESLint configuration (#215).
+
+## [3.0.0] - 2023-07-15
+
+### Breaking Changes
 
 - Requires Grafana 9 and Grafana 10.
-- Form Elements are kept in the local state and not saved in the dashboard by default.
+- Form Elements are kept in local state and not saved in the dashboard by default.
 - Local states and elements refactoring may introduce breaking changes. Please test before using in Production.
 
-### Features / Enhancements
+### Added
 
-- Update Documentation for API Servers (#149)
-- Update to Grafana 10.0.0 (#165, #172, #184, #200)
-- Add Hidden option to String element (#171)
-- Add E2E Cypress testing (#180)
-- Increase Test Coverage and update Test library (#181, #183, #185)
-- Update Form Elements to delay save changes with auto-save (#186)
-- Migrate to Plugin Tools 1.5.2 (#187, #192)
-- Update to Node 18 (#188)
-- Update constants and E2E tests (#190)
-- Update Form elements to use local state (#191)
-- Add notifyWarning() function (#201)
-- Add drag and drop for elements editor (#202)
-- Remove Grafana 8.5 support (#203)
-- Add running initial request on initial updates (#205)
-- Add vertical layout orientation (#206)
+- Hidden option to String element (#171).
+- E2E Cypress testing (#180).
+- `notifyWarning()` function (#201).
+- Drag and drop for elements editor (#202).
+- Vertical layout orientation (#206).
 
-## 2.8.0 (2023-03-16)
+### Changed
 
-### Features / Enhancements
+- Updated Documentation for API Servers (#149).
+- Updated to Grafana 10.0.0 (#165, #172, #184, #200).
+- Increased Test Coverage and updated Test library (#181, #183, #185).
+- Updated Form Elements to delay save changes with auto-save (#186).
+- Migrated to Plugin Tools 1.5.2 (#187, #192).
+- Updated to Node 18 (#188).
+- Updated constants and E2E tests (#190).
+- Updated Form elements to use local state (#191).
+- Removed Grafana 8.5 support (#203).
+- Added running initial request on initial updates (#205).
 
-- Add String, Number Type for Select and Radio options (#120)
-- Add Lookup options for Disabled element (#121)
-- Add Server API with MYSQL for Feedback Dashboard (#125)
-- Update to Grafana 9.3.1 (#129)
-- Add Option for DELETE request (#130)
-- Add "Buttons only" Layout to do GET/POST/DELETE requests (#131)
-- Update README and move Documentation to docs.volkovlabs.io (#132)
-- Update README and Documentation (#134)
-- Refactor API Servers (#128)
-- Update CI and Release workflows (#145)
-- Update to Grafana 9.4.3 (#146)
-- Add NoPadding to remove extra padding around and make it configurable (#146)
-- Update README and Documentation (#147)
+## [2.8.0] - 2023-03-16
 
-### Bug fixes
+### Added
 
-- Fix Password and Boolean elements confirmation (#120)
+- String, Number Type for Select and Radio options (#120).
+- Lookup options for Disabled element (#121).
+- Server API with MySQL for Feedback Dashboard (#125).
+- Option for DELETE request (#130).
+- "Buttons only" Layout to do GET/POST/DELETE requests (#131).
+- NoPadding to remove extra padding around and make it configurable (#146).
 
-## 2.7.0 (2022-11-10)
+### Changed
 
-### Features / Enhancements
+- Updated to Grafana 9.3.1 (#129).
+- Updated to Grafana 9.4.3 (#146).
+- Updated README and moved Documentation to docs.volkovlabs.io (#132).
+- Updated README and Documentation (#134, #147).
+- Refactored API Servers (#128).
+- Updated CI and Release workflows (#145).
 
-- Update to Grafana 9.2.2 (#113)
-- Update CI to upload signed artifacts (#116)
-- Allow to send all or updated only values in Payload (#116)
-- Add Initial values parameter to Update Request parameters (#117)
-- Add Status notification after submit form (#98)
-- Add Monaco Code Editor suggestions for available parameters (#88)
+### Fixed
 
-## 2.6.0 (2022-10-23)
+- Password and Boolean elements confirmation (#120).
 
-### Features / Enhancements
+## [2.7.0] - 2022-11-10
 
-- Add Compatibility Check Workflow (#92)
-- Update to Grafana 9.1.6 (#92)
-- Add Custom Code to update variable after update request (#106)
-- Add Number Input and Slider min, max validation (#95)
-- Initialize element value from a Data Source query (#105)
-- Update CI to Node 16 and Synchronize with Release workflow (#109)
+### Added
 
-### Bug fixes
+- Status notification after form submission (#98).
+- Monaco Code Editor suggestions for available parameters (#88).
+- Initial values parameter to Update Request parameters (#117).
 
-- Initial GET request date time formatting (#99)
+### Changed
 
-## 2.5.0 (2022-09-10)
+- Updated to Grafana 9.2.2 (#113).
+- Updated CI to upload signed artifacts (#116).
+- Allowed sending all or updated-only values in Payload (#116).
 
-### Features / Enhancements
+## [2.6.0] - 2022-10-23
 
-- Add Request Header check (#85)
-- Expose `initialRequest()` in Custom Code to reload panel (#89)
-- Set `json` as response data from Initial Request (#90)
-- Update to Grafana 9.1.4 (#91)
+### Added
 
-## 2.4.0 (2022-08-31)
+- Compatibility Check Workflow (#92).
+- Custom Code to update variable after update request (#106).
+- Number Input and Slider min, max validation (#95).
+- Initialization of element value from a Data Source query (#105).
 
-### Features / Enhancements
+### Changed
 
-- Update to Grafana 9.1.1 (#72)
-- Explain how to use Dashboard Variables in README (#73)
-- Add onOptionsChange in examples to update the panel (#75)
-- Add variables in URL to call from form elements (#78)
-- Add Custom Update Request to README (#79)
-- Add Deno Deploy Playground server and dashboard (#80)
-- Add "How to Manipulate Data using Grafana dashboard" video in README (#80)
-- Show Title instead of Id in the Confirmation Panel (#81)
-- Avoid showing confirmation for disabled elements (#77)
-- Improve Test Coverage (#21)
+- Updated to Grafana 9.1.6 (#92).
+- Updated CI to Node 16 and synchronized with Release workflow (#109).
 
-## 2.3.0 (2022-08-11)
+### Fixed
 
-### Breaking changes
+- Initial GET request date time formatting (#99).
+
+## [2.5.0] - 2022-09-10
+
+### Added
+
+- Request Header check (#85).
+- Exposed `initialRequest()` in Custom Code to reload panel (#89).
+
+### Changed
+
+- Set `json` as response data from Initial Request (#90).
+- Updated to Grafana 9.1.4 (#91).
+
+## [2.4.0] - 2022-08-31
+
+### Added
+
+- Variables in URL to call from form elements (#78).
+- Deno Deploy Playground server and dashboard (#80).
+- "How to Manipulate Data using Grafana dashboard" video in README (#80).
+
+### Changed
+
+- Updated to Grafana 9.1.1 (#72).
+- Explained how to use Dashboard Variables in README (#73).
+- Added `onOptionsChange` in examples to update the panel (#75).
+- Added Custom Update Request to README (#79).
+- Showed Title instead of Id in the Confirmation Panel (#81).
+- Avoided showing confirmation for disabled elements (#77).
+- Improved Test Coverage (#21).
+
+## [2.3.0] - 2022-08-11
+
+### Breaking Changes
 
 - Signed as Community Plugin.
 
-### Features / Enhancements
+### Changed
 
-- Update Sample code in README (#67)
-- Updated to be included in the Grafana Marketplace (#68)
+- Updated Sample code in README (#67).
+- Updated to be included in the Grafana Marketplace (#68).
 
-## 2.2.0 (2022-08-09)
+## [2.2.0] - 2022-08-09
 
-### Features / Enhancements
+### Added
 
-- Update to Grafana 9.0.6 (#63)
-- Allow to get Elements Initial Value and Configuration from Data Source (#22)
-- Update Alert when no elements defined (#66)
+- Ability to get Elements Initial Value and Configuration from Data Source (#22).
 
-### Bug fixes
+### Changed
 
-- Number Slider is not updated properly (#18)
+- Updated to Grafana 9.0.6 (#63).
+- Updated Alert when no elements defined (#66).
 
-## 2.1.0 (2022-07-17)
+### Fixed
 
-### Features / Enhancements
+- Number Slider not updated properly (#18).
 
-- Rebuild based on 9.0.3 (#58)
-- Automatic Code Editor Formatting (#59)
-- Explain Custom code in Readme (#60)
-- Update YouTube link with tutorial in README #61
+## [2.1.0] - 2022-07-17
 
-## 2.0.0 (2022-06-17)
+### Added
 
-### Breaking changes
+- Automatic Code Editor Formatting (#59).
 
-- Requires Grafana 8.3+ and 9.0+
+### Changed
 
-### Features / Enhancements
+- Rebuilt based on 9.0.3 (#58).
+- Explained Custom code in README (#60).
+- Updated YouTube link with tutorial in README (#61).
 
-- Rebuild based on 9.0.0 (#53)
+## [2.0.0] - 2022-06-17
 
-## 1.4.0 (2022-05-30)
+### Breaking Changes
 
-### Features / Enhancements
+- Requires Grafana 8.3+ and 9.0+.
 
-- Allow to update Element Width (#50)
-- Add Highlight for changed values (#51)
-- Add Confirmation before Submit (#52)
+### Changed
 
-## 1.3.0 (2022-05-22)
+- Rebuilt based on 9.0.0 (#53).
 
-### Features / Enhancements
+## [1.4.0] - 2022-05-30
 
-- Update Architecture Diagram (#44)
-- Changing colors on Submit is not working properly (#43)
-- Update layout to have sections for Form Fields (#47)
-- Add None Request for Initial and Update requests (#48)
-- Add Code Editor Element for Configuration Forms (#23)
+### Added
 
-## 1.2.0 (2022-05-19)
+- Highlight for changed values (#51).
+- Confirmation before Submit (#52).
 
-### Features / Enhancements
+### Changed
 
-- Add Label Width and Tooltip (#39)
-- Add Server API with Postgres for Feedback Dashboard (#36)
-- Update Input Parameters to Form Elements (#41)
+- Allowed updating Element Width (#50).
 
-## 1.1.0 (2022-05-12)
+## [1.3.0] - 2022-05-22
 
-### Features / Enhancements
+### Added
 
-- Added Disabled Element (#24)
-- Added ability to move elements up and down (#19)
-- Added Split Disabled layout for Input/Output (#27)
-- Added Interpolate Variables (#28)
-- Added Min and Max for Numbers (#29)
-- Added Unit Label (#31)
-- Added Header Parameters (#32)
-- Added Password Input (#33)
-- Subscribed to Refresh Events (#30)
+- Layout to have sections for Form Fields (#47).
+- None Request for Initial and Update requests (#48).
+- Code Editor Element for Configuration Forms (#23).
 
-## 1.0.0 (2022-05-11)
+### Changed
 
-### Features / Enhancements
+- Updated Architecture Diagram (#44).
+- Updated layout to have sections for Form Fields (#47).
 
-- Initial release based on the Volkov Labs Panel template 1.5.0
+### Fixed
+
+- Changing colors on Submit not working properly (#43).
+
+## [1.2.0] - 2022-05-19
+
+### Added
+
+- Label Width and Tooltip (#39).
+- Server API with Postgres for Feedback Dashboard (#36).
+- Input Parameters to Form Elements (#41).
+
+## [1.1.0] - 2022-05-12
+
+### Added
+
+- Disabled Element (#24).
+- Ability to move elements up and down (#19).
+- Split Disabled layout for Input/Output (#27).
+- Interpolate Variables (#28).
+- Min and Max for Numbers (#29).
+- Unit Label (#31).
+- Header Parameters (#32).
+- Password Input (#33).
+- Subscription to Refresh Events (#30).
+
+## [1.0.0] - 2022-05-11
+
+### Added
+
+- Initial release based on the Volkov Labs Panel template 1.5.0.
