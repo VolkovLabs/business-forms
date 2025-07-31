@@ -80,13 +80,6 @@ Upgrade to [Business Suite Enterprise](https://volkovlabs.io/pricing/) for premi
 - In-person consultations.
 - Access to Business Intelligence tools.
 
-## 💬 Get in Touch
-
-We value your feedback and are eager to assist:
-
-- **Ask Questions or Report Issues**: Use [GitHub Issues](https://github.com/volkovlabs/business-forms/issues).
-- **Watch Tutorials**: Subscribe to our [YouTube Channel](https://youtube.com/@volkovlabs).
-
 ## 📜 License
 
 This project is licensed under the Apache License Version 2.0. See the [LICENSE](https://github.com/volkovlabs/business-forms/blob/main/LICENSE) file for details.

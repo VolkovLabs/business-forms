@@ -9,6 +9,5 @@ export const getFieldValues = (field?: Field): unknown[] => {
     return [];
   }
 
-  // eslint-disable-next-line deprecation/deprecation
   return field.values.toArray ? field.values.toArray() : field.values;
 };
