@@ -2,7 +2,7 @@
 
 ![Forms](https://raw.githubusercontent.com/volkovlabs/business-forms/main/src/img/panel.png)
 
-[![Grafana](https://img.shields.io/badge/Grafana-12.0-orange)](https://grafana.com/)
+[![Grafana](https://img.shields.io/badge/Grafana-12.1-orange)](https://grafana.com/)
 [![YouTube](https://img.shields.io/badge/YouTube-Playlist-red)](https://www.youtube.com/playlist?list=PLPow72ygztmRXSNBxyw0sFnnvNRY_CsSA)
 [![CI](https://github.com/volkovlabs/business-forms/workflows/CI/badge.svg)](https://github.com/volkovlabs/business-forms/actions/workflows/ci.yml)
 [![E2E](https://github.com/volkovlabs/business-forms/workflows/E2E/badge.svg)](https://github.com/volkovlabs/business-forms/actions/workflows/e2e.yml)
@@ -70,15 +70,6 @@ Explore detailed guides and resources to maximize the potential of Business Form
 Business Forms is part of the **Business Suite**, a collection of open-source plugins by Volkov Labs. These plugins solve common business challenges with user-friendly interfaces, comprehensive documentation, and video tutorials.
 
 [![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
-
-### Enterprise Support
-
-Upgrade to [Business Suite Enterprise](https://volkovlabs.io/pricing/) for premium support, including:
-
-- Dedicated support via Zendesk.
-- Priority feature requests and bug fixes.
-- In-person consultations.
-- Access to Business Intelligence tools.
 
 ## 📜 License
 
