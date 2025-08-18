@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated ESLint configuration for improved code quality ([#611](https://github.com/volkovlabs/business-forms/issues/611)).
+- Updated Development Provisioning ([#616](https://github.com/volkovlabs/business-forms/issues/616)).
 
 ## [6.0.0] - 2025-07-21
 
