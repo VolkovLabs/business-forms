@@ -9,7 +9,7 @@ services:
       - main
       - dependency
 
-  server-d:
+  server-delay:
     build:
       context: ./server-delay
     ports:
