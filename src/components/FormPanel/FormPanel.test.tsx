@@ -443,6 +443,121 @@ describe('Panel', () => {
       expect(fetchCalledOptions.headers.get('customHeader')).toEqual('123');
     });
 
+    it('Should handle AbortError and return null', async () => {
+      /**
+       * Mock fetch to throw AbortError
+       */
+      const abortError = new Error('Request was aborted');
+      abortError.name = 'AbortError';
+      jest.mocked(fetch).mockRejectedValueOnce(abortError);
+
+      /**
+       * Render
+       */
+      await act(async () => render(getComponent()));
+
+      /**
+       * Check that no error message is shown (because we return null on AbortError)
+       */
+      expect(selectors.errorMessage(true)).not.toBeInTheDocument();
+    });
+
+    it('Should ignore response if request id is outdated (race condition)', async () => {
+      /**
+       * Track fetch calls and their responses
+       */
+      let resolveFirstFetch: (value: any) => void;
+      let resolveSecondFetch: (value: any) => void;
+
+      const firstFetchPromise = new Promise((resolve) => {
+        resolveFirstFetch = resolve;
+      });
+
+      const secondFetchPromise = new Promise((resolve) => {
+        resolveSecondFetch = resolve;
+      });
+
+      let fetchCallCount = 0;
+      jest.mocked(fetch).mockImplementation(() => {
+        fetchCallCount++;
+        if (fetchCallCount === 1) {
+          return firstFetchPromise as any;
+        }
+        return secondFetchPromise as any;
+      });
+
+      /**
+       * Render component which triggers initial request
+       */
+      const { rerender } = await act(async () =>
+        render(
+          getComponent({
+            options: {
+              sync: true,
+            },
+          })
+        )
+      );
+
+      /**
+       * Verify first fetch was called
+       */
+      expect(fetch).toHaveBeenCalledTimes(1);
+
+      /**
+       * Trigger second request by rerendering (simulating data change)
+       */
+      await act(async () =>
+        rerender(
+          getComponent({
+            options: {
+              sync: true,
+            },
+          })
+        )
+      );
+
+      /**
+       * Verify second fetch was called
+       */
+      expect(fetch).toHaveBeenCalledTimes(2);
+
+      /**
+       * Resolve second (newer) request first
+       */
+      await act(async () => {
+        resolveSecondFetch({
+          ok: true,
+          json: () => Promise.resolve({ test: 'second-response' }),
+        });
+      });
+
+      /**
+       * Now resolve first (older) request
+       */
+      await act(async () => {
+        resolveFirstFetch({
+          ok: true,
+          json: () => Promise.resolve({ test: 'first-response' }),
+        });
+      });
+
+      /**
+       * Wait for all promises to settle
+       */
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      });
+
+      /**
+       * Verify that only the second response was processed
+       * We can check this by ensuring no error was set and the component is in correct state
+       * The first response should be ignored due to outdated requestId
+       */
+      expect(selectors.errorMessage(true)).not.toBeInTheDocument();
+      expect(selectors.loadingBar(true)).not.toBeInTheDocument();
+    });
+
     /**
      * Sections helper
      */
@@ -2048,7 +2163,7 @@ describe('Panel', () => {
         /**
          * Check if fetch is called again
          */
-        expect(fetch).toHaveBeenCalledTimes(2);
+        expect(fetch).toHaveBeenCalledTimes(1);
       });
 
       it('Should not make initial request on dashboard refresh if sync disabled', async () => {

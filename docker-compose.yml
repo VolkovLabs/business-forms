@@ -9,6 +9,16 @@ services:
       - main
       - dependency
 
+  server-d:
+    build:
+      context: ./server-delay
+    ports:
+      - 5002:5002/tcp
+    profiles:
+      - dev
+      - main
+      - dependency
+
   grafana:
     image: ghcr.io/volkovlabs/app:latest
     ports:

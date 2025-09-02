@@ -23,8 +23,8 @@ import {
 import { Alert, Button, ConfirmModal, LoadingBar, usePanelContext, useStyles2, useTheme2 } from '@grafana/ui';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { CustomButtonsRow } from 'components/CustomButtonsRow';
-import { isEqual } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { debounce, isEqual } from 'lodash';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   ConfirmationElementDisplayMode,
@@ -95,6 +95,9 @@ export const FormPanel: React.FC<Props> = ({
   const [updateConfirmation, setUpdateConfirmation] = useState(false);
   const [resetConfirmation, setResetConfirmation] = useState(false);
   const [isInitialized, setInitialized] = useState(false);
+
+  const requestIdRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   /**
    * Controlled form state
@@ -375,6 +378,20 @@ export const FormPanel: React.FC<Props> = ({
    */
   const initialRequest = useCallback(async () => {
     /**
+     * bump request version (latest wins)
+     */
+    const id = ++requestIdRef.current;
+
+    /**
+     * abort previous in-flight fetch (if any)
+     */
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    /**
      * Clear Error
      */
     setError('');
@@ -519,7 +536,11 @@ export const FormPanel: React.FC<Props> = ({
       response = await fetch(replaceVariables(options.initial.url, undefined, encodeURIComponent), {
         method: options.initial.method,
         headers,
+        signal: controller.signal,
       }).catch((error: Error) => {
+        if (error.name === 'AbortError') {
+          return null;
+        }
         const errorMessage = `Initial Error: ${error.message ? error.message : error.toString()}`;
         setError(errorMessage);
         return null;
@@ -536,6 +557,10 @@ export const FormPanel: React.FC<Props> = ({
        * OK
        */
       if (response?.ok) {
+        if (id !== requestIdRef.current) {
+          return;
+        }
+
         json = await response.json();
 
         /**
@@ -823,6 +848,10 @@ export const FormPanel: React.FC<Props> = ({
     setLoading(LoadingMode.NONE);
   }, [datasourceRequest, elements, executeCustomCode, initialRef, initialRequest, options.update, replaceVariables]);
 
+  const debouncedRequest = useMemo(() => {
+    return debounce(initialRequest, 250);
+  }, [initialRequest]);
+
   /**
    * Execute Initial Request on dashboard or data update
    */
@@ -849,14 +878,14 @@ export const FormPanel: React.FC<Props> = ({
      */
     const subscriber = eventBus.getStream(RefreshEvent).subscribe(() => {
       if (options.sync) {
-        initialRequest();
+        debouncedRequest();
       }
     });
 
     return () => {
       subscriber.unsubscribe();
     };
-  }, [options.initial, options.sync, eventBus, data.state, isInitialized, initialRequest]);
+  }, [options.initial, options.sync, eventBus, data.state, isInitialized, initialRequest, debouncedRequest]);
 
   /**
    * Check updated values

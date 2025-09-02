@@ -32,6 +32,7 @@ export default defineConfig(
     'jest*.js',
     'playwright.config.ts',
     'server-json/*',
+    'server-delay/*',
     'server-mysql/*',
     'server-pg/*',
     'src/__mocks__/**',
